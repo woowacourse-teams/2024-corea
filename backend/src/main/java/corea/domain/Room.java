@@ -4,12 +4,19 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class Room {
 
     @Id
@@ -34,9 +41,6 @@ public class Room {
 
     private LocalDateTime reviewDeadline;
 
-    protected Room() {
-    }
-
     public Room(final String title,
                 final long memberId,
                 final String repositoryLink,
@@ -45,50 +49,7 @@ public class Room {
                 final String keyword,
                 final LocalDateTime submissionDeadline,
                 final LocalDateTime reviewDeadline) {
-        this.title = title;
-        this.memberId = memberId;
-        this.repositoryLink = repositoryLink;
-        this.thumbnailLink = thumbnailLink;
-        this.matchingSize = matchingSize;
-        this.keyword = keyword;
-        this.submissionDeadline = submissionDeadline;
-        this.reviewDeadline = reviewDeadline;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public long getMemberId() {
-        return memberId;
-    }
-
-    public String getRepositoryLink() {
-        return repositoryLink;
-    }
-
-    public String getThumbnailLink() {
-        return thumbnailLink;
-    }
-
-    public int getMatchingSize() {
-        return matchingSize;
-    }
-
-    public String getKeyword() {
-        return keyword;
-    }
-
-    public LocalDateTime getSubmissionDeadline() {
-        return submissionDeadline;
-    }
-
-    public LocalDateTime getReviewDeadline() {
-        return reviewDeadline;
+        this(null, title, memberId, repositoryLink, thumbnailLink, matchingSize, keyword, submissionDeadline, reviewDeadline);
     }
 }
 
