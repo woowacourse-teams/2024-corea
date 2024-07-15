@@ -1,27 +1,24 @@
 package corea.member.service;
 
+import config.ServiceTest;
 import corea.domain.Member;
 import corea.member.repository.MatchedGroupRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
+@ServiceTest
 class MatchingServiceTest {
 
-    private final MatchingService matchingService;
-    private final MatchedGroupRepository matchedGroupRepository;
+    @Autowired
+    MatchingService matchingService;
 
     @Autowired
-    public MatchingServiceTest(MatchingService matchingService, MatchedGroupRepository matchedGroupRepository) {
-        this.matchingService = matchingService;
-        this.matchedGroupRepository = matchedGroupRepository;
-    }
+    MatchedGroupRepository matchedGroupRepository;
 
     @Test
     @DisplayName("멤버 리스트를 받아 매칭 결과를 반환한다.")
