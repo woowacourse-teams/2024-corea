@@ -16,7 +16,7 @@ public record RoomResponse(
         LocalDateTime reviewDeadline
 ) {
 
-    public static RoomResponse from(final Room room, final String memberEmail) {
+    public static RoomResponse of(final Room room, final String memberEmail) {
         return new RoomResponse(
                 room.getId(),
                 room.getTitle(),
