@@ -1,0 +1,28 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:prettier/recommended",
+    "plugin:storybook/recommended"
+  ],
+  "plugins": ["prettier"],
+  "ignorePatterns": ["dist", ".eslintrc.json"],
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [".ts", ".tsx"]
+      }
+    ],
+    "eqeqeq": "error",
+    "@typescript-eslint/no-unused-vars": "off",
+    "no-nested-ternary": "error",
+    "@typescript-eslint/no-non-null-assertion": "error",
+    "no-console": "warn",
+    "prettier/prettier": "error"
+  }
+}
