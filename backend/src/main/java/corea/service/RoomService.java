@@ -1,12 +1,16 @@
 package corea.service;
 
+import corea.domain.JoinInfo;
 import corea.domain.Member;
 import corea.domain.Room;
+import corea.dto.JoinInfoResponse;
 import corea.dto.RoomCreateRequest;
 import corea.dto.RoomResponse;
 import corea.dto.RoomResponses;
+import corea.repository.JoinInfoRepository;
 import corea.repository.MemberRepository;
 import corea.repository.RoomRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,16 +20,13 @@ import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
 
 @Service
+@AllArgsConstructor
 @Transactional(readOnly = true)
 public class RoomService {
 
     private final RoomRepository roomRepository;
     private final MemberRepository memberRepository;
-
-    public RoomService(final RoomRepository roomRepository, final MemberRepository memberRepository) {
-        this.roomRepository = roomRepository;
-        this.memberRepository = memberRepository;
-    }
+    private final JoinInfoRepository joinInfoRepository;
 
     public RoomResponse create(final RoomCreateRequest request) {
         final Room room = roomRepository.save(request.toEntity());
@@ -56,5 +57,18 @@ public class RoomService {
                     return RoomResponse.from(room, member.getEmail());
                 })
                 .collect(collectingAndThen(toList(), RoomResponses::new));
+    }
+
+    public JoinInfoResponse join(final long roomId, final long memberId) {
+        final Room room = getRoom(roomId);
+        final Member member = getMember(memberId);
+
+        final JoinInfo joinInfo = new JoinInfo(roomId, memberId);
+        return JoinInfoResponse.from(joinInfoRepository.save(joinInfo));
+    }
+
+    public Room getRoom(final long roomId) {
+        return roomRepository.findById(roomId)
+                .orElseThrow(() -> new IllegalArgumentException(String.format("%d에 해당하는 방이 없습니다.", roomId)));
     }
 }
