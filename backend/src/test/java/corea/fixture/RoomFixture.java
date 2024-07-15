@@ -6,7 +6,8 @@ import corea.dto.RoomCreateRequest;
 import java.time.LocalDateTime;
 
 public class RoomFixture {
-    public static RoomCreateRequest CREATE_REQUEST(final long memberId){
+
+    public static RoomCreateRequest ROOM_CREATE_REQUEST(final long memberId){
         return new RoomCreateRequest(
                 "레이싱 카와 함께하는 TDD",
                 memberId,
@@ -18,7 +19,8 @@ public class RoomFixture {
                 LocalDateTime.now().plusDays(14)
         );
     }
-    public static Room GET_DOMAIN(final long memberId){
+
+    public static Room ROOM_RACING_CAR(final long memberId){
         return new Room(
                 "레이싱 카와 함께하는 TDD",
                 memberId,

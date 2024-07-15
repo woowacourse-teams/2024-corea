@@ -38,5 +38,4 @@ class MatchingServiceTest {
 
         assertThat(matchedGroupRepository.findAll()).hasSize(4);
     }
-
 }
