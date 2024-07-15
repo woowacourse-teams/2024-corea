@@ -24,6 +24,7 @@ public record RoomCreateRequest(
                 matchingSize,
                 keyword,
                 submissionDeadline,
-                reviewDeadline);
+                reviewDeadline
+        );
     }
 }

@@ -25,6 +25,6 @@ public class JoinInfo {
     private long roomId;
 
     public JoinInfo(final long memberId, final long roomId) {
-        this(null,memberId,roomId);
+        this(null, memberId, roomId);
     }
 }

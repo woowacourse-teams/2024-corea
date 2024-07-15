@@ -1,8 +1,8 @@
 package corea.member.service;
 
+import corea.domain.Member;
 import corea.member.domain.Matching;
 import corea.member.entity.MatchedGroup;
-import corea.domain.Member;
 import corea.member.repository.MatchedGroupRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
