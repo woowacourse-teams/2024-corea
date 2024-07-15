@@ -14,15 +14,17 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Member {
+public class JoinInfo {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    private String email;
+    private long memberId;
 
-    public Member(final String email) {
-        this(null, email);
+    private long roomId;
+
+    public JoinInfo(final long memberId, final long roomId) {
+        this(null,memberId,roomId);
     }
 }
