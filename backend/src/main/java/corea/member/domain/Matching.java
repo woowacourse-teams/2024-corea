@@ -9,8 +9,8 @@ import java.util.stream.IntStream;
 
 import static lombok.AccessLevel.PROTECTED;
 
-@NoArgsConstructor(access = PROTECTED)
 @Component
+@NoArgsConstructor(access = PROTECTED)
 public class Matching {
 
     public Map<Long, List<Long>> matchGroup(final List<Member> members, final int matchingSize) {
