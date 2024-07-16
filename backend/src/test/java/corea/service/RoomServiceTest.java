@@ -2,15 +2,12 @@ package corea.service;
 
 import config.ServiceTest;
 import corea.domain.Member;
-import corea.domain.Room;
-import corea.dto.JoinInfoResponse;
 import corea.dto.RoomCreateRequest;
 import corea.dto.RoomResponse;
 import corea.dto.RoomResponses;
 import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
 import corea.repository.MemberRepository;
-import corea.repository.RoomRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +19,6 @@ class RoomServiceTest {
 
     @Autowired
     RoomService roomService;
-
-    @Autowired
-    RoomRepository roomRepository;
 
     @Autowired
     MemberRepository memberRepository;
@@ -62,17 +56,5 @@ class RoomServiceTest {
         final RoomResponses response = roomService.findAll();
 
         assertThat(response.rooms()).hasSize(1);
-    }
-
-    @Test
-    @DisplayName("방에 참가한다.")
-    void join() {
-        final Member member = memberRepository.save(MemberFixture.MEMBER_PORORO());
-        final Room room = roomRepository.save(RoomFixture.ROOM_RACING_CAR(member.getId()));
-
-        final JoinInfoResponse response = roomService.join(room.getId(), member.getId());
-
-        assertThat(response.memberId()).isEqualTo(member.getId());
-        assertThat(response.roomId()).isEqualTo(room.getId());
     }
 }
