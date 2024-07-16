@@ -4,10 +4,11 @@ import corea.member.entity.MatchedGroup;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface MatchedGroupRepository extends JpaRepository<MatchedGroup, Long> {
 
-    Long findGroupIdByMemberId(final Long memberId);
+    Optional<MatchedGroup> findOneByMemberId(final long memberId);
 
-    List<Long> findMemberIdsByGroupId(final Long groupId);
+    List<MatchedGroup> findByGroupId(final long groupId);
 }

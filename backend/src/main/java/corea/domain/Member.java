@@ -21,8 +21,9 @@ public class Member {
     private Long id;
 
     private String email;
+    private String name;
 
-    public Member(final String email) {
-        this(null, email);
+    public Member(final String email, final String name) {
+        this(null,email,name);
     }
 }
