@@ -25,6 +25,8 @@ public class Room {
 
     private String title;
 
+    private String content;
+
     private long memberId;
 
     @Column(length = 25000)
@@ -37,19 +39,29 @@ public class Room {
 
     private String keyword;
 
+    private long currentParticipantsSize;
+
+    private long limitedParticipantsSize;
+
     private LocalDateTime submissionDeadline;
 
     private LocalDateTime reviewDeadline;
 
     public Room(final String title,
+                final String content,
                 final long memberId,
                 final String repositoryLink,
                 final String thumbnailLink,
                 final int matchingSize,
                 final String keyword,
+                final long currentParticipantsSize,
+                final long limitedParticipantsSize,
                 final LocalDateTime submissionDeadline,
                 final LocalDateTime reviewDeadline) {
-        this(null, title, memberId, repositoryLink, thumbnailLink, matchingSize, keyword, submissionDeadline, reviewDeadline);
+        this(null, title, content,
+                memberId, repositoryLink, thumbnailLink,
+                matchingSize, keyword, currentParticipantsSize,
+                limitedParticipantsSize, submissionDeadline, reviewDeadline);
     }
 }
 
