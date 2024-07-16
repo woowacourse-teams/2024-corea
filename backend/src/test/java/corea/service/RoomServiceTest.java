@@ -31,7 +31,7 @@ class RoomServiceTest {
         final RoomCreateRequest request = RoomFixture.ROOM_CREATE_REQUEST(member.getId());
         final RoomResponse response = roomService.create(request);
 
-        assertThat(response.memberEmail()).isEqualTo("pororo@gmail.com");
+        assertThat(response.title()).isEqualTo("레이싱 카와 함께하는 TDD");
     }
 
     @Test

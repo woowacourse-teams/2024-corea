@@ -52,7 +52,7 @@ public class RoomService {
                 .orElseThrow(() -> new IllegalArgumentException(String.format("해당 Id의 멤버가 없습니다. 입력된 Id=%d", memberId)));
     }
 
-    public Room getRoom(final long roomId) {
+    private Room getRoom(final long roomId) {
         return roomRepository.findById(roomId)
                 .orElseThrow(() -> new IllegalArgumentException(String.format("해당 Id의 방이 없습니다. 입력된 Id=%d", roomId)));
     }
