@@ -1,7 +1,7 @@
 package corea.member.service;
 
 import config.ServiceTest;
-import corea.domain.Member;
+import corea.domain.Participation;
 import corea.member.repository.MatchedGroupRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,11 +23,11 @@ class MatchingServiceTest {
     @Test
     @DisplayName("멤버 리스트를 받아 매칭 결과를 반환한다.")
     void matchMaking() {
-        List<Member> members = List.of(
-                new Member(1L, "test1@email.com"),
-                new Member(2L, "test2@email.com"),
-                new Member(3L, "test3@email.com"),
-                new Member(4L, "test4@email.com")
+        List<Participation> members = List.of(
+                new Participation(1, 1),
+                new Participation(1, 2),
+                new Participation(1, 3),
+                new Participation(1, 4)
         );
         int matchingSize = 2;
 

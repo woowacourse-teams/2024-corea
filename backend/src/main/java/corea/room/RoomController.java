@@ -1,4 +1,4 @@
-package corea.cotroller;
+package corea.room;
 
 import corea.dto.RoomResponse;
 import corea.dto.RoomResponses;
