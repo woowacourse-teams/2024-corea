@@ -2,6 +2,7 @@
   "name": "corea",
   "version": "1.0.0",
   "description": "Code Review Area",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "dev": "webpack-dev-server --mode=development --open --hot --progress",
@@ -25,6 +26,7 @@
   "dependencies": {
     "@react-icons/all-files": "^4.1.0",
     "@tanstack/react-query": "^5.51.1",
+    "axios": "^1.7.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.24.1",
@@ -73,5 +75,10 @@
     "webpack": "^5.92.1",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.0.4"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
   }
 }

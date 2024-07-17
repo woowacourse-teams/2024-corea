@@ -1,9 +1,9 @@
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const path = require("path");
-const webpack = require("webpack");
+import { CleanWebpackPlugin } from "clean-webpack-plugin";
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import path from "path";
+import webpack from "webpack";
 
-module.exports = (env, argv) => {
+export default (env, argv) => {
   const prod = argv.mode === "production";
 
   return {
@@ -11,20 +11,21 @@ module.exports = (env, argv) => {
     devtool: prod ? "hidden-source-map" : "eval",
     entry: "./src/index.tsx",
     output: {
-      path: path.join(__dirname, "/dist"),
+      path: path.join(path.resolve(), "/dist"),
       filename: "index.js",
+      publicPath: "/",
     },
     devServer: {
+      historyApiFallback: true,
       port: 3000,
       hot: true,
     },
     resolve: {
-      extensions: [".js", ".jsx", ".ts", ".tsx"],
+      extensions: [".js", ".jsx", ".ts", ".tsx", ".json", ".mjs"],
       alias: {
-        "@": path.resolve(__dirname, "src/"),
+        "@": path.resolve(path.resolve(), "src/"),
       },
     },
-    devtool: prod ? false : "source-map",
     module: {
       rules: [
         {
