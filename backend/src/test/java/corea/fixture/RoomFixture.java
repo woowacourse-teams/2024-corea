@@ -6,6 +6,7 @@ import corea.room.domain.Room;
 import java.time.LocalDateTime;
 
 public class RoomFixture {
+
     public static Room ROOM_DOMAIN(final Member member) {
         return new Room(
                 "자바 레이싱 카 - MVC",

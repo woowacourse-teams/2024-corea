@@ -3,6 +3,7 @@ package corea.fixture;
 import corea.member.domain.Member;
 
 public class MemberFixture {
+
     public static Member MEMBER_DOMAIN() {
         return new Member(
                 "youngsu5582",
@@ -13,7 +14,8 @@ public class MemberFixture {
                 36.5f
         );
     }
-    public static Member MEMBER_MANAGER(){
+
+    public static Member MEMBER_MANAGER() {
         return new Member(
                 "joyson5582",
                 "https://avatars.githubusercontent.com/u/98307410?v=4",

@@ -15,11 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/participate")
 @RequiredArgsConstructor
 public class ParticipateController implements ParticipationControllerSpecification {
+
     private final ParticipationService participationService;
 
     @PostMapping("/{id}")
     public ResponseEntity<Void> participate(@PathVariable long id, @LoginUser AuthInfo authInfo) {
-        participationService.participate(new ParticipationRequest(id,authInfo.getId()));
+        participationService.participate(new ParticipationRequest(id, authInfo.getId()));
         return ResponseEntity.ok()
                 .build();
     }

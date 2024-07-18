@@ -5,8 +5,8 @@ import corea.exception.ExceptionType;
 import corea.matching.domain.Participation;
 import corea.matching.dto.ParticipationRequest;
 import corea.matching.dto.ParticipationResponse;
-import corea.member.repository.MemberRepository;
 import corea.matching.repository.ParticipationRepository;
+import corea.member.repository.MemberRepository;
 import corea.room.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,12 +30,12 @@ public class ParticipationService {
 
     private void validateIdExist(final long roomId, final long memberId) {
         if (!roomRepository.existsById(roomId)) {
-            throw new CoreaException(ExceptionType.NOT_FOUND_ERROR,String.format("%d에 해당하는 방이 없습니다.",roomId));
+            throw new CoreaException(ExceptionType.NOT_FOUND_ERROR, String.format("%d에 해당하는 방이 없습니다.", roomId));
         }
         if (!memberRepository.existsById(memberId)) {
-            throw new CoreaException(ExceptionType.NOT_FOUND_ERROR,String.format("%d에 해당하는 멤버가 없습니다.",memberId));
+            throw new CoreaException(ExceptionType.NOT_FOUND_ERROR, String.format("%d에 해당하는 멤버가 없습니다.", memberId));
         }
-        if(participationRepository.existsByRoomIdAndMemberId(roomId, memberId)) {
+        if (participationRepository.existsByRoomIdAndMemberId(roomId, memberId)) {
             throw new CoreaException(ExceptionType.ALREADY_APPLY);
         }
     }

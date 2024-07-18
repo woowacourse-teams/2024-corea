@@ -29,7 +29,7 @@ class ParticipateControllerTest {
 
         Member member = memberRepository.save(MemberFixture.MEMBER_DOMAIN());
         //@formatter:off
-        RestAssured.given().header(new Header("Authorization",member.getEmail())).contentType(ContentType.JSON)
+        RestAssured.given().header(new Header("Authorization", member.getEmail())).contentType(ContentType.JSON)
                 .when().post("/participate/"+room.getId())
                 .then().assertThat().statusCode(200);
         //@formatter:on

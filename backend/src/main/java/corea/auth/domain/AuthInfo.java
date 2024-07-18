@@ -9,6 +9,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @Getter
 public class AuthInfo {
+
     private final Long id;
 
     private final String name;

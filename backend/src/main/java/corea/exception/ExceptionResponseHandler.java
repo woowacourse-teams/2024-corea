@@ -11,13 +11,14 @@ public class ExceptionResponseHandler {
 
     @ExceptionHandler(CoreaException.class)
     public ResponseEntity<ErrorResponse> handleCoreaException(final CoreaException e) {
-        log.debug("Corea exception [statusCode = {}, errorMessage = {}, cause = {}]", e.getHttpStatus(), e.getMessage(),e.getCause());
+        log.debug("Corea exception [statusCode = {}, errorMessage = {}, cause = {}]", e.getHttpStatus(), e.getMessage(), e.getCause());
         return ResponseEntity.status(e.getHttpStatus())
                 .body(new ErrorResponse(e.getMessage()));
     }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleException(final Exception e) {
-        log.debug("Server exception [errorMessage = {}, cause = {}]", e.getMessage(),e.getCause());
+        log.debug("Server exception [errorMessage = {}, cause = {}]", e.getMessage(), e.getCause());
         return ResponseEntity.internalServerError()
                 .body(new ErrorResponse(e.getMessage()));
     }

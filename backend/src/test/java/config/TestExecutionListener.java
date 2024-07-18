@@ -12,6 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
 public class TestExecutionListener extends AbstractTestExecutionListener {
+
     @Override
     public void beforeTestClass(final TestContext testContext) {
         RestAssured.port = Optional.ofNullable(testContext.getApplicationContext()

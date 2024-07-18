@@ -19,6 +19,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 @Component
 @RequiredArgsConstructor
 public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolver {
+
     private final RequestHandler requestHandler;
     private final MemberRepository memberRepository;
 
@@ -32,7 +33,6 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
                                     ModelAndViewContainer mavContainer,
                                     NativeWebRequest webRequest,
                                     WebDataBinderFactory binderFactory) {
-
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
         Member member = memberRepository.findByEmail(requestHandler.extract(request))
                 .orElseThrow(()-> new CoreaException(ExceptionType.AUTHORIZATION_ERROR));

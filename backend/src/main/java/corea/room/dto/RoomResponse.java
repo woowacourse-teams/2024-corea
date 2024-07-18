@@ -24,7 +24,7 @@ public record RoomResponse(
         return new RoomResponse(
                 room.getId(), room.getTitle(), room.getContent(), room.getManager().getEmail(),
                 room.getRepositoryLink(), room.getThumbnailLink(), room.getMatchingSize(), List.of(room.getKeyword()),
-                room.getCurrentParticipantsSize(),room.getLimitedParticipantsSize(),room.getRecruitmentDeadline(),room.getReviewDeadline()
-                );
+                room.getCurrentParticipantsSize(), room.getLimitedParticipantsSize(), room.getRecruitmentDeadline(), room.getReviewDeadline()
+        );
     }
 }

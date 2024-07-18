@@ -17,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 
 @ServiceTest
 class ParticipationServiceTest {
+
     @Autowired
     private ParticipationService sut;
 
