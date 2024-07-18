@@ -1,0 +1,34 @@
+name: frontend storybook deploy Workflow
+on:
+  pull_request:
+    branches:
+      - 'develop'
+    paths: ['frontend/**/*.stories.ts', 'frontend/**/*.stories.tsx']
+
+defaults:
+  run:
+    working-directory: frontend
+
+jobs:
+  build:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+      # 해당 저장소의 코드를 가져온다
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 노드 설치
+      - name: Install Nodejs
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      # 스토리북 배포
+      - name: Install dependencies
+        run: npx chromatic --project-token=${{ secrets.STORY_BOOK_TOKEN }}

@@ -1,0 +1,38 @@
+name: frontend CI Workflow
+on:
+  pull_request:
+    branches:
+      - 'develop'
+    paths: ['frontend/**']
+
+defaults:
+  run:
+    working-directory: frontend
+
+jobs:
+  build:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+      # 해당 저장소의 코드를 가져온다
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 노드 설치
+      - name: Install Nodejs
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      # 패키지 설치
+      - name: Install dependencies
+        run: npm ci
+
+      # 테스트
+      - name: Run tests
+        run: npm test
