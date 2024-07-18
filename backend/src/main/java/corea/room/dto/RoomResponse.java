@@ -20,20 +20,8 @@ public record RoomResponse(
         LocalDateTime reviewDeadline
 ) {
 
+    //TODO 해당 객체를 사용한다면 반영
     public static RoomResponse of(final Room room, final String author) {
-        return new RoomResponse(
-                room.getId(),
-                room.getTitle(),
-                room.getContent(),
-                author,
-                room.getRepositoryLink(),
-                room.getThumbnailLink(),
-                room.getMatchingSize(),
-                List.of(room.getKeyword()),
-                room.getCurrentParticipantsSize(),
-                room.getLimitedParticipantsSize(),
-                room.getSubmissionDeadline(),
-                room.getReviewDeadline()
-        );
+        return null;
     }
 }

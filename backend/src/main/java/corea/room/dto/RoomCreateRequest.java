@@ -18,19 +18,8 @@ public record RoomCreateRequest(
         LocalDateTime reviewDeadline
 ) {
 
+    //TODO 해당 객체를 사용한다면 반영
     public Room toEntity() {
-        return new Room(
-                title,
-                content,
-                memberId,
-                repositoryLink,
-                thumbnailLink,
-                matchingSize,
-                keyword,
-                currentParticipantsSize,
-                limitedParticipantsSize,
-                submissionDeadline,
-                reviewDeadline
-        );
+        return null;
     }
 }

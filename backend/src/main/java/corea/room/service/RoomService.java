@@ -42,8 +42,9 @@ public class RoomService {
                 .collect(collectingAndThen(toList(), RoomResponses::new));
     }
 
+    //TODO 해당 객체를 사용한다면 반영
     private RoomResponse toRoomResponse(final Room room) {
-        final Member member = getMember(room.getManagerId());
+        final Member member = null;
         return RoomResponse.of(room, member.getEmail());
     }
 
