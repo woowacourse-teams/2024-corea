@@ -1,7 +1,8 @@
 package corea.room.controller;
 
+import corea.auth.annotation.LoginMember;
+import corea.auth.domain.AuthInfo;
 import corea.member.domain.Member;
-import corea.room.config.LoginMember;
 import corea.room.dto.RoomResponse;
 import corea.room.dto.RoomResponses;
 import corea.room.service.RoomService;
@@ -30,8 +31,8 @@ public class RoomController {
     }
 
     @GetMapping("/rooms/participated")
-    public ResponseEntity<RoomResponses> participatedRooms(@LoginMember Member member) {
-        RoomResponses response = roomService.findParticipatedRooms(member);
+    public ResponseEntity<RoomResponses> participatedRooms(@LoginMember AuthInfo authInfo) {
+        RoomResponses response = roomService.findParticipatedRooms(authInfo.getId());
         return ResponseEntity.ok(response);
     }
 }

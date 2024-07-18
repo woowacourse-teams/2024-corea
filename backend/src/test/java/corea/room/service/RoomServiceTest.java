@@ -37,7 +37,7 @@ class RoomServiceTest {
         RoomResponse roomResponse = roomService.create(RoomFixture.ROOM_CREATE_REQUEST(ash));
         participationService.participate(new ParticipationRequest(roomResponse.id(), pororo.getId()));
 
-        RoomResponses response = roomService.findParticipatedRooms(pororo);
+        RoomResponses response = roomService.findParticipatedRooms(pororo.getId());
 
         List<RoomResponse> rooms = response.rooms();
         assertThat(rooms).hasSize(1);

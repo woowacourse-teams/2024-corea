@@ -1,6 +1,6 @@
 package corea;
 
-import corea.room.config.LoginMemberArgumentResolver;
+import corea.auth.resolver.LoginMemberArgumentResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;

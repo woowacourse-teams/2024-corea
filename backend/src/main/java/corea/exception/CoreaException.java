@@ -1,6 +1,7 @@
 package corea.exception;
 
 import lombok.Getter;
+import org.springframework.http.HttpStatus;
 
 @Getter
 public class CoreaException extends RuntimeException {
@@ -18,7 +19,16 @@ public class CoreaException extends RuntimeException {
     }
 
     public CoreaException(ExceptionType exceptionType, Throwable cause) {
-        super(cause);
+        super(exceptionType.getMessage(), cause);
         this.exceptionType = exceptionType;
+    }
+
+    public HttpStatus getHttpStatus() {
+        return exceptionType.getHttpStatus();
+    }
+
+    @Override
+    public String getMessage() {
+        return super.getMessage();
     }
 }

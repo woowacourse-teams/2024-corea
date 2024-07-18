@@ -37,8 +37,8 @@ public class RoomService {
         return RoomResponse.from(room);
     }
 
-    public RoomResponses findParticipatedRooms(Member member) {
-        List<Participation> participations = participationRepository.findAllByMemberId(member.getId());
+    public RoomResponses findParticipatedRooms(long memberId) {
+        List<Participation> participations = participationRepository.findAllByMemberId(memberId);
 
         return participations.stream()
                 .map(Participation::getRoomId)
