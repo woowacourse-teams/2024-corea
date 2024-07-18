@@ -29,7 +29,9 @@ public class Member {
 
     private float attitude;
 
-    public Member(String userName, String thumbnailUrl, String name, String email, boolean isEmailAccepted, Float attitude) {
-        this(null, userName, thumbnailUrl, name, email, isEmailAccepted, attitude);
+    private String profileLink;
+
+    public Member(String userName, String thumbnailUrl, String name, String email, boolean isEmailAccepted, float attitude) {
+        this(null, userName, thumbnailUrl, name, email, isEmailAccepted, attitude, null);
     }
 }
