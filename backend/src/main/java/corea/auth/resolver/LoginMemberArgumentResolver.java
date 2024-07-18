@@ -1,5 +1,8 @@
-package corea.room.config;
+package corea.auth.resolver;
 
+import corea.auth.RequestHandler;
+import corea.auth.annotation.LoginMember;
+import corea.auth.domain.AuthInfo;
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
 import corea.member.domain.Member;
@@ -17,8 +20,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 @RequiredArgsConstructor
 public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolver {
 
-    private static final String AUTHORIZATION = "Authorization";
-
+    private final RequestHandler requestHandler;
     private final MemberRepository memberRepository;
 
     @Override
@@ -27,12 +29,13 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
     }
 
     @Override
-    public Member resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
-                                   NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
-        HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
-        String email = request.getHeader(AUTHORIZATION);
-
-        return memberRepository.findByEmail(email)
-                .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND, String.format("해당 email을 가진 멤버가 없습니다. 입력된 email=%s", email)));
+    public AuthInfo resolveArgument(MethodParameter parameter,
+                                    ModelAndViewContainer mavContainer,
+                                    NativeWebRequest webRequest,
+                                    WebDataBinderFactory binderFactory) {
+        HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
+        Member member = memberRepository.findByEmail(requestHandler.extract(request))
+                .orElseThrow(()-> new CoreaException(ExceptionType.AUTHORIZATION_ERROR));
+        return AuthInfo.from(member);
     }
 }
