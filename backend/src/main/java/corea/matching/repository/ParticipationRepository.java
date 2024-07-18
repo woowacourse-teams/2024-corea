@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface ParticipationRepository extends JpaRepository<Participation, Long> {
     List<Participation> findAllByRoomId(long roomId);
+    boolean existsByRoomIdAndMemberId(long roomId, long memberId);
 }

@@ -1,5 +1,7 @@
 package corea.matching.service;
 
+import corea.exception.CoreaException;
+import corea.exception.ExceptionType;
 import corea.matching.domain.Participation;
 import corea.matching.dto.ParticipationRequest;
 import corea.matching.dto.ParticipationResponse;
@@ -28,10 +30,13 @@ public class ParticipationService {
 
     private void validateIdExist(final long roomId, final long memberId) {
         if (!roomRepository.existsById(roomId)) {
-            throw new IllegalArgumentException(String.format("해당 Id의 방이 없어 참여할 수 없습니다. 입력된 방 Id=%d", roomId));
+            throw new CoreaException(ExceptionType.NOT_FOUND_ERROR,String.format("%d에 해당하는 방이 없습니다.",roomId));
         }
         if (!memberRepository.existsById(memberId)) {
-            throw new IllegalArgumentException(String.format("해당 Id의 멤버가 없어 방에 참여할 수 없습니다. 입력된 멤버 Id=%d", memberId));
+            throw new CoreaException(ExceptionType.NOT_FOUND_ERROR,String.format("%d에 해당하는 멤버가 없습니다.",memberId));
+        }
+        if(participationRepository.existsByRoomIdAndMemberId(roomId, memberId)) {
+            throw new CoreaException(ExceptionType.ALREADY_APPLY);
         }
     }
 }
