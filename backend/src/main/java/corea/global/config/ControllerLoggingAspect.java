@@ -35,6 +35,7 @@ public final class ControllerLoggingAspect {
             """)
     void loggingPointcut() {
     }
+
     private Optional<HttpServletRequest> getRequest() {
         return Optional.ofNullable(RequestContextHolder.getRequestAttributes())
                 .filter(ServletRequestAttributes.class::isInstance)
