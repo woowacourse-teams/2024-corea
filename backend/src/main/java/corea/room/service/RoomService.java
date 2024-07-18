@@ -1,6 +1,5 @@
 package corea.room.service;
 
-import corea.member.domain.Member;
 import corea.room.domain.Room;
 import corea.room.dto.RoomCreateRequest;
 import corea.room.dto.RoomResponse;
@@ -42,15 +41,8 @@ public class RoomService {
                 .collect(collectingAndThen(toList(), RoomResponses::new));
     }
 
-    //TODO 해당 객체를 사용한다면 반영
     private RoomResponse toRoomResponse(final Room room) {
-        final Member member = null;
-        return RoomResponse.of(room, member.getEmail());
-    }
-
-    private Member getMember(final long memberId) {
-        return memberRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException(String.format("해당 Id의 멤버가 없습니다. 입력된 Id=%d", memberId)));
+        return RoomResponse.of(room);
     }
 
     private Room getRoom(final long roomId) {
