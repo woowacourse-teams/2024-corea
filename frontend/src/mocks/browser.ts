@@ -1,4 +1,4 @@
 import { setupWorker } from "msw/browser";
-import missionHandler from "@/mocks/handler/missionHandler";
+import roomHandler from "@/mocks/handler/roomHandler";
 
-export const worker = setupWorker(...missionHandler);
+export const worker = setupWorker(...roomHandler);
