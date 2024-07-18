@@ -1,4 +1,4 @@
-package corea.member.domain;
+package corea.matching.service;
 
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;

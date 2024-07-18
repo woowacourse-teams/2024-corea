@@ -1,12 +1,12 @@
-package corea.service;
+package corea.room.service;
 
-import corea.domain.Member;
-import corea.domain.Room;
-import corea.dto.RoomCreateRequest;
-import corea.dto.RoomResponse;
-import corea.dto.RoomResponses;
-import corea.repository.MemberRepository;
-import corea.repository.RoomRepository;
+import corea.member.domain.Member;
+import corea.room.domain.Room;
+import corea.room.dto.RoomCreateRequest;
+import corea.room.dto.RoomResponse;
+import corea.room.dto.RoomResponses;
+import corea.member.repository.MemberRepository;
+import corea.room.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,7 +43,7 @@ public class RoomService {
     }
 
     private RoomResponse toRoomResponse(final Room room) {
-        final Member member = getMember(room.getMemberId());
+        final Member member = getMember(room.getManagerId());
         return RoomResponse.of(room, member.getEmail());
     }
 

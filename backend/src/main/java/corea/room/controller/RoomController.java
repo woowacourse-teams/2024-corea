@@ -1,8 +1,8 @@
-package corea.room;
+package corea.room.controller;
 
-import corea.dto.RoomResponse;
-import corea.dto.RoomResponses;
-import corea.service.RoomService;
+import corea.room.dto.RoomResponse;
+import corea.room.dto.RoomResponses;
+import corea.room.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

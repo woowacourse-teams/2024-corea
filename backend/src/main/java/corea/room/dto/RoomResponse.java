@@ -1,6 +1,6 @@
-package corea.dto;
+package corea.room.dto;
 
-import corea.domain.Room;
+import corea.room.domain.Room;
 
 import java.time.LocalDateTime;
 import java.util.List;

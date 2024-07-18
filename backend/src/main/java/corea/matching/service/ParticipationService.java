@@ -1,11 +1,11 @@
-package corea.service;
+package corea.matching.service;
 
-import corea.domain.Participation;
-import corea.dto.ParticipationRequest;
-import corea.dto.ParticipationResponse;
-import corea.repository.MemberRepository;
-import corea.repository.ParticipationRepository;
-import corea.repository.RoomRepository;
+import corea.matching.domain.Participation;
+import corea.matching.dto.ParticipationRequest;
+import corea.matching.dto.ParticipationResponse;
+import corea.member.repository.MemberRepository;
+import corea.matching.repository.ParticipationRepository;
+import corea.room.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

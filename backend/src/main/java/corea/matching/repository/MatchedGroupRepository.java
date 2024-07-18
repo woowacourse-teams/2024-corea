@@ -1,4 +1,4 @@
-package corea.member.repository;
+package corea.matching.repository;
 
 import corea.member.entity.MatchedGroup;
 import org.springframework.data.jpa.repository.JpaRepository;

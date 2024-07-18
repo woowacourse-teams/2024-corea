@@ -1,6 +1,6 @@
-package corea.repository;
+package corea.room.repository;
 
-import corea.domain.Room;
+import corea.room.domain.Room;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RoomRepository extends JpaRepository<Room, Long> {

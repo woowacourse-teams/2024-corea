@@ -1,4 +1,4 @@
-package corea.dto;
+package corea.room.dto;
 
 import java.util.List;
 

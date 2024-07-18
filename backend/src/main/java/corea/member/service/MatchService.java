@@ -1,12 +1,12 @@
 package corea.member.service;
 
-import corea.domain.Member;
-import corea.domain.Participation;
-import corea.dto.MatchedGroupResponse;
+import corea.member.domain.Member;
+import corea.matching.domain.Participation;
+import corea.matching.dto.MatchedGroupResponse;
 import corea.member.entity.MatchedGroup;
-import corea.member.repository.MatchedGroupRepository;
-import corea.repository.MemberRepository;
-import corea.repository.ParticipationRepository;
+import corea.matching.repository.MatchedGroupRepository;
+import corea.member.repository.MemberRepository;
+import corea.matching.repository.ParticipationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

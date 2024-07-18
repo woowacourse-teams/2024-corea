@@ -1,4 +1,4 @@
-package corea.dto;
+package corea.matching.dto;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
-package corea.dto;
+package corea.matching.dto;
 
-import corea.domain.Participation;
+import corea.matching.domain.Participation;
 
 public record ParticipationResponse(long id, long roomId, long memberId) {
 

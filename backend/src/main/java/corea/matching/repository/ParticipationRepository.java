@@ -1,6 +1,6 @@
-package corea.repository;
+package corea.matching.repository;
 
-import corea.domain.Participation;
+import corea.matching.domain.Participation;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

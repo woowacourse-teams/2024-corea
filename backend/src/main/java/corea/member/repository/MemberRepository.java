@@ -1,6 +1,6 @@
-package corea.repository;
+package corea.member.repository;
 
-import corea.domain.Member;
+import corea.member.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

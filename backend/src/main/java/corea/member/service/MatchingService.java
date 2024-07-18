@@ -1,9 +1,9 @@
 package corea.member.service;
 
-import corea.domain.Participation;
-import corea.member.domain.Matching;
+import corea.matching.domain.Participation;
+import corea.matching.service.Matching;
 import corea.member.entity.MatchedGroup;
-import corea.member.repository.MatchedGroupRepository;
+import corea.matching.repository.MatchedGroupRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
