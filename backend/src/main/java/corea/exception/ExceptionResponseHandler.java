@@ -11,7 +11,7 @@ public class ExceptionResponseHandler {
 
     @ExceptionHandler(CoreaException.class)
     public ResponseEntity<ErrorResponse> handleCoreaException(final CoreaException e) {
-        log.debug("Reaction Game exception [statusCode = {}, errorMessage = {}, cause = {}]", e.getHttpStatus(), e.getMessage(),e.getCause());
+        log.debug("Corea exception [statusCode = {}, errorMessage = {}, cause = {}]", e.getHttpStatus(), e.getMessage(),e.getCause());
         return ResponseEntity.status(e.getHttpStatus())
                 .body(new ErrorResponse(e.getMessage()));
     }

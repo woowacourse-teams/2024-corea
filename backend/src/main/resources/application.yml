@@ -16,6 +16,11 @@ spring:
   datasource:
     url: jdbc:h2:mem:database
 
+logging:
+  level:
+    root: INFO
+    corea: DEBUG
+
 springdoc:
   swagger-ui:
     groups-order: DESC
