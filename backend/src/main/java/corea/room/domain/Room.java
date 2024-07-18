@@ -40,6 +40,7 @@ public class Room {
     private int limitedParticipantsSize;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "manager_id",foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Member manager;
 
     private LocalDateTime recruitmentDeadline;
