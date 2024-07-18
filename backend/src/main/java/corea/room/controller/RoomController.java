@@ -1,5 +1,7 @@
 package corea.room.controller;
 
+import corea.member.domain.Member;
+import corea.room.config.LoginMember;
 import corea.room.dto.RoomResponse;
 import corea.room.dto.RoomResponses;
 import corea.room.service.RoomService;
@@ -16,14 +18,20 @@ public class RoomController {
     private final RoomService roomService;
 
     @GetMapping("/rooms/{id}")
-    public ResponseEntity<RoomResponse> room(@PathVariable final long id) {
-        final RoomResponse response = roomService.findOne(id);
+    public ResponseEntity<RoomResponse> room(@PathVariable long id) {
+        RoomResponse response = roomService.findOne(id);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/rooms")
     public ResponseEntity<RoomResponses> rooms() {
-        final RoomResponses response = roomService.findAll();
+        RoomResponses response = roomService.findAll();
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/rooms/participated")
+    public ResponseEntity<RoomResponses> participatedRooms(@LoginMember Member member) {
+        RoomResponses response = roomService.findParticipatedRooms(member);
         return ResponseEntity.ok(response);
     }
 }

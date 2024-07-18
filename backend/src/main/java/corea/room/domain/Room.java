@@ -40,6 +40,7 @@ public class Room {
     private int limitedParticipantsSize;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "manager_id",foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Member manager;
 
     private LocalDateTime recruitmentDeadline;
@@ -47,7 +48,7 @@ public class Room {
     private LocalDateTime reviewDeadline;
 
     public Room(String title, String content, int matchingSize, String repositoryLink, String thumbnailLink, String keyword, int currentParticipantsSize, int limitedParticipantsSize, Member manager, LocalDateTime recruitmentDeadline, LocalDateTime reviewDeadline) {
-        this(null,title,content,matchingSize,repositoryLink,thumbnailLink,keyword,currentParticipantsSize,limitedParticipantsSize,manager,recruitmentDeadline,reviewDeadline);
+        this(null, title, content, matchingSize, repositoryLink, thumbnailLink, keyword, currentParticipantsSize, limitedParticipantsSize, manager, recruitmentDeadline, reviewDeadline);
     }
 }
 

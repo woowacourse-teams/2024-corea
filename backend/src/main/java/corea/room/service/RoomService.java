@@ -1,11 +1,14 @@
 package corea.room.service;
 
+import corea.exception.CoreaException;
+import corea.exception.ExceptionType;
+import corea.matching.domain.Participation;
+import corea.matching.repository.ParticipationRepository;
 import corea.member.domain.Member;
 import corea.room.domain.Room;
 import corea.room.dto.RoomCreateRequest;
 import corea.room.dto.RoomResponse;
 import corea.room.dto.RoomResponses;
-import corea.member.repository.MemberRepository;
 import corea.room.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,39 +25,34 @@ import static java.util.stream.Collectors.toList;
 public class RoomService {
 
     private final RoomRepository roomRepository;
-    private final MemberRepository memberRepository;
+    private final ParticipationRepository participationRepository;
 
-    public RoomResponse create(final RoomCreateRequest request) {
-        final Room room = roomRepository.save(request.toEntity());
-        return toRoomResponse(room);
+    public RoomResponse create(RoomCreateRequest request) {
+        Room room = roomRepository.save(request.toEntity());
+        return RoomResponse.from(room);
     }
 
-    public RoomResponse findOne(final long id) {
-        final Room room = getRoom(id);
-        return toRoomResponse(room);
+    public RoomResponse findOne(long id) {
+        Room room = getRoom(id);
+        return RoomResponse.from(room);
+    }
+
+    public RoomResponses findParticipatedRooms(Member member) {
+        List<Participation> participations = participationRepository.findAllByMemberId(member.getId());
+
+        return participations.stream()
+                .map(Participation::getRoomId)
+                .map(this::getRoom)
+                .collect(collectingAndThen(toList(), RoomResponses::from));
     }
 
     public RoomResponses findAll() {
         final List<Room> rooms = roomRepository.findAll();
-
-        return rooms.stream()
-                .map(this::toRoomResponse)
-                .collect(collectingAndThen(toList(), RoomResponses::new));
+        return RoomResponses.from(rooms);
     }
 
-    //TODO 해당 객체를 사용한다면 반영
-    private RoomResponse toRoomResponse(final Room room) {
-        final Member member = null;
-        return RoomResponse.of(room, member.getEmail());
-    }
-
-    private Member getMember(final long memberId) {
-        return memberRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException(String.format("해당 Id의 멤버가 없습니다. 입력된 Id=%d", memberId)));
-    }
-
-    private Room getRoom(final long roomId) {
+    private Room getRoom(long roomId) {
         return roomRepository.findById(roomId)
-                .orElseThrow(() -> new IllegalArgumentException(String.format("해당 Id의 방이 없습니다. 입력된 Id=%d", roomId)));
+                .orElseThrow(() -> new CoreaException(ExceptionType.ROOM_NOT_FOUND, String.format("해당 Id의 방이 없습니다. 입력된 Id=%d", roomId)));
     }
 }
