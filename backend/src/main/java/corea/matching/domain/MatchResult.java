@@ -1,6 +1,5 @@
 package corea.matching.domain;
 
-
 import corea.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -15,6 +14,7 @@ import static lombok.AccessLevel.PROTECTED;
 @NoArgsConstructor(access = PROTECTED)
 @Getter
 public class MatchResult {
+
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
@@ -22,10 +22,10 @@ public class MatchResult {
     private long roomId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Member fromMemberId;
+    private Member fromMember;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Member toMemberId;
+    private Member toMember;
 
     private String prLink;
 
