@@ -3,7 +3,7 @@ import apiClient from "./apiClient";
 import { API_ENDPOINTS } from "./endpoints";
 
 export const getMyReviewers = async (): Promise<ReviewerInfo[]> => {
-  const res = await apiClient<ReviewerInfo[]>({
+  const res = await apiClient<any>({
     method: "get",
     url: API_ENDPOINTS.REVIEWER,
   });
@@ -12,7 +12,7 @@ export const getMyReviewers = async (): Promise<ReviewerInfo[]> => {
 };
 
 export const getMyReviewees = async (): Promise<ReviewerInfo[]> => {
-  const res = await apiClient<ReviewerInfo[]>({
+  const res = await apiClient<any>({
     method: "get",
     url: API_ENDPOINTS.REVIEWEE,
   });

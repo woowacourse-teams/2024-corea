@@ -1,7 +1,7 @@
 package corea.auth.resolver;
 
 import corea.auth.RequestHandler;
-import corea.auth.annotation.LoginUser;
+import corea.auth.annotation.LoginMember;
 import corea.auth.domain.AuthInfo;
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
@@ -25,7 +25,7 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.hasParameterAnnotation(LoginUser.class);
+        return parameter.hasParameterAnnotation(LoginMember.class);
     }
 
     @Override

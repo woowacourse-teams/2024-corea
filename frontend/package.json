@@ -5,8 +5,6 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint 'src/**/*.{ts,tsx}'",
-    "format": "prettier --check .",
     "dev": "webpack-dev-server --mode=development --open --hot --progress",
     "build": "webpack --mode=production  --progress",
     "test": "jest",
@@ -32,8 +30,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.24.1",
-    "styled-components": "^6.1.11",
-    "undici": "^6.19.2"
+    "styled-components": "^6.1.11"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^1.6.1",

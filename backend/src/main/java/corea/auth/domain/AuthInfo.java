@@ -11,9 +11,7 @@ import java.util.Objects;
 public class AuthInfo {
 
     private final Long id;
-
     private final String name;
-
     private final String email;
 
     public static AuthInfo from(Member member){

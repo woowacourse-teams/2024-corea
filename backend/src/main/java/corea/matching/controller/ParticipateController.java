@@ -1,6 +1,6 @@
 package corea.matching.controller;
 
-import corea.auth.annotation.LoginUser;
+import corea.auth.annotation.LoginMember;
 import corea.auth.domain.AuthInfo;
 import corea.matching.dto.ParticipationRequest;
 import corea.matching.service.ParticipationService;
@@ -19,7 +19,7 @@ public class ParticipateController implements ParticipationControllerSpecificati
     private final ParticipationService participationService;
 
     @PostMapping("/{id}")
-    public ResponseEntity<Void> participate(@PathVariable long id, @LoginUser AuthInfo authInfo) {
+    public ResponseEntity<Void> participate(@PathVariable long id, @LoginMember AuthInfo authInfo) {
         participationService.participate(new ParticipationRequest(id, authInfo.getId()));
         return ResponseEntity.ok()
                 .build();

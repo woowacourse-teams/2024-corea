@@ -48,7 +48,7 @@ public class Room {
     private LocalDateTime reviewDeadline;
 
     public Room(String title, String content, int matchingSize, String repositoryLink, String thumbnailLink, String keyword, int currentParticipantsSize, int limitedParticipantsSize, Member manager, LocalDateTime recruitmentDeadline, LocalDateTime reviewDeadline) {
-        this(null,title,content,matchingSize,repositoryLink,thumbnailLink,keyword,currentParticipantsSize,limitedParticipantsSize,manager,recruitmentDeadline,reviewDeadline);
+        this(null, title, content, matchingSize, repositoryLink, thumbnailLink, keyword, currentParticipantsSize, limitedParticipantsSize, manager, recruitmentDeadline, reviewDeadline);
     }
 }
 

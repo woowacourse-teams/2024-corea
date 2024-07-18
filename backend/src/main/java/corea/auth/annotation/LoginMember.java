@@ -10,5 +10,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
 @Hidden()
-public @interface LoginUser {
+public @interface LoginMember {
 }
