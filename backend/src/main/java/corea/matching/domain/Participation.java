@@ -1,29 +1,29 @@
-package corea.domain;
+package corea.matching.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import static jakarta.persistence.GenerationType.IDENTITY;
-
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Member {
+public class Participation {
 
     @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String email;
-    private String name;
+    private long roomId;
 
-    public Member(final String email, final String name) {
-        this(null,email,name);
+    private long memberId;
+
+    public Participation(final long roomId, final long memberId) {
+        this(null, roomId, memberId);
     }
 }
