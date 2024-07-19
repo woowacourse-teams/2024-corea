@@ -10,12 +10,23 @@ import java.util.Objects;
 @Getter
 public class AuthInfo {
 
-    private final Long id;
+    private static final long NOT_EXIST_ID = -1L;
+    public static final AuthInfo ANONYMOUS = new AuthInfo(NOT_EXIST_ID, "", "");
+
+    private final long id;
     private final String name;
     private final String email;
 
-    public static AuthInfo from(Member member){
+    public static AuthInfo from(Member member) {
         return new AuthInfo(member.getId(), member.getUserName(), member.getEmail());
+    }
+
+    public boolean isAnonymous() {
+        return id == NOT_EXIST_ID;
+    }
+
+    public boolean isNotAnonymous() {
+        return id == NOT_EXIST_ID;
     }
 
     @Override

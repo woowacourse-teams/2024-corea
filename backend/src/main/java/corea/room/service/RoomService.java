@@ -1,5 +1,6 @@
 package corea.room.service;
 
+import corea.auth.domain.AuthInfo;
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
 import corea.matching.domain.Participation;
@@ -37,8 +38,11 @@ public class RoomService {
         return RoomResponse.from(room);
     }
 
-    public RoomResponse findOne(long id) {
-        Room room = getRoom(id);
+    public RoomResponse findOne(long roomId, AuthInfo authInfo) {
+        Room room = getRoom(roomId);
+        if (authInfo.isNotAnonymous() && participationRepository.existsByRoomIdAndMemberId(roomId, authInfo.getId())) {
+            return RoomResponse.from(room, true);
+        }
         return RoomResponse.from(room);
     }
 
