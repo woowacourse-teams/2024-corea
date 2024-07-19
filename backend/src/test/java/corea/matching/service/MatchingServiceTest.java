@@ -1,4 +1,4 @@
-package corea.member.service;
+package corea.matching.service;
 
 import config.ServiceTest;
 import corea.exception.CoreaException;
