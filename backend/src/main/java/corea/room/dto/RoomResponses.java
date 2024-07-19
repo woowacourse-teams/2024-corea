@@ -1,6 +1,7 @@
 package corea.room.dto;
 
 import corea.room.domain.Room;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -13,5 +14,9 @@ public record RoomResponses(List<RoomResponse> rooms) {
         return rooms.stream()
                 .map(RoomResponse::from)
                 .collect(collectingAndThen(toList(), RoomResponses::new));
+    }
+
+    public static RoomResponses from(Page<Room> roomsWithPage) {
+        return from(roomsWithPage.getContent());
     }
 }
