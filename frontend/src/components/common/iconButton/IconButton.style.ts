@@ -8,7 +8,7 @@ export const IconButtonContainer = styled.div`
   justify-content: center;
 `;
 
-export const IconButtonImg = styled.div`
+export const IconButtonBox = styled.button`
   cursor: pointer;
 
   display: flex;
@@ -18,6 +18,7 @@ export const IconButtonImg = styled.div`
   width: 50px;
   height: 50px;
 
+  background-color: transparent;
   border: 1px solid ${({ theme }) => theme.COLOR.grey1};
   border-radius: 15px;
   box-shadow: 0 4px 4px rgb(0 0 0 / 10%);
