@@ -11,7 +11,6 @@ public class PlainRandomMatching implements MatchingStrategy {
 
     @Override
     public List<Pair> matchPairs(List<Long> memberIds, int matchingSize) {
-
         List<Long> shuffledMemberIds = new ArrayList<>(memberIds);
         Collections.shuffle(shuffledMemberIds);
 

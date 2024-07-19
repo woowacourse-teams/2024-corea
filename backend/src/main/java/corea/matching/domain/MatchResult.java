@@ -31,9 +31,10 @@ public class MatchResult {
 
     private String prLink;
 
-    private boolean isReviewed;
+    @Enumerated(EnumType.STRING)
+    private ReviewStatus reviewStatus;
 
     public MatchResult(long roomId, Member fromMember, Member toMember, String prLink) {
-        this(null, roomId, fromMember, toMember, prLink, false);
+        this(null, roomId, fromMember, toMember, prLink, ReviewStatus.INCOMPLETE);
     }
 }
