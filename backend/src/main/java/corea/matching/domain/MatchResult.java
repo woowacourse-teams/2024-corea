@@ -22,12 +22,19 @@ public class MatchResult {
     private long roomId;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "from_member_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Member fromMember;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "to_member_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Member toMember;
 
     private String prLink;
 
-    private boolean isReviewed;
+    @Enumerated(EnumType.STRING)
+    private ReviewStatus reviewStatus;
+
+    public MatchResult(long roomId, Member fromMember, Member toMember, String prLink) {
+        this(null, roomId, fromMember, toMember, prLink, ReviewStatus.INCOMPLETE);
+    }
 }
