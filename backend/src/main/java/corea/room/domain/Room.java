@@ -1,6 +1,7 @@
 package corea.room.domain;
 
 import corea.member.domain.Member;
+import corea.util.StringToListConverter;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -8,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -33,7 +35,8 @@ public class Room {
     @Column(length = 32768)
     private String thumbnailLink;
 
-    private String keyword;
+    @Convert(converter = StringToListConverter.class)
+    private List<String> keyword;
 
     private int currentParticipantsSize;
 
@@ -61,7 +64,7 @@ public class Room {
     @Enumerated(value = EnumType.STRING)
     private RoomStatus status;
 
-    public Room(String title, String content, int matchingSize, String repositoryLink, String thumbnailLink, String keyword, int currentParticipantsSize, int limitedParticipantsSize, Member manager, LocalDateTime recruitmentDeadline, LocalDateTime reviewDeadline, Classification classification, RoomStatus status) {
+    public Room(String title, String content, int matchingSize, String repositoryLink, String thumbnailLink, List<String> keyword, int currentParticipantsSize, int limitedParticipantsSize, Member manager, LocalDateTime recruitmentDeadline, LocalDateTime reviewDeadline, Classification classification, RoomStatus status) {
         this(null, title, content, matchingSize, repositoryLink, thumbnailLink, keyword, currentParticipantsSize, limitedParticipantsSize, manager, recruitmentDeadline, reviewDeadline, classification, status);
     }
 
