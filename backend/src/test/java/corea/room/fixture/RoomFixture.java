@@ -1,6 +1,8 @@
 package corea.room.fixture;
 
 import corea.member.domain.Member;
+import corea.room.domain.Classification;
+import corea.room.domain.RoomStatus;
 import corea.room.dto.RoomCreateRequest;
 
 import java.time.LocalDateTime;
@@ -19,6 +21,9 @@ public class RoomFixture {
                 15,
                 20,
                 LocalDateTime.of(2024, 12, 25, 12, 0),
-                LocalDateTime.of(2024, 12, 30, 12, 0));
+                LocalDateTime.of(2024, 12, 30, 12, 0),
+                Classification.BACKEND,
+                RoomStatus.OPENED
+        );
     }
 }
