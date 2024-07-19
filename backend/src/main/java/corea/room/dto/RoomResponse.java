@@ -20,11 +20,20 @@ public record RoomResponse(
         LocalDateTime reviewDeadline
 ) {
 
-    public static RoomResponse of(final Room room) {
+    public static RoomResponse from(Room room) {
         return new RoomResponse(
-                room.getId(), room.getTitle(), room.getContent(), room.getManager().getEmail(),
-                room.getRepositoryLink(), room.getThumbnailLink(), room.getMatchingSize(), List.of(room.getKeyword()),
-                room.getCurrentParticipantsSize(), room.getLimitedParticipantsSize(), room.getRecruitmentDeadline(), room.getReviewDeadline()
+                room.getId(),
+                room.getTitle(),
+                room.getContent(),
+                room.getManager().getName(),
+                room.getRepositoryLink(),
+                room.getThumbnailLink(),
+                room.getMatchingSize(),
+                List.of(room.getKeyword()),
+                room.getCurrentParticipantsSize(),
+                room.getLimitedParticipantsSize(),
+                room.getRecruitmentDeadline(),
+                room.getReviewDeadline()
         );
     }
 }

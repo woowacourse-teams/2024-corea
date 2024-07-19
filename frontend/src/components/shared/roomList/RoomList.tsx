@@ -9,7 +9,7 @@ const RoomList = ({ roomList }: { roomList: RoomInfo[] }) => {
   return (
     <S.RoomListContainer>
       {roomList.map((roomInfo) => (
-        <Link to={`/room/1`} key={roomInfo.id}>
+        <Link to={`/room/1`}>
           <RoomCard key={roomInfo.id} roomInfo={roomInfo} />
         </Link>
       ))}

@@ -9,5 +9,7 @@ public interface ParticipationRepository extends JpaRepository<Participation, Lo
 
     List<Participation> findAllByRoomId(long roomId);
 
+    List<Participation> findAllByMemberId(long memberId);
+
     boolean existsByRoomIdAndMemberId(long roomId, long memberId);
 }
