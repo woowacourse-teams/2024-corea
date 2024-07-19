@@ -1,5 +1,6 @@
 package corea.room.dto;
 
+import corea.member.domain.Member;
 import corea.room.domain.Room;
 
 import java.time.LocalDateTime;
@@ -7,19 +8,21 @@ import java.time.LocalDateTime;
 public record RoomCreateRequest(
         String title,
         String content,
-        long memberId,
+        Member manager,
         String repositoryLink,
         String thumbnailLink,
         int matchingSize,
         String keyword,
-        long currentParticipantsSize,
-        long limitedParticipantsSize,
-        LocalDateTime submissionDeadline,
+        int currentParticipantsSize,
+        int limitedParticipantsSize,
+        LocalDateTime recruitmentDeadline,
         LocalDateTime reviewDeadline
 ) {
 
-    //TODO 해당 객체를 사용한다면 반영
     public Room toEntity() {
-        return null;
+        return new Room(title, content, matchingSize,
+                repositoryLink, thumbnailLink, keyword,
+                currentParticipantsSize, limitedParticipantsSize, manager,
+                recruitmentDeadline, reviewDeadline);
     }
 }
