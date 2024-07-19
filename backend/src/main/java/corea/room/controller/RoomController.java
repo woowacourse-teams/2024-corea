@@ -3,7 +3,6 @@ package corea.room.controller;
 import corea.auth.annotation.AccessedMember;
 import corea.auth.annotation.LoginMember;
 import corea.auth.domain.AuthInfo;
-import corea.member.domain.Member;
 import corea.room.dto.RoomResponse;
 import corea.room.dto.RoomResponses;
 import corea.room.service.RoomService;
@@ -19,8 +18,8 @@ public class RoomController {
     private final RoomService roomService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<RoomResponse> room(@PathVariable long id) {
-        RoomResponse response = roomService.findOne(id);
+    public ResponseEntity<RoomResponse> room(@AccessedMember AuthInfo authInfo,@PathVariable long id) {
+        RoomResponse response = roomService.findOne(id,authInfo);
         return ResponseEntity.ok(response);
     }
 
@@ -37,14 +36,14 @@ public class RoomController {
     }
 
     @GetMapping("/opened")
-    public ResponseEntity<RoomResponses> openedRooms(@AccessedMember Member member,
+    public ResponseEntity<RoomResponses> openedRooms(@AccessedMember AuthInfo authInfo,
                                                      @RequestParam(value = "classification", defaultValue = "all") String expression,
                                                      @RequestParam(defaultValue = "0") int page) {
-        if (member == null) {
+        if (authInfo.isAnonymous()) {
             RoomResponses response = roomService.findOpenedRoomsWithoutMember(expression, page);
             return ResponseEntity.ok(response);
         }
-        RoomResponses response = roomService.findOpenedRoomsWithMember(member.getId(), expression, page);
+        RoomResponses response = roomService.findOpenedRoomsWithMember(authInfo.getId(), expression, page);
         return ResponseEntity.ok(response);
     }
 }

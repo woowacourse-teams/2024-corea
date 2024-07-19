@@ -17,9 +17,10 @@ public record RoomResponse(
         long currentParticipants,
         long limitedParticipants,
         LocalDateTime recruitmentDeadline,
-        LocalDateTime reviewDeadline
+        LocalDateTime reviewDeadline,
+        boolean isParticipated,
+        boolean isClosed
 ) {
-
     public static RoomResponse from(Room room) {
         return new RoomResponse(
                 room.getId(),
@@ -29,11 +30,32 @@ public record RoomResponse(
                 room.getRepositoryLink(),
                 room.getThumbnailLink(),
                 room.getMatchingSize(),
-                List.of(room.getKeyword()),
+                room.getKeyword(),
                 room.getCurrentParticipantsSize(),
                 room.getLimitedParticipantsSize(),
                 room.getRecruitmentDeadline(),
-                room.getReviewDeadline()
+                room.getReviewDeadline(),
+                false,
+                room.isOpen()
+        );
+    }
+
+    public static RoomResponse from(Room room,boolean isParticipated) {
+        return new RoomResponse(
+                room.getId(),
+                room.getTitle(),
+                room.getContent(),
+                room.getManager().getName(),
+                room.getRepositoryLink(),
+                room.getThumbnailLink(),
+                room.getMatchingSize(),
+                room.getKeyword(),
+                room.getCurrentParticipantsSize(),
+                room.getLimitedParticipantsSize(),
+                room.getRecruitmentDeadline(),
+                room.getReviewDeadline(),
+                isParticipated,
+                room.isClosed()
         );
     }
 }
