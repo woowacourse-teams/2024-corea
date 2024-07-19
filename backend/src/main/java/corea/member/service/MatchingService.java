@@ -37,10 +37,10 @@ public class MatchingService {
                 .map(pair -> new MatchResult(
                         roomId,
                         memberRepository.findById(pair.getFromMemberId()).orElseThrow(
-                                () -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND, String.format(String.format("%d에 해당하는 멤버가 없습니다.", pair.getFromMemberId())))
+                                () -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND, String.format("%d에 해당하는 멤버가 없습니다.", pair.getFromMemberId()))
                         ),
                         memberRepository.findById(pair.getToMemberId()).orElseThrow(
-                                () -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND, String.format(String.format("%d에 해당하는 멤버가 없습니다.", pair.getToMemberId())))
+                                () -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND, String.format("%d에 해당하는 멤버가 없습니다.", pair.getToMemberId()))
                         ),
                         null))
                 //TODO: prLink 차후 수정

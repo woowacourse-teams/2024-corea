@@ -15,10 +15,10 @@ public class PlainRandomMatching implements MatchingStrategy {
         List<Long> shuffledMemberIds = new ArrayList<>(memberIds);
         Collections.shuffle(shuffledMemberIds);
 
-        return match(matchingSize, shuffledMemberIds);
+        return match(shuffledMemberIds, matchingSize);
     }
 
-    private List<Pair> match(int matchingSize, List<Long> shuffledMemberIds) {
+    private List<Pair> match(List<Long> shuffledMemberIds, int matchingSize) {
         List<Pair> reviewerResult = new ArrayList<>();
         for (int i = 0; i < shuffledMemberIds.size(); i++) {
             for (int j = 1; j <= matchingSize; j++) {

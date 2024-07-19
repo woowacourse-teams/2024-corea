@@ -22,11 +22,11 @@ public class MatchResult {
     private long roomId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "fromMemberId", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    @JoinColumn(name = "from_member_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Member fromMember;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "toMemberId", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    @JoinColumn(name = "to_member_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Member toMember;
 
     private String prLink;
