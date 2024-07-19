@@ -4,13 +4,16 @@ import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
 import corea.matching.domain.Participation;
 import corea.matching.repository.ParticipationRepository;
-import corea.member.domain.Member;
+import corea.room.domain.Classification;
 import corea.room.domain.Room;
+import corea.room.domain.RoomStatus;
 import corea.room.dto.RoomCreateRequest;
 import corea.room.dto.RoomResponse;
 import corea.room.dto.RoomResponses;
 import corea.room.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +26,8 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class RoomService {
+
+    private static final int PAGE_SIZE = 8;
 
     private final RoomRepository roomRepository;
     private final ParticipationRepository participationRepository;
@@ -44,6 +49,32 @@ public class RoomService {
                 .map(Participation::getRoomId)
                 .map(this::getRoom)
                 .collect(collectingAndThen(toList(), RoomResponses::from));
+    }
+
+    public RoomResponses findOpenedRoomsWithoutMember(String expression, int pageNumber) {
+        Classification classification = Classification.from(expression);
+        RoomStatus status = RoomStatus.OPENED;
+        PageRequest pageRequest = PageRequest.of(pageNumber, PAGE_SIZE);
+
+        if (classification.isAll()) {
+            Page<Room> roomsWithPage = roomRepository.findAllByStatus(status, pageRequest);
+            return RoomResponses.from(roomsWithPage);
+        }
+        Page<Room> roomsWithPage = roomRepository.findAllByClassificationAndStatus(classification, status, pageRequest);
+        return RoomResponses.from(roomsWithPage);
+    }
+
+    public RoomResponses findOpenedRoomsWithMember(long memberId, String expression, int pageNumber) {
+        Classification classification = Classification.from(expression);
+        RoomStatus status = RoomStatus.OPENED;
+        PageRequest pageRequest = PageRequest.of(pageNumber, PAGE_SIZE);
+
+        if (classification.isAll()) {
+            Page<Room> roomsWithPage = roomRepository.findAllByMemberAndStatus(memberId, status, pageRequest);
+            return RoomResponses.from(roomsWithPage);
+        }
+        Page<Room> roomsWithPage = roomRepository.findAllByMemberAndClassificationAndStatus(memberId, classification, status, pageRequest);
+        return RoomResponses.from(roomsWithPage);
     }
 
     public RoomResponses findAll() {
