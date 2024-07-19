@@ -20,7 +20,7 @@ import static org.assertj.core.api.SoftAssertions.assertSoftly;
 class RoomServiceTest {
 
     @Autowired
-    RoomService roomService;
+    private RoomService roomService;
 
     @Test
     @DisplayName("현재 로그인한 멤버가 참여 중인 방을 보여준다.")

@@ -26,7 +26,7 @@ import static org.assertj.core.api.SoftAssertions.assertSoftly;
 class RoomRepositoryTest {
 
     @Autowired
-    RoomRepository roomRepository;
+    private RoomRepository roomRepository;
 
     @ParameterizedTest
     @CsvSource(value = {"ANDROID, 2", "FRONTEND, 1", "BACKEND, 1"})
