@@ -5,6 +5,8 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
+    "lint": "eslint 'src/**/*.{ts,tsx}'",
+    "format": "prettier --check .",
     "dev": "webpack-dev-server --mode=development --open --hot --progress",
     "build": "webpack --mode=production  --progress",
     "test": "jest",
@@ -30,7 +32,8 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.24.1",
-    "styled-components": "^6.1.11"
+    "styled-components": "^6.1.11",
+    "undici": "^6.19.2"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^1.6.1",
@@ -52,6 +55,7 @@
     "@types/react-icons": "^3.0.0",
     "@typescript-eslint/eslint-plugin": "^7.16.0",
     "@typescript-eslint/parser": "^7.16.0",
+    "chromatic": "^11.5.5",
     "clean-webpack-plugin": "^4.0.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
@@ -71,6 +75,7 @@
     "stylelint-order": "^6.0.4",
     "ts-jest": "^29.2.2",
     "ts-loader": "^9.5.1",
+    "tsconfig-paths-webpack-plugin": "^4.1.0",
     "typescript": "^5.5.3",
     "webpack": "^5.92.1",
     "webpack-cli": "^5.1.4",

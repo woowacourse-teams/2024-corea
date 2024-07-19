@@ -36,8 +36,8 @@ const RoomInfoCard = () => {
         <S.RoomContentBox>
           <S.RoomTagBox>
             {roomInfo.keywords.map((keyword, index) => (
-              <S.RoomKeyword>
-                <S.RoomContentSmall key={index}>#{keyword}</S.RoomContentSmall>
+              <S.RoomKeyword key={keyword}>
+                <S.RoomContentSmall>#{keyword}</S.RoomContentSmall>
               </S.RoomKeyword>
             ))}
           </S.RoomTagBox>

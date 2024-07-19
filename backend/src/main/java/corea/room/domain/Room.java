@@ -40,14 +40,29 @@ public class Room {
     private int limitedParticipantsSize;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "manager_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Member manager;
 
     private LocalDateTime recruitmentDeadline;
 
     private LocalDateTime reviewDeadline;
 
-    public Room(String title, String content, int matchingSize, String repositoryLink, String thumbnailLink, String keyword, int currentParticipantsSize, int limitedParticipantsSize, Member manager, LocalDateTime recruitmentDeadline, LocalDateTime reviewDeadline) {
-        this(null,title,content,matchingSize,repositoryLink,thumbnailLink,keyword,currentParticipantsSize,limitedParticipantsSize,manager,recruitmentDeadline,reviewDeadline);
+    @Enumerated(value = EnumType.STRING)
+    private Classification classification;
+
+    /**
+     * RoomStatus가 변경될 수 있는 경우 (OPENED -> CLOSED)
+     * 1. 방장이 모집 마감을 한 경우
+     * 2. 제한 인원이 다 찼을 경우 (방에 참여할 때 같이 검증)
+     * 3. 모집 기간이 끝난 경우
+     *
+     * 1, 2의 경우 때문에 방 상태를 가지는 필드를 가져야 될듯.
+     * **/
+    @Enumerated(value = EnumType.STRING)
+    private RoomStatus status;
+
+    public Room(String title, String content, int matchingSize, String repositoryLink, String thumbnailLink, String keyword, int currentParticipantsSize, int limitedParticipantsSize, Member manager, LocalDateTime recruitmentDeadline, LocalDateTime reviewDeadline, Classification classification, RoomStatus status) {
+        this(null, title, content, matchingSize, repositoryLink, thumbnailLink, keyword, currentParticipantsSize, limitedParticipantsSize, manager, recruitmentDeadline, reviewDeadline, classification, status);
     }
 }
 
