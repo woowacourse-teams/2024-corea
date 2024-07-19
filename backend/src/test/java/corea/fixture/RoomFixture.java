@@ -28,4 +28,5 @@ public class RoomFixture {
                 RoomStatus.OPENED
         );
     }
+
 }
