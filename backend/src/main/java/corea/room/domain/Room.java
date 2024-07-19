@@ -71,7 +71,8 @@ public class Room {
     public boolean isOpen() {
         return status.isOpen();
     }
-    public boolean isClosed(){
+
+    public boolean isClosed() {
         return status.isClosed();
     }
 }

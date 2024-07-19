@@ -54,7 +54,7 @@ public class DataInitializer implements ApplicationRunner {
 
         Room room1 = roomRepository.save(
                 new Room("방 제목 1", "방 설명 1", 3,
-                        null, null, List.of("TDD","클린코드"),
+                        null, null, List.of("TDD", "클린코드"),
                         1, 20, member1,
                         LocalDateTime.of(2024, 12, 25, 12, 0),
                         LocalDateTime.of(2024, 12, 30, 12, 0),

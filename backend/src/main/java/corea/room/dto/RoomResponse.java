@@ -40,12 +40,13 @@ public record RoomResponse(
         );
     }
 
-    public static RoomResponse from(Room room,boolean isParticipated) {
+    public static RoomResponse from(Room room, boolean isParticipated) {
         return new RoomResponse(
                 room.getId(),
                 room.getTitle(),
                 room.getContent(),
-                room.getManager().getName(),
+                room.getManager()
+                        .getName(),
                 room.getRepositoryLink(),
                 room.getThumbnailLink(),
                 room.getMatchingSize(),

@@ -40,8 +40,8 @@ public class RoomService {
 
     public RoomResponse findOne(long roomId, AuthInfo authInfo) {
         Room room = getRoom(roomId);
-        if(authInfo.isNotAnonymous() && participationRepository.existsByRoomIdAndMemberId(roomId,authInfo.getId())){
-            return RoomResponse.from(room,true);
+        if (authInfo.isNotAnonymous() && participationRepository.existsByRoomIdAndMemberId(roomId, authInfo.getId())) {
+            return RoomResponse.from(room, true);
         }
         return RoomResponse.from(room);
     }
