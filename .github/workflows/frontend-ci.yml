@@ -1,4 +1,5 @@
-name: frontend CI Workflow
+name: Frontend CI
+
 on:
   pull_request:
     branches:

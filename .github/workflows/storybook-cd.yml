@@ -1,4 +1,4 @@
-name: frontend storybook deploy Workflow
+name: Frontend Storybook Deploy
 on:
   pull_request:
     branches:
