@@ -27,7 +27,7 @@ import static java.util.stream.Collectors.toList;
 @Transactional(readOnly = true)
 public class RoomService {
 
-    private static final int PAGE_SIZE = 4;
+    private static final int PAGE_SIZE = 8;
 
     private final RoomRepository roomRepository;
     private final ParticipationRepository participationRepository;
