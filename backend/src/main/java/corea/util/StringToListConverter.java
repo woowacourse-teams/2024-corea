@@ -9,17 +9,16 @@ import java.util.List;
 @Converter
 public class StringToListConverter implements AttributeConverter<List<String>, String> {
 
+    private static final String DELIMITER = ", ";
+
     @Override
-    public String convertToDatabaseColumn(List<String> strings) {
-        StringBuilder sb = new StringBuilder();
-        strings.forEach(s -> sb.append(s).append(", "));
-        sb.delete(sb.length() - 2, sb.length());
-        return sb.toString();
+    public String convertToDatabaseColumn(List<String> source) {
+        return String.join(DELIMITER, source);
     }
 
     @Override
-    public List<String> convertToEntityAttribute(String s) {
-        return Arrays.stream(s.split(", "))
+    public List<String> convertToEntityAttribute(String source) {
+        return Arrays.stream(source.split(DELIMITER))
                 .toList();
     }
 }
