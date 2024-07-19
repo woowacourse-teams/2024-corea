@@ -2,6 +2,7 @@ package corea.auth.resolver;
 
 import corea.auth.RequestHandler;
 import corea.auth.annotation.AccessedMember;
+import corea.auth.domain.AuthInfo;
 import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,11 +27,11 @@ public class AccessedMemberArgumentResolver implements HandlerMethodArgumentReso
     }
 
     @Override
-    public Member resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
-                                  NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
+    public AuthInfo resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
+                                    NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
-
-        return memberRepository.findByEmail(requestHandler.extract(request))
+        Member member = memberRepository.findByEmail(requestHandler.extract(request))
                 .orElse(null);
+        return member == null ? AuthInfo.getAnonymous() : AuthInfo.from(member);
     }
 }
