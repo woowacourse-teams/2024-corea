@@ -1,7 +1,9 @@
 package corea.fixture;
 
 import corea.member.domain.Member;
+import corea.room.domain.Classification;
 import corea.room.domain.Room;
+import corea.room.domain.RoomStatus;
 
 import java.time.LocalDateTime;
 
@@ -20,7 +22,9 @@ public class RoomFixture {
                 member,
                 LocalDateTime.now(),
                 LocalDateTime.now()
-                        .plusDays(14)
+                        .plusDays(14),
+                Classification.BACKEND,
+                RoomStatus.OPENED
         );
     }
 }
