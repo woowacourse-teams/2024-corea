@@ -18,7 +18,7 @@ public class RoomController {
     private final RoomService roomService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<RoomResponse> room(@AccessedMember AuthInfo authInfo, @PathVariable long id) {
+    public ResponseEntity<RoomResponse> room(@PathVariable long id, @AccessedMember AuthInfo authInfo) {
         RoomResponse response = roomService.findOne(id, authInfo);
         return ResponseEntity.ok(response);
     }
