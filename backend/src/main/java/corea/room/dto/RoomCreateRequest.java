@@ -6,6 +6,7 @@ import corea.room.domain.Room;
 import corea.room.domain.RoomStatus;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public record RoomCreateRequest(
         String title,
@@ -14,7 +15,7 @@ public record RoomCreateRequest(
         String repositoryLink,
         String thumbnailLink,
         int matchingSize,
-        String keyword,
+        List<String> keyword,
         int currentParticipantsSize,
         int limitedParticipantsSize,
         LocalDateTime recruitmentDeadline,
