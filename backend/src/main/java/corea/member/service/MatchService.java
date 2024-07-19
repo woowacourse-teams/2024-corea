@@ -1,12 +1,13 @@
 package corea.member.service;
 
-import corea.member.domain.Member;
 import corea.matching.domain.Participation;
 import corea.matching.dto.MatchedGroupResponse;
-import corea.member.entity.MatchedGroup;
 import corea.matching.repository.MatchedGroupRepository;
-import corea.member.repository.MemberRepository;
 import corea.matching.repository.ParticipationRepository;
+import corea.matching.service.MatchingService;
+import corea.member.domain.Member;
+import corea.member.entity.MatchedGroup;
+import corea.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +39,6 @@ public class MatchService {
                 .filter(matching -> !matching.isEqualMember(member.getId()))
                 .map(MatchedGroup::getMemberId)
                 .toList();
-
 
 
         final List<String> memberEmails =
