@@ -32,6 +32,6 @@ public class AccessedMemberArgumentResolver implements HandlerMethodArgumentReso
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
         Member member = memberRepository.findByEmail(requestHandler.extract(request))
                 .orElse(null);
-        return member == null ? AuthInfo.getAnonymous() : AuthInfo.from(member);
+        return member == null ? AuthInfo.ANONYMOUS : AuthInfo.from(member);
     }
 }
