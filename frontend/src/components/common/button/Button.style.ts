@@ -8,15 +8,8 @@ export const Button = styled.button<{
   align-items: center;
   justify-content: center;
 
-  width: 60px;
-  height: 20px;
-  padding: 0.2rem;
-
-  font: ${({ theme }) => theme.TEXT.semiSmall};
   color: ${({ theme }) => theme.COLOR.white};
   text-align: center;
-
-  border-radius: 5px;
 
   &:hover {
     opacity: 0.6;
