@@ -1,22 +1,60 @@
-import styled from "styled-components";
+import { css, styled } from "styled-components";
 
-export const Button = styled.button<{ color: "primary2" | "secondary" | "grey4" }>`
+export const Button = styled.button<{
+  $variant: "primary" | "secondary" | "disable";
+  $size: "small" | "medium" | "large";
+}>`
   display: flex;
   align-items: center;
   justify-content: center;
 
-  width: 6rem;
-  height: 2rem;
+  width: 60px;
+  height: 20px;
   padding: 0.2rem;
 
   font: ${({ theme }) => theme.TEXT.semiSmall};
-  color: white;
+  color: ${({ theme }) => theme.COLOR.white};
   text-align: center;
 
-  background: ${({ color, theme }) => theme.COLOR[color]};
-  border-radius: 0.5rem;
+  border-radius: 5px;
 
   &:hover {
     opacity: 0.6;
   }
+
+  ${(props) => variantStyles[props.$variant]}
+  ${(props) => sizeStyles[props.$size]}
 `;
+
+const variantStyles = {
+  primary: css`
+    background-color: ${({ theme }) => theme.COLOR.primary2};
+  `,
+  secondary: css`
+    background-color: ${({ theme }) => theme.COLOR.secondary};
+  `,
+  disable: css`
+    background-color: ${({ theme }) => theme.COLOR.grey1};
+  `,
+};
+
+const sizeStyles = {
+  small: css`
+    width: 120px;
+    padding: 1rem 0;
+    font: ${({ theme }) => theme.TEXT.small};
+    border-radius: 5px;
+  `,
+  medium: css`
+    width: 200px;
+    height: 40px;
+    font: ${({ theme }) => theme.TEXT.medium};
+    border-radius: 5px;
+  `,
+  large: css`
+    width: 100%;
+    height: 40px;
+    font: ${({ theme }) => theme.TEXT.medium};
+    border-radius: 5px;
+  `,
+};
