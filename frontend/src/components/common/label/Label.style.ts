@@ -10,9 +10,10 @@ export const LabelWrapper = styled.div<LabelWrapperProps>`
   align-items: center;
   justify-content: center;
 
-  padding: 0.2rem 0.6rem;
+  width: fit-content;
+  padding: 0 0.4rem;
 
-  font: ${({ theme }) => theme.TEXT.semiSmall};
+  font: ${({ theme }) => theme.TEXT.xSmall};
   color: ${({ theme }) => theme.COLOR.black};
 
   border-radius: 15px;
@@ -28,11 +29,13 @@ export const LabelWrapper = styled.div<LabelWrapperProps>`
         return css`
           color: ${theme.COLOR.black};
           background-color: ${theme.COLOR.primary1};
+          border: 2px solid ${theme.COLOR.primary1};
         `;
       case "close":
         return css`
           color: ${theme.COLOR.white};
           background-color: ${theme.COLOR.primary2};
+          border: 2px solid ${theme.COLOR.primary2};
         `;
     }
   }}
