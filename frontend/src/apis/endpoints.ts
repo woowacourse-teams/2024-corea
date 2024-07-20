@@ -11,4 +11,7 @@ export const API_ENDPOINTS = {
   REVIEWEES(roomId: number) {
     return `/rooms/${roomId}/reviewees`;
   },
+  PARTICIPATE_IN(roomId: number) {
+    return `/participate/${roomId}`;
+  },
 };

@@ -17,7 +17,7 @@ const roomHandler = [
   http.get(API_ENDPOINTS.ROOMS + "/:id", () => {
     return HttpResponse.json(roomInfo, { status: 200 });
   }),
-  http.post(API_ENDPOINTS.ROOMS + "/:id", () => {
+  http.post(API_ENDPOINTS.PARTICIPATE_IN(1), () => {
     return HttpResponse.json(null, { status: 200 });
   }),
   http.get(API_ENDPOINTS.REVIEWERS(1), () => {
