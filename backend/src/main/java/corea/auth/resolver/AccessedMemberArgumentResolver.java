@@ -1,10 +1,8 @@
 package corea.auth.resolver;
 
 import corea.auth.RequestHandler;
-import corea.auth.annotation.LoginMember;
+import corea.auth.annotation.AccessedMember;
 import corea.auth.domain.AuthInfo;
-import corea.exception.CoreaException;
-import corea.exception.ExceptionType;
 import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,14 +16,14 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 @Component
 @RequiredArgsConstructor
-public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolver {
+public class AccessedMemberArgumentResolver implements HandlerMethodArgumentResolver {
 
     private final RequestHandler requestHandler;
     private final MemberRepository memberRepository;
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.hasParameterAnnotation(LoginMember.class);
+        return parameter.hasParameterAnnotation(AccessedMember.class);
     }
 
     @Override
@@ -33,8 +31,7 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
                                     NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
         Member member = memberRepository.findByEmail(requestHandler.extract(request))
-                .orElseThrow(()-> new CoreaException(ExceptionType.AUTHORIZATION_ERROR));
-
-        return AuthInfo.from(member);
+                .orElse(null);
+        return member == null ? AuthInfo.ANONYMOUS : AuthInfo.from(member);
     }
 }
