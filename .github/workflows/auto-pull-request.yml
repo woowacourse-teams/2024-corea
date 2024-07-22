@@ -33,12 +33,14 @@ jobs:
       - name: Check for Already Exist
         id: check_pr
         run: |
-          existing_pr=$(gh pr list --state "open" --search "${{ env.BRANCH_NAME }}" --json number -q '.[] | .number')
+          branch_name = ${{ env.BRANCH_NAME }}
+          response = gh pr list --state "open" --search "$branch_name"
+          echo "RESPONSE = $response"
+          existing_pr=$(gh pr list --state "open" --search "$branch_name" --json number -q '.[] | .number')
           echo "EXISTED=$existing_pr"
           if [ -n "$existing_pr" ]; then
             exit 0
           fi
-
         env:
           GH_TOKEN: ${{ github.token }}
 
@@ -92,7 +94,7 @@ jobs:
             fi
           done
           
-          pr_number=$(gh pr create --reviewer "$reviewers" --title "${{ env.PR_TITLE }}" --body "${{ env.PR_BODY }}" --base "develop" --label "${{ env.LABELS }}" | xargs gh pr view --json number -q .number)
-          echo "PR_NUMBER=$pr_number" >> $GITHUB_ENV
+          echo "REVIEWR=$reviewers"
+          gh pr create --reviewer "$reviewers" --title "${{ env.PR_TITLE }}" --body "${{ env.PR_BODY }}" --base "develop" --label "${{ env.LABELS }}"
         env:
           GH_TOKEN: ${{ github.token }}
