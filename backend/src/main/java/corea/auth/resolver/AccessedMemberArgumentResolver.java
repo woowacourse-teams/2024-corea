@@ -14,6 +14,8 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
+import java.util.Optional;
+
 @Component
 @RequiredArgsConstructor
 public class AccessedMemberArgumentResolver implements HandlerMethodArgumentResolver {
@@ -30,8 +32,9 @@ public class AccessedMemberArgumentResolver implements HandlerMethodArgumentReso
     public AuthInfo resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
                                     NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
-        Member member = memberRepository.findByEmail(requestHandler.extract(request))
-                .orElse(null);
-        return member == null ? AuthInfo.ANONYMOUS : AuthInfo.from(member);
+        Optional<Member> memberOpt = memberRepository.findByEmail(requestHandler.extract(request));
+
+        return memberOpt.map(AuthInfo::from)
+                .orElse(AuthInfo.getAnonymous());
     }
 }
