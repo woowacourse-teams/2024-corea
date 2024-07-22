@@ -15,7 +15,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Extract Issue Number
+      - name: Extract Branch Prefix, Issue Number
         id: extract
         run: |
           branch_name="${GITHUB_REF#refs/heads/}"
@@ -33,48 +33,57 @@ jobs:
       - name: Check for Already Exist
         id: check_pr
         run: |
-          branch_name = ${{ env.BRANCH_NAME }}
-          response = gh pr list --state "open" --search "$branch_name"
-          echo "RESPONSE = $response"
-          existing_pr=$(gh pr list --state "open" --search "$branch_name" --json number -q '.[] | .number')
-          echo "EXISTED=$existing_pr"
+          branch_name=${{ env.BRANCH_NAME }}
+          existing_pr=$(gh pr list --state open -H "$branch_name" -B develop --json number -q '.[] | .number')
+          
           if [ -n "$existing_pr" ]; then
+            echo "EXISTED=TRUE" >> $GITHUB_ENV
+            echo "Alreadt Exist in https://github.com/${{ github.repository }}/pull/$existing_pr"
             exit 0
           fi
         env:
           GH_TOKEN: ${{ github.token }}
 
       - name: Fetch Issue Details
+        if: ${{ !env.EXISTED }}
         run: |
           issue_number="${{ env.ISSUE_NUMBER }}"
-          branch_prefix="${{ env.BRANCH_PREFIX }}"
           
           response=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
                             -H "Accept: application/vnd.github.v3+json" \
                             "https://api.github.com/repos/${{ github.repository }}/issues/$issue_number")
           
           assignees=$(echo "$response" | jq -r '.assignees[].login' | tr '\n' ', ' | sed 's/, $//')
+          assignees=$(echo "$assignees" | rev | cut -c 2- | rev)
+          
           title=$(echo "$response" | jq -r '.title')
+          
           labels=$(echo "$response" | jq -r '.labels[].name' | tr '\n' ', ' | sed 's/, $//')
+          labels=$(echo "$labels" | rev | cut -c 2- | rev)
+          
           pr_title="${title}(#${issue_number})"
+          
+          echo "$response" | jq -r '.body' > issue_body.txt
           
           echo "ASSIGNEES=$assignees" >> $GITHUB_ENV
           echo "LABELS=$labels" >> $GITHUB_ENV
           echo "TITLE=$title" >> $GITHUB_ENV
           echo "PR_TITLE=$pr_title" >> $GITHUB_ENV
+          echo "ISSUE_BODY_FILE=issue_body.txt" >> $GITHUB_ENV
 
       - name: Generate PR Body
+        if: ${{ !env.EXISTED }}
         id: generate-body
         run: |
           issue_number="${{ env.ISSUE_NUMBER }}"
           
-          pr_body=""
           echo "## 📌 관련 이슈" >> body.md
           echo "" >> body.md
           echo "- closed : #${issue_number} " >> body.md
           echo "" >> body.md
           echo "## ✨ PR 세부 내용" >> body.md
           echo "" >> body.md
+#          cat "${{ env.ISSUE_BODY_FILE }}" >> body.md
           echo "<!-- 수정/추가한 내용을 적어주세요. -->" >> body.md
           
           summary=$(cat body.md)
@@ -82,7 +91,9 @@ jobs:
           echo "$summary" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
-      - name: Create Pull Request
+      - name: Setup Reviewers
+        if: ${{ !env.EXISTED }}
+        id: setup-reviewer
         run: |
           IFS=',' read -r -a LABEL_ARRAY <<< "${{ env.LABELS }}"
           reviewers=""
@@ -93,8 +104,11 @@ jobs:
               reviewers="00kang,pp449,chlwlstlf"
             fi
           done
-          
-          echo "REVIEWR=$reviewers"
-          gh pr create --reviewer "$reviewers" --title "${{ env.PR_TITLE }}" --body "${{ env.PR_BODY }}" --base "develop" --label "${{ env.LABELS }}"
+          echo "REVIEWERS=${reviewers}" >> $GITHUB_ENV
+
+      - name: Create Pull Request
+        if: ${{ !env.EXISTED }}
+        run: |
+          gh pr create --assignee "${{ env.ASSIGNEES }}" --reviewer "${{ env.REVIEWERS }}" --title "${{ env.PR_TITLE }}" --body "${{ env.PR_BODY }}" --base "develop" --label "${{ env.LABELS }}"
         env:
           GH_TOKEN: ${{ github.token }}
