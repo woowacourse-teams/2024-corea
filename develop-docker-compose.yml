@@ -1,0 +1,16 @@
+version: '3'
+services:
+   backend:
+     build:
+       context: ./backend
+     container_name: corea-refactor-backend
+     ports:
+       - "8080:8080"
+   frontend:
+     build:
+       context: ./frontend
+     container_name: corea-frontend
+     volumes:
+       - ./frontend/node_modules:/app/frontend/node_modules
+     ports:
+       - "3000:3000"
