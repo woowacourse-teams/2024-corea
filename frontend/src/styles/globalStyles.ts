@@ -149,6 +149,7 @@ const globalStyles = createGlobalStyle`
   }
 
   button {
+    cursor: pointer;
     border: none;
   }
 

@@ -1,16 +1,16 @@
+import React from "react";
+import { ButtonHTMLAttributes } from "react";
 import * as S from "@/components/common/button/Button.style";
 
-interface ButtonProps
-  extends React.PropsWithChildren<React.ButtonHTMLAttributes<HTMLButtonElement>> {
-  onClick: React.MouseEventHandler<HTMLButtonElement>;
-  text: string;
-  color?: "primary2" | "secondary" | "grey4";
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: "primary" | "secondary" | "disable";
+  size?: "small" | "medium" | "large";
 }
 
-const Button = ({ text, onClick, color = "primary2", ...props }: ButtonProps) => {
+const Button = ({ children, variant = "primary", size = "medium", ...rest }: ButtonProps) => {
   return (
-    <S.Button onClick={onClick} color={color} {...props}>
-      {text}
+    <S.Button $variant={variant} $size={size} {...rest}>
+      {children}
     </S.Button>
   );
 };
