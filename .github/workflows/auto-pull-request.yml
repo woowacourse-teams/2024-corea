@@ -90,11 +90,11 @@ jobs:
           IFS=',' read -r -a LABEL_ARRAY <<< "${{ env.LABELS }}"
           for LABEL in "${LABEL_ARRAY[@]}"; do
             if [[ "$LABEL" == "BE" ]]; then
-               gh pr edit "${{ env.PR_NUMBER }}" --add-reviewer "ashsty,jcoding-play,hjk0761,youngsu5582"
+               gh pr edit "${{ env.PR_NUMBER }}" --repo woowacourse-teams/2024-corea --add-reviewer "ashsty,jcoding-play,hjk0761,youngsu5582"
             elif [[ "$LABEL" == "FE" ]]; then
-               gh pr edit "${{ env.PR_NUMBER }}" --add-reviewer "00kang,pp449,chlwlstlf"
+               gh pr edit "${{ env.PR_NUMBER }}" --repo woowacourse-teams/2024-corea --add-reviewer "00kang,pp449,chlwlstlf"
             fi
-            gh pr edit "${{ env.PR_NUMBER }}" --add-label "$LABEL" --remove-reviewer "${{ env.ASSIGNEES }}"
+            gh pr edit "${{ env.PR_NUMBER }}" --repo woowacourse-teams/2024-corea --add-label "$LABEL" --remove-reviewer "${{ env.ASSIGNEES }}"
           done
         env:
           GH_TOKEN: ${{ github.token }}
