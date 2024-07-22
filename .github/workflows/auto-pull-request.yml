@@ -44,7 +44,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
 
-      - name: Fetch Issue Details
+      - name: Fetch Issue Detail
         if: ${{ !env.EXISTED }}
         run: |
           issue_number="${{ env.ISSUE_NUMBER }}"
