@@ -34,9 +34,11 @@ jobs:
         id: check_pr
         run: |
           existing_pr=$(gh pr list --search "${{ env.BRANCH_NAME }}" --json number -q '.[] | .number')
+          echo "EXISTED =$existing_pr"
           if [ -n "$existing_pr" ]; then
             exit 0
           fi
+
         env:
           GH_TOKEN: ${{ github.token }}
 
@@ -52,7 +54,7 @@ jobs:
           assignees=$(echo "$response" | jq -r '.assignees[].login' | tr '\n' ', ' | sed 's/, $//')
           title=$(echo "$response" | jq -r '.title')
           labels=$(echo "$response" | jq -r '.labels[].name' | tr '\n' ', ' | sed 's/, $//')
-          pr_title="${branch_prefix}: ${title}(#${issue_number})"
+          pr_title="${title}(#${issue_number})"
           
           echo "ASSIGNEES=$assignees" >> $GITHUB_ENV
           echo "LABELS=$labels" >> $GITHUB_ENV
@@ -80,21 +82,17 @@ jobs:
 
       - name: Create Pull Request
         run: |
-          pr_number=$(gh pr create --title "${{ env.PR_TITLE }}" --body "${{ env.PR_BODY }}" --base "develop" --label "${{ env.LABELS }}" | xargs gh pr view --json number -q .number)
-          echo "PR_NUMBER=$pr_number" >> $GITHUB_ENV
-        env:
-          GH_TOKEN: ${{ github.token }}
-
-      - name: Add Labels & Reviewers to Pull Request
-        run: |
           IFS=',' read -r -a LABEL_ARRAY <<< "${{ env.LABELS }}"
+          reviewers=""
           for LABEL in "${LABEL_ARRAY[@]}"; do
             if [[ "$LABEL" == "BE" ]]; then
-               gh pr edit "${{ env.PR_NUMBER }}" --repo woowacourse-teams/2024-corea --add-reviewer "ashsty,jcoding-play,hjk0761,youngsu5582"
+              reviewers="ashsty,jcoding-play,hjk0761,youngsu5582"
             elif [[ "$LABEL" == "FE" ]]; then
-               gh pr edit "${{ env.PR_NUMBER }}" --repo woowacourse-teams/2024-corea --add-reviewer "00kang,pp449,chlwlstlf"
+              reviewers="00kang,pp449,chlwlstlf"
             fi
-            gh pr edit "${{ env.PR_NUMBER }}" --repo woowacourse-teams/2024-corea --add-label "$LABEL" --remove-reviewer "${{ env.ASSIGNEES }}"
           done
+          
+          pr_number=$(gh pr create --reviewer ${reviewers} --title "${{ env.PR_TITLE }}" --body "${{ env.PR_BODY }}" --base "develop" --label "${{ env.LABELS }}" | xargs gh pr view --json number -q .number)
+          echo "PR_NUMBER=$pr_number" >> $GITHUB_ENV
         env:
           GH_TOKEN: ${{ github.token }}
