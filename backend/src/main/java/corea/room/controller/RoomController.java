@@ -3,7 +3,7 @@ package corea.room.controller;
 import corea.auth.annotation.AccessedMember;
 import corea.auth.annotation.LoginMember;
 import corea.auth.domain.AuthInfo;
-import corea.matching.dto.ReviewInfo;
+import corea.matching.dto.ReviewInfos;
 import corea.matching.service.MatchResultService;
 import corea.room.dto.RoomResponse;
 import corea.room.dto.RoomResponses;
@@ -11,8 +11,6 @@ import corea.room.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/rooms")
@@ -29,14 +27,14 @@ public class RoomController implements RoomControllerSpecification {
     }
 
     @GetMapping("/{id}/reviewers")
-    public ResponseEntity<List<ReviewInfo>> reviewers(@PathVariable long id, @LoginMember AuthInfo authInfo) {
-        List<ReviewInfo> response = matchResultService.findReviewers(authInfo.getId(), id);
+    public ResponseEntity<ReviewInfos> reviewers(@PathVariable long id, @LoginMember AuthInfo authInfo) {
+        ReviewInfos response = matchResultService.findReviewers(authInfo.getId(), id);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}/reviewees")
-    public ResponseEntity<List<ReviewInfo>> reviewees(@PathVariable long id, @LoginMember AuthInfo authInfo) {
-        List<ReviewInfo> response = matchResultService.findReviewees(authInfo.getId(), id);
+    public ResponseEntity<ReviewInfos> reviewees(@PathVariable long id, @LoginMember AuthInfo authInfo) {
+        ReviewInfos response = matchResultService.findReviewees(authInfo.getId(), id);
         return ResponseEntity.ok(response);
     }
 

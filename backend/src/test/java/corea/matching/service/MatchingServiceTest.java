@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.List;
 
+import static corea.exception.ExceptionType.PARTICIPANT_SIZE_LACK;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -48,6 +49,6 @@ class MatchingServiceTest {
 
         assertThatThrownBy(() -> matchingService.matchMaking(participations, matchingSize))
                 .isInstanceOf(CoreaException.class)
-                .hasMessage("참여 인원 수가 부족합니다.");
+                .hasFieldOrPropertyWithValue("exceptionType", PARTICIPANT_SIZE_LACK);
     }
 }

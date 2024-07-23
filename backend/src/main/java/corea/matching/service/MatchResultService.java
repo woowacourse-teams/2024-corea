@@ -4,6 +4,7 @@ import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
 import corea.matching.domain.MatchResult;
 import corea.matching.dto.ReviewInfo;
+import corea.matching.dto.ReviewInfos;
 import corea.matching.repository.MatchResultRepository;
 import corea.member.repository.MemberRepository;
 import corea.room.repository.RoomRepository;
@@ -22,25 +23,25 @@ public class MatchResultService {
     private final RoomRepository roomRepository;
     private final MatchResultRepository matchResultRepository;
 
-    public List<ReviewInfo> findReviewers(long memberId, long roomId) {
-        validateValidIds(memberId, roomId);
+    public ReviewInfos findReviewers(long memberId, long roomId) {
+        validateExistence(memberId, roomId);
         List<MatchResult> results = matchResultRepository.findAllByToMemberIdAndRoomId(memberId, roomId);
 
-        return results.stream()
-                .map(result -> ReviewInfo.from(result, result.getFromMember()))
-                .toList();
+        return new ReviewInfos(results.stream()
+                .map(result -> ReviewInfo.of(result, result.getFromMember()))
+                .toList());
     }
 
-    public List<ReviewInfo> findReviewees(long memberId, long roomId) {
-        validateValidIds(memberId, roomId);
+    public ReviewInfos findReviewees(long memberId, long roomId) {
+        validateExistence(memberId, roomId);
         List<MatchResult> results = matchResultRepository.findAllByFromMemberIdAndRoomId(memberId, roomId);
 
-        return results.stream()
-                .map(result -> ReviewInfo.from(result, result.getToMember()))
-                .toList();
+        return new ReviewInfos(results.stream()
+                .map(result -> ReviewInfo.of(result, result.getToMember()))
+                .toList());
     }
 
-    private void validateValidIds(long memberId, long roomId) {
+    private void validateExistence(long memberId, long roomId) {
         if (!memberRepository.existsById(memberId)) {
             throw new CoreaException(ExceptionType.MEMBER_NOT_FOUND, String.format("%d에 해당하는 멤버가 없습니다.", memberId));
         }
