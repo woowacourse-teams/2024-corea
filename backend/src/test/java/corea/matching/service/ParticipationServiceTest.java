@@ -30,7 +30,7 @@ class ParticipationServiceTest {
     @Test
     @DisplayName("멤버가 방에 참여한다.")
     void participate() {
-        Member member = memberRepository.save(MemberFixture.MEMBER_DOMAIN());
+        Member member = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(member));
 
         assertThatCode(() -> sut.participate(new ParticipationRequest(room.getId(), member.getId())))
@@ -40,7 +40,7 @@ class ParticipationServiceTest {
     @Test
     @DisplayName("ID에 해당하는 방이 없으면 예외를 발생한다.")
     void participate_throw_exception_when_roomId_not_exist() {
-        Member member = memberRepository.save(MemberFixture.MEMBER_DOMAIN());
+        Member member = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
 
         assertThatCode(() -> sut.participate(new ParticipationRequest(-1, member.getId())))
                 .isInstanceOf(CoreaException.class);
@@ -58,7 +58,7 @@ class ParticipationServiceTest {
     @Test
     @DisplayName("이미 참여중인 방이면 예외를 발생한다.")
     void participate_throw_exception_when_already_participate() {
-        Member member = memberRepository.save(MemberFixture.MEMBER_DOMAIN());
+        Member member = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(member));
 
         sut.participate(new ParticipationRequest(room.getId(), member.getId()));

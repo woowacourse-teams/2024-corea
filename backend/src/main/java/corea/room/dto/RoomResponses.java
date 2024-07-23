@@ -10,13 +10,13 @@ import static java.util.stream.Collectors.toList;
 
 public record RoomResponses(List<RoomResponse> rooms) {
 
-    public static RoomResponses from(List<Room> rooms) {
+    public static RoomResponses of(List<Room> rooms, boolean isParticipated) {
         return rooms.stream()
-                .map(RoomResponse::from)
+                .map(room -> RoomResponse.of(room, isParticipated))
                 .collect(collectingAndThen(toList(), RoomResponses::new));
     }
 
     public static RoomResponses from(Page<Room> roomsWithPage) {
-        return from(roomsWithPage.getContent());
+        return of(roomsWithPage.getContent(), false);
     }
 }

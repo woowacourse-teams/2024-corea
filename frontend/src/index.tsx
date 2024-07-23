@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
@@ -11,16 +12,20 @@ const enableMocking = async () => {
     return;
   }
   const { worker } = await import("./mocks/browser");
-  // return worker.start();
+  return worker.start();
 };
+
+const queryClient = new QueryClient();
 
 enableMocking().then(() => {
   ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <React.StrictMode>
-      <ThemeProvider theme={theme}>
-        <GlobalStyles />
-        <RouterProvider router={router} />
-      </ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider theme={theme}>
+          <GlobalStyles />
+          <RouterProvider router={router} />
+        </ThemeProvider>
+      </QueryClientProvider>
     </React.StrictMode>,
   );
 });

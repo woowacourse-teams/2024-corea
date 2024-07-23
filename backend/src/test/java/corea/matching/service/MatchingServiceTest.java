@@ -13,8 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static corea.exception.ExceptionType.PARTICIPANT_SIZE_LACK;
+import static org.assertj.core.api.Assertions.*;
 
 @ServiceTest
 class MatchingServiceTest {
@@ -32,8 +32,8 @@ class MatchingServiceTest {
         int matchingSize = 3;
 
         for (int i = 0; i < 4; i++) {
-            participations.add(new Participation(1L, memberRepository.save(MemberFixture.MEMBER_DOMAIN()).getId()));
-            participations.add(new Participation(1L, memberRepository.save(MemberFixture.MEMBER_MANAGER()).getId()));
+            participations.add(new Participation(1L, memberRepository.save(MemberFixture.MEMBER_YOUNGSU()).getId()));
+            participations.add(new Participation(1L, memberRepository.save(MemberFixture.MEMBER_JOYSON()).getId()));
         }
 
         assertThatCode(() -> matchingService.matchMaking(participations, matchingSize))
@@ -48,6 +48,9 @@ class MatchingServiceTest {
 
         assertThatThrownBy(() -> matchingService.matchMaking(participations, matchingSize))
                 .isInstanceOf(CoreaException.class)
-                .hasMessage("참여 인원 수가 부족합니다.");
+                .satisfies(exception -> {
+                    CoreaException coreaException = (CoreaException) exception;
+                    assertThat(coreaException.getExceptionType()).isEqualTo(PARTICIPANT_SIZE_LACK);
+                });
     }
 }
