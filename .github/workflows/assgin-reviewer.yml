@@ -10,18 +10,13 @@ jobs:
   assign-reviewer:
     runs-on: ubuntu-latest
     steps:
-      - name: Logging Response
-        run: |
-          echo "PULL_REQUEST = $(jq .pull_request <<< "${{ toJson(github.event.pull_request) }}")"
-          echo "SENDER = $(jq .sender <<< "${{ toJson(github.event.sender) }}")"
-          
 
       - name: All Label
         uses: wow-actions/auto-assign@v3
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           reviewers: ashsty, jcoding-play, hjk0761, youngsu5582, 00kang, pp449, chlwlstlf
-          assignees: ${{ github.event.pull_request.sender.login }}
+          assignees: ${{ github.event.sender.login }}
           includeLabels: ALL
 
       - name: Backend Label
@@ -29,7 +24,7 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           reviewers: ashsty, jcoding-play, hjk0761, youngsu5582
-          assignees: ${{ github.event.pull_request.sender.login }}
+          assignees: ${{ github.event.sender.login }}
           includeLabels: BE
 
       - name: Frontend Label
@@ -37,5 +32,5 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           reviewers: 00kang, pp449, chlwlstlf
-          assignees: ${{ github.event.pull_request.sender.login }}
+          assignees: ${{ github.event.sender.login }}
           includeLabels: FE
