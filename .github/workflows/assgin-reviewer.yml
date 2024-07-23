@@ -10,6 +10,13 @@ jobs:
   assign-reviewer:
     runs-on: ubuntu-latest
     steps:
+      - name: Logging Response
+        run: |
+          echo "RESPONSE = ${{ github.event }}"
+          echo "PULL_REQUEST = ${{ github.event.pull_request }} 
+          echo "SENDER = ${{ github.event.pull_request.sender }} 
+          
+
       - name: All Label
         uses: wow-actions/auto-assign@v3
         with:
