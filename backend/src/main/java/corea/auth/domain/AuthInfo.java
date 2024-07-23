@@ -17,7 +17,7 @@ public class AuthInfo {
     private final String email;
 
     public static AuthInfo from(Member member) {
-        return new AuthInfo(member.getId(), member.getUserName(), member.getEmail());
+        return new AuthInfo(member.getId(), member.getUsername(), member.getEmail());
     }
 
     public static AuthInfo getAnonymous() {
