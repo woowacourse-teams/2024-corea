@@ -28,12 +28,10 @@ const MyReviewer = ({ roomId }: { roomId: number }) => {
         <S.MyReviewerWrapper key={reviewer.userId}>
           <S.MyReviewerContent>{reviewer.username}</S.MyReviewerContent>
           <S.MyReviewerContent>
-            <Link to={reviewer.link}>
-              <S.PRLink>
-                <Icon kind="link" />
-                바로가기
-              </S.PRLink>
-            </Link>
+            <S.PRLink href={reviewer.link}>
+              <Icon kind="link" />
+              바로가기
+            </S.PRLink>
           </S.MyReviewerContent>
           <S.MyReviewerContent>
             <Button size="small" onClick={() => alert("버튼 클릭 완료!")} variant="primary">
