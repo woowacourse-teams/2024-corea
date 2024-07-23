@@ -15,7 +15,7 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           reviewers: ashsty, jcoding-play, hjk0761, youngsu5582, 00kang, pp449, chlwlstlf
-          assignees: ${{ github.event.pull_request.user.login }}
+          assignees: ${{ github.event.pull_request.sender.login }}
           includeLabels: ALL
 
       - name: Backend Label
@@ -23,7 +23,7 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           reviewers: ashsty, jcoding-play, hjk0761, youngsu5582
-          assignees: ${{ github.event.pull_request.user.login }}
+          assignees: ${{ github.event.pull_request.sender.login }}
           includeLabels: BE
 
       - name: Frontend Label
@@ -31,5 +31,5 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           reviewers: 00kang, pp449, chlwlstlf
-          assignees: ${{ github.event.pull_request.user.login }}
+          assignees: ${{ github.event.pull_request.sender.login }}
           includeLabels: FE
