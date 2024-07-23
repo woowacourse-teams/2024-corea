@@ -3,6 +3,8 @@
 # Move to the backend directory and run the Gradle build
 cd .. & cd backend
 
+chmod +x ./gradlew
+
 ./gradlew build
 
 # Check if the build was successful
