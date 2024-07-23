@@ -8,7 +8,7 @@ import { getParticipatedRoomList } from "@/apis/rooms.api";
 
 const MainPage = () => {
   const { data: participatedRoomList } = useQuery({
-    queryKey: [QUERY_KEYS.GET_ROOM_DETAIL_INFO],
+    queryKey: [QUERY_KEYS.ROOM_DETAIL_INFO],
     queryFn: getParticipatedRoomList,
   });
 

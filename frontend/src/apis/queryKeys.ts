@@ -1,8 +1,8 @@
 const QUERY_KEYS = {
-  GET_ROOM_DETAIL_INFO: "getRoomDetailInfo",
-  GET_PARTICIPATED_ROOM_LIST: "getParticipatedRoomList",
-  GET_REVIEWERS: "getReviewers",
-  GET_REVIEWEES: "getReviewees",
+  ROOM_DETAIL_INFO: "roomDetailInfo",
+  PARTICIPATED_ROOM_LIST: "participatedRoomList",
+  REVIEWERS: "reviewers",
+  REVIEWEES: "reviewees",
 };
 
 export default QUERY_KEYS;

@@ -8,7 +8,7 @@ import QUERY_KEYS from "@/apis/queryKeys";
 
 const MyReviewee = ({ roomId }: { roomId: number }) => {
   const { data: revieweeData } = useQuery({
-    queryKey: [QUERY_KEYS.GET_REVIEWEES],
+    queryKey: [QUERY_KEYS.REVIEWEES],
     queryFn: () => getMyReviewees(roomId),
   });
 

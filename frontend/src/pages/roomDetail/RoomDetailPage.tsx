@@ -13,7 +13,7 @@ const RoomDetailPage = () => {
   const missionId = params.id ? Number(params.id) : 0;
 
   const { data: roomInfo } = useQuery({
-    queryKey: [QUERY_KEYS.GET_ROOM_DETAIL_INFO],
+    queryKey: [QUERY_KEYS.ROOM_DETAIL_INFO],
     queryFn: () => getRoomDetailInfo(missionId),
   });
 
