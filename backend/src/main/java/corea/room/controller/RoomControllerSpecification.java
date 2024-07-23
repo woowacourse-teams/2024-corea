@@ -1,7 +1,7 @@
 package corea.room.controller;
 
 import corea.auth.domain.AuthInfo;
-import corea.matching.dto.ReviewInfos;
+import corea.matching.dto.MatchResultResponses;
 import corea.room.dto.RoomResponse;
 import corea.room.dto.RoomResponses;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -29,7 +29,7 @@ public interface RoomControllerSpecification {
                     })),
             }
     )
-    ResponseEntity<ReviewInfos> reviewers(long id, AuthInfo authInfo);
+    ResponseEntity<MatchResultResponses> reviewers(long id, AuthInfo authInfo);
 
     @ApiResponses(
             value = {
@@ -42,5 +42,5 @@ public interface RoomControllerSpecification {
                     })),
             }
     )
-    ResponseEntity<ReviewInfos> reviewees(long id, AuthInfo authInfo);
+    ResponseEntity<MatchResultResponses> reviewees(long id, AuthInfo authInfo);
 }
