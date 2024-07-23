@@ -17,31 +17,6 @@ export const ModalContent = styled.div`
   padding: 2rem;
   background: ${({ theme }) => theme.COLOR.white};
 
-  ::-webkit-scrollbar {
-    width: 7px;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    height: 30%;
-    background: rgb(132 174 225 / 70%);
-    border-radius: 10px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: rgb(132 174 225 / 20%);
-  }
-
-  ::-webkit-scrollbar-button:increment,
-  ::-webkit-scrollbar-button {
-    display: block;
-    height: 25px;
-  }
-
-  ::-webkit-scrollbar-button:decrement {
-    display: block;
-    height: 25px;
-  }
-
   ${media.small`
     position: fixed;
     left: 0;
