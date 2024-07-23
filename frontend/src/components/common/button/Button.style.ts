@@ -34,7 +34,7 @@ const variantStyles = {
 const sizeStyles = {
   small: css`
     width: 120px;
-    padding: 1rem 0;
+    padding: 0.1rem 0;
     font: ${({ theme }) => theme.TEXT.small};
     border-radius: 5px;
   `,
