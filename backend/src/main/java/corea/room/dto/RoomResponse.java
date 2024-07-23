@@ -21,32 +21,13 @@ public record RoomResponse(
         boolean isParticipated,
         boolean isClosed
 ) {
-    public static RoomResponse from(Room room) {
-        return new RoomResponse(
-                room.getId(),
-                room.getTitle(),
-                room.getContent(),
-                room.getManager().getName(),
-                room.getRepositoryLink(),
-                room.getThumbnailLink(),
-                room.getMatchingSize(),
-                room.getKeyword(),
-                room.getCurrentParticipantsSize(),
-                room.getLimitedParticipantsSize(),
-                room.getRecruitmentDeadline(),
-                room.getReviewDeadline(),
-                false,
-                room.isOpen()
-        );
-    }
 
-    public static RoomResponse from(Room room, boolean isParticipated) {
+    public static RoomResponse of(Room room, boolean isParticipated) {
         return new RoomResponse(
                 room.getId(),
                 room.getTitle(),
                 room.getContent(),
-                room.getManager()
-                        .getName(),
+                room.getManagerName(),
                 room.getRepositoryLink(),
                 room.getThumbnailLink(),
                 room.getMatchingSize(),

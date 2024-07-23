@@ -68,12 +68,12 @@ public class Room {
         this(null, title, content, matchingSize, repositoryLink, thumbnailLink, keyword, currentParticipantsSize, limitedParticipantsSize, manager, recruitmentDeadline, reviewDeadline, classification, status);
     }
 
-    public boolean isOpen() {
-        return status.isOpen();
-    }
-
     public boolean isClosed() {
         return status.isClosed();
+    }
+
+    public String getManagerName() {
+        return manager.getName();
     }
 }
 

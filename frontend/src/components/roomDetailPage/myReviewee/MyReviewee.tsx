@@ -42,8 +42,12 @@ const MyReviewee = () => {
             </Link>
           </S.MyRevieweeContent>
           <S.MyRevieweeContent>
-            <Button text="리뷰 완료" onClick={() => alert("버튼 클릭 완료!")} color="secondary" />
-            <Button text="피드백 작성" onClick={() => alert("버튼 클릭 완료!")} />
+            <Button onClick={() => alert("버튼 클릭 완료!")} variant="secondary">
+              리뷰 완료
+            </Button>
+            <Button onClick={() => alert("버튼 클릭 완료!")} variant="primary">
+              피드백 작성
+            </Button>
           </S.MyRevieweeContent>
         </S.MyRevieweeWrapper>
       ))}

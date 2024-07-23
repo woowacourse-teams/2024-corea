@@ -42,7 +42,9 @@ const MyReviewer = () => {
             </Link>
           </S.MyReviewerContent>
           <S.MyReviewerContent>
-            <Button text="피드백 작성" onClick={() => alert("버튼 클릭 완료!")} />
+            <Button onClick={() => alert("버튼 클릭 완료!")} variant="primary">
+              피드백 작성
+            </Button>
           </S.MyReviewerContent>
         </S.MyReviewerWrapper>
       ))}

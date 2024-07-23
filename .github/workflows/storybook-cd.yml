@@ -10,7 +10,7 @@ defaults:
     working-directory: frontend
 
 jobs:
-  build:
+  chromatic:
     timeout-minutes: 10
     runs-on: ubuntu-latest
 
@@ -22,6 +22,8 @@ jobs:
       # 해당 저장소의 코드를 가져온다
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       # 노드 설치
       - name: Install Nodejs
@@ -29,6 +31,12 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      # 스토리북 배포
       - name: Install dependencies
-        run: npx chromatic --project-token=${{ secrets.STORY_BOOK_TOKEN }}
+        run: npm ci
+
+      # 스토리북 배포
+      - name: Run Chromatic
+        uses: chromaui/action@latest
+        with:
+          workingDir: frontend
+          projectToken: ${{ secrets.STORY_BOOK_TOKEN }}

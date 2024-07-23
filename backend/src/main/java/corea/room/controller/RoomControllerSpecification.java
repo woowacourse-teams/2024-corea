@@ -1,7 +1,7 @@
 package corea.room.controller;
 
 import corea.auth.domain.AuthInfo;
-import corea.matching.dto.ReviewInfo;
+import corea.matching.dto.ReviewInfos;
 import corea.room.dto.RoomResponse;
 import corea.room.dto.RoomResponses;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -10,13 +10,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
 
-import java.util.List;
-
 public interface RoomControllerSpecification {
 
     ResponseEntity<RoomResponse> room(long id, AuthInfo authInfo);
-
-    ResponseEntity<RoomResponses> rooms();
 
     ResponseEntity<RoomResponses> participatedRooms(AuthInfo authInfo);
 
@@ -33,7 +29,7 @@ public interface RoomControllerSpecification {
                     })),
             }
     )
-    ResponseEntity<List<ReviewInfo>> reviewers(long id, AuthInfo authInfo);
+    ResponseEntity<ReviewInfos> reviewers(long id, AuthInfo authInfo);
 
     @ApiResponses(
             value = {
@@ -46,5 +42,5 @@ public interface RoomControllerSpecification {
                     })),
             }
     )
-    ResponseEntity<List<ReviewInfo>> reviewees(long id, AuthInfo authInfo);
+    ResponseEntity<ReviewInfos> reviewees(long id, AuthInfo authInfo);
 }
