@@ -25,9 +25,9 @@ class MatchResultRepositoryTest {
     @Test
     @DisplayName("사용자가 입장한 방에서 사용자를 리뷰할 사람들을 조회할 수 있다.")
     void findAllByRoomIdAndToMemberId() {
-        Member member1 = memberRepository.save(MemberFixture.MEMBER_MANAGER());
-        Member member2 = memberRepository.save(MemberFixture.MEMBER_DOMAIN());
-        Member member3 = memberRepository.save(MemberFixture.MEMBER_DOMAIN());
+        Member member1 = memberRepository.save(MemberFixture.MEMBER_JOYSON());
+        Member member2 = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
+        Member member3 = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
 
         MatchResult matchResult1 = new MatchResult(1L, member1, member2, null);
         MatchResult matchResult2 = new MatchResult(1L, member2, member2, null);
@@ -39,7 +39,7 @@ class MatchResultRepositoryTest {
         matchResultRepository.save(matchResult3);
         matchResultRepository.save(matchResult4);
 
-        List<MatchResult> results = matchResultRepository.findAllByToMemberIdAndRoomId(2L, 1L);
+        List<MatchResult> results = matchResultRepository.findAllByRevieweeIdAndRoomId(2L, 1L);
 
         assertThat(results).hasSize(3);
     }

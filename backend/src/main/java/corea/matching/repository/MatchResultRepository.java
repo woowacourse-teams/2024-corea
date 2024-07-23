@@ -8,9 +8,9 @@ import java.util.Optional;
 
 public interface MatchResultRepository extends JpaRepository<MatchResult, Long> {
 
-    List<MatchResult> findAllByToMemberIdAndRoomId(long memberId, long roomId);
+    List<MatchResult> findAllByRevieweeIdAndRoomId(long revieweeId, long roomId);
 
-    List<MatchResult> findAllByFromMemberIdAndRoomId(long memberId, long roomId);
+    List<MatchResult> findAllByReviewerIdAndRoomId(long reviewerId, long roomId);
 
-    Optional<MatchResult> findByRoomIdAndFromMemberIdAndToMemberId(long roomId, long fromMemberId, long toMemberId);
+    Optional<MatchResult> findByRoomIdAndReviewerIdAndRevieweeId(long roomId, long reviewerId, long revieweeId);
 }

@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/review")
 @RequiredArgsConstructor
-public class ReviewController implements ReviewControllerSpecification{
+public class ReviewController implements ReviewControllerSpecification {
+
     private final ReviewService reviewService;
 
     @PostMapping("/complete")

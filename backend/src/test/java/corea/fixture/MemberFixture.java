@@ -4,7 +4,7 @@ import corea.member.domain.Member;
 
 public class MemberFixture {
 
-    public static Member MEMBER_DOMAIN() {
+    public static Member MEMBER_YOUNGSU() {
         return new Member(
                 "youngsu5582",
                 "https://avatars.githubusercontent.com/u/98307410?v=4",
@@ -14,7 +14,8 @@ public class MemberFixture {
                 36.5f
         );
     }
-    public static Member MEMBER_DOMAIN2() {
+
+    public static Member MEMBER_PORORO() {
         return new Member(
                 "pororo",
                 "https://avatars.githubusercontent.com/u/98307410?v=4",
@@ -25,7 +26,7 @@ public class MemberFixture {
         );
     }
 
-    public static Member MEMBER_MANAGER() {
+    public static Member MEMBER_JOYSON() {
         return new Member(
                 "joyson5582",
                 "https://avatars.githubusercontent.com/u/98307410?v=4",

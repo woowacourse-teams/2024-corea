@@ -12,7 +12,7 @@ public enum ExceptionType {
     ALREADY_APPLY(HttpStatus.BAD_REQUEST, "해당 방에 이미 참여했습니다"),
     PARTICIPANT_SIZE_LACK(HttpStatus.BAD_REQUEST, "참여 인원 수가 부족합니다."),
     NOT_MATCHED_MEMBER(HttpStatus.BAD_REQUEST, "매칭된 인원들이 아닙니다."),
-    ALREADY_REVIEW_COMPLETED(HttpStatus.BAD_REQUEST, "이미 리뷰를 완료했습니다.");
+    ALREADY_COMPLETED_REVIEW(HttpStatus.BAD_REQUEST, "이미 리뷰를 완료했습니다.");
 
     private final HttpStatus httpStatus;
     private final String message;

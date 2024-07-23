@@ -25,19 +25,19 @@ public class MatchResultService {
 
     public MatchResultResponses findReviewers(long memberId, long roomId) {
         validateExistence(memberId, roomId);
-        List<MatchResult> results = matchResultRepository.findAllByToMemberIdAndRoomId(memberId, roomId);
+        List<MatchResult> results = matchResultRepository.findAllByRevieweeIdAndRoomId(memberId, roomId);
 
         return new MatchResultResponses(results.stream()
-                .map(result -> MatchResultResponse.of(result, result.getFromMember()))
+                .map(result -> MatchResultResponse.of(result, result.getReviewer()))
                 .toList());
     }
 
     public MatchResultResponses findReviewees(long memberId, long roomId) {
         validateExistence(memberId, roomId);
-        List<MatchResult> results = matchResultRepository.findAllByFromMemberIdAndRoomId(memberId, roomId);
+        List<MatchResult> results = matchResultRepository.findAllByReviewerIdAndRoomId(memberId, roomId);
 
         return new MatchResultResponses(results.stream()
-                .map(result -> MatchResultResponse.of(result, result.getToMember()))
+                .map(result -> MatchResultResponse.of(result, result.getReviewee()))
                 .toList());
     }
 
