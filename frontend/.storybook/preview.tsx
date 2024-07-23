@@ -23,4 +23,5 @@ export const decorators = [
     </ThemeProvider>
   ),
 ];
+
 export default preview;
