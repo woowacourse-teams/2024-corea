@@ -5,11 +5,13 @@ export const RoomCardContainer = styled.div`
   display: flex;
   flex-direction: column;
 
-  width: 14rem;
-  height: 18rem;
+  width: 200px;
+  height: 240px;
 
-  border: 0.1rem solid ${({ theme }) => theme.COLOR.grey1};
-  border-radius: 1.5rem;
+  font: ${({ theme }) => theme.TEXT.xSmall};
+
+  border: 1px solid ${({ theme }) => theme.COLOR.grey1};
+  border-radius: 15px;
   box-shadow: 0 4px 4px rgb(0 0 0 / 10%);
 
   &:hover {
@@ -27,23 +29,17 @@ export const RoomCardContainer = styled.div`
 
 export const RoomInfoThumbnail = styled.img`
   width: 100%;
-  height: 10rem;
+  height: 130px;
   object-fit: scale-down;
 `;
 
 export const RoomInformation = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  gap: 0.2rem;
 
-  width: 100%;
-  height: 8rem;
-  padding: 1rem;
-`;
-
-export const MainInfo = styled.div`
-  display: flex;
-  flex-direction: column;
+  height: calc(100% - 120px);
+  padding: 0.5rem;
 `;
 
 export const RoomTitle = styled.h2`
@@ -53,30 +49,18 @@ export const RoomTitle = styled.h2`
   white-space: nowrap;
 `;
 
-export const RecruitmentDeadline = styled.p`
-  font: ${({ theme }) => theme.TEXT.semiSmall};
-`;
-
-export const EtcInfo = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font: ${({ theme }) => theme.TEXT.xSmall};
-`;
-
 export const KeywordsContainer = styled.div`
   display: flex;
-  gap: 0.2rem;
+  gap: 2px;
+  margin-bottom: 0.6rem;
 `;
 
-export const RoomKeyword = styled.span`
+export const MoreKeywords = styled.span`
+  font: ${({ theme }) => theme.TEXT.xSmall};
+  color: ${({ theme }) => theme.COLOR.grey4};
+`;
+
+export const EtcContainer = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: center;
-
-  padding: 0 0.2rem;
-
-  background-color: ${({ theme }) => theme.COLOR.primary1};
-  border: none;
-  border-radius: 5px;
+  justify-content: space-between;
 `;
