@@ -33,6 +33,7 @@ export const Default: Story = {
   args: {
     isOpen: true,
     onClose: () => alert("Modal closed"),
+    hasCloseButton: true,
     children: <div>모달 콘텐츠</div>,
   },
   parameters: {
@@ -44,6 +45,7 @@ export const SmallViewport: Story = {
   args: {
     isOpen: true,
     onClose: () => alert("Modal closed"),
+    hasCloseButton: true,
     children: <div>모달 콘텐츠</div>,
   },
   parameters: {
@@ -58,6 +60,7 @@ export const MediumViewport: Story = {
   args: {
     isOpen: true,
     onClose: () => alert("Modal closed"),
+    hasCloseButton: true,
     children: <div>모달 콘텐츠</div>,
   },
   parameters: {
@@ -72,6 +75,7 @@ export const LargeViewport: Story = {
   args: {
     isOpen: true,
     onClose: () => alert("Modal closed"),
+    hasCloseButton: true,
     children: <div>모달 콘텐츠</div>,
   },
   parameters: {

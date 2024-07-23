@@ -7,10 +7,11 @@ const portalElement = document.getElementById("modal") as HTMLElement;
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
+  hasCloseButton?: boolean;
   children?: React.ReactNode;
 }
 
-const Modal = ({ isOpen, onClose, children }: ModalProps) => {
+const Modal = ({ isOpen, onClose, hasCloseButton = true, children }: ModalProps) => {
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "auto";
   }, [isOpen]);
@@ -24,7 +25,10 @@ const Modal = ({ isOpen, onClose, children }: ModalProps) => {
   return createPortal(
     <>
       <S.BackDrop onClick={onClose} />
-      <S.ModalContent onClick={handleModalContainerClick}>{children}</S.ModalContent>
+      <S.ModalContent onClick={handleModalContainerClick}>
+        {hasCloseButton && <S.CloseButton onClick={onClose}>&times;</S.CloseButton>}
+        {children}
+      </S.ModalContent>
     </>,
     portalElement,
   );

@@ -13,9 +13,10 @@ export const BackDrop = styled.div`
 `;
 
 export const ModalContent = styled.div`
+  position: relative;
   overflow: hidden auto;
   padding: 2rem;
-  background: ${({ theme }) => theme.COLOR.white};
+  background-color: ${({ theme }) => theme.COLOR.white};
 
   ${media.small`
     position: fixed;
@@ -45,4 +46,16 @@ export const ModalContent = styled.div`
     width: 600px;
     height: 480px;
   `}
+`;
+
+export const CloseButton = styled.button`
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+
+  font: ${({ theme }) => theme.TEXT.large};
+  color: ${({ theme }) => theme.COLOR.grey2};
+
+  background: transparent;
+  border: none;
 `;
