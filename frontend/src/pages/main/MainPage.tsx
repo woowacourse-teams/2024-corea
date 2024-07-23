@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import ContentForm from "@/components/common/contentForm/ContentForm";
+import ContentSection from "@/components/common/contentSection/ContentSection";
 import RoomList from "@/components/shared/roomList/RoomList";
 import * as S from "@/pages/main/MainPage.style";
 import { RoomInfo } from "@/@types/roomInfo";
@@ -19,9 +19,9 @@ const MainPage = () => {
 
   return (
     <S.Layout>
-      <ContentForm title="참여 중인 방">
+      <ContentSection title="참여 중인 방">
         {roomList && <RoomList roomList={roomList.rooms} />}
-      </ContentForm>
+      </ContentSection>
     </S.Layout>
   );
 };

@@ -1,11 +1,3 @@
----
-name: BE PR 템플릿
-about: BE PR 템플릿
-title: "[BE] "
-labels: "BE"
-assignees: ""
----
-
 ## 📌 관련 이슈
 
 - closed: #issueNum
