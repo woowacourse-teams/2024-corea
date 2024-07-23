@@ -23,19 +23,19 @@ export const LabelWrapper = styled.div<LabelWrapperProps>`
       case "keyword":
         return css`
           background-color: ${theme.COLOR.white};
-          border: 2px solid ${theme.COLOR.grey2};
+          border: 1px solid ${theme.COLOR.grey1};
         `;
       case "open":
         return css`
           color: ${theme.COLOR.black};
           background-color: ${theme.COLOR.primary1};
-          border: 2px solid ${theme.COLOR.primary1};
+          border: 1px solid ${theme.COLOR.primary1};
         `;
       case "close":
         return css`
           color: ${theme.COLOR.white};
           background-color: ${theme.COLOR.primary2};
-          border: 2px solid ${theme.COLOR.primary2};
+          border: 1px solid ${theme.COLOR.primary2};
         `;
     }
   }}
