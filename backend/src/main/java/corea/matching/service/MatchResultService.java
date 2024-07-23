@@ -3,8 +3,8 @@ package corea.matching.service;
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
 import corea.matching.domain.MatchResult;
-import corea.matching.dto.ReviewInfo;
-import corea.matching.dto.ReviewInfos;
+import corea.matching.dto.MatchResultResponse;
+import corea.matching.dto.MatchResultResponses;
 import corea.matching.repository.MatchResultRepository;
 import corea.member.repository.MemberRepository;
 import corea.room.repository.RoomRepository;
@@ -23,21 +23,21 @@ public class MatchResultService {
     private final RoomRepository roomRepository;
     private final MatchResultRepository matchResultRepository;
 
-    public ReviewInfos findReviewers(long memberId, long roomId) {
+    public MatchResultResponses findReviewers(long memberId, long roomId) {
         validateExistence(memberId, roomId);
-        List<MatchResult> results = matchResultRepository.findAllByToMemberIdAndRoomId(memberId, roomId);
+        List<MatchResult> results = matchResultRepository.findAllByRevieweeIdAndRoomId(memberId, roomId);
 
-        return new ReviewInfos(results.stream()
-                .map(result -> ReviewInfo.of(result, result.getFromMember()))
+        return new MatchResultResponses(results.stream()
+                .map(result -> MatchResultResponse.of(result, result.getReviewer()))
                 .toList());
     }
 
-    public ReviewInfos findReviewees(long memberId, long roomId) {
+    public MatchResultResponses findReviewees(long memberId, long roomId) {
         validateExistence(memberId, roomId);
-        List<MatchResult> results = matchResultRepository.findAllByFromMemberIdAndRoomId(memberId, roomId);
+        List<MatchResult> results = matchResultRepository.findAllByReviewerIdAndRoomId(memberId, roomId);
 
-        return new ReviewInfos(results.stream()
-                .map(result -> ReviewInfo.of(result, result.getToMember()))
+        return new MatchResultResponses(results.stream()
+                .map(result -> MatchResultResponse.of(result, result.getReviewee()))
                 .toList());
     }
 
