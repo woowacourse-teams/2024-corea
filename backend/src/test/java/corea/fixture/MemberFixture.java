@@ -14,6 +14,16 @@ public class MemberFixture {
                 36.5f
         );
     }
+    public static Member MEMBER_DOMAIN2() {
+        return new Member(
+                "pororo",
+                "https://avatars.githubusercontent.com/u/98307410?v=4",
+                null,
+                "jcoding-play@gmail.com",
+                false,
+                36.5f
+        );
+    }
 
     public static Member MEMBER_MANAGER() {
         return new Member(
