@@ -14,8 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static corea.exception.ExceptionType.PARTICIPANT_SIZE_LACK;
-import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 
 @ServiceTest
 class MatchingServiceTest {
@@ -49,6 +48,9 @@ class MatchingServiceTest {
 
         assertThatThrownBy(() -> matchingService.matchMaking(participations, matchingSize))
                 .isInstanceOf(CoreaException.class)
-                .hasFieldOrPropertyWithValue("exceptionType", PARTICIPANT_SIZE_LACK);
+                .satisfies(exception -> {
+                    CoreaException coreaException = (CoreaException) exception;
+                    assertThat(coreaException.getExceptionType()).isEqualTo(PARTICIPANT_SIZE_LACK);
+                });
     }
 }

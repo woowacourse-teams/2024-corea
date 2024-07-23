@@ -68,7 +68,10 @@ class MatchResultServiceTest {
 
         assertThatThrownBy(() -> matchResultService.findReviewers(memberId, roomId))
                 .isInstanceOf(CoreaException.class)
-                .hasFieldOrPropertyWithValue("exceptionType", ROOM_NOT_FOUND);
+                .satisfies(exception -> {
+                    CoreaException coreaException = (CoreaException) exception;
+                    assertThat(coreaException.getExceptionType()).isEqualTo(ROOM_NOT_FOUND);
+                });
     }
 
     @Test
@@ -89,6 +92,9 @@ class MatchResultServiceTest {
 
         assertThatThrownBy(() -> matchResultService.findReviewers(memberId, roomId))
                 .isInstanceOf(CoreaException.class)
-                .hasFieldOrPropertyWithValue("exceptionType", MEMBER_NOT_FOUND);
+                .satisfies(exception -> {
+                    CoreaException coreaException = (CoreaException) exception;
+                    assertThat(coreaException.getExceptionType()).isEqualTo(MEMBER_NOT_FOUND);
+                });
     }
 }
