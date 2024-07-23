@@ -1,0 +1,98 @@
+name: Auto Create Pull Request
+
+on:
+  push:
+    branches:
+      - 'feat/#*'
+      - 'refactor/#*'
+      - 'fix/#*'
+
+jobs:
+  auto-pull-request:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Extract Branch Prefix, Issue Number
+        id: extract
+        run: |
+          branch_name="${GITHUB_REF#refs/heads/}"
+          echo "BRANCH_NAME=$branch_name" >> $GITHUB_ENV
+          
+          if [[ "$branch_name" =~ ^(feat|fix|refactor)/#([0-9]+)$ ]]; then
+            branch_prefix="${BASH_REMATCH[1]}"
+            issue_number="${BASH_REMATCH[2]}"
+            echo "BRANCH_PREFIX=$branch_prefix" >> $GITHUB_ENV
+            echo "ISSUE_NUMBER=$issue_number" >> $GITHUB_ENV
+          else
+            exit 0
+          fi
+
+      - name: Check for Already Exist
+        id: check_pr
+        run: |
+          branch_name=${{ env.BRANCH_NAME }}
+          existing_pr=$(gh pr list --state open -H "$branch_name" -B develop --json number -q '.[] | .number')
+          
+          if [ -n "$existing_pr" ]; then
+            echo "EXISTED=TRUE" >> $GITHUB_ENV
+            echo "Alreadt Exist in https://github.com/${{ github.repository }}/pull/$existing_pr"
+            exit 0
+          fi
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Fetch Issue Detail
+        if: ${{ !env.EXISTED }}
+        run: |
+          issue_number="${{ env.ISSUE_NUMBER }}"
+          
+          response=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+                            -H "Accept: application/vnd.github.v3+json" \
+                            "https://api.github.com/repos/${{ github.repository }}/issues/$issue_number")
+          
+          assignees=$(echo "$response" | jq -r '.assignees[].login' | tr '\n' ', ' | sed 's/, $//')
+          assignees=$(echo "$assignees" | rev | cut -c 2- | rev)
+          
+          title=$(echo "$response" | jq -r '.title')
+          
+          labels=$(echo "$response" | jq -r '.labels[].name' | tr '\n' ', ' | sed 's/, $//')
+          labels=$(echo "$labels" | rev | cut -c 2- | rev)
+          
+          pr_title="${title}(#${issue_number})"
+          
+          echo "$response" | jq -r '.body' > issue_body.txt
+          
+          echo "ASSIGNEES=$assignees" >> $GITHUB_ENV
+          echo "LABELS=$labels" >> $GITHUB_ENV
+          echo "TITLE=$title" >> $GITHUB_ENV
+          echo "PR_TITLE=$pr_title" >> $GITHUB_ENV
+          echo "ISSUE_BODY_FILE=issue_body.txt" >> $GITHUB_ENV
+
+      - name: Generate PR Body
+        if: ${{ !env.EXISTED }}
+        id: generate-body
+        run: |
+          issue_number="${{ env.ISSUE_NUMBER }}"
+          
+          echo "## 📌 관련 이슈" >> body.md
+          echo "" >> body.md
+          echo "- closed : #${issue_number} " >> body.md
+          echo "" >> body.md
+          echo "## ✨ PR 세부 내용" >> body.md
+          echo "" >> body.md
+          echo "<!-- 수정/추가한 내용을 적어주세요. -->" >> body.md
+          
+          summary=$(cat body.md)
+          echo "PR_BODY<<EOF" >> $GITHUB_ENV
+          echo "$summary" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: Create Pull Request
+        if: ${{ !env.EXISTED }}
+        run: |
+          gh pr create --title "${{ env.PR_TITLE }}" --body "${{ env.PR_BODY }}" --base "develop" --label "${{ env.LABELS }}"
+        env:
+          GH_TOKEN: ${{ github.token }}
