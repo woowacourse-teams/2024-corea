@@ -90,24 +90,9 @@ jobs:
           echo "$summary" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
-      - name: Setup Reviewers
-        if: ${{ !env.EXISTED }}
-        id: setup-reviewer
-        run: |
-          IFS=',' read -r -a LABEL_ARRAY <<< "${{ env.LABELS }}"
-          reviewers=""
-          for LABEL in "${LABEL_ARRAY[@]}"; do
-            if [[ "$LABEL" == "BE" ]]; then
-              reviewers="ashsty,jcoding-play,hjk0761,youngsu5582"
-            elif [[ "$LABEL" == "FE" ]]; then
-              reviewers="00kang,pp449,chlwlstlf"
-            fi
-          done
-          echo "REVIEWERS=${reviewers}" >> $GITHUB_ENV
-
       - name: Create Pull Request
         if: ${{ !env.EXISTED }}
         run: |
-          gh pr create --assignee "${{ env.ASSIGNEES }}" --reviewer "${{ env.REVIEWERS }}" --title "${{ env.PR_TITLE }}" --body "${{ env.PR_BODY }}" --base "develop" --label "${{ env.LABELS }}"
+          gh pr create --title "${{ env.PR_TITLE }}" --body "${{ env.PR_BODY }}" --base "develop" --label "${{ env.LABELS }}"
         env:
           GH_TOKEN: ${{ github.token }}
