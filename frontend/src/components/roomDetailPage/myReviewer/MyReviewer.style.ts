@@ -29,7 +29,7 @@ export const MyReviewerWrapper = styled.div`
   }
 `;
 
-export const PRLink = styled.a`
+export const PRLink = styled.div`
   cursor: pointer;
   text-decoration: underline !important;
   text-underline-offset: 0.3rem;
