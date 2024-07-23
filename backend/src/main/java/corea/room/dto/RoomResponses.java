@@ -10,9 +10,9 @@ import static java.util.stream.Collectors.toList;
 
 public record RoomResponses(List<RoomResponse> rooms) {
 
-    public static RoomResponses of(List<Room> rooms, boolean isParticipated) {
+    public static RoomResponses of(List<Room> rooms, boolean participateFlag) {
         return rooms.stream()
-                .map(room -> RoomResponse.of(room, isParticipated))
+                .map(room -> RoomResponse.of(room, participateFlag))
                 .collect(collectingAndThen(toList(), RoomResponses::new));
     }
 
