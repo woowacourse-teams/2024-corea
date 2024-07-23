@@ -53,7 +53,7 @@ class MatchResultServiceTest {
     @DisplayName("리뷰어 결과를 가져올 때 존재하지 않는 방이나 사용자의 정보를 요청하는 경우 예외를 발생한다.")
     void findReviewersInvalidException() {
         long memberId = 1;
-        long roomId = 8;
+        long roomId = 0;
 
         int matchingSize = 3;
         List<Participation> participations = new ArrayList<>();

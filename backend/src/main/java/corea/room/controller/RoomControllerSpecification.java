@@ -14,8 +14,6 @@ public interface RoomControllerSpecification {
 
     ResponseEntity<RoomResponse> room(long id, AuthInfo authInfo);
 
-    ResponseEntity<RoomResponses> rooms();
-
     ResponseEntity<RoomResponses> participatedRooms(AuthInfo authInfo);
 
     ResponseEntity<RoomResponses> openedRooms(AuthInfo authInfo, String expression, int page);

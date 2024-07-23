@@ -7,6 +7,6 @@ import corea.member.domain.Member;
 public record ReviewInfo(long userId, String username, String link, ReviewStatus isReviewed) {
 
     public static ReviewInfo of(MatchResult matchResult, Member member) {
-        return new ReviewInfo(member.getId(), member.getUserName(), matchResult.getPrLink(), matchResult.getReviewStatus());
+        return new ReviewInfo(member.getId(), member.getUsername(), matchResult.getPrLink(), matchResult.getReviewStatus());
     }
 }

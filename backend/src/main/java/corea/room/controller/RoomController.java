@@ -22,7 +22,7 @@ public class RoomController implements RoomControllerSpecification {
 
     @GetMapping("/{id}")
     public ResponseEntity<RoomResponse> room(@PathVariable long id, @AccessedMember AuthInfo authInfo) {
-        RoomResponse response = roomService.findOne(id, authInfo);
+        RoomResponse response = roomService.findOne(id, authInfo.getId());
         return ResponseEntity.ok(response);
     }
 
@@ -38,12 +38,6 @@ public class RoomController implements RoomControllerSpecification {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping
-    public ResponseEntity<RoomResponses> rooms() {
-        RoomResponses response = roomService.findAll();
-        return ResponseEntity.ok(response);
-    }
-
     @GetMapping("/participated")
     public ResponseEntity<RoomResponses> participatedRooms(@LoginMember AuthInfo authInfo) {
         RoomResponses response = roomService.findParticipatedRooms(authInfo.getId());
@@ -54,11 +48,14 @@ public class RoomController implements RoomControllerSpecification {
     public ResponseEntity<RoomResponses> openedRooms(@AccessedMember AuthInfo authInfo,
                                                      @RequestParam(value = "classification", defaultValue = "all") String expression,
                                                      @RequestParam(defaultValue = "0") int page) {
-        if (authInfo.isAnonymous()) {
-            RoomResponses response = roomService.findOpenedRoomsWithoutMember(expression, page);
-            return ResponseEntity.ok(response);
-        }
-        RoomResponses response = roomService.findOpenedRoomsWithMember(authInfo.getId(), expression, page);
+        RoomResponses response = roomService.findOpenedRooms(authInfo.getId(), expression, page);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/closed")
+    public ResponseEntity<RoomResponses> closedRooms(@RequestParam(value = "classification", defaultValue = "all") String expression,
+                                                     @RequestParam(defaultValue = "0") int page) {
+        RoomResponses response = roomService.findClosedRooms(expression, page);
         return ResponseEntity.ok(response);
     }
 }
