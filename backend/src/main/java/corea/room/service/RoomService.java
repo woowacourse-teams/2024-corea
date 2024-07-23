@@ -1,6 +1,5 @@
 package corea.room.service;
 
-import corea.auth.domain.AuthInfo;
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
 import corea.matching.domain.Participation;
@@ -35,15 +34,14 @@ public class RoomService {
 
     public RoomResponse create(RoomCreateRequest request) {
         Room room = roomRepository.save(request.toEntity());
-        return RoomResponse.from(room);
+        return RoomResponse.of(room, true);
     }
 
-    public RoomResponse findOne(long roomId, AuthInfo authInfo) {
+    public RoomResponse findOne(long roomId, long memberId) {
         Room room = getRoom(roomId);
-        if (authInfo.isNotAnonymous() && participationRepository.existsByRoomIdAndMemberId(roomId, authInfo.getId())) {
-            return RoomResponse.from(room, true);
-        }
-        return RoomResponse.from(room);
+        boolean isParticipated = participationRepository.existsByRoomIdAndMemberId(roomId, memberId);
+
+        return RoomResponse.of(room, isParticipated);
     }
 
     public RoomResponses findParticipatedRooms(long memberId) {
@@ -52,23 +50,10 @@ public class RoomService {
         return participations.stream()
                 .map(Participation::getRoomId)
                 .map(this::getRoom)
-                .collect(collectingAndThen(toList(), RoomResponses::from));
+                .collect(collectingAndThen(toList(), rooms -> RoomResponses.of(rooms, true)));
     }
 
-    public RoomResponses findOpenedRoomsWithoutMember(String expression, int pageNumber) {
-        Classification classification = Classification.from(expression);
-        RoomStatus status = RoomStatus.OPENED;
-        PageRequest pageRequest = PageRequest.of(pageNumber, PAGE_SIZE);
-
-        if (classification.isAll()) {
-            Page<Room> roomsWithPage = roomRepository.findAllByStatus(status, pageRequest);
-            return RoomResponses.from(roomsWithPage);
-        }
-        Page<Room> roomsWithPage = roomRepository.findAllByClassificationAndStatus(classification, status, pageRequest);
-        return RoomResponses.from(roomsWithPage);
-    }
-
-    public RoomResponses findOpenedRoomsWithMember(long memberId, String expression, int pageNumber) {
+    public RoomResponses findOpenedRooms(long memberId, String expression, int pageNumber) {
         Classification classification = Classification.from(expression);
         RoomStatus status = RoomStatus.OPENED;
         PageRequest pageRequest = PageRequest.of(pageNumber, PAGE_SIZE);
@@ -81,9 +66,17 @@ public class RoomService {
         return RoomResponses.from(roomsWithPage);
     }
 
-    public RoomResponses findAll() {
-        final List<Room> rooms = roomRepository.findAll();
-        return RoomResponses.from(rooms);
+    public RoomResponses findClosedRooms(String expression, int pageNumber) {
+        Classification classification = Classification.from(expression);
+        RoomStatus status = RoomStatus.CLOSED;
+        PageRequest pageRequest = PageRequest.of(pageNumber, PAGE_SIZE);
+
+        if (classification.isAll()) {
+            Page<Room> roomsWithPage = roomRepository.findAllByStatus(status, pageRequest);
+            return RoomResponses.from(roomsWithPage);
+        }
+        Page<Room> roomsWithPage = roomRepository.findAllByClassificationAndStatus(classification, status, pageRequest);
+        return RoomResponses.from(roomsWithPage);
     }
 
     private Room getRoom(long roomId) {
