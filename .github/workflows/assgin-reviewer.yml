@@ -12,9 +12,9 @@ jobs:
     steps:
       - name: Logging Response
         run: |
-          echo "RESPONSE = ${{ github.event }}"
-          echo "PULL_REQUEST = ${{ github.event.pull_request }} 
-          echo "SENDER = ${{ github.event.pull_request.sender }} 
+          echo "RESPONSE = $(jq . <<< "${{ toJson(github.event) }}")"
+          echo "PULL_REQUEST = $(jq .pull_request <<< "${{ toJson(github.event) }}")"
+          echo "SENDER = $(jq .sender <<< "${{ toJson(github.event) }}")"
           
 
       - name: All Label
