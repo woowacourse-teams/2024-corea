@@ -9,12 +9,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class ReviewService {
 
     private final MatchResultRepository matchResultRepository;
 
+    @Transactional
     public void review(long roomId, long reviewerId, long revieweeId) {
         MatchResult matchResult = getMatchResult(roomId, reviewerId, revieweeId);
         matchResult.reviewComplete();

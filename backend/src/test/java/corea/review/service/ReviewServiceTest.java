@@ -22,12 +22,16 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @ServiceTest
 class ReviewServiceTest {
+
     @Autowired
     private MemberRepository memberRepository;
+
     @Autowired
     private RoomRepository roomRepository;
+
     @Autowired
     private ReviewService reviewService;
+
     @Autowired
     private MatchResultRepository matchResultRepository;
 
@@ -43,7 +47,7 @@ class ReviewServiceTest {
         reviewService.review(room.getId(), member1.getId(), member2.getId());
         assertThat(matchResult.getReviewStatus()).isEqualTo(ReviewStatus.COMPLETE);
     }
-    
+
     @Test
     @DisplayName("방과 멤버들에 해당하는 매칭결과가 없으면 예외를 발생한다.")
     void review_throw_exception_when_not_exist_room_and_members() {
