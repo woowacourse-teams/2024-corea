@@ -1,26 +1,23 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import ContentSection from "@/components/common/contentSection/ContentSection";
 import RoomList from "@/components/shared/roomList/RoomList";
 import * as S from "@/pages/main/MainPage.style";
 import { RoomInfo } from "@/@types/roomInfo";
-import { getRoomList } from "@/apis/rooms.api";
+import QUERY_KEYS from "@/apis/queryKeys";
+import { getParticipatedRoomList } from "@/apis/rooms.api";
 
 const MainPage = () => {
-  const [roomList, setRoomList] = useState<{ rooms: RoomInfo[] }>();
+  const { data: participatedRoomList } = useQuery({
+    queryKey: [QUERY_KEYS.GET_ROOM_DETAIL_INFO],
+    queryFn: getParticipatedRoomList,
+  });
 
-  const fetchRoomListData = async () => {
-    const res = await getRoomList();
-    setRoomList(res);
-  };
-
-  useEffect(() => {
-    fetchRoomListData();
-  }, []);
+  if (!participatedRoomList) return <></>;
 
   return (
     <S.Layout>
       <ContentSection title="참여 중인 방">
-        {roomList && <RoomList roomList={roomList.rooms} />}
+        {participatedRoomList && <RoomList roomList={participatedRoomList.roomInfo} />}
       </ContentSection>
     </S.Layout>
   );

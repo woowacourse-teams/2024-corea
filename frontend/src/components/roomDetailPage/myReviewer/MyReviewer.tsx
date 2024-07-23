@@ -1,24 +1,18 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import Button from "@/components/common/button/Button";
 import Icon from "@/components/common/icon/Icon";
 import * as S from "@/components/roomDetailPage/myReviewer/MyReviewer.style";
-import { ReviewerInfo } from "@/@types/reviewer";
 import { getMyReviewers } from "@/apis/my.api";
+import QUERY_KEYS from "@/apis/queryKeys";
 
-const MyReviewer = () => {
-  const [reviewerData, setReviewerData] = useState<ReviewerInfo[]>([]);
+const MyReviewer = ({ roomId }: { roomId: number }) => {
+  const { data: reviewerData } = useQuery({
+    queryKey: [QUERY_KEYS.GET_REVIEWEES],
+    queryFn: () => getMyReviewers(roomId),
+  });
 
-  const fetchReviewerData = async () => {
-    const res = await getMyReviewers();
-    setReviewerData(res);
-  };
-
-  useEffect(() => {
-    fetchReviewerData();
-  }, []);
-
-  if (reviewerData.length === 0) {
+  if (!reviewerData || reviewerData.length === 0) {
     return <>아직 리뷰어가 매칭되지 않았습니다! 조금만 기다려주세요🤗</>;
   }
 
@@ -42,7 +36,7 @@ const MyReviewer = () => {
             </Link>
           </S.MyReviewerContent>
           <S.MyReviewerContent>
-            <Button onClick={() => alert("버튼 클릭 완료!")} variant="primary">
+            <Button size="small" onClick={() => alert("버튼 클릭 완료!")} variant="primary">
               피드백 작성
             </Button>
           </S.MyReviewerContent>
