@@ -37,4 +37,7 @@ public class MatchResult {
     public MatchResult(long roomId, Member fromMember, Member toMember, String prLink) {
         this(null, roomId, fromMember, toMember, prLink, ReviewStatus.INCOMPLETE);
     }
+    public void reviewComplete(){
+        reviewStatus = ReviewStatus.COMPLETE;
+    }
 }
