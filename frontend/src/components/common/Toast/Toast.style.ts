@@ -29,7 +29,7 @@ export const Wrapper = styled.div<{ closeAnimation: boolean }>`
   min-width: 350px;
   height: 35px;
 
-  font-weight: 700;
+  font: ${({ theme }) => theme.TEXT.small};
   color: ${({ theme }) => theme.COLOR.white};
 
   background-color: ${({ theme }) => theme.COLOR.primary2};
