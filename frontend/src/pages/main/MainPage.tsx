@@ -3,7 +3,7 @@ import ContentSection from "@/components/common/contentSection/ContentSection";
 import RoomList from "@/components/shared/roomList/RoomList";
 import * as S from "@/pages/main/MainPage.style";
 import QUERY_KEYS from "@/apis/queryKeys";
-import { getOpenedRoomList, getParticipatedRoomList } from "@/apis/rooms.api";
+import { getClosedRoomList, getOpenedRoomList, getParticipatedRoomList } from "@/apis/rooms.api";
 
 const MainPage = () => {
   const { data: participatedRoomList } = useQuery({
@@ -23,7 +23,20 @@ const MainPage = () => {
     initialPageParam: 1,
   });
 
+  const {
+    data: closedRoomList,
+    fetchNextPage: fetchNextClosedPage,
+    hasNextPage: hasNextClosedPage,
+  } = useInfiniteQuery({
+    queryKey: [QUERY_KEYS.CLOSED_ROOM_LIST],
+    queryFn: ({ pageParam = 1 }) => getClosedRoomList("all", pageParam),
+    getNextPageParam: (lastPage, allPages) =>
+      lastPage.isLastPage ? undefined : allPages.length + 1,
+    initialPageParam: 1,
+  });
+
   const openedRooms = openedRoomList?.pages.flatMap((page) => page.roomInfo) || [];
+  const closedRooms = closedRoomList?.pages.flatMap((page) => page.roomInfo) || [];
 
   if (!participatedRoomList) return <></>;
 
@@ -38,6 +51,14 @@ const MainPage = () => {
           roomList={openedRooms}
           hasNextPage={hasNextOpenedPage}
           onLoadMore={() => fetchNextOpenedPage()}
+        />
+      </ContentSection>
+
+      <ContentSection title="모집 마감된 방 리스트">
+        <RoomList
+          roomList={closedRooms}
+          hasNextPage={hasNextClosedPage}
+          onLoadMore={() => fetchNextClosedPage()}
         />
       </ContentSection>
     </S.Layout>

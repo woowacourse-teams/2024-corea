@@ -23,6 +23,18 @@ export const getOpenedRoomList = async (
   return res.data;
 };
 
+export const getClosedRoomList = async (
+  classification: string,
+  page: number,
+): Promise<{ roomInfo: RoomInfo[]; isLastPage: boolean }> => {
+  const res = await apiClient({
+    method: "get",
+    url: `${API_ENDPOINTS.CLOSED_ROOMS}?classification=${classification}&page=${page}`,
+  });
+
+  return res.data;
+};
+
 export const getRoomDetailInfo = async (id: number): Promise<RoomInfo> => {
   const res = await apiClient<{ roomInfo: RoomInfo }>({
     method: "get",
