@@ -1,4 +1,5 @@
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useNextQuery } from "@/hooks/useNextQuery";
 import ContentSection from "@/components/common/contentSection/ContentSection";
 import RoomList from "@/components/shared/roomList/RoomList";
 import * as S from "@/pages/main/MainPage.style";
@@ -15,28 +16,22 @@ const MainPage = () => {
     data: openedRoomList,
     fetchNextPage: fetchNextOpenedPage,
     hasNextPage: hasNextOpenedPage,
-  } = useInfiniteQuery({
-    queryKey: [QUERY_KEYS.OPENED_ROOM_LIST],
-    queryFn: ({ pageParam = 1 }) => getOpenedRoomList("all", pageParam),
-    getNextPageParam: (lastPage, allPages) =>
-      lastPage.isLastPage ? undefined : allPages.length + 1,
-    initialPageParam: 1,
+  } = useNextQuery({
+    queryKey: QUERY_KEYS.OPENED_ROOM_LIST,
+    getRoomList: getOpenedRoomList,
   });
 
   const {
     data: closedRoomList,
     fetchNextPage: fetchNextClosedPage,
     hasNextPage: hasNextClosedPage,
-  } = useInfiniteQuery({
-    queryKey: [QUERY_KEYS.CLOSED_ROOM_LIST],
-    queryFn: ({ pageParam = 1 }) => getClosedRoomList("all", pageParam),
-    getNextPageParam: (lastPage, allPages) =>
-      lastPage.isLastPage ? undefined : allPages.length + 1,
-    initialPageParam: 1,
+  } = useNextQuery({
+    queryKey: QUERY_KEYS.CLOSED_ROOM_LIST,
+    getRoomList: getClosedRoomList,
   });
 
-  const openedRooms = openedRoomList?.pages.flatMap((page) => page.roomInfo) || [];
-  const closedRooms = closedRoomList?.pages.flatMap((page) => page.roomInfo) || [];
+  const openedRooms = openedRoomList?.pages.flatMap((page) => page.roomsInfo) || [];
+  const closedRooms = closedRoomList?.pages.flatMap((page) => page.roomsInfo) || [];
 
   if (!participatedRoomList) return <></>;
 
