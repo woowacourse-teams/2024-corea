@@ -13,12 +13,13 @@ interface RoomListProps {
 }
 
 const RoomList = ({ roomList, hasNextPage, onLoadMore }: RoomListProps) => {
-  if (!roomList) return <></>;
+  if (!roomList || roomList.length === 0) return <></>;
+  console.log("here", roomList);
 
   return (
     <S.RoomListSection>
       <S.RoomListContainer>
-        {roomList.map((roomInfo) => (
+        {roomList?.map((roomInfo) => (
           <Link to={`${API_ENDPOINTS.ROOMS}/${roomInfo.id}`} key={roomInfo.id}>
             <RoomCard roomInfo={roomInfo} />
           </Link>
