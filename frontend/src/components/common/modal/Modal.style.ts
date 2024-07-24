@@ -9,7 +9,8 @@ export const BackDrop = styled.div`
   width: 100vw;
   height: 100vh;
 
-  background-color: #00000059;
+  opacity: 0.4;
+  background-color: ${({ theme }) => theme.COLOR.black};
 `;
 
 export const ModalContent = styled.div`
