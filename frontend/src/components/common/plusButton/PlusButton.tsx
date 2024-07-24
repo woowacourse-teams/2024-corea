@@ -2,9 +2,13 @@ import Icon from "../icon/Icon";
 import React from "react";
 import * as S from "@/components/common/plusButton/PlusButton.style";
 
-const PlusButton = () => {
+interface PlusButtonProps {
+  onClick: () => void;
+}
+
+const PlusButton = ({ onClick }: PlusButtonProps) => {
   return (
-    <S.ButtonContainer>
+    <S.ButtonContainer onClick={onClick}>
       더보기
       <Icon kind="plus" />
     </S.ButtonContainer>

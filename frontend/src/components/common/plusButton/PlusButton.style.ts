@@ -6,6 +6,9 @@ export const ButtonContainer = styled.button`
   align-items: center;
   justify-content: center;
 
+  width: fit-content;
+  margin: 1rem 0;
+
   font: ${({ theme }) => theme.TEXT.semiSmall};
   color: ${({ theme }) => theme.COLOR.grey3};
   text-align: center;
@@ -13,6 +16,6 @@ export const ButtonContainer = styled.button`
   background-color: transparent;
 
   &:hover {
-    transform: scale((1.05));
+    transform: scale(1.05);
   }
 `;
