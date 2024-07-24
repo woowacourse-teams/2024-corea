@@ -31,11 +31,11 @@ export const MyRevieweeWrapper = styled.div`
 
 export const PRLink = styled.a`
   cursor: pointer;
-  text-decoration: underline !important;
+  text-decoration: underline;
   text-underline-offset: 0.3rem;
 
   &:hover {
     color: ${({ theme }) => theme.COLOR.primary2};
-    text-decoration: underline !important;
+    text-decoration: underline;
   }
 `;
