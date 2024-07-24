@@ -20,8 +20,6 @@ export const decorators = [
   (Story) => (
     <ThemeProvider theme={theme}>
       <ToastProvider>
-        <div id="toast"></div>
-        <div id="modal"></div>
         <GlobalStyles />
         <Story />
       </ToastProvider>
