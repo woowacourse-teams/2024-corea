@@ -20,6 +20,14 @@ const meta = {
       description: "방 정보 목록",
       control: { type: "object" },
     },
+    hasNextPage: {
+      description: "다음 페이지가 있는지 여부",
+      control: { type: "boolean" },
+    },
+    onLoadMore: {
+      description: "더 보기 버튼 클릭 시 호출될 함수",
+      action: "clicked",
+    },
   },
 } satisfies Meta<typeof RoomList>;
 
@@ -55,6 +63,20 @@ const sampleRoomList: RoomInfo[] = [
 export const SmallViewport: Story = {
   args: {
     roomList: sampleRoomList,
+    hasNextPage: false,
+  },
+  parameters: {
+    viewport: {
+      defaultViewport: "mobile1",
+    },
+  },
+};
+
+export const SmallViewport_With_NextPage: Story = {
+  args: {
+    roomList: sampleRoomList,
+    hasNextPage: true,
+    onLoadMore: () => console.log("Load more clicked"),
   },
   parameters: {
     viewport: {
@@ -66,6 +88,7 @@ export const SmallViewport: Story = {
 export const MediumViewport: Story = {
   args: {
     roomList: sampleRoomList,
+    hasNextPage: false,
   },
   parameters: {
     viewport: {
@@ -77,6 +100,7 @@ export const MediumViewport: Story = {
 export const LargeViewport: Story = {
   args: {
     roomList: sampleRoomList,
+    hasNextPage: false,
   },
   parameters: {
     viewport: {
