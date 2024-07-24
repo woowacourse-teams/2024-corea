@@ -1,23 +1,29 @@
-import { useCallback, useContext, useEffect } from "react";
+import { useCallback, useContext, useEffect, useRef } from "react";
 import { ToastContext, ToastDispatchContext } from "@/providers/ToastProvider";
 
 const useToast = () => {
   const isOpenModal = useContext(ToastContext);
   const setIsOpenModal = useContext(ToastDispatchContext);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const openToast = useCallback((message: string) => {
     setIsOpenModal({ isOpen: true, message });
   }, []);
 
   useEffect(() => {
-    let timer: NodeJS.Timeout;
     if (isOpenModal.isOpen) {
-      timer = setTimeout(() => {
+      timerRef.current = setTimeout(() => {
         setIsOpenModal({ isOpen: false, message: "" });
       }, 2500);
+      return;
     }
 
-    return () => clearTimeout(timer);
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+        timerRef.current = null;
+      }
+    };
   }, [isOpenModal]);
 
   return { openToast };
