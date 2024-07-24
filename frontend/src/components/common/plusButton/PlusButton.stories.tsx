@@ -12,6 +12,9 @@ const meta = {
       },
     },
   },
+  argTypes: {
+    onClick: { action: "clicked" },
+  },
 } satisfies Meta<typeof PlusButton>;
 
 export default meta;
@@ -19,5 +22,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  render: () => <PlusButton />,
+  args: {
+    onClick: () => {},
+  },
 };
