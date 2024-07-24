@@ -20,7 +20,9 @@ export const decorators = [
     <ThemeProvider theme={theme}>
       <GlobalStyles />
       <Story />
+      <div id="modal"></div>
     </ThemeProvider>
   ),
 ];
+
 export default preview;
