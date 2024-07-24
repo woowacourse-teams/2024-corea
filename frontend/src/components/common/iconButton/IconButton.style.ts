@@ -28,11 +28,6 @@ export const IconButtonBox = styled.button`
   }
 `;
 
-export const StyledIcon = styled(Icon)`
-  width: 30px;
-  height: 30px;
-`;
-
 export const IconButtonText = styled.p`
   font: ${({ theme }) => theme.TEXT.xSmall};
 `;
