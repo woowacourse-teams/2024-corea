@@ -12,11 +12,11 @@ const COLOR = {
 };
 
 const TEXT = {
-  xLarge: "800 1.8rem/1.4rem hanna",
+  xLarge: "800 1.8rem/2.0rem hanna",
   large: "700 1.4rem/1.4rem hanna",
   medium: "500 1.2rem/1.4rem hanna",
-  small: "400 1.0rem/1.4rem hanna",
-  semiSmall: "400 0.8rem/1.4rem hanna",
+  small: "400 1.0rem/1.2rem hanna",
+  semiSmall: "400 0.8rem/1.0rem hanna",
   xSmall: "400 0.6rem/1rem hanna",
 };
 
