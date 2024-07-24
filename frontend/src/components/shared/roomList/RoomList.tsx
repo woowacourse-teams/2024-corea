@@ -1,21 +1,31 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import PlusButton from "@/components/common/plusButton/PlusButton";
 import RoomCard from "@/components/shared/roomCard/RoomCard";
 import * as S from "@/components/shared/roomList/RoomList.style";
 import { RoomInfo } from "@/@types/roomInfo";
 import { API_ENDPOINTS } from "@/apis/endpoints";
 
-const RoomList = ({ roomList }: { roomList: RoomInfo[] }) => {
+interface RoomListProps {
+  roomList: RoomInfo[];
+  hasNextPage?: boolean;
+  onLoadMore?: () => void;
+}
+
+const RoomList = ({ roomList, hasNextPage, onLoadMore }: RoomListProps) => {
   if (!roomList) return <></>;
 
   return (
-    <S.RoomListContainer>
-      {roomList.map((roomInfo) => (
-        <Link to={`${API_ENDPOINTS.ROOMS}/${roomInfo.id}`} key={roomInfo.id}>
-          <RoomCard roomInfo={roomInfo} />
-        </Link>
-      ))}
-    </S.RoomListContainer>
+    <S.RoomListSection>
+      <S.RoomListContainer>
+        {roomList.map((roomInfo) => (
+          <Link to={`${API_ENDPOINTS.ROOMS}/${roomInfo.id}`} key={roomInfo.id}>
+            <RoomCard roomInfo={roomInfo} />
+          </Link>
+        ))}
+      </S.RoomListContainer>
+      {hasNextPage && onLoadMore && <PlusButton onClick={onLoadMore} />}
+    </S.RoomListSection>
   );
 };
 

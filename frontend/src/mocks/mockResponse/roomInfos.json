@@ -80,5 +80,6 @@
       "isParticipated": true,
       "isClosed": false
     }
-  ]
+  ],
+  "isLastPage": false
 }

@@ -1,6 +1,7 @@
 const QUERY_KEYS = {
   ROOM_DETAIL_INFO: "roomDetailInfo",
   PARTICIPATED_ROOM_LIST: "participatedRoomList",
+  OPENED_ROOM_LIST: "openedRoomList",
   REVIEWERS: "reviewers",
   REVIEWEES: "reviewees",
 };
