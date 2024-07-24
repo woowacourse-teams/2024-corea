@@ -40,7 +40,7 @@ export const Wrapper = styled.div<{ closeAnimation: boolean }>`
     right: 0;
     bottom: 20px;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translateX(-50%);
     `}
 
   animation: ${({ closeAnimation }) => (closeAnimation ? toastSlideOut : toastSlideIn)} 0.4s
