@@ -2,18 +2,18 @@ import { useCallback, useContext, useEffect, useRef } from "react";
 import { ToastContext, ToastDispatchContext } from "@/providers/ToastProvider";
 
 const useToast = () => {
-  const isOpenModal = useContext(ToastContext);
-  const setIsOpenModal = useContext(ToastDispatchContext);
+  const isOpenToast = useContext(ToastContext);
+  const setIsOpenToast = useContext(ToastDispatchContext);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const openToast = useCallback((message: string) => {
-    setIsOpenModal({ isOpen: true, message });
+    setIsOpenToast({ isOpen: true, message });
   }, []);
 
   useEffect(() => {
-    if (isOpenModal.isOpen) {
+    if (isOpenToast.isOpen) {
       timerRef.current = setTimeout(() => {
-        setIsOpenModal({ isOpen: false, message: "" });
+        setIsOpenToast({ isOpen: false, message: "" });
       }, 2500);
       return;
     }
@@ -24,7 +24,7 @@ const useToast = () => {
         timerRef.current = null;
       }
     };
-  }, [isOpenModal]);
+  }, [isOpenToast]);
 
   return { openToast };
 };

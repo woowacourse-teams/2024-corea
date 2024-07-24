@@ -5,11 +5,11 @@ const ToastContext = createContext<Toast>({ isOpen: false, message: "" });
 const ToastDispatchContext = createContext<React.Dispatch<React.SetStateAction<Toast>>>(() => {});
 
 const ToastProvider = ({ children }: { children: React.ReactNode }) => {
-  const [modalInfo, setModalInfo] = useState<Toast>({ isOpen: false, message: "" });
+  const [toastInfo, setToastInfo] = useState<Toast>({ isOpen: false, message: "" });
 
   return (
-    <ToastContext.Provider value={modalInfo}>
-      <ToastDispatchContext.Provider value={setModalInfo}>{children}</ToastDispatchContext.Provider>
+    <ToastContext.Provider value={toastInfo}>
+      <ToastDispatchContext.Provider value={setToastInfo}>{children}</ToastDispatchContext.Provider>
     </ToastContext.Provider>
   );
 };

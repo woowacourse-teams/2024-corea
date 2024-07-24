@@ -6,11 +6,11 @@ import { ToastContext } from "@/providers/ToastProvider";
 
 const Toast = () => {
   const toastContainer = document.getElementById("toast");
-  const modalInfo = useContext(ToastContext);
+  const toastInfo = useContext(ToastContext);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   useEffect(() => {
-    if (modalInfo.isOpen) {
+    if (toastInfo.isOpen) {
       setIsOpen(true);
       return;
     }
@@ -20,14 +20,14 @@ const Toast = () => {
     }, 500);
 
     return () => clearTimeout(timer);
-  }, [modalInfo.isOpen]);
+  }, [toastInfo.isOpen]);
 
   if (!toastContainer || !isOpen) {
     return <></>;
   }
 
   return createPortal(
-    <S.Wrapper closeAnimation={!modalInfo.isOpen}>{modalInfo.message}</S.Wrapper>,
+    <S.Wrapper closeAnimation={!toastInfo.isOpen}>{toastInfo.message}</S.Wrapper>,
     toastContainer,
   );
 };
