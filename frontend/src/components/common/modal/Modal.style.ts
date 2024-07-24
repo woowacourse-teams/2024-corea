@@ -54,7 +54,7 @@ export const CloseButton = styled.button`
   top: 1rem;
   right: 1rem;
 
-  font: ${({ theme }) => theme.TEXT.large};
+  font-size: 1.6rem;
   color: ${({ theme }) => theme.COLOR.grey2};
 
   background: transparent;
