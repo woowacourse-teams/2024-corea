@@ -52,7 +52,7 @@ const sampleRoomList: RoomInfo[] = [
   { ...sampleRoomInfo, id: 4 },
 ];
 
-export const Small_Device: Story = {
+export const SmallViewport: Story = {
   args: {
     roomList: sampleRoomList,
   },
@@ -63,7 +63,7 @@ export const Small_Device: Story = {
   },
 };
 
-export const Medium_Device: Story = {
+export const MediumViewport: Story = {
   args: {
     roomList: sampleRoomList,
   },
@@ -74,7 +74,7 @@ export const Medium_Device: Story = {
   },
 };
 
-export const Large_Device: Story = {
+export const LargeViewport: Story = {
   args: {
     roomList: sampleRoomList,
   },
