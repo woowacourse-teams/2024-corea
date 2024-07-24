@@ -34,7 +34,7 @@ type Story = StoryObj<typeof RoomCardModal>;
 export const Default: Story = {
   args: {
     isOpen: true,
-    onClose: () => alert("Modal closed"),
+    onClose: () => {},
     roomInfo: RoomInfo.roomInfo,
   },
   parameters: {
@@ -45,7 +45,7 @@ export const Default: Story = {
 export const SmallViewport: Story = {
   args: {
     isOpen: true,
-    onClose: () => alert("Modal closed"),
+    onClose: () => {},
     roomInfo: RoomInfo.roomInfo,
   },
   parameters: {
@@ -59,7 +59,7 @@ export const SmallViewport: Story = {
 export const MediumViewport: Story = {
   args: {
     isOpen: true,
-    onClose: () => alert("Modal closed"),
+    onClose: () => {},
     roomInfo: RoomInfo.roomInfo,
   },
   parameters: {
@@ -73,7 +73,7 @@ export const MediumViewport: Story = {
 export const LargeViewport: Story = {
   args: {
     isOpen: true,
-    onClose: () => alert("Modal closed"),
+    onClose: () => {},
     roomInfo: RoomInfo.roomInfo,
   },
   parameters: {
