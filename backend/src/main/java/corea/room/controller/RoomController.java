@@ -3,7 +3,7 @@ package corea.room.controller;
 import corea.auth.annotation.AccessedMember;
 import corea.auth.annotation.LoginMember;
 import corea.auth.domain.AuthInfo;
-import corea.matching.dto.ReviewInfos;
+import corea.matching.dto.MatchResultResponses;
 import corea.matching.service.MatchResultService;
 import corea.room.dto.RoomResponse;
 import corea.room.dto.RoomResponses;
@@ -27,14 +27,14 @@ public class RoomController implements RoomControllerSpecification {
     }
 
     @GetMapping("/{id}/reviewers")
-    public ResponseEntity<ReviewInfos> reviewers(@PathVariable long id, @LoginMember AuthInfo authInfo) {
-        ReviewInfos response = matchResultService.findReviewers(authInfo.getId(), id);
+    public ResponseEntity<MatchResultResponses> reviewers(@PathVariable long id, @LoginMember AuthInfo authInfo) {
+        MatchResultResponses response = matchResultService.findReviewers(authInfo.getId(), id);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}/reviewees")
-    public ResponseEntity<ReviewInfos> reviewees(@PathVariable long id, @LoginMember AuthInfo authInfo) {
-        ReviewInfos response = matchResultService.findReviewees(authInfo.getId(), id);
+    public ResponseEntity<MatchResultResponses> reviewees(@PathVariable long id, @LoginMember AuthInfo authInfo) {
+        MatchResultResponses response = matchResultService.findReviewees(authInfo.getId(), id);
         return ResponseEntity.ok(response);
     }
 

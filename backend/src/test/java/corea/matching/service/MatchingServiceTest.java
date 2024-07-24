@@ -32,8 +32,8 @@ class MatchingServiceTest {
         int matchingSize = 3;
 
         for (int i = 0; i < 4; i++) {
-            participations.add(new Participation(1L, memberRepository.save(MemberFixture.MEMBER_DOMAIN()).getId()));
-            participations.add(new Participation(1L, memberRepository.save(MemberFixture.MEMBER_MANAGER()).getId()));
+            participations.add(new Participation(1L, memberRepository.save(MemberFixture.MEMBER_YOUNGSU()).getId()));
+            participations.add(new Participation(1L, memberRepository.save(MemberFixture.MEMBER_JOYSON()).getId()));
         }
 
         assertThatCode(() -> matchingService.matchMaking(participations, matchingSize))

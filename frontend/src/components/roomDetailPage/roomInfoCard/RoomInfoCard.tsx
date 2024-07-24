@@ -1,25 +1,9 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import Icon from "@/components/common/icon/Icon";
 import * as S from "@/components/roomDetailPage/roomInfoCard/RoomInfoCard.style";
 import { RoomInfo } from "@/@types/roomInfo";
-import { getRoomDetailInfo } from "@/apis/rooms.api";
 
-const RoomInfoCard = () => {
-  const [roomInfo, setRoomInfo] = useState<RoomInfo>();
-  const params = useParams();
-  const missionId = params.id ? Number(params.id) : 0;
-
-  const fetchRoomDetailInfoData = async () => {
-    const res = await getRoomDetailInfo(missionId);
-    setRoomInfo(res);
-  };
-
-  useEffect(() => {
-    fetchRoomDetailInfoData();
-  }, []);
-
-  if (!roomInfo) return <></>;
+const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
+  if (!roomInfo.keywords) return <></>;
 
   return (
     <S.RoomInfoCardContainer>

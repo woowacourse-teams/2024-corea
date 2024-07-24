@@ -3,7 +3,7 @@ package corea.matching.service;
 import config.ServiceTest;
 import corea.exception.CoreaException;
 import corea.matching.domain.Participation;
-import corea.matching.dto.ReviewInfos;
+import corea.matching.dto.MatchResultResponses;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,9 +44,9 @@ class MatchResultServiceTest {
 
         matchingService.matchMaking(participations, matchingSize);
 
-        ReviewInfos reviewers = matchResultService.findReviewers(memberId, roomId);
+        MatchResultResponses reviewers = matchResultService.findReviewers(memberId, roomId);
 
-        assertThat(reviewers.reviewInfos()).hasSize(matchingSize);
+        assertThat(reviewers.matchResultResponses()).hasSize(matchingSize);
     }
 
     @Test

@@ -24,10 +24,10 @@ class ParticipateControllerTest {
     @Test
     @DisplayName("사용자가 방에 참여한다.")
     void participate() {
-        Member manager = memberRepository.save(MemberFixture.MEMBER_MANAGER());
+        Member manager = memberRepository.save(MemberFixture.MEMBER_JOYSON());
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
 
-        Member member = memberRepository.save(MemberFixture.MEMBER_DOMAIN());
+        Member member = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
         //@formatter:off
         RestAssured.given().header(new Header("Authorization", member.getEmail())).contentType(ContentType.JSON)
                 .when().post("/participate/"+room.getId())

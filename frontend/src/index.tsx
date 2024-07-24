@@ -1,7 +1,10 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
+import Toast from "@/components/common/Toast/Toast";
+import { ToastProvider } from "@/providers/ToastProvider";
 import router from "@/router";
 import GlobalStyles from "@/styles/globalStyles";
 import { theme } from "@/styles/theme";
@@ -11,16 +14,23 @@ const enableMocking = async () => {
     return;
   }
   const { worker } = await import("./mocks/browser");
-  // return worker.start();
+  return worker.start();
 };
+
+const queryClient = new QueryClient();
 
 enableMocking().then(() => {
   ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <React.StrictMode>
-      <ThemeProvider theme={theme}>
-        <GlobalStyles />
-        <RouterProvider router={router} />
-      </ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider theme={theme}>
+          <ToastProvider>
+            <GlobalStyles />
+            <Toast />
+            <RouterProvider router={router} />
+          </ToastProvider>
+        </ThemeProvider>
+      </QueryClientProvider>
     </React.StrictMode>,
   );
 });
