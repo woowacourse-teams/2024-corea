@@ -20,7 +20,7 @@ export const RoomCardContainer = styled.div`
   `}
 
   ${media.medium`
-      width: 180px;
+    width: 180px;
     height: 220px;
   `}
 
