@@ -1,3 +1,4 @@
+import Icon from "../icon/Icon";
 import IconButton from "./IconButton";
 import type { Meta, StoryObj } from "@storybook/react";
 import React from "react";
@@ -13,14 +14,12 @@ const meta = {
     },
   },
   argTypes: {
-    iconKind: {
-      description: "아이콘 종류",
-      control: { type: "select" },
-      options: ["person", "link", "calendar"],
-    },
     text: {
       description: "아이콘 버튼 텍스트",
       control: { type: "text" },
+    },
+    children: {
+      description: "아이콘 또는 이미지 컴포넌트",
     },
   },
 } satisfies Meta<typeof IconButton>;
@@ -31,20 +30,19 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    iconKind: "person",
+    children: <Icon kind="person" />,
     text: "person",
   },
 };
 
-export const WithoutText: Story = {
+export const With_Img: Story = {
   args: {
-    iconKind: "link",
-  },
-};
-
-export const WithDifferentIcon: Story = {
-  args: {
-    iconKind: "calendar",
-    text: "calendar",
+    children: (
+      <img
+        src="https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=13301655&filePath=L2Rpc2sxL25ld2RhdGEvMjAyMS8yMS9DTFMxMDAwNC8xMzMwMTY1NV9XUlRfMjFfQ0xTMTAwMDRfMjAyMTEyMTNfMQ==&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004"
+        width="32px"
+      />
+    ),
+    text: "racingCar",
   },
 };
