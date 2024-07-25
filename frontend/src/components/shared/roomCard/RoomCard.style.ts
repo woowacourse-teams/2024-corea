@@ -6,15 +6,19 @@ export const RoomCardContainer = styled.div`
   display: flex;
   flex-direction: column;
 
+  margin: 0 auto;
+
   font: ${({ theme }) => theme.TEXT.xSmall};
 
   border: 1px solid ${({ theme }) => theme.COLOR.grey1};
   border-radius: 15px;
   box-shadow: 0 4px 4px rgb(0 0 0 / 10%);
 
+  cursor: pointer;
+
   ${media.small`
-    width: 140px;
-    height: 180px;
+    width: 100%;
+    height: auto;
   `}
 
   ${media.medium`
@@ -66,6 +70,7 @@ export const RoomInformation = styled.div`
   gap: 0.2rem;
   ${media.small`
     gap: 0.1rem;
+    letter-spacing: -1.3px;
   `}
   padding: 0.5rem;
 `;

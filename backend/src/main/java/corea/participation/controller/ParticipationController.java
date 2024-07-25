@@ -1,9 +1,9 @@
-package corea.matching.controller;
+package corea.participation.controller;
 
 import corea.auth.annotation.LoginMember;
 import corea.auth.domain.AuthInfo;
-import corea.matching.dto.ParticipationRequest;
-import corea.matching.service.ParticipationService;
+import corea.participation.dto.ParticipationRequest;
+import corea.participation.service.ParticipationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/participate")
 @RequiredArgsConstructor
-public class ParticipateController implements ParticipationControllerSpecification {
+public class ParticipationController implements ParticipationControllerSpecification {
 
     private final ParticipationService participationService;
 

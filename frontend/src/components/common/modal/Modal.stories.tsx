@@ -32,7 +32,7 @@ type Story = StoryObj<typeof Modal>;
 export const Default: Story = {
   args: {
     isOpen: true,
-    onClose: () => alert("Modal closed"),
+    onClose: () => {},
     hasCloseButton: true,
     children: <div>모달 콘텐츠</div>,
   },
@@ -44,7 +44,7 @@ export const Default: Story = {
 export const SmallViewport: Story = {
   args: {
     isOpen: true,
-    onClose: () => alert("Modal closed"),
+    onClose: () => {},
     hasCloseButton: true,
     children: <div>모달 콘텐츠</div>,
   },
@@ -59,7 +59,7 @@ export const SmallViewport: Story = {
 export const MediumViewport: Story = {
   args: {
     isOpen: true,
-    onClose: () => alert("Modal closed"),
+    onClose: () => {},
     hasCloseButton: true,
     children: <div>모달 콘텐츠</div>,
   },
@@ -74,7 +74,7 @@ export const MediumViewport: Story = {
 export const LargeViewport: Story = {
   args: {
     isOpen: true,
-    onClose: () => alert("Modal closed"),
+    onClose: () => {},
     hasCloseButton: true,
     children: <div>모달 콘텐츠</div>,
   },

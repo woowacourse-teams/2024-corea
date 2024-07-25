@@ -14,3 +14,8 @@ export interface RoomInfo {
   isParticipated: boolean;
   isClosed: boolean;
 }
+
+export interface RoomListInfo {
+  roomsInfo: RoomInfo[];
+  isLastPage: boolean;
+}

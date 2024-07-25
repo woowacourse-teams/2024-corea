@@ -1,3 +1,4 @@
+import { API_ENDPOINTS } from "./apis/endpoints";
 import { createBrowserRouter } from "react-router-dom";
 import Layout from "@/components/layout/Layout";
 import MainPage from "@/pages/main/MainPage";
@@ -13,7 +14,7 @@ const router = createBrowserRouter([
         element: <MainPage />,
       },
       {
-        path: "room/:id",
+        path: `${API_ENDPOINTS.ROOMS}/:id`,
         element: <RoomDetailPage />,
       },
     ],

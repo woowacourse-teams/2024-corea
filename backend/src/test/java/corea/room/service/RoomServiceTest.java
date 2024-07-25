@@ -42,13 +42,13 @@ class RoomServiceTest {
 
         assertSoftly(softly -> {
             softly.assertThat(rooms).hasSize(2);
-            softly.assertThat(rooms.get(0).author()).isEqualTo("강다빈");
-            softly.assertThat(rooms.get(1).author()).isEqualTo("이상엽");
+            softly.assertThat(rooms.get(0).manager()).isEqualTo("강다빈");
+            softly.assertThat(rooms.get(1).manager()).isEqualTo("이상엽");
         });
     }
 
     @ParameterizedTest
-    @CsvSource({"be, 2", "fe, 3", "an, 2", "all, 7"})
+    @CsvSource({"be, 4", "fe, 3", "an, 2", "all, 8"})
     @DisplayName("로그인하지 않은 사용자가 분야별로 현재 모집 중인 방들을 조회할 수 있다.")
     void findOpenedRoomsWithoutMember(String expression, int expectedSize) {
         AuthInfo anonymous = AuthInfo.getAnonymous();
@@ -60,7 +60,7 @@ class RoomServiceTest {
     }
 
     @ParameterizedTest
-    @CsvSource({"be, 1", "fe, 1", "an, 2", "all, 4"})
+    @CsvSource({"be, 3", "fe, 1", "an, 2", "all, 6"})
     @DisplayName("로그인한 사용자가 자신이 참여하지 않고, 분야별로 현재 모집 중인 방들을 조회할 수 있다.")
     void findOpenedRoomsWithMember(String expression, int expectedSize) {
         RoomResponses response = roomService.findOpenedRooms(1, expression, 0);
@@ -77,5 +77,16 @@ class RoomServiceTest {
         List<RoomResponse> rooms = response.rooms();
 
         assertThat(rooms).hasSize(expectedSize);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"0, false", "1, true"})
+    @DisplayName("방을 조회할 때 전달받은 페이지가 마지막 페이지인지 여부를 판별할 수 있다.")
+    void isLastPage(int pageNumber, boolean expected) {
+        AuthInfo anonymous = AuthInfo.getAnonymous();
+
+        RoomResponses response = roomService.findOpenedRooms(anonymous.getId(), "all", pageNumber);
+
+        assertThat(response.isLastPage()).isEqualTo(expected);
     }
 }

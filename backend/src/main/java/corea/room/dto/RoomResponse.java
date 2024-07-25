@@ -9,7 +9,7 @@ public record RoomResponse(
         long id,
         String title,
         String content,
-        String author,
+        String manager,
         String repositoryLink,
         String thumbnailLink,
         int matchingSize,

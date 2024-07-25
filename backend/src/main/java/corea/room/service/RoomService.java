@@ -2,8 +2,8 @@ package corea.room.service;
 
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
-import corea.matching.domain.Participation;
-import corea.matching.repository.ParticipationRepository;
+import corea.participation.domain.Participation;
+import corea.participation.repository.ParticipationRepository;
 import corea.room.domain.Classification;
 import corea.room.domain.Room;
 import corea.room.domain.RoomStatus;
@@ -50,7 +50,7 @@ public class RoomService {
         return participations.stream()
                 .map(Participation::getRoomId)
                 .map(this::getRoom)
-                .collect(collectingAndThen(toList(), rooms -> RoomResponses.of(rooms, true)));
+                .collect(collectingAndThen(toList(), rooms -> RoomResponses.of(rooms, true, true)));
     }
 
     public RoomResponses findOpenedRooms(long memberId, String expression, int pageNumber) {
