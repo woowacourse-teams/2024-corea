@@ -14,6 +14,8 @@ export const RoomCardContainer = styled.div`
   border-radius: 15px;
   box-shadow: 0 4px 4px rgb(0 0 0 / 10%);
 
+  cursor: pointer;
+
   ${media.small`
     width: 100%;
     height: auto;
