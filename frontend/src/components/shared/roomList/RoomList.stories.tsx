@@ -1,11 +1,10 @@
 import RoomList from "./RoomList";
 import type { Meta, StoryObj } from "@storybook/react";
 import React from "react";
-import { BrowserRouter } from "react-router-dom";
 import { RoomInfo } from "@/@types/roomInfo";
 import roomInfos from "@/mocks/mockResponse/roomInfos.json";
 
-const sampleRoomList: RoomInfo[] = roomInfos.roomInfo;
+const sampleRoomList: RoomInfo[] = roomInfos.rooms;
 
 const meta = {
   title: "shared/RoomList",
