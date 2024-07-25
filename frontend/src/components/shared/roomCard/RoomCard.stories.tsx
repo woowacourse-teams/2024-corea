@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { RoomInfo } from "@/@types/roomInfo";
 import roomInfo from "@/mocks/mockResponse/roomInfo.json";
 
-const sampleRoomList: RoomInfo = roomInfo.roomResponse;
+const sampleRoomList: RoomInfo = roomInfo;
 
 const meta = {
   title: "shared/RoomCard",

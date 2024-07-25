@@ -41,5 +41,5 @@ export const getRoomDetailInfo = async (id: number): Promise<RoomInfo> => {
     url: `${API_ENDPOINTS.ROOMS}/${id}`,
   });
 
-  return res.data.roomResponse;
+  return res.data;
 };

@@ -4,7 +4,7 @@ import RoomCardModal from "@/components/shared/roomCardModal/RoomCardModal";
 import { RoomInfo } from "@/@types/roomInfo";
 import roomInfo from "@/mocks/mockResponse/roomInfo.json";
 
-const sampleRoomList: RoomInfo = roomInfo.roomResponse;
+const sampleRoomList: RoomInfo = roomInfo;
 
 const meta: Meta<typeof RoomCardModal> = {
   title: "Shared/RoomCardModal",
