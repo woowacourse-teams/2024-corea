@@ -41,4 +41,8 @@ public class MatchResult {
     public void reviewComplete() {
         reviewStatus = ReviewStatus.COMPLETE;
     }
+
+    public boolean isReviewed() {
+        return reviewStatus.isComplete();
+    }
 }
