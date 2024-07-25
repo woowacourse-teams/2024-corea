@@ -132,6 +132,83 @@ public class DemoDataInitializer implements ApplicationRunner {
                         1, 20, member5,
                         LocalDateTime.now().plusDays(3),
                         LocalDateTime.now().plusDays(17),
+                        Classification.FRONTEND, RoomStatus.OPENED));
+        roomRepository.save(
+                new Room("방 제목 11", "방 설명 11", 3,
+                        null, null, List.of("TDD"),
+                        1, 20, member5,
+                        LocalDateTime.now().plusDays(3),
+                        LocalDateTime.now().plusDays(17),
+                        Classification.FRONTEND, RoomStatus.OPENED));
+        roomRepository.save(
+                new Room("방 제목 12", "방 설명 12", 3,
+                        null, null, List.of("TDD"),
+                        1, 20, member5,
+                        LocalDateTime.now().plusDays(3),
+                        LocalDateTime.now().plusDays(17),
+                        Classification.FRONTEND, RoomStatus.CLOSED));
+        roomRepository.save(
+                new Room("방 제목 13", "방 설명 13", 3,
+                        null, null, List.of("TDD"),
+                        1, 20, member5,
+                        LocalDateTime.now().plusDays(3),
+                        LocalDateTime.now().plusDays(17),
+                        Classification.FRONTEND, RoomStatus.CLOSED));
+        roomRepository.save(
+                new Room("방 제목 14", "방 설명 14", 3,
+                        null, null, List.of("TDD"),
+                        1, 20, member5,
+                        LocalDateTime.now().plusDays(3),
+                        LocalDateTime.now().plusDays(17),
+                        Classification.FRONTEND, RoomStatus.CLOSED));
+        roomRepository.save(
+                new Room("방 제목 15", "방 설명 15", 3,
+                        null, null, List.of("TDD"),
+                        1, 20, member5,
+                        LocalDateTime.now().plusDays(3),
+                        LocalDateTime.now().plusDays(17),
+                        Classification.FRONTEND, RoomStatus.CLOSED));
+        roomRepository.save(
+                new Room("방 제목 16", "방 설명 16", 3,
+                        null, null, List.of("TDD"),
+                        1, 20, member5,
+                        LocalDateTime.now().plusDays(3),
+                        LocalDateTime.now().plusDays(17),
+                        Classification.FRONTEND, RoomStatus.CLOSED));
+        roomRepository.save(
+                new Room("방 제목 17", "방 설명 17", 3,
+                        null, null, List.of("TDD"),
+                        1, 20, member5,
+                        LocalDateTime.now().plusDays(3),
+                        LocalDateTime.now().plusDays(17),
+                        Classification.FRONTEND, RoomStatus.CLOSED));
+        roomRepository.save(
+                new Room("방 제목 18", "방 설명 18", 3,
+                        null, null, List.of("TDD"),
+                        1, 20, member5,
+                        LocalDateTime.now().plusDays(3),
+                        LocalDateTime.now().plusDays(17),
+                        Classification.FRONTEND, RoomStatus.CLOSED));
+        roomRepository.save(
+                new Room("방 제목 19", "방 설명 19", 3,
+                        null, null, List.of("TDD"),
+                        1, 20, member5,
+                        LocalDateTime.now().plusDays(3),
+                        LocalDateTime.now().plusDays(17),
+                        Classification.FRONTEND, RoomStatus.CLOSED));
+        roomRepository.save(
+                new Room("방 제목 20", "방 설명 20", 3,
+                        null, null, List.of("TDD"),
+                        1, 20, member5,
+                        LocalDateTime.now().plusDays(3),
+                        LocalDateTime.now().plusDays(17),
+                        Classification.FRONTEND, RoomStatus.CLOSED));
+        roomRepository.save(
+                new Room("방 제목 21", "방 설명 21", 3,
+                        null, null, List.of("TDD"),
+                        1, 20, member5,
+                        LocalDateTime.now().plusDays(3),
+                        LocalDateTime.now().plusDays(17),
                         Classification.FRONTEND, RoomStatus.CLOSED));
 
         //room1 에 참여한 참여자들
