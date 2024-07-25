@@ -37,7 +37,7 @@ class RoomAcceptanceTest {
                 .extract().as(RoomResponse.class);
 
         assertSoftly(softly -> {
-            softly.assertThat(response.author()).isEqualTo("이상엽");
+            softly.assertThat(response.manager()).isEqualTo("이상엽");
             softly.assertThat(response.isParticipated()).isEqualTo(false);
         });
     }
@@ -53,7 +53,7 @@ class RoomAcceptanceTest {
                 .extract().as(RoomResponse.class);
 
         assertSoftly(softly -> {
-            softly.assertThat(response.author()).isEqualTo("이상엽");
+            softly.assertThat(response.manager()).isEqualTo("이상엽");
             softly.assertThat(response.isParticipated()).isEqualTo(true);
         });
     }
@@ -82,8 +82,8 @@ class RoomAcceptanceTest {
 
         assertSoftly(softly -> {
             softly.assertThat(rooms).hasSize(2);
-            softly.assertThat(rooms.get(0).author()).isEqualTo("강다빈");
-            softly.assertThat(rooms.get(1).author()).isEqualTo("이상엽");
+            softly.assertThat(rooms.get(0).manager()).isEqualTo("강다빈");
+            softly.assertThat(rooms.get(1).manager()).isEqualTo("이상엽");
         });
     }
 
@@ -101,8 +101,8 @@ class RoomAcceptanceTest {
 
         assertSoftly(softly -> {
             softly.assertThat(rooms).hasSize(2);
-            softly.assertThat(rooms.get(0).author()).isEqualTo("조경찬");
-            softly.assertThat(rooms.get(1).author()).isEqualTo("박민아");
+            softly.assertThat(rooms.get(0).manager()).isEqualTo("조경찬");
+            softly.assertThat(rooms.get(1).manager()).isEqualTo("박민아");
         });
     }
 
@@ -120,7 +120,7 @@ class RoomAcceptanceTest {
 
         assertSoftly(softly -> {
             softly.assertThat(rooms).hasSize(1);
-            softly.assertThat(rooms.get(0).author()).isEqualTo("박민아");
+            softly.assertThat(rooms.get(0).manager()).isEqualTo("박민아");
         });
     }
 
@@ -138,9 +138,9 @@ class RoomAcceptanceTest {
 
         assertSoftly(softly -> {
             softly.assertThat(rooms).hasSize(3);
-            softly.assertThat(rooms.get(0).author()).isEqualTo("조경찬");
-            softly.assertThat(rooms.get(1).author()).isEqualTo("이영수");
-            softly.assertThat(rooms.get(2).author()).isEqualTo("최진실");
+            softly.assertThat(rooms.get(0).manager()).isEqualTo("조경찬");
+            softly.assertThat(rooms.get(1).manager()).isEqualTo("이영수");
+            softly.assertThat(rooms.get(2).manager()).isEqualTo("최진실");
         });
     }
 }

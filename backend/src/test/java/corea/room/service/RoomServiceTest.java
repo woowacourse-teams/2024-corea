@@ -42,8 +42,8 @@ class RoomServiceTest {
 
         assertSoftly(softly -> {
             softly.assertThat(rooms).hasSize(2);
-            softly.assertThat(rooms.get(0).author()).isEqualTo("강다빈");
-            softly.assertThat(rooms.get(1).author()).isEqualTo("이상엽");
+            softly.assertThat(rooms.get(0).manager()).isEqualTo("강다빈");
+            softly.assertThat(rooms.get(1).manager()).isEqualTo("이상엽");
         });
     }
 
