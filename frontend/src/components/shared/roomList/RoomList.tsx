@@ -4,7 +4,6 @@ import PlusButton from "@/components/common/plusButton/PlusButton";
 import RoomCard from "@/components/shared/roomCard/RoomCard";
 import * as S from "@/components/shared/roomList/RoomList.style";
 import { RoomInfo } from "@/@types/roomInfo";
-import { API_ENDPOINTS } from "@/apis/endpoints";
 
 interface RoomListProps {
   roomList: RoomInfo[];
@@ -18,14 +17,16 @@ const RoomList = ({ roomList, hasNextPage, onLoadMore }: RoomListProps) => {
   return (
     <S.RoomListSection>
       <S.RoomListContainer>
-        {roomList?.map(
-          (roomInfo) =>
-            roomInfo && (
-              <Link to={`${API_ENDPOINTS.ROOMS}/${roomInfo.id}`} key={roomInfo.id}>
+        {roomList &&
+          roomList.map((roomInfo) =>
+            hasNextPage ? (
+              <RoomCard roomInfo={roomInfo} key={roomInfo.id} />
+            ) : (
+              <Link to={`/rooms/${roomInfo.id}`} key={roomInfo.id}>
                 <RoomCard roomInfo={roomInfo} />
               </Link>
             ),
-        )}
+          )}
       </S.RoomListContainer>
       {hasNextPage && onLoadMore && <PlusButton onClick={onLoadMore} />}
     </S.RoomListSection>

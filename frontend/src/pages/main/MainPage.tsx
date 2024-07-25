@@ -36,15 +36,15 @@ const MainPage = () => {
     classification: selectedCategory,
   });
 
-  const openedRooms = openedRoomList?.pages.flatMap((page) => page.roomsInfo) || [];
-  const closedRooms = closedRoomList?.pages.flatMap((page) => page.roomsInfo) || [];
+  const openedRooms = openedRoomList?.pages.flatMap((page) => page.rooms) || [];
+  const closedRooms = closedRoomList?.pages.flatMap((page) => page.rooms) || [];
 
   if (!participatedRoomList) return <></>;
 
   return (
     <S.Layout>
       <ContentSection title="참여 중인 방 리스트">
-        {participatedRoomList && <RoomList roomList={participatedRoomList.roomInfo} />}
+        {participatedRoomList && <RoomList roomList={participatedRoomList.rooms} />}
       </ContentSection>
 
       <MenuBar selectedCategory={selectedCategory} onCategoryClick={handleSelectedCategory} />

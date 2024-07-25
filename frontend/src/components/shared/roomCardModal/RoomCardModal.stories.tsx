@@ -1,8 +1,10 @@
 import { Meta, StoryObj } from "@storybook/react";
 import React from "react";
-import { ThemeProvider } from "styled-components";
 import RoomCardModal from "@/components/shared/roomCardModal/RoomCardModal";
-import RoomInfo from "@/mocks/mockResponse/roomInfo.json";
+import { RoomInfo } from "@/@types/roomInfo";
+import roomInfo from "@/mocks/mockResponse/roomInfo.json";
+
+const sampleRoomList: RoomInfo = roomInfo;
 
 const meta: Meta<typeof RoomCardModal> = {
   title: "Shared/RoomCardModal",
@@ -35,7 +37,7 @@ export const Default: Story = {
   args: {
     isOpen: true,
     onClose: () => {},
-    roomInfo: RoomInfo.roomInfo,
+    roomInfo: sampleRoomList,
   },
   parameters: {
     docs: { disable: true },
@@ -46,7 +48,7 @@ export const SmallViewport: Story = {
   args: {
     isOpen: true,
     onClose: () => {},
-    roomInfo: RoomInfo.roomInfo,
+    roomInfo: sampleRoomList,
   },
   parameters: {
     viewport: {
@@ -60,7 +62,7 @@ export const MediumViewport: Story = {
   args: {
     isOpen: true,
     onClose: () => {},
-    roomInfo: RoomInfo.roomInfo,
+    roomInfo: sampleRoomList,
   },
   parameters: {
     viewport: {
@@ -74,7 +76,7 @@ export const LargeViewport: Story = {
   args: {
     isOpen: true,
     onClose: () => {},
-    roomInfo: RoomInfo.roomInfo,
+    roomInfo: sampleRoomList,
   },
   parameters: {
     viewport: {

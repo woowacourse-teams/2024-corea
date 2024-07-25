@@ -6,11 +6,14 @@ import corea.member.repository.MemberRepository;
 import corea.participation.domain.Participation;
 import corea.participation.dto.ParticipationRequest;
 import corea.participation.dto.ParticipationResponse;
+import corea.participation.dto.ParticipationsResponse;
 import corea.participation.repository.ParticipationRepository;
 import corea.room.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -39,5 +42,9 @@ public class ParticipationService {
         if (participationRepository.existsByRoomIdAndMemberId(roomId, memberId)) {
             throw new CoreaException(ExceptionType.ALREADY_APPLY);
         }
+    }
+
+    public ParticipationsResponse getParticipation(long roomId) {
+        return new ParticipationsResponse(participationRepository.findAllByRoomId(roomId));
     }
 }

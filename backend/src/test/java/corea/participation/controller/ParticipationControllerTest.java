@@ -27,10 +27,10 @@ class ParticipationControllerTest {
     void participate() {
         Member manager = memberRepository.save(MemberFixture.MEMBER_JOYSON());
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
-        Member member = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
+        Member member = memberRepository.save(MemberFixture.MEMBER_PORORO());
 
         RestAssured.given().log().all()
-                .header("Authorization", member.getEmail())
+                .header("Authorization", member.getUsername())
                 .contentType(ContentType.JSON)
                 .when().post("/participate/" + room.getId())
                 .then().log().all()
