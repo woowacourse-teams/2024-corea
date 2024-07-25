@@ -13,6 +13,7 @@ export const IconButtonContainer = styled.div`
 
 export const IconButtonBox = styled.button<{ isSelected: boolean }>`
   display: flex;
+  gap: 0.4rem;
   align-items: center;
   justify-content: center;
 
@@ -33,6 +34,5 @@ export const IconButtonBox = styled.button<{ isSelected: boolean }>`
 `;
 
 export const IconButtonText = styled.span`
-  margin-top: 0.4rem;
   font: ${({ theme }) => theme.TEXT.semiSmall};
 `;
