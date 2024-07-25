@@ -78,4 +78,15 @@ class RoomServiceTest {
 
         assertThat(rooms).hasSize(expectedSize);
     }
+
+    @ParameterizedTest
+    @CsvSource({"0, false", "1, true"})
+    @DisplayName("방을 조회할 때 전달받은 페이지가 마지막 페이지인지 여부를 판별할 수 있다.")
+    void isLastPage(int pageNumber, boolean expected) {
+        AuthInfo anonymous = AuthInfo.getAnonymous();
+
+        RoomResponses response = roomService.findOpenedRooms(anonymous.getId(), "all", pageNumber);
+
+        assertThat(response.isLastPage()).isEqualTo(expected);
+    }
 }

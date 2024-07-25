@@ -50,7 +50,7 @@ public class RoomService {
         return participations.stream()
                 .map(Participation::getRoomId)
                 .map(this::getRoom)
-                .collect(collectingAndThen(toList(), rooms -> RoomResponses.of(rooms, true)));
+                .collect(collectingAndThen(toList(), rooms -> RoomResponses.of(rooms, true, true)));
     }
 
     public RoomResponses findOpenedRooms(long memberId, String expression, int pageNumber) {
