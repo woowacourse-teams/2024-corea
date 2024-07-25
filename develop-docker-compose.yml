@@ -3,7 +3,7 @@ services:
    backend:
      build:
        context: ./backend
-     container_name: corea-refactor-backend
+     container_name: corea-backend
      ports:
        - "8080:8080"
    frontend:

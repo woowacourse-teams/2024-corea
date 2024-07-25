@@ -10,4 +10,4 @@ COPY ./ ./
 
 EXPOSE 3000
 
-ENTRYPOINT ["npm", "run", "dev-build"]
+ENTRYPOINT ["npm", "run", "dev"]
