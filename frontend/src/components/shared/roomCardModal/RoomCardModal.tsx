@@ -59,7 +59,7 @@ const RoomCardModal = ({ isOpen, onClose, roomInfo }: RoomCardModalProps) => {
           <S.InfoRow>
             <S.InfoTitle>미션 참여 인원</S.InfoTitle>
             <S.InfoContent>
-              {roomInfo.currentParticipantSize} / {roomInfo.maximumParticipantSize}
+              {roomInfo.currentParticipants} / {roomInfo.limitedParticipants}
             </S.InfoContent>
           </S.InfoRow>
         </S.EtcContainer>

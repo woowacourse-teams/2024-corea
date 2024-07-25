@@ -6,7 +6,7 @@ export const API_ENDPOINTS = {
   PARTICIPATE_IN: (roomId: number) => `/participate/${roomId}`,
 
   // 방 상세 페이지
-  ROOMS: (roomId: number) => `/rooms/${roomId}`,
+  ROOMS: `/rooms`,
   REVIEWERS: (roomId: number) => `/rooms/${roomId}/reviewers`,
   REVIEWEES: (roomId: number) => `/rooms/${roomId}/reviewees`,
   REVIEW_COMPLETE: "/review/complete",
