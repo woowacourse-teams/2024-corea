@@ -8,37 +8,33 @@ interface MenuBarProps {
   onCategoryClick: (category: string) => void;
 }
 
+interface CategoryItem {
+  text: string;
+  value: string;
+  logo: string;
+  alt: string;
+}
+
+const CATEGORIES: CategoryItem[] = [
+  { text: "ALL", value: "all", logo: allLogo, alt: "all" },
+  { text: "ANDROID", value: "an", logo: androidLogo, alt: "android" },
+  { text: "BACKEND", value: "be", logo: backendLogo, alt: "backend" },
+  { text: "FRONTEND", value: "fe", logo: frontendLogo, alt: "frontend" },
+];
+
 const MenuBar = ({ selectedCategory, onCategoryClick }: MenuBarProps) => {
   return (
     <S.MenuBarContainer>
-      <IconButton
-        text="ALL"
-        onClick={() => onCategoryClick("all")}
-        isSelected={selectedCategory === "all"}
-      >
-        <S.StyledChildren src={allLogo} alt="all" />
-      </IconButton>
-      <IconButton
-        text="ANDROID"
-        onClick={() => onCategoryClick("an")}
-        isSelected={selectedCategory === "an"}
-      >
-        <S.StyledChildren src={androidLogo} alt="android" />
-      </IconButton>
-      <IconButton
-        text="BACKEND"
-        onClick={() => onCategoryClick("be")}
-        isSelected={selectedCategory === "be"}
-      >
-        <S.StyledChildren src={backendLogo} alt="backend" />
-      </IconButton>
-      <IconButton
-        text="FRONTEND"
-        onClick={() => onCategoryClick("fe")}
-        isSelected={selectedCategory === "fe"}
-      >
-        <S.StyledChildren src={frontendLogo} alt="frontend" />
-      </IconButton>
+      {CATEGORIES.map((category) => (
+        <IconButton
+          key={category.value}
+          text={category.text}
+          onClick={() => onCategoryClick(category.value)}
+          isSelected={selectedCategory === category.value}
+        >
+          <S.StyledChildren src={category.logo} alt={category.alt} />
+        </IconButton>
+      ))}
     </S.MenuBarContainer>
   );
 };
