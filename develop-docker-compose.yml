@@ -10,7 +10,5 @@ services:
      build:
        context: ./frontend
      container_name: corea-frontend
-     volumes:
-       - ./frontend/node_modules:/app/frontend/node_modules
      ports:
        - "3000:3000"
