@@ -1,12 +1,12 @@
-package corea.matching.service;
+package corea.participation.service;
 
 import config.ServiceTest;
 import corea.exception.CoreaException;
 import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
-import corea.matching.dto.ParticipationRequest;
 import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
+import corea.participation.dto.ParticipationRequest;
 import corea.room.domain.Room;
 import corea.room.repository.RoomRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 class ParticipationServiceTest {
 
     @Autowired
-    private ParticipationService sut;
+    private ParticipationService participationService;
 
     @Autowired
     private RoomRepository roomRepository;
@@ -33,7 +33,7 @@ class ParticipationServiceTest {
         Member member = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(member));
 
-        assertThatCode(() -> sut.participate(new ParticipationRequest(room.getId(), member.getId())))
+        assertThatCode(() -> participationService.participate(new ParticipationRequest(room.getId(), member.getId())))
                 .doesNotThrowAnyException();
     }
 
@@ -42,7 +42,7 @@ class ParticipationServiceTest {
     void participate_throw_exception_when_roomId_not_exist() {
         Member member = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
 
-        assertThatCode(() -> sut.participate(new ParticipationRequest(-1, member.getId())))
+        assertThatCode(() -> participationService.participate(new ParticipationRequest(-1, member.getId())))
                 .isInstanceOf(CoreaException.class);
     }
 
@@ -51,7 +51,7 @@ class ParticipationServiceTest {
     void participate_throw_exception_when_memberId_not_exist() {
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(null));
 
-        assertThatCode(() -> sut.participate(new ParticipationRequest(room.getId(), -1)))
+        assertThatCode(() -> participationService.participate(new ParticipationRequest(room.getId(), -1)))
                 .isInstanceOf(CoreaException.class);
     }
 
@@ -61,9 +61,9 @@ class ParticipationServiceTest {
         Member member = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(member));
 
-        sut.participate(new ParticipationRequest(room.getId(), member.getId()));
+        participationService.participate(new ParticipationRequest(room.getId(), member.getId()));
 
-        assertThatCode(() -> sut.participate(new ParticipationRequest(room.getId(), member.getId())))
+        assertThatCode(() -> participationService.participate(new ParticipationRequest(room.getId(), member.getId())))
                 .isInstanceOf(CoreaException.class);
     }
 }

@@ -1,4 +1,4 @@
-package corea.matching.controller;
+package corea.participation.controller;
 
 import corea.auth.domain.AuthInfo;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -13,10 +13,10 @@ public interface ParticipationControllerSpecification {
             value = {
                     @ApiResponse(responseCode = "404", content = @Content(mediaType = "application/json", examples = {
                             @ExampleObject(name = "해당하는 방이 없는 경우", value = """
-                    {
-                        "message": "1에 해당하는 방 없습니다."
-                    }
-                    """)
+                                    {
+                                        "message": "1에 해당하는 방 없습니다."
+                                    }
+                                    """)
                     })),
             }
     )

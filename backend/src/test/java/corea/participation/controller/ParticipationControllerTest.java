@@ -1,4 +1,4 @@
-package corea.matching.controller;
+package corea.participation.controller;
 
 import config.ControllerTest;
 import corea.fixture.MemberFixture;
@@ -9,29 +9,31 @@ import corea.room.domain.Room;
 import corea.room.repository.RoomRepository;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import io.restassured.http.Header;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @ControllerTest
-class ParticipateControllerTest {
+class ParticipationControllerTest {
+
     @Autowired
-    RoomRepository roomRepository;
+    private RoomRepository roomRepository;
+
     @Autowired
-    MemberRepository memberRepository;
+    private MemberRepository memberRepository;
 
     @Test
     @DisplayName("사용자가 방에 참여한다.")
     void participate() {
         Member manager = memberRepository.save(MemberFixture.MEMBER_JOYSON());
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
-
         Member member = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
-        //@formatter:off
-        RestAssured.given().header(new Header("Authorization", member.getEmail())).contentType(ContentType.JSON)
-                .when().post("/participate/"+room.getId())
-                .then().assertThat().statusCode(200);
-        //@formatter:on
+
+        RestAssured.given().log().all()
+                .header("Authorization", member.getEmail())
+                .contentType(ContentType.JSON)
+                .when().post("/participate/" + room.getId())
+                .then().log().all()
+                .statusCode(200);
     }
 }

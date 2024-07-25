@@ -6,22 +6,30 @@ export const HeaderContainer = styled.header`
   justify-content: space-between;
 
   width: 100vw;
-  height: 6.5rem;
-  padding: 0 calc((100vw - 1200px) / 2);
+  height: 65px;
 
   box-shadow: 0 4px 4px rgb(0 0 0 / 10%);
 
-  div {
-    font: ${({ theme }) => theme.TEXT.large};
+  @media screen and (width >= 1200px) {
+    padding: 0 calc(((100vw - 1200px) / 2) + 30px);
   }
 
-  li {
-    cursor: pointer;
-    font: ${({ theme }) => theme.TEXT.semiSmall};
+  @media screen and (width < 1200px) {
+    padding: 0 30px;
   }
+`;
 
-  ul {
-    display: flex;
-    gap: 1rem;
-  }
+export const HeaderLogo = styled.button`
+  font: ${({ theme }) => theme.TEXT.large};
+  background: transparent;
+`;
+
+export const HeaderList = styled.ul`
+  display: flex;
+  gap: 1rem;
+`;
+
+export const HeaderItem = styled.li`
+  cursor: pointer;
+  font: ${({ theme }) => theme.TEXT.semiSmall};
 `;

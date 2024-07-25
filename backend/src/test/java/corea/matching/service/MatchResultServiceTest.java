@@ -2,8 +2,8 @@ package corea.matching.service;
 
 import config.ServiceTest;
 import corea.exception.CoreaException;
-import corea.matching.domain.Participation;
 import corea.matching.dto.MatchResultResponses;
+import corea.participation.domain.Participation;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,7 +77,7 @@ class MatchResultServiceTest {
     @Test
     @DisplayName("리뷰어 결과를 가져올 때 존재하지 않는 방이나 사용자의 정보를 요청하는 경우 예외를 발생한다.")
     void findReviewersInvalidException2() {
-        long memberId = 8;
+        long memberId = 0;
         long roomId = 1;
         int matchingSize = 3;
         List<Participation> participations = new ArrayList<>();
