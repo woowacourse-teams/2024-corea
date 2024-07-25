@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useNextQuery } from "@/hooks/useNextQuery";
+import useSelectedCategory from "@/hooks/useSelectedCategory";
 import ContentSection from "@/components/common/contentSection/ContentSection";
 import MenuBar from "@/components/common/menuBar/MenuBar";
 import RoomList from "@/components/shared/roomList/RoomList";
@@ -9,13 +10,7 @@ import QUERY_KEYS from "@/apis/queryKeys";
 import { getClosedRoomList, getOpenedRoomList, getParticipatedRoomList } from "@/apis/rooms.api";
 
 const MainPage = () => {
-  const [selectedCategory, setSelectedCategory] = useState(() => {
-    return localStorage.getItem("selectedCategory") || "all";
-  });
-
-  useEffect(() => {
-    localStorage.setItem("selectedCategory", selectedCategory);
-  }, [selectedCategory]);
+  const { selectedCategory, setSelectedCategory } = useSelectedCategory();
 
   const { data: participatedRoomList } = useQuery({
     queryKey: [QUERY_KEYS.PARTICIPATED_ROOM_LIST],
@@ -45,10 +40,6 @@ const MainPage = () => {
   const openedRooms = openedRoomList?.pages.flatMap((page) => page.roomsInfo) || [];
   const closedRooms = closedRoomList?.pages.flatMap((page) => page.roomsInfo) || [];
 
-  const handleCategoryClick = (category: string) => {
-    setSelectedCategory(category);
-  };
-
   if (!participatedRoomList) return <></>;
 
   return (
@@ -57,7 +48,7 @@ const MainPage = () => {
         {participatedRoomList && <RoomList roomList={participatedRoomList.roomInfo} />}
       </ContentSection>
 
-      <MenuBar selectedCategory={selectedCategory} onCategoryClick={handleCategoryClick} />
+      <MenuBar selectedCategory={selectedCategory} onCategoryClick={setSelectedCategory} />
 
       <ContentSection title="모집 중인 방 리스트">
         <RoomList
