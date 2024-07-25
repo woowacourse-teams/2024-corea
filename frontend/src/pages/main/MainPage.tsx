@@ -9,7 +9,7 @@ import QUERY_KEYS from "@/apis/queryKeys";
 import { getClosedRoomList, getOpenedRoomList, getParticipatedRoomList } from "@/apis/rooms.api";
 
 const MainPage = () => {
-  const { selectedCategory, setSelectedCategory } = useSelectedCategory();
+  const { selectedCategory, handleSelectedCategory } = useSelectedCategory();
 
   const { data: participatedRoomList } = useQuery({
     queryKey: [QUERY_KEYS.PARTICIPATED_ROOM_LIST],
@@ -47,7 +47,7 @@ const MainPage = () => {
         {participatedRoomList && <RoomList roomList={participatedRoomList.roomInfo} />}
       </ContentSection>
 
-      <MenuBar selectedCategory={selectedCategory} onCategoryClick={setSelectedCategory} />
+      <MenuBar selectedCategory={selectedCategory} onCategoryClick={handleSelectedCategory} />
 
       <ContentSection title="모집 중인 방 리스트">
         <RoomList

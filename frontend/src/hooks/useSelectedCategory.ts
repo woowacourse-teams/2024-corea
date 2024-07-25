@@ -1,16 +1,16 @@
 import { useState } from "react";
 
 const useSelectedCategory = (initialCategory: string = "all") => {
-  const [selectedCategory, setSelectedCategoryState] = useState(() => {
+  const [selectedCategory, setSelectedCategory] = useState(() => {
     return localStorage.getItem("selectedCategory") || initialCategory;
   });
 
-  const setSelectedCategory = (category: string) => {
-    setSelectedCategoryState(category);
+  const handleSelectedCategory = (category: string) => {
+    setSelectedCategory(category);
     localStorage.setItem("selectedCategory", category);
   };
 
-  return { selectedCategory, setSelectedCategory };
+  return { selectedCategory, handleSelectedCategory };
 };
 
 export default useSelectedCategory;
