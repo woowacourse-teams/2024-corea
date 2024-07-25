@@ -17,7 +17,7 @@ public class Member {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    private String userName;
+    private String username;
 
     private String thumbnailUrl;
 
@@ -31,7 +31,7 @@ public class Member {
 
     private String profileLink;
 
-    public Member(String userName, String thumbnailUrl, String name, String email, boolean isEmailAccepted, float attitude) {
-        this(null, userName, thumbnailUrl, name, email, isEmailAccepted, attitude, null);
+    public Member(String username, String thumbnailUrl, String name, String email, boolean isEmailAccepted, float attitude) {
+        this(null, username, thumbnailUrl, name, email, isEmailAccepted, attitude, null);
     }
 }

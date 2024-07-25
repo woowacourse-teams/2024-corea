@@ -5,6 +5,10 @@ on:
     branches:
       - 'develop'
     paths: ['backend/**']
+    types:
+      - opened
+      - synchronize
+      - reopened
 
 defaults:
   run:

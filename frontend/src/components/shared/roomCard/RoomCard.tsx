@@ -1,32 +1,52 @@
+import React from "react";
+import useModal from "@/hooks/useModal";
 import Icon from "@/components/common/icon/Icon";
+import Label from "@/components/common/label/Label";
 import * as S from "@/components/shared/roomCard/RoomCard.style";
+import RoomCardModal from "@/components/shared/roomCardModal/RoomCardModal";
 import { RoomInfo } from "@/@types/roomInfo";
+import { MAX_KEYWORDS } from "@/constants/room";
+import { formatDeadlineString } from "@/utils/dateFormatter";
 
-const RoomCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
+interface RoomCardProps {
+  roomInfo: RoomInfo;
+}
+
+const RoomCard = ({ roomInfo }: RoomCardProps) => {
+  const { isOpen, handleOpenModal, handleCloseModal } = useModal();
+
+  const displayedKeywords = roomInfo.keywords.slice(0, MAX_KEYWORDS);
+  const hasMoreKeywords = roomInfo.keywords.length > MAX_KEYWORDS;
+
   return (
-    <S.RoomCardContainer>
-      <S.RoomInfoThumbnail src={roomInfo.thumbnailLink} alt={roomInfo.title} />
-      <S.RoomInformation>
-        <S.MainInfo>
+    <>
+      <RoomCardModal isOpen={isOpen} onClose={handleCloseModal} roomInfo={roomInfo} />
+
+      <S.RoomCardContainer onClick={handleOpenModal}>
+        <S.RoomInfoThumbnail src={roomInfo.thumbnailLink} alt={roomInfo.title} />
+        <S.RoomInformation>
           <S.RoomTitle>{roomInfo.title}</S.RoomTitle>
-          <S.RecruitmentDeadline>
-            <Icon kind="calendar" />
-            {roomInfo.recruitmentDeadline}
-          </S.RecruitmentDeadline>
-        </S.MainInfo>
-        <S.EtcInfo>
           <S.KeywordsContainer>
-            {roomInfo.keywords.map((keyword) => (
-              <S.RoomKeyword key={keyword}>#{keyword}</S.RoomKeyword>
+            {displayedKeywords.map((keyword) => (
+              <Label key={keyword} type="keyword" text={keyword} />
             ))}
+            {hasMoreKeywords && <S.MoreKeywords>...</S.MoreKeywords>}
           </S.KeywordsContainer>
-          <div>
-            <Icon kind="person" />
-            {roomInfo.currentParticipantSize}/{roomInfo.maximumParticipantSize}
-          </div>
-        </S.EtcInfo>
-      </S.RoomInformation>
-    </S.RoomCardContainer>
+          <S.EtcContainer>
+            {roomInfo.isClosed ? (
+              <Label type="close" text="마감됨" />
+            ) : (
+              <Label type="open" text="모집중" />
+            )}
+            <div>
+              <Icon kind="person" />
+              {roomInfo.currentParticipantSize}/{roomInfo.maximumParticipantSize} 명
+            </div>
+          </S.EtcContainer>
+          {formatDeadlineString(roomInfo.recruitmentDeadline)}
+        </S.RoomInformation>
+      </S.RoomCardContainer>
+    </>
   );
 };
 

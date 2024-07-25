@@ -1,13 +1,14 @@
 import React from "react";
 import { MouseEventHandler } from "react";
 import { IconType } from "react-icons/lib";
-import { MdCalendarMonth, MdInsertLink, MdPerson } from "react-icons/md";
+import { MdCalendarMonth, MdExpandMore, MdInsertLink, MdPerson } from "react-icons/md";
 import IconKind from "@/@types/icon";
 
 const ICON: { [key in IconKind]: IconType } = {
   person: MdPerson,
   link: MdInsertLink,
   calendar: MdCalendarMonth,
+  plus: MdExpandMore,
 };
 
 interface IconProps {

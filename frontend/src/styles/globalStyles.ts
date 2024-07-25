@@ -155,11 +155,11 @@ const globalStyles = createGlobalStyle`
 
   a {
     color: inherit;
-    text-decoration: none !important;
+    text-decoration: none;
   }
 
   a:hover {
-    text-decoration: none !important;
+    text-decoration: none;
   }
 
   a:visited {
@@ -193,20 +193,19 @@ const globalStyles = createGlobalStyle`
   } */
 
   ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-}
+    width: 7px;
+    height: 7px;
+  }
 
-::-webkit-scrollbar-thumb {
-  height: 30%;
-  background: rgb(132 174 225 / 70%);
-  border-radius: 10px;
-}
+  ::-webkit-scrollbar-thumb {
+    height: 30%;
+    background: rgb(132 174 225 / 70%);
+    border-radius: 10px;
+  }
 
-::-webkit-scrollbar-track {
-  background: rgb(132 174 225 / 20%);
-}
-  
+  ::-webkit-scrollbar-track {
+    background: rgb(132 174 225 / 20%);
+  }
 `;
 
 export default globalStyles;

@@ -99,6 +99,27 @@ public class DataInitializer implements ApplicationRunner {
                         LocalDateTime.of(2024, 12, 25, 12, 0),
                         LocalDateTime.of(2024, 12, 30, 12, 0),
                         Classification.FRONTEND, RoomStatus.OPENED));
+        roomRepository.save(
+                new Room("방 제목 8", "방 설명 8", 3,
+                        null, null, List.of("TDD", "클린코드"),
+                        1, 20, member1,
+                        LocalDateTime.of(2024, 12, 25, 12, 0),
+                        LocalDateTime.of(2024, 12, 30, 12, 0),
+                        Classification.BACKEND, RoomStatus.CLOSED));
+        roomRepository.save(
+                new Room("방 제목 9", "방 설명 9", 3,
+                        null, null, List.of("TDD"),
+                        1, 20, member3,
+                        LocalDateTime.of(2024, 12, 25, 12, 0),
+                        LocalDateTime.of(2024, 12, 30, 12, 0),
+                        Classification.ANDROID, RoomStatus.CLOSED));
+        roomRepository.save(
+                new Room("방 제목 10", "방 설명 10", 3,
+                        null, null, List.of("TDD"),
+                        1, 20, member5,
+                        LocalDateTime.of(2024, 12, 25, 12, 0),
+                        LocalDateTime.of(2024, 12, 30, 12, 0),
+                        Classification.FRONTEND, RoomStatus.CLOSED));
 
         participationRepository.save(new Participation(room1.getId(), member2.getId()));
         participationRepository.save(new Participation(room1.getId(), member3.getId()));
