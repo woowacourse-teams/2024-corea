@@ -44,9 +44,9 @@ public class RoomController implements RoomControllerSpecification {
     }
 
     @GetMapping("/{id}/matching")
-    public ResponseEntity<Void> matching(@PathVariable long id) {
+    public ResponseEntity<Void> matching(@PathVariable long id, @LoginMember AuthInfo authInfo) {
         ParticipationsResponse participationsResponse = participationService.getParticipation(id);
-        matchingService.matchMaking(participationsResponse.participations(), roomService.getRoom(id).getMatchingSize());
+        matchingService.matchMaking(participationsResponse.participations(), roomService.findOne(id, authInfo.getId()).matchingSize());
         return ResponseEntity.ok().build();
     }
 
