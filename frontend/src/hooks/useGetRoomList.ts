@@ -7,7 +7,7 @@ interface RoomListQueryProps {
   classification: string;
 }
 
-export const useNextQuery = ({ queryKey, getRoomList, classification }: RoomListQueryProps) => {
+export const useGetRoomList = ({ queryKey, getRoomList, classification }: RoomListQueryProps) => {
   return useInfiniteQuery({
     queryKey,
     queryFn: ({ pageParam = 1 }) => getRoomList(classification, pageParam),
