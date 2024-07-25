@@ -1,19 +1,18 @@
 import React, { ButtonHTMLAttributes } from "react";
 import * as S from "@/components/common/iconButton/IconButton.style";
-import IconKind from "@/@types/icon";
 
 interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  iconKind: IconKind;
-  text?: string;
+  text: string;
+  isSelected?: boolean;
 }
 
-const IconButton = ({ iconKind, text = "", ...rest }: IconButtonProps) => {
+const IconButton = ({ children, text, isSelected = false, ...rest }: IconButtonProps) => {
   return (
     <S.IconButtonContainer>
-      <S.IconButtonBox aria-label="Icon Button" {...rest}>
-        <S.StyledIcon kind={iconKind} />
+      <S.IconButtonBox aria-label="Icon Button" isSelected={isSelected} {...rest}>
+        {children}
       </S.IconButtonBox>
-      {text !== "" && <S.IconButtonText>{text}</S.IconButtonText>}
+      <S.IconButtonText>{text}</S.IconButtonText>
     </S.IconButtonContainer>
   );
 };
