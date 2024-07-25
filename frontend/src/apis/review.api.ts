@@ -1,4 +1,4 @@
-import { ReviewerInfo } from "./../@types/reviewer";
+import { ReviewerInfo } from "../@types/reviewer";
 import apiClient from "./apiClient";
 import { API_ENDPOINTS } from "./endpoints";
 
