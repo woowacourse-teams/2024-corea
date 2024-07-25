@@ -54,13 +54,9 @@ export const MainContainer = styled.div`
 
 export const ManagerContainer = styled.div`
   display: flex;
-  justify-content: space-between;
+  gap: 0.5rem;
+  justify-content: flex-start;
   font: ${({ theme }) => theme.TEXT.small};
-
-  ${media.small`
-    justify-content: flex-start;
-    gap: 0.5rem;
-  `}
 `;
 
 export const ProfileContainer = styled.div`
