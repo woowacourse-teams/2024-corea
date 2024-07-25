@@ -39,12 +39,12 @@ const MainPage = () => {
   const openedRooms = openedRoomList?.pages.flatMap((page) => page.rooms) || [];
   const closedRooms = closedRoomList?.pages.flatMap((page) => page.rooms) || [];
 
-  if (!participatedRoomList) return <></>;
-
   return (
     <S.Layout>
       <ContentSection title="참여 중인 방 리스트">
-        {participatedRoomList && <RoomList roomList={participatedRoomList.rooms} />}
+        {participatedRoomList && (
+          <RoomList roomList={participatedRoomList.rooms} roomType="participated" />
+        )}
       </ContentSection>
 
       <MenuBar selectedCategory={selectedCategory} onCategoryClick={handleSelectedCategory} />
@@ -54,6 +54,7 @@ const MainPage = () => {
           roomList={openedRooms}
           hasNextPage={hasNextOpenedPage}
           onLoadMore={() => fetchNextOpenedPage()}
+          roomType="opened"
         />
       </ContentSection>
 
@@ -62,6 +63,7 @@ const MainPage = () => {
           roomList={closedRooms}
           hasNextPage={hasNextClosedPage}
           onLoadMore={() => fetchNextClosedPage()}
+          roomType="closed"
         />
       </ContentSection>
     </S.Layout>
