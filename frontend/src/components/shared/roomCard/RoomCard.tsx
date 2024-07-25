@@ -1,9 +1,9 @@
-import RoomCardModal from "../roomCardModal/RoomCardModal";
 import React from "react";
 import useModal from "@/hooks/useModal";
 import Icon from "@/components/common/icon/Icon";
 import Label from "@/components/common/label/Label";
 import * as S from "@/components/shared/roomCard/RoomCard.style";
+import RoomCardModal from "@/components/shared/roomCardModal/RoomCardModal";
 import { RoomInfo } from "@/@types/roomInfo";
 import { MAX_KEYWORDS } from "@/constants/room";
 import { formatDeadlineString } from "@/utils/dateFormatter";
