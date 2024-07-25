@@ -2,8 +2,8 @@ package corea.matching.service;
 
 import config.ServiceTest;
 import corea.exception.CoreaException;
-import corea.matching.domain.Participation;
 import corea.matching.dto.MatchResultResponses;
+import corea.participation.domain.Participation;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

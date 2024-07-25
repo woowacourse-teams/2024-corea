@@ -33,7 +33,7 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
                                     NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
         Member member = memberRepository.findByEmail(requestHandler.extract(request))
-                .orElseThrow(()-> new CoreaException(ExceptionType.AUTHORIZATION_ERROR));
+                .orElseThrow(() -> new CoreaException(ExceptionType.AUTHORIZATION_ERROR));
 
         return AuthInfo.from(member);
     }

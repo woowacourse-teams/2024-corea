@@ -2,8 +2,8 @@ package corea.room.service;
 
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
-import corea.matching.domain.Participation;
-import corea.matching.repository.ParticipationRepository;
+import corea.participation.domain.Participation;
+import corea.participation.repository.ParticipationRepository;
 import corea.room.domain.Classification;
 import corea.room.domain.Room;
 import corea.room.domain.RoomStatus;
