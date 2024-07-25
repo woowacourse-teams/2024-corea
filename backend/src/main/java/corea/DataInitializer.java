@@ -1,9 +1,9 @@
 package corea;
 
-import corea.matching.domain.Participation;
-import corea.matching.repository.ParticipationRepository;
 import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
+import corea.participation.domain.Participation;
+import corea.participation.repository.ParticipationRepository;
 import corea.room.domain.Classification;
 import corea.room.domain.Room;
 import corea.room.domain.RoomStatus;
@@ -49,6 +49,9 @@ public class DataInitializer implements ApplicationRunner {
         Member member7 = memberRepository.save(
                 new Member("pp449", null, "이상엽",
                         "mma7710@naver.com", true, 4.8f));
+        Member member8 = memberRepository.save(
+                new Member("pobi", null, "포비",
+                        null, false, 5f));
 
         Room room1 = roomRepository.save(
                 new Room("방 제목 1", "방 설명 1", 3,
@@ -102,19 +105,33 @@ public class DataInitializer implements ApplicationRunner {
         roomRepository.save(
                 new Room("방 제목 8", "방 설명 8", 3,
                         null, null, List.of("TDD", "클린코드"),
+                        1, 20, member8,
+                        LocalDateTime.of(2024, 12, 25, 12, 0),
+                        LocalDateTime.of(2024, 12, 30, 12, 0),
+                        Classification.BACKEND, RoomStatus.OPENED));
+        roomRepository.save(
+                new Room("방 제목 9", "방 설명 9", 3,
+                        null, null, List.of("TDD"),
+                        1, 20, member8,
+                        LocalDateTime.of(2024, 12, 25, 12, 0),
+                        LocalDateTime.of(2024, 12, 30, 12, 0),
+                        Classification.BACKEND, RoomStatus.OPENED));
+        roomRepository.save(
+                new Room("방 제목 10", "방 설명 10", 3,
+                        null, null, List.of("TDD", "클린코드"),
                         1, 20, member1,
                         LocalDateTime.of(2024, 12, 25, 12, 0),
                         LocalDateTime.of(2024, 12, 30, 12, 0),
                         Classification.BACKEND, RoomStatus.CLOSED));
         roomRepository.save(
-                new Room("방 제목 9", "방 설명 9", 3,
+                new Room("방 제목 11", "방 설명 11", 3,
                         null, null, List.of("TDD"),
                         1, 20, member3,
                         LocalDateTime.of(2024, 12, 25, 12, 0),
                         LocalDateTime.of(2024, 12, 30, 12, 0),
                         Classification.ANDROID, RoomStatus.CLOSED));
         roomRepository.save(
-                new Room("방 제목 10", "방 설명 10", 3,
+                new Room("방 제목 12", "방 설명 12", 3,
                         null, null, List.of("TDD"),
                         1, 20, member5,
                         LocalDateTime.of(2024, 12, 25, 12, 0),

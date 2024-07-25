@@ -1,6 +1,6 @@
 package corea.fixture;
 
-import corea.matching.domain.Participation;
+import corea.participation.domain.Participation;
 
 import java.util.List;
 

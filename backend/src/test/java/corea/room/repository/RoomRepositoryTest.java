@@ -29,7 +29,7 @@ class RoomRepositoryTest {
     private RoomRepository roomRepository;
 
     @ParameterizedTest
-    @CsvSource(value = {"ANDROID, 2", "FRONTEND, 1", "BACKEND, 1"})
+    @CsvSource(value = {"ANDROID, 2", "FRONTEND, 1", "BACKEND, 3"})
     @DisplayName("자신이 참여하지 않고, 계속 모집 중인 방들을 조회할 수 있다.")
     void findAllByMemberAndClassificationAndStatus(Classification classification, int expectedSize) {
         Page<Room> rooms = roomRepository.findAllByMemberAndClassificationAndStatus(1, classification, RoomStatus.OPENED, PageRequest.of(0, 8));
