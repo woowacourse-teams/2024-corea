@@ -3,8 +3,8 @@ package corea.matching.service;
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
 import corea.matching.domain.MatchResult;
+import corea.matching.domain.MatchingStrategy;
 import corea.matching.domain.Pair;
-import corea.matching.domain.PlainRandomMatching;
 import corea.matching.repository.MatchResultRepository;
 import corea.member.repository.MemberRepository;
 import corea.participation.domain.Participation;
@@ -19,10 +19,11 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class MatchingService {
 
-    private final PlainRandomMatching plainRandomMatching;
-    private final MatchResultRepository matchResultRepository;
+    private final MatchingStrategy matchingStrategy;
     private final MemberRepository memberRepository;
+    private final MatchResultRepository matchResultRepository;
 
+    @Transactional
     public void matchMaking(List<Participation> participations, int matchingSize) {
         validateParticipationSize(participations, matchingSize);
         List<Long> memberIds = participations.stream()
@@ -31,7 +32,7 @@ public class MatchingService {
 
         long roomId = participations.get(0).getRoomId();
 
-        List<Pair> results = plainRandomMatching.matchPairs(memberIds, matchingSize);
+        List<Pair> results = matchingStrategy.matchPairs(memberIds, matchingSize);
 
         results.stream()
                 .map(pair -> new MatchResult(

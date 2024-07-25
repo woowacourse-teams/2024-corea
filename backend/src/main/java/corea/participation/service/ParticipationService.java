@@ -14,13 +14,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 public class ParticipationService {
 
     private final ParticipationRepository participationRepository;
     private final RoomRepository roomRepository;
     private final MemberRepository memberRepository;
 
+    @Transactional
     public ParticipationResponse participate(ParticipationRequest request) {
         validateIdExist(request.roomId(), request.memberId());
 

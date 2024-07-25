@@ -23,7 +23,7 @@ public class Participation {
 
     private long memberId;
 
-    public Participation(final long roomId, final long memberId) {
+    public Participation(long roomId, long memberId) {
         this(null, roomId, memberId);
     }
 }
