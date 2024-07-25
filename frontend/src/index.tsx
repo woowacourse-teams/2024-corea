@@ -3,6 +3,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
+import Toast from "@/components/common/Toast/Toast";
+import { ToastProvider } from "@/providers/ToastProvider";
 import router from "@/router";
 import GlobalStyles from "@/styles/globalStyles";
 import { theme } from "@/styles/theme";
@@ -22,8 +24,11 @@ enableMocking().then(() => {
     <React.StrictMode>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={theme}>
-          <GlobalStyles />
-          <RouterProvider router={router} />
+          <ToastProvider>
+            <GlobalStyles />
+            <Toast />
+            <RouterProvider router={router} />
+          </ToastProvider>
         </ThemeProvider>
       </QueryClientProvider>
     </React.StrictMode>,
