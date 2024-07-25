@@ -40,7 +40,7 @@ const RoomCard = ({ roomInfo }: RoomCardProps) => {
             )}
             <div>
               <Icon kind="person" />
-              {roomInfo.currentParticipantSize}/{roomInfo.maximumParticipantSize} 명
+              {roomInfo.currentParticipants}/{roomInfo.limitedParticipants} 명
             </div>
           </S.EtcContainer>
           {formatDeadlineString(roomInfo.recruitmentDeadline)}
