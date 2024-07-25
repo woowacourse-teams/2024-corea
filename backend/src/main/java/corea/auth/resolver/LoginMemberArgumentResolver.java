@@ -32,7 +32,7 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
     public AuthInfo resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
                                     NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
-        Member member = memberRepository.findByEmail(requestHandler.extract(request))
+        Member member = memberRepository.findByUsername(requestHandler.extract(request))
                 .orElseThrow(() -> new CoreaException(ExceptionType.AUTHORIZATION_ERROR));
 
         return AuthInfo.from(member);
