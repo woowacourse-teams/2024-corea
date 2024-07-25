@@ -1,3 +1,4 @@
+import { ToastProvider } from "../src/providers/ToastProvider";
 import GlobalStyles from "../src/styles/globalStyles";
 import { theme } from "../src/styles/theme";
 import type { Preview } from "@storybook/react";
@@ -20,9 +21,10 @@ export const decorators = [
   (Story) => (
     <BrowserRouter>
       <ThemeProvider theme={theme}>
-        <GlobalStyles />
-        <Story />
-        <div id="modal"></div>
+        <ToastProvider>
+          <GlobalStyles />
+          <Story />
+        </ToastProvider>
       </ThemeProvider>
     </BrowserRouter>
   ),
