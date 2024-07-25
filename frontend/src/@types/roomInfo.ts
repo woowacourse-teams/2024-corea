@@ -2,13 +2,13 @@ export interface RoomInfo {
   id: number;
   title: string;
   content: string;
-  matchingSize: number;
+  manager: string;
   repositoryLink: string;
   thumbnailLink: string;
+  matchingSize: number;
   keywords: string[];
-  currentParticipantSize: number;
-  maximumParticipantSize: number;
-  manager: string;
+  currentParticipants: number;
+  limitedParticipants: number;
   recruitmentDeadline: string;
   reviewDeadline: string;
   isParticipated: boolean;
@@ -16,6 +16,6 @@ export interface RoomInfo {
 }
 
 export interface RoomListInfo {
-  roomsInfo: RoomInfo[];
+  rooms: RoomInfo[];
   isLastPage: boolean;
 }

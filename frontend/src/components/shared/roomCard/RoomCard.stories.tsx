@@ -1,6 +1,9 @@
 import RoomCard from "./RoomCard";
 import type { Meta, StoryObj } from "@storybook/react";
 import { RoomInfo } from "@/@types/roomInfo";
+import roomInfo from "@/mocks/mockResponse/roomInfo.json";
+
+const sampleRoomList: RoomInfo = roomInfo.roomResponse;
 
 const meta = {
   title: "shared/RoomCard",
@@ -18,32 +21,14 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-const sampleRoomInfo: RoomInfo = {
-  id: 1,
-  title: "자바 레이싱 카 - TDD",
-  content: "TDD를 배우고 싶은 자 나에게로",
-  matchingSize: 3,
-  repositoryLink: "https://github.com/example/java-racingcar",
-  thumbnailLink:
-    "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=13301655&filePath=L2Rpc2sxL25ld2RhdGEvMjAyMS8yMS9DTFMxMDAwNC8xMzMwMTY1NV9XUlRfMjFfQ0xTMTAwMDRfMjAyMTEyMTNfMQ==&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004",
-  keywords: ["TDD", "클린코드", "자바"],
-  currentParticipantSize: 15,
-  maximumParticipantSize: 20,
-  manager: "김코딩",
-  recruitmentDeadline: "2024-07-30T15:00",
-  reviewDeadline: "2024-08-10T23:59",
-  isParticipated: true,
-  isClosed: false,
-};
-
 export const Default: Story = {
-  args: { roomInfo: sampleRoomInfo },
+  args: { roomInfo: sampleRoomList },
 };
 
 export const OpenedRoom: Story = {
   args: {
     roomInfo: {
-      ...sampleRoomInfo,
+      ...sampleRoomList,
       isClosed: false,
     },
   },
@@ -52,7 +37,7 @@ export const OpenedRoom: Story = {
 export const ClosedRoom: Story = {
   args: {
     roomInfo: {
-      ...sampleRoomInfo,
+      ...sampleRoomList,
       isClosed: true,
     },
   },
@@ -61,7 +46,7 @@ export const ClosedRoom: Story = {
 export const LongTitle: Story = {
   args: {
     roomInfo: {
-      ...sampleRoomInfo,
+      ...sampleRoomList,
       title: "이것은 아주 긴 제목입니다. 제목이 길 때 어떻게 보이는지 테스트합니다.",
     },
   },
@@ -70,7 +55,7 @@ export const LongTitle: Story = {
 export const ManyKeywords: Story = {
   args: {
     roomInfo: {
-      ...sampleRoomInfo,
+      ...sampleRoomList,
       keywords: ["React", "TypeScript", "Storybook", "Jest", "Cypress", "Redux", "GraphQL"],
     },
   },

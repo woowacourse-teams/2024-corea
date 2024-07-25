@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import Button from "@/components/common/button/Button";
 import Icon from "@/components/common/icon/Icon";
 import * as S from "@/components/roomDetailPage/myReviewer/MyReviewer.style";
-import { getMyReviewers } from "@/apis/my.api";
 import QUERY_KEYS from "@/apis/queryKeys";
+import { getMyReviewers } from "@/apis/review.api";
 
 const MyReviewer = ({ roomId }: { roomId: number }) => {
   const { data: reviewerData } = useQuery({

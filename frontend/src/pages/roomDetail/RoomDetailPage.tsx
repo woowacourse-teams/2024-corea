@@ -10,11 +10,11 @@ import { getRoomDetailInfo } from "@/apis/rooms.api";
 
 const RoomDetailPage = () => {
   const params = useParams();
-  const missionId = params.id ? Number(params.id) : 0;
+  const roomId = params.id ? Number(params.id) : 0;
 
   const { data: roomInfo } = useQuery({
     queryKey: [QUERY_KEYS.ROOM_DETAIL_INFO],
-    queryFn: () => getRoomDetailInfo(missionId),
+    queryFn: () => getRoomDetailInfo(roomId),
   });
 
   if (!roomInfo) return <></>;

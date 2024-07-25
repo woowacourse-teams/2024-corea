@@ -34,7 +34,7 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
           </S.RoomContentSmall>
           <S.RoomContentSmall>
             <Icon kind="person" />
-            현재 참여 인원 : {roomInfo.currentParticipantSize} / {roomInfo.maximumParticipantSize}명
+            현재 참여 인원 : {roomInfo.currentParticipants} / {roomInfo.limitedParticipants}명
           </S.RoomContentSmall>
           <S.RoomContentSmall>
             <Icon kind="person" />
