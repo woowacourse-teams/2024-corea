@@ -1,4 +1,3 @@
-import Icon from "../icon/Icon";
 import styled from "styled-components";
 
 export const IconButtonContainer = styled.div`
@@ -6,9 +5,13 @@ export const IconButtonContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  &:hover {
+    transform: scale(1.05);
+  }
 `;
 
-export const IconButtonBox = styled.button`
+export const IconButtonBox = styled.button<{ isSelected: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -16,7 +19,8 @@ export const IconButtonBox = styled.button`
   width: 50px;
   height: 50px;
 
-  background-color: transparent;
+  background-color: ${({ isSelected, theme }) =>
+    isSelected ? theme.COLOR.primary1 : "transparent"};
   border: 1px solid ${({ theme }) => theme.COLOR.grey1};
   border-radius: 15px;
   box-shadow: 0 4px 4px rgb(0 0 0 / 10%);
@@ -28,6 +32,7 @@ export const IconButtonBox = styled.button`
   }
 `;
 
-export const IconButtonText = styled.p`
-  font: ${({ theme }) => theme.TEXT.xSmall};
+export const IconButtonText = styled.span`
+  margin-top: 0.4rem;
+  font: ${({ theme }) => theme.TEXT.semiSmall};
 `;
