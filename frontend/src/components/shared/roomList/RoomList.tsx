@@ -9,9 +9,10 @@ interface RoomListProps {
   roomList: RoomInfo[];
   hasNextPage?: boolean;
   onLoadMore?: () => void;
+  roomType?: "participated" | "opened" | "closed";
 }
 
-const RoomList = ({ roomList, hasNextPage, onLoadMore }: RoomListProps) => {
+const RoomList = ({ roomList, hasNextPage, onLoadMore, roomType }: RoomListProps) => {
   if (!roomList || roomList.length === 0) return <></>;
 
   return (
@@ -19,12 +20,12 @@ const RoomList = ({ roomList, hasNextPage, onLoadMore }: RoomListProps) => {
       <S.RoomListContainer>
         {roomList &&
           roomList.map((roomInfo) =>
-            hasNextPage ? (
-              <RoomCard roomInfo={roomInfo} key={roomInfo.id} />
-            ) : (
+            roomType === "participated" ? (
               <Link to={`/rooms/${roomInfo.id}`} key={roomInfo.id}>
                 <RoomCard roomInfo={roomInfo} />
               </Link>
+            ) : (
+              <RoomCard roomInfo={roomInfo} key={roomInfo.id} />
             ),
           )}
       </S.RoomListContainer>

@@ -24,7 +24,7 @@ const Header = () => {
       <S.HeaderLogo onClick={() => navigate("/")}>CoReA</S.HeaderLogo>
       <S.HeaderList>
         {headerItems.map((item) => (
-          <S.HeaderItem>{item.name}</S.HeaderItem>
+          <S.HeaderItem key={item.name}>{item.name}</S.HeaderItem>
         ))}
       </S.HeaderList>
     </S.HeaderContainer>
