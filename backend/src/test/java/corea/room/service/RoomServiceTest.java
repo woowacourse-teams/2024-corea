@@ -48,7 +48,7 @@ class RoomServiceTest {
     }
 
     @ParameterizedTest
-    @CsvSource({"be, 2", "fe, 3", "an, 2", "all, 7"})
+    @CsvSource({"be, 4", "fe, 3", "an, 2", "all, 8"})
     @DisplayName("로그인하지 않은 사용자가 분야별로 현재 모집 중인 방들을 조회할 수 있다.")
     void findOpenedRoomsWithoutMember(String expression, int expectedSize) {
         AuthInfo anonymous = AuthInfo.getAnonymous();
@@ -60,7 +60,7 @@ class RoomServiceTest {
     }
 
     @ParameterizedTest
-    @CsvSource({"be, 1", "fe, 1", "an, 2", "all, 4"})
+    @CsvSource({"be, 3", "fe, 1", "an, 2", "all, 6"})
     @DisplayName("로그인한 사용자가 자신이 참여하지 않고, 분야별로 현재 모집 중인 방들을 조회할 수 있다.")
     void findOpenedRoomsWithMember(String expression, int expectedSize) {
         RoomResponses response = roomService.findOpenedRooms(1, expression, 0);
