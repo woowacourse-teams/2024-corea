@@ -1,6 +1,7 @@
 import Icon from "@/components/common/icon/Icon";
 import * as S from "@/components/roomDetailPage/roomInfoCard/RoomInfoCard.style";
 import { RoomInfo } from "@/@types/roomInfo";
+import { formatDateTimeString } from "@/utils/dateFormatter";
 
 const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
   if (!roomInfo.keywords) return <></>;
@@ -42,11 +43,11 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
           </S.RoomContentSmall>
           <S.RoomContentSmall>
             <Icon kind="calendar" />
-            모집 마감일: {roomInfo.recruitmentDeadline}
+            모집 마감일: {formatDateTimeString(roomInfo.recruitmentDeadline)}
           </S.RoomContentSmall>
           <S.RoomContentSmall>
             <Icon kind="calendar" />
-            리뷰 마감일: {roomInfo.reviewDeadline}
+            리뷰 마감일: {formatDateTimeString(roomInfo.reviewDeadline)}
           </S.RoomContentSmall>
         </S.RoomContentBox>
       </S.RoomInfoCardContent>

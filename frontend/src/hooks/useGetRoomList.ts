@@ -1,4 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { useSearchParams } from "react-router-dom";
 import { RoomListInfo } from "@/@types/roomInfo";
 
 interface RoomListQueryProps {
@@ -8,11 +9,17 @@ interface RoomListQueryProps {
 }
 
 export const useGetRoomList = ({ queryKey, getRoomList, classification }: RoomListQueryProps) => {
+  const [searchParams] = useSearchParams();
+
   return useInfiniteQuery({
     queryKey,
-    queryFn: ({ pageParam = 1 }) => getRoomList(classification, pageParam),
-    getNextPageParam: (lastPage, allPages) =>
-      lastPage.isLastPage ? undefined : allPages.length + 1,
-    initialPageParam: 1,
+    queryFn: ({ pageParam = 0 }) => {
+      return getRoomList(classification, pageParam);
+    },
+    getNextPageParam: (lastPage) => {
+      if (lastPage.isLastPage) return undefined;
+      return Number(searchParams.get("page")) + 1;
+    },
+    initialPageParam: 0,
   });
 };
