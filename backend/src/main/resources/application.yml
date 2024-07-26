@@ -39,3 +39,9 @@ springdoc:
   model-and-view-allowed: true
   paths-to-match:
     - /**
+
+management:
+  endpoint:
+    web:
+      exposure:
+        include: health
