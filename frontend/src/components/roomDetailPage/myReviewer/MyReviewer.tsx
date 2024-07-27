@@ -4,6 +4,7 @@ import Icon from "@/components/common/icon/Icon";
 import * as S from "@/components/roomDetailPage/myReviewer/MyReviewer.style";
 import QUERY_KEYS from "@/apis/queryKeys";
 import { getMyReviewers } from "@/apis/review.api";
+import MESSAGES from "@/constants/message";
 
 const MyReviewer = ({ roomId }: { roomId: number }) => {
   const { data: reviewerData } = useQuery({
@@ -12,7 +13,7 @@ const MyReviewer = ({ roomId }: { roomId: number }) => {
   });
 
   if (!reviewerData || reviewerData.length === 0) {
-    return <>아직 리뷰어가 매칭되지 않았습니다! 조금만 기다려주세요🤗</>;
+    return <>{MESSAGES.GUIDANCE.EMPTY_REVIEWER}</>;
   }
 
   return (

@@ -5,6 +5,7 @@ import Icon from "@/components/common/icon/Icon";
 import * as S from "@/components/roomDetailPage/myReviewee/MyReviewee.style";
 import QUERY_KEYS from "@/apis/queryKeys";
 import { getMyReviewees } from "@/apis/review.api";
+import MESSAGES from "@/constants/message";
 
 const MyReviewee = ({ roomId }: { roomId: number }) => {
   const { data: revieweeData } = useQuery({
@@ -13,7 +14,7 @@ const MyReviewee = ({ roomId }: { roomId: number }) => {
   });
 
   if (!revieweeData || revieweeData.length === 0) {
-    return <>아직 리뷰이가 매칭되지 않았습니다! 조금만 기다려주세요🤗</>;
+    return <>{MESSAGES.GUIDANCE.EMPTY_REVIEWEE}</>;
   }
 
   return (
