@@ -21,5 +21,7 @@ export const useGetRoomList = ({ queryKey, getRoomList, classification }: RoomLi
       return Number(searchParams.get("page")) + 1;
     },
     initialPageParam: 0,
+    networkMode: "always",
+    retry: false,
   });
 };
