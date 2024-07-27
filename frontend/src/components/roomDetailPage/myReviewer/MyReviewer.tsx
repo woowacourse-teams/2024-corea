@@ -7,7 +7,7 @@ import { getMyReviewers } from "@/apis/review.api";
 
 const MyReviewer = ({ roomId }: { roomId: number }) => {
   const { data: reviewerData } = useQuery({
-    queryKey: [QUERY_KEYS.REVIEWERS],
+    queryKey: [QUERY_KEYS.REVIEWERS, roomId],
     queryFn: () => getMyReviewers(roomId),
   });
 
