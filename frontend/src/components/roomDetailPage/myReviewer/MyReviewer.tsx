@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
 import Button from "@/components/common/button/Button";
 import Icon from "@/components/common/icon/Icon";
 import * as S from "@/components/roomDetailPage/myReviewer/MyReviewer.style";
@@ -8,7 +7,7 @@ import { getMyReviewers } from "@/apis/review.api";
 
 const MyReviewer = ({ roomId }: { roomId: number }) => {
   const { data: reviewerData } = useQuery({
-    queryKey: [QUERY_KEYS.REVIEWEES, roomId],
+    queryKey: [QUERY_KEYS.REVIEWERS, roomId],
     queryFn: () => getMyReviewers(roomId),
   });
 

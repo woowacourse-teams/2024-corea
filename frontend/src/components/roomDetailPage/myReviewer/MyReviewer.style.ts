@@ -5,28 +5,31 @@ export const MyReviewerContainer = styled.div`
   border-radius: 1rem;
 `;
 
+export const MyReviewerWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 2rem;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid ${({ theme }) => theme.COLOR.grey1};
+  }
+`;
+
 export const MyReviewerTitle = styled.span`
-  width: 10rem;
-  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
 `;
 
 export const MyReviewerContent = styled.span`
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
-
-  width: 10rem;
-  padding: 1rem 2rem;
-`;
-
-export const MyReviewerWrapper = styled.div`
-  display: flex;
   align-items: center;
-  justify-content: space-between;
 
-  &:not(:last-child) {
-    border-bottom: 1px solid ${({ theme }) => theme.COLOR.grey1};
-  }
+  width: 200px;
 `;
 
 export const PRLink = styled.a`
