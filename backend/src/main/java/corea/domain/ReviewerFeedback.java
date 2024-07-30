@@ -1,9 +1,8 @@
 package corea.domain;
 
-// 리뷰어가 리뷰이한테 해준 피드백
-
 import corea.util.StringToListConverter;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,8 +11,10 @@ import java.util.List;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
+// 리뷰이가 리뷰어한테 해준 피드백
 @Entity
 @NoArgsConstructor(access = PROTECTED)
+@AllArgsConstructor
 @Getter
 public class ReviewerFeedback {
 
