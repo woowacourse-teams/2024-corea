@@ -1,5 +1,6 @@
 package corea.member.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -22,6 +23,7 @@ public class Member {
 
     private String username;
 
+    @Column(length = 32768)
     private String thumbnailUrl;
 
     private String name;
