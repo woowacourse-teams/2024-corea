@@ -53,8 +53,7 @@ jobs:
                             -H "Accept: application/vnd.github.v3+json" \
                             "https://api.github.com/repos/${{ github.repository }}/issues/$issue_number")
           
-          assignees=$(echo "$response" | jq -r '.assignees[].login' | tr '\n' ', ' | sed 's/, $//')
-          assignees=$(echo "$assignees" | rev | cut -c 2- | rev)
+          assignees=$(echo "$response" | jq -r '.assignees[].login' | awk '{ORS=","}1' | sed 's/, $//' | rev | cut -c 2- | rev)
           
           title=$(echo "$response" | jq -r '.title')
           
@@ -93,6 +92,6 @@ jobs:
       - name: Create Pull Request
         if: ${{ !env.EXISTED }}
         run: |
-          gh pr create --title "${{ env.PR_TITLE }}" --body "${{ env.PR_BODY }}" --base "develop" --label "${{ env.LABELS }}"
+          gh pr create --title "${{ env.PR_TITLE }}" --body "${{ env.PR_BODY }}" --base "develop" --label "${{ env.LABELS }} --assignee "${{ env.ASSIGNEES }}"
         env:
           GH_TOKEN: ${{ github.token }}

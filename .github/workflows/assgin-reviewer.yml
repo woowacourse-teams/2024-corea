@@ -10,26 +10,46 @@ jobs:
   assign-reviewer:
     runs-on: ubuntu-latest
     steps:
-      - name: All Label
-        uses: wow-actions/auto-assign@v3
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          reviewers: ashsty, jcoding-play, hjk0761, youngsu5582, 00kang, pp449, chlwlstlf
-          assignees: ${{ github.event.pull_request.user.login }}
-          includeLabels: ALL
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Backend Label
-        uses: wow-actions/auto-assign@v3
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          reviewers: ashsty, jcoding-play, hjk0761, youngsu5582
-          assignees: ${{ github.event.pull_request.user.login }}
-          includeLabels: BE
+      - name: GET ASSIGNEES
+        env:
+          PULL_REQUEST_CONTEXT: ${{ toJson(github.event.pull_request) }}
+        run: |
+          echo "EVENT : $GITHUB_CONTEXT"
+          pull_request_id=$(echo "$PULL_REQUEST_CONTEXT" | jq -r '.number')
+          assignees=$(echo "$PULL_REQUEST_CONTEXT" | jq -r '.assignees[].login' | tr '\n' ', ' | rev | cut -c 2- | rev)
+          echo "ASSIGNEES=$assignees" >> $GITHUB_ENV
+          echo "PULL_REQUEST_ID=$pull_request_id" >> $GITHUB_ENV
 
-      - name: Frontend Label
-        uses: wow-actions/auto-assign@v3
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          reviewers: 00kang, pp449, chlwlstlf
-          assignees: ${{ github.event.pull_request.user.login }}
-          includeLabels: FE
+      - name: Setup Review Member
+        if: ${{ !env.EXISTED }}
+        id: setup-reviewer
+        run: |
+          IFS=',' read -r -a LABEL_ARRAY <<< "${{ env.LABELS }}"
+          reviewers=""
+          for LABEL in "${LABEL_ARRAY[@]}"; do
+            if [[ "$LABEL" == "BE" ]]; then
+              reviewers="ashsty, jcoding-play, hjk0761, youngsu5582"
+            elif [[ "$LABEL" == "FE" ]]; then
+              reviewers="00kang, pp449, chlwlstlf"
+            fi
+          done
+          
+          echo "REVIEW_MEMBER=$reviewers" >> $GITHUB_ENV          
+
+      - name: Extract Reviewers
+        run: |
+          combined_reviewers=$(echo "${{ env.REVIEW_MEMBER }}, ${{ env.ASSIGNEES }}" | tr ', ' '\n' | sort)
+          echo "COMBINE : $combined_reviewers"
+          unique_reviewers=$(echo "$combined_reviewers" | uniq -u | tr '\n' ',' | rev | cut -c 2- | rev)
+          echo "UNIQUE_REVIEWERS : $unique_reviewers"
+          echo "REVIEWERS=$unique_reviewers" >> $GITHUB_ENV
+
+      - name: Create Pull Request
+        if: ${{ !env.REVIEW_MEMBER }}
+        run: |
+          gh pr edit ${{ env.PULL_REQUEST_ID }} --add-reviewer "${{ env.REVIEWERS }}"
+        env:
+          GH_TOKEN: ${{ github.token }}
