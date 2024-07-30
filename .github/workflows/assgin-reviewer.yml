@@ -18,7 +18,7 @@ jobs:
         env:
           PULL_REQUEST_CONTEXT: ${{ toJson(github.event.pull_request) }}
         run: |
-          branch_name="${{ env.PULL_REQUEST_CONTEXT.head.ref }}"
+          branch_name=$(echo "$PULL_REQUEST_CONTEXT" | jq -r '.head.ref')
           echo "BRANCH_NAME=$branch_name" >> $GITHUB_ENV
           
           if [[ "$branch_name" =~ ^(feat|fix|refactor)/#([0-9]+)$ ]]; then
