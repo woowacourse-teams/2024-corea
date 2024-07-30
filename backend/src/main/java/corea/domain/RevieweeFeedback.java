@@ -13,8 +13,8 @@ import static lombok.AccessLevel.PROTECTED;
 
 // 리뷰어가 리뷰이한테 해준 피드백
 @Entity
-@NoArgsConstructor(access = PROTECTED)
 @AllArgsConstructor
+@NoArgsConstructor(access = PROTECTED)
 @Getter
 public class RevieweeFeedback {
 
