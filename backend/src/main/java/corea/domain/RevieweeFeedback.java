@@ -16,6 +16,7 @@ import static lombok.AccessLevel.PROTECTED;
 @NoArgsConstructor(access = PROTECTED)
 @Getter
 public class RevieweeFeedback {
+
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
