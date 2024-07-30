@@ -65,7 +65,7 @@ public class DemoDataInitializer implements ApplicationRunner {
                         LocalDateTime.now().plusDays(7),
                         Classification.BACKEND, RoomStatus.CLOSED));
 
-        // member1 기준 아직 참여하지 않았고, 참여할 수 있는 방
+        // member1 기준 아직 참여하지 않았고, 참여 가능한 방
         Room room2 = roomRepository.save(
                 new Room("자바 레이싱 카 - TDD", "애쉬와 함께하는 TDD", 3,
                         "https://github.com/example/java-racingcar",
