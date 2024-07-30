@@ -8,12 +8,15 @@ import corea.matching.service.MatchResultService;
 import corea.matching.service.MatchingService;
 import corea.participation.dto.ParticipationsResponse;
 import corea.participation.service.ParticipationService;
+import corea.room.dto.RoomCreateRequest;
 import corea.room.dto.RoomResponse;
 import corea.room.dto.RoomResponses;
 import corea.room.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("/rooms")
@@ -24,6 +27,15 @@ public class RoomController implements RoomControllerSpecification {
     private final MatchResultService matchResultService;
     private final MatchingService matchingService;
     private final ParticipationService participationService;
+
+    @PostMapping("/{id}")
+    public ResponseEntity<RoomResponse> create(@PathVariable long id,
+                                               @LoginMember AuthInfo authInfo,
+                                               @RequestBody RoomCreateRequest request) {
+        RoomResponse roomResponse = roomService.create(authInfo.getId(), request);
+        return ResponseEntity.created(URI.create(String.format("/rooms/%d", id)))
+                .body(roomResponse);
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<RoomResponse> room(@PathVariable long id, @AccessedMember AuthInfo authInfo) {
