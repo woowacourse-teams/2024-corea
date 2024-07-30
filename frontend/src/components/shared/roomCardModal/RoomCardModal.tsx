@@ -1,4 +1,6 @@
 import React from "react";
+import useMutateParticipateIn from "@/hooks/mutations/useMutateParticipateIn";
+import Button from "@/components/common/button/Button";
 import Icon from "@/components/common/icon/Icon";
 import Label from "@/components/common/label/Label";
 import Modal from "@/components/common/modal/Modal";
@@ -14,6 +16,8 @@ interface RoomCardModalProps {
 }
 
 const RoomCardModal = ({ isOpen, onClose, roomInfo }: RoomCardModalProps) => {
+  const { handleParticipateIn } = useMutateParticipateIn();
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <S.RoomCardModalContainer>
@@ -72,6 +76,12 @@ const RoomCardModal = ({ isOpen, onClose, roomInfo }: RoomCardModalProps) => {
           </S.KeywordsContainer>
           <S.ContentContainer>{roomInfo.content}</S.ContentContainer>
         </S.DescriptionContainer>
+
+        <S.ButtonContainer>
+          <Button variant="primary" size="small" onClick={() => handleParticipateIn(roomInfo.id)}>
+            참여하기
+          </Button>
+        </S.ButtonContainer>
       </S.RoomCardModalContainer>
     </Modal>
   );
