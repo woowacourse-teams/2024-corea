@@ -18,6 +18,27 @@ interface RoomCardModalProps {
 const RoomCardModal = ({ isOpen, onClose, roomInfo }: RoomCardModalProps) => {
   const { handleParticipateIn } = useMutateParticipateIn();
 
+  const ButtonElement = () => {
+    if (roomInfo.isParticipated) {
+      return (
+        <Button variant="disable" size="small" disabled>
+          참여중
+        </Button>
+      );
+    } else if (roomInfo.isClosed) {
+      return (
+        <Button variant="disable" size="small" disabled>
+          모집 완료
+        </Button>
+      );
+    }
+    return (
+      <Button variant="primary" size="small" onClick={() => handleParticipateIn(roomInfo.id)}>
+        참여하기
+      </Button>
+    );
+  };
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <S.RoomCardModalContainer>
@@ -78,9 +99,7 @@ const RoomCardModal = ({ isOpen, onClose, roomInfo }: RoomCardModalProps) => {
         </S.DescriptionContainer>
 
         <S.ButtonContainer>
-          <Button variant="primary" size="small" onClick={() => handleParticipateIn(roomInfo.id)}>
-            참여하기
-          </Button>
+          <ButtonElement />
         </S.ButtonContainer>
       </S.RoomCardModalContainer>
     </Modal>
