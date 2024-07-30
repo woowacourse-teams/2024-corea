@@ -102,6 +102,6 @@ jobs:
       - name: Create Pull Request
         if: ${{ !env.EXISTED }}
         run: |
-          gh pr create --title "${{ env.PR_TITLE }}" --body "${{ env.PR_BODY }}" --base "develop" --label "${{ env.LABELS }} --assignee "${{ env.ASSIGNEES }}"
+          gh pr create --title "${{ env.PR_TITLE }}" --body "${{ env.PR_BODY }}" --base "develop" --label "${{ env.LABELS }}" --assignee "${{ env.ASSIGNEES }}"
         env:
           GH_TOKEN: ${{ github.token }}
