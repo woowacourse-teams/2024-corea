@@ -13,8 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -34,10 +32,10 @@ public class ParticipationService {
 
     private void validateIdExist(long roomId, long memberId) {
         if (!roomRepository.existsById(roomId)) {
-            throw new CoreaException(ExceptionType.NOT_FOUND_ERROR, String.format("%d에 해당하는 방이 없습니다.", roomId));
+            throw new CoreaException(ExceptionType.ROOM_NOT_FOUND, String.format("%d에 해당하는 방이 없습니다.", roomId));
         }
         if (!memberRepository.existsById(memberId)) {
-            throw new CoreaException(ExceptionType.NOT_FOUND_ERROR, String.format("%d에 해당하는 멤버가 없습니다.", memberId));
+            throw new CoreaException(ExceptionType.MEMBER_NOT_FOUND, String.format("%d에 해당하는 멤버가 없습니다.", memberId));
         }
         if (participationRepository.existsByRoomIdAndMemberId(roomId, memberId)) {
             throw new CoreaException(ExceptionType.ALREADY_APPLY);

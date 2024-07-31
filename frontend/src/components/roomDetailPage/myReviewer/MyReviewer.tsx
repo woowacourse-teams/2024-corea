@@ -3,7 +3,7 @@ import Button from "@/components/common/button/Button";
 import Icon from "@/components/common/icon/Icon";
 import * as S from "@/components/roomDetailPage/myReviewer/MyReviewer.style";
 import QUERY_KEYS from "@/apis/queryKeys";
-import { getMyReviewers } from "@/apis/review.api";
+import { getMyReviewers } from "@/apis/reviews.api";
 import MESSAGES from "@/constants/message";
 
 const MyReviewer = ({ roomId }: { roomId: number }) => {
