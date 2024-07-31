@@ -13,7 +13,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Extract Branch Prefix, Issue Number
+      - name: Extract Branch Prefix, Issue Number, Label
         id: extract
         env:
           PULL_REQUEST_CONTEXT: ${{ toJson(github.event.pull_request) }}
@@ -29,6 +29,9 @@ jobs:
           else
             exit 0
           fi
+          
+          labels=$(echo "$PULL_REQUEST_CONTEXT" | jq -r '.labels[].name' | tr '\n' ', ' | sed 's/, $//' | rev | cut -c 2- | rev)
+          echo "LABELS=$labels" >> $GITHUB_ENV
 
       - name: Fetch Assignee
         if: ${{ !env.EXISTED }}
@@ -46,12 +49,14 @@ jobs:
         id: setup-reviewer
         run: |
           IFS=',' read -r -a LABEL_ARRAY <<< "${{ env.LABELS }}"
-          reviewers="${{ env.ASSIGNEES }}"
+          reviewers=""
           for LABEL in "${LABEL_ARRAY[@]}"; do
             if [[ "$LABEL" == "BE" ]]; then
               reviewers="ashsty, jcoding-play, hjk0761, youngsu5582"
             elif [[ "$LABEL" == "FE" ]]; then
               reviewers="00kang, pp449, chlwlstlf"
+            elif [[ "$LABEL" == "ALL" ]]; then
+              reviewers="${{ env.ASSIGNEES }}"
             fi
           done
           
