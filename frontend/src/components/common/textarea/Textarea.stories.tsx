@@ -42,15 +42,15 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     error: false,
+    defaultValue: "기본 Textarea",
   },
-  render: (args) => <Textarea error={args.error} defaultValue="기본 Textarea" />,
 };
 
 export const 에러일_때: Story = {
   args: {
     error: true,
+    placeholder: "필수 입력",
   },
-  render: (args) => <Textarea error={args.error} placeholder="필수 입력" />,
 };
 
 export const Textarea_Row_변경: Story = {
