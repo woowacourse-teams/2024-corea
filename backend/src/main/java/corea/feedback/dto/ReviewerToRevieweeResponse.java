@@ -1,7 +1,7 @@
 package corea.feedback.dto;
 
+import corea.feedback.domain.FeedbackKeyword;
 import corea.feedback.domain.ReviewerToReviewee;
-import corea.feedback.domain.ReviewerToRevieweeFeedback;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ public record ReviewerToRevieweeResponse(long feedbackId, long revieweeId, int e
                 reviewerToReviewee.getId(),
                 reviewerToReviewee.getReviewee().getId(),
                 reviewerToReviewee.getEvaluatePoint(),
-                ReviewerToRevieweeFeedback.toStringList(reviewerToReviewee.getKeywords()),
+                FeedbackKeyword.toStringList(reviewerToReviewee.getKeywords()),
                 reviewerToReviewee.getFeedBackText(),
                 reviewerToReviewee.getRecommendationPoint()
         );
