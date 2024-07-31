@@ -10,7 +10,7 @@ const rotate = keyframes`
 `;
 
 export const AttitudeScoreContainer = styled.div`
-  position: absolute;
+  position: relative;
 
   width: 100%;
   height: 24px;
