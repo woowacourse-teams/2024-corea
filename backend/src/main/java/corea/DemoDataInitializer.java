@@ -100,112 +100,144 @@ public class DemoDataInitializer implements ApplicationRunner {
                         Classification.FRONTEND, RoomStatus.OPENED));
         Room room6 = roomRepository.save(
                 new Room("방 제목 6", "방 설명 6", 3,
-                        null, null, List.of("TDD"),
+                        "https://github.com/example/java-racingcar",
+                        "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=13301655&filePath=L2Rpc2sxL25ld2RhdGEvMjAyMS8yMS9DTFMxMDAwNC8xMzMwMTY1NV9XUlRfMjFfQ0xTMTAwMDRfMjAyMTEyMTNfMQ==&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004",
+                        List.of("TDD"),
                         1, 20, member6,
                         LocalDateTime.now().plusDays(3),
                         LocalDateTime.now().plusDays(17),
                         Classification.FRONTEND, RoomStatus.OPENED));
         Room room7 = roomRepository.save(
                 new Room("방 제목 7", "방 설명 7", 3,
-                        null, null, List.of("TDD"),
+                        "https://github.com/example/java-racingcar",
+                        "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=13301655&filePath=L2Rpc2sxL25ld2RhdGEvMjAyMS8yMS9DTFMxMDAwNC8xMzMwMTY1NV9XUlRfMjFfQ0xTMTAwMDRfMjAyMTEyMTNfMQ==&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004",
+                        List.of("TDD"),
                         1, 20, member7,
                         LocalDateTime.now().plusDays(3),
                         LocalDateTime.now().plusDays(17),
                         Classification.FRONTEND, RoomStatus.OPENED));
         roomRepository.save(
                 new Room("방 제목 8", "방 설명 8", 3,
-                        null, null, List.of("TDD", "클린코드"),
+                        "https://github.com/example/java-racingcar",
+                        "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=13301655&filePath=L2Rpc2sxL25ld2RhdGEvMjAyMS8yMS9DTFMxMDAwNC8xMzMwMTY1NV9XUlRfMjFfQ0xTMTAwMDRfMjAyMTEyMTNfMQ==&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004",
+                        List.of("TDD", "클린코드"),
                         1, 20, member1,
                         LocalDateTime.now().plusDays(3),
                         LocalDateTime.now().plusDays(17),
                         Classification.BACKEND, RoomStatus.OPENED));
         roomRepository.save(
                 new Room("방 제목 9", "방 설명 9", 3,
-                        null, null, List.of("TDD"),
+                        "https://github.com/example/java-racingcar",
+                        "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=13301655&filePath=L2Rpc2sxL25ld2RhdGEvMjAyMS8yMS9DTFMxMDAwNC8xMzMwMTY1NV9XUlRfMjFfQ0xTMTAwMDRfMjAyMTEyMTNfMQ==&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004",
+                        List.of("TDD"),
                         1, 20, member3,
                         LocalDateTime.now().plusDays(3),
                         LocalDateTime.now().plusDays(17),
                         Classification.ANDROID, RoomStatus.OPENED));
         roomRepository.save(
                 new Room("방 제목 10", "방 설명 10", 3,
-                        null, null, List.of("TDD"),
+                        "https://github.com/example/java-racingcar",
+                        "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=13301655&filePath=L2Rpc2sxL25ld2RhdGEvMjAyMS8yMS9DTFMxMDAwNC8xMzMwMTY1NV9XUlRfMjFfQ0xTMTAwMDRfMjAyMTEyMTNfMQ==&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004",
+                        List.of("TDD"),
                         1, 20, member5,
                         LocalDateTime.now().plusDays(3),
                         LocalDateTime.now().plusDays(17),
                         Classification.FRONTEND, RoomStatus.OPENED));
         roomRepository.save(
                 new Room("방 제목 11", "방 설명 11", 3,
-                        null, null, List.of("TDD"),
+                        "https://github.com/example/java-racingcar",
+                        "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=13301655&filePath=L2Rpc2sxL25ld2RhdGEvMjAyMS8yMS9DTFMxMDAwNC8xMzMwMTY1NV9XUlRfMjFfQ0xTMTAwMDRfMjAyMTEyMTNfMQ==&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004",
+                        List.of("TDD"),
                         1, 20, member5,
                         LocalDateTime.now().plusDays(3),
                         LocalDateTime.now().plusDays(17),
                         Classification.FRONTEND, RoomStatus.OPENED));
         roomRepository.save(
                 new Room("방 제목 12", "방 설명 12", 3,
-                        null, null, List.of("TDD"),
+                        "https://github.com/example/java-racingcar",
+                        "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=13301655&filePath=L2Rpc2sxL25ld2RhdGEvMjAyMS8yMS9DTFMxMDAwNC8xMzMwMTY1NV9XUlRfMjFfQ0xTMTAwMDRfMjAyMTEyMTNfMQ==&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004",
+                        List.of("TDD"),
                         1, 20, member5,
                         LocalDateTime.now().plusDays(3),
                         LocalDateTime.now().plusDays(17),
                         Classification.FRONTEND, RoomStatus.CLOSED));
         roomRepository.save(
                 new Room("방 제목 13", "방 설명 13", 3,
-                        null, null, List.of("TDD"),
+                        "https://github.com/example/java-racingcar",
+                        "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=13301655&filePath=L2Rpc2sxL25ld2RhdGEvMjAyMS8yMS9DTFMxMDAwNC8xMzMwMTY1NV9XUlRfMjFfQ0xTMTAwMDRfMjAyMTEyMTNfMQ==&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004",
+                        List.of("TDD"),
                         1, 20, member5,
                         LocalDateTime.now().plusDays(3),
                         LocalDateTime.now().plusDays(17),
                         Classification.FRONTEND, RoomStatus.CLOSED));
         roomRepository.save(
                 new Room("방 제목 14", "방 설명 14", 3,
-                        null, null, List.of("TDD"),
+                        "https://github.com/example/java-racingcar",
+                        "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=13301655&filePath=L2Rpc2sxL25ld2RhdGEvMjAyMS8yMS9DTFMxMDAwNC8xMzMwMTY1NV9XUlRfMjFfQ0xTMTAwMDRfMjAyMTEyMTNfMQ==&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004",
+                        List.of("TDD"),
                         1, 20, member5,
                         LocalDateTime.now().plusDays(3),
                         LocalDateTime.now().plusDays(17),
                         Classification.FRONTEND, RoomStatus.CLOSED));
         roomRepository.save(
                 new Room("방 제목 15", "방 설명 15", 3,
-                        null, null, List.of("TDD"),
+                        "https://github.com/example/java-racingcar",
+                        "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=13301655&filePath=L2Rpc2sxL25ld2RhdGEvMjAyMS8yMS9DTFMxMDAwNC8xMzMwMTY1NV9XUlRfMjFfQ0xTMTAwMDRfMjAyMTEyMTNfMQ==&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004",
+                        List.of("TDD"),
                         1, 20, member5,
                         LocalDateTime.now().plusDays(3),
                         LocalDateTime.now().plusDays(17),
                         Classification.FRONTEND, RoomStatus.CLOSED));
         roomRepository.save(
                 new Room("방 제목 16", "방 설명 16", 3,
-                        null, null, List.of("TDD"),
+                        "https://github.com/example/java-racingcar",
+                        "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=13301655&filePath=L2Rpc2sxL25ld2RhdGEvMjAyMS8yMS9DTFMxMDAwNC8xMzMwMTY1NV9XUlRfMjFfQ0xTMTAwMDRfMjAyMTEyMTNfMQ==&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004",
+                        List.of("TDD"),
                         1, 20, member5,
                         LocalDateTime.now().plusDays(3),
                         LocalDateTime.now().plusDays(17),
                         Classification.FRONTEND, RoomStatus.CLOSED));
         roomRepository.save(
                 new Room("방 제목 17", "방 설명 17", 3,
-                        null, null, List.of("TDD"),
+                        "https://github.com/example/java-racingcar",
+                        "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=13301655&filePath=L2Rpc2sxL25ld2RhdGEvMjAyMS8yMS9DTFMxMDAwNC8xMzMwMTY1NV9XUlRfMjFfQ0xTMTAwMDRfMjAyMTEyMTNfMQ==&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004",
+                        List.of("TDD"),
                         1, 20, member5,
                         LocalDateTime.now().plusDays(3),
                         LocalDateTime.now().plusDays(17),
                         Classification.FRONTEND, RoomStatus.CLOSED));
         roomRepository.save(
                 new Room("방 제목 18", "방 설명 18", 3,
-                        null, null, List.of("TDD"),
+                        "https://github.com/example/java-racingcar",
+                        "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=13301655&filePath=L2Rpc2sxL25ld2RhdGEvMjAyMS8yMS9DTFMxMDAwNC8xMzMwMTY1NV9XUlRfMjFfQ0xTMTAwMDRfMjAyMTEyMTNfMQ==&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004",
+                        List.of("TDD"),
                         1, 20, member5,
                         LocalDateTime.now().plusDays(3),
                         LocalDateTime.now().plusDays(17),
                         Classification.FRONTEND, RoomStatus.CLOSED));
         roomRepository.save(
                 new Room("방 제목 19", "방 설명 19", 3,
-                        null, null, List.of("TDD"),
+                        "https://github.com/example/java-racingcar",
+                        "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=13301655&filePath=L2Rpc2sxL25ld2RhdGEvMjAyMS8yMS9DTFMxMDAwNC8xMzMwMTY1NV9XUlRfMjFfQ0xTMTAwMDRfMjAyMTEyMTNfMQ==&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004",
+                        List.of("TDD"),
                         1, 20, member5,
                         LocalDateTime.now().plusDays(3),
                         LocalDateTime.now().plusDays(17),
                         Classification.FRONTEND, RoomStatus.CLOSED));
         roomRepository.save(
                 new Room("방 제목 20", "방 설명 20", 3,
-                        null, null, List.of("TDD"),
+                        "https://github.com/example/java-racingcar",
+                        "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=13301655&filePath=L2Rpc2sxL25ld2RhdGEvMjAyMS8yMS9DTFMxMDAwNC8xMzMwMTY1NV9XUlRfMjFfQ0xTMTAwMDRfMjAyMTEyMTNfMQ==&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004",
+                        List.of("TDD"),
                         1, 20, member5,
                         LocalDateTime.now().plusDays(3),
                         LocalDateTime.now().plusDays(17),
                         Classification.FRONTEND, RoomStatus.CLOSED));
         roomRepository.save(
                 new Room("방 제목 21", "방 설명 21", 3,
-                        null, null, List.of("TDD"),
+                        "https://github.com/example/java-racingcar",
+                        "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=13301655&filePath=L2Rpc2sxL25ld2RhdGEvMjAyMS8yMS9DTFMxMDAwNC8xMzMwMTY1NV9XUlRfMjFfQ0xTMTAwMDRfMjAyMTEyMTNfMQ==&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004",
+                        List.of("TDD"),
                         1, 20, member5,
                         LocalDateTime.now().plusDays(3),
                         LocalDateTime.now().plusDays(17),
