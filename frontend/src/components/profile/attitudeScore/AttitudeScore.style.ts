@@ -1,4 +1,13 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const rotate = keyframes`
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(360deg);
+  }
+`;
 
 export const AttitudeScoreContainer = styled.div`
   position: absolute;
@@ -14,11 +23,11 @@ export const AttitudeScoreText = styled.span<{ $score: number }>`
   position: absolute;
   top: -35px;
   left: ${({ $score }) => {
-    if ($score === 0) return $score - 0.3;
-    if ($score < 10) return $score - 1.3;
-    if ($score < 100) return $score - 1.8;
-    return $score - 2.2;
-  }}%;
+    if ($score === 0) return `calc(${$score}% - 0.3vw)`;
+    if ($score < 10) return `calc(${$score}% - 1.2vw)`;
+    if ($score < 100) return `calc(${$score}% - 1.8vw)`;
+    return `calc(${$score}% - 2.2vw)`;
+  }};
 
   font: ${({ theme }) => theme.TEXT.small};
   color: ${({ theme }) => theme.COLOR.grass};
@@ -36,6 +45,8 @@ export const AttitudeScoreArrow = styled.div<{ $score: number }>`
   border-right: 10px solid transparent;
   border-bottom: 10px solid transparent;
   border-left: 10px solid transparent;
+
+  animation: ${rotate} 4s infinite linear;
 `;
 
 export const AttitudeScoreGauge = styled.div<{ $score: number }>`

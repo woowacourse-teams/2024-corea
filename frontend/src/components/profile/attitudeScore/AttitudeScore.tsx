@@ -8,7 +8,6 @@ interface AttitudeScoreProps {
 const AttitudeScore = ({ score }: AttitudeScoreProps) => {
   return (
     <S.AttitudeScoreContainer>
-      <S.AttitudeScoreText $score={score}>{score}</S.AttitudeScoreText>
       <S.AttitudeScoreArrow $score={score} />
       <S.AttitudeScoreGauge $score={score} />
     </S.AttitudeScoreContainer>
