@@ -9,7 +9,7 @@ interface ProfileProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 const Profile = ({ imgSrc, ...rest }: ProfileProps) => {
   return (
     <S.ProfileContainer {...rest}>
-      <S.ProfileImg src={imgSrc} />
+      <S.ProfileImg src={imgSrc} alt="유저 프로필 이미지" />
     </S.ProfileContainer>
   );
 };
