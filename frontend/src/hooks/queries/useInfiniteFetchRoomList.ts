@@ -8,7 +8,11 @@ interface RoomListQueryProps {
   classification: string;
 }
 
-export const useGetRoomList = ({ queryKey, getRoomList, classification }: RoomListQueryProps) => {
+export const useInfiniteFetchRoomList = ({
+  queryKey,
+  getRoomList,
+  classification,
+}: RoomListQueryProps) => {
   const [searchParams] = useSearchParams();
 
   return useInfiniteQuery({

@@ -44,3 +44,10 @@ export const getRoomDetailInfo = async (id: number): Promise<RoomInfo> => {
 
   return res;
 };
+
+export const postParticipateIn = async (roomId: number): Promise<void> => {
+  const res = await apiClient.post({
+    endpoint: API_ENDPOINTS.PARTICIPATE_IN(roomId),
+    errorMessage: MESSAGES.ERROR.POST_PARTICIPATE_IN,
+  });
+};

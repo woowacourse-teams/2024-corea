@@ -53,8 +53,7 @@ jobs:
                             -H "Accept: application/vnd.github.v3+json" \
                             "https://api.github.com/repos/${{ github.repository }}/issues/$issue_number")
           
-          assignees=$(echo "$response" | jq -r '.assignees[].login' | tr '\n' ', ' | sed 's/, $//')
-          assignees=$(echo "$assignees" | rev | cut -c 2- | rev)
+          assignees=$(echo "$response" | jq -r '.assignees[].login' | awk '{ORS=","}1' | sed 's/, $//' | rev | cut -c 2- | rev)
           
           title=$(echo "$response" | jq -r '.title')
           
@@ -71,12 +70,22 @@ jobs:
           echo "PR_TITLE=$pr_title" >> $GITHUB_ENV
           echo "ISSUE_BODY_FILE=issue_body.txt" >> $GITHUB_ENV
 
+      - name: Frontend StoryBook Link Add
+        if: ${{ !env.EXISTED }}
+        run: |
+          IFS=',' read -r -a LABEL_ARRAY <<< "${{ env.LABELS }}"
+          for LABEL in "${LABEL_ARRAY[@]}"; do
+            if [[ "$LABEL" == "FE" ]]; then
+              echo "## 📓 스토리북 링크" >> body.md
+              echo "[바로가기](${{ secrets.STORY_BOOK_URL }})" >> body.md
+            fi
+          done
+
       - name: Generate PR Body
         if: ${{ !env.EXISTED }}
         id: generate-body
         run: |
           issue_number="${{ env.ISSUE_NUMBER }}"
-          
           echo "## 📌 관련 이슈" >> body.md
           echo "" >> body.md
           echo "- closed : #${issue_number} " >> body.md
@@ -86,7 +95,7 @@ jobs:
           echo "<!-- 수정/추가한 내용을 적어주세요. -->" >> body.md
           
           summary=$(cat body.md)
-          echo "PR_BODY<<EOF" >> $GITHUB_ENV
+            echo "PR_BODY<<EOF" >> $GITHUB_ENV
           echo "$summary" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
