@@ -1,0 +1,14 @@
+version: '3'
+services:
+   backend:
+     build:
+       context: ./backend
+     container_name: corea-backend
+     ports:
+       - "8080:8080"
+   frontend:
+     build:
+       context: ./frontend
+     container_name: corea-frontend
+     ports:
+       - "3000:3000"
