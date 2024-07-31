@@ -1,8 +1,7 @@
-package corea.domain;
+package corea.profile.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import corea.member.domain.Member;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +19,10 @@ public class Profile {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    private Member member;
+
     private long feedbackCount;
 
     private long receiveCount;
@@ -28,5 +31,7 @@ public class Profile {
 
     private float averageRating;
 
-    private float grass;
+    public Profile(Member member, long feedbackCount, long receiveCount, long deliverCount, float averageRating) {
+        this(null, member, feedbackCount, receiveCount, deliverCount, averageRating);
+    }
 }
