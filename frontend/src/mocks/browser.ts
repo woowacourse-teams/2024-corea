@@ -1,4 +1,4 @@
 import { setupWorker } from "msw/browser";
-import roomHandler from "@/mocks/handler/roomHandler";
+import handlers from "@/mocks/handlers";
 
-export const worker = setupWorker(...roomHandler);
+export const worker = setupWorker(...handlers);
