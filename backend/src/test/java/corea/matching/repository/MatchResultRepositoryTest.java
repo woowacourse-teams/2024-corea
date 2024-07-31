@@ -25,7 +25,7 @@ class MatchResultRepositoryTest {
     @Test
     @DisplayName("사용자가 입장한 방에서 사용자를 리뷰할 사람들을 조회할 수 있다.")
     void findAllByRoomIdAndToMemberId() {
-        Member member1 = memberRepository.save(MemberFixture.MEMBER_JOYSON());
+        Member member1 = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
         Member member2 = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
         Member member3 = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
 
