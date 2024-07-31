@@ -9,6 +9,8 @@ const COLOR = {
   primary2: "#84AEE1",
   primary3: "#607999",
   secondary: "#FF3D45",
+  lightGrass: "#D7E4D8",
+  grass: "#00B707",
 };
 
 const TEXT = {
