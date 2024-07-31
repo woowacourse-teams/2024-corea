@@ -4,7 +4,7 @@ import Button from "@/components/common/button/Button";
 import Icon from "@/components/common/icon/Icon";
 import * as S from "@/components/roomDetailPage/myReviewee/MyReviewee.style";
 import QUERY_KEYS from "@/apis/queryKeys";
-import { getMyReviewees } from "@/apis/review.api";
+import { getMyReviewees } from "@/apis/reviews.api";
 import MESSAGES from "@/constants/message";
 
 const MyReviewee = ({ roomId }: { roomId: number }) => {

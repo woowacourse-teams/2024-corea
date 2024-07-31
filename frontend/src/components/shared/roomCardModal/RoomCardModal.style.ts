@@ -150,3 +150,11 @@ export const KeywordsContainer = styled.div`
 export const ContentContainer = styled.p`
   font: ${({ theme }) => theme.TEXT.xSmall};
 `;
+
+// 버튼
+export const ButtonContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+`;
