@@ -46,14 +46,12 @@ jobs:
         id: setup-reviewer
         run: |
           IFS=',' read -r -a LABEL_ARRAY <<< "${{ env.LABELS }}"
-          reviewers=""
+          reviewers="${{ env.ASSIGNEES }}"
           for LABEL in "${LABEL_ARRAY[@]}"; do
             if [[ "$LABEL" == "BE" ]]; then
               reviewers="ashsty, jcoding-play, hjk0761, youngsu5582"
             elif [[ "$LABEL" == "FE" ]]; then
               reviewers="00kang, pp449, chlwlstlf"
-            else
-              reviewers="${{ env.ASSIGNEES }}"
             fi
           done
           
