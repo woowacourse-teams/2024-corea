@@ -2,7 +2,7 @@ package corea.feedback.service;
 
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
-import corea.feedback.domain.ReviewerToReviewee;
+import corea.feedback.domain.ReviewerToRevieweeFeedback;
 import corea.feedback.dto.ReviewerToRevieweeRequest;
 import corea.feedback.dto.ReviewerToRevieweeResponse;
 import corea.feedback.repository.ReviewerToRevieweeRepository;
@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class ReviewerToRevieweeService {
+public class ReviewerToRevieweeFeedbackService {
 
     private final MatchResultRepository matchResultRepository;
     private final ReviewerToRevieweeRepository reviewerToRevieweeRepository;
@@ -23,15 +23,15 @@ public class ReviewerToRevieweeService {
     @Transactional
     public ReviewerToRevieweeResponse create(long roomId, long reviewerId, ReviewerToRevieweeRequest request) {
         validateAlreadyExist(roomId, reviewerId, request.revieweeId());
-        ReviewerToReviewee reviewerToReviewee = reviewerToRevieweeRepository.save(createEntity(roomId, reviewerId, request));
-        return ReviewerToRevieweeResponse.of(reviewerToReviewee);
+        ReviewerToRevieweeFeedback reviewerToRevieweeFeedback = reviewerToRevieweeRepository.save(createEntity(roomId, reviewerId, request));
+        return ReviewerToRevieweeResponse.of(reviewerToRevieweeFeedback);
     }
 
     @Transactional
     public ReviewerToRevieweeResponse update(long feedbackId, long roomId, long reviewerId, ReviewerToRevieweeRequest request) {
         validateNotExist(feedbackId);
-        ReviewerToReviewee reviewerToReviewee = reviewerToRevieweeRepository.save(createEntity(feedbackId, roomId, reviewerId, request));
-        return ReviewerToRevieweeResponse.of(reviewerToReviewee);
+        ReviewerToRevieweeFeedback reviewerToRevieweeFeedback = reviewerToRevieweeRepository.save(createEntity(feedbackId, roomId, reviewerId, request));
+        return ReviewerToRevieweeResponse.of(reviewerToRevieweeFeedback);
     }
 
     public ReviewerToRevieweeResponse findReviewerToReviewee(long roomId, long reviewerid, String username) {
@@ -52,14 +52,14 @@ public class ReviewerToRevieweeService {
         }
     }
 
-    private ReviewerToReviewee createEntity(long feedbackId, long roomId, long reviewerId, ReviewerToRevieweeRequest request) {
+    private ReviewerToRevieweeFeedback createEntity(long feedbackId, long roomId, long reviewerId, ReviewerToRevieweeRequest request) {
         MatchResult matchResult = matchResultRepository.findByRoomIdAndReviewerIdAndRevieweeId(roomId, reviewerId, request.revieweeId())
                 .orElseThrow(() -> new CoreaException(ExceptionType.NOT_MATCHED_MEMBER));
 
         return request.toEntity(feedbackId, roomId, matchResult.getReviewer(), matchResult.getReviewee());
     }
 
-    private ReviewerToReviewee createEntity(long roomId, long reviewerId, ReviewerToRevieweeRequest request) {
+    private ReviewerToRevieweeFeedback createEntity(long roomId, long reviewerId, ReviewerToRevieweeRequest request) {
         MatchResult matchResult = matchResultRepository.findByRoomIdAndReviewerIdAndRevieweeId(roomId, reviewerId, request.revieweeId())
                 .orElseThrow(() -> new CoreaException(ExceptionType.NOT_MATCHED_MEMBER));
 

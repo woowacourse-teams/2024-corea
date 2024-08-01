@@ -1,6 +1,6 @@
 package corea.feedback.dto;
 
-import corea.feedback.domain.ReviewerToReviewee;
+import corea.feedback.domain.ReviewerToRevieweeFeedback;
 import corea.feedback.util.FeedbackKeywordConverter;
 
 import java.util.List;
@@ -9,15 +9,15 @@ public record ReviewerToRevieweeResponse(long feedbackId, long revieweeId, int e
                                          List<String> feedbackKeywords,
                                          String feedbackText, int recommendationPoint) {
 
-    public static ReviewerToRevieweeResponse of(ReviewerToReviewee reviewerToReviewee) {
+    public static ReviewerToRevieweeResponse of(ReviewerToRevieweeFeedback reviewerToRevieweeFeedback) {
         return new ReviewerToRevieweeResponse(
-                reviewerToReviewee.getId(),
-                reviewerToReviewee.getReviewee()
+                reviewerToRevieweeFeedback.getId(),
+                reviewerToRevieweeFeedback.getReviewee()
                         .getId(),
-                reviewerToReviewee.getEvaluatePoint(),
-                FeedbackKeywordConverter.convertToMessages(reviewerToReviewee.getKeywords()),
-                reviewerToReviewee.getFeedBackText(),
-                reviewerToReviewee.getRecommendationPoint()
+                reviewerToRevieweeFeedback.getEvaluatePoint(),
+                FeedbackKeywordConverter.convertToMessages(reviewerToRevieweeFeedback.getKeywords()),
+                reviewerToRevieweeFeedback.getFeedBackText(),
+                reviewerToRevieweeFeedback.getRecommendationPoint()
         );
     }
 }

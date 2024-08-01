@@ -17,7 +17,7 @@ import static lombok.AccessLevel.PROTECTED;
 @AllArgsConstructor
 @NoArgsConstructor(access = PROTECTED)
 @Getter
-public class ReviewerToReviewee {
+public class ReviewerToRevieweeFeedback {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -43,7 +43,7 @@ public class ReviewerToReviewee {
 
     private int recommendationPoint;
 
-    public ReviewerToReviewee(long roomId, Member reviewer, Member reviewee, int evaluatePoint, List<FeedbackKeyword> keywords, String feedBackText, int recommendationPoint) {
+    public ReviewerToRevieweeFeedback(long roomId, Member reviewer, Member reviewee, int evaluatePoint, List<FeedbackKeyword> keywords, String feedBackText, int recommendationPoint) {
         this(null, roomId, reviewer, reviewee, evaluatePoint, keywords, feedBackText, recommendationPoint);
     }
 }

@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 @ControllerTest
-class ReviewerToRevieweeControllerTest {
+class ReviewerToRevieweeFeedbackFeedbackControllerTest {
 
     @Autowired
     private RoomRepository roomRepository;

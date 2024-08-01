@@ -21,7 +21,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 
 @ServiceTest
-class ReviewerToRevieweeServiceTest {
+class ReviewerToRevieweeFeedbackServiceTest {
     @Autowired
     RoomRepository roomRepository;
     @Autowired
@@ -29,7 +29,7 @@ class ReviewerToRevieweeServiceTest {
     @Autowired
     private MatchResultRepository matchResultRepository;
     @Autowired
-    ReviewerToRevieweeService reviewerToRevieweeService;
+    ReviewerToRevieweeFeedbackService reviewerToRevieweeFeedbackService;
 
     @Test
     @DisplayName("리뷰어->리뷰이 대한 피드백 내용을 생성한다.")
@@ -44,7 +44,7 @@ class ReviewerToRevieweeServiceTest {
                 reviewee
         ));
 
-        assertThatCode(() -> reviewerToRevieweeService.create(room.getId(), reviewer.getId(), createRequest(reviewee.getId())))
+        assertThatCode(() -> reviewerToRevieweeFeedbackService.create(room.getId(), reviewer.getId(), createRequest(reviewee.getId())))
                 .doesNotThrowAnyException();
     }
 
@@ -56,7 +56,7 @@ class ReviewerToRevieweeServiceTest {
         Member reviewer = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member reviewee = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
 
-        assertThatCode(() -> reviewerToRevieweeService.create(room.getId(), reviewer.getId(), createRequest(reviewee.getId())))
+        assertThatCode(() -> reviewerToRevieweeFeedbackService.create(room.getId(), reviewer.getId(), createRequest(reviewee.getId())))
                 .isInstanceOf(CoreaException.class);
     }
 
@@ -72,9 +72,9 @@ class ReviewerToRevieweeServiceTest {
                 reviewer,
                 reviewee
         ));
-        reviewerToRevieweeService.create(room.getId(), reviewer.getId(), createRequest(reviewee.getId()));
+        reviewerToRevieweeFeedbackService.create(room.getId(), reviewer.getId(), createRequest(reviewee.getId()));
 
-        ReviewerToRevieweeResponse response = reviewerToRevieweeService.findReviewerToReviewee(room.getId(), reviewer.getId(), reviewee.getUsername());
+        ReviewerToRevieweeResponse response = reviewerToRevieweeFeedbackService.findReviewerToReviewee(room.getId(), reviewer.getId(), reviewee.getUsername());
         assertThat(response.revieweeId()).isEqualTo(reviewee.getId());
     }
 
@@ -90,8 +90,8 @@ class ReviewerToRevieweeServiceTest {
                 reviewer,
                 reviewee
         ));
-        ReviewerToRevieweeResponse createResponse = reviewerToRevieweeService.create(room.getId(), reviewer.getId(), createRequest(reviewee.getId()));
-        ReviewerToRevieweeResponse updateResponse = reviewerToRevieweeService.update(createResponse.feedbackId(), room.getId(), reviewer.getId(), createRequest(reviewee.getId()));
+        ReviewerToRevieweeResponse createResponse = reviewerToRevieweeFeedbackService.create(room.getId(), reviewer.getId(), createRequest(reviewee.getId()));
+        ReviewerToRevieweeResponse updateResponse = reviewerToRevieweeFeedbackService.update(createResponse.feedbackId(), room.getId(), reviewer.getId(), createRequest(reviewee.getId()));
 
         assertThat(createResponse).isEqualTo(updateResponse);
     }
@@ -109,7 +109,7 @@ class ReviewerToRevieweeServiceTest {
                 reviewee
         ));
 
-        assertThatThrownBy(() -> reviewerToRevieweeService.update(room.getId(), -1, reviewer.getId(), createRequest(reviewee.getId())))
+        assertThatThrownBy(() -> reviewerToRevieweeFeedbackService.update(room.getId(), -1, reviewer.getId(), createRequest(reviewee.getId())))
                 .isInstanceOf(CoreaException.class);
     }
 
