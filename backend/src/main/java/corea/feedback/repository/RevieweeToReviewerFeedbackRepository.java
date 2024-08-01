@@ -11,5 +11,4 @@ public interface RevieweeToReviewerFeedbackRepository extends JpaRepository<Revi
 
     @Query("SELECT r.keywords FROM RevieweeToReviewerFeedback r WHERE r.reviewerId = :reviewerId")
     List<List<FeedbackKeyword>> findAllKeywordsByReviewerId(long reviewerId);
-
 }
