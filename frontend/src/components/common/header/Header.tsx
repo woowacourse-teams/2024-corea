@@ -48,7 +48,7 @@ const Header = () => {
             </S.HeaderItem>
           ))}
         </S.HeaderList>
-        <ProfileDropdown></ProfileDropdown>
+        <ProfileDropdown />
       </S.HeaderNavBarContainer>
     </S.HeaderContainer>
   );
