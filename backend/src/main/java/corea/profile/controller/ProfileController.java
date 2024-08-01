@@ -11,10 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class ProfileController {
+public class ProfileController implements ProfileControllerSpecification {
 
     private final ProfileService profileService;
 
+    @Override
     @GetMapping("/user/profile")
     public ResponseEntity<ProfileResponse> profile(@LoginMember AuthInfo authInfo) {
         ProfileResponse response = profileService.findOne(authInfo.getId());

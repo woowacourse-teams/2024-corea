@@ -24,7 +24,7 @@ public record ProfileResponse(
                 profile.getFeedbackCount(),
                 profile.getAverageRating(),
                 topThreeFeedbackKeywords,
-                profile.getMember().getAttitude()
+                profile.getAttitude()
         );
     }
 }

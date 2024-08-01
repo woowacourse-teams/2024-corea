@@ -2,8 +2,8 @@ package corea.profile.service;
 
 import config.ServiceTest;
 import corea.feedback.domain.FeedbackKeyword;
-import corea.feedback.domain.ReviewerToReviewee;
-import corea.feedback.repository.ReviewerToRevieweeRepository;
+import corea.feedback.domain.ReviewerToRevieweeFeedback;
+import corea.feedback.repository.ReviewerToRevieweeFeedbackRepository;
 import corea.fixture.MemberFixture;
 import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
@@ -31,7 +31,7 @@ class ProfileServiceTest {
     private MemberRepository memberRepository;
 
     @Autowired
-    private ReviewerToRevieweeRepository reviewerToRevieweeRepository;
+    private ReviewerToRevieweeFeedbackRepository reviewerToRevieweeRepository;
 
     @Test
     @DisplayName("마이 페이지에 보여질 정보를 찾을 수 있다.")
@@ -40,10 +40,10 @@ class ProfileServiceTest {
         Member joyson = memberRepository.save(MemberFixture.MEMBER_JOYSON());
 
         List<FeedbackKeyword> feedbackKeywords = getFeedbackKeywords();
-        ReviewerToReviewee reviewerToReviewee = new ReviewerToReviewee(pororo.getId(), joyson.getId(), 5, feedbackKeywords, null, 1);
+        ReviewerToRevieweeFeedback reviewerToReviewee = new ReviewerToRevieweeFeedback(pororo.getId(), joyson.getId(), 5, feedbackKeywords, null, 1);
         reviewerToRevieweeRepository.save(reviewerToReviewee);
 
-        Profile profile = new Profile(pororo, 1, 1, 0, 5);
+        Profile profile = new Profile(pororo, 1, 1, 0, 5, 36.5f);
         profileRepository.save(profile);
 
         ProfileResponse response = profileService.findOne(pororo.getId());
@@ -58,8 +58,7 @@ class ProfileServiceTest {
         return List.of(
                 FeedbackKeyword.MAKE_CODE_FOR_THE_PURPOSE,
                 FeedbackKeyword.EASY_TO_UNDERSTAND_THE_CODE,
-                FeedbackKeyword.RESPONSE_WAS_FAST,
-                FeedbackKeyword.HARD_TO_UNDERSTAND_THE_CODE
+                FeedbackKeyword.RESPONSE_FAST
         );
     }
 }

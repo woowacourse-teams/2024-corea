@@ -4,8 +4,8 @@ import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
 import corea.feedback.domain.FeedbackKeyword;
 import corea.feedback.domain.ReceivedFeedbacks;
-import corea.feedback.repository.RevieweeToReviewerRepository;
-import corea.feedback.repository.ReviewerToRevieweeRepository;
+import corea.feedback.repository.RevieweeToReviewerFeedbackRepository;
+import corea.feedback.repository.ReviewerToRevieweeFeedbackRepository;
 import corea.profile.domain.Profile;
 import corea.profile.dto.ProfileResponse;
 import corea.profile.repository.ProfileRepository;
@@ -23,8 +23,8 @@ public class ProfileService {
     private static final int NUMBER_OF_FEEDBACKS_TO_BE_SHOWN_TO_MEMBER = 3;
 
     private final ProfileRepository profileRepository;
-    private final RevieweeToReviewerRepository revieweeToReviewerRepository;
-    private final ReviewerToRevieweeRepository reviewerToRevieweeRepository;
+    private final RevieweeToReviewerFeedbackRepository revieweeToReviewerRepository;
+    private final ReviewerToRevieweeFeedbackRepository reviewerToRevieweeRepository;
 
     public ProfileResponse findOne(long memberId) {
         Profile profile = profileRepository.findByMemberId(memberId)

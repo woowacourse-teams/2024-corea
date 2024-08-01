@@ -2,9 +2,14 @@ package corea.feedback.domain;
 
 import lombok.RequiredArgsConstructor;
 
-import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Stream;
+
+import static java.util.Collections.reverseOrder;
+import static java.util.stream.Collectors.counting;
+import static java.util.stream.Collectors.groupingBy;
 
 @RequiredArgsConstructor
 public class ReceivedFeedbacks {
@@ -13,21 +18,33 @@ public class ReceivedFeedbacks {
     private final List<List<FeedbackKeyword>> revieweeFeedbacks;
 
     public List<String> findTopFeedbackKeywords(int maxSize) {
-        List<FeedbackKeyword> feedbackKeywords = sortBySatisfaction();
+        Map<FeedbackKeyword, Long> feedbackKeywords = countPositiveFeedbackKeywords();
+        List<FeedbackKeyword> sortedFeedbackKeywords = sortByValue(feedbackKeywords);
 
-        return feedbackKeywords.stream()
-                .filter(FeedbackKeyword::isPositive)
-                .map(FeedbackKeyword::getMessage)
-                .limit(maxSize)
-                .toList();
+        return getTopFeedbackKeywordMessages(sortedFeedbackKeywords, maxSize);
     }
 
-    private List<FeedbackKeyword> sortBySatisfaction() {
+    private Map<FeedbackKeyword, Long> countPositiveFeedbackKeywords() {
         return Stream.concat(
                         reviewerFeedbacks.stream().flatMap(List::stream),
                         revieweeFeedbacks.stream().flatMap(List::stream)
                 )
-                .sorted(Comparator.comparingInt((FeedbackKeyword keywords) -> keywords.getSatisfaction().getValue()).reversed())
+                .filter(FeedbackKeyword::isPositive)
+                .collect(groupingBy(Function.identity(), counting()));
+    }
+
+    private List<FeedbackKeyword> sortByValue(Map<FeedbackKeyword, Long> feedbackKeywords) {
+        return feedbackKeywords.entrySet()
+                .stream()
+                .sorted(reverseOrder(Map.Entry.comparingByValue()))
+                .map(Map.Entry::getKey)
+                .toList();
+    }
+
+    private List<String> getTopFeedbackKeywordMessages(List<FeedbackKeyword> sortedFeedbackKeywords, int maxSize) {
+        return sortedFeedbackKeywords.stream()
+                .limit(maxSize)
+                .map(FeedbackKeyword::getMessage)
                 .toList();
     }
 }
