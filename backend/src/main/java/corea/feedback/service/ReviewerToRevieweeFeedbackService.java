@@ -5,7 +5,7 @@ import corea.exception.ExceptionType;
 import corea.feedback.domain.ReviewerToRevieweeFeedback;
 import corea.feedback.dto.ReviewerToRevieweeRequest;
 import corea.feedback.dto.ReviewerToRevieweeResponse;
-import corea.feedback.repository.ReviewerToRevieweeRepository;
+import corea.feedback.repository.ReviewerToRevieweeFeedbackRepository;
 import corea.matching.domain.MatchResult;
 import corea.matching.repository.MatchResultRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,36 +18,36 @@ import org.springframework.transaction.annotation.Transactional;
 public class ReviewerToRevieweeFeedbackService {
 
     private final MatchResultRepository matchResultRepository;
-    private final ReviewerToRevieweeRepository reviewerToRevieweeRepository;
+    private final ReviewerToRevieweeFeedbackRepository reviewerToRevieweeFeedbackRepository;
 
     @Transactional
     public ReviewerToRevieweeResponse create(long roomId, long reviewerId, ReviewerToRevieweeRequest request) {
         validateAlreadyExist(roomId, reviewerId, request.revieweeId());
-        ReviewerToRevieweeFeedback reviewerToRevieweeFeedback = reviewerToRevieweeRepository.save(createEntity(roomId, reviewerId, request));
+        ReviewerToRevieweeFeedback reviewerToRevieweeFeedback = reviewerToRevieweeFeedbackRepository.save(createEntity(roomId, reviewerId, request));
         return ReviewerToRevieweeResponse.of(reviewerToRevieweeFeedback);
     }
 
     @Transactional
     public ReviewerToRevieweeResponse update(long feedbackId, long roomId, long reviewerId, ReviewerToRevieweeRequest request) {
         validateNotExist(feedbackId);
-        ReviewerToRevieweeFeedback reviewerToRevieweeFeedback = reviewerToRevieweeRepository.save(createEntity(feedbackId, roomId, reviewerId, request));
+        ReviewerToRevieweeFeedback reviewerToRevieweeFeedback = reviewerToRevieweeFeedbackRepository.save(createEntity(feedbackId, roomId, reviewerId, request));
         return ReviewerToRevieweeResponse.of(reviewerToRevieweeFeedback);
     }
 
     public ReviewerToRevieweeResponse findReviewerToReviewee(long roomId, long reviewerid, String username) {
         return ReviewerToRevieweeResponse
-                .of(reviewerToRevieweeRepository.findByRoomIdAndReviewerIdAndRevieweeUsername(roomId, reviewerid, username)
+                .of(reviewerToRevieweeFeedbackRepository.findByRoomIdAndReviewerIdAndRevieweeUsername(roomId, reviewerid, username)
                         .orElseThrow(() -> new CoreaException(ExceptionType.FEEDBACK_NOT_FOUND)));
     }
 
     private void validateNotExist(long feedbackId) {
-        if (!reviewerToRevieweeRepository.existsById(feedbackId)) {
+        if (!reviewerToRevieweeFeedbackRepository.existsById(feedbackId)) {
             throw new CoreaException(ExceptionType.FEEDBACK_NOT_FOUND);
         }
     }
 
     private void validateAlreadyExist(long roomId, long reviewerId, long revieweeId) {
-        if (reviewerToRevieweeRepository.existsByRoomIdAndReviewerIdAndRevieweeId(roomId, reviewerId, revieweeId)) {
+        if (reviewerToRevieweeFeedbackRepository.existsByRoomIdAndReviewerIdAndRevieweeId(roomId, reviewerId, revieweeId)) {
             throw new CoreaException(ExceptionType.ALREADY_COMPLETED_FEEDBACK);
         }
     }

@@ -1,5 +1,6 @@
 package corea.feedback.domain;
 
+import corea.member.domain.Member;
 import corea.util.FeedbackKeywordToStringConverter;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -22,9 +23,15 @@ public class ReviewerToRevieweeFeedback {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    private long revieweeId;
+    private long roomId;
 
-    private long reviewerId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "reviewer_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    private Member reviewer;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "reviewee_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    private Member reviewee;
 
     private int evaluatePoint;
 
@@ -36,8 +43,8 @@ public class ReviewerToRevieweeFeedback {
 
     private int recommendationPoint;
 
-    public ReviewerToRevieweeFeedback(long revieweeId, long reviewerId, int evaluatePoint, List<FeedbackKeyword> keywords, String feedBackText, int recommendationPoint) {
-        this(null, revieweeId, reviewerId, evaluatePoint, keywords, feedBackText, recommendationPoint);
+    public ReviewerToRevieweeFeedback(long roomId, Member reviewer, Member reviewee, int evaluatePoint, List<FeedbackKeyword> keywords, String feedBackText, int recommendationPoint) {
+        this(null, roomId, reviewer, reviewee, evaluatePoint, keywords, feedBackText, recommendationPoint);
     }
 }
 
