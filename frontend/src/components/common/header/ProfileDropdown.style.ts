@@ -56,6 +56,6 @@ export const DropdownItem = styled.div`
   color: ${({ theme }) => theme.COLOR.grey4};
 
   &:hover {
-    background-color: ${({ theme }) => theme.COLOR.grey1};
+    background-color: ${({ theme }) => theme.COLOR.grey0};
   }
 `;

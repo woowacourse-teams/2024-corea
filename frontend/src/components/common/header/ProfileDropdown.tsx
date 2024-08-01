@@ -18,7 +18,7 @@ const dropdownItems = [
 
 const ProfileDropdown = () => {
   const navigate = useNavigate();
-  const { isOpen, handleToggleDropdown, dropdownRef } = useDropdown();
+  const { isOpen, handleToggleDropdown } = useDropdown();
 
   const handleButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -26,7 +26,7 @@ const ProfileDropdown = () => {
   };
 
   return (
-    <S.ProfileContainer ref={dropdownRef}>
+    <S.ProfileContainer>
       <Profile imgSrc={profileImage} onClick={handleButtonClick} />
       <S.DropdownMenu show={isOpen}>
         <S.ProfileWrapper>
