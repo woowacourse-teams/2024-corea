@@ -1,6 +1,6 @@
-package corea.domain;
+package corea.feedback.domain;
 
-import corea.util.StringToListConverter;
+import corea.util.FeedbackKeywordToStringConverter;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,7 +16,7 @@ import static lombok.AccessLevel.PROTECTED;
 @AllArgsConstructor
 @NoArgsConstructor(access = PROTECTED)
 @Getter
-public class RevieweeFeedback {
+public class ReviewerToRevieweeFeedback {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -28,12 +28,16 @@ public class RevieweeFeedback {
 
     private int evaluatePoint;
 
-    @Convert(converter = StringToListConverter.class)
-    private List<RevieweeFeedbackKeyword> keywords;
+    @Convert(converter = FeedbackKeywordToStringConverter.class)
+    private List<FeedbackKeyword> keywords;
 
     @Column(length = 512)
     private String feedBackText;
 
     private int recommendationPoint;
+
+    public ReviewerToRevieweeFeedback(long revieweeId, long reviewerId, int evaluatePoint, List<FeedbackKeyword> keywords, String feedBackText, int recommendationPoint) {
+        this(null, revieweeId, reviewerId, evaluatePoint, keywords, feedBackText, recommendationPoint);
+    }
 }
 

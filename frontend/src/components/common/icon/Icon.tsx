@@ -1,5 +1,12 @@
 import React from "react";
 import { MouseEventHandler } from "react";
+import {
+  FaRegFaceFrown,
+  FaRegFaceGrinHearts,
+  FaRegFaceGrinWide,
+  FaRegFaceMeh,
+  FaRegFaceSmile,
+} from "react-icons/fa6";
 import { IconType } from "react-icons/lib";
 import {
   MdArrowDropDown,
@@ -29,6 +36,11 @@ const ICON: { [key in IconKind]: IconType } = {
   arrowDown: MdArrowDropDown,
   thumbDown: MdOutlineThumbDown,
   thumbUp: MdOutlineThumbUp,
+  bad: FaRegFaceFrown,
+  disappointing: FaRegFaceMeh,
+  average: FaRegFaceSmile,
+  satisfied: FaRegFaceGrinWide,
+  verySatisfied: FaRegFaceGrinHearts,
 };
 
 interface IconProps {

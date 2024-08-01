@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Icon from "@/components/common/icon/Icon";
 import IconRadioButton from "@/components/common/iconRadioButton/IconRadioButton";
-import * as S from "@/components/common/recommendationPointBar/RecommendationPointBar.style";
+import * as S from "@/components/feedback/recommendationPointBar/RecommendationPointBar.style";
 import IconKind from "@/@types/icon";
 
 interface RecommendationOption {

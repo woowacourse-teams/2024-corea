@@ -8,6 +8,11 @@ type IconKind =
   | "pencil"
   | "arrowDown"
   | "thumbDown"
-  | "thumbUp";
+  | "thumbUp"
+  | "bad"
+  | "disappointing"
+  | "average"
+  | "satisfied"
+  | "verySatisfied";
 
 export default IconKind;
