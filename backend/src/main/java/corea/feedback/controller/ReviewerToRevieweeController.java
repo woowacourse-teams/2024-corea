@@ -16,16 +16,16 @@ public class ReviewerToRevieweeController implements ReviewerToRevieweeControlle
 
     private final ReviewerToRevieweeService reviewerToRevieweeService;
 
-    @PostMapping
     @Override
+    @PostMapping
     public ResponseEntity<Void> create(@PathVariable long roomId, @LoginMember AuthInfo authInfo, @RequestBody ReviewerToRevieweeRequest request) {
         reviewerToRevieweeService.create(roomId, authInfo.getId(), request);
         return ResponseEntity.ok()
                 .build();
     }
 
-    @GetMapping
     @Override
+    @GetMapping
     public ResponseEntity<ReviewerToRevieweeResponse> reviewerToReviewee(
             @PathVariable long roomId, @RequestParam String username, @LoginMember AuthInfo authInfo) {
         ReviewerToRevieweeResponse response = reviewerToRevieweeService.findReviewerToReviewee(roomId, authInfo.getId(), username);

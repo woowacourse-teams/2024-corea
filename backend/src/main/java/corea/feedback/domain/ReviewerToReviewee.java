@@ -43,7 +43,7 @@ public class ReviewerToReviewee {
 
     private int recommendationPoint;
 
-    public ReviewerToReviewee(final long roomId, final Member reviewer, final Member reviewee, final int evaluatePoint, final List<FeedbackKeyword> keywords, final String feedBackText, final int recommendationPoint) {
+    public ReviewerToReviewee(long roomId, Member reviewer, Member reviewee, int evaluatePoint, List<FeedbackKeyword> keywords, String feedBackText, int recommendationPoint) {
         this(null, roomId, reviewer, reviewee, evaluatePoint, keywords, feedBackText, recommendationPoint);
     }
 }

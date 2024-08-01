@@ -20,18 +20,18 @@ public class ReviewerToRevieweeService {
     private final MatchResultRepository matchResultRepository;
     private final ReviewerToRevieweeRepository reviewerToRevieweeRepository;
 
+    @Transactional
     public ReviewerToRevieweeResponse create(long roomId, long reviewerId, ReviewerToRevieweeRequest request) {
         validateAlreadyExist(roomId, reviewerId, request.revieweeId());
-        ReviewerToReviewee reviewerToReviewee = createEntity(roomId, reviewerId, request);
-        return ReviewerToRevieweeResponse
-                .of(reviewerToRevieweeRepository.save(reviewerToReviewee));
+        ReviewerToReviewee reviewerToReviewee = reviewerToRevieweeRepository.save(createEntity(roomId, reviewerId, request));
+        return ReviewerToRevieweeResponse.of(reviewerToReviewee);
     }
 
+    @Transactional
     public ReviewerToRevieweeResponse update(long feedbackId, long roomId, long reviewerId, ReviewerToRevieweeRequest request) {
         validateNotExist(feedbackId);
-        ReviewerToReviewee reviewerToReviewee = createEntity(feedbackId, roomId, reviewerId, request);
-        return ReviewerToRevieweeResponse
-                .of(reviewerToRevieweeRepository.save(reviewerToReviewee));
+        ReviewerToReviewee reviewerToReviewee = reviewerToRevieweeRepository.save(createEntity(feedbackId, roomId, reviewerId, request));
+        return ReviewerToRevieweeResponse.of(reviewerToReviewee);
     }
 
     public ReviewerToRevieweeResponse findReviewerToReviewee(long roomId, long reviewerid, String username) {

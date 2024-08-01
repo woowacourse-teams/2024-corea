@@ -5,9 +5,7 @@ import corea.exception.ExceptionType;
 import lombok.Getter;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -41,8 +39,6 @@ public enum FeedbackKeyword {
     private static final Map<String, FeedbackKeyword> CLASSIFIER = Arrays.stream(FeedbackKeyword.values())
             .collect(Collectors.toMap(Enum::name, Function.identity()));
 
-    private static final Map<String, FeedbackKeyword> MESSAGE_CLASSIFIER = Arrays.stream(FeedbackKeyword.values())
-            .collect(Collectors.toMap(FeedbackKeyword::getMessage, Function.identity()));
 
     private final String message;
     private final Satisfaction satisfaction;
@@ -53,20 +49,6 @@ public enum FeedbackKeyword {
         this.satisfaction = satisfaction;
         this.keywordType = keywordType;
     }
-
-    public static List<FeedbackKeyword> of(List<String> messages) {
-        return messages.stream()
-                .map(MESSAGE_CLASSIFIER::get)
-                .filter(Objects::nonNull)
-                .toList();
-    }
-
-    public static List<String> toStringList(List<FeedbackKeyword> feedbackKeywords) {
-        return feedbackKeywords.stream()
-                .map(FeedbackKeyword::getMessage)
-                .toList();
-    }
-
 
     public static FeedbackKeyword classify(String name) {
         if (CLASSIFIER.containsKey(name)) {

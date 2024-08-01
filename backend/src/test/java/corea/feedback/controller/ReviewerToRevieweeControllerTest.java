@@ -21,13 +21,13 @@ import java.util.List;
 class ReviewerToRevieweeControllerTest {
 
     @Autowired
-    RoomRepository roomRepository;
+    private RoomRepository roomRepository;
 
     @Autowired
-    MemberRepository memberRepository;
+    private MemberRepository memberRepository;
 
     @Autowired
-    MatchResultRepository matchResultRepository;
+    private MatchResultRepository matchResultRepository;
 
     @Test
     void create(){
