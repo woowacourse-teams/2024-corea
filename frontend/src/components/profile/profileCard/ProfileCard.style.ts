@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 export const ProfileCardContainer = styled.div`
   width: 100%;
-  min-height: 30vh;
   border: 1px solid ${({ theme }) => theme.COLOR.grey1};
   border-radius: 20px;
 `;
