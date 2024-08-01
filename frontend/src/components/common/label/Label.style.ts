@@ -1,8 +1,9 @@
-import { LabelType } from "./Label";
+import { LabelSize, LabelType } from "./Label";
 import styled, { css } from "styled-components";
 
 interface LabelWrapperProps {
   type: LabelType;
+  $size?: LabelSize;
 }
 
 export const LabelWrapper = styled.div<LabelWrapperProps>`
@@ -14,6 +15,11 @@ export const LabelWrapper = styled.div<LabelWrapperProps>`
   padding: 0 0.4rem;
 
   font: ${({ theme }) => theme.TEXT.xSmall};
+  ${({ theme, $size }) =>
+    $size &&
+    css`
+      font: ${theme.TEXT[$size]};
+    `}
   color: ${({ theme }) => theme.COLOR.black};
 
   border-radius: 15px;
