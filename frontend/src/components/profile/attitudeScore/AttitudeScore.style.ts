@@ -19,20 +19,6 @@ export const AttitudeScoreContainer = styled.div`
   border-radius: 12px;
 `;
 
-export const AttitudeScoreText = styled.span<{ $score: number }>`
-  position: absolute;
-  top: -35px;
-  left: ${({ $score }) => {
-    if ($score === 0) return `calc(${$score}% - 0.3vw)`;
-    if ($score < 10) return `calc(${$score}% - 1.2vw)`;
-    if ($score < 100) return `calc(${$score}% - 1.8vw)`;
-    return `calc(${$score}% - 2.2vw)`;
-  }};
-
-  font: ${({ theme }) => theme.TEXT.small};
-  color: ${({ theme }) => theme.COLOR.grass};
-`;
-
 export const AttitudeScoreArrow = styled.div<{ $score: number }>`
   position: absolute;
   top: -20px;
