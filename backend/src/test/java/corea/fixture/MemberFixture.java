@@ -10,8 +10,7 @@ public class MemberFixture {
                 "https://avatars.githubusercontent.com/u/98307410?v=4",
                 null,
                 "youngsu5582@gmail.com",
-                false,
-                36.5f
+                false
         );
     }
 
@@ -21,8 +20,7 @@ public class MemberFixture {
                 "https://avatars.githubusercontent.com/u/98307410?v=4",
                 null,
                 "jcoding-play@gmail.com",
-                false,
-                36.5f
+                false
         );
     }
 
@@ -32,8 +30,7 @@ public class MemberFixture {
                 "https://avatars.githubusercontent.com/u/98307410?v=4",
                 null,
                 "joyson5582@gmail.com",
-                false,
-                36.5f
+                false
         );
     }
 }
