@@ -9,6 +9,11 @@ import {
   MdOutlineCreate,
   MdOutlinePeopleAlt,
   MdOutlineStar,
+  MdCalendarMonth,
+  MdExpandMore,
+  MdInsertLink,
+  MdOutlineThumbDown,
+  MdOutlineThumbUp,
   MdPerson,
 } from "react-icons/md";
 import IconKind from "@/@types/icon";
@@ -22,6 +27,8 @@ const ICON: { [key in IconKind]: IconType } = {
   people: MdOutlinePeopleAlt,
   pencil: MdOutlineCreate,
   arrowDown: MdArrowDropDown,
+  thumbDown: MdOutlineThumbDown,
+  thumbUp: MdOutlineThumbUp,
 };
 
 interface IconProps {

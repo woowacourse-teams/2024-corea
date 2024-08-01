@@ -6,6 +6,8 @@ type IconKind =
   | "star"
   | "people"
   | "pencil"
-  | "arrowDown";
+  | "arrowDown"
+  | "thumbDown"
+  | "thumbUp";
 
 export default IconKind;
