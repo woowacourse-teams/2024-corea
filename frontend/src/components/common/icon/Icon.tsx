@@ -9,6 +9,13 @@ import {
 } from "react-icons/fa6";
 import { IconType } from "react-icons/lib";
 import {
+  MdArrowDropDown,
+  MdCalendarMonth,
+  MdExpandMore,
+  MdInsertLink,
+  MdOutlineCreate,
+  MdOutlinePeopleAlt,
+  MdOutlineStar,
   MdCalendarMonth,
   MdExpandMore,
   MdInsertLink,
@@ -23,6 +30,10 @@ const ICON: { [key in IconKind]: IconType } = {
   link: MdInsertLink,
   calendar: MdCalendarMonth,
   plus: MdExpandMore,
+  star: MdOutlineStar,
+  people: MdOutlinePeopleAlt,
+  pencil: MdOutlineCreate,
+  arrowDown: MdArrowDropDown,
   thumbDown: MdOutlineThumbDown,
   thumbUp: MdOutlineThumbUp,
   bad: FaRegFaceFrown,

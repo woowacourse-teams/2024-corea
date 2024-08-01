@@ -10,7 +10,7 @@ const rotate = keyframes`
 `;
 
 export const AttitudeScoreContainer = styled.div`
-  position: absolute;
+  position: relative;
 
   width: 100%;
   height: 24px;
@@ -19,33 +19,10 @@ export const AttitudeScoreContainer = styled.div`
   border-radius: 12px;
 `;
 
-export const AttitudeScoreText = styled.span<{ $score: number }>`
-  position: absolute;
-  top: -35px;
-  left: ${({ $score }) => {
-    if ($score === 0) return `calc(${$score}% - 0.3vw)`;
-    if ($score < 10) return `calc(${$score}% - 1.2vw)`;
-    if ($score < 100) return `calc(${$score}% - 1.8vw)`;
-    return `calc(${$score}% - 2.2vw)`;
-  }};
-
-  font: ${({ theme }) => theme.TEXT.small};
-  color: ${({ theme }) => theme.COLOR.grass};
-`;
-
 export const AttitudeScoreArrow = styled.div<{ $score: number }>`
   position: absolute;
-  top: -15px;
+  top: -20px;
   left: ${({ $score }) => ($score === 0 ? -1 : $score - 2)}%;
-
-  width: 0;
-  height: 0;
-
-  border-top: 10px solid ${({ theme }) => theme.COLOR.grass};
-  border-right: 10px solid transparent;
-  border-bottom: 10px solid transparent;
-  border-left: 10px solid transparent;
-
   animation: ${rotate} 4s infinite linear;
 `;
 
