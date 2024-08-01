@@ -34,10 +34,10 @@ public class ReviewerToRevieweeController implements ReviewerToRevieweeControlle
     }
 
     @Override
-    @PutMapping("/{id}")
+    @PutMapping("/{feedbackId}")
     public ResponseEntity<Void> update(
-            @PathVariable long roomId, @PathVariable long id, @LoginMember AuthInfo authInfo, @RequestBody ReviewerToRevieweeRequest request) {
-        reviewerToRevieweeService.update(id, roomId, authInfo.getId(), request);
+            @PathVariable long roomId, @PathVariable long feedbackId, @LoginMember AuthInfo authInfo, @RequestBody ReviewerToRevieweeRequest request) {
+        reviewerToRevieweeService.update(feedbackId, roomId, authInfo.getId(), request);
         return ResponseEntity.ok()
                 .build();
     }

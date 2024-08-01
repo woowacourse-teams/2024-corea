@@ -53,5 +53,4 @@ class ReviewerToRevieweeControllerTest {
                 .when().post("/rooms/" + room.getId()+"/reviewee/feedbacks")
                 .then().statusCode(200);
     }
-
 }
