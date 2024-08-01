@@ -35,25 +35,25 @@ public class DemoDataInitializer implements ApplicationRunner {
     public void run(ApplicationArguments args) {
         Member member1 = memberRepository.save(
                 new Member("jcoding-play", "https://avatars.githubusercontent.com/u/119468757?v=4", "조경찬",
-                        "pororo@email.com", true, 5f));
+                        "pororo@email.com", true));
         Member member2 = memberRepository.save(
                 new Member("ashsty", "https://avatars.githubusercontent.com/u/77227961?v=4", "박민아",
-                        "ash@email.com", false, 1.5f));
+                        "ash@email.com", false));
         Member member3 = memberRepository.save(
                 new Member("youngsu5582", "https://avatars.githubusercontent.com/u/98307410?v=4", "이영수",
-                        "joysun@email.com", false, 4f));
+                        "joysun@email.com", false));
         Member member4 = memberRepository.save(
                 new Member("hjk0761", "https://avatars.githubusercontent.com/u/80106238?s=96&v=4", "김현중",
-                        "movin@email.com", true, 3f));
+                        "movin@email.com", true));
         Member member5 = memberRepository.save(
                 new Member("chlwlstlf", "https://avatars.githubusercontent.com/u/63334368?v=4", "최진실",
-                        "tenten@email.com", true, 2f));
+                        "tenten@email.com", true));
         Member member6 = memberRepository.save(
                 new Member("00kang", "https://avatars.githubusercontent.com/u/70834044?v=4", "강다빈",
-                        "choco@email.com", true, 1f));
+                        "choco@email.com", true));
         Member member7 = memberRepository.save(
                 new Member("pp449", "https://avatars.githubusercontent.com/u/71641127?v=4", "이상엽",
-                        "darr@email.com", true, 4.8f));
+                        "darr@email.com", true));
 
         // 이미 모집 완료되어 매칭까지 진행된 방
         Room room1 = roomRepository.save(
