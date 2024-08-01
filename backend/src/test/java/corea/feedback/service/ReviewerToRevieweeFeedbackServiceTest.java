@@ -22,14 +22,15 @@ import static org.assertj.core.api.Assertions.*;
 
 @ServiceTest
 class ReviewerToRevieweeFeedbackServiceTest {
+
     @Autowired
-    RoomRepository roomRepository;
+    private RoomRepository roomRepository;
     @Autowired
     private MemberRepository memberRepository;
     @Autowired
     private MatchResultRepository matchResultRepository;
     @Autowired
-    ReviewerToRevieweeFeedbackService reviewerToRevieweeFeedbackService;
+    private ReviewerToRevieweeFeedbackService reviewerToRevieweeFeedbackService;
 
     @Test
     @DisplayName("리뷰어->리뷰이 대한 피드백 내용을 생성한다.")
