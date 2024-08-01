@@ -1,4 +1,8 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+
+interface IconRadioButtonBoxProps {
+  isSelected?: boolean;
+}
 
 export const IconRadioButtonContainer = styled.label`
   cursor: pointer;
@@ -14,7 +18,7 @@ export const HiddenRadioInput = styled.input`
   opacity: 0;
 `;
 
-export const IconRadioButtonBox = styled.div`
+export const IconRadioButtonBox = styled.div<IconRadioButtonBoxProps>`
   display: flex;
   gap: 0.4rem;
   align-items: center;
@@ -28,9 +32,11 @@ export const IconRadioButtonBox = styled.div`
   border-radius: 50%;
   box-shadow: 0 4px 4px rgb(0 0 0 / 10%);
 
-  ${HiddenRadioInput}:checked + & {
-    border: 4px solid ${({ theme }) => theme.COLOR.primary3};
-  }
+  ${({ isSelected, theme }) =>
+    isSelected &&
+    css`
+      border: 4px solid ${theme.COLOR.primary3};
+    `}
 `;
 
 export const IconRadioButtonText = styled.span`

@@ -26,13 +26,13 @@ const meta = {
       description: "라디오 버튼 값",
       control: { type: "number" },
     },
-    id: {
-      description: "라디오 버튼 ID",
-      control: { type: "number" },
-    },
-    checked: {
+    isSelected: {
       description: "라디오 버튼 선택 여부",
       control: { type: "boolean" },
+    },
+    onChange: {
+      description: "선택 변경 시 호출되는 함수",
+      action: "changed",
     },
   },
 } satisfies Meta<typeof IconRadioButton>;
@@ -47,14 +47,14 @@ export const Default: Story = {
     text: "추천해요",
     name: "recommendationOption",
     value: 1,
-    id: 1,
-    checked: false,
+    isSelected: false,
+    onChange: () => {},
   },
 };
 
 export const Checked: Story = {
   args: {
     ...Default.args,
-    checked: true,
+    isSelected: true,
   },
 };
