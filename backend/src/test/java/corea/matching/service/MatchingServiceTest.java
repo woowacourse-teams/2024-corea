@@ -33,7 +33,7 @@ class MatchingServiceTest {
 
         for (int i = 0; i < 4; i++) {
             participations.add(new Participation(1L, memberRepository.save(MemberFixture.MEMBER_YOUNGSU()).getId()));
-            participations.add(new Participation(1L, memberRepository.save(MemberFixture.MEMBER_JOYSON()).getId()));
+            participations.add(new Participation(1L, memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON()).getId()));
         }
 
         assertThatCode(() -> matchingService.matchMaking(participations, matchingSize))

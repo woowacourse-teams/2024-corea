@@ -25,7 +25,7 @@ class ParticipationControllerTest {
     @Test
     @DisplayName("사용자가 방에 참여한다.")
     void participate() {
-        Member manager = memberRepository.save(MemberFixture.MEMBER_JOYSON());
+        Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
         Member member = memberRepository.save(MemberFixture.MEMBER_PORORO());
 
