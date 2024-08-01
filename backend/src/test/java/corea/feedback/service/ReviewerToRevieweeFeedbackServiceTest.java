@@ -25,10 +25,13 @@ class ReviewerToRevieweeFeedbackServiceTest {
 
     @Autowired
     private RoomRepository roomRepository;
+
     @Autowired
     private MemberRepository memberRepository;
+
     @Autowired
     private MatchResultRepository matchResultRepository;
+
     @Autowired
     private ReviewerToRevieweeFeedbackService reviewerToRevieweeFeedbackService;
 
@@ -123,5 +126,4 @@ class ReviewerToRevieweeFeedbackServiceTest {
                 2
         );
     }
-
 }
