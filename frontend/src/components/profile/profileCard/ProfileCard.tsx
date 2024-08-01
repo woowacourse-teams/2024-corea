@@ -3,6 +3,7 @@ import React from "react";
 import Icon from "@/components/common/icon/Icon";
 import Profile from "@/components/common/profile/Profile";
 import AttitudeScore from "@/components/profile/attitudeScore/AttitudeScore";
+import IconKind from "@/@types/icon";
 
 interface ProfileCardProps {
   profileImage: string;
@@ -15,19 +16,33 @@ interface ProfileCardProps {
   attitudeScore: number;
 }
 
+interface UserInfo {
+  title: string;
+  value: number;
+  iconKind: IconKind;
+}
+
 const ProfileCard = (profileData: ProfileCardProps) => {
-  const userInfo = [
+  const userInfo: UserInfo[] = [
     {
       title: "리뷰한 개수",
       value: profileData.givenReviewCount,
+      iconKind: "pencil",
     },
     {
       title: "리뷰 받은 개수",
       value: profileData.receivedReviewCount,
+      iconKind: "pencil",
     },
     {
       title: "피드백 받은 개수",
       value: profileData.feedbackCount,
+      iconKind: "pencil",
+    },
+    {
+      title: "평균 평점",
+      value: profileData.averageRating,
+      iconKind: "star",
     },
   ];
 
@@ -42,24 +57,21 @@ const ProfileCard = (profileData: ProfileCardProps) => {
         <S.ProfileInfoWrapper>
           <S.ProfileInfoTable>
             {userInfo.map((info) => (
-              <tr>
+              <tr key={info.title}>
                 <td>{info.title}</td>
-                <td>{info.value.toLocaleString()}개</td>
+                <td>
+                  <S.ProfileFlex>
+                    <Icon kind={info.iconKind} /> {"   " + info.value.toLocaleString()}
+                    {info.iconKind === "pencil" && "개"}
+                  </S.ProfileFlex>
+                </td>
               </tr>
             ))}
-            <tr>
-              <td>평균 평점</td>
-              <td>
-                <S.ProfileFlex>
-                  <Icon kind="star" /> {profileData.averageRating}
-                </S.ProfileFlex>
-              </td>
-            </tr>
           </S.ProfileInfoTable>
         </S.ProfileInfoWrapper>
         <S.KeywordContainer>
           {profileData.feedbackKeywords.map((keyword) => (
-            <S.KeywordWrapper>
+            <S.KeywordWrapper key={keyword}>
               <Icon kind="people" />
               <S.Keyword>{keyword}</S.Keyword>
             </S.KeywordWrapper>
