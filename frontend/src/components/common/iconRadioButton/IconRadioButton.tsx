@@ -19,7 +19,7 @@ const IconRadioButton = ({
   ...rest
 }: IconRadioButtonProps) => {
   const handleChange = () => {
-    onChange && onChange(value);
+    onChange(value);
   };
 
   return (
