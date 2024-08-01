@@ -6,7 +6,7 @@ interface IconRadioButtonProps extends Omit<InputHTMLAttributes<HTMLInputElement
   name: string;
   value: number;
   isSelected?: boolean;
-  onChange?: (id: number) => void;
+  onChange: (id: number) => void;
 }
 
 const IconRadioButton = ({
