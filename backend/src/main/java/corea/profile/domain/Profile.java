@@ -31,7 +31,9 @@ public class Profile {
 
     private float averageRating;
 
-    public Profile(Member member, long feedbackCount, long receiveCount, long deliverCount, float averageRating) {
-        this(null, member, feedbackCount, receiveCount, deliverCount, averageRating);
+    private float attitude;
+
+    public Profile(Member member, long feedbackCount, long receiveCount, long deliverCount, float averageRating, float attitude) {
+        this(null, member, feedbackCount, receiveCount, deliverCount, averageRating, attitude);
     }
 }
