@@ -35,17 +35,8 @@ export const AttitudeScoreText = styled.span<{ $score: number }>`
 
 export const AttitudeScoreArrow = styled.div<{ $score: number }>`
   position: absolute;
-  top: -15px;
+  top: -20px;
   left: ${({ $score }) => ($score === 0 ? -1 : $score - 2)}%;
-
-  width: 0;
-  height: 0;
-
-  border-top: 10px solid ${({ theme }) => theme.COLOR.grass};
-  border-right: 10px solid transparent;
-  border-bottom: 10px solid transparent;
-  border-left: 10px solid transparent;
-
   animation: ${rotate} 4s infinite linear;
 `;
 
