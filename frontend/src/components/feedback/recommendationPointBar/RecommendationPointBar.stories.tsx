@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import React from "react";
-import RecommendationPointBar from "@/components/common/recommendationPointBar/RecommendationPointBar";
+import RecommendationPointBar from "@/components/feedback/recommendationPointBar/RecommendationPointBar";
 
 const meta = {
-  title: "common/RecommendationPointBar",
+  title: "Feedback/RecommendationPointBar",
   component: RecommendationPointBar,
   parameters: {
     docs: {
