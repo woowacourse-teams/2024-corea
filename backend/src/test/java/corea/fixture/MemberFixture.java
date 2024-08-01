@@ -24,7 +24,7 @@ public class MemberFixture {
         );
     }
 
-    public static Member MEMBER_JOYSON() {
+    public static Member MEMBER_ROOM_MANAGER_JOYSON() {
         return new Member(
                 "joyson5582",
                 "https://avatars.githubusercontent.com/u/98307410?v=4",

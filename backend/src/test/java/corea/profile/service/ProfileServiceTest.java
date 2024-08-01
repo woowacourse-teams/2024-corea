@@ -37,10 +37,10 @@ class ProfileServiceTest {
     @DisplayName("마이 페이지에 보여질 정보를 찾을 수 있다.")
     void findOne() {
         Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
-        Member joyson = memberRepository.save(MemberFixture.MEMBER_JOYSON());
+        Member joyson = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
 
         List<FeedbackKeyword> feedbackKeywords = getFeedbackKeywords();
-        ReviewerToRevieweeFeedback reviewerToReviewee = new ReviewerToRevieweeFeedback(pororo.getId(), joyson.getId(), 5, feedbackKeywords, null, 1);
+        ReviewerToRevieweeFeedback reviewerToReviewee = new ReviewerToRevieweeFeedback(1, joyson, pororo, 5, feedbackKeywords, "", 1);
         reviewerToRevieweeRepository.save(reviewerToReviewee);
 
         Profile profile = new Profile(pororo, 1, 1, 0, 5, 36.5f);
@@ -49,8 +49,10 @@ class ProfileServiceTest {
         ProfileResponse response = profileService.findOne(pororo.getId());
 
         assertSoftly(softly -> {
-            softly.assertThat(response.nickname()).isEqualTo("pororo");
-            softly.assertThat(response.feedbackKeywords()).hasSize(3);
+            softly.assertThat(response.nickname())
+                    .isEqualTo("pororo");
+            softly.assertThat(response.feedbackKeywords())
+                    .hasSize(3);
         });
     }
 
