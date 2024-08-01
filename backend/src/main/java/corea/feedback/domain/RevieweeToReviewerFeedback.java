@@ -11,12 +11,12 @@ import java.util.List;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
-// 리뷰어가 리뷰이한테 해준 피드백
+// 리뷰이가 리뷰어한테 해준 피드백
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor(access = PROTECTED)
 @Getter
-public class ReviewerToReviewee {
+public class RevieweeToReviewerFeedback {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -33,11 +33,5 @@ public class ReviewerToReviewee {
 
     @Column(length = 512)
     private String feedBackText;
-
-    private int recommendationPoint;
-
-    public ReviewerToReviewee(long revieweeId, long reviewerId, int evaluatePoint, List<FeedbackKeyword> keywords, String feedBackText, int recommendationPoint) {
-        this(null, revieweeId, reviewerId, evaluatePoint, keywords, feedBackText, recommendationPoint);
-    }
 }
 
