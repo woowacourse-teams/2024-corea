@@ -8,7 +8,7 @@ export const ProfileCardContainer = styled.div`
 `;
 
 export const ProfileTitle = styled.div`
-  padding: 10px 0 0 10px;
+  padding: 1rem 0 0 1rem;
 `;
 
 export const ProfileCardWrapper = styled.div`
@@ -20,22 +20,23 @@ export const ProfileCardWrapper = styled.div`
 export const ProfileWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 1rem;
+
   margin: 0 auto;
-  padding: 20px;
+  padding: 1.5rem;
 `;
 
 export const ProfileNickname = styled.div`
-  padding-top: 10px;
   text-align: center;
 `;
 
 export const ProfileInfoWrapper = styled.div`
   margin: 0 auto;
-  padding: 10px;
+  padding: 1rem;
 `;
 
 export const ProfileInfoTable = styled.table`
-  border-spacing: 10px;
+  border-spacing: 1rem;
   border-collapse: separate;
 `;
 
@@ -47,21 +48,21 @@ export const ProfileFlex = styled.div`
 export const KeywordContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 1rem;
 
   margin: 0 auto;
-  padding: 10px;
+  padding: 1rem;
 `;
 
 export const KeywordWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 10px;
+  gap: 1rem;
 `;
 
 export const Keyword = styled.div`
-  margin-top: 5px;
-  padding: 10px;
+  margin-top: 0.5rem;
+  padding: 1rem;
 
   color: ${({ theme }) => theme.COLOR.black};
 
@@ -70,9 +71,9 @@ export const Keyword = styled.div`
 `;
 
 export const AttitudeScoreWrapper = styled.div`
-  padding: 10px;
+  padding: 1rem;
 `;
 
 export const AttitudeScoreText = styled.div`
-  padding: 10px 0 25px 10px;
+  padding: 1rem 0 2rem 1rem;
 `;
