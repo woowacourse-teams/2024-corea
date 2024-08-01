@@ -30,7 +30,7 @@ class ReviewerToRevieweeFeedbackFeedbackControllerTest {
     private MatchResultRepository matchResultRepository;
 
     @Test
-    void create(){
+    void create() {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
         Member reviewer = memberRepository.save(MemberFixture.MEMBER_PORORO());
