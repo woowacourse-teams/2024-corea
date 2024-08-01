@@ -2,9 +2,11 @@ import React from "react";
 import { MouseEventHandler } from "react";
 import { IconType } from "react-icons/lib";
 import {
+  MdArrowDropDown,
   MdCalendarMonth,
   MdExpandMore,
   MdInsertLink,
+  MdOutlineCreate,
   MdOutlinePeopleAlt,
   MdOutlineStar,
   MdPerson,
@@ -18,6 +20,8 @@ const ICON: { [key in IconKind]: IconType } = {
   plus: MdExpandMore,
   star: MdOutlineStar,
   people: MdOutlinePeopleAlt,
+  pencil: MdOutlineCreate,
+  arrowDown: MdArrowDropDown,
 };
 
 interface IconProps {
