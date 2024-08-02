@@ -28,7 +28,7 @@ public class ReviewerToRevieweeFeedbackController implements ReviewerToRevieweeC
     @GetMapping
     public ResponseEntity<ReviewerToRevieweeResponse> reviewerToReviewee(
             @PathVariable long roomId, @RequestParam String username, @LoginMember AuthInfo authInfo) {
-        ReviewerToRevieweeResponse response = reviewerToRevieweeFeedbackService.findReviewerToReviewee(roomId, authInfo.getId(), username);
+        ReviewerToRevieweeResponse response = reviewerToRevieweeFeedbackService.findReviewerToRevieweeFeedback(roomId, authInfo.getId(), username);
         return ResponseEntity.ok()
                 .body(response);
     }
