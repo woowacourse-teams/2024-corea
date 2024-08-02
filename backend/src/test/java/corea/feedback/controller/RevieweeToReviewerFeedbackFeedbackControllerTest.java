@@ -1,7 +1,7 @@
 package corea.feedback.controller;
 
 import config.ControllerTest;
-import corea.feedback.dto.ReviewerToRevieweeRequest;
+import corea.feedback.dto.RevieweeToReviewerFeedbackRequest;
 import corea.fixture.MatchResultFixture;
 import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
@@ -12,13 +12,14 @@ import corea.room.domain.Room;
 import corea.room.repository.RoomRepository;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 @ControllerTest
-class ReviewerToRevieweeFeedbackFeedbackControllerTest {
+class RevieweeToReviewerFeedbackFeedbackControllerTest {
 
     @Autowired
     private RoomRepository roomRepository;
@@ -30,6 +31,7 @@ class ReviewerToRevieweeFeedbackFeedbackControllerTest {
     private MatchResultRepository matchResultRepository;
 
     @Test
+    @DisplayName("리뷰이가 리뷰어에 대한 피드백을 작성한다.")
     void create() {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
@@ -41,16 +43,15 @@ class ReviewerToRevieweeFeedbackFeedbackControllerTest {
                 reviewee
         ));
 
-        ReviewerToRevieweeRequest request = new ReviewerToRevieweeRequest(
-                reviewee.getId(),
+        RevieweeToReviewerFeedbackRequest request = new RevieweeToReviewerFeedbackRequest(
+                reviewer.getId(),
                 4,
                 List.of("방의 목적에 맞게 코드를 작성했어요.", "코드를 이해하기 쉬웠어요."),
-                "처음 자바를 접해봤다고 했는데 \n 생각보다 매우 구성되어 있는 코드 였던거 같습니다. ...",
-                2
+                "유용한 블로그나 아티클도 남겨주시고, \n 사소한 부분까지 잘 챙겨준게 좋았씁니다."
         );
 
-        RestAssured.given().header("Authorization", reviewer.getUsername()).contentType(ContentType.JSON).body(request)
-                .when().post("/rooms/" + room.getId()+"/reviewee/feedbacks")
+        RestAssured.given().header("Authorization", reviewee.getUsername()).contentType(ContentType.JSON).body(request)
+                .when().post("/rooms/" + room.getId()+"/reviewer/feedbacks")
                 .then().statusCode(200);
     }
 }

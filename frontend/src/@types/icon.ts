@@ -3,12 +3,17 @@ type IconKind =
   | "link"
   | "calendar"
   | "plus"
+  | "star"
+  | "people"
+  | "pencil"
+  | "arrowDown"
   | "thumbDown"
   | "thumbUp"
   | "bad"
   | "disappointing"
   | "average"
   | "satisfied"
-  | "verySatisfied";
+  | "verySatisfied"
+  | "info";
 
 export default IconKind;
