@@ -13,6 +13,7 @@ type IconKind =
   | "disappointing"
   | "average"
   | "satisfied"
-  | "verySatisfied";
+  | "verySatisfied"
+  | "info";
 
 export default IconKind;
