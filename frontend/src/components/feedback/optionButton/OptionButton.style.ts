@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 interface OptionButtonBoxProps {
   isSelected?: boolean;
@@ -22,12 +22,9 @@ export const ButtonWrapper = styled.button<OptionButtonBoxProps>`
   font: ${({ theme }) => theme.TEXT.semiSmall};
 
   background-color: ${({ theme }) => theme.COLOR.white};
-  border: 2px dashed ${({ theme }) => theme.COLOR.grey1};
+  border: ${(props) =>
+    props.isSelected
+      ? `4px solid ${props.theme.COLOR.primary3}`
+      : `2px dashed ${props.theme.COLOR.grey1}`};
   border-radius: 18px;
-
-  ${({ isSelected, theme }) =>
-    isSelected &&
-    css`
-      border: 4px solid ${theme.COLOR.primary3};
-    `}
 `;
