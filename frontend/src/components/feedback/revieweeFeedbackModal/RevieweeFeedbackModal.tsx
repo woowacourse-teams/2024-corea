@@ -1,9 +1,9 @@
 import React from "react";
+import Button from "@/components/common/button/Button";
 import Label from "@/components/common/label/Label";
 import Modal from "@/components/common/modal/Modal";
 import { Textarea } from "@/components/common/textarea/Textarea";
 import EvaluationPointBar from "@/components/feedback/evaluationPointBar/EvaluationPointBar";
-import FeedbackButton from "@/components/feedback/feedbackButton/FeedbackButton";
 import OptionButton from "@/components/feedback/optionButton/OptionButton";
 import RecommendationPointBar from "@/components/feedback/recommendationPointBar/RecommendationPointBar";
 import * as S from "@/components/feedback/revieweeFeedbackModal/RevieweeFeedbackModal.style";
@@ -13,9 +13,30 @@ interface RevieweeFeedbackModalProps {
   isOpen: boolean;
   onClose: () => void;
   roomInfo: Pick<RoomInfo, "title" | "keywords">;
+  buttonType: "create" | "edit" | "view";
 }
 
-const RevieweeFeedbackModal = ({ isOpen, onClose, roomInfo }: RevieweeFeedbackModalProps) => {
+const RevieweeFeedbackModal = ({
+  isOpen,
+  onClose,
+  roomInfo,
+  buttonType,
+}: RevieweeFeedbackModalProps) => {
+  const handleClick = () => {
+    alert("피드백이 작성되었습니다.");
+  };
+
+  const getButtonText = (buttonType: "create" | "edit" | "view"): string => {
+    switch (buttonType) {
+      case "create":
+        return "피드백 작성";
+      case "edit":
+        return "피드백 수정";
+      case "view":
+        return "피드백 확인";
+    }
+  };
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <S.FeedbackContainer>
@@ -54,7 +75,7 @@ const RevieweeFeedbackModal = ({ isOpen, onClose, roomInfo }: RevieweeFeedbackMo
         </S.ItemContainer>
 
         <S.ButtonWrapper>
-          <FeedbackButton type="create" />
+          <Button onClick={handleClick}>{getButtonText(buttonType)}</Button>
         </S.ButtonWrapper>
       </S.FeedbackContainer>
     </Modal>

@@ -21,6 +21,7 @@ const meta = {
       title: "React 프로젝트 코드 리뷰",
       keywords: ["React", "TypeScript", "Styled-Components"],
     },
+    buttonType: "create",
   },
 } satisfies Meta<typeof RevieweeFeedbackModal>;
 

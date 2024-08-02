@@ -27,7 +27,13 @@ const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
 
   return (
     <>
-      <RevieweeFeedbackModal isOpen={isOpen} onClose={handleCloseModal} roomInfo={roomInfo} />
+      <RevieweeFeedbackModal
+        isOpen={isOpen}
+        onClose={handleCloseModal}
+        roomInfo={roomInfo}
+        buttonType="create"
+      />
+
       <S.MyRevieweeContainer>
         <S.MyRevieweeWrapper>
           <S.MyRevieweeTitle>아이디</S.MyRevieweeTitle>
@@ -54,7 +60,7 @@ const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
             </S.MyRevieweeContent>
           </S.MyRevieweeWrapper>
         ))}
-      </S.MyRevieweeContainer>{" "}
+      </S.MyRevieweeContainer>
     </>
   );
 };
