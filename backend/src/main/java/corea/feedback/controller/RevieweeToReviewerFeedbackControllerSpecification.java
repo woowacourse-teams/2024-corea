@@ -8,6 +8,7 @@ import corea.global.annotation.ApiErrorResponses;
 import org.springframework.http.ResponseEntity;
 
 public interface RevieweeToReviewerFeedbackControllerSpecification {
+
     @ApiErrorResponses(value = {ExceptionType.ALREADY_COMPLETED_FEEDBACK, ExceptionType.NOT_MATCHED_MEMBER})
     ResponseEntity<Void> create(long roomId, AuthInfo authInfo, RevieweeToReviewerFeedbackRequest request);
 
