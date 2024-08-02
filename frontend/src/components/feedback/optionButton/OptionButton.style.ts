@@ -7,7 +7,7 @@ interface OptionButtonBoxProps {
 export const OptionContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 0.6rem;
+  gap: 0.8rem;
 `;
 
 export const ButtonWrapper = styled.button<OptionButtonBoxProps>`
@@ -17,14 +17,14 @@ export const ButtonWrapper = styled.button<OptionButtonBoxProps>`
   align-items: center;
   justify-content: center;
 
-  padding: 0.4rem 0.8rem;
+  padding: 0.5rem 0.9rem;
 
   font: ${({ theme }) => theme.TEXT.semiSmall};
 
   background-color: ${({ theme }) => theme.COLOR.white};
-  border: ${(props) =>
+  border-radius: 18px;
+  outline: ${(props) =>
     props.isSelected
       ? `4px solid ${props.theme.COLOR.primary3}`
       : `2px dashed ${props.theme.COLOR.grey1}`};
-  border-radius: 18px;
 `;
