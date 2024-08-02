@@ -11,7 +11,7 @@ interface LabelProps {
   size?: LabelSize;
 }
 
-const Label = ({ text, type, size }: LabelProps) => {
+const Label = ({ text, type, size = "xSmall" }: LabelProps) => {
   return (
     <S.LabelWrapper type={type} $size={size}>
       {type === "keyword" && `#${text}`}
