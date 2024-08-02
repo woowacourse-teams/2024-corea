@@ -9,9 +9,9 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const Button = ({ children, variant = "primary", size = "medium", ...rest }: ButtonProps) => {
   return (
-    <S.Button $variant={variant} $size={size} {...rest}>
+    <S.ButtonContainer $variant={variant} $size={size} {...rest}>
       {children}
-    </S.Button>
+    </S.ButtonContainer>
   );
 };
 
