@@ -6,7 +6,7 @@ import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
 import corea.participation.domain.Participation;
 import corea.participation.repository.ParticipationRepository;
-import corea.room.domain.Classification;
+import corea.room.domain.RoomClassification;
 import corea.room.domain.Room;
 import corea.room.domain.RoomStatus;
 import corea.room.dto.RoomCreateRequest;
@@ -81,7 +81,7 @@ public class RoomService {
     }
 
     public RoomResponses findOpenedRooms(long memberId, String expression, int pageNumber) {
-        Classification classification = Classification.from(expression);
+        RoomClassification classification = RoomClassification.from(expression);
         RoomStatus status = RoomStatus.OPENED;
         PageRequest pageRequest = PageRequest.of(pageNumber, PAGE_SIZE);
 
@@ -94,7 +94,7 @@ public class RoomService {
     }
 
     public RoomResponses findClosedRooms(String expression, int pageNumber) {
-        Classification classification = Classification.from(expression);
+        RoomClassification classification = RoomClassification.from(expression);
         RoomStatus status = RoomStatus.CLOSED;
         PageRequest pageRequest = PageRequest.of(pageNumber, PAGE_SIZE);
 

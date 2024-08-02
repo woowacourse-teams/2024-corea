@@ -1,7 +1,7 @@
 package corea.room.repository;
 
 import corea.DataInitializer;
-import corea.room.domain.Classification;
+import corea.room.domain.RoomClassification;
 import corea.room.domain.Room;
 import corea.room.domain.RoomStatus;
 import org.junit.jupiter.api.DisplayName;
@@ -31,7 +31,7 @@ class RoomRepositoryTest {
     @ParameterizedTest
     @CsvSource(value = {"ANDROID, 2", "FRONTEND, 1", "BACKEND, 3"})
     @DisplayName("자신이 참여하지 않고, 계속 모집 중인 방들을 조회할 수 있다.")
-    void findAllByMemberAndClassificationAndStatus(Classification classification, int expectedSize) {
+    void findAllByMemberAndClassificationAndStatus(RoomClassification classification, int expectedSize) {
         Page<Room> rooms = roomRepository.findAllByMemberAndClassificationAndStatus(1, classification, RoomStatus.OPENED, PageRequest.of(0, 8));
 
         assertThat(rooms.getContent()).hasSize(expectedSize);

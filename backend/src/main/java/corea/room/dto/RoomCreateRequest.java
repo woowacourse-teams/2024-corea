@@ -1,7 +1,7 @@
 package corea.room.dto;
 
 import corea.member.domain.Member;
-import corea.room.domain.Classification;
+import corea.room.domain.RoomClassification;
 import corea.room.domain.Room;
 import corea.room.domain.RoomStatus;
 import jakarta.validation.constraints.NotBlank;
@@ -27,7 +27,7 @@ public record RoomCreateRequest(
         @NotNull
         LocalDateTime reviewDeadline,
         @NotNull
-        Classification classification
+        RoomClassification classification
 ) {
 
     private static final int INITIAL_PARTICIPANTS_SIZE = 1;
