@@ -66,7 +66,7 @@ class ReviewerToRevieweeFeedbackServiceTest {
 
     @Test
     @DisplayName("유저네임을 통해 방에 대한 자신의 리뷰이를 검색한다.")
-    void findReviewerToReviewee() {
+    void findReviewerToRevieweeFeedback() {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
         Member reviewer = memberRepository.save(MemberFixture.MEMBER_PORORO());
@@ -78,7 +78,7 @@ class ReviewerToRevieweeFeedbackServiceTest {
         ));
         reviewerToRevieweeFeedbackService.create(room.getId(), reviewer.getId(), createRequest(reviewee.getId()));
 
-        ReviewerToRevieweeResponse response = reviewerToRevieweeFeedbackService.findReviewerToReviewee(room.getId(), reviewer.getId(), reviewee.getUsername());
+        ReviewerToRevieweeResponse response = reviewerToRevieweeFeedbackService.findReviewerToRevieweeFeedback(room.getId(), reviewer.getId(), reviewee.getUsername());
         assertThat(response.revieweeId()).isEqualTo(reviewee.getId());
     }
 

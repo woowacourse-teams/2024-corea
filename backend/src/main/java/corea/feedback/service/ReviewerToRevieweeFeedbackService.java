@@ -34,7 +34,7 @@ public class ReviewerToRevieweeFeedbackService {
         return ReviewerToRevieweeResponse.of(reviewerToRevieweeFeedback);
     }
 
-    public ReviewerToRevieweeResponse findReviewerToReviewee(long roomId, long reviewerid, String username) {
+    public ReviewerToRevieweeResponse findReviewerToRevieweeFeedback(long roomId, long reviewerid, String username) {
         return ReviewerToRevieweeResponse
                 .of(reviewerToRevieweeFeedbackRepository.findByRoomIdAndReviewerIdAndRevieweeUsername(roomId, reviewerid, username)
                         .orElseThrow(() -> new CoreaException(ExceptionType.FEEDBACK_NOT_FOUND)));

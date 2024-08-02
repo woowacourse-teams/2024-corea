@@ -78,7 +78,7 @@ class RevieweeToReviewerFeedbackServiceTest {
         ));
         revieweeToReviewerFeedbackService.create(room.getId(), reviewee.getId(), createRequest(reviewer.getId()));
 
-        RevieweeToReviewerResponse response = revieweeToReviewerFeedbackService.findRevieweeToReviewer(room.getId(), reviewee.getId(), reviewer.getUsername());
+        RevieweeToReviewerResponse response = revieweeToReviewerFeedbackService.findRevieweeToReviewerFeedback(room.getId(), reviewee.getId(), reviewer.getUsername());
         assertThat(response.reviewerId()).isEqualTo(reviewer.getId());
     }
 
