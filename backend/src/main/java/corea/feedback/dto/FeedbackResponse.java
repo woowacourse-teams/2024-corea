@@ -18,12 +18,9 @@ public record FeedbackResponse(long feedbackId, long revieweeId, String profile,
     public static FeedbackResponse from(ReviewerToRevieweeFeedback reviewerToRevieweeFeedback) {
         return new FeedbackResponse(
                 reviewerToRevieweeFeedback.getId(),
-                reviewerToRevieweeFeedback.getReviewee()
-                        .getId(),
-                reviewerToRevieweeFeedback.getReviewee()
-                        .getProfileLink(),
-                reviewerToRevieweeFeedback.getReviewee()
-                        .getUsername(),
+                reviewerToRevieweeFeedback.getReviewee().getId(),
+                reviewerToRevieweeFeedback.getReviewee().getProfileLink(),
+                reviewerToRevieweeFeedback.getReviewee().getUsername(),
                 FeedbackKeywordConverter.convertToMessages(reviewerToRevieweeFeedback.getKeywords()),
                 reviewerToRevieweeFeedback.getEvaluatePoint(),
                 reviewerToRevieweeFeedback.getFeedBackText()

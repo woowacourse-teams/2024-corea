@@ -12,8 +12,7 @@ public record ReviewerToRevieweeResponse(long feedbackId, long revieweeId, int e
     public static ReviewerToRevieweeResponse of(ReviewerToRevieweeFeedback reviewerToRevieweeFeedback) {
         return new ReviewerToRevieweeResponse(
                 reviewerToRevieweeFeedback.getId(),
-                reviewerToRevieweeFeedback.getReviewee()
-                        .getId(),
+                reviewerToRevieweeFeedback.getReviewee().getId(),
                 reviewerToRevieweeFeedback.getEvaluatePoint(),
                 FeedbackKeywordConverter.convertToMessages(reviewerToRevieweeFeedback.getKeywords()),
                 reviewerToRevieweeFeedback.getFeedBackText(),
