@@ -6,18 +6,13 @@ import corea.feedback.util.FeedbackKeywordConverter;
 
 import java.util.List;
 
-public record FeedbackResponse(long feedbackId, long revieweeId, String profile, String username,
+public record FeedbackResponse(long feedbackId, long roomId, long revieweeId, String profile, String username,
                                List<String> feedbackKeywords, int evaluationPoint, String feedbackText) {
-
-    public static List<FeedbackResponse> fromReviewerToRevieweeFeedbacks(List<ReviewerToRevieweeFeedback> reviewerToRevieweeList) {
-        return reviewerToRevieweeList.stream()
-                .map(FeedbackResponse::from)
-                .toList();
-    }
 
     public static FeedbackResponse from(ReviewerToRevieweeFeedback reviewerToRevieweeFeedback) {
         return new FeedbackResponse(
                 reviewerToRevieweeFeedback.getId(),
+                reviewerToRevieweeFeedback.getRoomId(),
                 reviewerToRevieweeFeedback.getReviewee().getId(),
                 reviewerToRevieweeFeedback.getReviewee().getProfileLink(),
                 reviewerToRevieweeFeedback.getReviewee().getUsername(),
@@ -27,15 +22,10 @@ public record FeedbackResponse(long feedbackId, long revieweeId, String profile,
         );
     }
 
-    public static List<FeedbackResponse> fromRevieweeToReviewerFeedbacks(List<RevieweeToReviewerFeedback> revieweeToReviewerFeedbackList) {
-        return revieweeToReviewerFeedbackList.stream()
-                .map(FeedbackResponse::from)
-                .toList();
-    }
-
     public static FeedbackResponse from(RevieweeToReviewerFeedback revieweeToReviewerFeedback) {
         return new FeedbackResponse(
                 revieweeToReviewerFeedback.getId(),
+                revieweeToReviewerFeedback.getRoomId(),
                 revieweeToReviewerFeedback.getReviewer().getId(),
                 revieweeToReviewerFeedback.getReviewer().getProfileLink(),
                 revieweeToReviewerFeedback.getReviewer().getUsername(),

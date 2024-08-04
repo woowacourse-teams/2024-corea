@@ -42,14 +42,14 @@ public class UserFeedbackService {
         return reviewerToRevieweeFeedbackRepository.findByReviewerId(id)
                 .stream()
                 .map(FeedbackResponse::from)
-                .collect(Collectors.groupingBy(FeedbackResponse::feedbackId));
+                .collect(Collectors.groupingBy(FeedbackResponse::roomId));
     }
 
     private Map<Long, List<FeedbackResponse>> getDeliveredRevieweeToReviewerFeedback(long id) {
         return revieweeToReviewerFeedbackRepository.findByRevieweeId(id)
                 .stream()
                 .map(FeedbackResponse::from)
-                .collect(Collectors.groupingBy(FeedbackResponse::feedbackId));
+                .collect(Collectors.groupingBy(FeedbackResponse::roomId));
     }
 
     public UserFeedbackResponse getReceivedFeedback(long id) {
@@ -66,14 +66,14 @@ public class UserFeedbackService {
         return reviewerToRevieweeFeedbackRepository.findByRevieweeId(id)
                 .stream()
                 .map(FeedbackResponse::from)
-                .collect(Collectors.groupingBy(FeedbackResponse::feedbackId));
+                .collect(Collectors.groupingBy(FeedbackResponse::roomId));
     }
 
     private Map<Long, List<FeedbackResponse>> getReceivedRevieweeToReviewerFeedback(long id) {
         return revieweeToReviewerFeedbackRepository.findByReviewerId(id)
                 .stream()
                 .map(FeedbackResponse::from)
-                .collect(Collectors.groupingBy(FeedbackResponse::feedbackId));
+                .collect(Collectors.groupingBy(FeedbackResponse::roomId));
     }
 
     private Room getRoom(final long roomId) {
