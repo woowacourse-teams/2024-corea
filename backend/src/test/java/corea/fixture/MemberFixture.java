@@ -24,6 +24,17 @@ public class MemberFixture {
         );
     }
 
+    public static Member MEMBER_ASH(){
+        return new Member(
+                "ashsty",
+                "https://avatars.githubusercontent.com/u/98307410?v=4",
+                null,
+                "ashsty@gmail.com",
+                false
+        );
+    }
+
+
     public static Member MEMBER_ROOM_MANAGER_JOYSON() {
         return new Member(
                 "joyson5582",

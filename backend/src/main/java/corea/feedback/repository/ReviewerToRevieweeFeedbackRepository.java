@@ -16,4 +16,8 @@ public interface ReviewerToRevieweeFeedbackRepository extends JpaRepository<Revi
     Optional<ReviewerToRevieweeFeedback> findByRoomIdAndReviewerIdAndRevieweeUsername(long roomId, long reviewerId, String username);
 
     boolean existsByRoomIdAndReviewerIdAndRevieweeId(long roomId, long reviewerId, long revieweeId);
+
+    List<ReviewerToRevieweeFeedback> findByReviewerId(long reviewerId);
+
+    List<ReviewerToRevieweeFeedback> findByRevieweeId(long revieweeId);
 }
