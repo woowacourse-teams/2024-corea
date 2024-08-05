@@ -6,5 +6,5 @@
 }
 
 body {
-  font-family: "Hanna", sans-serif;
+  font-family: "Hanna", sans-serif !important;
 }
