@@ -62,13 +62,19 @@ const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
               </S.PRLink>
             </S.MyRevieweeContent>
             <S.MyRevieweeContent>
-              <Button size="small" onClick={() => alert("버튼 클릭 완료!")} variant="secondary">
-                리뷰 완료
+              <Button
+                size="small"
+                onClick={() => alert("버튼 클릭 완료!")}
+                variant={reviewee.isReviewed ? "disable" : "secondary"}
+                disabled={reviewee.isReviewed}
+              >
+                {reviewee.isReviewed ? "코드리뷰 완료" : "코드리뷰 하기"}
               </Button>
               <Button
                 size="small"
                 onClick={() => handleOpenFeedbackModal(reviewee)}
-                variant="primary"
+                variant={reviewee.isReviewed ? "primary" : "disable"}
+                disabled={!reviewee.isReviewed}
               >
                 {getFeedbackModalType({
                   isWrited: reviewee.isWrited,
