@@ -1,5 +1,6 @@
 import * as S from "./FeedbackCard.style";
 import React from "react";
+import Button from "@/components/common/button/Button";
 import EvaluationPointBar from "@/components/feedback/evaluationPointBar/EvaluationPointBar";
 import { FeedbackCardData } from "@/@types/feedback";
 
@@ -22,6 +23,7 @@ const FeedbackCard = (feedbackCardData: FeedbackCardData) => {
           {feedbackCardData.feedbackText.length ? feedbackCardData.feedbackText : "없음"}
         </S.FeedbackDetail>
       </S.FeedbackDetailContainer>
+      <Button size="large">자세히 보기</Button>
     </S.FeedbackCardContainer>
   );
 };
