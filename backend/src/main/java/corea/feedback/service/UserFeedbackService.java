@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static corea.global.util.MapHandler.extractDistinctKeyStreams;
-import static corea.global.util.NullHandler.emptyIfNull;
+import static corea.global.util.NullHandler.emptyListIfNull;
 
 @Service
 @RequiredArgsConstructor
@@ -34,7 +34,7 @@ public class UserFeedbackService {
         Map<Long, List<FeedbackResponse>> revieweeToReviewerMap = getDeliveredRevieweeToReviewerFeedback(id);
         return new UserFeedbackResponse(
                 extractDistinctKeyStreams(reviewerToRevieweeMap, revieweeToReviewerMap)
-                        .map(key -> FeedbacksResponse.of(getRoom(key), emptyIfNull(reviewerToRevieweeMap.get(key)), emptyIfNull(revieweeToReviewerMap.get(key))))
+                        .map(key -> FeedbacksResponse.of(getRoom(key), emptyListIfNull(reviewerToRevieweeMap.get(key)), emptyListIfNull(revieweeToReviewerMap.get(key))))
                         .toList());
     }
 
@@ -58,7 +58,7 @@ public class UserFeedbackService {
 
         return new UserFeedbackResponse(
                 extractDistinctKeyStreams(reviewerToRevieweeMap, revieweeToReviewerMap)
-                        .map(key -> FeedbacksResponse.of(getRoom(key), emptyIfNull(reviewerToRevieweeMap.get(key)), emptyIfNull(revieweeToReviewerMap.get(key))))
+                        .map(key -> FeedbacksResponse.of(getRoom(key), emptyListIfNull(reviewerToRevieweeMap.get(key)), emptyListIfNull(revieweeToReviewerMap.get(key))))
                         .toList());
     }
 
@@ -76,7 +76,7 @@ public class UserFeedbackService {
                 .collect(Collectors.groupingBy(FeedbackResponse::roomId));
     }
 
-    private Room getRoom(final long roomId) {
+    private Room getRoom(long roomId) {
         return roomRepository.findById(roomId)
                 .orElseThrow(() -> new CoreaException(ExceptionType.ROOM_NOT_FOUND));
     }

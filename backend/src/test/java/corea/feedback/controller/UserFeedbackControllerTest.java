@@ -49,7 +49,7 @@ class UserFeedbackControllerTest {
         socialFeedbackRepository.save(SocialFeedbackFixture.POSITIVE_FEEDBACK(room1.getId(),member1,manager));
 
 
-        final UserFeedbackResponse response = RestAssured.given().header("Authorization", member1.getUsername()).contentType(ContentType.JSON)
+        UserFeedbackResponse response = RestAssured.given().header("Authorization", member1.getUsername()).contentType(ContentType.JSON)
                 .when().get("/user/feedbacks/delivered")
                 .then().statusCode(200).extract().as(UserFeedbackResponse.class);
 
@@ -71,7 +71,7 @@ class UserFeedbackControllerTest {
         developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room2.getId(),manager,member2));
         socialFeedbackRepository.save(SocialFeedbackFixture.POSITIVE_FEEDBACK(room1.getId(),manager,member2));
 
-        final UserFeedbackResponse response = RestAssured.given().header("Authorization", member2.getUsername()).contentType(ContentType.JSON)
+        UserFeedbackResponse response = RestAssured.given().header("Authorization", member2.getUsername()).contentType(ContentType.JSON)
                 .when().get("/user/feedbacks/received")
                 .then().statusCode(200).extract().as(UserFeedbackResponse.class);
 

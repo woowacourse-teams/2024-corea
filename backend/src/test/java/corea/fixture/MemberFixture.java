@@ -34,7 +34,6 @@ public class MemberFixture {
         );
     }
 
-
     public static Member MEMBER_ROOM_MANAGER_JOYSON() {
         return new Member(
                 "joyson5582",

@@ -107,5 +107,4 @@ class UserFeedbackServiceTest {
                 new SocialFeedback(null, roomId, reviewer, reviewee, 4, List.of(FeedbackKeyword.REVIEW_FAST, FeedbackKeyword.KIND), "유용한 정보들이 많았어요")
         );
     }
-
 }

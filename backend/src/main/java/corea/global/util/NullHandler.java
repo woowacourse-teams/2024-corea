@@ -11,7 +11,7 @@ public class NullHandler {
 
     private static final List<?> EMPTY = Collections.emptyList();
 
-    public static <T> List<T> emptyIfNull(List<T> data) {
+    public static <T> List<T> emptyListIfNull(List<T> data) {
         return data == null ? (List<T>) EMPTY : data;
     }
 }
