@@ -26,8 +26,7 @@ const RoomDetailPage = () => {
       </ContentSection>
 
       <ContentSection title="나를 리뷰해주는 분">
-        {/* <MyReviewer roomInfo={roomInfo} /> */}
-        <MyReviewer roomId={roomInfo?.id} />
+        <MyReviewer roomInfo={roomInfo} />
       </ContentSection>
 
       <ContentSection title="내가 리뷰해야하는 분">
