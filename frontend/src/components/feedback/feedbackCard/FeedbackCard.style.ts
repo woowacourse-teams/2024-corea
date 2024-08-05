@@ -23,6 +23,10 @@ export const FeedbackCardContainer = styled.div`
 `;
 
 export const FeedbackKeywordContainer = styled.div`
+  height: 130px;
+`;
+
+export const FeedbackKeywordWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;

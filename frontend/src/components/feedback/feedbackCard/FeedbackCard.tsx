@@ -9,14 +9,14 @@ const FeedbackCard = (feedbackCardData: FeedbackCardData) => {
     <S.FeedbackCardContainer>
       <S.FeedbackTitle>{feedbackCardData.nickname}</S.FeedbackTitle>
       <EvaluationPointBar initialOptionId={feedbackCardData.evaluationPoint} readonly={true} />
-      <div>
+      <S.FeedbackKeywordContainer>
         <S.FeedbackTitle>피드백 키워드</S.FeedbackTitle>
-        <S.FeedbackKeywordContainer>
+        <S.FeedbackKeywordWrapper>
           {feedbackCardData.feedbackKeywords.map((keyword) => (
             <S.FeedbackKeyword>{keyword}</S.FeedbackKeyword>
           ))}
-        </S.FeedbackKeywordContainer>
-      </div>
+        </S.FeedbackKeywordWrapper>
+      </S.FeedbackKeywordContainer>
       <S.FeedbackDetailContainer>
         <S.FeedbackTitle>세부 피드백</S.FeedbackTitle>
         <S.FeedbackDetail>
