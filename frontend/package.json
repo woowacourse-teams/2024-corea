@@ -9,7 +9,7 @@
     "format": "prettier --check .",
     "dev": "webpack-dev-server --mode=development --open --hot --progress",
     "build": "webpack --mode=production  --progress",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "start": "webpack --mode=development  --progress",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
