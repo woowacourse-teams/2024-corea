@@ -43,15 +43,11 @@ export const Default: Story = {
     feedbackId: 1,
     profile: "https://avatars.githubusercontent.com/u/63334368?v=4",
     nickname: "chlwlstlf",
-    feedbackKeywords: [
-      "잘하고 맛있어요.",
-      "오므라이스 김치볶음밥.",
-      "친절하고 꼼꼼하게 시술해줘요.",
-    ],
-    feedbackText: `나름 맛있게 해줘서 뿌듯했어요. 
-다음에도 좋은 시술 부탁드립니다. 근데 이집 햄버거가 맛있어요. 
-
-트리플베이컨더블빅치즈스페셜자이언트버거 먹으세요`,
+    feedbackKeywords: ["작업 속도", "PR 본문 메시지", "코드 관심사 분리"],
+    feedbackText: `작업 속도가 정말 빠르면서 평소 책을 많이 읽어서 그런지 PR 본문 메시지가 정말 알이 꽉꽉 찼어요.
+    
+    그리고 코드 관심사 분리라는 단어를 알고 있어서 대화하기 편했어요 ㅎㅎ.
+`,
     evaluationPoint: 1,
   },
 };
