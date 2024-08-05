@@ -3,6 +3,7 @@ package corea.auth.resolver;
 import corea.auth.RequestHandler;
 import corea.auth.annotation.LoginMember;
 import corea.auth.domain.AuthInfo;
+import corea.auth.infrastructure.TokenProvider;
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
 import corea.member.domain.Member;
@@ -22,6 +23,7 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
 
     private final RequestHandler requestHandler;
     private final MemberRepository memberRepository;
+    private final TokenProvider tokenProvider;
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
@@ -32,7 +34,12 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
     public AuthInfo resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
                                     NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
-        Member member = memberRepository.findByUsername(requestHandler.extract(request))
+        String accessToken = requestHandler.extract(request);
+        if (accessToken.equals("ANONYMOUS")) {
+            throw new CoreaException(ExceptionType.AUTHORIZATION_ERROR);
+        }
+        Long memberId = tokenProvider.getPayload(accessToken).get("id", Long.class);
+        Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new CoreaException(ExceptionType.AUTHORIZATION_ERROR));
 
         return AuthInfo.from(member);

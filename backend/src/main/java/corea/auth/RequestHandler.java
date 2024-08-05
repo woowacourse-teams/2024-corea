@@ -9,6 +9,9 @@ public class RequestHandler {
     private static final String AUTHORIZATION_HEADER = "Authorization";
 
     public String extract(HttpServletRequest request) {
-        return request.getHeader(AUTHORIZATION_HEADER);
+        if (request.getHeader(AUTHORIZATION_HEADER) != null && request.getHeader(AUTHORIZATION_HEADER).startsWith("Bearer ")) {
+            return request.getHeader(AUTHORIZATION_HEADER).replace("Bearer ", "");
+        }
+        return "ANONYMOUS";
     }
 }

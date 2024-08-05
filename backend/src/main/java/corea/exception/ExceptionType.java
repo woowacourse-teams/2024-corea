@@ -15,6 +15,10 @@ public enum ExceptionType {
     ALREADY_COMPLETED_REVIEW(HttpStatus.BAD_REQUEST, "이미 리뷰를 완료했습니다."),
     INVALID_RECRUITMENT_DEADLINE(HttpStatus.BAD_REQUEST, "올바르지 않은 모집 마감 시간입니다."),
     INVALID_REVIEW_DEADLINE(HttpStatus.BAD_REQUEST, "올바르지 않은 리뷰 마감 시간입니다."),
+    COOKIE_NOT_EXIST(HttpStatus.NOT_FOUND, "해당 쿠키를 찾을 수 없습니다."),
+    GITHUB_AUTHORIZATION_ERROR(HttpStatus.SERVICE_UNAVAILABLE, "깃허브 인증 서버가 원활하게 작동하지 않습니다."),
+    TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "토큰이 만료되었습니다."),
+    INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "토큰이 올바르지 않습니다."),
     ;
 
     private final HttpStatus httpStatus;
