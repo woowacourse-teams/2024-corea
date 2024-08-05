@@ -18,10 +18,16 @@ const evaluationOptions: EvaluationOption[] = [
   { text: "매우 만족", value: 5, icon: "verySatisfied" },
 ];
 
-const EvaluationPointBar = () => {
-  const [selectedOptionId, setSelectedOptionId] = useState<number | null>(null);
+interface EvaluationPointBarProps {
+  initialOptionId?: number;
+  readonly?: boolean;
+}
+
+const EvaluationPointBar = ({ initialOptionId, readonly = false }: EvaluationPointBarProps) => {
+  const [selectedOptionId, setSelectedOptionId] = useState<number | undefined>(initialOptionId);
 
   const handleRadioChange = (id: number) => {
+    if (readonly) return;
     setSelectedOptionId(id);
   };
 
