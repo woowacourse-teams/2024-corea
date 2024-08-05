@@ -22,6 +22,12 @@ export const FeedbackCardContainer = styled.div`
   `}
 `;
 
+export const FeedbackScoreContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
 export const FeedbackKeywordContainer = styled.div`
   height: 130px;
 `;

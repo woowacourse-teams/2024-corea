@@ -8,7 +8,10 @@ const FeedbackCard = (feedbackCardData: FeedbackCardData) => {
   return (
     <S.FeedbackCardContainer>
       <S.FeedbackTitle>{feedbackCardData.nickname}</S.FeedbackTitle>
-      <EvaluationPointBar initialOptionId={feedbackCardData.evaluationPoint} readonly={true} />
+      <S.FeedbackScoreContainer>
+        <S.FeedbackTitle>피드백 점수</S.FeedbackTitle>
+        <EvaluationPointBar initialOptionId={feedbackCardData.evaluationPoint} readonly={true} />
+      </S.FeedbackScoreContainer>
       <S.FeedbackKeywordContainer>
         <S.FeedbackTitle>피드백 키워드</S.FeedbackTitle>
         <S.FeedbackKeywordWrapper>
