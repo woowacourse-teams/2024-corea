@@ -20,8 +20,15 @@ const meta = {
     roomInfo: {
       title: "React 프로젝트 코드 리뷰",
       keywords: ["React", "TypeScript", "Styled-Components"],
+      isClosed: false,
     },
-    buttonType: "create",
+    reviewee: {
+      userId: 1,
+      username: "exampleUser",
+      link: "https://github.com/example/project/pull/1",
+      isReviewed: false,
+      isWrited: false,
+    },
   },
 } satisfies Meta<typeof RevieweeFeedbackModal>;
 

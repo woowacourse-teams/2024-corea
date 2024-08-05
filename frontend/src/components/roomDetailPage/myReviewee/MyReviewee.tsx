@@ -1,13 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import useModal from "@/hooks/common/useModal";
 import Button from "@/components/common/button/Button";
 import Icon from "@/components/common/icon/Icon";
 import RevieweeFeedbackModal from "@/components/feedback/revieweeFeedbackModal/RevieweeFeedbackModal";
 import * as S from "@/components/roomDetailPage/myReviewee/MyReviewee.style";
+import { ReviewerInfo } from "@/@types/reviewer";
 import { RoomInfo } from "@/@types/roomInfo";
 import QUERY_KEYS from "@/apis/queryKeys";
 import { getMyReviewees } from "@/apis/reviews.api";
 import MESSAGES from "@/constants/message";
+import { getFeedbackModalType } from "@/utils/feedbackUtils";
 
 interface MyReviewerProps {
   roomInfo: RoomInfo;
@@ -15,6 +18,7 @@ interface MyReviewerProps {
 
 const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
   const { isOpen, handleOpenModal, handleCloseModal } = useModal();
+  const [selectedReviewee, setSelectedReviewee] = useState<ReviewerInfo | null>(null);
 
   const { data: revieweeData } = useQuery({
     queryKey: [QUERY_KEYS.REVIEWEES, roomInfo.id],
@@ -25,14 +29,21 @@ const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
     return <>{MESSAGES.GUIDANCE.EMPTY_REVIEWEE}</>;
   }
 
+  const handleOpenFeedbackModal = (reviewee: ReviewerInfo) => {
+    setSelectedReviewee(reviewee);
+    handleOpenModal();
+  };
+
   return (
     <>
-      <RevieweeFeedbackModal
-        isOpen={isOpen}
-        onClose={handleCloseModal}
-        roomInfo={roomInfo}
-        buttonType="create"
-      />
+      {selectedReviewee && (
+        <RevieweeFeedbackModal
+          isOpen={isOpen}
+          onClose={handleCloseModal}
+          roomInfo={roomInfo}
+          reviewee={selectedReviewee}
+        />
+      )}
 
       <S.MyRevieweeContainer>
         <S.MyRevieweeWrapper>
@@ -54,8 +65,15 @@ const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
               <Button size="small" onClick={() => alert("버튼 클릭 완료!")} variant="secondary">
                 리뷰 완료
               </Button>
-              <Button size="small" onClick={handleOpenModal} variant="primary">
-                피드백 작성
+              <Button
+                size="small"
+                onClick={() => handleOpenFeedbackModal(reviewee)}
+                variant="primary"
+              >
+                {getFeedbackModalType({
+                  isWrited: reviewee.isWrited,
+                  isClosed: roomInfo.isClosed,
+                })}
               </Button>
             </S.MyRevieweeContent>
           </S.MyRevieweeWrapper>
