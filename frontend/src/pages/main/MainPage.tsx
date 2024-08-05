@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import useSelectedCategory from "@/hooks/common/useSelectedCategory";
-import { useInfiniteFetchRoomList } from "@/hooks/queries/useInfiniteFetchRoomList";
+import useFetchParticipatedRoomList from "@/hooks/queries/rooms/useFetchParticipatedRoomList";
+import { useInfiniteFetchRoomList } from "@/hooks/queries/rooms/useInfiniteFetchRoomList";
 import ContentSection from "@/components/common/contentSection/ContentSection";
 import MenuBar from "@/components/common/menuBar/MenuBar";
 import RoomList from "@/components/shared/roomList/RoomList";
@@ -11,10 +12,7 @@ import { getClosedRoomList, getOpenedRoomList, getParticipatedRoomList } from "@
 const MainPage = () => {
   const { selectedCategory, handleSelectedCategory } = useSelectedCategory();
 
-  const { data: participatedRoomList } = useQuery({
-    queryKey: [QUERY_KEYS.PARTICIPATED_ROOM_LIST],
-    queryFn: getParticipatedRoomList,
-  });
+  const { data: participatedRoomList } = useFetchParticipatedRoomList();
 
   const {
     data: openedRoomList,
