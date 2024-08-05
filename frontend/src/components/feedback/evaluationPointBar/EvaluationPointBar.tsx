@@ -14,14 +14,20 @@ const evaluationOptions: EvaluationOption[] = [
   { text: "나쁨", value: 1, icon: "bad" },
   { text: "아쉬움", value: 2, icon: "disappointing" },
   { text: "보통", value: 3, icon: "average" },
-  { text: "만족", value: 3, icon: "satisfied" },
-  { text: "매우 만족", value: 3, icon: "verySatisfied" },
+  { text: "만족", value: 4, icon: "satisfied" },
+  { text: "매우 만족", value: 5, icon: "verySatisfied" },
 ];
 
-const EvaluationPointBar = () => {
-  const [selectedOptionId, setSelectedOptionId] = useState<number | null>(null);
+interface EvaluationPointBarProps {
+  initialOptionId?: number;
+  readonly?: boolean;
+}
+
+const EvaluationPointBar = ({ initialOptionId, readonly = false }: EvaluationPointBarProps) => {
+  const [selectedOptionId, setSelectedOptionId] = useState<number | undefined>(initialOptionId);
 
   const handleRadioChange = (id: number) => {
+    if (readonly) return;
     setSelectedOptionId(id);
   };
 
