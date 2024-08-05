@@ -1,47 +1,6 @@
 spring:
-  application:
-    name: backend
-  jpa:
-    defer-datasource-initialization: true
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-    hibernate:
-      ddl-auto: create-drop
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
-  datasource:
-    url: jdbc:h2:mem:database
-
-logging:
-  level:
-    root: INFO
-    corea: DEBUG
-
-springdoc:
-  swagger-ui:
-    groups-order: DESC
-    tags-sorter: alpha
-    operations-sorter: method
-    disable-swagger-default-url: true
-    display-request-duration: true
-    defaultModelsExpandDepth: 2
-    defaultModelExpandDepth: 2
-  api-docs:
-    path: /api-docs
-  show-actuator: true
-  default-consumes-media-type: application/json
-  default-produces-media-type: application/json
-  writer-with-default-pretty-printer: true
-  model-and-view-allowed: true
-  paths-to-match:
-    - /**
-
-management:
-  endpoint:
-    web:
-      exposure:
-        include: health
+  profiles:
+    group:
+      main: dev, secret
+      test: dev, secret
+    active: main
