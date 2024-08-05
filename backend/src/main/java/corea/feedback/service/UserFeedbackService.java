@@ -5,8 +5,8 @@ import corea.exception.ExceptionType;
 import corea.feedback.dto.FeedbackResponse;
 import corea.feedback.dto.FeedbacksResponse;
 import corea.feedback.dto.UserFeedbackResponse;
-import corea.feedback.repository.RevieweeToReviewerFeedbackRepository;
-import corea.feedback.repository.ReviewerToRevieweeFeedbackRepository;
+import corea.feedback.repository.SocialFeedbackRepository;
+import corea.feedback.repository.DevelopFeedbackRepository;
 import corea.room.domain.Room;
 import corea.room.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +26,8 @@ import static corea.global.util.NullHandler.emptyIfNull;
 public class UserFeedbackService {
 
     private final RoomRepository roomRepository;
-    private final ReviewerToRevieweeFeedbackRepository reviewerToRevieweeFeedbackRepository;
-    private final RevieweeToReviewerFeedbackRepository revieweeToReviewerFeedbackRepository;
+    private final DevelopFeedbackRepository developFeedbackRepository;
+    private final SocialFeedbackRepository socialFeedbackRepository;
 
     public UserFeedbackResponse getDeliveredFeedback(long id) {
         Map<Long, List<FeedbackResponse>> reviewerToRevieweeMap = getDeliveredReviewerToRevieweeFeedback(id);
@@ -39,14 +39,14 @@ public class UserFeedbackService {
     }
 
     private Map<Long, List<FeedbackResponse>> getDeliveredReviewerToRevieweeFeedback(long id) {
-        return reviewerToRevieweeFeedbackRepository.findByReviewerId(id)
+        return developFeedbackRepository.findByDeliverId(id)
                 .stream()
                 .map(FeedbackResponse::from)
                 .collect(Collectors.groupingBy(FeedbackResponse::roomId));
     }
 
     private Map<Long, List<FeedbackResponse>> getDeliveredRevieweeToReviewerFeedback(long id) {
-        return revieweeToReviewerFeedbackRepository.findByRevieweeId(id)
+        return socialFeedbackRepository.findByDeliverId(id)
                 .stream()
                 .map(FeedbackResponse::from)
                 .collect(Collectors.groupingBy(FeedbackResponse::roomId));
@@ -63,14 +63,14 @@ public class UserFeedbackService {
     }
 
     private Map<Long, List<FeedbackResponse>> getReceivedReviewerToRevieweeFeedback(long id) {
-        return reviewerToRevieweeFeedbackRepository.findByRevieweeId(id)
+        return developFeedbackRepository.findByReceiverId(id)
                 .stream()
                 .map(FeedbackResponse::from)
                 .collect(Collectors.groupingBy(FeedbackResponse::roomId));
     }
 
     private Map<Long, List<FeedbackResponse>> getReceivedRevieweeToReviewerFeedback(long id) {
-        return revieweeToReviewerFeedbackRepository.findByReviewerId(id)
+        return socialFeedbackRepository.findByReceiverId(id)
                 .stream()
                 .map(FeedbackResponse::from)
                 .collect(Collectors.groupingBy(FeedbackResponse::roomId));

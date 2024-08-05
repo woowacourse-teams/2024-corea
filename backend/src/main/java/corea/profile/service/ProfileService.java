@@ -4,8 +4,8 @@ import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
 import corea.feedback.domain.FeedbackKeyword;
 import corea.feedback.domain.ReceivedFeedbacks;
-import corea.feedback.repository.RevieweeToReviewerFeedbackRepository;
-import corea.feedback.repository.ReviewerToRevieweeFeedbackRepository;
+import corea.feedback.repository.SocialFeedbackRepository;
+import corea.feedback.repository.DevelopFeedbackRepository;
 import corea.profile.domain.Profile;
 import corea.profile.dto.ProfileResponse;
 import corea.profile.repository.ProfileRepository;
@@ -23,8 +23,8 @@ public class ProfileService {
     private static final int NUMBER_OF_FEEDBACKS_TO_BE_SHOWN_TO_MEMBER = 3;
 
     private final ProfileRepository profileRepository;
-    private final RevieweeToReviewerFeedbackRepository revieweeToReviewerRepository;
-    private final ReviewerToRevieweeFeedbackRepository reviewerToRevieweeRepository;
+    private final SocialFeedbackRepository socialFeedbackRepository;
+    private final DevelopFeedbackRepository developFeedbackRepository;
 
     public ProfileResponse findOne(long memberId) {
         Profile profile = profileRepository.findByMemberId(memberId)
@@ -35,8 +35,8 @@ public class ProfileService {
     }
 
     private List<String> findTopFeedbackKeywords(long memberId) {
-        List<List<FeedbackKeyword>> reviewerFeedbacks = revieweeToReviewerRepository.findAllKeywordsByReviewerId(memberId);
-        List<List<FeedbackKeyword>> revieweeFeedbacks = reviewerToRevieweeRepository.findAllKeywordsByRevieweeId(memberId);
+        List<List<FeedbackKeyword>> reviewerFeedbacks = socialFeedbackRepository.findAllKeywordsByReviewerId(memberId);
+        List<List<FeedbackKeyword>> revieweeFeedbacks = developFeedbackRepository.findAllKeywordsByRevieweeId(memberId);
         ReceivedFeedbacks receivedFeedbacks = new ReceivedFeedbacks(reviewerFeedbacks, revieweeFeedbacks);
 
         return receivedFeedbacks.findTopFeedbackKeywords(NUMBER_OF_FEEDBACKS_TO_BE_SHOWN_TO_MEMBER);

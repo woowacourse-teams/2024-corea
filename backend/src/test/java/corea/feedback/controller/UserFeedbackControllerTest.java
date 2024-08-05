@@ -2,11 +2,11 @@ package corea.feedback.controller;
 
 import config.ControllerTest;
 import corea.feedback.dto.UserFeedbackResponse;
-import corea.feedback.repository.RevieweeToReviewerFeedbackRepository;
-import corea.feedback.repository.ReviewerToRevieweeFeedbackRepository;
+import corea.feedback.repository.SocialFeedbackRepository;
+import corea.feedback.repository.DevelopFeedbackRepository;
 import corea.fixture.MemberFixture;
-import corea.fixture.RevieweeToReviewerFeedbackFixture;
-import corea.fixture.ReviewerToRevieweeFeedbackFixture;
+import corea.fixture.SocialFeedbackFixture;
+import corea.fixture.DevelopFeedbackFixture;
 import corea.fixture.RoomFixture;
 import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
@@ -30,10 +30,10 @@ class UserFeedbackControllerTest {
     private MemberRepository memberRepository;
 
     @Autowired
-    private ReviewerToRevieweeFeedbackRepository reviewerToRevieweeFeedbackRepository;
+    private DevelopFeedbackRepository developFeedbackRepository;
 
     @Autowired
-    private RevieweeToReviewerFeedbackRepository revieweeToReviewerFeedbackRepository;
+    private SocialFeedbackRepository socialFeedbackRepository;
 
     @Test
     @DisplayName("자신이 작성한 피드백을 받는다.")
@@ -44,9 +44,9 @@ class UserFeedbackControllerTest {
         Member member1 = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member member2 = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
 
-        reviewerToRevieweeFeedbackRepository.save(ReviewerToRevieweeFeedbackFixture.POSITIVE_FEEDBACK(room1.getId(),member1,member2));
-        reviewerToRevieweeFeedbackRepository.save(ReviewerToRevieweeFeedbackFixture.POSITIVE_FEEDBACK(room2.getId(),member1,member2));
-        revieweeToReviewerFeedbackRepository.save(RevieweeToReviewerFeedbackFixture.POSITIVE_FEEDBACK(room1.getId(),manager,member1));
+        developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room1.getId(),member1,member2));
+        developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room2.getId(),member1,member2));
+        socialFeedbackRepository.save(SocialFeedbackFixture.POSITIVE_FEEDBACK(room1.getId(),member1,manager));
 
 
         final UserFeedbackResponse response = RestAssured.given().header("Authorization", member1.getUsername()).contentType(ContentType.JSON)
@@ -67,9 +67,9 @@ class UserFeedbackControllerTest {
         Member member1 = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member member2 = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
 
-        reviewerToRevieweeFeedbackRepository.save(ReviewerToRevieweeFeedbackFixture.POSITIVE_FEEDBACK(room1.getId(),member1,member2));
-        reviewerToRevieweeFeedbackRepository.save(ReviewerToRevieweeFeedbackFixture.POSITIVE_FEEDBACK(room2.getId(),manager,member2));
-        revieweeToReviewerFeedbackRepository.save(RevieweeToReviewerFeedbackFixture.POSITIVE_FEEDBACK(room1.getId(),member2,manager));
+        developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room1.getId(),member1,member2));
+        developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room2.getId(),manager,member2));
+        socialFeedbackRepository.save(SocialFeedbackFixture.POSITIVE_FEEDBACK(room1.getId(),manager,member2));
 
         final UserFeedbackResponse response = RestAssured.given().header("Authorization", member2.getUsername()).contentType(ContentType.JSON)
                 .when().get("/user/feedbacks/received")

@@ -2,15 +2,15 @@ package corea.feedback.service;
 
 import config.ServiceTest;
 import corea.feedback.domain.FeedbackKeyword;
-import corea.feedback.domain.RevieweeToReviewerFeedback;
+import corea.feedback.domain.SocialFeedback;
 import corea.feedback.dto.FeedbackResponse;
 import corea.feedback.dto.FeedbacksResponse;
 import corea.feedback.dto.UserFeedbackResponse;
-import corea.feedback.repository.RevieweeToReviewerFeedbackRepository;
-import corea.feedback.repository.ReviewerToRevieweeFeedbackRepository;
+import corea.feedback.repository.SocialFeedbackRepository;
+import corea.feedback.repository.DevelopFeedbackRepository;
 import corea.fixture.MemberFixture;
-import corea.fixture.RevieweeToReviewerFeedbackFixture;
-import corea.fixture.ReviewerToRevieweeFeedbackFixture;
+import corea.fixture.SocialFeedbackFixture;
+import corea.fixture.DevelopFeedbackFixture;
 import corea.fixture.RoomFixture;
 import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
@@ -37,10 +37,10 @@ class UserFeedbackServiceTest {
     private UserFeedbackService userFeedbackService;
 
     @Autowired
-    private ReviewerToRevieweeFeedbackRepository reviewerToRevieweeFeedbackRepository;
+    private DevelopFeedbackRepository developFeedbackRepository;
 
     @Autowired
-    private RevieweeToReviewerFeedbackRepository revieweeToReviewerFeedbackRepository;
+    private SocialFeedbackRepository socialFeedbackRepository;
 
     @Test
     @DisplayName("방마다 작성한 피드백들을 구분해서 가져온다.")
@@ -51,8 +51,8 @@ class UserFeedbackServiceTest {
         Member reviewer = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member reviewee = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
 
-        reviewerToRevieweeFeedbackRepository.save(ReviewerToRevieweeFeedbackFixture.POSITIVE_FEEDBACK(room1.getId(), reviewer, reviewee));
-        reviewerToRevieweeFeedbackRepository.save(ReviewerToRevieweeFeedbackFixture.POSITIVE_FEEDBACK(room2.getId(), reviewer, reviewee));
+        developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room1.getId(), reviewer, reviewee));
+        developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room2.getId(), reviewer, reviewee));
 
         UserFeedbackResponse response = userFeedbackService.getDeliveredFeedback(reviewer.getId());
 
@@ -67,10 +67,10 @@ class UserFeedbackServiceTest {
         Member member1 = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member member2 = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
 
-        reviewerToRevieweeFeedbackRepository.save(ReviewerToRevieweeFeedbackFixture.POSITIVE_FEEDBACK(room.getId(), member1, member2));
-        reviewerToRevieweeFeedbackRepository.save(ReviewerToRevieweeFeedbackFixture.POSITIVE_FEEDBACK(room.getId(), manager, member1));
+        developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room.getId(), member1, member2));
+        developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room.getId(), manager, member1));
 
-        revieweeToReviewerFeedbackRepository.save(RevieweeToReviewerFeedbackFixture.POSITIVE_FEEDBACK(room.getId(), member2, member1));
+        socialFeedbackRepository.save(SocialFeedbackFixture.POSITIVE_FEEDBACK(room.getId(), member1, member2));
 
         UserFeedbackResponse response = userFeedbackService.getDeliveredFeedback(member1.getId());
         FeedbacksResponse feedbackResponses = response.feedbacks()
@@ -90,8 +90,8 @@ class UserFeedbackServiceTest {
         Member reviewer2 = memberRepository.save(MemberFixture.MEMBER_ASH());
         Member reviewee = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
 
-        reviewerToRevieweeFeedbackRepository.save(
-                ReviewerToRevieweeFeedbackFixture.POSITIVE_FEEDBACK(room.getId(), reviewer1, reviewee));
+        developFeedbackRepository.save(
+                DevelopFeedbackFixture.POSITIVE_FEEDBACK(room.getId(), reviewer1, reviewee));
         saveRevieweeToReviewer(room.getId(), reviewer1, reviewee);
         saveRevieweeToReviewer(room.getId(), reviewer2, reviewee);
 
@@ -103,8 +103,8 @@ class UserFeedbackServiceTest {
     }
 
     private void saveRevieweeToReviewer(long roomId, Member reviewee, Member reviewer) {
-        revieweeToReviewerFeedbackRepository.save(
-                new RevieweeToReviewerFeedback(null, roomId, reviewer, reviewee, 4, List.of(FeedbackKeyword.REVIEW_FAST, FeedbackKeyword.KIND), "유용한 정보들이 많았어요")
+        socialFeedbackRepository.save(
+                new SocialFeedback(null, roomId, reviewer, reviewee, 4, List.of(FeedbackKeyword.REVIEW_FAST, FeedbackKeyword.KIND), "유용한 정보들이 많았어요")
         );
     }
 

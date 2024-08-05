@@ -1,37 +1,37 @@
 package corea.feedback.dto;
 
-import corea.feedback.domain.RevieweeToReviewerFeedback;
-import corea.feedback.domain.ReviewerToRevieweeFeedback;
+import corea.feedback.domain.SocialFeedback;
+import corea.feedback.domain.DevelopFeedback;
 import corea.feedback.util.FeedbackKeywordConverter;
 
 import java.util.List;
 
-public record FeedbackResponse(long feedbackId, long roomId, long revieweeId, String profile, String username,
+public record FeedbackResponse(long feedbackId, long roomId, long receiverId, String profile, String username,
                                List<String> feedbackKeywords, int evaluationPoint, String feedbackText) {
 
-    public static FeedbackResponse from(ReviewerToRevieweeFeedback reviewerToRevieweeFeedback) {
+    public static FeedbackResponse from(DevelopFeedback developFeedback) {
         return new FeedbackResponse(
-                reviewerToRevieweeFeedback.getId(),
-                reviewerToRevieweeFeedback.getRoomId(),
-                reviewerToRevieweeFeedback.getReviewee().getId(),
-                reviewerToRevieweeFeedback.getReviewee().getProfileLink(),
-                reviewerToRevieweeFeedback.getReviewee().getUsername(),
-                FeedbackKeywordConverter.convertToMessages(reviewerToRevieweeFeedback.getKeywords()),
-                reviewerToRevieweeFeedback.getEvaluatePoint(),
-                reviewerToRevieweeFeedback.getFeedBackText()
+                developFeedback.getId(),
+                developFeedback.getRoomId(),
+                developFeedback.getReceiver().getId(),
+                developFeedback.getReceiver().getProfileLink(),
+                developFeedback.getReceiver().getUsername(),
+                FeedbackKeywordConverter.convertToMessages(developFeedback.getKeywords()),
+                developFeedback.getEvaluatePoint(),
+                developFeedback.getFeedBackText()
         );
     }
 
-    public static FeedbackResponse from(RevieweeToReviewerFeedback revieweeToReviewerFeedback) {
+    public static FeedbackResponse from(SocialFeedback socialFeedback) {
         return new FeedbackResponse(
-                revieweeToReviewerFeedback.getId(),
-                revieweeToReviewerFeedback.getRoomId(),
-                revieweeToReviewerFeedback.getReviewer().getId(),
-                revieweeToReviewerFeedback.getReviewer().getProfileLink(),
-                revieweeToReviewerFeedback.getReviewer().getUsername(),
-                FeedbackKeywordConverter.convertToMessages(revieweeToReviewerFeedback.getKeywords()),
-                revieweeToReviewerFeedback.getEvaluatePoint(),
-                revieweeToReviewerFeedback.getFeedBackText()
+                socialFeedback.getId(),
+                socialFeedback.getRoomId(),
+                socialFeedback.getReceiver().getId(),
+                socialFeedback.getReceiver().getProfileLink(),
+                socialFeedback.getReceiver().getUsername(),
+                FeedbackKeywordConverter.convertToMessages(socialFeedback.getKeywords()),
+                socialFeedback.getEvaluatePoint(),
+                socialFeedback.getFeedBackText()
         );
     }
 }
