@@ -8,6 +8,9 @@ const QUERY_KEYS = {
   // reviews
   REVIEWERS: "reviewers",
   REVIEWEES: "reviewees",
+
+  // profile
+  PROFILE: "profile",
 };
 
 export default QUERY_KEYS;

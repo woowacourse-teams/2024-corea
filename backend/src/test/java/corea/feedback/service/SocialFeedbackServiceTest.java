@@ -2,8 +2,8 @@ package corea.feedback.service;
 
 import config.ServiceTest;
 import corea.exception.CoreaException;
-import corea.feedback.dto.RevieweeToReviewerFeedbackRequest;
-import corea.feedback.dto.RevieweeToReviewerResponse;
+import corea.feedback.dto.SocialFeedbackRequest;
+import corea.feedback.dto.SocialFeedbackResponse;
 import corea.fixture.MatchResultFixture;
 import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
@@ -21,7 +21,7 @@ import java.util.List;
 import static org.assertj.core.api.AssertionsForClassTypes.*;
 
 @ServiceTest
-class RevieweeToReviewerFeedbackServiceTest {
+class SocialFeedbackServiceTest {
 
     @Autowired
     private RoomRepository roomRepository;
@@ -33,10 +33,10 @@ class RevieweeToReviewerFeedbackServiceTest {
     private MatchResultRepository matchResultRepository;
 
     @Autowired
-    private RevieweeToReviewerFeedbackService revieweeToReviewerFeedbackService;
+    private SocialFeedbackService socialFeedbackService;
 
     @Test
-    @DisplayName("리뷰이 -> 리뷰어 대한 피드백 내용을 생성한다.")
+    @DisplayName("소셜(리뷰이->리뷰어) 대한 피드백 내용을 생성한다.")
     void create() {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
@@ -48,19 +48,19 @@ class RevieweeToReviewerFeedbackServiceTest {
                 reviewee
         ));
 
-        assertThatCode(() -> revieweeToReviewerFeedbackService.create(room.getId(), reviewee.getId(), createRequest(reviewer.getId())))
+        assertThatCode(() -> socialFeedbackService.create(room.getId(), reviewee.getId(), createRequest(reviewer.getId())))
                 .doesNotThrowAnyException();
     }
 
     @Test
-    @DisplayName("리뷰이 -> 리뷰어에 대한 매칭 결과가 없으면 예외를 발생한다.")
+    @DisplayName("소셜(리뷰이->리뷰어)에 대한 매칭 결과가 없으면 예외를 발생한다.")
     void throw_exception_when_not_exist_match_result() {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
         Member reviewer = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member reviewee = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
 
-        assertThatCode(() -> revieweeToReviewerFeedbackService.create(room.getId(), reviewee.getId(), createRequest(reviewer.getId())))
+        assertThatCode(() -> socialFeedbackService.create(room.getId(), reviewee.getId(), createRequest(reviewer.getId())))
                 .isInstanceOf(CoreaException.class);
     }
 
@@ -76,14 +76,14 @@ class RevieweeToReviewerFeedbackServiceTest {
                 reviewer,
                 reviewee
         ));
-        revieweeToReviewerFeedbackService.create(room.getId(), reviewee.getId(), createRequest(reviewer.getId()));
+        socialFeedbackService.create(room.getId(), reviewee.getId(), createRequest(reviewer.getId()));
 
-        RevieweeToReviewerResponse response = revieweeToReviewerFeedbackService.findRevieweeToReviewerFeedback(room.getId(), reviewee.getId(), reviewer.getUsername());
-        assertThat(response.reviewerId()).isEqualTo(reviewer.getId());
+        SocialFeedbackResponse response = socialFeedbackService.findSocialFeedback(room.getId(), reviewee.getId(), reviewer.getUsername());
+        assertThat(response.receiverId()).isEqualTo(reviewer.getId());
     }
 
     @Test
-    @DisplayName("리뷰이->리뷰어 피드백 내용을 업데이트한다.")
+    @DisplayName("소셜(리뷰이->리뷰어) 피드백 내용을 업데이트한다.")
     void update() {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
@@ -94,14 +94,14 @@ class RevieweeToReviewerFeedbackServiceTest {
                 reviewer,
                 reviewee
         ));
-        RevieweeToReviewerResponse createResponse = revieweeToReviewerFeedbackService.create(room.getId(), reviewee.getId(), createRequest(reviewer.getId()));
-        RevieweeToReviewerResponse updateResponse = revieweeToReviewerFeedbackService.update(createResponse.feedbackId(), room.getId(), reviewee.getId(), createRequest(reviewer.getId()));
+        SocialFeedbackResponse createResponse = socialFeedbackService.create(room.getId(), reviewee.getId(), createRequest(reviewer.getId()));
+        SocialFeedbackResponse updateResponse = socialFeedbackService.update(createResponse.feedbackId(), room.getId(), reviewee.getId(), createRequest(reviewer.getId()));
 
         assertThat(createResponse).isEqualTo(updateResponse);
     }
 
     @Test
-    @DisplayName("없는 리뷰이->리뷰어 피드백 내용을 업데이트시 예외를 발생한다.")
+    @DisplayName("없는 소셜(리뷰이->리뷰어) 피드백 내용을 업데이트시 예외를 발생한다.")
     void throw_exception_when_update_with_not_exist_feedback() {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
@@ -113,12 +113,12 @@ class RevieweeToReviewerFeedbackServiceTest {
                 reviewee
         ));
 
-        assertThatThrownBy(() -> revieweeToReviewerFeedbackService.update(room.getId(), -1, reviewer.getId(), createRequest(reviewee.getId())))
+        assertThatThrownBy(() -> socialFeedbackService.update(room.getId(), -1, reviewer.getId(), createRequest(reviewee.getId())))
                 .isInstanceOf(CoreaException.class);
     }
 
-    private RevieweeToReviewerFeedbackRequest createRequest(long revieweeId) {
-        return new RevieweeToReviewerFeedbackRequest(
+    private SocialFeedbackRequest createRequest(long revieweeId) {
+        return new SocialFeedbackRequest(
                 revieweeId,
                 4,
                 List.of("방의 목적에 맞게 코드를 작성했어요.", "코드를 이해하기 쉬웠어요."),

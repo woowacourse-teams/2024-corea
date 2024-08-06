@@ -2,8 +2,8 @@ package corea.profile.service;
 
 import config.ServiceTest;
 import corea.feedback.domain.FeedbackKeyword;
-import corea.feedback.domain.ReviewerToRevieweeFeedback;
-import corea.feedback.repository.ReviewerToRevieweeFeedbackRepository;
+import corea.feedback.domain.DevelopFeedback;
+import corea.feedback.repository.DevelopFeedbackRepository;
 import corea.fixture.MemberFixture;
 import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
@@ -31,7 +31,7 @@ class ProfileServiceTest {
     private MemberRepository memberRepository;
 
     @Autowired
-    private ReviewerToRevieweeFeedbackRepository reviewerToRevieweeRepository;
+    private DevelopFeedbackRepository reviewerToRevieweeRepository;
 
     @Test
     @DisplayName("마이 페이지에 보여질 정보를 찾을 수 있다.")
@@ -40,8 +40,8 @@ class ProfileServiceTest {
         Member joyson = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
 
         List<FeedbackKeyword> feedbackKeywords = getFeedbackKeywords();
-        ReviewerToRevieweeFeedback reviewerToReviewee = new ReviewerToRevieweeFeedback(1, joyson, pororo, 5, feedbackKeywords, "", 1);
-        reviewerToRevieweeRepository.save(reviewerToReviewee);
+        DevelopFeedback developFeedback = new DevelopFeedback(1, joyson, pororo, 5, feedbackKeywords, "", 1);
+        reviewerToRevieweeRepository.save(developFeedback);
 
         Profile profile = new Profile(pororo, 1, 1, 0, 5, 36.5f);
         profileRepository.save(profile);

@@ -16,6 +16,9 @@ const ERROR_MESSAGES = {
   // reviews
   GET_MY_REVIEWERS: "리뷰어 목록을 불러오는 도중 에러가 발생하였습니다.",
   GET_MY_REVIEWEES: "리뷰이 목록을 불러오는 도중 에러가 발생하였습니다.",
+
+  // profile
+  GET_PROFILE: "프로필 불러오는 도중 에러가 발생하였습니다.",
 };
 
 const MESSAGES = {
