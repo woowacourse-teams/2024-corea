@@ -30,7 +30,7 @@ public class AccessedMemberArgumentResolver implements HandlerMethodArgumentReso
                                     NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
 
-        return memberRepository.findByEmail(requestHandler.extract(request))
+        return memberRepository.findByUsername(requestHandler.extract(request))
                 .map(AuthInfo::from)
                 .orElse(AuthInfo.getAnonymous());
     }

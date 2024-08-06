@@ -9,6 +9,7 @@ on:
       - opened
       - synchronize
       - reopened
+      - edited
 
 defaults:
   run:

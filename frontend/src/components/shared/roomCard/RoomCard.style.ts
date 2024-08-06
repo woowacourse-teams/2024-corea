@@ -2,6 +2,8 @@ import styled from "styled-components";
 import media from "@/styles/media";
 
 export const RoomCardContainer = styled.div`
+  cursor: pointer;
+
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -13,8 +15,6 @@ export const RoomCardContainer = styled.div`
   border: 1px solid ${({ theme }) => theme.COLOR.grey1};
   border-radius: 15px;
   box-shadow: 0 4px 4px rgb(0 0 0 / 10%);
-
-  cursor: pointer;
 
   ${media.small`
     width: 100%;

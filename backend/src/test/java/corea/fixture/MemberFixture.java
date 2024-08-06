@@ -10,8 +10,7 @@ public class MemberFixture {
                 "https://avatars.githubusercontent.com/u/98307410?v=4",
                 null,
                 "youngsu5582@gmail.com",
-                false,
-                36.5f
+                false
         );
     }
 
@@ -21,19 +20,27 @@ public class MemberFixture {
                 "https://avatars.githubusercontent.com/u/98307410?v=4",
                 null,
                 "jcoding-play@gmail.com",
-                false,
-                36.5f
+                false
         );
     }
 
-    public static Member MEMBER_JOYSON() {
+    public static Member MEMBER_ASH(){
+        return new Member(
+                "ashsty",
+                "https://avatars.githubusercontent.com/u/98307410?v=4",
+                null,
+                "ashsty@gmail.com",
+                false
+        );
+    }
+
+    public static Member MEMBER_ROOM_MANAGER_JOYSON() {
         return new Member(
                 "joyson5582",
                 "https://avatars.githubusercontent.com/u/98307410?v=4",
                 null,
                 "joyson5582@gmail.com",
-                false,
-                36.5f
+                false
         );
     }
 }

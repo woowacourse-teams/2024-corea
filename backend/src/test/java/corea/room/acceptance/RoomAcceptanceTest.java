@@ -46,7 +46,7 @@ class RoomAcceptanceTest {
     @DisplayName("로그인한 사용자가 방에 대한 정보를 조회할 수 있다.")
     void roomWithLogin() {
         RoomResponse response = RestAssured.given().log().all()
-                .header("Authorization", "namejgc@naver.com")
+                .header("Authorization", "jcoding-play")
                 .when().get("/rooms/7")
                 .then().log().all()
                 .statusCode(200)
@@ -72,7 +72,7 @@ class RoomAcceptanceTest {
     @DisplayName("현재 로그인한 멤버가 참여 중인 방을 보여준다.")
     void participatedRoomsWithLogin() {
         RoomResponses response = RestAssured.given().log().all()
-                .header("Authorization", "namejgc@naver.com")
+                .header("Authorization", "jcoding-play")
                 .when().get("/rooms/participated")
                 .then().log().all()
                 .statusCode(200)
@@ -112,7 +112,7 @@ class RoomAcceptanceTest {
     @DisplayName("로그인한 사용자가 분야별로 현재 모집 중인 방들을 조회할 수 있다.")
     void openedRoomsWithLogin() {
         RoomResponses response = RestAssured.given().log().all()
-                .header("Authorization", "namejgc@naver.com")
+                .header("Authorization", "jcoding-play")
                 .when().get("/rooms/opened?classification=be")
                 .then().log().all()
                 .statusCode(200)
@@ -132,7 +132,7 @@ class RoomAcceptanceTest {
     @DisplayName("모집 완료된 방들을 조회할 수 있다.")
     void closedRooms() {
         RoomResponses response = RestAssured.given().log().all()
-                .header("Authorization", "namejgc@naver.com")
+                .header("Authorization", "jcoding-play")
                 .when().get("/rooms/closed?classification=all")
                 .then().log().all()
                 .statusCode(200)

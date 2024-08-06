@@ -1,6 +1,9 @@
 package corea.room.service;
 
 import corea.auth.domain.AuthInfo;
+import corea.exception.CoreaException;
+import corea.room.domain.Classification;
+import corea.room.dto.RoomCreateRequest;
 import corea.room.dto.RoomResponse;
 import corea.room.dto.RoomResponses;
 import org.junit.jupiter.api.DisplayName;
@@ -11,9 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
@@ -88,5 +93,27 @@ class RoomServiceTest {
         RoomResponses response = roomService.findOpenedRooms(anonymous.getId(), "all", pageNumber);
 
         assertThat(response.isLastPage()).isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("모집 마감 시간은 현재 시간보다 1시간 이후가 아니라면 예외가 발생한다.")
+    void invalidRecruitmentDeadline() {
+        RoomCreateRequest request = new RoomCreateRequest("title", "content", "repoLink",
+                "thumLink", 3, null, 3,
+                LocalDateTime.now().plusMinutes(59), LocalDateTime.now().plusDays(2), Classification.ALL);
+
+        assertThatThrownBy(() -> roomService.create(1, request))
+                .isInstanceOf(CoreaException.class);
+    }
+
+    @Test
+    @DisplayName("리뷰 마감 시간은 모집 마감 시간보다 1일 이후가 아니라면 예외가 발생한다.")
+    void invalidReviewDeadline() {
+        RoomCreateRequest request = new RoomCreateRequest("title", "content", "repoLink",
+                "thumLink", 3, null, 3,
+                LocalDateTime.now().plusHours(2), LocalDateTime.now().plusHours(23), Classification.ALL);
+
+        assertThatThrownBy(() -> roomService.create(1, request))
+                .isInstanceOf(CoreaException.class);
     }
 }

@@ -6,6 +6,7 @@ import corea.member.repository.MemberRepository;
 import corea.participation.domain.Participation;
 import corea.participation.dto.ParticipationRequest;
 import corea.participation.dto.ParticipationResponse;
+import corea.participation.dto.ParticipationsResponse;
 import corea.participation.repository.ParticipationRepository;
 import corea.room.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,13 +32,17 @@ public class ParticipationService {
 
     private void validateIdExist(long roomId, long memberId) {
         if (!roomRepository.existsById(roomId)) {
-            throw new CoreaException(ExceptionType.NOT_FOUND_ERROR, String.format("%d에 해당하는 방이 없습니다.", roomId));
+            throw new CoreaException(ExceptionType.ROOM_NOT_FOUND, String.format("%d에 해당하는 방이 없습니다.", roomId));
         }
         if (!memberRepository.existsById(memberId)) {
-            throw new CoreaException(ExceptionType.NOT_FOUND_ERROR, String.format("%d에 해당하는 멤버가 없습니다.", memberId));
+            throw new CoreaException(ExceptionType.MEMBER_NOT_FOUND, String.format("%d에 해당하는 멤버가 없습니다.", memberId));
         }
         if (participationRepository.existsByRoomIdAndMemberId(roomId, memberId)) {
             throw new CoreaException(ExceptionType.ALREADY_APPLY);
         }
+    }
+
+    public ParticipationsResponse getParticipation(long roomId) {
+        return new ParticipationsResponse(participationRepository.findAllByRoomId(roomId));
     }
 }

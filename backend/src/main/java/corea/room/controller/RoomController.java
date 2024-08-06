@@ -5,12 +5,18 @@ import corea.auth.annotation.LoginMember;
 import corea.auth.domain.AuthInfo;
 import corea.matching.dto.MatchResultResponses;
 import corea.matching.service.MatchResultService;
+import corea.matching.service.MatchingService;
+import corea.participation.dto.ParticipationsResponse;
+import corea.participation.service.ParticipationService;
+import corea.room.dto.RoomCreateRequest;
 import corea.room.dto.RoomResponse;
 import corea.room.dto.RoomResponses;
 import corea.room.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("/rooms")
@@ -19,6 +25,17 @@ public class RoomController implements RoomControllerSpecification {
 
     private final RoomService roomService;
     private final MatchResultService matchResultService;
+    private final MatchingService matchingService;
+    private final ParticipationService participationService;
+
+    @PostMapping("/{id}")
+    public ResponseEntity<RoomResponse> create(@PathVariable long id,
+                                               @LoginMember AuthInfo authInfo,
+                                               @RequestBody RoomCreateRequest request) {
+        RoomResponse roomResponse = roomService.create(authInfo.getId(), request);
+        return ResponseEntity.created(URI.create(String.format("/rooms/%d", id)))
+                .body(roomResponse);
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<RoomResponse> room(@PathVariable long id, @AccessedMember AuthInfo authInfo) {
@@ -36,6 +53,13 @@ public class RoomController implements RoomControllerSpecification {
     public ResponseEntity<MatchResultResponses> reviewees(@PathVariable long id, @LoginMember AuthInfo authInfo) {
         MatchResultResponses response = matchResultService.findReviewees(authInfo.getId(), id);
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/{id}/matching")
+    public ResponseEntity<Void> matching(@PathVariable long id, @LoginMember AuthInfo authInfo) {
+        ParticipationsResponse participationsResponse = participationService.getParticipation(id);
+        matchingService.matchMaking(participationsResponse.participations(), roomService.findOne(id, authInfo.getId()).matchingSize());
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/participated")

@@ -1,5 +1,6 @@
 package corea.member.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -22,6 +23,7 @@ public class Member {
 
     private String username;
 
+    @Column(length = 32768)
     private String thumbnailUrl;
 
     private String name;
@@ -30,11 +32,9 @@ public class Member {
 
     private boolean isEmailAccepted;
 
-    private float attitude;
-
     private String profileLink;
 
-    public Member(String username, String thumbnailUrl, String name, String email, boolean isEmailAccepted, float attitude) {
-        this(null, username, thumbnailUrl, name, email, isEmailAccepted, attitude, "");
+    public Member(String username, String thumbnailUrl, String name, String email, boolean isEmailAccepted) {
+        this(null, username, thumbnailUrl, name, email, isEmailAccepted, "");
     }
 }

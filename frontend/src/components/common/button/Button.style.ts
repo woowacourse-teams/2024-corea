@@ -1,6 +1,6 @@
 import { css, styled } from "styled-components";
 
-export const Button = styled.button<{
+export const ButtonContainer = styled.button<{
   $variant: "primary" | "secondary" | "disable";
   $size: "small" | "medium" | "large";
 }>`

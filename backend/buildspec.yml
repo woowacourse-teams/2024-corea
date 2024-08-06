@@ -1,0 +1,20 @@
+version: 0.2
+
+phases:
+  build:
+    commands:
+      - echo Build Starting on `date`
+      - cd backend
+      - chmod +x ./gradlew
+      - ./gradlew build
+
+cache:
+  paths:
+    - '/root/.gradle/caches/**/*'
+
+artifacts:
+  files:
+    - 'appspec.yml'
+    - 'build/libs/backend-0.0.1-SNAPSHOT.jar'
+    - 'scripts/**'
+  base-directory: backend

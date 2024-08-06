@@ -32,28 +32,28 @@ public class DataInitializer implements ApplicationRunner {
     public void run(ApplicationArguments args) {
         Member member1 = memberRepository.save(
                 new Member("jcoding-play", null, "조경찬",
-                        "namejgc@naver.com", true, 5f));
+                        "namejgc@naver.com", true));
         Member member2 = memberRepository.save(
                 new Member("ashsty", null, "박민아",
-                        null, false, 1.5f));
+                        null, false));
         Member member3 = memberRepository.save(
                 new Member("youngsu5582", null, "이영수",
-                        null, false, 4f));
+                        null, false));
         Member member4 = memberRepository.save(
                 new Member("hjk0761", null, "김현중",
-                        null, true, 3f));
+                        null, true));
         Member member5 = memberRepository.save(
                 new Member("chlwlstlf", null, "최진실",
-                        null, true, 2f));
+                        null, true));
         Member member6 = memberRepository.save(
                 new Member("00kang", null, "강다빈",
-                        null, true, 1f));
+                        null, true));
         Member member7 = memberRepository.save(
                 new Member("pp449", null, "이상엽",
-                        "mma7710@naver.com", true, 4.8f));
+                        "mma7710@naver.com", true));
         Member member8 = memberRepository.save(
                 new Member("pobi", null, "포비",
-                        null, false, 5f));
+                        null, false));
 
         Room room1 = roomRepository.save(
                 new Room("방 제목 1", "방 설명 1", 3,

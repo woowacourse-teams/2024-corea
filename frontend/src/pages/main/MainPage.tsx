@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { useGetRoomList } from "@/hooks/useGetRoomList";
-import useSelectedCategory from "@/hooks/useSelectedCategory";
+import useSelectedCategory from "@/hooks/common/useSelectedCategory";
+import { useInfiniteFetchRoomList } from "@/hooks/queries/useInfiniteFetchRoomList";
 import ContentSection from "@/components/common/contentSection/ContentSection";
 import MenuBar from "@/components/common/menuBar/MenuBar";
 import RoomList from "@/components/shared/roomList/RoomList";
@@ -20,7 +20,7 @@ const MainPage = () => {
     data: openedRoomList,
     fetchNextPage: fetchNextOpenedPage,
     hasNextPage: hasNextOpenedPage,
-  } = useGetRoomList({
+  } = useInfiniteFetchRoomList({
     queryKey: [QUERY_KEYS.OPENED_ROOM_LIST, selectedCategory],
     getRoomList: getOpenedRoomList,
     classification: selectedCategory,
@@ -30,7 +30,7 @@ const MainPage = () => {
     data: closedRoomList,
     fetchNextPage: fetchNextClosedPage,
     hasNextPage: hasNextClosedPage,
-  } = useGetRoomList({
+  } = useInfiniteFetchRoomList({
     queryKey: [QUERY_KEYS.CLOSED_ROOM_LIST, selectedCategory],
     getRoomList: getClosedRoomList,
     classification: selectedCategory,
@@ -39,12 +39,12 @@ const MainPage = () => {
   const openedRooms = openedRoomList?.pages.flatMap((page) => page.rooms) || [];
   const closedRooms = closedRoomList?.pages.flatMap((page) => page.rooms) || [];
 
-  if (!participatedRoomList) return <></>;
-
   return (
     <S.Layout>
       <ContentSection title="참여 중인 방 리스트">
-        {participatedRoomList && <RoomList roomList={participatedRoomList.rooms} />}
+        {participatedRoomList && (
+          <RoomList roomList={participatedRoomList.rooms} roomType="participated" />
+        )}
       </ContentSection>
 
       <MenuBar selectedCategory={selectedCategory} onCategoryClick={handleSelectedCategory} />
@@ -54,6 +54,7 @@ const MainPage = () => {
           roomList={openedRooms}
           hasNextPage={hasNextOpenedPage}
           onLoadMore={() => fetchNextOpenedPage()}
+          roomType="opened"
         />
       </ContentSection>
 
@@ -62,6 +63,7 @@ const MainPage = () => {
           roomList={closedRooms}
           hasNextPage={hasNextClosedPage}
           onLoadMore={() => fetchNextClosedPage()}
+          roomType="closed"
         />
       </ContentSection>
     </S.Layout>

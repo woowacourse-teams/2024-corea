@@ -1,5 +1,5 @@
 import React from "react";
-import useModal from "@/hooks/useModal";
+import useModal from "@/hooks/common/useModal";
 import Icon from "@/components/common/icon/Icon";
 import Label from "@/components/common/label/Label";
 import * as S from "@/components/shared/roomCard/RoomCard.style";

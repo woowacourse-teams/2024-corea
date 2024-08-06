@@ -1,7 +1,10 @@
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
+import dotenv from "dotenv";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import path from "path";
 import webpack from "webpack";
+
+dotenv.config();
 
 export default (env, argv) => {
   const prod = argv.mode === "production";
@@ -33,19 +36,15 @@ export default (env, argv) => {
           use: ["ts-loader"],
         },
         {
-          test: /\.(png|jpe?g|gif|svg)$/i,
-          use: [
-            {
-              loader: "file-loader",
-              options: {
-                name: "[path][name].[ext]",
-              },
-            },
-          ],
+          test: /\.(png|svg|jpg|jpeg|gif)$/i,
+          type: "asset/resource",
         },
       ],
     },
     plugins: [
+      new webpack.DefinePlugin({
+        "process.env": JSON.stringify(process.env),
+      }),
       new webpack.ProvidePlugin({
         React: "react",
       }),

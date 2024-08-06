@@ -1,4 +1,4 @@
 import { setupServer } from "msw/node";
-import roomHandler from "@/mocks/handler/roomHandler";
+import handlers from "@/mocks/handlers";
 
-export const server = setupServer(...roomHandler);
+export const server = setupServer(...handlers);

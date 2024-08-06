@@ -1,0 +1,27 @@
+version: 0.0
+os: linux
+files:
+  - source: /build/libs
+    destination: /home/ubuntu/build
+
+  - source: /scripts
+    destination: /home/ubuntu/scripts
+
+  - source: appspec.yml
+    destination: /home/ubuntu/build
+
+
+permissions:
+  - object: /
+    pattern: "**"
+    owner: ubuntu
+
+hooks:
+  ApplicationStart:
+    - location: scripts/deploy.sh
+      timeout: 60
+      runas: ubuntu
+  ValidateService:
+    - location: scripts/healthCheck.sh
+      timeout: 30
+      runas: ubuntu

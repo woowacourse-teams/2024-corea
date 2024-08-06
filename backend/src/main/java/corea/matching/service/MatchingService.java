@@ -6,6 +6,7 @@ import corea.matching.domain.MatchResult;
 import corea.matching.domain.MatchingStrategy;
 import corea.matching.domain.Pair;
 import corea.matching.repository.MatchResultRepository;
+import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
 import corea.participation.domain.Participation;
 import lombok.RequiredArgsConstructor;
@@ -34,17 +35,9 @@ public class MatchingService {
 
         List<Pair> results = matchingStrategy.matchPairs(memberIds, matchingSize);
 
+        //TODO: prLink 차후 수정
         results.stream()
-                .map(pair -> new MatchResult(
-                        roomId,
-                        memberRepository.findById(pair.getFromMemberId()).orElseThrow(
-                                () -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND, String.format("%d에 해당하는 멤버가 없습니다.", pair.getFromMemberId()))
-                        ),
-                        memberRepository.findById(pair.getToMemberId()).orElseThrow(
-                                () -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND, String.format("%d에 해당하는 멤버가 없습니다.", pair.getToMemberId()))
-                        ),
-                        null))
-                //TODO: prLink 차후 수정
+                .map(pair -> new MatchResult(roomId, getMember(pair.getFromMemberId()), getMember(pair.getToMemberId()), null))
                 .forEach(matchResultRepository::save);
     }
 
@@ -52,5 +45,10 @@ public class MatchingService {
         if (participations.size() <= matchingSize) {
             throw new CoreaException(ExceptionType.PARTICIPANT_SIZE_LACK);
         }
+    }
+
+    private Member getMember(long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND, String.format("%d에 해당하는 멤버가 없습니다.", memberId)));
     }
 }

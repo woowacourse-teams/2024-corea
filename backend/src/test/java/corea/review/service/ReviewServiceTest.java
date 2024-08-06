@@ -41,7 +41,7 @@ class ReviewServiceTest {
     void review() {
         Member member1 = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
         Member member2 = memberRepository.save(MemberFixture.MEMBER_PORORO());
-        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(memberRepository.save(MemberFixture.MEMBER_JOYSON())));
+        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON())));
         MatchResult matchResult = matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), member1, member2));
 
         reviewService.review(room.getId(), member1.getId(), member2.getId());
