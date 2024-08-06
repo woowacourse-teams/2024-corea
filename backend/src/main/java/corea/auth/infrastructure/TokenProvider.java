@@ -54,6 +54,11 @@ public class TokenProvider {
         }
     }
 
+    public Long findMemberIdByToken(String token) {
+        Claims claims = getPayload(token);
+        return claims.get(ID, Long.class);
+    }
+
     public Claims getPayload(String token) {
         SecretKey key = getSecretKey();
         return Jwts.parser()
@@ -71,10 +76,5 @@ public class TokenProvider {
 
     private SecretKey getSecretKey() {
         return Keys.hmacShaKeyFor(Decoders.BASE64URL.decode(tokenProperties.secretKey()));
-    }
-
-    public Long findMemberIdByToken(String token) {
-        Claims claims = getPayload(token);
-        return claims.get(ID, Long.class);
     }
 }
