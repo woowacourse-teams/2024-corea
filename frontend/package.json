@@ -30,8 +30,10 @@
     "@sentry/react": "^8.23.0",
     "@sentry/webpack-plugin": "^2.21.1",
     "@tanstack/react-query": "^5.51.1",
+    "dotenv": "^16.4.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-ga4": "^2.1.0",
     "react-router-dom": "^6.24.1",
     "styled-components": "^6.1.11",
     "undici": "^6.19.2"
@@ -51,6 +53,7 @@
     "@testing-library/react": "^16.0.0",
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@types/jest": "^29.5.12",
+    "@types/node": "^22.1.0",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@types/react-icons": "^3.0.0",
