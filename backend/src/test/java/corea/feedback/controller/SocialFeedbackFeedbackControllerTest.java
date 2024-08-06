@@ -1,6 +1,7 @@
 package corea.feedback.controller;
 
 import config.ControllerTest;
+import corea.auth.service.LoginService;
 import corea.feedback.dto.SocialFeedbackRequest;
 import corea.fixture.MatchResultFixture;
 import corea.fixture.MemberFixture;
@@ -30,6 +31,9 @@ class SocialFeedbackFeedbackControllerTest {
     @Autowired
     private MatchResultRepository matchResultRepository;
 
+    @Autowired
+    private LoginService loginService;
+
     @Test
     @DisplayName("소셜(리뷰이 -> 리뷰어)에 대한 피드백을 작성한다.")
     void create() {
@@ -37,6 +41,7 @@ class SocialFeedbackFeedbackControllerTest {
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
         Member reviewer = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member reviewee = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
+        String token = loginService.createAccessToken(reviewee);
         matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(
                 room.getId(),
                 reviewer,
@@ -50,7 +55,7 @@ class SocialFeedbackFeedbackControllerTest {
                 "유용한 블로그나 아티클도 남겨주시고, \n 사소한 부분까지 잘 챙겨준게 좋았씁니다."
         );
 
-        RestAssured.given().header("Authorization", reviewee.getUsername()).contentType(ContentType.JSON).body(request)
+        RestAssured.given().header("Authorization", token).contentType(ContentType.JSON).body(request)
                 .when().post("/rooms/" + room.getId()+ "/social/feedbacks")
                 .then().statusCode(200);
     }

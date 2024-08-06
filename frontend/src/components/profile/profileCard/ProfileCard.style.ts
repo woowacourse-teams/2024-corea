@@ -47,7 +47,7 @@ export const ProfileFlex = styled.div`
 export const KeywordContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.6rem;
 
   margin: 0 auto;
   padding: 1rem;
@@ -57,12 +57,14 @@ export const KeywordWrapper = styled.div`
   display: flex;
   flex-direction: row;
   gap: 1rem;
+  font: ${({ theme }) => theme.TEXT.small};
 `;
 
 export const Keyword = styled.div`
   margin-top: 0.5rem;
-  padding: 1rem;
+  padding: 0.5rem;
 
+  font: ${({ theme }) => theme.TEXT.small};
   color: ${({ theme }) => theme.COLOR.black};
 
   background: ${({ theme }) => theme.COLOR.grey0};
@@ -70,9 +72,9 @@ export const Keyword = styled.div`
 `;
 
 export const AttitudeScoreWrapper = styled.div`
-  padding: 1rem;
+  padding: 0 1rem 1rem;
 `;
 
 export const AttitudeScoreText = styled.div`
-  padding: 1rem 0 2rem 1rem;
+  padding: 1rem 0 1rem 1rem;
 `;
