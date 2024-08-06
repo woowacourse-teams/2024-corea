@@ -4,3 +4,6 @@ spring:
       main: dev, secret
       test: dev, secret
     active: main
+
+  config:
+    import: classpath:/corea-prod/application-secret.yml
