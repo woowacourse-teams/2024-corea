@@ -6,8 +6,11 @@ import { createBrowserRouter } from "react-router-dom";
 import Layout from "@/components/layout/Layout";
 import MainPage from "@/pages/main/MainPage";
 import RoomDetailPage from "@/pages/roomDetail/RoomDetailPage";
+import Sentry from "@/Sentry";
 
-const router = createBrowserRouter([
+const sentryCreateBrowserRouter = Sentry.wrapCreateBrowserRouter(createBrowserRouter);
+
+const router = sentryCreateBrowserRouter([
   {
     path: "/",
     element: <Layout />,

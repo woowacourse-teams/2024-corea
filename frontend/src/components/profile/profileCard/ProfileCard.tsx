@@ -5,24 +5,13 @@ import Profile from "@/components/common/profile/Profile";
 import AttitudeScore from "@/components/profile/attitudeScore/AttitudeScore";
 import IconKind from "@/@types/icon";
 
-interface ProfileCardProps {
-  profileImage: string;
-  nickname: string;
-  receivedReviewCount: number;
-  givenReviewCount: number;
-  feedbackCount: number;
-  averageRating: number;
-  feedbackKeywords: string[];
-  attitudeScore: number;
-}
-
 interface UserInfo {
   title: string;
   value: number;
   iconKind: IconKind;
 }
 
-const ProfileCard = (profileData: ProfileCardProps) => {
+const ProfileCard = (profileData: ProfileData) => {
   const userInfo: UserInfo[] = [
     {
       title: "리뷰한 개수",
