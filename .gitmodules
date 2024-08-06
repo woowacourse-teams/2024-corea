@@ -1,3 +1,3 @@
-[submodule "backend/corea-prod"]
+[submodule "backend/src/main/resources/corea-prod"]
 	path = backend/src/main/resources/corea-prod
 	url = https://github.com/hjk0761/corea-prod.git
