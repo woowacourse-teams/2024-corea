@@ -34,8 +34,19 @@ public class MatchResult {
     @Enumerated(EnumType.STRING)
     private ReviewStatus reviewStatus;
 
+    private boolean isReviewerCompleteFeedback;
+
+    private boolean isRevieweeCompleteFeedback;
+
     public MatchResult(long roomId, Member reviewer, Member reviewee, String prLink) {
-        this(null, roomId, reviewer, reviewee, prLink, ReviewStatus.INCOMPLETE);
+        this(null, roomId, reviewer, reviewee, prLink, ReviewStatus.INCOMPLETE, false, false);
+    }
+
+    public void reviewerCompleteFeedback(){
+        isReviewerCompleteFeedback = true;
+    }
+    public void revieweeCompleteFeedback(){
+        isRevieweeCompleteFeedback = true;
     }
 
     public void reviewComplete() {
