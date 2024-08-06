@@ -17,7 +17,7 @@ import static lombok.AccessLevel.PROTECTED;
 @AllArgsConstructor
 @NoArgsConstructor(access = PROTECTED)
 @Getter
-public class ReviewerToRevieweeFeedback {
+public class DevelopFeedback {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -26,12 +26,12 @@ public class ReviewerToRevieweeFeedback {
     private long roomId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reviewer_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    private Member reviewer;
+    @JoinColumn(name = "deliver_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    private Member deliver;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reviewee_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    private Member reviewee;
+    @JoinColumn(name = "receiver_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    private Member receiver;
 
     private int evaluatePoint;
 
@@ -43,8 +43,8 @@ public class ReviewerToRevieweeFeedback {
 
     private int recommendationPoint;
 
-    public ReviewerToRevieweeFeedback(long roomId, Member reviewer, Member reviewee, int evaluatePoint, List<FeedbackKeyword> keywords, String feedBackText, int recommendationPoint) {
-        this(null, roomId, reviewer, reviewee, evaluatePoint, keywords, feedBackText, recommendationPoint);
+    public DevelopFeedback(long roomId, Member deliver, Member receiver, int evaluatePoint, List<FeedbackKeyword> keywords, String feedBackText, int recommendationPoint) {
+        this(null, roomId, deliver, receiver, evaluatePoint, keywords, feedBackText, recommendationPoint);
     }
 }
 
