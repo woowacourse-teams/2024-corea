@@ -27,6 +27,8 @@
   "homepage": "https://github.com/woowacourse-teams/2024-corea",
   "dependencies": {
     "@react-icons/all-files": "^4.1.0",
+    "@sentry/react": "^8.23.0",
+    "@sentry/webpack-plugin": "^2.21.1",
     "@tanstack/react-query": "^5.51.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
