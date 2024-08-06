@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface DevelopFeedbackRepository extends JpaRepository<DevelopFeedback, Long> {
 
     @Query("SELECT r.keywords FROM DevelopFeedback r WHERE r.receiver.id = :receivedId")
-    List<List<FeedbackKeyword>> findAllKeywordsByRevieweeId(long receivedId);
+    List<List<FeedbackKeyword>> findAllKeywordsByReceiverId(long receivedId);
 
     Optional<DevelopFeedback> findByRoomIdAndDeliverIdAndReceiverUsername(long roomId, long deliverId, String username);
 

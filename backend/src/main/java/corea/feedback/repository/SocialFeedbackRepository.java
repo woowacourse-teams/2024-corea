@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface SocialFeedbackRepository extends JpaRepository<SocialFeedback, Long> {
 
     @Query("SELECT r.keywords FROM SocialFeedback r WHERE r.receiver.id = :receiverId")
-    List<List<FeedbackKeyword>> findAllKeywordsByReviewerId(long receiverId);
+    List<List<FeedbackKeyword>> findAllKeywordsByReceiverId(long receiverId);
 
     Optional<SocialFeedback> findByRoomIdAndDeliverIdAndReceiverUsername(long roomId, long deliverId, String username);
 

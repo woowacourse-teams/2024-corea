@@ -30,22 +30,22 @@ public class UserFeedbackService {
     private final SocialFeedbackRepository socialFeedbackRepository;
 
     public UserFeedbackResponse getDeliveredFeedback(long id) {
-        Map<Long, List<FeedbackResponse>> reviewerToRevieweeMap = getDeliveredReviewerToRevieweeFeedback(id);
-        Map<Long, List<FeedbackResponse>> revieweeToReviewerMap = getDeliveredRevieweeToReviewerFeedback(id);
+        Map<Long, List<FeedbackResponse>> deliveredDevelopFeedback = getDeliveredDevelopFeedback(id);
+        Map<Long, List<FeedbackResponse>> deliverSocialFeedback = getDeliveredSocialFeedback(id);
         return new UserFeedbackResponse(
-                extractDistinctKeyStreams(reviewerToRevieweeMap, revieweeToReviewerMap)
-                        .map(key -> FeedbacksResponse.of(getRoom(key), emptyListIfNull(reviewerToRevieweeMap.get(key)), emptyListIfNull(revieweeToReviewerMap.get(key))))
+                extractDistinctKeyStreams(deliveredDevelopFeedback, deliverSocialFeedback)
+                        .map(key -> FeedbacksResponse.of(getRoom(key), emptyListIfNull(deliveredDevelopFeedback.get(key)), emptyListIfNull(deliverSocialFeedback.get(key))))
                         .toList());
     }
 
-    private Map<Long, List<FeedbackResponse>> getDeliveredReviewerToRevieweeFeedback(long id) {
+    private Map<Long, List<FeedbackResponse>> getDeliveredDevelopFeedback(long id) {
         return developFeedbackRepository.findByDeliverId(id)
                 .stream()
                 .map(FeedbackResponse::from)
                 .collect(Collectors.groupingBy(FeedbackResponse::roomId));
     }
 
-    private Map<Long, List<FeedbackResponse>> getDeliveredRevieweeToReviewerFeedback(long id) {
+    private Map<Long, List<FeedbackResponse>> getDeliveredSocialFeedback(long id) {
         return socialFeedbackRepository.findByDeliverId(id)
                 .stream()
                 .map(FeedbackResponse::from)
@@ -53,23 +53,23 @@ public class UserFeedbackService {
     }
 
     public UserFeedbackResponse getReceivedFeedback(long id) {
-        Map<Long, List<FeedbackResponse>> reviewerToRevieweeMap = getReceivedReviewerToRevieweeFeedback(id);
-        Map<Long, List<FeedbackResponse>> revieweeToReviewerMap = getReceivedRevieweeToReviewerFeedback(id);
+        Map<Long, List<FeedbackResponse>> receivedDevelopFeedback = getReceivedDevelopFeedback(id);
+        Map<Long, List<FeedbackResponse>> receivedSocialFeedback = getReceivedSocialFeedback(id);
 
         return new UserFeedbackResponse(
-                extractDistinctKeyStreams(reviewerToRevieweeMap, revieweeToReviewerMap)
-                        .map(key -> FeedbacksResponse.of(getRoom(key), emptyListIfNull(reviewerToRevieweeMap.get(key)), emptyListIfNull(revieweeToReviewerMap.get(key))))
+                extractDistinctKeyStreams(receivedDevelopFeedback, receivedSocialFeedback)
+                        .map(key -> FeedbacksResponse.of(getRoom(key), emptyListIfNull(receivedDevelopFeedback.get(key)), emptyListIfNull(receivedSocialFeedback.get(key))))
                         .toList());
     }
 
-    private Map<Long, List<FeedbackResponse>> getReceivedReviewerToRevieweeFeedback(long id) {
+    private Map<Long, List<FeedbackResponse>> getReceivedDevelopFeedback(long id) {
         return developFeedbackRepository.findByReceiverId(id)
                 .stream()
                 .map(FeedbackResponse::from)
                 .collect(Collectors.groupingBy(FeedbackResponse::roomId));
     }
 
-    private Map<Long, List<FeedbackResponse>> getReceivedRevieweeToReviewerFeedback(long id) {
+    private Map<Long, List<FeedbackResponse>> getReceivedSocialFeedback(long id) {
         return socialFeedbackRepository.findByReceiverId(id)
                 .stream()
                 .map(FeedbackResponse::from)

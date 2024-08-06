@@ -35,9 +35,9 @@ public class ProfileService {
     }
 
     private List<String> findTopFeedbackKeywords(long memberId) {
-        List<List<FeedbackKeyword>> reviewerFeedbacks = socialFeedbackRepository.findAllKeywordsByReviewerId(memberId);
-        List<List<FeedbackKeyword>> revieweeFeedbacks = developFeedbackRepository.findAllKeywordsByRevieweeId(memberId);
-        ReceivedFeedbacks receivedFeedbacks = new ReceivedFeedbacks(reviewerFeedbacks, revieweeFeedbacks);
+        List<List<FeedbackKeyword>> socialFeedbackKeywords = socialFeedbackRepository.findAllKeywordsByReceiverId(memberId);
+        List<List<FeedbackKeyword>> developFeedbackKeywords = developFeedbackRepository.findAllKeywordsByReceiverId(memberId);
+        ReceivedFeedbacks receivedFeedbacks = new ReceivedFeedbacks(socialFeedbackKeywords, developFeedbackKeywords);
 
         return receivedFeedbacks.findTopFeedbackKeywords(NUMBER_OF_FEEDBACKS_TO_BE_SHOWN_TO_MEMBER);
     }
