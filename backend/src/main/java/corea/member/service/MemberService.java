@@ -19,7 +19,7 @@ public class MemberService {
 
     public Member login(GithubUserInfo userInfo) {
         return memberRepository.findByUsername(userInfo.login())
-                .orElse(register(new Member(userInfo.login(), userInfo.avatar_url(), userInfo.name(), userInfo.email(), true, 0.0f)));
+                .orElse(register(new Member(userInfo.login(), userInfo.avatar_url(), userInfo.name(), userInfo.email(), true)));
     }
 
     private Member register(Member member) {

@@ -31,7 +31,7 @@ class LoginServiceTest {
 
     @BeforeEach
     void setUp() {
-        Member member = memberRepository.save(MemberFixture.MEMBER_JOYSON());
+        Member member = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
         Cookie refreshCookie = authService.createRefreshCookie(member);
 
         refreshToken = refreshCookie.getValue();
@@ -47,7 +47,7 @@ class LoginServiceTest {
     @Test
     @DisplayName("존재하지 않는 RefreshToken으로 AccessToken을 요청하는 경우 예외가 발생한다.")
     void validateRefreshTokenException1() {
-        String token = tokenProvider.createToken(MemberFixture.MEMBER_JOYSON(), 1600L);
+        String token = tokenProvider.createToken(MemberFixture.MEMBER_YOUNGSU(), 1600L);
 
         assertThatThrownBy(() -> authService.validateRefreshToken(token))
                 .isInstanceOf(CoreaException.class)

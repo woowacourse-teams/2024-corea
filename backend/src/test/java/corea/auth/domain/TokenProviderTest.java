@@ -21,7 +21,7 @@ class TokenProviderTest {
     @Test
     @DisplayName("jwt 토큰에 문제가 없을 경우 예외를 발생하지 않는다.")
     void validateToken() {
-        String token = tokenProvider.createToken(MemberFixture.MEMBER_JOYSON(), 1600L);
+        String token = tokenProvider.createToken(MemberFixture.MEMBER_YOUNGSU(), 1600L);
 
         assertThatCode(() -> tokenProvider.validateToken(token))
                 .doesNotThrowAnyException();
@@ -30,7 +30,7 @@ class TokenProviderTest {
     @Test
     @DisplayName("jwt 토큰이 만료된 경우 예외를 발생한다.")
     void validateTokenException1() {
-        String token = tokenProvider.createToken(MemberFixture.MEMBER_JOYSON(), -1L);
+        String token = tokenProvider.createToken(MemberFixture.MEMBER_YOUNGSU(), -1L);
 
         assertThatThrownBy(() -> tokenProvider.validateToken(token))
                 .isInstanceOf(CoreaException.class)
@@ -55,10 +55,10 @@ class TokenProviderTest {
 
     @Test
     void getPayload() {
-        String token = tokenProvider.createToken(MemberFixture.MEMBER_JOYSON(), 1600L);
+        String token = tokenProvider.createToken(MemberFixture.MEMBER_YOUNGSU(), 1600L);
 
         Long id = tokenProvider.getPayload(token).get("id", Long.class);
 
-        assertThat(id).isEqualTo(MemberFixture.MEMBER_JOYSON().getId());
+        assertThat(id).isEqualTo(MemberFixture.MEMBER_YOUNGSU().getId());
     }
 }

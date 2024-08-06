@@ -1,6 +1,7 @@
 package corea.feedback.controller;
 
 import config.ControllerTest;
+import corea.auth.service.LoginService;
 import corea.feedback.dto.ReviewerToRevieweeRequest;
 import corea.fixture.MatchResultFixture;
 import corea.fixture.MemberFixture;
@@ -29,12 +30,16 @@ class ReviewerToRevieweeFeedbackFeedbackControllerTest {
     @Autowired
     private MatchResultRepository matchResultRepository;
 
+    @Autowired
+    private LoginService loginService;
+
     @Test
     void create() {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
         Member reviewer = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member reviewee = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
+        String token = loginService.createAccessToken(reviewer);
         matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(
                 room.getId(),
                 reviewer,
@@ -49,7 +54,7 @@ class ReviewerToRevieweeFeedbackFeedbackControllerTest {
                 2
         );
 
-        RestAssured.given().header("Authorization", reviewer.getUsername()).contentType(ContentType.JSON).body(request)
+        RestAssured.given().header("Authorization", token).contentType(ContentType.JSON).body(request)
                 .when().post("/rooms/" + room.getId()+"/reviewee/feedbacks")
                 .then().statusCode(200);
     }
