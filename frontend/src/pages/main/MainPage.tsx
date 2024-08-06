@@ -1,7 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
 import useSelectedCategory from "@/hooks/common/useSelectedCategory";
-import useFetchParticipatedRoomList from "@/hooks/queries/rooms/useFetchParticipatedRoomList";
-import { useInfiniteFetchRoomList } from "@/hooks/queries/rooms/useInfiniteFetchRoomList";
+import {
+  useFetchParticipatedRoomList,
+  useInfiniteFetchRoomList,
+} from "@/hooks/queries/useFetchRooms";
 import ContentSection from "@/components/common/contentSection/ContentSection";
 import MenuBar from "@/components/common/menuBar/MenuBar";
 import RoomList from "@/components/shared/roomList/RoomList";

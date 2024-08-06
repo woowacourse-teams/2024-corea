@@ -1,6 +1,6 @@
 import * as S from "./ProfilePage.style";
-import useFetchProfile from "@/hooks/queries/profile/useFetchProfile";
-import useFetchParticipatedRoomList from "@/hooks/queries/rooms/useFetchParticipatedRoomList";
+import { useFetchProfile } from "@/hooks/queries/useFetchProfile";
+import { useFetchParticipatedRoomList } from "@/hooks/queries/useFetchRooms";
 import ContentSection from "@/components/common/contentSection/ContentSection";
 import ProfileCard from "@/components/profile/profileCard/ProfileCard";
 import RoomList from "@/components/shared/roomList/RoomList";

@@ -1,6 +1,15 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
 import { RoomListInfo } from "@/@types/roomInfo";
+import QUERY_KEYS from "@/apis/queryKeys";
+import { getParticipatedRoomList } from "@/apis/rooms.api";
+
+export const useFetchParticipatedRoomList = () => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.PARTICIPATED_ROOM_LIST],
+    queryFn: getParticipatedRoomList,
+  });
+};
 
 interface RoomListQueryProps {
   queryKey: string[];
