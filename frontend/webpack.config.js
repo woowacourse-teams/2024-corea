@@ -1,7 +1,10 @@
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
+import dotenv from "dotenv";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import path from "path";
 import webpack from "webpack";
+
+dotenv.config();
 
 export default (env, argv) => {
   const prod = argv.mode === "production";
@@ -39,6 +42,9 @@ export default (env, argv) => {
       ],
     },
     plugins: [
+      new webpack.DefinePlugin({
+        "process.env": JSON.stringify(process.env),
+      }),
       new webpack.ProvidePlugin({
         React: "react",
       }),
