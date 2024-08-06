@@ -1,8 +1,11 @@
 package corea.auth.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public record GithubUserInfo(
         String login,
         String name,
-        String avatar_url,
+        @JsonProperty("avatar_url")
+        String avatarUrl,
         String email) {
 }

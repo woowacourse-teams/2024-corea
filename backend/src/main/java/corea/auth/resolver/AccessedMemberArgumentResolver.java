@@ -14,9 +14,13 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
+import static corea.global.config.Constants.ANONYMOUS;
+
 @Component
 @RequiredArgsConstructor
 public class AccessedMemberArgumentResolver implements HandlerMethodArgumentResolver {
+
+    private static final String ID = "id";
 
     private final RequestHandler requestHandler;
     private final MemberRepository memberRepository;
@@ -34,10 +38,10 @@ public class AccessedMemberArgumentResolver implements HandlerMethodArgumentReso
 
         String accessToken = requestHandler.extract(request);
 
-        if (accessToken.equals("ANONYMOUS")) {
+        if (accessToken.equals(ANONYMOUS)) {
             return AuthInfo.getAnonymous();
         }
-        Long memberId = tokenProvider.getPayload(accessToken).get("id", Long.class);
+        Long memberId = tokenProvider.getPayload(accessToken).get(ID, Long.class);
 
         return memberRepository.findById(memberId)
                 .map(AuthInfo::from)

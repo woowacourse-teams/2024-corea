@@ -24,10 +24,12 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class TokenProvider {
 
+    private static final String ID = "id";
+
     private final TokenProperties tokenProperties;
 
     public String createToken(Member member, long expiration) {
-        Map<String, ?> claims = createClaimsByMember(member);
+        Map<String, Long> claims = createClaimsByMember(member);
         Date now = new Date();
         Date validity = new Date(now.getTime() + expiration);
         return Jwts.builder()
@@ -61,13 +63,18 @@ public class TokenProvider {
                 .getPayload();
     }
 
-    private Map<String, Object> createClaimsByMember(Member member) {
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("id", member.getId());
+    private Map<String, Long> createClaimsByMember(Member member) {
+        Map<String, Long> claims = new HashMap<>();
+        claims.put(ID, member.getId());
         return claims;
     }
 
     private SecretKey getSecretKey() {
         return Keys.hmacShaKeyFor(Decoders.BASE64URL.decode(tokenProperties.secretKey()));
+    }
+
+    public Long findMemberIdByToken(String token) {
+        Claims claims = getPayload(token);
+        return claims.get(ID, Long.class);
     }
 }

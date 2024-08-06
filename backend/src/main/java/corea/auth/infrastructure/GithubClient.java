@@ -8,12 +8,18 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
 import static corea.exception.ExceptionType.GITHUB_AUTHORIZATION_ERROR;
+import static corea.global.config.Constants.AUTHORIZATION_HEADER;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 @EnableConfigurationProperties(GithubProperties.class)
 @Component
 @RequiredArgsConstructor
 public class GithubClient {
+
+    private static final String CLIENT_ID = "client_id";
+    private static final String CLIENT_SECRET = "client_secret";
+    private static final String CODE = "code";
+    private static final String ERROR = "\"error\"";
 
     private final RestClient restClient;
     private final GithubProperties githubProperties;
@@ -27,9 +33,9 @@ public class GithubClient {
     private String getAccess(String code) {
         return restClient.post()
                 .uri(uriBuilder -> uriBuilder.path(githubProperties.baseUrl().oauth())
-                        .queryParam("client_id", githubProperties.oauth().clientId())
-                        .queryParam("client_secret", githubProperties.oauth().clientSecret())
-                        .queryParam("code", code)
+                        .queryParam(CLIENT_ID, githubProperties.oauth().clientId())
+                        .queryParam(CLIENT_SECRET, githubProperties.oauth().clientSecret())
+                        .queryParam(CODE, code)
                         .build())
                 .contentType(APPLICATION_JSON)
                 .retrieve()
@@ -37,7 +43,7 @@ public class GithubClient {
     }
 
     private void validate(String result) {
-        if (result == null || result.isBlank() || result.contains("\"error\"")) {
+        if (result == null || result.isBlank() || result.contains(ERROR)) {
             throw new CoreaException(GITHUB_AUTHORIZATION_ERROR);
         }
     }
@@ -46,7 +52,7 @@ public class GithubClient {
         return restClient.get()
                 .uri(githubProperties.baseUrl().user())
                 .accept(APPLICATION_JSON)
-                .header("Authorization", accessToken)
+                .header(AUTHORIZATION_HEADER, accessToken)
                 .retrieve()
                 .toEntity(GithubUserInfo.class)
                 .getBody();

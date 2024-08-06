@@ -6,7 +6,6 @@ import corea.exception.CoreaException;
 import corea.fixture.MemberFixture;
 import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
-import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,24 +31,22 @@ class LoginServiceTest {
     @BeforeEach
     void setUp() {
         Member member = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
-        Cookie refreshCookie = authService.createRefreshCookie(member);
-
-        refreshToken = refreshCookie.getValue();
+        refreshToken = authService.publishRefreshToken(member);
     }
 
     @Test
     @DisplayName("RefreshToken에 문제가 없을 경우 예외가 발생하지 않는다.")
-    void validateRefreshToken() {
-        assertThatCode(() -> authService.validateRefreshToken(refreshToken))
+    void authorize() {
+        assertThatCode(() -> authService.authorize(refreshToken))
                 .doesNotThrowAnyException();
     }
 
     @Test
     @DisplayName("존재하지 않는 RefreshToken으로 AccessToken을 요청하는 경우 예외가 발생한다.")
-    void validateRefreshTokenException1() {
+    void authorizeException() {
         String token = tokenProvider.createToken(MemberFixture.MEMBER_YOUNGSU(), 1600L);
 
-        assertThatThrownBy(() -> authService.validateRefreshToken(token))
+        assertThatThrownBy(() -> authService.authorize(token))
                 .isInstanceOf(CoreaException.class)
                 .satisfies(exception -> {
                     CoreaException coreaException = (CoreaException) exception;

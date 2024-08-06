@@ -15,12 +15,14 @@ import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 @RequiredArgsConstructor
 public class AuthorizationInterceptor implements HandlerInterceptor {
 
+    private static final Class<LoginMember> AUTH_ANNOTATION = LoginMember.class;
+
     private final TokenProvider tokenProvider;
     private final RequestHandler requestHandler;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        boolean hasAnnotation = checkAnnotation(handler, LoginMember.class);
+        boolean hasAnnotation = checkAnnotation(handler);
         if (hasAnnotation) {
             String accessToken = requestHandler.extract(request);
             tokenProvider.validateToken(accessToken);
@@ -28,14 +30,14 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
         return true;
     }
 
-    private boolean checkAnnotation(Object handler, Class<LoginMember> loginMemberClass) {
+    private boolean checkAnnotation(Object handler) {
         if (handler instanceof ResourceHttpRequestHandler) {
             return false;
         }
 
         HandlerMethod handlerMethod = (HandlerMethod) handler;
 
-        return (null != handlerMethod.getMethodAnnotation(loginMemberClass) ||
-                null != handlerMethod.getBeanType().getAnnotation(loginMemberClass));
+        return (null != handlerMethod.getMethodAnnotation(AUTH_ANNOTATION) ||
+                null != handlerMethod.getBeanType().getAnnotation(AUTH_ANNOTATION));
     }
 }

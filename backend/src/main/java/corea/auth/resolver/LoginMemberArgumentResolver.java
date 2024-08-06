@@ -17,9 +17,13 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
+import static corea.global.config.Constants.ANONYMOUS;
+
 @Component
 @RequiredArgsConstructor
 public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolver {
+
+    private static final String ID = "id";
 
     private final RequestHandler requestHandler;
     private final MemberRepository memberRepository;
@@ -35,10 +39,10 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
                                     NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
         String accessToken = requestHandler.extract(request);
-        if (accessToken.equals("ANONYMOUS")) {
+        if (accessToken.equals(ANONYMOUS)) {
             throw new CoreaException(ExceptionType.AUTHORIZATION_ERROR);
         }
-        Long memberId = tokenProvider.getPayload(accessToken).get("id", Long.class);
+        Long memberId = tokenProvider.getPayload(accessToken).get(ID, Long.class);
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new CoreaException(ExceptionType.AUTHORIZATION_ERROR));
 
