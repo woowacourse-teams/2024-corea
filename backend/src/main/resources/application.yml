@@ -6,4 +6,4 @@ spring:
     active: main
 
   config:
-    import: classpath:/corea-prod/application-secret.yml
+    import: ./corea-prod/application-secret.yml
