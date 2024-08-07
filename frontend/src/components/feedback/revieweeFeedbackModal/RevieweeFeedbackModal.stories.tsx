@@ -18,6 +18,7 @@ const meta = {
     isOpen: true,
     onClose: () => {},
     roomInfo: {
+      id: 1,
       title: "React 프로젝트 코드 리뷰",
       keywords: ["React", "TypeScript", "Styled-Components"],
       isClosed: false,
