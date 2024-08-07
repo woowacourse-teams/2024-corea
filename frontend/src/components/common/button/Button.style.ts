@@ -23,7 +23,7 @@ export const ButtonContainer = styled.button<{
           }
         `
       : css`
-          cursor: not-allowed;
+          cursor: default;
         `}
 `;
 
