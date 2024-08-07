@@ -70,6 +70,7 @@ class RankingServiceTest {
         rankingRepository.save(new Ranking(ash, 2, 4.0f, date, EvaluateClassification.REVIEW));
         rankingRepository.save(new Ranking(mubin, 3, 3.0f, date, EvaluateClassification.REVIEW));
 
+
         RankingResponses topRankings = rankingService.findTopRankings();
         Map<String, List<RankingResponse>> responses = topRankings.responses();
         List<RankingResponse> android = responses.get("an");

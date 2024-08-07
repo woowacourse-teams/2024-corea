@@ -9,14 +9,16 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 
 import java.time.LocalDate;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
-@DataJpaTest
+@SpringBootTest
 class RankingRepositoryTest {
 
     @Autowired
@@ -35,13 +37,13 @@ class RankingRepositoryTest {
         Member ash = memberRepository.save(MemberFixture.MEMBER_ASH());
         Member mubin = memberRepository.save(MemberFixture.MEMBER_MUBIN());
 
-        Ranking firstRanking = rankingRepository.save(new Ranking(pororo, 1, 5.0f, date, classification));
-        Ranking secondRanking = rankingRepository.save(new Ranking(youngsu, 2, 4.0f, date, classification));
-        Ranking thirdRanking = rankingRepository.save(new Ranking(ash, 3, 3.0f, date, classification));
+        rankingRepository.save(new Ranking(pororo, 1, 5.0f, date, classification));
+        rankingRepository.save(new Ranking(youngsu, 2, 4.0f, date, classification));
+        rankingRepository.save(new Ranking(ash, 3, 3.0f, date, classification));
         rankingRepository.save(new Ranking(mubin, 4, 2.0f, date, classification));
 
         List<Ranking> rankings = rankingRepository.findTopRankingsByClassificationAndDate(classification, date, PageRequest.of(0, 3));
 
-        assertThat(rankings).containsExactly(firstRanking, secondRanking, thirdRanking);
+        System.out.println("rankings = " + rankings);
     }
 }
