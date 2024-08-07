@@ -14,5 +14,7 @@ public interface LoginControllerSpecification {
     @ApiErrorResponses(value = {ExceptionType.TOKEN_EXPIRED, ExceptionType.INVALID_TOKEN},
             groups = ExceptionTypeGroup.INTERNAL_SERVER_ERROR)
     ResponseEntity<Void> extendAuthorization(String token);
+
+    ResponseEntity<Void> logout(String token);
 }
 
