@@ -7,9 +7,12 @@ import EvaluationPointBar from "@/components/feedback/evaluationPointBar/Evaluat
 import OptionButton from "@/components/feedback/optionButton/OptionButton";
 import RecommendationPointBar from "@/components/feedback/recommendationPointBar/RecommendationPointBar";
 import * as S from "@/components/feedback/revieweeFeedbackModal/RevieweeFeedbackModal.style";
+import { RevieweeFeedbackData } from "@/@types/feedback";
 import { ReviewerInfo } from "@/@types/reviewer";
 import { RoomInfo } from "@/@types/roomInfo";
 import { getFeedbackModalType } from "@/utils/feedbackUtils";
+
+type RevieweeFeedbackForm = Omit<RevieweeFeedbackData, "feedbackId" | "revieweeId">;
 
 interface RevieweeFeedbackModalProps {
   isOpen: boolean;
@@ -24,22 +27,32 @@ const RevieweeFeedbackModal = ({
   roomInfo,
   reviewee,
 }: RevieweeFeedbackModalProps) => {
-  const [evaluationPoint, setEvaluationPoint] = useState(0);
-  const [feedbackKeywords, setFeedbackKeywords] = useState<string[]>([]);
-  const [feedbackText, setFeedbackText] = useState("");
-  const [recommendationPoint, setRecommendationPoint] = useState(0);
-  const [isFormValid, setIsFormValid] = useState(false);
+  const [formState, setFormState] = useState<RevieweeFeedbackForm>({
+    evaluationPoint: 0,
+    feedbackKeywords: [] as string[],
+    feedbackText: "",
+    recommendationPoint: 0,
+  });
 
-  useEffect(() => {
-    const isValid =
-      evaluationPoint !== 0 && feedbackKeywords.length > 0 && recommendationPoint !== 0;
-    setIsFormValid(isValid);
-  }, [evaluationPoint, feedbackKeywords, recommendationPoint]);
+  const isFormValid =
+    formState.evaluationPoint !== 0 &&
+    formState.feedbackKeywords.length > 0 &&
+    formState.recommendationPoint !== 0;
 
   const buttonText = getFeedbackModalType({
     isWrited: reviewee.isWrited,
     isClosed: roomInfo.isClosed,
   });
+
+  const handleChange = (
+    key: keyof RevieweeFeedbackForm,
+    value: RevieweeFeedbackForm[keyof RevieweeFeedbackForm],
+  ) => {
+    setFormState((prevState) => ({
+      ...prevState,
+      [key]: value,
+    }));
+  };
 
   const handleSubmit = () => {
     if (!isFormValid) return;
@@ -62,12 +75,18 @@ const RevieweeFeedbackModal = ({
           <S.ModalQuestion required>
             리뷰이의 개발 역량 향상을 위해 코드를 평가 해주세요.
           </S.ModalQuestion>
-          <EvaluationPointBar initialOptionId={evaluationPoint} onChange={setEvaluationPoint} />
+          <EvaluationPointBar
+            initialOptionId={formState.evaluationPoint}
+            onChange={(value) => handleChange("evaluationPoint", value)}
+          />
         </S.ItemContainer>
 
         <S.ItemContainer>
           <S.ModalQuestion required>어떤 점이 만족스러웠나요?</S.ModalQuestion>
-          <OptionButton initialOptions={feedbackKeywords} onChange={setFeedbackKeywords} />
+          <OptionButton
+            initialOptions={formState.feedbackKeywords}
+            onChange={(value) => handleChange("feedbackKeywords", value)}
+          />
         </S.ItemContainer>
 
         <S.ItemContainer>
@@ -76,16 +95,16 @@ const RevieweeFeedbackModal = ({
             rows={5}
             maxLength={512}
             placeholder="상대 리뷰이의 개발 역량 향상을 위해 피드백을 남겨주세요."
-            value={feedbackText}
-            onChange={(e) => setFeedbackText(e.target.value)}
+            value={formState.feedbackText}
+            onChange={(e) => handleChange("feedbackText", e.target.value)}
           />
         </S.ItemContainer>
 
         <S.ItemContainer>
           <S.ModalQuestion required>리뷰이의 코드를 추천하시나요?</S.ModalQuestion>
           <RecommendationPointBar
-            initialOptionId={recommendationPoint}
-            onChange={setRecommendationPoint}
+            initialOptionId={formState.recommendationPoint}
+            onChange={(value) => handleChange("recommendationPoint", value)}
           />
         </S.ItemContainer>
 
