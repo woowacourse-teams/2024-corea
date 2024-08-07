@@ -1,4 +1,8 @@
 export const API_ENDPOINTS = {
+  // auth
+  LOGIN: "/login",
+  REFRESH: "/refresh",
+
   // rooms
   PARTICIPATED_ROOMS: "/rooms/participated",
   OPENED_ROOMS: "/rooms/opened",
