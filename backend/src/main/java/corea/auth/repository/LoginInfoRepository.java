@@ -1,6 +1,7 @@
 package corea.auth.repository;
 
 import corea.auth.domain.LoginInfo;
+import corea.member.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

@@ -90,4 +90,8 @@ public class LoginService {
         String accessToken = githubClient.getAccessToken(code);
         return githubClient.getUserInfo(accessToken);
     }
+
+    public void logout(Member member) {
+        loginInfoRepository.deleteByMember(member);
+    }
 }
