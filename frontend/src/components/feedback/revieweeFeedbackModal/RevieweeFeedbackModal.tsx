@@ -28,6 +28,13 @@ const RevieweeFeedbackModal = ({
   const [feedbackKeywords, setFeedbackKeywords] = useState<string[]>([]);
   const [feedbackText, setFeedbackText] = useState("");
   const [recommendationPoint, setRecommendationPoint] = useState(0);
+  const [isFormValid, setIsFormValid] = useState(false);
+
+  useEffect(() => {
+    const isValid =
+      evaluationPoint !== 0 && feedbackKeywords.length > 0 && recommendationPoint !== 0;
+    setIsFormValid(isValid);
+  }, [evaluationPoint, feedbackKeywords, recommendationPoint]);
 
   const buttonText = getFeedbackModalType({
     isWrited: reviewee.isWrited,
@@ -35,6 +42,8 @@ const RevieweeFeedbackModal = ({
   });
 
   const handleSubmit = () => {
+    if (!isFormValid) return;
+
     onClose();
   };
 
@@ -81,7 +90,9 @@ const RevieweeFeedbackModal = ({
         </S.ItemContainer>
 
         <S.ButtonWrapper>
-          <Button onClick={handleSubmit}>{buttonText}</Button>
+          <Button onClick={handleSubmit} disabled={!isFormValid}>
+            {buttonText}
+          </Button>
         </S.ButtonWrapper>
       </S.FeedbackContainer>
     </Modal>

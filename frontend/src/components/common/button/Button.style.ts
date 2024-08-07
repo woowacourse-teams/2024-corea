@@ -15,13 +15,16 @@ export const ButtonContainer = styled.button<{
   ${(props) => sizeStyles[props.$size]}
 
   ${(props) =>
-    props.$variant !== "disable" &&
-    `
-    &:hover {
-      opacity: 0.8;
-      cursor: pointer;
-    }
-  `}
+    props.$variant !== "disable"
+      ? css`
+          &:hover {
+            cursor: pointer;
+            opacity: 0.8;
+          }
+        `
+      : css`
+          cursor: not-allowed;
+        `}
 `;
 
 const variantStyles = {
