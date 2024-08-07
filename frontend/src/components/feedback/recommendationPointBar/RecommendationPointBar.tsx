@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Icon from "@/components/common/icon/Icon";
 import IconRadioButton from "@/components/common/iconRadioButton/IconRadioButton";
 import * as S from "@/components/feedback/recommendationPointBar/RecommendationPointBar.style";
@@ -28,6 +28,10 @@ const RecommendationPointBar = ({
   onChange,
 }: RecommendationPointBarProps) => {
   const [selectedOptionId, setSelectedOptionId] = useState<number | undefined>(initialOptionId);
+
+  useEffect(() => {
+    setSelectedOptionId(initialOptionId);
+  }, [initialOptionId]);
 
   const handleRadioChange = (id: number) => {
     if (readonly) return;

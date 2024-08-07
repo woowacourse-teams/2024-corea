@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as S from "@/components/feedback/optionButton/OptionButton.style";
 
 const options = ["작업 속도", "PR 본문 메시지", "코드의 관심사 분리", "리뷰 반영"];
@@ -12,13 +12,19 @@ interface OptionButtonProps {
 const OptionButton = ({ initialOptions = [], readonly = false, onChange }: OptionButtonProps) => {
   const [selectedOptions, setSelectedOptions] = useState<string[]>(initialOptions);
 
+  useEffect(() => {
+    setSelectedOptions(initialOptions);
+  }, [initialOptions]);
+
   const toggleOption = (text: string) => {
     if (readonly) return;
-    const newOptions = selectedOptions.includes(text)
-      ? selectedOptions.filter((option) => option !== text)
-      : [...selectedOptions, text];
-    setSelectedOptions(newOptions);
-    onChange?.(newOptions);
+    setSelectedOptions((prevSelectedOptions) => {
+      const newOptions = prevSelectedOptions.includes(text)
+        ? prevSelectedOptions.filter((option) => option !== text)
+        : [...prevSelectedOptions, text];
+      onChange?.(newOptions);
+      return newOptions;
+    });
   };
 
   return (
