@@ -1,5 +1,7 @@
 package corea.auth.controller;
 
+import corea.auth.annotation.LoginMember;
+import corea.auth.domain.AuthInfo;
 import corea.auth.domain.GithubUserInfo;
 import corea.auth.infrastructure.CookieProvider;
 import corea.auth.repository.LoginInfoRepository;
@@ -55,9 +57,8 @@ public class LoginController implements LoginControllerSpecification {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<Void> logout(@RequestBody String token) {
-        Long memberId = loginService.authorize(token);
-        Member member = memberService.findById(memberId);
+    public ResponseEntity<Void> logout(@LoginMember AuthInfo authInfo) {
+        Member member = memberService.findById(authInfo.getId());
         Cookie cookie = cookieProvider.createEmptyCookie();
 
         loginService.logout(member);

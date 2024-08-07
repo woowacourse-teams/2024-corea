@@ -1,5 +1,6 @@
 package corea.auth.controller;
 
+import corea.auth.domain.AuthInfo;
 import corea.exception.ExceptionType;
 import corea.exception.ExceptionTypeGroup;
 import corea.global.annotation.ApiErrorResponses;
@@ -15,6 +16,6 @@ public interface LoginControllerSpecification {
             groups = ExceptionTypeGroup.INTERNAL_SERVER_ERROR)
     ResponseEntity<Void> extendAuthorization(String token);
 
-    ResponseEntity<Void> logout(String token);
+    ResponseEntity<Void> logout(AuthInfo authInfo);
 }
 
