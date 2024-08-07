@@ -53,7 +53,7 @@ class DevelopFeedbackServiceTest {
 
         assertThatCode(() -> developFeedbackService.create(room.getId(), deliver.getId(), createRequest(receiver.getId())))
                 .doesNotThrowAnyException();
-        assertThat(matchResult.isReviewerCompleteFeedback()).isTrue();
+        assertThat(matchResult.isReviewerCompletedFeedback()).isTrue();
     }
 
     @Test
