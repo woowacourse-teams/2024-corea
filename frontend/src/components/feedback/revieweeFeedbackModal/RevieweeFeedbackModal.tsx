@@ -78,23 +78,25 @@ const RevieweeFeedbackModal = ({
       ...formState,
     };
 
-    postRevieweeFeedbackMutation.mutate(
-      { roomId: roomInfo.id, feedbackData },
-      {
-        onSuccess: () => {
-          onClose();
+    !reviewee.isWrited &&
+      postRevieweeFeedbackMutation.mutate(
+        { roomId: roomInfo.id, feedbackData },
+        {
+          onSuccess: () => {
+            onClose();
+          },
         },
-      },
-    );
+      );
 
-    putRevieweeFeedbackMutation.mutate(
-      { roomId: roomInfo.id, feedbackId: feedbackData.feedbackId, feedbackData },
-      {
-        onSuccess: () => {
-          onClose();
+    reviewee.isWrited &&
+      putRevieweeFeedbackMutation.mutate(
+        { roomId: roomInfo.id, feedbackId: feedbackData.feedbackId, feedbackData },
+        {
+          onSuccess: () => {
+            onClose();
+          },
         },
-      },
-    );
+      );
   };
 
   return (
