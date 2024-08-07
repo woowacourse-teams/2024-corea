@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
@@ -70,24 +71,28 @@ class RankingServiceTest {
         rankingRepository.save(new Ranking(mubin, 3, 3.0f, date, EvaluateClassification.REVIEW));
 
         RankingResponses topRankings = rankingService.findTopRankings();
-        List<RankingResponse> response = topRankings.responses();
+        Map<String, List<RankingResponse>> responses = topRankings.responses();
+        List<RankingResponse> android = responses.get("an");
+        List<RankingResponse> backend = responses.get("be");
+        List<RankingResponse> frontend = responses.get("fe");
+        List<RankingResponse> review = responses.get("re");
 
         assertSoftly(softly -> {
-            softly.assertThat(response.get(0).nickname()).isEqualTo("ashsty");
-            softly.assertThat(response.get(1).nickname()).isEqualTo("hjk0761");
-            softly.assertThat(response.get(2).nickname()).isEqualTo("pororo");
+            softly.assertThat(android.get(0).nickname()).isEqualTo("ashsty");
+            softly.assertThat(android.get(1).nickname()).isEqualTo("hjk0761");
+            softly.assertThat(android.get(2).nickname()).isEqualTo("pororo");
 
-            softly.assertThat(response.get(3).nickname()).isEqualTo("pororo");
-            softly.assertThat(response.get(4).nickname()).isEqualTo("youngsu5582");
-            softly.assertThat(response.get(5).nickname()).isEqualTo("ashsty");
+            softly.assertThat(backend.get(0).nickname()).isEqualTo("pororo");
+            softly.assertThat(backend.get(1).nickname()).isEqualTo("youngsu5582");
+            softly.assertThat(backend.get(2).nickname()).isEqualTo("ashsty");
 
-            softly.assertThat(response.get(6).nickname()).isEqualTo("hjk0761");
-            softly.assertThat(response.get(7).nickname()).isEqualTo("pororo");
-            softly.assertThat(response.get(8).nickname()).isEqualTo("youngsu5582");
+            softly.assertThat(frontend.get(0).nickname()).isEqualTo("hjk0761");
+            softly.assertThat(frontend.get(1).nickname()).isEqualTo("pororo");
+            softly.assertThat(frontend.get(2).nickname()).isEqualTo("youngsu5582");
 
-            softly.assertThat(response.get(9).nickname()).isEqualTo("youngsu5582");
-            softly.assertThat(response.get(10).nickname()).isEqualTo("ashsty");
-            softly.assertThat(response.get(11).nickname()).isEqualTo("hjk0761");
+            softly.assertThat(review.get(0).nickname()).isEqualTo("youngsu5582");
+            softly.assertThat(review.get(1).nickname()).isEqualTo("ashsty");
+            softly.assertThat(review.get(2).nickname()).isEqualTo("hjk0761");
         });
     }
 }

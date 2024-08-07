@@ -13,7 +13,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+
+import static java.util.stream.Collectors.toMap;
 
 @Service
 @RequiredArgsConstructor
@@ -28,12 +32,10 @@ public class RankingService {
 
     public RankingResponses findTopRankings() {
         LocalDate date = LocalDate.now();
-        List<RankingResponse> androidRankings = findTop3Rankings(EvaluateClassification.ANDROID, date);
-        List<RankingResponse> backRankings = findTop3Rankings(EvaluateClassification.BACKEND, date);
-        List<RankingResponse> frontRankings = findTop3Rankings(EvaluateClassification.FRONTEND, date);
-        List<RankingResponse> reviewRankings = findTop3Rankings(EvaluateClassification.REVIEW, date);
+        Map<String, List<RankingResponse>> topRankings = Arrays.stream(EvaluateClassification.values())
+                .collect(toMap(EvaluateClassification::getExpression, classification -> findTop3Rankings(classification, date)));
 
-        return RankingResponses.of(androidRankings, backRankings, frontRankings, reviewRankings);
+        return new RankingResponses(topRankings);
     }
 
     private List<RankingResponse> findTop3Rankings(EvaluateClassification classification, LocalDate date) {
