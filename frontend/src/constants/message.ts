@@ -22,6 +22,7 @@ const ERROR_MESSAGES = {
 
   //feedbacks
   GET_REVIEWEE_FEEDBACK: "리뷰이 피드백을 불러오는 도중 에러가 발생하였습니다. ",
+  POST_REVIEWEE_FEEDBACK: "리뷰이 피드백 작성에 실패했습니다.",
 };
 
 const MESSAGES = {

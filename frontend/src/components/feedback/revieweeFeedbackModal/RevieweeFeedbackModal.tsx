@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import useMutateFeedback from "@/hooks/mutations/useMutateFeedback";
 import { useFetchRevieweeFeedback } from "@/hooks/queries/useFetchFeedback";
 import Button from "@/components/common/button/Button";
 import Label from "@/components/common/label/Label";
@@ -33,6 +34,7 @@ const RevieweeFeedbackModal = ({
     isLoading,
     error,
   } = useFetchRevieweeFeedback(roomInfo.id, reviewee.username);
+  const { postRevieweeFeedbackMutation } = useMutateFeedback();
 
   const [formState, setFormState] = useState<RevieweeFeedbackForm>({
     evaluationPoint: 0,
@@ -85,6 +87,20 @@ const RevieweeFeedbackModal = ({
 
   const handleSubmit = () => {
     if (!isFormValid) return;
+
+    const feedbackData = {
+      revieweeId: reviewee.userId,
+      ...formState,
+    };
+
+    postRevieweeFeedbackMutation.mutate(
+      { roomId: roomInfo.id, feedbackData },
+      {
+        onSuccess: () => {
+          onClose();
+        },
+      },
+    );
 
     onClose();
   };
