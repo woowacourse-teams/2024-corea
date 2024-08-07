@@ -81,12 +81,13 @@ public class LoginService {
         return memberRepository.save(member);
     }
 
+    @Transactional
+    public void logout(Long memberId) {
+        loginInfoRepository.deleteByMemberId(memberId);
+    }
+
     public GithubUserInfo getUserInfo(String code) {
         String accessToken = githubClient.getAccessToken(code);
         return githubClient.getUserInfo(accessToken);
-    }
-
-    public void logout(Member member) {
-        loginInfoRepository.deleteByMember(member);
     }
 }

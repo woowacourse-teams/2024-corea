@@ -26,6 +26,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedOrigins("http://localhost:3000", "https://d2n5lw9a9hwjzs.cloudfront.net/")
                 .allowedMethods("GET", "POST", "DELETE", "PUT")
                 .allowCredentials(true)
+                .exposedHeaders("Authorization")
                 .maxAge(3000);
     }
 

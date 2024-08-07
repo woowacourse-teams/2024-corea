@@ -41,6 +41,9 @@ public class AccessedMemberArgumentResolver implements HandlerMethodArgumentReso
         if (accessToken.equals(ANONYMOUS)) {
             return AuthInfo.getAnonymous();
         }
+
+        tokenProvider.validateToken(accessToken);
+
         Long memberId = tokenProvider.getPayload(accessToken).get(ID, Long.class);
 
         return memberRepository.findById(memberId)

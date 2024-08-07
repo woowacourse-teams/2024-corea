@@ -12,6 +12,8 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 
+import java.lang.reflect.Parameter;
+
 @Component
 @RequiredArgsConstructor
 public class AuthorizationInterceptor implements HandlerInterceptor {
@@ -42,7 +44,16 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 
         HandlerMethod handlerMethod = (HandlerMethod) handler;
 
-        return (null != handlerMethod.getMethodAnnotation(AUTH_ANNOTATION) ||
-                null != handlerMethod.getBeanType().getAnnotation(AUTH_ANNOTATION));
+        if (null != handlerMethod.getMethodAnnotation(AUTH_ANNOTATION) ||
+                null != handlerMethod.getBeanType().getAnnotation(AUTH_ANNOTATION)) {
+            return true;
+        }
+
+        for (Parameter parameter : handlerMethod.getMethod().getParameters()) {
+            if (parameter.isAnnotationPresent(AUTH_ANNOTATION)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
