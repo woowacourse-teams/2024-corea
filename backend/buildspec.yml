@@ -1,6 +1,26 @@
 version: 0.2
 
+env:
+  variables:
+    REMOTE_ORIGIN: "${REPOSITORY_URL}"
+    GITHUB_TOKEN: "${GITHUB_TOKEN}"  # PAT를 환경 변수로 설정
+    GITHUB_CREDENTIAL: "${GITHUB_CREDENTIAL}"
+
 phases:
+  install:
+    commands:
+      - git config --global credential.helper 'cache --timeout=3600'
+      - git config --global url."https://${GITHUB_TOKEN}:${GITHUB_CREDENTIAL}@github.com/".insteadOf "https://github.com/"
+      - |
+        if [ ! -d ".git" ]; then
+          git init
+          git remote add origin "$REMOTE_ORIGIN"
+          git fetch
+          git checkout -f "$CODEBUILD_RESOLVED_SOURCE_VERSION"
+        fi
+      - git submodule init
+      - git submodule update --recursive
+
   build:
     commands:
       - echo Build Starting on `date`
