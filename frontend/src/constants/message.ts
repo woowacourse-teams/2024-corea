@@ -19,6 +19,9 @@ const ERROR_MESSAGES = {
 
   // profile
   GET_PROFILE: "프로필 불러오는 도중 에러가 발생하였습니다.",
+
+  //feedbacks
+  GET_REVIEWEE_FEEDBACK: "리뷰이 피드백을 불러오는 도중 에러가 발생하였습니다. ",
 };
 
 const MESSAGES = {

@@ -38,8 +38,12 @@ const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
     <>
       {selectedReviewee && (
         <RevieweeFeedbackModal
+          key={selectedReviewee.username}
           isOpen={isOpen}
-          onClose={handleCloseModal}
+          onClose={() => {
+            handleCloseModal();
+            setSelectedReviewee(null);
+          }}
           roomInfo={roomInfo}
           reviewee={selectedReviewee}
         />

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useFetchRevieweeFeedback } from "@/hooks/queries/useFetchFeedback";
 import Button from "@/components/common/button/Button";
 import Label from "@/components/common/label/Label";
 import Modal from "@/components/common/modal/Modal";
@@ -27,12 +28,40 @@ const RevieweeFeedbackModal = ({
   roomInfo,
   reviewee,
 }: RevieweeFeedbackModalProps) => {
+  const {
+    data: feedbackData,
+    isLoading,
+    error,
+  } = useFetchRevieweeFeedback(roomInfo.id, reviewee.username);
+
   const [formState, setFormState] = useState<RevieweeFeedbackForm>({
     evaluationPoint: 0,
-    feedbackKeywords: [] as string[],
+    feedbackKeywords: [],
     feedbackText: "",
     recommendationPoint: 0,
   });
+
+  useEffect(() => {
+    if (feedbackData) {
+      setFormState((prevState) => ({
+        ...prevState,
+        evaluationPoint:
+          feedbackData.evaluationPoint > 0
+            ? feedbackData.evaluationPoint
+            : prevState.evaluationPoint,
+        feedbackKeywords:
+          feedbackData.feedbackKeywords.length > 0
+            ? feedbackData.feedbackKeywords
+            : prevState.feedbackKeywords,
+        feedbackText: feedbackData.feedbackText
+          ? feedbackData.feedbackText
+          : prevState.feedbackText,
+        recommendationPoint: feedbackData.recommendationPoint
+          ? feedbackData.recommendationPoint
+          : prevState.recommendationPoint,
+      }));
+    }
+  }, [feedbackData]);
 
   const isFormValid =
     formState.evaluationPoint !== 0 &&
