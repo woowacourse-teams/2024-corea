@@ -7,6 +7,7 @@ import corea.feedback.dto.SocialFeedbackResponse;
 import corea.fixture.MatchResultFixture;
 import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
+import corea.matching.domain.MatchResult;
 import corea.matching.repository.MatchResultRepository;
 import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
@@ -15,6 +16,7 @@ import corea.room.repository.RoomRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -36,13 +38,14 @@ class SocialFeedbackServiceTest {
     private SocialFeedbackService socialFeedbackService;
 
     @Test
+    @Transactional
     @DisplayName("소셜(리뷰이->리뷰어) 대한 피드백 내용을 생성한다.")
     void create() {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
         Member reviewer = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member reviewee = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
-        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(
+        MatchResult matchResult = matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(
                 room.getId(),
                 reviewer,
                 reviewee
@@ -50,6 +53,7 @@ class SocialFeedbackServiceTest {
 
         assertThatCode(() -> socialFeedbackService.create(room.getId(), reviewee.getId(), createRequest(reviewer.getId())))
                 .doesNotThrowAnyException();
+        assertThat(matchResult.isRevieweeCompleteFeedback()).isTrue();
     }
 
     @Test
