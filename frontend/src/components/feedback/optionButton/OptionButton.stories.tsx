@@ -12,6 +12,13 @@ const meta = {
       },
     },
   },
+  argTypes: {
+    selectedEvaluationId: {
+      control: { type: "number", min: 1, max: 5 },
+      description: "선택된 평가 점수",
+    },
+    onChange: { action: "changed" },
+  },
 } satisfies Meta<typeof OptionButton>;
 
 export default meta;
@@ -19,5 +26,17 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  render: () => <OptionButton />,
+  args: {},
+};
+
+export const BadOptions: Story = {
+  args: {
+    selectedEvaluationId: 2,
+  },
+};
+
+export const GoodOptions: Story = {
+  args: {
+    selectedEvaluationId: 4,
+  },
 };

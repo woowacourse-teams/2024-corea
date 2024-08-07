@@ -2,7 +2,7 @@
   "feedbackId": 1,
   "revieweeId": 123,
   "evaluationPoint": 4,
-  "feedbackKeywords": ["작업 속도", "코드의 관심사 분리"],
+  "feedbackKeywords": ["방의 목적에 맞게 코드를 잘 작성했어요", "코드를 이해하기 쉬웠어요"],
   "feedbackText": "잘 작성된 코드입니다.",
   "recommendationPoint": 2
 }

@@ -125,6 +125,7 @@ const RevieweeFeedbackModal = ({
           <OptionButton
             initialOptions={formState.feedbackKeywords}
             onChange={(value) => handleChange("feedbackKeywords", value)}
+            selectedEvaluationId={formState.evaluationPoint}
           />
         </S.ItemContainer>
 
