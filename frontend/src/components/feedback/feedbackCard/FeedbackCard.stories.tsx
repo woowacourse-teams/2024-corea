@@ -19,7 +19,7 @@ const meta = {
     profile: {
       description: "깃허브 프로필 이미지",
     },
-    nickname: {
+    username: {
       description: "닉네임",
     },
     feedbackKeywords: {
@@ -42,7 +42,9 @@ export const Default: Story = {
   args: {
     feedbackId: 1,
     profile: "https://avatars.githubusercontent.com/u/63334368?v=4",
-    nickname: "chlwlstlf",
+    username: "chlwlstlf",
+    roomId: 0,
+    receiverId: 1,
     feedbackKeywords: ["작업 속도", "PR 본문 메시지", "코드 관심사 분리"],
     feedbackText: `작업 속도가 정말 빠르면서 평소 책을 많이 읽어서 그런지 PR 본문 메시지가 정말 알이 꽉꽉 찼어요.
     
