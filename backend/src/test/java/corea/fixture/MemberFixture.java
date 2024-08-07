@@ -34,6 +34,16 @@ public class MemberFixture {
         );
     }
 
+    public static Member MEMBER_MUBIN(){
+        return new Member(
+                "hjk0761",
+                "https://avatars.githubusercontent.com/u/98307410?v=4",
+                null,
+                "hjk0761@gmail.com",
+                false
+        );
+    }
+
     public static Member MEMBER_ROOM_MANAGER_JOYSON() {
         return new Member(
                 "joyson5582",
