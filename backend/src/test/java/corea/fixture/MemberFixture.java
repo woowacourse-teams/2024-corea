@@ -24,22 +24,12 @@ public class MemberFixture {
         );
     }
 
-    public static Member MEMBER_ASH() {
+    public static Member MEMBER_ASH(){
         return new Member(
                 "ashsty",
                 "https://avatars.githubusercontent.com/u/98307410?v=4",
-                "박민아",
                 null,
-                false
-        );
-    }
-
-    public static Member MEMBER_MUBIN() {
-        return new Member(
-                "hjk0761",
-                "https://avatars.githubusercontent.com/u/98307410?v=4",
-                "김현중",
-                null,
+                "ashsty@gmail.com",
                 false
         );
     }

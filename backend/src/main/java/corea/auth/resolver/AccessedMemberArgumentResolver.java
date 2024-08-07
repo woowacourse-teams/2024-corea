@@ -3,6 +3,7 @@ package corea.auth.resolver;
 import corea.auth.RequestHandler;
 import corea.auth.annotation.AccessedMember;
 import corea.auth.domain.AuthInfo;
+import corea.auth.infrastructure.TokenProvider;
 import corea.member.repository.MemberRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -13,12 +14,17 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
+import static corea.global.config.Constants.ANONYMOUS;
+
 @Component
 @RequiredArgsConstructor
 public class AccessedMemberArgumentResolver implements HandlerMethodArgumentResolver {
 
+    private static final String ID = "id";
+
     private final RequestHandler requestHandler;
     private final MemberRepository memberRepository;
+    private final TokenProvider tokenProvider;
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
@@ -30,7 +36,14 @@ public class AccessedMemberArgumentResolver implements HandlerMethodArgumentReso
                                     NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
 
-        return memberRepository.findByUsername(requestHandler.extract(request))
+        String accessToken = requestHandler.extract(request);
+
+        if (accessToken.equals(ANONYMOUS)) {
+            return AuthInfo.getAnonymous();
+        }
+        Long memberId = tokenProvider.getPayload(accessToken).get(ID, Long.class);
+
+        return memberRepository.findById(memberId)
                 .map(AuthInfo::from)
                 .orElse(AuthInfo.getAnonymous());
     }
