@@ -62,7 +62,7 @@ public class SocialFeedbackService {
     private SocialFeedback createEntity(long roomId, long deliverId, SocialFeedbackRequest request) {
         MatchResult matchResult = matchResultRepository.findByRoomIdAndReviewerIdAndRevieweeId(roomId, request.receiverId(), deliverId)
                 .orElseThrow(() -> new CoreaException(ExceptionType.NOT_MATCHED_MEMBER));
-
+        matchResult.revieweeCompleteFeedback();
         return request.toEntity(roomId, matchResult.getReviewee(), matchResult.getReviewer());
     }
 }

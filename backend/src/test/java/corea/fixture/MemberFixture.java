@@ -24,7 +24,7 @@ public class MemberFixture {
         );
     }
 
-    public static Member MEMBER_ASH(){
+    public static Member MEMBER_ASH() {
         return new Member(
                 "ashsty",
                 "https://avatars.githubusercontent.com/u/98307410?v=4",
@@ -50,6 +50,26 @@ public class MemberFixture {
                 "https://avatars.githubusercontent.com/u/98307410?v=4",
                 null,
                 "joyson5582@gmail.com",
+                false
+        );
+    }
+
+    public static Member MEMBER_TENTEN() {
+        return new Member(
+                "chlwlstlf",
+                "https://avatars.githubusercontent.com/u/98307410?v=4",
+                null,
+                "tenten@gmail.com",
+                false
+        );
+    }
+
+    public static Member MEMBER_CHOCO() {
+        return new Member(
+                "choco",
+                "https://avatars.githubusercontent.com/u/98307410?v=4",
+                null,
+                "choco@gmail.com",
                 false
         );
     }
