@@ -13,4 +13,8 @@ export const API_ENDPOINTS = {
 
   // profile
   PROFILE: "/user/profile",
+
+  // feedback
+  RECEIVED_FEEDBACK: "/user/feedback/received",
+  DELIVERED_FEEDBACK: "/user/feedback/delivered",
 };

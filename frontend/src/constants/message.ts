@@ -19,6 +19,10 @@ const ERROR_MESSAGES = {
 
   // profile
   GET_PROFILE: "프로필 불러오는 도중 에러가 발생하였습니다.",
+
+  // feedback
+  GET_RECEIVED_FEEDBACK: "받은 피드백 불러오는 도중 에러가 발생하였습니다.",
+  GET_DELIVERED_FEEDBACK: "받은 피드백 불러오는 도중 에러가 발생하였습니다.",
 };
 
 const MESSAGES = {

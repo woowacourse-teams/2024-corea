@@ -11,6 +11,10 @@ const QUERY_KEYS = {
 
   // profile
   PROFILE: "profile",
+
+  // feedback
+  RECEIVED_FEEDBACK: "receivedFeedback",
+  DELIVERED_FEEDBACK: "deliveredFeedback",
 };
 
 export default QUERY_KEYS;
