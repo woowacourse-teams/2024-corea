@@ -1,4 +1,4 @@
-name: Assign Reviewer By Label
+name: Assign Reviewer,Assignee
 on:
   pull_request:
     types:
@@ -10,26 +10,69 @@ jobs:
   assign-reviewer:
     runs-on: ubuntu-latest
     steps:
-      - name: All Label
-        uses: wow-actions/auto-assign@v3
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          reviewers: ashsty, jcoding-play, hjk0761, youngsu5582, 00kang, pp449, chlwlstlf
-          assignees: ${{ github.event.pull_request.user.login }}
-          includeLabels: ALL
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Backend Label
-        uses: wow-actions/auto-assign@v3
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          reviewers: ashsty, jcoding-play, hjk0761, youngsu5582
-          assignees: ${{ github.event.pull_request.user.login }}
-          includeLabels: BE
+      - name: Extract Branch Prefix, Issue Number, Label
+        id: extract
+        env:
+          PULL_REQUEST_CONTEXT: ${{ toJson(github.event.pull_request) }}
+        run: |
+          branch_name=$(echo "$PULL_REQUEST_CONTEXT" | jq -r '.head.ref')
+          echo "BRANCH_NAME=$branch_name" >> $GITHUB_ENV
+          
+          if [[ "$branch_name" =~ ^(feat|fix|refactor)/#([0-9]+)$ ]]; then
+            branch_prefix="${BASH_REMATCH[1]}"
+            issue_number="${BASH_REMATCH[2]}"
+            echo "BRANCH_PREFIX=$branch_prefix" >> $GITHUB_ENV
+            echo "ISSUE_NUMBER=$issue_number" >> $GITHUB_ENV
+          else
+            exit 0
+          fi
+          
+          labels=$(echo "$PULL_REQUEST_CONTEXT" | jq -r '.labels[].name' | tr '\n' ', ' | sed 's/, $//' | rev | cut -c 2- | rev)
+          echo "LABELS=$labels" >> $GITHUB_ENV
 
-      - name: Frontend Label
+      - name: Fetch Assignee
+        if: ${{ !env.EXISTED }}
+        run: |
+          issue_number="${{ env.ISSUE_NUMBER }}"
+          
+          response=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+                            -H "Accept: application/vnd.github.v3+json" \
+                            "https://api.github.com/repos/${{ github.repository }}/issues/$issue_number")
+          
+          assignees=$(echo "$response" | jq -r '.assignees[].login' | awk '{ORS=","}1' | sed 's/, $//' | rev | cut -c 2- | rev)
+          echo "ASSIGNEES=$assignees" >> $GITHUB_ENV
+
+      - name: Setup Review Member
+        id: setup-reviewer
+        run: |
+          IFS=',' read -r -a LABEL_ARRAY <<< "${{ env.LABELS }}"
+          reviewers=""
+          for LABEL in "${LABEL_ARRAY[@]}"; do
+            if [[ "$LABEL" == "BE" ]]; then
+              reviewers="ashsty, jcoding-play, hjk0761, youngsu5582"
+            elif [[ "$LABEL" == "FE" ]]; then
+              reviewers="00kang, pp449, chlwlstlf"
+            elif [[ "$LABEL" == "ALL" ]]; then
+              reviewers="${{ env.ASSIGNEES }}"
+            fi
+          done
+          
+          echo "REVIEW_MEMBER=$reviewers" >> $GITHUB_ENV          
+
+      - name: Extract Reviewers
+        run: |
+          combined_reviewers=$(echo "${{ env.REVIEW_MEMBER }}, ${{ env.ASSIGNEES }}" | tr ', ' '\n' | sort)
+          echo "COMBINE : $combined_reviewers"
+          unique_reviewers=$(echo "$combined_reviewers" | uniq -u | tr '\n' ', ' | rev | cut -c 2- | rev)
+          echo "UNIQUE_REVIEWERS : $unique_reviewers"
+          echo "REVIEWERS=$unique_reviewers" >> $GITHUB_ENV
+
+      - name: ASSIGN REVIEWER
         uses: wow-actions/auto-assign@v3
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          reviewers: 00kang, pp449, chlwlstlf
-          assignees: ${{ github.event.pull_request.user.login }}
-          includeLabels: FE
+          reviewers: ${{ env.REVIEWERS }}
+          assignees: ${{ env.ASSIGNEES }}

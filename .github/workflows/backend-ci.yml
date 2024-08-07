@@ -9,6 +9,7 @@ on:
       - opened
       - synchronize
       - reopened
+      - edited
 
 defaults:
   run:
@@ -20,6 +21,9 @@ jobs:
     steps:
       - name: Repository checkout
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          token: ${{ secrets.SUBMODULE_TOKEN }}
 
       - name: Setup java 17
         uses: actions/setup-java@v3

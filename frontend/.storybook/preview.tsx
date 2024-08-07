@@ -3,6 +3,7 @@ import { ToastProvider } from "../src/providers/ToastProvider";
 import GlobalStyles from "../src/styles/globalStyles";
 import { theme } from "../src/styles/theme";
 import type { Preview } from "@storybook/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { initialize, mswLoader } from "msw-storybook-addon";
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
@@ -25,16 +26,20 @@ const preview: Preview = {
   loaders: [mswLoader],
 };
 
+const queryClient = new QueryClient();
+
 export const decorators = [
   (Story) => (
-    <BrowserRouter>
-      <ThemeProvider theme={theme}>
-        <ToastProvider>
-          <GlobalStyles />
-          <Story />
-        </ToastProvider>
-      </ThemeProvider>
-    </BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <ThemeProvider theme={theme}>
+          <ToastProvider>
+            <GlobalStyles />
+            <Story />
+          </ToastProvider>
+        </ThemeProvider>
+      </BrowserRouter>
+    </QueryClientProvider>
   ),
 ];
 

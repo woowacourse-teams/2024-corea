@@ -1,3 +1,4 @@
+import RoomCardModalButton from "./RoomCardModalButton";
 import React from "react";
 import Icon from "@/components/common/icon/Icon";
 import Label from "@/components/common/label/Label";
@@ -72,6 +73,10 @@ const RoomCardModal = ({ isOpen, onClose, roomInfo }: RoomCardModalProps) => {
           </S.KeywordsContainer>
           <S.ContentContainer>{roomInfo.content}</S.ContentContainer>
         </S.DescriptionContainer>
+
+        <S.ButtonContainer>
+          <RoomCardModalButton roomInfo={roomInfo} />
+        </S.ButtonContainer>
       </S.RoomCardModalContainer>
     </Modal>
   );

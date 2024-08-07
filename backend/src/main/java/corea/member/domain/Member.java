@@ -32,11 +32,9 @@ public class Member {
 
     private boolean isEmailAccepted;
 
-    private float attitude;
-
     private String profileLink;
 
-    public Member(String username, String thumbnailUrl, String name, String email, boolean isEmailAccepted, float attitude) {
-        this(null, username, thumbnailUrl, name, email, isEmailAccepted, attitude, "");
+    public Member(String username, String thumbnailUrl, String name, String email, boolean isEmailAccepted) {
+        this(null, username, thumbnailUrl, name, email, isEmailAccepted, "");
     }
 }
