@@ -1,0 +1,8 @@
+{
+  "feedbackId": 1,
+  "revieweeId": 123,
+  "evaluationPoint": 4,
+  "feedbackKeywords": ["작업 속도", "코드의 관심사 분리"],
+  "feedbackText": "잘 작성된 코드입니다.",
+  "recommendationPoint": 2
+}
