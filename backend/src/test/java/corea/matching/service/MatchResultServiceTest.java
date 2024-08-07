@@ -2,12 +2,17 @@ package corea.matching.service;
 
 import config.ServiceTest;
 import corea.exception.CoreaException;
+import corea.fixture.MemberFixture;
+import corea.fixture.RoomFixture;
 import corea.matching.dto.MatchResultResponses;
+import corea.member.domain.Member;
+import corea.member.repository.MemberRepository;
 import corea.participation.domain.Participation;
+import corea.room.repository.RoomRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -19,9 +24,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @ServiceTest
-@ActiveProfiles("test")
 @Transactional
 class MatchResultServiceTest {
+
+    @Autowired
+    private MemberRepository memberRepository;
+
+    @Autowired
+    private RoomRepository roomRepository;
 
     @Autowired
     private MatchingService matchingService;
@@ -29,22 +39,33 @@ class MatchResultServiceTest {
     @Autowired
     private MatchResultService matchResultService;
 
+    private List<Participation> participations = new ArrayList<>();
+    private long findMemberId;
+    private long roomId;
+
+    @BeforeEach
+    void setUp() {
+        roomId = roomRepository.save(RoomFixture.ROOM_DOMAIN(
+                        createMember(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON()))).getId();
+        findMemberId = createMember(MemberFixture.MEMBER_YOUNGSU()).getId();
+        participations.add(new Participation(roomId, findMemberId));
+        participations.add(new Participation(roomId, createMember(MemberFixture.MEMBER_ASH()).getId()));
+        participations.add(new Participation(roomId, createMember(MemberFixture.MEMBER_PORORO()).getId()));
+        participations.add(new Participation(roomId, createMember(MemberFixture.MEMBER_TENTEN()).getId()));
+        participations.add(new Participation(roomId, createMember(MemberFixture.MEMBER_CHOCO()).getId()));
+    }
+
+    private Member createMember(Member member) {
+        return memberRepository.save(member);
+    }
+
     @Test
     @DisplayName("사용자가 특정 방에서 매칭된 리뷰어 결과를 가져온다.")
     void findReviewers() {
-        long memberId = 1L;
-        long roomId = 1L;
         int matchingSize = 3;
-        List<Participation> participations = new ArrayList<>();
-
-        participations.add(new Participation(roomId, 1L));
-        participations.add(new Participation(roomId, 2L));
-        participations.add(new Participation(roomId, 3L));
-        participations.add(new Participation(roomId, 4L));
-
         matchingService.matchMaking(participations, matchingSize);
 
-        MatchResultResponses reviewers = matchResultService.findReviewers(memberId, roomId);
+        MatchResultResponses reviewers = matchResultService.findReviewers(findMemberId, roomId);
 
         assertThat(reviewers.matchResultResponses()).hasSize(matchingSize);
     }
@@ -52,21 +73,12 @@ class MatchResultServiceTest {
     @Test
     @DisplayName("리뷰어 결과를 가져올 때 존재하지 않는 방이나 사용자의 정보를 요청하는 경우 예외를 발생한다.")
     void findReviewersInvalidException() {
-        long memberId = 1;
         long roomId = 0;
-
         int matchingSize = 3;
-        List<Participation> participations = new ArrayList<>();
-
-        participations.add(new Participation(1L, 1L));
-        participations.add(new Participation(1L, 4L));
-        participations.add(new Participation(1L, 5L));
-        participations.add(new Participation(1L, 6L));
-        participations.add(new Participation(1L, 7L));
 
         matchingService.matchMaking(participations, matchingSize);
 
-        assertThatThrownBy(() -> matchResultService.findReviewers(memberId, roomId))
+        assertThatThrownBy(() -> matchResultService.findReviewers(findMemberId, roomId))
                 .isInstanceOf(CoreaException.class)
                 .satisfies(exception -> {
                     CoreaException coreaException = (CoreaException) exception;
@@ -78,15 +90,7 @@ class MatchResultServiceTest {
     @DisplayName("리뷰어 결과를 가져올 때 존재하지 않는 방이나 사용자의 정보를 요청하는 경우 예외를 발생한다.")
     void findReviewersInvalidException2() {
         long memberId = 0;
-        long roomId = 1;
         int matchingSize = 3;
-        List<Participation> participations = new ArrayList<>();
-
-        participations.add(new Participation(1L, 1L));
-        participations.add(new Participation(1L, 4L));
-        participations.add(new Participation(1L, 5L));
-        participations.add(new Participation(1L, 6L));
-        participations.add(new Participation(1L, 7L));
 
         matchingService.matchMaking(participations, matchingSize);
 
