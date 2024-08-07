@@ -27,3 +27,17 @@ export const postRevieweeFeedback = async (
 
   return res;
 };
+
+export const putRevieweeFeedback = async (
+  roomId: number,
+  feedbackId: number,
+  feedbackData: Omit<RevieweeFeedbackData, "feedbackId">,
+) => {
+  const res = await apiClient.put({
+    endpoint: API_ENDPOINTS.PUT_REVIEWEE_FEEDBACK(roomId, feedbackId),
+    body: feedbackData,
+    errorMessage: MESSAGES.ERROR.PUT_REVIEWEE_FEEDBACK,
+  });
+
+  return res;
+};

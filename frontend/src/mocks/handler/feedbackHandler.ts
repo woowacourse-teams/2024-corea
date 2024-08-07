@@ -10,6 +10,9 @@ const feedbackHandler = [
   http.post(serverUrl + API_ENDPOINTS.REVIEWEE_FEEDBACK(1), () => {
     return HttpResponse.json(FeedbackInfo, { status: 200 });
   }),
+  http.put(serverUrl + API_ENDPOINTS.PUT_REVIEWEE_FEEDBACK(1, 1), () => {
+    return HttpResponse.json(FeedbackInfo, { status: 200 });
+  }),
 ];
 
 export default feedbackHandler;

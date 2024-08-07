@@ -16,4 +16,6 @@ export const API_ENDPOINTS = {
 
   // feedbacks
   REVIEWEE_FEEDBACK: (roomId: number) => `/rooms/${roomId}/reviewee/feedbacks`,
+  PUT_REVIEWEE_FEEDBACK: (roomId: number, feedbackId: number) =>
+    `/rooms/${roomId}/reviewee/feedbacks/${feedbackId}`,
 };

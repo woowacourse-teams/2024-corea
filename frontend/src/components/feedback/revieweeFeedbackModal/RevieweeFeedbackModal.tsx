@@ -34,9 +34,11 @@ const RevieweeFeedbackModal = ({
     isLoading,
     error,
   } = useFetchRevieweeFeedback(roomInfo.id, reviewee.username);
-  const { postRevieweeFeedbackMutation } = useMutateFeedback();
+  const { postRevieweeFeedbackMutation, putRevieweeFeedbackMutation } = useMutateFeedback();
 
-  const [formState, setFormState] = useState<RevieweeFeedbackForm>({
+  const [formState, setFormState] = useState<RevieweeFeedbackData>({
+    feedbackId: 0,
+    revieweeId: reviewee.userId,
     evaluationPoint: 0,
     feedbackKeywords: [],
     feedbackText: "",
@@ -45,23 +47,7 @@ const RevieweeFeedbackModal = ({
 
   useEffect(() => {
     if (feedbackData) {
-      setFormState((prevState) => ({
-        ...prevState,
-        evaluationPoint:
-          feedbackData.evaluationPoint > 0
-            ? feedbackData.evaluationPoint
-            : prevState.evaluationPoint,
-        feedbackKeywords:
-          feedbackData.feedbackKeywords.length > 0
-            ? feedbackData.feedbackKeywords
-            : prevState.feedbackKeywords,
-        feedbackText: feedbackData.feedbackText
-          ? feedbackData.feedbackText
-          : prevState.feedbackText,
-        recommendationPoint: feedbackData.recommendationPoint
-          ? feedbackData.recommendationPoint
-          : prevState.recommendationPoint,
-      }));
+      setFormState(feedbackData);
     }
   }, [feedbackData]);
 
@@ -89,7 +75,6 @@ const RevieweeFeedbackModal = ({
     if (!isFormValid) return;
 
     const feedbackData = {
-      revieweeId: reviewee.userId,
       ...formState,
     };
 
@@ -102,7 +87,14 @@ const RevieweeFeedbackModal = ({
       },
     );
 
-    onClose();
+    putRevieweeFeedbackMutation.mutate(
+      { roomId: roomInfo.id, feedbackId: feedbackData.feedbackId, feedbackData },
+      {
+        onSuccess: () => {
+          onClose();
+        },
+      },
+    );
   };
 
   return (
