@@ -7,11 +7,11 @@ import corea.profile.domain.Profile;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataJpaTest
+@SpringBootTest
 class ProfileRepositoryTest {
 
     @Autowired
@@ -26,7 +26,7 @@ class ProfileRepositoryTest {
         Member member = memberRepository.save(MemberFixture.MEMBER_PORORO());
         profileRepository.save(new Profile(member, 3, 2, 1, 5.0f, 5.0f));
 
-        long result = profileRepository.findDeliverCountByMember(member);
+        long result = profileRepository.findDeliverCountByMemberId(member.getId());
 
         assertThat(result).isEqualTo(1);
     }

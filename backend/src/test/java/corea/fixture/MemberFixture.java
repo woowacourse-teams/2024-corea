@@ -34,7 +34,7 @@ public class MemberFixture {
         );
     }
 
-    public static Member MEMBER_MUBIN(){
+    public static Member MEMBER_MUBIN() {
         return new Member(
                 "hjk0761",
                 "https://avatars.githubusercontent.com/u/98307410?v=4",

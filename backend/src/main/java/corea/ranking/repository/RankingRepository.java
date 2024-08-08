@@ -11,6 +11,6 @@ import java.util.List;
 
 public interface RankingRepository extends JpaRepository<Ranking, Long> {
 
-    @Query("SELECT r FROM Ranking r WHERE r.classification = :classification AND r.date = :date ORDER BY r.rank ASC")
+    @Query("SELECT r FROM Ranking r WHERE r.classification = :classification AND r.date = :date ORDER BY r.ranking ASC")
     List<Ranking> findTopRankingsByClassificationAndDate(EvaluateClassification classification, LocalDate date, Pageable pageable);
 }

@@ -41,7 +41,6 @@ public class RankingService {
     private List<RankingResponse> findTop3Rankings(EvaluateClassification classification, LocalDate date) {
         PageRequest pageRequest = PageRequest.of(DEFAULT_PAGE_NUMBER, NUMBER_OF_RANKINGS_TO_BE_SHOWN_TO_MEMBER);
         List<Ranking> top3Rankings = rankingRepository.findTopRankingsByClassificationAndDate(classification, date, pageRequest);
-
         return top3Rankings.stream()
                 .map(ranking -> toRankingResponse(classification, ranking))
                 .toList();
@@ -49,7 +48,7 @@ public class RankingService {
 
     private RankingResponse toRankingResponse(EvaluateClassification classification, Ranking ranking) {
         Member member = ranking.getMember();
-        long deliverCount = profileRepository.findDeliverCountByMember(member);
+        long deliverCount = profileRepository.findDeliverCountByMemberId(member.getId());
         float averageEvaluatePoint = ranking.getAverageEvaluatePoint();
 
         return RankingResponse.of(member, deliverCount, averageEvaluatePoint, classification);

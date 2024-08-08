@@ -1,7 +1,7 @@
 package corea.feedback.dto;
 
-import corea.feedback.domain.SocialFeedback;
 import corea.feedback.domain.DevelopFeedback;
+import corea.feedback.domain.SocialFeedback;
 import corea.feedback.util.FeedbackKeywordConverter;
 
 import java.util.List;
