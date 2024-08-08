@@ -1,9 +1,10 @@
 package corea.global.config;
 
-public class Constants {
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
-    private Constants() {
-    }
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public class Constants {
 
     public static final String AUTHORIZATION_HEADER = "Authorization";
     public static final String ANONYMOUS = "ANONYMOUS";

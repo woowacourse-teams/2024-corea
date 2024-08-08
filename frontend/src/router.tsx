@@ -1,3 +1,4 @@
+import CallbackPage from "./pages/callback/CallbackPage";
 import FeedbackPage from "./pages/feedback/FeedbackPage";
 import GuidePage from "./pages/guide/GuidePage";
 import ProfilePage from "./pages/profile/ProfilePage";
@@ -18,6 +19,10 @@ const router = sentryCreateBrowserRouter([
       {
         index: true,
         element: <MainPage />,
+      },
+      {
+        path: `callback`,
+        element: <CallbackPage />,
       },
       {
         path: `rooms/:id`,

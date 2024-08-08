@@ -57,7 +57,7 @@ class DevelopFeedbackFeedbackControllerTest {
         );
 
         RestAssured.given().header("Authorization", token).contentType(ContentType.JSON).body(request)
-                .when().post("/rooms/" + room.getId()+ "/develop/feedbacks")
+                .when().post("/rooms/" + room.getId() + "/develop/feedbacks")
                 .then().statusCode(200);
     }
 }

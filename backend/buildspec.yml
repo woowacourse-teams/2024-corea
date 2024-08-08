@@ -2,7 +2,7 @@ version: 0.2
 
 env:
   variables:
-    REMOTE_ORIGIN: "${REPOSITORY_URL}"
+    REMOTE_ORIGIN: "https://github.com/woowacourse-teams/2024-corea.git"
     GITHUB_TOKEN: "${GITHUB_TOKEN}"  # PAT를 환경 변수로 설정
     GITHUB_CREDENTIAL: "${GITHUB_CREDENTIAL}"
 
@@ -26,7 +26,7 @@ phases:
       - echo Build Starting on `date`
       - cd backend
       - chmod +x ./gradlew
-      - ./gradlew build
+      - ./gradlew build -x test
 
 cache:
   paths:

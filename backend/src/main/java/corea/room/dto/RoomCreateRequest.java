@@ -1,33 +1,53 @@
 package corea.room.dto;
 
 import corea.member.domain.Member;
-import corea.room.domain.RoomClassification;
 import corea.room.domain.Room;
+import corea.room.domain.RoomClassification;
 import corea.room.domain.RoomStatus;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-public record RoomCreateRequest(
-        @NotBlank
-        String title,
-        String content,
-        @NotBlank
-        String repositoryLink,
-        String thumbnailLink,
-        @NotNull
-        int matchingSize,
-        List<String> keyword,
-        @NotNull
-        int limitedParticipantsSize,
-        @NotNull
-        LocalDateTime recruitmentDeadline,
-        @NotNull
-        LocalDateTime reviewDeadline,
-        @NotNull
-        RoomClassification classification
+@Schema(description = "방 생성 요청")
+public record RoomCreateRequest(@Schema(description = "방 제목", example = "MVC를 아시나요?")
+                                @NotBlank
+                                String title,
+
+                                @Schema(description = "방 내용", example = "MVC 패턴을 아시나요?")
+                                String content,
+
+                                @Schema(description = "repository 링크", example = "https://github.com/example/java-racingcar")
+                                @NotBlank
+                                String repositoryLink,
+
+                                @Schema(description = "썸네일 링크", example = "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=13301655&filePath=L2Rpc2sxL25ld2RhdGEvMjAyMS8yMS9DTFMxMDAwNC8xMzMwMTY1NV9XUlRfMjFfQ0xTMTAwMDRfMjAyMTEyMTNfMQ==&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004")
+                                String thumbnailLink,
+
+                                @Schema(description = "상호 리뷰 인원", example = "2")
+                                @NotNull
+                                int matchingSize,
+
+                                @Schema(description = "중심으로 리뷰하면 좋은 키워드", example = "[\"TDD\", \"클린코드\"]")
+                                List<String> keyword,
+
+                                @Schema(description = "제한 참여 인원", example = "200")
+                                @NotNull
+                                int limitedParticipantsSize,
+
+                                @Schema(description = "모집 마감일", example = "2024-07-30T15:00")
+                                @NotNull
+                                LocalDateTime recruitmentDeadline,
+
+                                @Schema(description = "리뷰 마감일", example = "2024-08-10T23:59")
+                                @NotNull
+                                LocalDateTime reviewDeadline,
+
+                                @Schema(description = "방이 속하는 분야", example = "BE")
+                                @NotNull
+                                RoomClassification classification
 ) {
 
     private static final int INITIAL_PARTICIPANTS_SIZE = 1;

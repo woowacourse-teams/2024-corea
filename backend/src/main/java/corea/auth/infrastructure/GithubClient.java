@@ -1,6 +1,8 @@
 package corea.auth.infrastructure;
 
-import corea.auth.domain.GithubUserInfo;
+import corea.auth.dto.GithubAuthRequest;
+import corea.auth.dto.GithubAuthResponse;
+import corea.auth.dto.GithubUserInfo;
 import corea.exception.CoreaException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -9,6 +11,7 @@ import org.springframework.web.client.RestClient;
 
 import static corea.exception.ExceptionType.GITHUB_AUTHORIZATION_ERROR;
 import static corea.global.config.Constants.AUTHORIZATION_HEADER;
+import static corea.global.config.Constants.TOKEN_TYPE;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 @EnableConfigurationProperties(GithubProperties.class)
@@ -16,9 +19,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 @RequiredArgsConstructor
 public class GithubClient {
 
-    private static final String CLIENT_ID = "client_id";
-    private static final String CLIENT_SECRET = "client_secret";
-    private static final String CODE = "code";
     private static final String ERROR = "\"error\"";
 
     private final RestClient restClient;
@@ -32,14 +32,16 @@ public class GithubClient {
 
     private String getAccess(String code) {
         return restClient.post()
-                .uri(uriBuilder -> uriBuilder.path(githubProperties.baseUrl().oauth())
-                        .queryParam(CLIENT_ID, githubProperties.oauth().clientId())
-                        .queryParam(CLIENT_SECRET, githubProperties.oauth().clientSecret())
-                        .queryParam(CODE, code)
-                        .build())
+                .uri(githubProperties.baseUrl().oauth())
                 .contentType(APPLICATION_JSON)
+                .body(new GithubAuthRequest(
+                        githubProperties.oauth().clientId(),
+                        githubProperties.oauth().clientSecret(),
+                        code))
+                .accept(APPLICATION_JSON)
                 .retrieve()
-                .body(String.class);
+                .body(GithubAuthResponse.class)
+                .accessToken();
     }
 
     private void validate(String result) {
@@ -52,9 +54,8 @@ public class GithubClient {
         return restClient.get()
                 .uri(githubProperties.baseUrl().user())
                 .accept(APPLICATION_JSON)
-                .header(AUTHORIZATION_HEADER, accessToken)
+                .header(AUTHORIZATION_HEADER, TOKEN_TYPE.concat(accessToken))
                 .retrieve()
-                .toEntity(GithubUserInfo.class)
-                .getBody();
+                .body(GithubUserInfo.class);
     }
 }

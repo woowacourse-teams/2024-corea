@@ -8,15 +8,17 @@ import corea.ranking.domain.Ranking;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
-@DataJpaTest
+@Transactional
+@SpringBootTest
 class RankingRepositoryTest {
 
     @Autowired
@@ -35,13 +37,17 @@ class RankingRepositoryTest {
         Member ash = memberRepository.save(MemberFixture.MEMBER_ASH());
         Member mubin = memberRepository.save(MemberFixture.MEMBER_MUBIN());
 
-        Ranking firstRanking = rankingRepository.save(new Ranking(pororo, 1, 5.0f, date, classification));
-        Ranking secondRanking = rankingRepository.save(new Ranking(youngsu, 2, 4.0f, date, classification));
-        Ranking thirdRanking = rankingRepository.save(new Ranking(ash, 3, 3.0f, date, classification));
+        rankingRepository.save(new Ranking(pororo, 1, 5.0f, date, classification));
+        rankingRepository.save(new Ranking(youngsu, 2, 4.0f, date, classification));
+        rankingRepository.save(new Ranking(ash, 3, 3.0f, date, classification));
         rankingRepository.save(new Ranking(mubin, 4, 2.0f, date, classification));
 
         List<Ranking> rankings = rankingRepository.findTopRankingsByClassificationAndDate(classification, date, PageRequest.of(0, 3));
 
-        assertThat(rankings).containsExactly(firstRanking, secondRanking, thirdRanking);
+        assertSoftly(softly -> {
+            softly.assertThat(rankings.get(0).getMember()).isEqualTo(pororo);
+            softly.assertThat(rankings.get(1).getMember()).isEqualTo(youngsu);
+            softly.assertThat(rankings.get(2).getMember()).isEqualTo(ash);
+        });
     }
 }

@@ -9,6 +9,8 @@ import corea.feedback.repository.DevelopFeedbackRepository;
 import corea.matching.domain.MatchResult;
 import corea.matching.repository.MatchResultRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,12 +19,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class DevelopFeedbackService {
 
+    private static final Logger log = LogManager.getLogger(DevelopFeedbackService.class);
     private final MatchResultRepository matchResultRepository;
     private final DevelopFeedbackRepository developFeedbackRepository;
 
     @Transactional
     public DevelopFeedbackResponse create(long roomId, long deliverId, DevelopFeedbackRequest request) {
         validateAlreadyExist(roomId, deliverId, request.receiverId());
+        log.debug("개발 피드백 작성[작성자({}), 요청값({})",deliverId,request);
         DevelopFeedback developFeedback = developFeedbackRepository.save(createEntity(roomId, deliverId, request));
         return DevelopFeedbackResponse.of(developFeedback);
     }
@@ -30,6 +34,7 @@ public class DevelopFeedbackService {
     @Transactional
     public DevelopFeedbackResponse update(long feedbackId, long roomId, long deliverId, DevelopFeedbackRequest request) {
         validateNotExist(feedbackId);
+        log.debug("개발 피드백 업데이트[작성자({}), 피드백 ID({}), 요청값({})",deliverId,feedbackId,request);
         DevelopFeedback developFeedback = developFeedbackRepository.save(createEntity(feedbackId, roomId, deliverId, request));
         return DevelopFeedbackResponse.of(developFeedback);
     }

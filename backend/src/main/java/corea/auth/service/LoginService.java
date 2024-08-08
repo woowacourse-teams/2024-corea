@@ -1,7 +1,7 @@
 package corea.auth.service;
 
-import corea.auth.domain.GithubUserInfo;
 import corea.auth.domain.LoginInfo;
+import corea.auth.dto.GithubUserInfo;
 import corea.auth.infrastructure.GithubClient;
 import corea.auth.infrastructure.TokenProperties;
 import corea.auth.infrastructure.TokenProvider;
@@ -79,6 +79,11 @@ public class LoginService {
 
     private Member register(Member member) {
         return memberRepository.save(member);
+    }
+
+    @Transactional
+    public void logout(long memberId) {
+        loginInfoRepository.deleteByMemberId(memberId);
     }
 
     public GithubUserInfo getUserInfo(String code) {
