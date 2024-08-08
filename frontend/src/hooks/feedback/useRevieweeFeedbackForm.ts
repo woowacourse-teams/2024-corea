@@ -6,7 +6,7 @@ import { FeedbackModalType } from "@/utils/feedbackUtils";
 
 const initialFormState: RevieweeFeedbackData = {
   feedbackId: 0,
-  revieweeId: 0,
+  receiverId: 0,
   evaluationPoint: 0,
   feedbackKeywords: [],
   feedbackText: "",
@@ -16,7 +16,7 @@ const initialFormState: RevieweeFeedbackData = {
 export const useRevieweeFeedbackForm = (
   roomId: number,
   revieweeUsername: string,
-  revieweeId: number,
+  receiverId: number,
   modalType: FeedbackModalType,
   onClose: () => void,
 ) => {
@@ -26,11 +26,11 @@ export const useRevieweeFeedbackForm = (
 
   useEffect(() => {
     if (modalType === "create") {
-      setFormState({ ...initialFormState, revieweeId });
+      setFormState({ ...initialFormState, receiverId });
     } else if (feedbackData) {
       setFormState(feedbackData);
     }
-  }, [modalType, feedbackData, revieweeId]);
+  }, [modalType, feedbackData, receiverId]);
 
   const handleChange = (
     key: keyof RevieweeFeedbackData,

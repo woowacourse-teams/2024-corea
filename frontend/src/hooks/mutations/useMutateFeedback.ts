@@ -4,6 +4,7 @@ import { RevieweeFeedbackData } from "@/@types/feedback";
 import { postRevieweeFeedback, putRevieweeFeedback } from "@/apis/feedback.api";
 import QUERY_KEYS from "@/apis/queryKeys";
 
+// 리뷰어 -> 리뷰이
 interface PostRevieweeFeedbackMutationProps {
   roomId: number;
   feedbackData: Omit<RevieweeFeedbackData, "feedbackId">;
@@ -18,6 +19,7 @@ interface PutRevieweeFeedbackMutationProps {
 const useMutateFeedback = () => {
   const { handleMutateSuccess, handleMutateError } = useMutateHandlers();
 
+  // 리뷰어 -> 리뷰이
   const postRevieweeFeedbackMutation = useMutation({
     mutationFn: ({ roomId, feedbackData }: PostRevieweeFeedbackMutationProps) =>
       postRevieweeFeedback(roomId, feedbackData),

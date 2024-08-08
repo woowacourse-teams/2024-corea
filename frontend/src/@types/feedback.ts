@@ -19,7 +19,7 @@ export interface FeedbackCardData {
 
 export interface RevieweeFeedbackData {
   feedbackId: number;
-  revieweeId: number;
+  receiverId: number;
   evaluationPoint: number;
   feedbackKeywords: string[];
   feedbackText: string;

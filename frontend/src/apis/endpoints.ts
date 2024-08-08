@@ -15,7 +15,8 @@ export const API_ENDPOINTS = {
   PROFILE: "/user/profile",
 
   // feedbacks
-  REVIEWEE_FEEDBACK: (roomId: number) => `/rooms/${roomId}/reviewee/feedbacks`,
+  // 리뷰어->리뷰이
+  REVIEWEE_FEEDBACK: (roomId: number) => `/rooms/${roomId}/develop/feedbacks`,
   PUT_REVIEWEE_FEEDBACK: (roomId: number, feedbackId: number) =>
-    `/rooms/${roomId}/reviewee/feedbacks/${feedbackId}`,
+    `/rooms/${roomId}/develop/feedbacks/${feedbackId}`,
 };

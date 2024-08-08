@@ -3,6 +3,7 @@ import apiClient from "@/apis/apiClient";
 import { API_ENDPOINTS } from "@/apis/endpoints";
 import MESSAGES from "@/constants/message";
 
+// 리뷰어 -> 리뷰이
 export const getRevieweeFeedback = async (
   roomId: number,
   username: string,
