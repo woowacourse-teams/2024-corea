@@ -1,4 +1,5 @@
 import * as S from "./OptionSelect.style";
+import React from "react";
 import { NonEmptyArray } from "@/@types/NonEmptyArray";
 
 interface OptionSelect<T extends NonEmptyArray<string>> {
