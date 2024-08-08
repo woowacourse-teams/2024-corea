@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import useDropdown from "@/hooks/common/useDropdown";
 import useMutateAuth from "@/hooks/mutations/useMutateAuth";
 import * as S from "@/components/common/header/ProfileDropdown.style";
-import profileImage from "@/assets/profile.png";
 
 const dropdownItems = [
   {
@@ -18,6 +17,7 @@ const dropdownItems = [
 ];
 
 const ProfileDropdown = () => {
+  const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
   const navigate = useNavigate();
   const { isOpen, handleToggleDropdown, dropdownRef } = useDropdown();
   const { postLogoutMutation } = useMutateAuth();
@@ -39,14 +39,14 @@ const ProfileDropdown = () => {
 
   return (
     <S.ProfileContainer ref={dropdownRef}>
-      <Profile imgSrc={profileImage} onClick={handleProfileClick} />
+      <Profile imgSrc={userInfo.avatar_url} onClick={handleProfileClick} />
 
       <S.DropdownMenu show={isOpen}>
         <S.ProfileWrapper>
-          <Profile imgSrc={profileImage} />
+          <Profile imgSrc={userInfo.avatar_url} />
           <S.ProfileInfo>
-            <strong>최진실</strong>
-            <span>jinsil@gmail.com</span>
+            <strong>{userInfo.name}</strong>
+            <span>{userInfo.email !== "" ? userInfo.email : "email 비공개"}</span>
           </S.ProfileInfo>
         </S.ProfileWrapper>
 
