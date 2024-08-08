@@ -18,14 +18,14 @@ interface RevieweeFeedbackModalProps {
   buttonText: string;
 }
 
-const RevieweeFeedbackModal: React.FC<RevieweeFeedbackModalProps> = ({
+const RevieweeFeedbackModal = ({
   isOpen,
   onClose,
   roomInfo,
   reviewee,
   modalType,
   buttonText,
-}) => {
+}: RevieweeFeedbackModalProps) => {
   const { formState, handleChange, isFormValid, handleSubmit, handleClose } =
     useRevieweeFeedbackForm(roomInfo.id, reviewee.username, reviewee.userId, modalType, onClose);
 
