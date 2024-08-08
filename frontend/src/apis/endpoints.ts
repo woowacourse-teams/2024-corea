@@ -28,6 +28,6 @@ export const API_ENDPOINTS = {
   REVIEWER_FEEDBACK: (roomId: number) => `/rooms/${roomId}/social/feedbacks`,
   PUT_REVIEWER_FEEDBACK: (roomId: number, feedbackId: number) =>
     `/rooms/${roomId}/social/feedbacks/${feedbackId}`,
-  RECEIVED_FEEDBACK: "/user/feedback/received",
-  DELIVERED_FEEDBACK: "/user/feedback/delivered",
+  RECEIVED_FEEDBACK: "/user/feedbacks/received",
+  DELIVERED_FEEDBACK: "/user/feedbacks/delivered",
 };
