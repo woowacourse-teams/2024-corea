@@ -10,6 +10,8 @@ import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -24,6 +26,7 @@ import static corea.global.config.Constants.ANONYMOUS;
 public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolver {
 
     private static final String ID = "id";
+    private static final Logger log = LogManager.getLogger(LoginMemberArgumentResolver.class);
 
     private final RequestHandler requestHandler;
     private final MemberRepository memberRepository;
@@ -42,6 +45,7 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
         if (accessToken.equals(ANONYMOUS)) {
             throw new CoreaException(ExceptionType.AUTHORIZATION_ERROR);
         }
+        log.info("로그인 시도[토큰={}]",accessToken);
         Long memberId = tokenProvider.getPayload(accessToken).get(ID, Long.class);
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new CoreaException(ExceptionType.AUTHORIZATION_ERROR));
