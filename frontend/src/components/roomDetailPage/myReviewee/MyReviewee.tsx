@@ -1,7 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import useModal from "@/hooks/common/useModal";
-import { useFetchRevieweeFeedback } from "@/hooks/queries/useFetchFeedback";
 import { useFetchReviewee } from "@/hooks/queries/useFetchReviewee";
 import Button from "@/components/common/button/Button";
 import Icon from "@/components/common/icon/Icon";
@@ -9,8 +7,6 @@ import RevieweeFeedbackModal from "@/components/feedback/revieweeFeedbackModal/R
 import * as S from "@/components/roomDetailPage/myReviewee/MyReviewee.style";
 import { ReviewerInfo } from "@/@types/reviewer";
 import { RoomInfo } from "@/@types/roomInfo";
-import QUERY_KEYS from "@/apis/queryKeys";
-import { getMyReviewees } from "@/apis/reviews.api";
 import MESSAGES from "@/constants/message";
 import { FeedbackTypeResult, getFeedbackType } from "@/utils/feedbackUtils";
 
@@ -79,6 +75,7 @@ const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
                   바로가기
                 </S.PRLink>
               </S.MyRevieweeContent>
+
               <S.MyRevieweeContent>
                 <Button
                   size="small"
