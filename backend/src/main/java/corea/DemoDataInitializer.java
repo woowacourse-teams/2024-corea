@@ -10,6 +10,7 @@ import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
 import corea.participation.domain.Participation;
 import corea.participation.repository.ParticipationRepository;
+import corea.profile.repository.ProfileRepository;
 import corea.room.domain.Room;
 import corea.room.domain.RoomClassification;
 import corea.room.domain.RoomStatus;
@@ -38,6 +39,7 @@ public class DemoDataInitializer implements ApplicationRunner {
     private final MatchResultRepository matchResultRepository;
     private final DevelopFeedbackRepository developFeedbackRepository;
     private final SocialFeedbackRepository socialFeedbackRepository;
+    private final ProfileRepository profileRepository;
 
     @Override
     public void run(ApplicationArguments args) {
@@ -333,23 +335,71 @@ public class DemoDataInitializer implements ApplicationRunner {
         participationRepository.save(new Participation(room4.getId(), dar.getId()));
 
         //room1 에서 매칭된 결과
-        matchResultRepository.save(new MatchResult(1L, pororo, ash, "https://github.com/example/java-racingcar/pull/2"));
-        matchResultRepository.save(new MatchResult(1L, pororo, joysun, "https://github.com/example/java-racingcar/pull/3"));
+        MatchResult result1 = new MatchResult(1L, pororo, ash, "https://github.com/example/java-racingcar/pull/2");
+        result1.isRevieweeCompletedFeedback();
+        result1.isReviewerCompletedFeedback();
+        result1.reviewComplete();
+        matchResultRepository.save(result1);
+        MatchResult result2 = new MatchResult(1L, pororo, joysun, "https://github.com/example/java-racingcar/pull/3");
+        result2.isRevieweeCompletedFeedback();
+        result2.isReviewerCompletedFeedback();
+        result2.reviewComplete();
+        matchResultRepository.save(result2);
 
-        matchResultRepository.save(new MatchResult(1L, ash, joysun, "https://github.com/example/java-racingcar/pull/3"));
-        matchResultRepository.save(new MatchResult(1L, ash, movin, "https://github.com/example/java-racingcar/pull/4"));
+        MatchResult result3 = new MatchResult(1L, ash, joysun, "https://github.com/example/java-racingcar/pull/3");
+        result3.isRevieweeCompletedFeedback();
+        result3.isReviewerCompletedFeedback();
+        result3.reviewComplete();
+        matchResultRepository.save(result3);
+        MatchResult result4 = new MatchResult(1L, ash, movin, "https://github.com/example/java-racingcar/pull/4");
+        result4.isRevieweeCompletedFeedback();
+        result4.isReviewerCompletedFeedback();
+        result4.reviewComplete();
+        matchResultRepository.save(result4);
 
-        matchResultRepository.save(new MatchResult(1L, joysun, movin, "https://github.com/example/java-racingcar/pull/4"));
-        matchResultRepository.save(new MatchResult(1L, joysun, ten, "https://github.com/example/java-racingcar/pull/5"));
+        MatchResult result5 = new MatchResult(1L, joysun, movin, "https://github.com/example/java-racingcar/pull/4");
+        result5.isRevieweeCompletedFeedback();
+        result5.isReviewerCompletedFeedback();
+        result5.reviewComplete();
+        matchResultRepository.save(result5);
+        MatchResult result6 = new MatchResult(1L, joysun, ten, "https://github.com/example/java-racingcar/pull/5");
+        result6.isRevieweeCompletedFeedback();
+        result6.isReviewerCompletedFeedback();
+        result6.reviewComplete();
+        matchResultRepository.save(result6);
 
-        matchResultRepository.save(new MatchResult(1L, movin, ten, "https://github.com/example/java-racingcar/pull/5"));
-        matchResultRepository.save(new MatchResult(1L, movin, dar, "https://github.com/example/java-racingcar/pull/2"));
+        MatchResult result7 = new MatchResult(1L, movin, ten, "https://github.com/example/java-racingcar/pull/5");
+        result7.isRevieweeCompletedFeedback();
+        result7.isReviewerCompletedFeedback();
+        result7.reviewComplete();
+        matchResultRepository.save(result7);
+        MatchResult result8 = new MatchResult(1L, movin, dar, "https://github.com/example/java-racingcar/pull/2");
+        result8.isRevieweeCompletedFeedback();
+        result8.isReviewerCompletedFeedback();
+        result8.reviewComplete();
+        matchResultRepository.save(result8);
 
-        matchResultRepository.save(new MatchResult(1L, ten, pororo, "https://github.com/example/java-racingcar/pull/1"));
-        matchResultRepository.save(new MatchResult(1L, ten, dar, "https://github.com/example/java-racingcar/pull/2"));
+        MatchResult result9 = new MatchResult(1L, ten, pororo, "https://github.com/example/java-racingcar/pull/1");
+        result9.isRevieweeCompletedFeedback();
+        result9.isReviewerCompletedFeedback();
+        result9.reviewComplete();
+        matchResultRepository.save(result9);
+        MatchResult result10 = new MatchResult(1L, ten, dar, "https://github.com/example/java-racingcar/pull/2");
+        result10.isRevieweeCompletedFeedback();
+        result10.isReviewerCompletedFeedback();
+        result10.reviewComplete();
+        matchResultRepository.save(result10);
 
-        matchResultRepository.save(new MatchResult(1L, dar, pororo, "https://github.com/example/java-racingcar/pull/1"));
-        matchResultRepository.save(new MatchResult(1L, dar, ash, "https://github.com/example/java-racingcar/pull/2"));
+        MatchResult result11 = new MatchResult(1L, dar, pororo, "https://github.com/example/java-racingcar/pull/1");
+        result11.isRevieweeCompletedFeedback();
+        result11.isReviewerCompletedFeedback();
+        result11.reviewComplete();
+        matchResultRepository.save(result11);
+        MatchResult result12 = new MatchResult(1L, dar, ash, "https://github.com/example/java-racingcar/pull/2");
+        result12.isRevieweeCompletedFeedback();
+        result12.isReviewerCompletedFeedback();
+        result12.reviewComplete();
+        matchResultRepository.save(result12);
 
         //room3 에서 매칭된 결과
         matchResultRepository.save(new MatchResult(3L, pororo, ash, "https://github.com/example/java-racingcar/pull/2"));
@@ -406,5 +456,14 @@ public class DemoDataInitializer implements ApplicationRunner {
 
         socialFeedbackRepository.save(new SocialFeedback(1L, dar, pororo, 5, List.of(KIND, GOOD_AT_EXPLAINING), "너무 맘에 드는 말투였어요~"));
         socialFeedbackRepository.save(new SocialFeedback(1L, dar, ash, 5, List.of(KIND, GOOD_AT_EXPLAINING), "너무 맘에 드는 말투였어요~"));
+
+        //프로필
+        profileRepository.save(new corea.profile.domain.Profile(pororo, 1, 2, 3, 4.5f, 6.7f));
+        profileRepository.save(new corea.profile.domain.Profile(ash, 2, 3, 4, 5.6f, 7.8f));
+        profileRepository.save(new corea.profile.domain.Profile(joysun, 3, 4, 5, 6.7f, 8.9f));
+        profileRepository.save(new corea.profile.domain.Profile(movin, 4, 5, 6, 7.8f, 9.10f));
+        profileRepository.save(new corea.profile.domain.Profile(ten, 5, 6, 7, 8.9f, 10.11f));
+        profileRepository.save(new corea.profile.domain.Profile(cho, 6, 7, 8, 9.10f, 11.12f));
+        profileRepository.save(new corea.profile.domain.Profile(dar, 7, 8, 9, 10.11f, 12.13f));
     }
 }
