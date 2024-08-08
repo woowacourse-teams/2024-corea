@@ -101,46 +101,44 @@ const fetchWithErrorHandling = async (
     throw new Error(MESSAGES.ERROR.OFFLINE);
   }
 
-  const response = await fetch(`${serverUrl}${endpoint}`, requestInit);
+  let response = await fetch(`${serverUrl}${endpoint}`, requestInit);
 
   if (response.status === 401) {
     if (isRefreshing) {
       return new Promise<string>((resolve, reject) => {
         failedQueue.push({ resolve, reject });
-      })
-        .then((token) => {
-          requestInit.headers = {
-            ...requestInit.headers,
-            Authorization: `Bearer ${token}`,
-          };
-          return fetch(`${serverUrl}${endpoint}`, requestInit);
-        })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error(errorMessage || `Error: ${response.status} ${response.statusText}`);
-          }
-          return response.json();
-        });
-    }
-
-    isRefreshing = true;
-    return refreshAccessToken()
-      .then((newAccessToken) => {
-        if (!newAccessToken) {
-          throw new Error(errorMessage || "Failed to refresh token");
-        }
+      }).then(async (token) => {
         requestInit.headers = {
           ...requestInit.headers,
-          Authorization: `Bearer ${newAccessToken}`,
+          Authorization: `Bearer ${token}`,
         };
-        return fetch(`${serverUrl}${endpoint}`, requestInit);
-      })
-      .then((response) => {
+        response = await fetch(`${serverUrl}${endpoint}`, requestInit);
         if (!response.ok) {
-          throw new Error(errorMessage || `Error: ${response.status} ${response.statusText}`);
+          throw new Error(MESSAGES.ERROR.POST_REFRESH);
         }
         return response.json();
       });
+    }
+
+    isRefreshing = true;
+
+    try {
+      const newAccessToken = await refreshAccessToken();
+      if (!newAccessToken) {
+        throw new Error(MESSAGES.ERROR.POST_REFRESH);
+      }
+      requestInit.headers = {
+        ...requestInit.headers,
+        Authorization: `Bearer ${newAccessToken}`,
+      };
+      response = await fetch(`${serverUrl}${endpoint}`, requestInit);
+      if (!response.ok) {
+        throw new Error(MESSAGES.ERROR.POST_REFRESH);
+      }
+      return response.json();
+    } catch (error) {
+      throw new Error(MESSAGES.ERROR.POST_REFRESH);
+    }
   }
 
   if (!response.ok) {
