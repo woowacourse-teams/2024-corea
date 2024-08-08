@@ -2,7 +2,7 @@ import { API_ENDPOINTS } from "./endpoints";
 import { serverUrl } from "@/config/serverUrl";
 import MESSAGES from "@/constants/message";
 
-type Method = "GET" | "POST" | "PATCH" | "DELETE";
+type Method = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
 interface ApiProps {
   endpoint: string;
@@ -155,6 +155,9 @@ const apiClient = {
 
   post: ({ endpoint, headers = {}, body = {}, errorMessage = "" }: ApiProps) =>
     apiClient.request({ method: "POST", endpoint, headers, body, errorMessage }),
+
+  put: ({ endpoint, headers = {}, body = {}, errorMessage = "" }: ApiProps) =>
+    apiClient.request({ method: "PUT", endpoint, headers, body, errorMessage }),
 
   patch: ({ endpoint, headers = {}, body = {}, errorMessage = "" }: ApiProps) =>
     apiClient.request({ method: "PATCH", endpoint, headers, body, errorMessage }),
