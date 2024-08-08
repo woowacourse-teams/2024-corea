@@ -28,3 +28,5 @@ export interface RevieweeFeedbackData {
   feedbackText: string;
   recommendationPoint: number;
 }
+
+export type ReviewerFeedbackData = Omit<RevieweeFeedbackData, "recommendationPoint">;

@@ -1,4 +1,9 @@
 export const API_ENDPOINTS = {
+  // auth
+  LOGIN: "/login",
+  REFRESH: "/refresh",
+  LOGOUT: "/logout",
+
   // rooms
   PARTICIPATED_ROOMS: "/rooms/participated",
   OPENED_ROOMS: "/rooms/opened",
@@ -15,9 +20,14 @@ export const API_ENDPOINTS = {
   PROFILE: "/user/profile",
 
   // feedbacks
+  // 리뷰어->리뷰이
   REVIEWEE_FEEDBACK: (roomId: number) => `/rooms/${roomId}/develop/feedbacks`,
   PUT_REVIEWEE_FEEDBACK: (roomId: number, feedbackId: number) =>
     `/rooms/${roomId}/develop/feedbacks/${feedbackId}`,
+  // 리뷰이->리뷰어
+  REVIEWER_FEEDBACK: (roomId: number) => `/rooms/${roomId}/social/feedbacks`,
+  PUT_REVIEWER_FEEDBACK: (roomId: number, feedbackId: number) =>
+    `/rooms/${roomId}/social/feedbacks/${feedbackId}`,
   RECEIVED_FEEDBACK: "/user/feedback/received",
   DELIVERED_FEEDBACK: "/user/feedback/delivered",
 };

@@ -8,6 +8,8 @@ export const useFetchParticipatedRoomList = () => {
   return useQuery({
     queryKey: [QUERY_KEYS.PARTICIPATED_ROOM_LIST],
     queryFn: getParticipatedRoomList,
+    networkMode: "always",
+    retry: false,
   });
 };
 

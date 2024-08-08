@@ -2,6 +2,7 @@
 export type FeedbackModalType = "create" | "edit" | "view";
 
 interface FeedbackTypeProps {
+  isReviewed: boolean;
   isWrited: boolean;
   isClosed: boolean;
 }
@@ -11,7 +12,14 @@ export interface FeedbackTypeResult {
   buttonText: string;
 }
 
-export const getFeedbackType = ({ isWrited, isClosed }: FeedbackTypeProps): FeedbackTypeResult => {
+export const getFeedbackType = ({
+  isReviewed,
+  isWrited,
+  isClosed,
+}: FeedbackTypeProps): FeedbackTypeResult => {
+  if (!isReviewed) {
+    return { modalType: "create", buttonText: "피드백 작성" };
+  }
   if (isClosed) {
     return { modalType: "view", buttonText: "피드백 확인" };
   }
