@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: backend
   config:
     activate:
       on-profile: dev
@@ -10,8 +12,6 @@ spring:
     properties:
       hibernate:
         format_sql: true
-  application:
-    name: backend
 
 springdoc:
   swagger-ui:
