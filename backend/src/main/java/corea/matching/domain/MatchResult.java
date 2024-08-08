@@ -42,10 +42,11 @@ public class MatchResult {
         this(null, roomId, reviewer, reviewee, prLink, ReviewStatus.INCOMPLETE, false, false);
     }
 
-    public void reviewerCompleteFeedback(){
+    public void reviewerCompleteFeedback() {
         isReviewerCompletedFeedback = true;
     }
-    public void revieweeCompleteFeedback(){
+
+    public void revieweeCompleteFeedback() {
         isRevieweeCompletedFeedback = true;
     }
 

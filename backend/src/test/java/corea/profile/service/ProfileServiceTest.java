@@ -1,8 +1,8 @@
 package corea.profile.service;
 
 import config.ServiceTest;
-import corea.feedback.domain.FeedbackKeyword;
 import corea.feedback.domain.DevelopFeedback;
+import corea.feedback.domain.FeedbackKeyword;
 import corea.feedback.repository.DevelopFeedbackRepository;
 import corea.fixture.MemberFixture;
 import corea.member.domain.Member;

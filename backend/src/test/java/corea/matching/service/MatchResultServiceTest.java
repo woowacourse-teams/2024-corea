@@ -46,7 +46,7 @@ class MatchResultServiceTest {
     @BeforeEach
     void setUp() {
         roomId = roomRepository.save(RoomFixture.ROOM_DOMAIN(
-                        createMember(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON()))).getId();
+                createMember(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON()))).getId();
         findMemberId = createMember(MemberFixture.MEMBER_YOUNGSU()).getId();
         participations.add(new Participation(roomId, findMemberId));
         participations.add(new Participation(roomId, createMember(MemberFixture.MEMBER_ASH()).getId()));
@@ -73,12 +73,11 @@ class MatchResultServiceTest {
     @Test
     @DisplayName("리뷰어 결과를 가져올 때 존재하지 않는 방이나 사용자의 정보를 요청하는 경우 예외를 발생한다.")
     void findReviewersInvalidException() {
-        long roomId = 0;
         int matchingSize = 3;
 
         matchingService.matchMaking(participations, matchingSize);
 
-        assertThatThrownBy(() -> matchResultService.findReviewers(findMemberId, roomId))
+        assertThatThrownBy(() -> matchResultService.findReviewers(findMemberId, 0))
                 .isInstanceOf(CoreaException.class)
                 .satisfies(exception -> {
                     CoreaException coreaException = (CoreaException) exception;

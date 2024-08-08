@@ -8,16 +8,16 @@ import corea.ranking.domain.Ranking;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
+@Transactional
 @SpringBootTest
 class RankingRepositoryTest {
 
@@ -44,6 +44,10 @@ class RankingRepositoryTest {
 
         List<Ranking> rankings = rankingRepository.findTopRankingsByClassificationAndDate(classification, date, PageRequest.of(0, 3));
 
-        System.out.println("rankings = " + rankings);
+        assertSoftly(softly -> {
+            softly.assertThat(rankings.get(0).getMember()).isEqualTo(pororo);
+            softly.assertThat(rankings.get(1).getMember()).isEqualTo(youngsu);
+            softly.assertThat(rankings.get(2).getMember()).isEqualTo(ash);
+        });
     }
 }
