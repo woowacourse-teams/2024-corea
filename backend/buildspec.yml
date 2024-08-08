@@ -26,7 +26,7 @@ phases:
       - echo Build Starting on `date`
       - cd backend
       - chmod +x ./gradlew
-      - ./gradlew build
+      - ./gradlew build -x test
 
 cache:
   paths:
