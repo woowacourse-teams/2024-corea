@@ -8,6 +8,7 @@ public record GithubAuthResponse(
         @JsonProperty("access_token")
         String accessToken,
         String scope,
-        String token_type
+        @JsonProperty("token_type")
+        String tokenType
 ) {
 }

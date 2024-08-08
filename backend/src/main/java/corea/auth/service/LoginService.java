@@ -31,7 +31,7 @@ public class LoginService {
     private final GithubClient githubClient;
 
     public String createAccessToken(Member member) {
-        return TOKEN_TYPE.concat(tokenProvider.createToken(member, tokenProperties.expiration().access()));
+        return TOKEN_TYPE.concat(tokenProvider.createToken(member, 30000));
     }
 
     @Transactional
@@ -82,7 +82,7 @@ public class LoginService {
     }
 
     @Transactional
-    public void logout(Long memberId) {
+    public void logout(long memberId) {
         loginInfoRepository.deleteByMemberId(memberId);
     }
 
