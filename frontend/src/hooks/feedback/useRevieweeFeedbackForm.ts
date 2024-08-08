@@ -59,7 +59,9 @@ export const useRevieweeFeedbackForm = (
           },
         },
       );
-    } else if (modalType === "edit") {
+    }
+
+    if (modalType === "edit") {
       putRevieweeFeedbackMutation.mutate(
         { roomId, feedbackId: feedbackData.feedbackId, feedbackData },
         {
