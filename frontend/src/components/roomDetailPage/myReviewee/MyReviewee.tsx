@@ -1,5 +1,6 @@
 import { useState } from "react";
 import useModal from "@/hooks/common/useModal";
+import useMutateReviewComplete from "@/hooks/mutations/useMutateReview";
 import { useFetchReviewee } from "@/hooks/queries/useFetchReviewee";
 import Button from "@/components/common/button/Button";
 import Icon from "@/components/common/icon/Icon";
@@ -16,6 +17,7 @@ interface MyReviewerProps {
 
 const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
   const { isOpen, handleOpenModal, handleCloseModal } = useModal();
+  const { postReviewCompleteMutation } = useMutateReviewComplete();
   const [selectedReviewee, setSelectedReviewee] = useState<ReviewerInfo | null>(null);
   const [feedbackTypeResult, setFeedbackTypeResult] = useState<FeedbackTypeResult | null>(null);
 
@@ -27,12 +29,17 @@ const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
 
   const handleOpenFeedbackModal = (reviewee: ReviewerInfo) => {
     const result = getFeedbackType({
+      isReviewed: reviewee.isReviewed,
       isWrited: reviewee.isWrited,
       isClosed: roomInfo.isClosed,
     });
     setSelectedReviewee(reviewee);
     setFeedbackTypeResult(result);
     handleOpenModal();
+  };
+
+  const handleReviewCompleteClick = (revieweeId: number) => {
+    postReviewCompleteMutation.mutate({ roomId: roomInfo.id, revieweeId });
   };
 
   return (
@@ -62,6 +69,7 @@ const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
 
         {revieweeData?.map((reviewee) => {
           const { buttonText } = getFeedbackType({
+            isReviewed: reviewee.isReviewed,
             isWrited: reviewee.isWrited,
             isClosed: roomInfo.isClosed,
           });
@@ -69,6 +77,7 @@ const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
           return (
             <S.MyRevieweeWrapper key={reviewee.userId}>
               <S.MyRevieweeContent>{reviewee.username}</S.MyRevieweeContent>
+
               <S.MyRevieweeContent>
                 <S.PRLink href={reviewee.link}>
                   <Icon kind="link" />
@@ -81,6 +90,7 @@ const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
                   size="small"
                   variant={reviewee.isReviewed ? "disable" : "secondary"}
                   disabled={reviewee.isReviewed}
+                  onClick={() => handleReviewCompleteClick(reviewee.userId)}
                 >
                   {reviewee.isReviewed ? "코드리뷰 완료" : "코드리뷰 하기"}
                 </Button>
