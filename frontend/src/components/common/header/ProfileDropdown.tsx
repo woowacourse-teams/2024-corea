@@ -2,6 +2,7 @@ import Icon from "../icon/Icon";
 import Profile from "../profile/Profile";
 import { useNavigate } from "react-router-dom";
 import useDropdown from "@/hooks/common/useDropdown";
+import useMutateAuth from "@/hooks/mutations/useMutateAuth";
 import * as S from "@/components/common/header/ProfileDropdown.style";
 import profileImage from "@/assets/profile.png";
 
@@ -19,6 +20,7 @@ const dropdownItems = [
 const ProfileDropdown = () => {
   const navigate = useNavigate();
   const { isOpen, handleToggleDropdown, dropdownRef } = useDropdown();
+  const { postLogoutMutation } = useMutateAuth();
 
   const handleProfileClick = (event: React.MouseEvent) => {
     event.preventDefault();
@@ -31,8 +33,8 @@ const ProfileDropdown = () => {
   };
 
   const handelLogoutClick = () => {
+    postLogoutMutation.mutate();
     handleToggleDropdown();
-    alert("로그아웃");
   };
 
   return (
