@@ -67,7 +67,7 @@ public class DevelopFeedbackService {
     private DevelopFeedback createEntity(long roomId, long deliverId, DevelopFeedbackRequest request) {
         MatchResult matchResult = matchResultRepository.findByRoomIdAndReviewerIdAndRevieweeId(roomId, deliverId, request.receiverId())
                 .orElseThrow(() -> new CoreaException(ExceptionType.NOT_MATCHED_MEMBER));
-
+        matchResult.reviewerCompleteFeedback();
         return request.toEntity(roomId, matchResult.getReviewer(), matchResult.getReviewee());
     }
 }
