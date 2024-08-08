@@ -1,0 +1,84 @@
+{
+  "feedbacks": [
+    {
+      "roomId": 0,
+      "title": "미션 1",
+      "roomKeywords": ["string"],
+      "isClosed": true,
+      "developFeedback": [
+        {
+          "feedbackId": 0,
+          "roomId": 0,
+          "receiverId": 0,
+          "profile": "https://avatars.githubusercontent.com/u/63334368?v=4",
+          "username": "a",
+          "feedbackKeywords": ["string"],
+          "evaluationPoint": 3,
+          "feedbackText": "string"
+        },
+        {
+          "feedbackId": 0,
+          "roomId": 0,
+          "receiverId": 0,
+          "profile": "https://avatars.githubusercontent.com/u/63334368?v=4",
+          "username": "q",
+          "feedbackKeywords": ["string"],
+          "evaluationPoint": 3,
+          "feedbackText": "string"
+        }
+      ],
+      "socialFeedback": [
+        {
+          "feedbackId": 0,
+          "roomId": 0,
+          "receiverId": 0,
+          "profile": "https://avatars.githubusercontent.com/u/63334368?v=4",
+          "username": "b",
+          "feedbackKeywords": ["string"],
+          "evaluationPoint": 3,
+          "feedbackText": "string"
+        },
+        {
+          "feedbackId": 0,
+          "roomId": 0,
+          "receiverId": 0,
+          "profile": "https://avatars.githubusercontent.com/u/63334368?v=4",
+          "username": "q",
+          "feedbackKeywords": ["string"],
+          "evaluationPoint": 3,
+          "feedbackText": "string"
+        }
+      ]
+    },
+    {
+      "roomId": 1,
+      "title": "미션 2",
+      "roomKeywords": ["티디딕"],
+      "isClosed": true,
+      "developFeedback": [
+        {
+          "feedbackId": 3,
+          "roomId": 4,
+          "receiverId": 0,
+          "profile": "https://avatars.githubusercontent.com/u/63334368?v=4",
+          "username": "C",
+          "feedbackKeywords": ["string"],
+          "evaluationPoint": 3,
+          "feedbackText": "string"
+        }
+      ],
+      "socialFeedback": [
+        {
+          "feedbackId": 0,
+          "roomId": 0,
+          "receiverId": 0,
+          "profile": "https://avatars.githubusercontent.com/u/63334368?v=4",
+          "username": "D",
+          "feedbackKeywords": ["string"],
+          "evaluationPoint": 3,
+          "feedbackText": "string"
+        }
+      ]
+    }
+  ]
+}
