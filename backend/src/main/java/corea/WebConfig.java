@@ -12,6 +12,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
+import static corea.global.config.Constants.AUTHORIZATION_HEADER;
+
 @Configuration
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
@@ -24,8 +26,9 @@ public class WebConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedOrigins("http://localhost:3000", "https://d2n5lw9a9hwjzs.cloudfront.net/")
-                .allowedMethods("GET", "POST", "DELETE")
+                .allowedMethods("GET", "POST", "DELETE", "PUT")
                 .allowCredentials(true)
+                .exposedHeaders(AUTHORIZATION_HEADER)
                 .maxAge(3000);
     }
 

@@ -7,9 +7,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
+
+import java.lang.reflect.Parameter;
+import java.util.Arrays;
 
 @Component
 @RequiredArgsConstructor
@@ -22,6 +26,10 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+        if (CorsUtils.isPreFlightRequest(request)) {
+            return true;
+        }
+
         boolean hasAnnotation = checkAnnotation(handler);
         if (hasAnnotation) {
             String accessToken = requestHandler.extract(request);
@@ -37,7 +45,8 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 
         HandlerMethod handlerMethod = (HandlerMethod) handler;
 
-        return (null != handlerMethod.getMethodAnnotation(AUTH_ANNOTATION) ||
-                null != handlerMethod.getBeanType().getAnnotation(AUTH_ANNOTATION));
+        Parameter[] parameters = handlerMethod.getMethod().getParameters();
+        return Arrays.stream(parameters)
+                .anyMatch(param -> param.isAnnotationPresent(AUTH_ANNOTATION));
     }
 }

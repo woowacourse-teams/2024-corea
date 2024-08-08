@@ -1,6 +1,6 @@
 package corea.room.repository;
 
-import corea.room.domain.Classification;
+import corea.room.domain.RoomClassification;
 import corea.room.domain.Room;
 import corea.room.domain.RoomStatus;
 import org.springframework.data.domain.Page;
@@ -25,9 +25,9 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
             ON r.id = p.roomId AND p.memberId = :memberId 
             WHERE p.id IS NULL AND r.classification = :classification AND r.status = :status AND r.manager.id <> :memberId
             """)
-    Page<Room> findAllByMemberAndClassificationAndStatus(long memberId, Classification classification, RoomStatus status, Pageable pageable);
+    Page<Room> findAllByMemberAndClassificationAndStatus(long memberId, RoomClassification classification, RoomStatus status, Pageable pageable);
 
     Page<Room> findAllByStatus(RoomStatus status, PageRequest pageRequest);
 
-    Page<Room> findAllByClassificationAndStatus(Classification classification, RoomStatus status, Pageable pageable);
+    Page<Room> findAllByClassificationAndStatus(RoomClassification classification, RoomStatus status, Pageable pageable);
 }

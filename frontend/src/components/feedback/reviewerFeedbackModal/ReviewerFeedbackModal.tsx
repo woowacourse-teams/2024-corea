@@ -4,7 +4,7 @@ import Label from "@/components/common/label/Label";
 import Modal from "@/components/common/modal/Modal";
 import { Textarea } from "@/components/common/textarea/Textarea";
 import EvaluationPointBar from "@/components/feedback/evaluationPointBar/EvaluationPointBar";
-import OptionButton from "@/components/feedback/optionButton/OptionButton";
+import OptionButton from "@/components/feedback/keywordOptionButton/KeywordOptionButton";
 import * as S from "@/components/feedback/reviewerFeedbackModal/ReviewerFeedbackModal.style";
 import { RoomInfo } from "@/@types/roomInfo";
 
