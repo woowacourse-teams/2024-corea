@@ -8,7 +8,7 @@ const meta = {
   parameters: {
     docs: {
       description: {
-        score: "매너 온도 점수",
+        component: "피드백 카드 컴포넌트",
       },
     },
   },
