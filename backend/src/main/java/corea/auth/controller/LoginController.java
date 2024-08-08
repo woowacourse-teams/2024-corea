@@ -4,7 +4,7 @@ import corea.auth.annotation.LoginMember;
 import corea.auth.domain.AuthInfo;
 import corea.auth.domain.GithubUserInfo;
 import corea.auth.dto.LoginRequest;
-import corea.auth.dto.TokenRefreshResponse;
+import corea.auth.dto.RefreshTokenResponse;
 import corea.auth.service.LoginService;
 import corea.member.domain.Member;
 import corea.member.service.MemberService;
@@ -26,7 +26,7 @@ public class LoginController implements LoginControllerSpecification {
     private final MemberService memberService;
 
     @PostMapping("/login")
-    public ResponseEntity<TokenRefreshResponse> login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<RefreshTokenResponse> login(@RequestBody LoginRequest loginRequest) {
         GithubUserInfo userInfo = loginService.getUserInfo(loginRequest.code());
         Member member = loginService.login(userInfo);
 
@@ -35,12 +35,12 @@ public class LoginController implements LoginControllerSpecification {
 
         return ResponseEntity.ok()
                 .header(AUTHORIZATION_HEADER, accessToken)
-                .body(new TokenRefreshResponse(refreshToken));
+                .body(new RefreshTokenResponse(refreshToken));
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<Void> extendAuthorization(@RequestBody TokenRefreshResponse refreshToken) {
-        Long memberId = loginService.authorize(refreshToken.refreshToken());
+    public ResponseEntity<Void> extendAuthorization(@RequestBody RefreshTokenResponse refreshTokenResponse) {
+        Long memberId = loginService.authorize(refreshTokenResponse.refreshToken());
         Member member = memberService.findById(memberId);
 
         String accessToken = loginService.createAccessToken(member);
