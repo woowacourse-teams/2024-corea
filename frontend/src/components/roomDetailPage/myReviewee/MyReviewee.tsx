@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import useModal from "@/hooks/common/useModal";
+import { useFetchRevieweeFeedback } from "@/hooks/queries/useFetchFeedback";
+import { useFetchReviewee } from "@/hooks/queries/useFetchReviewee";
 import Button from "@/components/common/button/Button";
 import Icon from "@/components/common/icon/Icon";
 import RevieweeFeedbackModal from "@/components/feedback/revieweeFeedbackModal/RevieweeFeedbackModal";
@@ -21,10 +23,7 @@ const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
   const [selectedReviewee, setSelectedReviewee] = useState<ReviewerInfo | null>(null);
   const [feedbackTypeResult, setFeedbackTypeResult] = useState<FeedbackTypeResult | null>(null);
 
-  const { data: revieweeData } = useQuery({
-    queryKey: [QUERY_KEYS.REVIEWEES, roomInfo.id],
-    queryFn: () => getMyReviewees(roomInfo.id),
-  });
+  const { data: revieweeData } = useFetchReviewee(roomInfo);
 
   if (!revieweeData || revieweeData.length === 0) {
     return <>{MESSAGES.GUIDANCE.EMPTY_REVIEWEE}</>;
