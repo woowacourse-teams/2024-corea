@@ -1,4 +1,5 @@
 import useSelectedCategory from "@/hooks/common/useSelectedCategory";
+import useMutateAuth from "@/hooks/mutations/useMutateAuth";
 import {
   useFetchParticipatedRoomList,
   useInfiniteFetchRoomList,
@@ -12,7 +13,6 @@ import { getClosedRoomList, getOpenedRoomList, getParticipatedRoomList } from "@
 
 const MainPage = () => {
   const { selectedCategory, handleSelectedCategory } = useSelectedCategory();
-
   const { data: participatedRoomList } = useFetchParticipatedRoomList();
 
   const {
@@ -41,8 +41,10 @@ const MainPage = () => {
   return (
     <S.Layout>
       <ContentSection title="참여 중인 방 리스트">
-        {participatedRoomList && (
+        {participatedRoomList ? (
           <RoomList roomList={participatedRoomList.rooms} roomType="participated" />
+        ) : (
+          <div>❗ 로그인 후 참여 중인 방을 확인할 수 있습니다.</div>
         )}
       </ContentSection>
 
