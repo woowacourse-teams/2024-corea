@@ -1,2 +1,4 @@
 export const serverUrl =
-  process.env.NODE_ENV === "production" ? "http://3.36.123.160:80" : "http://localhost:8080";
+  process.env.NODE_ENV === "production"
+    ? "https://1137-58-143-138-249.ngrok-free.app"
+    : "http://localhost:8080";
