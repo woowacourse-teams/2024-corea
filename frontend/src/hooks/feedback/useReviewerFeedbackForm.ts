@@ -1,28 +1,27 @@
 import { useEffect, useState } from "react";
 import useMutateFeedback from "@/hooks/mutations/useMutateFeedback";
 import { useFetchRevieweeFeedback } from "@/hooks/queries/useFetchFeedback";
-import { RevieweeFeedbackData } from "@/@types/feedback";
+import { ReviewerFeedbackData } from "@/@types/feedback";
 import { FeedbackModalType } from "@/utils/feedbackUtils";
 
-const initialFormState: RevieweeFeedbackData = {
+const initialFormState: ReviewerFeedbackData = {
   feedbackId: 0,
   receiverId: 0,
   evaluationPoint: 0,
   feedbackKeywords: [],
   feedbackText: "",
-  recommendationPoint: 0,
 };
 
-export const useRevieweeFeedbackForm = (
+export const useReviewerFeedbackForm = (
   roomId: number,
-  revieweeUsername: string,
+  reviewerUsername: string,
   receiverId: number,
   modalType: FeedbackModalType,
   onClose: () => void,
 ) => {
-  const [formState, setFormState] = useState<RevieweeFeedbackData>(initialFormState);
-  const { data: feedbackData } = useFetchRevieweeFeedback(roomId, revieweeUsername);
-  const { postRevieweeFeedbackMutation, putRevieweeFeedbackMutation } = useMutateFeedback();
+  const [formState, setFormState] = useState<ReviewerFeedbackData>(initialFormState);
+  const { data: feedbackData } = useFetchRevieweeFeedback(roomId, reviewerUsername);
+  const { postReviewerFeedbackMutation, putReviewerFeedbackMutation } = useMutateFeedback();
 
   useEffect(() => {
     if (modalType === "create") {
@@ -33,17 +32,14 @@ export const useRevieweeFeedbackForm = (
   }, [modalType, feedbackData, receiverId]);
 
   const handleChange = (
-    key: keyof RevieweeFeedbackData,
-    value: RevieweeFeedbackData[keyof RevieweeFeedbackData],
+    key: keyof ReviewerFeedbackData,
+    value: ReviewerFeedbackData[keyof ReviewerFeedbackData],
   ) => {
     if (modalType === "view") return;
     setFormState((prevState) => ({ ...prevState, [key]: value }));
   };
 
-  const isFormValid =
-    formState.evaluationPoint !== 0 &&
-    formState.feedbackKeywords.length > 0 &&
-    formState.recommendationPoint !== 0;
+  const isFormValid = formState.evaluationPoint !== 0 && formState.feedbackKeywords.length > 0;
 
   const handleSubmit = () => {
     if (!isFormValid || modalType === "view") return;
@@ -51,7 +47,7 @@ export const useRevieweeFeedbackForm = (
     const feedbackData = { ...formState };
 
     if (modalType === "create") {
-      postRevieweeFeedbackMutation.mutate(
+      postReviewerFeedbackMutation.mutate(
         { roomId, feedbackData },
         {
           onSuccess: () => {
@@ -62,7 +58,7 @@ export const useRevieweeFeedbackForm = (
     }
 
     if (modalType === "edit") {
-      putRevieweeFeedbackMutation.mutate(
+      putReviewerFeedbackMutation.mutate(
         { roomId, feedbackId: feedbackData.feedbackId, feedbackData },
         {
           onSuccess: () => {
