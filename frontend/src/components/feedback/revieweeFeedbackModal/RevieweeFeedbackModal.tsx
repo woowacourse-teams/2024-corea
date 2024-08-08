@@ -12,7 +12,7 @@ import * as S from "@/components/feedback/revieweeFeedbackModal/RevieweeFeedback
 import { RevieweeFeedbackData } from "@/@types/feedback";
 import { ReviewerInfo } from "@/@types/reviewer";
 import { RoomInfo } from "@/@types/roomInfo";
-import { getFeedbackModalType } from "@/utils/feedbackUtils";
+import { FeedbackModalType } from "@/utils/feedbackUtils";
 
 type RevieweeFeedbackForm = Omit<RevieweeFeedbackData, "feedbackId" | "revieweeId">;
 
@@ -21,13 +21,26 @@ interface RevieweeFeedbackModalProps {
   onClose: () => void;
   roomInfo: Pick<RoomInfo, "id" | "title" | "keywords" | "isClosed">;
   reviewee: ReviewerInfo;
+  modalType: FeedbackModalType;
+  buttonText: string;
 }
+
+const initialFormState: RevieweeFeedbackData = {
+  feedbackId: 0,
+  revieweeId: 0,
+  evaluationPoint: 0,
+  feedbackKeywords: [],
+  feedbackText: "",
+  recommendationPoint: 0,
+};
 
 const RevieweeFeedbackModal = ({
   isOpen,
   onClose,
   roomInfo,
   reviewee,
+  modalType,
+  buttonText,
 }: RevieweeFeedbackModalProps) => {
   const {
     data: feedbackData,
@@ -36,35 +49,36 @@ const RevieweeFeedbackModal = ({
   } = useFetchRevieweeFeedback(roomInfo.id, reviewee.username);
   const { postRevieweeFeedbackMutation, putRevieweeFeedbackMutation } = useMutateFeedback();
 
-  const [formState, setFormState] = useState<RevieweeFeedbackData>({
-    feedbackId: 0,
-    revieweeId: reviewee.userId,
-    evaluationPoint: 0,
-    feedbackKeywords: [],
-    feedbackText: "",
-    recommendationPoint: 0,
-  });
+  const [formState, setFormState] = useState<RevieweeFeedbackData>(initialFormState);
 
   useEffect(() => {
-    if (feedbackData) {
-      setFormState(feedbackData);
+    if (isOpen) {
+      if (modalType === "create") {
+        setFormState({
+          ...initialFormState,
+          revieweeId: reviewee.userId,
+        });
+      } else if (feedbackData) {
+        setFormState(feedbackData);
+      }
     }
-  }, [feedbackData]);
+  }, [isOpen, modalType, feedbackData, reviewee.userId]);
+
+  const handleClose = () => {
+    setFormState(initialFormState);
+    onClose();
+  };
 
   const isFormValid =
     formState.evaluationPoint !== 0 &&
     formState.feedbackKeywords.length > 0 &&
     formState.recommendationPoint !== 0;
 
-  const buttonText = getFeedbackModalType({
-    isWrited: reviewee.isWrited,
-    isClosed: roomInfo.isClosed,
-  });
-
   const handleChange = (
     key: keyof RevieweeFeedbackForm,
     value: RevieweeFeedbackForm[keyof RevieweeFeedbackForm],
   ) => {
+    if (modalType === "view") return;
     setFormState((prevState) => ({
       ...prevState,
       [key]: value,
@@ -72,37 +86,41 @@ const RevieweeFeedbackModal = ({
   };
 
   const handleSubmit = () => {
-    if (!isFormValid) return;
+    if (!isFormValid || modalType === "view") return;
 
     const feedbackData = {
       ...formState,
     };
 
-    !reviewee.isWrited &&
+    if (modalType === "create") {
       postRevieweeFeedbackMutation.mutate(
         { roomId: roomInfo.id, feedbackData },
         {
           onSuccess: () => {
-            onClose();
+            handleClose();
           },
         },
       );
-
-    reviewee.isWrited &&
+    } else if (modalType === "edit") {
       putRevieweeFeedbackMutation.mutate(
         { roomId: roomInfo.id, feedbackId: feedbackData.feedbackId, feedbackData },
         {
           onSuccess: () => {
-            onClose();
+            handleClose();
           },
         },
       );
+    }
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={handleClose}>
       <S.FeedbackContainer>
-        <S.ModalType>리뷰이 피드백 작성하기</S.ModalType>
+        <S.ModalType>
+          {modalType === "create" && "리뷰이 피드백 작성하기"}
+          {modalType === "edit" && "리뷰이 피드백 수정하기"}
+          {modalType === "view" && "리뷰이 피드백 확인하기"}
+        </S.ModalType>
         <S.ModalTitle>{roomInfo.title}</S.ModalTitle>
         <S.Keywords>
           {roomInfo.keywords.map((keyword) => (
@@ -117,6 +135,7 @@ const RevieweeFeedbackModal = ({
           <EvaluationPointBar
             initialOptionId={formState.evaluationPoint}
             onChange={(value) => handleChange("evaluationPoint", value)}
+            readonly={modalType === "view"}
           />
         </S.ItemContainer>
 
@@ -126,6 +145,7 @@ const RevieweeFeedbackModal = ({
             initialOptions={formState.feedbackKeywords}
             onChange={(value) => handleChange("feedbackKeywords", value)}
             selectedEvaluationId={formState.evaluationPoint}
+            readonly={modalType === "view"}
           />
         </S.ItemContainer>
 
@@ -137,6 +157,7 @@ const RevieweeFeedbackModal = ({
             placeholder="상대 리뷰이의 개발 역량 향상을 위해 피드백을 남겨주세요."
             value={formState.feedbackText}
             onChange={(e) => handleChange("feedbackText", e.target.value)}
+            readOnly={modalType === "view"}
           />
         </S.ItemContainer>
 
@@ -145,14 +166,17 @@ const RevieweeFeedbackModal = ({
           <RecommendationPointBar
             initialOptionId={formState.recommendationPoint}
             onChange={(value) => handleChange("recommendationPoint", value)}
+            readonly={modalType === "view"}
           />
         </S.ItemContainer>
 
-        <S.ButtonWrapper>
-          <Button onClick={handleSubmit} disabled={!isFormValid}>
-            {buttonText}
-          </Button>
-        </S.ButtonWrapper>
+        {modalType !== "view" && (
+          <S.ButtonWrapper>
+            <Button onClick={handleSubmit} disabled={!isFormValid}>
+              {buttonText}
+            </Button>
+          </S.ButtonWrapper>
+        )}
       </S.FeedbackContainer>
     </Modal>
   );
