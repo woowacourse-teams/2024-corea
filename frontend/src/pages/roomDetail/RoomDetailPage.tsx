@@ -26,10 +26,14 @@ const RoomDetailPage = () => {
       </ContentSection>
 
       <ContentSection title="나를 리뷰해주는 분">
+        <S.StyledDescription>
+          리뷰어 피드백은 소프트 스킬 역량에 한해서 진행합니다.
+        </S.StyledDescription>
         <MyReviewer roomInfo={roomInfo} />
       </ContentSection>
 
       <ContentSection title="내가 리뷰해야하는 분">
+        <S.StyledDescription>리뷰이 피드백은 개발 역량에 한해서 진행합니다.</S.StyledDescription>
         <MyReviewee roomInfo={roomInfo} />
       </ContentSection>
     </S.Layout>
