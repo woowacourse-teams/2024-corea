@@ -8,4 +8,10 @@ public record GithubUserInfo(
         @JsonProperty("avatar_url")
         String avatarUrl,
         String email) {
+
+    public GithubUserInfo {
+        if (email == null) {
+            email = "";
+        }
+    }
 }
