@@ -1,28 +1,25 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import useToast from "@/hooks/common/useToast";
 import useMutateLogin from "@/hooks/mutations/useMutateAuth";
+import MESSAGES from "@/constants/message";
 
 const CallbackPage = () => {
   const navigate = useNavigate();
-  const params = new URLSearchParams(window.location.search);
-  const code = params.get("code");
+  const { openToast } = useToast();
   const { postLoginMutation } = useMutateLogin();
 
-  const getCode = () => {
+  useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const code = params.get("code");
     if (code) {
       postLoginMutation.mutate(code);
     }
-  };
-
-  useEffect(() => getCode(), []);
+  }, []);
 
   if (postLoginMutation.isError) {
-    setTimeout(() => {
-      navigate("/");
-    }, 2000);
-    return <div>로그인을 하던 도중 에러가 발생하였습니다. 메인페이지로 이동합니다.</div>;
+    navigate("/");
+    openToast(MESSAGES.ERROR.POST_LOGIN);
   }
 
   return <div>로그인 중...</div>;
