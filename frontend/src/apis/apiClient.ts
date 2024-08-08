@@ -96,7 +96,7 @@ const fetchWithErrorHandling = async (
   endpoint: string,
   requestInit: RequestInit,
   errorMessage: string = "",
-): Promise<string> => {
+) => {
   if (!navigator.onLine) {
     throw new Error(MESSAGES.ERROR.OFFLINE);
   }
