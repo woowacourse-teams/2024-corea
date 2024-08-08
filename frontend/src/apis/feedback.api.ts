@@ -1,8 +1,7 @@
-import { RevieweeFeedbackData, FeedbackCardList } from "@/@types/feedback";
+import { FeedbackCardList, RevieweeFeedbackData } from "@/@types/feedback";
 import apiClient from "@/apis/apiClient";
 import { API_ENDPOINTS } from "@/apis/endpoints";
 import MESSAGES from "@/constants/message";
-
 
 export const getReceivedFeedback = async (): Promise<FeedbackCardList[]> => {
   const res = await apiClient.get({
@@ -20,8 +19,10 @@ export const getDeliveredFeedback = async (): Promise<FeedbackCardList[]> => {
   });
 
   return res.feedbacks;
+};
 
 // 리뷰어 -> 리뷰이
+
 export const getRevieweeFeedback = async (
   roomId: number,
   username: string,
