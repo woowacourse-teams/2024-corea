@@ -4,7 +4,10 @@ import corea.global.customizer.ErrorResponseCustomizer;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.info.Info;
-import io.swagger.v3.oas.annotations.security.*;
+import io.swagger.v3.oas.annotations.security.OAuthFlow;
+import io.swagger.v3.oas.annotations.security.OAuthFlows;
+import io.swagger.v3.oas.annotations.security.OAuthScope;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.models.OpenAPI;
 import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
@@ -13,11 +16,10 @@ import org.springframework.context.annotation.Configuration;
 @OpenAPIDefinition(
         info = @Info(
                 title = "CoReA OpenAPI 문서",
-                description = "작성한 명세를 기반으로 문서화 되었습니다.",
-                version = "v1"
+                description = "기존 명세와 코드 기반으로 API 목록을 문서화한 페이지입니다. <br><br> 최종 수정일 : 2024-08-08",
+                version = "v2"
         )
 )
-
 @SecurityScheme(
         name = "OAuth2.0",
         type = SecuritySchemeType.OAUTH2,
