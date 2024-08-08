@@ -3,6 +3,7 @@ spring:
     group:
       main: dev, secret
       test: dev, secret
+      local: local, secret
     active: main
 
   config:

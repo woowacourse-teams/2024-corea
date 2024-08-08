@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
@@ -14,6 +16,8 @@ import static lombok.AccessLevel.PROTECTED;
 @NoArgsConstructor(access = PROTECTED)
 @Getter
 public class MatchResult {
+
+    private static final Logger log = LoggerFactory.getLogger(MatchResult.class);
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -40,6 +44,7 @@ public class MatchResult {
 
     public MatchResult(long roomId, Member reviewer, Member reviewee, String prLink) {
         this(null, roomId, reviewer, reviewee, prLink, ReviewStatus.INCOMPLETE, false, false);
+        log.info("매칭 결과 [방 번호 ({}) ,리뷰어({}) , 리뷰이({})]", roomId, reviewer.getUsername(), reviewee.getUsername());
     }
 
     public void reviewerCompleteFeedback() {
