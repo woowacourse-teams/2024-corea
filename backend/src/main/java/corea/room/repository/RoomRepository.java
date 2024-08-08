@@ -1,7 +1,7 @@
 package corea.room.repository;
 
-import corea.room.domain.RoomClassification;
 import corea.room.domain.Room;
+import corea.room.domain.RoomClassification;
 import corea.room.domain.RoomStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

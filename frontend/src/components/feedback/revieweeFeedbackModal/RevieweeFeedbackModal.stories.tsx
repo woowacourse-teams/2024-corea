@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import RevieweeFeedbackModal from "@/components/feedback/revieweeFeedbackModal/RevieweeFeedbackModal";
+import { FeedbackModalType } from "@/utils/feedbackUtils";
 
 const meta = {
   title: "feedback/RevieweeFeedbackModal",
@@ -18,10 +19,20 @@ const meta = {
     isOpen: true,
     onClose: () => {},
     roomInfo: {
+      id: 1,
       title: "React 프로젝트 코드 리뷰",
       keywords: ["React", "TypeScript", "Styled-Components"],
+      isClosed: false,
     },
-    buttonType: "create",
+    reviewee: {
+      userId: 1,
+      username: "exampleUser",
+      link: "https://github.com/example/project/pull/1",
+      isReviewed: false,
+      isWrited: false,
+    },
+    modalType: "create" as FeedbackModalType,
+    buttonText: "피드백 작성",
   },
 } satisfies Meta<typeof RevieweeFeedbackModal>;
 
@@ -51,5 +62,19 @@ export const LargeViewport: Story = {
     viewport: {
       defaultViewport: "desktop",
     },
+  },
+};
+
+export const EditMode: Story = {
+  args: {
+    modalType: "edit",
+    buttonText: "피드백 수정",
+  },
+};
+
+export const ViewMode: Story = {
+  args: {
+    modalType: "view",
+    buttonText: "피드백 확인",
   },
 };

@@ -18,4 +18,10 @@ export const API_ENDPOINTS = {
 
   // profile
   PROFILE: "/user/profile",
+
+  // feedbacks
+  // 리뷰어->리뷰이
+  REVIEWEE_FEEDBACK: (roomId: number) => `/rooms/${roomId}/develop/feedbacks`,
+  PUT_REVIEWEE_FEEDBACK: (roomId: number, feedbackId: number) =>
+    `/rooms/${roomId}/develop/feedbacks/${feedbackId}`,
 };

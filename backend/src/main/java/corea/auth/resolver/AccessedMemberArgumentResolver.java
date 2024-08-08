@@ -35,14 +35,15 @@ public class AccessedMemberArgumentResolver implements HandlerMethodArgumentReso
     public AuthInfo resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
                                     NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
-
         String accessToken = requestHandler.extract(request);
 
         if (accessToken.equals(ANONYMOUS)) {
             return AuthInfo.getAnonymous();
         }
-        Long memberId = tokenProvider.getPayload(accessToken).get(ID, Long.class);
 
+        tokenProvider.validateToken(accessToken);
+
+        Long memberId = tokenProvider.getPayload(accessToken).get(ID, Long.class);
         return memberRepository.findById(memberId)
                 .map(AuthInfo::from)
                 .orElse(AuthInfo.getAnonymous());

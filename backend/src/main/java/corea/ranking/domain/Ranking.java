@@ -26,7 +26,7 @@ public class Ranking {
     @JoinColumn(name = "member_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Member member;
 
-    private int rank;
+    private int ranking;
 
     private float averageEvaluatePoint;
 
@@ -34,7 +34,18 @@ public class Ranking {
 
     private EvaluateClassification classification;
 
-    public Ranking(Member member, int rank, float averageEvaluatePoint, LocalDate date, EvaluateClassification classification) {
-        this(null, member, rank, averageEvaluatePoint, date, classification);
+    public Ranking(Member member, int ranking, float averageEvaluatePoint, LocalDate date, EvaluateClassification classification) {
+        this(null, member, ranking, averageEvaluatePoint, date, classification);
+    }
+
+    @Override
+    public String toString() {
+        return "Ranking{" +
+                "id=" + id +
+                ", ranking=" + ranking +
+                ", averageEvaluatePoint=" + averageEvaluatePoint +
+                ", date=" + date +
+                ", classification=" + classification +
+                '}';
     }
 }

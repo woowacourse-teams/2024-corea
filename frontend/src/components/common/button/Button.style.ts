@@ -11,12 +11,20 @@ export const ButtonContainer = styled.button<{
   color: ${({ theme }) => theme.COLOR.white};
   text-align: center;
 
-  &:hover {
-    opacity: 0.6;
-  }
-
   ${(props) => variantStyles[props.$variant]}
   ${(props) => sizeStyles[props.$size]}
+
+  ${(props) =>
+    props.$variant !== "disable"
+      ? css`
+          &:hover {
+            cursor: pointer;
+            opacity: 0.8;
+          }
+        `
+      : css`
+          cursor: default;
+        `}
 `;
 
 const variantStyles = {

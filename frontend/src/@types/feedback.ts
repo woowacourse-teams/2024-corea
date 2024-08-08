@@ -16,3 +16,12 @@ export interface FeedbackCardData {
   readonly feedbackText: string;
   readonly evaluationPoint: 1 | 2 | 3 | 4 | 5;
 }
+
+export interface RevieweeFeedbackData {
+  feedbackId: number;
+  receiverId: number;
+  evaluationPoint: number;
+  feedbackKeywords: string[];
+  feedbackText: string;
+  recommendationPoint: number;
+}
