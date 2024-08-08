@@ -56,7 +56,7 @@ class SocialFeedbackFeedbackControllerTest {
         );
 
         RestAssured.given().header("Authorization", token).contentType(ContentType.JSON).body(request)
-                .when().post("/rooms/" + room.getId()+ "/social/feedbacks")
+                .when().post("/rooms/" + room.getId() + "/social/feedbacks")
                 .then().statusCode(200);
     }
 }

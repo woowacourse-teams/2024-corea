@@ -1,8 +1,8 @@
 package corea.room.dto;
 
 import corea.member.domain.Member;
-import corea.room.domain.RoomClassification;
 import corea.room.domain.Room;
+import corea.room.domain.RoomClassification;
 import corea.room.domain.RoomStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

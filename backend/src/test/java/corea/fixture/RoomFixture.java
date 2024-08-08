@@ -1,8 +1,8 @@
 package corea.fixture;
 
 import corea.member.domain.Member;
-import corea.room.domain.RoomClassification;
 import corea.room.domain.Room;
+import corea.room.domain.RoomClassification;
 import corea.room.domain.RoomStatus;
 
 import java.time.LocalDateTime;
