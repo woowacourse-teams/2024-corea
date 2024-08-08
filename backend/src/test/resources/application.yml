@@ -19,15 +19,7 @@ spring:
 security:
   token:
     jwt:
-      secret-key: Aasldkfjlawekjlmbkdvqwarjcvo43ijlakfazg3l3kasddfmll41jlij3lijlain
+      secret-key: ForTestSecretKey1ForTestSecretKey2ForTestSecretKey3ForTestSecret4
       expiration:
         access: 1800000
         refresh: 604800000
-
-  github:
-    baseUrl:
-      oauth: https://github.com/login/oauth/access_token
-      user: https://api.github.com/user
-    oAuth:
-      client-id: Ov23nvFxZzO89lZ19w8E
-      client-secret: 8cfde5321b15z1e51e7d675596f07530cc2bf261
