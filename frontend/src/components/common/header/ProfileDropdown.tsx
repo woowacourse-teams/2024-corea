@@ -18,33 +18,45 @@ const dropdownItems = [
 
 const ProfileDropdown = () => {
   const navigate = useNavigate();
-  const { isOpen, handleToggleDropdown } = useDropdown();
+  const { isOpen, handleToggleDropdown, dropdownRef } = useDropdown();
 
-  const handleButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleProfileClick = (event: React.MouseEvent) => {
     event.preventDefault();
     handleToggleDropdown();
   };
 
+  const handleDropdownItemClick = (path: string) => {
+    handleToggleDropdown();
+    navigate(path);
+  };
+
+  const handelLogoutClick = () => {
+    handleToggleDropdown();
+    alert("로그아웃");
+  };
+
   return (
-    <S.ProfileContainer>
-      <Profile imgSrc={profileImage} onClick={handleButtonClick} />
+    <S.ProfileContainer ref={dropdownRef}>
+      <Profile imgSrc={profileImage} onClick={handleProfileClick} />
+
       <S.DropdownMenu show={isOpen}>
         <S.ProfileWrapper>
-          <Profile imgSrc={profileImage} onClick={handleButtonClick} />
+          <Profile imgSrc={profileImage} />
           <S.ProfileInfo>
             <strong>최진실</strong>
             <span>jinsil@gmail.com</span>
           </S.ProfileInfo>
         </S.ProfileWrapper>
+
         <S.DropdownItemWrapper>
           {dropdownItems.map((item) => (
-            <S.DropdownItem key={item.name} onClick={() => navigate(item.path)}>
+            <S.DropdownItem key={item.name} onClick={() => handleDropdownItemClick(item.path)}>
               <Icon kind="info" />
               <span>{item.name}</span>
             </S.DropdownItem>
           ))}
           <hr></hr>
-          <S.DropdownItem>로그아웃</S.DropdownItem>
+          <S.DropdownItem onClick={handelLogoutClick}>로그아웃</S.DropdownItem>
         </S.DropdownItemWrapper>
       </S.DropdownMenu>
     </S.ProfileContainer>

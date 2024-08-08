@@ -14,4 +14,10 @@ public class CookieProvider {
         cookie.setPath("/");
         return cookie;
     }
+
+    public Cookie createEmptyCookie() {
+        Cookie cookie = new Cookie(COOKIE_NAME, null);
+        cookie.setMaxAge(0);
+        return cookie;
+    }
 }

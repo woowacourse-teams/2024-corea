@@ -2,7 +2,7 @@ package corea.room.service;
 
 import corea.auth.domain.AuthInfo;
 import corea.exception.CoreaException;
-import corea.room.domain.Classification;
+import corea.room.domain.RoomClassification;
 import corea.room.dto.RoomCreateRequest;
 import corea.room.dto.RoomResponse;
 import corea.room.dto.RoomResponses;
@@ -100,7 +100,7 @@ class RoomServiceTest {
     void invalidRecruitmentDeadline() {
         RoomCreateRequest request = new RoomCreateRequest("title", "content", "repoLink",
                 "thumLink", 3, null, 3,
-                LocalDateTime.now().plusMinutes(59), LocalDateTime.now().plusDays(2), Classification.ALL);
+                LocalDateTime.now().plusMinutes(59), LocalDateTime.now().plusDays(2), RoomClassification.ALL);
 
         assertThatThrownBy(() -> roomService.create(1, request))
                 .isInstanceOf(CoreaException.class);
@@ -111,7 +111,7 @@ class RoomServiceTest {
     void invalidReviewDeadline() {
         RoomCreateRequest request = new RoomCreateRequest("title", "content", "repoLink",
                 "thumLink", 3, null, 3,
-                LocalDateTime.now().plusHours(2), LocalDateTime.now().plusHours(23), Classification.ALL);
+                LocalDateTime.now().plusHours(2), LocalDateTime.now().plusHours(23), RoomClassification.ALL);
 
         assertThatThrownBy(() -> roomService.create(1, request))
                 .isInstanceOf(CoreaException.class);
