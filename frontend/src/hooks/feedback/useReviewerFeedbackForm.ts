@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import useMutateFeedback from "@/hooks/mutations/useMutateFeedback";
-import { useFetchRevieweeFeedback } from "@/hooks/queries/useFetchFeedback";
+import { useFetchReviewerFeedback } from "@/hooks/queries/useFetchFeedback";
 import { ReviewerFeedbackData } from "@/@types/feedback";
 import { FeedbackModalType } from "@/utils/feedbackUtils";
 
@@ -20,8 +20,13 @@ export const useReviewerFeedbackForm = (
   onClose: () => void,
 ) => {
   const [formState, setFormState] = useState<ReviewerFeedbackData>(initialFormState);
-  const { data: feedbackData } = useFetchRevieweeFeedback(roomId, reviewerUsername);
   const { postReviewerFeedbackMutation, putReviewerFeedbackMutation } = useMutateFeedback();
+
+  const { data: feedbackData } = useFetchReviewerFeedback({
+    roomId,
+    username: reviewerUsername,
+    enabled: modalType !== "create",
+  });
 
   useEffect(() => {
     if (modalType === "create") {
