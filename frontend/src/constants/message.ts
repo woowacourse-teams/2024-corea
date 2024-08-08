@@ -6,6 +6,11 @@ const GUIDANCE_MESSAGES = {
 const ERROR_MESSAGES = {
   OFFLINE: "오프라인 상태입니다. 네트워크를 확인해주세요.",
 
+  // auth
+  POST_LOGIN: "로그인 도중 오류가 발생했습니다. 다시 로그인 해주세요.",
+  POST_REFRESH: "토큰이 만료되었습니다. 다시 로그인 해주세요.",
+  POST_LOGOUT: "로그아웃 도중 오류가 발생했습니다. 다시 로그아웃 해주세요.",
+
   // rooms
   GET_PARTICIPATED_ROOM_LIST: "참여하는 방 목록을 불러오는 도중 에러가 발생하였습니다.",
   GET_OPENED_ROOM_LIST: "모집 중인 방 목록을 불러오는 도중 에러가 발생하였습니다.",

@@ -1,6 +1,7 @@
 import useMutateHandlers from "./useMutateHandlers";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+import { UserInfo } from "@/@types/userInfo";
 import { postLogin, postLogout } from "@/apis/auth.api";
 
 const useMutateAuth = () => {
@@ -16,7 +17,7 @@ const useMutateAuth = () => {
     }: {
       accessToken: string;
       refreshToken: string;
-      userInfo: any;
+      userInfo: UserInfo;
     }) => {
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);

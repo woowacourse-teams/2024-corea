@@ -15,17 +15,22 @@ interface RequestProps extends ApiProps {
   method: Method;
 }
 
+interface QueueItem {
+  resolve: (value: string | PromiseLike<string>) => void;
+  reject: (reason?: Error) => void;
+}
+
 const refreshToken = localStorage.getItem("refreshToken");
 
 let isRefreshing = false;
-let failedQueue: any[] = [];
+let failedQueue: QueueItem[] = [];
 
-const processQueue = (error: any, token: string | null = null) => {
+const processQueue = (error: Error | null = null, token: string | null = null) => {
   failedQueue.forEach((prom) => {
     if (error) {
       prom.reject(error);
     } else {
-      prom.resolve(token);
+      prom.resolve(token as string);
     }
   });
 
@@ -43,7 +48,7 @@ const refreshAccessToken = async (): Promise<string | void> => {
     });
 
     if (!response.ok) {
-      const error = new Error("Failed to refresh token");
+      const error = new Error(MESSAGES.ERROR.POST_REFRESH);
       processQueue(error, null);
       throw error;
     }
@@ -52,7 +57,7 @@ const refreshAccessToken = async (): Promise<string | void> => {
     const newAccessToken = authHeader?.split(" ")[1];
 
     if (!newAccessToken) {
-      const error = new Error("Authorization header is missing");
+      const error = new Error(MESSAGES.ERROR.POST_REFRESH);
       processQueue(error, null);
       throw error;
     }
@@ -91,7 +96,7 @@ const fetchWithErrorHandling = async (
   endpoint: string,
   requestInit: RequestInit,
   errorMessage: string = "",
-): Promise<any> => {
+): Promise<string> => {
   if (!navigator.onLine) {
     throw new Error(MESSAGES.ERROR.OFFLINE);
   }
@@ -100,9 +105,8 @@ const fetchWithErrorHandling = async (
 
   if (response.status === 401) {
     if (isRefreshing) {
-      return new Promise((resolve, reject) => {
+      return new Promise<string>((resolve, reject) => {
         failedQueue.push({ resolve, reject });
-        console.log("Queue length", failedQueue.length);
       })
         .then((token) => {
           requestInit.headers = {
@@ -122,6 +126,9 @@ const fetchWithErrorHandling = async (
     isRefreshing = true;
     return refreshAccessToken()
       .then((newAccessToken) => {
+        if (!newAccessToken) {
+          throw new Error(errorMessage || "Failed to refresh token");
+        }
         requestInit.headers = {
           ...requestInit.headers,
           Authorization: `Bearer ${newAccessToken}`,
