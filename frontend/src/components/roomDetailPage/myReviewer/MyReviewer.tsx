@@ -25,12 +25,13 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
     return <>{MESSAGES.GUIDANCE.EMPTY_REVIEWER}</>;
   }
 
-  const handleOpenFeedbackModal = (reviewee: ReviewerInfo) => {
+  const handleOpenFeedbackModal = (reviewer: ReviewerInfo) => {
     const result = getFeedbackType({
-      isWrited: reviewee.isWrited,
+      isReviewed: reviewer.isReviewed,
+      isWrited: reviewer.isWrited,
       isClosed: roomInfo.isClosed,
     });
-    setSelectedReviewer(reviewee);
+    setSelectedReviewer(reviewer);
     setFeedbackTypeResult(result);
     handleOpenModal();
   };
@@ -62,6 +63,7 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
 
         {reviewerData.map((reviewer) => {
           const { buttonText } = getFeedbackType({
+            isReviewed: reviewer.isReviewed,
             isWrited: reviewer.isWrited,
             isClosed: roomInfo.isClosed,
           });
