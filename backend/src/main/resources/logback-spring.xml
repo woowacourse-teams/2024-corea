@@ -6,7 +6,7 @@
     <property name="CONSOLE_LOG_PATTERN"
               value="[%d{yyyy-MM-dd HH:mm:ss}:%-4relative] %green([%thread]) %highlight(%-5level) %boldWhite([%C.%M:%yellow(%L)]) - %msg %ex{5}%n"/>
     <property name="LOG_PATH"
-              value="logs/backend"/>
+              value="/home/ubuntu/build/logs/backend"/>
 
     <springProfile name="local">
     <include resource="logs/console-appender.xml"/>
