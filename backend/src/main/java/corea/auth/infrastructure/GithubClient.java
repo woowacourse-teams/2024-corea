@@ -1,8 +1,8 @@
 package corea.auth.infrastructure;
 
-import corea.auth.domain.GithubUserInfo;
 import corea.auth.dto.GithubAuthRequest;
 import corea.auth.dto.GithubAuthResponse;
+import corea.auth.dto.GithubUserInfo;
 import corea.exception.CoreaException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

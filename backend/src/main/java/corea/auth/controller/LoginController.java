@@ -2,10 +2,10 @@ package corea.auth.controller;
 
 import corea.auth.annotation.LoginMember;
 import corea.auth.domain.AuthInfo;
-import corea.auth.domain.GithubUserInfo;
+import corea.auth.dto.GithubUserInfo;
 import corea.auth.dto.LoginRequest;
 import corea.auth.dto.LoginResponse;
-import corea.auth.dto.RefreshTokenRequest;
+import corea.auth.dto.TokenRefreshRequest;
 import corea.auth.service.LoginService;
 import corea.member.domain.Member;
 import corea.member.service.MemberService;
@@ -40,8 +40,8 @@ public class LoginController implements LoginControllerSpecification {
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<Void> extendAuthorization(@RequestBody RefreshTokenRequest refreshTokenRequest) {
-        Long memberId = loginService.authorize(refreshTokenRequest.refreshToken());
+    public ResponseEntity<Void> extendAuthorization(@RequestBody TokenRefreshRequest tokenRefreshRequest) {
+        Long memberId = loginService.authorize(tokenRefreshRequest.refreshToken());
         Member member = memberService.findById(memberId);
 
         String accessToken = loginService.createAccessToken(member);

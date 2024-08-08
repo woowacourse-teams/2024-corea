@@ -1,6 +1,9 @@
 package corea.auth.dto;
 
-import corea.auth.domain.GithubUserInfo;
+import io.swagger.v3.oas.annotations.media.Schema;
 
-public record LoginResponse(String refreshToken, GithubUserInfo userInfo) {
+@Schema(description = "로그인/로그인 유지를 위한 정보 전달")
+public record LoginResponse(@Schema(description = "리프레시 JWT 토큰", example = "O1234567COREAREFRESH")
+                            String refreshToken,
+                            GithubUserInfo userInfo) {
 }

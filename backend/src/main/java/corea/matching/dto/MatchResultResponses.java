@@ -1,6 +1,10 @@
 package corea.matching.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.List;
 
-public record MatchResultResponses(List<MatchResultResponse> matchResultResponses) {
+@Schema(description = "매칭 결과들 응답")
+public record MatchResultResponses(@Schema(description = "매칭 결과들")
+                                   List<MatchResultResponse> matchResultResponses) {
 }
