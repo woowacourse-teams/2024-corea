@@ -1,3 +1,4 @@
+import { sentryWebpackPlugin } from "@sentry/webpack-plugin";
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
 import dotenv from "dotenv";
 import HtmlWebpackPlugin from "html-webpack-plugin";
@@ -62,7 +63,7 @@ export default (env, argv) => {
       sentryWebpackPlugin({
         authToken: process.env.SENTRY_AUTH_TOKEN,
         org: "corea",
-        project: "corea-front",
+        project: "2024-corea",
         ignore: ["node_modules", "webpack.config.js"],
         sourcemaps: {
           filesToDeleteAfterUpload: "**/*.js.map",
