@@ -21,7 +21,7 @@ const CallbackPage = () => {
   if (postLoginMutation.isError) {
     setTimeout(() => {
       navigate("/");
-    });
+    }, 2000);
     return <div>로그인을 하던 도중 에러가 발생하였습니다. 메인페이지로 이동합니다.</div>;
   }
 
