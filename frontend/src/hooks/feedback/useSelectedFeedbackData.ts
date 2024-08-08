@@ -42,8 +42,6 @@ const useSelectedFeedbackData = () => {
 
   const userFeedbacks = feedbacks?.map((feedback) => groupFeedbacksByUser(feedback));
 
-  console.log(userFeedbacks);
-
   return { selectedFeedbackType, setSelectedFeedbackType, userFeedbacks };
 };
 
