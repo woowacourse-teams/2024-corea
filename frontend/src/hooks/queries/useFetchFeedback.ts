@@ -3,6 +3,7 @@ import {
   getDeliveredFeedback,
   getReceivedFeedback,
   getRevieweeFeedback,
+  getReviewerFeedback,
 } from "@/apis/feedback.api";
 import QUERY_KEYS from "@/apis/queryKeys";
 

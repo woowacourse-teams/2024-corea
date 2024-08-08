@@ -1,8 +1,9 @@
-import { FeedbackCardList, RevieweeFeedbackData } from "@/@types/feedback";
+import { FeedbackCardList, RevieweeFeedbackData, ReviewerFeedbackData } from "@/@types/feedback";
 import apiClient from "@/apis/apiClient";
 import { API_ENDPOINTS } from "@/apis/endpoints";
 import MESSAGES from "@/constants/message";
 
+// 피드백 모아보기
 export const getReceivedFeedback = async (): Promise<FeedbackCardList[]> => {
   const res = await apiClient.get({
     endpoint: API_ENDPOINTS.RECEIVED_FEEDBACK,
@@ -22,7 +23,6 @@ export const getDeliveredFeedback = async (): Promise<FeedbackCardList[]> => {
 };
 
 // 리뷰어 -> 리뷰이
-
 export const getRevieweeFeedback = async (
   roomId: number,
   username: string,
