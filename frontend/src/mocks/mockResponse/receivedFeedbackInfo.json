@@ -13,7 +13,7 @@
           "profile": "https://avatars.githubusercontent.com/u/63334368?v=4",
           "username": "a",
           "feedbackKeywords": ["string"],
-          "evaluationPoint": 0,
+          "evaluationPoint": 3,
           "feedbackText": "string"
         },
         {
@@ -23,7 +23,7 @@
           "profile": "https://avatars.githubusercontent.com/u/63334368?v=4",
           "username": "q",
           "feedbackKeywords": ["string"],
-          "evaluationPoint": 0,
+          "evaluationPoint": 3,
           "feedbackText": "string"
         }
       ],
@@ -35,7 +35,7 @@
           "profile": "https://avatars.githubusercontent.com/u/63334368?v=4",
           "username": "b",
           "feedbackKeywords": ["string"],
-          "evaluationPoint": 0,
+          "evaluationPoint": 3,
           "feedbackText": "string"
         },
         {
@@ -45,7 +45,7 @@
           "profile": "https://avatars.githubusercontent.com/u/63334368?v=4",
           "username": "q",
           "feedbackKeywords": ["string"],
-          "evaluationPoint": 0,
+          "evaluationPoint": 3,
           "feedbackText": "string"
         }
       ]
@@ -63,7 +63,7 @@
           "profile": "https://avatars.githubusercontent.com/u/63334368?v=4",
           "username": "C",
           "feedbackKeywords": ["string"],
-          "evaluationPoint": 0,
+          "evaluationPoint": 3,
           "feedbackText": "string"
         }
       ],
@@ -75,7 +75,7 @@
           "profile": "https://avatars.githubusercontent.com/u/63334368?v=4",
           "username": "D",
           "feedbackKeywords": ["string"],
-          "evaluationPoint": 0,
+          "evaluationPoint": 3,
           "feedbackText": "string"
         }
       ]
