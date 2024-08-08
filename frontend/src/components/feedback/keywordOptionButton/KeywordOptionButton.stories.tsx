@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import React from "react";
-import OptionButton from "@/components/feedback/optionButton/OptionButton";
+import KeywordOptionButton from "@/components/feedback/keywordOptionButton/KeywordOptionButton";
 
 const meta = {
   title: "feedback/OptionButton",
-  component: OptionButton,
+  component: KeywordOptionButton,
   parameters: {
     docs: {
       description: {
@@ -19,7 +19,7 @@ const meta = {
     },
     onChange: { action: "changed" },
   },
-} satisfies Meta<typeof OptionButton>;
+} satisfies Meta<typeof KeywordOptionButton>;
 
 export default meta;
 

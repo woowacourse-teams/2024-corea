@@ -6,7 +6,7 @@ import Label from "@/components/common/label/Label";
 import Modal from "@/components/common/modal/Modal";
 import { Textarea } from "@/components/common/textarea/Textarea";
 import EvaluationPointBar from "@/components/feedback/evaluationPointBar/EvaluationPointBar";
-import OptionButton from "@/components/feedback/optionButton/OptionButton";
+import OptionButton from "@/components/feedback/keywordOptionButton/KeywordOptionButton";
 import RecommendationPointBar from "@/components/feedback/recommendationPointBar/RecommendationPointBar";
 import * as S from "@/components/feedback/revieweeFeedbackModal/RevieweeFeedbackModal.style";
 import { RevieweeFeedbackData } from "@/@types/feedback";

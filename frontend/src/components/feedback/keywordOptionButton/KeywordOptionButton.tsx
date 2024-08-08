@@ -1,21 +1,17 @@
 import React, { useEffect, useState } from "react";
-import * as S from "@/components/feedback/optionButton/OptionButton.style";
+import * as S from "@/components/feedback/keywordOptionButton/KeywordOptionButton.style";
+import {
+  BAD_KEYWORD_OPTIONS,
+  GOOD_KEYWORD_OPTIONS,
+  NORMAL_KEYWORD_OPTIONS,
+} from "@/constants/feedback";
 
-const bad_options = [
-  "방의 목적에 맞게 코드를 작성하지 않았어요",
-  "코드를 이해하기 어려웠어요",
-  "응답 속도가 느렸어요",
-];
-const normal_options = [
-  "방의 목적에 놓친 부분이 있어요",
-  "코드를 이해는 했어요",
-  "응답 속도가 적당했어요",
-];
-const good_options = [
-  "방의 목적에 맞게 코드를 잘 작성했어요",
-  "코드를 이해하기 쉬웠어요",
-  "응답 속도가 빨랐어요",
-];
+const getKeywordOptions = (selectedEvaluationId: number | undefined) => {
+  if (selectedEvaluationId === undefined) return GOOD_KEYWORD_OPTIONS;
+  if (selectedEvaluationId <= 2) return BAD_KEYWORD_OPTIONS;
+  if (selectedEvaluationId === 3) return NORMAL_KEYWORD_OPTIONS;
+  return GOOD_KEYWORD_OPTIONS;
+};
 
 interface OptionButtonProps {
   initialOptions?: string[];
@@ -24,13 +20,14 @@ interface OptionButtonProps {
   selectedEvaluationId?: number;
 }
 
-const OptionButton = ({
+const KeywordOptionButton = ({
   initialOptions = [],
   readonly = false,
   onChange,
   selectedEvaluationId,
 }: OptionButtonProps) => {
   const [selectedOptions, setSelectedOptions] = useState<string[]>(initialOptions);
+  const options = getKeywordOptions(selectedEvaluationId);
 
   useEffect(() => {
     setSelectedOptions(initialOptions);
@@ -47,16 +44,9 @@ const OptionButton = ({
     });
   };
 
-  const options = () => {
-    if (selectedEvaluationId === undefined) return good_options;
-    if (selectedEvaluationId <= 2) return bad_options;
-    if (selectedEvaluationId === 3) return normal_options;
-    return good_options;
-  };
-
   return (
     <S.OptionContainer>
-      {options().map((text) => (
+      {options.map((text) => (
         <S.ButtonWrapper
           key={text}
           onClick={() => toggleOption(text)}
@@ -69,4 +59,4 @@ const OptionButton = ({
   );
 };
 
-export default OptionButton;
+export default KeywordOptionButton;
