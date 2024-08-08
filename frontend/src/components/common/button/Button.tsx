@@ -7,9 +7,20 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: "small" | "medium" | "large";
 }
 
-const Button = ({ children, variant = "primary", size = "medium", ...rest }: ButtonProps) => {
+const Button = ({
+  children,
+  variant = "primary",
+  size = "medium",
+  disabled = false,
+  ...rest
+}: ButtonProps) => {
   return (
-    <S.ButtonContainer $variant={variant} $size={size} {...rest}>
+    <S.ButtonContainer
+      $variant={disabled ? "disable" : variant}
+      $size={size}
+      disabled={disabled}
+      {...rest}
+    >
       {children}
     </S.ButtonContainer>
   );

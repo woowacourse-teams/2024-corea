@@ -39,8 +39,22 @@ export const FeedbackKeywordWrapper = styled.div`
   margin-top: 1rem;
 `;
 
+export const FeedbackProfile = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: center;
+`;
+
 export const FeedbackTitle = styled.h3`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
   font-weight: bold;
+`;
+
+export const FeedbackSubTitle = styled.span`
+  font: ${({ theme }) => theme.TEXT.semiSmall};
 `;
 
 export const FeedbackKeyword = styled.div`

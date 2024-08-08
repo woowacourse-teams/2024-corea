@@ -26,7 +26,7 @@ public class SocialFeedbackController implements SocialFeedbackControllerSpecifi
 
     @Override
     @GetMapping
-    public ResponseEntity<SocialFeedbackResponse> revieweeToReviewer(@PathVariable long roomId, @RequestParam String username, @LoginMember AuthInfo authInfo) {
+    public ResponseEntity<SocialFeedbackResponse> socialFeedback(@PathVariable long roomId, @RequestParam String username, @LoginMember AuthInfo authInfo) {
         SocialFeedbackResponse response = socialFeedbackService.findSocialFeedback(roomId, authInfo.getId(), username);
         return ResponseEntity.ok()
                 .body(response);

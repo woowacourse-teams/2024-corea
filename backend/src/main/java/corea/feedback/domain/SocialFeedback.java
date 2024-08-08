@@ -40,5 +40,9 @@ public class SocialFeedback {
 
     @Column(length = 512)
     private String feedBackText;
+
+    public SocialFeedback(long roomId, Member deliver, Member receiver, int evaluatePoint, List<FeedbackKeyword> keywords, String feedBackText) {
+        this(null, roomId, deliver, receiver, evaluatePoint, keywords, feedBackText);
+    }
 }
 

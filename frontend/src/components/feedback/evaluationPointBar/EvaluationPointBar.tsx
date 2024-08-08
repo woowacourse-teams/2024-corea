@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Icon from "@/components/common/icon/Icon";
 import IconRadioButton from "@/components/common/iconRadioButton/IconRadioButton";
 import * as S from "@/components/feedback/evaluationPointBar/EvaluationPointBar.style";
@@ -21,14 +21,26 @@ const evaluationOptions: EvaluationOption[] = [
 interface EvaluationPointBarProps {
   initialOptionId?: number;
   readonly?: boolean;
+  onChange?: (value: number) => void;
 }
 
-const EvaluationPointBar = ({ initialOptionId, readonly = false }: EvaluationPointBarProps) => {
+const EvaluationPointBar = ({
+  initialOptionId,
+  readonly = false,
+  onChange,
+}: EvaluationPointBarProps) => {
   const [selectedOptionId, setSelectedOptionId] = useState<number | undefined>(initialOptionId);
+
+  useEffect(() => {
+    if (initialOptionId !== undefined) {
+      setSelectedOptionId(initialOptionId);
+    }
+  }, [initialOptionId]);
 
   const handleRadioChange = (id: number) => {
     if (readonly) return;
     setSelectedOptionId(id);
+    onChange?.(id);
   };
 
   return (

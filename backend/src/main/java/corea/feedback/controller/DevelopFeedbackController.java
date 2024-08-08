@@ -26,7 +26,7 @@ public class DevelopFeedbackController implements DevelopFeedbackControllerSpeci
 
     @Override
     @GetMapping
-    public ResponseEntity<DevelopFeedbackResponse> reviewerToReviewee(
+    public ResponseEntity<DevelopFeedbackResponse> developFeedback(
             @PathVariable long roomId, @RequestParam String username, @LoginMember AuthInfo authInfo) {
         DevelopFeedbackResponse response = developFeedbackService.findDevelopFeedback(roomId, authInfo.getId(), username);
         return ResponseEntity.ok()

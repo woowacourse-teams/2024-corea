@@ -39,11 +39,11 @@ export const ProfileInfo = styled.div`
   }
 `;
 
-export const DropdownItemWrapper = styled.div`
+export const DropdownItemWrapper = styled.ul`
   margin: 0.5rem;
 `;
 
-export const DropdownItem = styled.div`
+export const DropdownItem = styled.li`
   cursor: pointer;
 
   display: flex;

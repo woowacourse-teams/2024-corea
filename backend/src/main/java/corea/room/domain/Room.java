@@ -51,7 +51,7 @@ public class Room {
     private LocalDateTime reviewDeadline;
 
     @Enumerated(value = EnumType.STRING)
-    private Classification classification;
+    private RoomClassification classification;
 
     /**
      * RoomStatus가 변경될 수 있는 경우 (OPENED -> CLOSED)
@@ -64,7 +64,7 @@ public class Room {
     @Enumerated(value = EnumType.STRING)
     private RoomStatus status;
 
-    public Room(String title, String content, int matchingSize, String repositoryLink, String thumbnailLink, List<String> keyword, int currentParticipantsSize, int limitedParticipantsSize, Member manager, LocalDateTime recruitmentDeadline, LocalDateTime reviewDeadline, Classification classification, RoomStatus status) {
+    public Room(String title, String content, int matchingSize, String repositoryLink, String thumbnailLink, List<String> keyword, int currentParticipantsSize, int limitedParticipantsSize, Member manager, LocalDateTime recruitmentDeadline, LocalDateTime reviewDeadline, RoomClassification classification, RoomStatus status) {
         this(null, title, content, matchingSize, repositoryLink, thumbnailLink, keyword, currentParticipantsSize, limitedParticipantsSize, manager, recruitmentDeadline, reviewDeadline, classification, status);
     }
 

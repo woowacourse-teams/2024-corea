@@ -1,11 +1,14 @@
 package corea.room.acceptance;
 
+import corea.auth.service.LoginService;
+import corea.member.repository.MemberRepository;
 import corea.room.dto.RoomResponse;
 import corea.room.dto.RoomResponses;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
@@ -20,6 +23,11 @@ class RoomAcceptanceTest {
 
     @LocalServerPort
     int port;
+
+    @Autowired
+    private LoginService authService;
+    @Autowired
+    private MemberRepository memberRepository;
 
     @BeforeEach
     void setUp() {
@@ -45,8 +53,9 @@ class RoomAcceptanceTest {
     @Test
     @DisplayName("로그인한 사용자가 방에 대한 정보를 조회할 수 있다.")
     void roomWithLogin() {
+        String accessToken = authService.createAccessToken(memberRepository.findByUsername("jcoding-play").get());
         RoomResponse response = RestAssured.given().log().all()
-                .header("Authorization", "jcoding-play")
+                .header("Authorization", accessToken)
                 .when().get("/rooms/7")
                 .then().log().all()
                 .statusCode(200)
@@ -71,8 +80,9 @@ class RoomAcceptanceTest {
     @Test
     @DisplayName("현재 로그인한 멤버가 참여 중인 방을 보여준다.")
     void participatedRoomsWithLogin() {
+        String accessToken = authService.createAccessToken(memberRepository.findByUsername("jcoding-play").get());
         RoomResponses response = RestAssured.given().log().all()
-                .header("Authorization", "jcoding-play")
+                .header("Authorization", accessToken)
                 .when().get("/rooms/participated")
                 .then().log().all()
                 .statusCode(200)
@@ -111,8 +121,9 @@ class RoomAcceptanceTest {
     @Test
     @DisplayName("로그인한 사용자가 분야별로 현재 모집 중인 방들을 조회할 수 있다.")
     void openedRoomsWithLogin() {
+        String accessToken = authService.createAccessToken(memberRepository.findByUsername("jcoding-play").get());
         RoomResponses response = RestAssured.given().log().all()
-                .header("Authorization", "jcoding-play")
+                .header("Authorization", accessToken)
                 .when().get("/rooms/opened?classification=be")
                 .then().log().all()
                 .statusCode(200)

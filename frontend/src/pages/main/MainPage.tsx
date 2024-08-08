@@ -1,6 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
 import useSelectedCategory from "@/hooks/common/useSelectedCategory";
-import { useInfiniteFetchRoomList } from "@/hooks/queries/useInfiniteFetchRoomList";
+import useMutateAuth from "@/hooks/mutations/useMutateAuth";
+import {
+  useFetchParticipatedRoomList,
+  useInfiniteFetchRoomList,
+} from "@/hooks/queries/useFetchRooms";
 import ContentSection from "@/components/common/contentSection/ContentSection";
 import MenuBar from "@/components/common/menuBar/MenuBar";
 import RoomList from "@/components/shared/roomList/RoomList";
@@ -10,11 +13,7 @@ import { getClosedRoomList, getOpenedRoomList, getParticipatedRoomList } from "@
 
 const MainPage = () => {
   const { selectedCategory, handleSelectedCategory } = useSelectedCategory();
-
-  const { data: participatedRoomList } = useQuery({
-    queryKey: [QUERY_KEYS.PARTICIPATED_ROOM_LIST],
-    queryFn: getParticipatedRoomList,
-  });
+  const { data: participatedRoomList } = useFetchParticipatedRoomList();
 
   const {
     data: openedRoomList,
@@ -42,8 +41,10 @@ const MainPage = () => {
   return (
     <S.Layout>
       <ContentSection title="참여 중인 방 리스트">
-        {participatedRoomList && (
+        {participatedRoomList ? (
           <RoomList roomList={participatedRoomList.rooms} roomType="participated" />
+        ) : (
+          <div>❗ 로그인 후 참여 중인 방을 확인할 수 있습니다.</div>
         )}
       </ContentSection>
 

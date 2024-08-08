@@ -10,6 +10,8 @@ import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
 import corea.participation.domain.Participation;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +21,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class MatchingService {
+
+    private static final Logger log = LoggerFactory.getLogger(MatchingService.class);
 
     private final MatchingStrategy matchingStrategy;
     private final MemberRepository memberRepository;
@@ -32,9 +36,8 @@ public class MatchingService {
                 .toList();
 
         long roomId = participations.get(0).getRoomId();
-
+        log.info("매칭 시작 [방 번호 ({}), 매칭하는 인원 ({}), 총 인원({})]", roomId, matchingSize, memberIds.size());
         List<Pair> results = matchingStrategy.matchPairs(memberIds, matchingSize);
-
         //TODO: prLink 차후 수정
         results.stream()
                 .map(pair -> new MatchResult(roomId, getMember(pair.getFromMemberId()), getMember(pair.getToMemberId()), null))

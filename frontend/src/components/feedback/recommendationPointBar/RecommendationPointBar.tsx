@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Icon from "@/components/common/icon/Icon";
 import IconRadioButton from "@/components/common/iconRadioButton/IconRadioButton";
 import * as S from "@/components/feedback/recommendationPointBar/RecommendationPointBar.style";
@@ -16,11 +16,27 @@ const recommendationOptions: RecommendationOption[] = [
   { text: "완전 추천해요", value: 3, icon: "thumbUp" },
 ];
 
-const RecommendationPointBar = () => {
-  const [selectedOptionId, setSelectedOptionId] = useState<number | null>(null);
+interface RecommendationPointBarProps {
+  initialOptionId?: number;
+  readonly?: boolean;
+  onChange?: (value: number) => void;
+}
+
+const RecommendationPointBar = ({
+  initialOptionId,
+  readonly = false,
+  onChange,
+}: RecommendationPointBarProps) => {
+  const [selectedOptionId, setSelectedOptionId] = useState<number | undefined>(initialOptionId);
+
+  useEffect(() => {
+    setSelectedOptionId(initialOptionId);
+  }, [initialOptionId]);
 
   const handleRadioChange = (id: number) => {
+    if (readonly) return;
     setSelectedOptionId(id);
+    onChange?.(id);
   };
 
   return (

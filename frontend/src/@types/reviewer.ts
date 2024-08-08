@@ -3,4 +3,5 @@ export interface ReviewerInfo {
   username: string;
   link: string;
   isReviewed: boolean;
+  isWrited: boolean;
 }

@@ -10,7 +10,6 @@ public class SocialFeedbackFixture {
 
     public static SocialFeedback POSITIVE_FEEDBACK(long roomId, Member deliver, Member receiver) {
         return new SocialFeedback(
-                null,
                 roomId,
                 deliver,
                 receiver,

@@ -2,8 +2,8 @@ import Icon from "../icon/Icon";
 import Profile from "../profile/Profile";
 import { useNavigate } from "react-router-dom";
 import useDropdown from "@/hooks/common/useDropdown";
+import useMutateAuth from "@/hooks/mutations/useMutateAuth";
 import * as S from "@/components/common/header/ProfileDropdown.style";
-import profileImage from "@/assets/profile.png";
 
 const dropdownItems = [
   {
@@ -17,34 +17,48 @@ const dropdownItems = [
 ];
 
 const ProfileDropdown = () => {
+  const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
   const navigate = useNavigate();
-  const { isOpen, handleToggleDropdown } = useDropdown();
+  const { isOpen, handleToggleDropdown, dropdownRef } = useDropdown();
+  const { postLogoutMutation } = useMutateAuth();
 
-  const handleButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleProfileClick = (event: React.MouseEvent) => {
     event.preventDefault();
     handleToggleDropdown();
   };
 
+  const handleDropdownItemClick = (path: string) => {
+    handleToggleDropdown();
+    navigate(path);
+  };
+
+  const handelLogoutClick = () => {
+    postLogoutMutation.mutate();
+    handleToggleDropdown();
+  };
+
   return (
-    <S.ProfileContainer>
-      <Profile imgSrc={profileImage} onClick={handleButtonClick} />
+    <S.ProfileContainer ref={dropdownRef}>
+      <Profile imgSrc={userInfo.avatar_url} onClick={handleProfileClick} />
+
       <S.DropdownMenu show={isOpen}>
         <S.ProfileWrapper>
-          <Profile imgSrc={profileImage} onClick={handleButtonClick} />
+          <Profile imgSrc={userInfo.avatar_url} />
           <S.ProfileInfo>
-            <strong>최진실</strong>
-            <span>jinsil@gmail.com</span>
+            <strong>{userInfo.name}</strong>
+            <span>{userInfo.email !== "" ? userInfo.email : "email 비공개"}</span>
           </S.ProfileInfo>
         </S.ProfileWrapper>
+
         <S.DropdownItemWrapper>
           {dropdownItems.map((item) => (
-            <S.DropdownItem key={item.name} onClick={() => navigate(item.path)}>
+            <S.DropdownItem key={item.name} onClick={() => handleDropdownItemClick(item.path)}>
               <Icon kind="info" />
               <span>{item.name}</span>
             </S.DropdownItem>
           ))}
           <hr></hr>
-          <S.DropdownItem>로그아웃</S.DropdownItem>
+          <S.DropdownItem onClick={handelLogoutClick}>로그아웃</S.DropdownItem>
         </S.DropdownItemWrapper>
       </S.DropdownMenu>
     </S.ProfileContainer>

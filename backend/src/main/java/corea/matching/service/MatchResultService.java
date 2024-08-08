@@ -28,7 +28,7 @@ public class MatchResultService {
         List<MatchResult> results = matchResultRepository.findAllByRevieweeIdAndRoomId(memberId, roomId);
 
         return new MatchResultResponses(results.stream()
-                .map(result -> MatchResultResponse.of(result, result.getReviewer()))
+                .map(result -> MatchResultResponse.ofReviewee(result, result.getReviewer()))
                 .toList());
     }
 
@@ -37,7 +37,7 @@ public class MatchResultService {
         List<MatchResult> results = matchResultRepository.findAllByReviewerIdAndRoomId(memberId, roomId);
 
         return new MatchResultResponses(results.stream()
-                .map(result -> MatchResultResponse.of(result, result.getReviewee()))
+                .map(result -> MatchResultResponse.ofReviewer(result, result.getReviewee()))
                 .toList());
     }
 

@@ -59,6 +59,15 @@ export default (env, argv) => {
             : false,
       }),
       new CleanWebpackPlugin(),
+      sentryWebpackPlugin({
+        authToken: process.env.SENTRY_AUTH_TOKEN,
+        org: "corea",
+        project: "corea-front",
+        ignore: ["node_modules", "webpack.config.js"],
+        sourcemaps: {
+          filesToDeleteAfterUpload: "**/*.js.map",
+        },
+      }),
     ],
   };
 };

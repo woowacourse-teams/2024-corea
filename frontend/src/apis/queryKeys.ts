@@ -8,6 +8,15 @@ const QUERY_KEYS = {
   // reviews
   REVIEWERS: "reviewers",
   REVIEWEES: "reviewees",
+
+  // profile
+  PROFILE: "profile",
+
+  // feedbacks
+  REVIEWEE_FEEDBACK: "reviewee_feedback",
+  REVIEWER_FEEDBACK: "reviewer_feedback",
+  RECEIVED_FEEDBACK: "receivedFeedback",
+  DELIVERED_FEEDBACK: "deliveredFeedback",
 };
 
 export default QUERY_KEYS;

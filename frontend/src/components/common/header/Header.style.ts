@@ -32,16 +32,12 @@ export const HeaderNavBarContainer = styled.div`
   align-items: center;
 `;
 
-export const HeaderList = styled.ul`
-  display: flex;
-  gap: 1rem;
-`;
-
 export const HeaderItem = styled.li`
   cursor: pointer;
   font: ${({ theme }) => theme.TEXT.semiSmall};
   color: ${({ theme }) => theme.COLOR.grey1};
 
+  &:hover,
   &.selected {
     width: fit-content;
     font-weight: 700;

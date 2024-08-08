@@ -1,0 +1,14 @@
+<included>
+    <appender class="ch.qos.logback.core.FileAppender" name="FILE-DEBUG">
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <file>${LOG_PATH}/debug/debug.log</file>
+        <append>true</append>
+    </appender>
+</included>

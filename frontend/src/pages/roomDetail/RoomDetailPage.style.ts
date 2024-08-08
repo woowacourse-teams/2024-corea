@@ -5,3 +5,8 @@ export const Layout = styled.div`
   flex-direction: column;
   gap: 5rem;
 `;
+
+export const StyledDescription = styled.p`
+  font: ${({ theme }) => theme.TEXT.small};
+  color: ${({ theme }) => theme.COLOR.grey2};
+`;

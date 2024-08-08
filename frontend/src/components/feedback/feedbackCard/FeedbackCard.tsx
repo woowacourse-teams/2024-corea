@@ -1,13 +1,17 @@
 import * as S from "./FeedbackCard.style";
 import React from "react";
 import Button from "@/components/common/button/Button";
+import Profile from "@/components/common/profile/Profile";
 import EvaluationPointBar from "@/components/feedback/evaluationPointBar/EvaluationPointBar";
 import { FeedbackCardData } from "@/@types/feedback";
 
 const FeedbackCard = (feedbackCardData: FeedbackCardData) => {
   return (
     <S.FeedbackCardContainer>
-      <S.FeedbackTitle>{feedbackCardData.nickname}</S.FeedbackTitle>
+      <S.FeedbackProfile>
+        <Profile imgSrc={feedbackCardData.profile} />
+        <S.FeedbackTitle>{feedbackCardData.username}</S.FeedbackTitle>
+      </S.FeedbackProfile>
       <S.FeedbackScoreContainer>
         <S.FeedbackTitle>피드백 점수</S.FeedbackTitle>
         <EvaluationPointBar initialOptionId={feedbackCardData.evaluationPoint} readonly={true} />
