@@ -14,6 +14,7 @@ const QUERY_KEYS = {
 
   // feedbacks
   REVIEWEE_FEEDBACK: "reviewee_feedback",
+  REVIEWER_FEEDBACK: "reviewer_feedback",
 };
 
 export default QUERY_KEYS;

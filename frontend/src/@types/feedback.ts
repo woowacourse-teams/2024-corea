@@ -25,3 +25,11 @@ export interface RevieweeFeedbackData {
   feedbackText: string;
   recommendationPoint: number;
 }
+
+export interface ReviewerFeedbackData {
+  feedbackId: number;
+  receiverId: number;
+  evaluationPoint: number;
+  feedbackKeywords: string[];
+  feedbackText: string;
+}
