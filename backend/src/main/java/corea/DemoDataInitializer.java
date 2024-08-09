@@ -126,7 +126,7 @@ public class DemoDataInitializer implements ApplicationRunner {
         List<Participation> room3Participates = participateRoom(room3.getId(),List.of(pororo,ash,joysun,movin,ten,dar));
 
         //room4 에 참여한 참여자들
-        List<Participation> room4Participates = participateRoom(room4.getId(),List.of(ash,pororo,movin,ten,dar,joysun));
+        List<Participation> room4Participates = participateRoom(room4.getId(),List.of(ash,pororo,movin,ten,dar,cho));
 
 
         //room1 에서 작성된 매칭 & 피드백
