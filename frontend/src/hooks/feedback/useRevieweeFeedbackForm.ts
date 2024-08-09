@@ -42,7 +42,15 @@ export const useRevieweeFeedbackForm = (
     value: RevieweeFeedbackData[keyof RevieweeFeedbackData],
   ) => {
     if (modalType === "view") return;
-    setFormState((prevState) => ({ ...prevState, [key]: value }));
+    if (key === "evaluationPoint") {
+      setFormState({
+        ...initialFormState,
+        receiverId: formState.receiverId,
+        evaluationPoint: value as number,
+      });
+    } else {
+      setFormState((prevState) => ({ ...prevState, [key]: value }));
+    }
   };
 
   const isFormValid =

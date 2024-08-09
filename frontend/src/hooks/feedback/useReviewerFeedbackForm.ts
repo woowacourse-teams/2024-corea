@@ -41,7 +41,15 @@ export const useReviewerFeedbackForm = (
     value: ReviewerFeedbackData[keyof ReviewerFeedbackData],
   ) => {
     if (modalType === "view") return;
-    setFormState((prevState) => ({ ...prevState, [key]: value }));
+    if (key === "evaluationPoint") {
+      setFormState({
+        ...initialFormState,
+        receiverId: formState.receiverId,
+        evaluationPoint: value as number,
+      });
+    } else {
+      setFormState((prevState) => ({ ...prevState, [key]: value }));
+    }
   };
 
   const isFormValid = formState.evaluationPoint !== 0 && formState.feedbackKeywords.length > 0;
