@@ -135,18 +135,18 @@ public class DemoDataInitializer implements ApplicationRunner {
 
 
         //room1 에서 작성된 매칭 & 피드백
-        reviewSocialAndDevelopFeedback(new MatchResult(1L, pororo, ash, "https://github.com/example/java-racingcar/pull/2"));
-        reviewSocialAndDevelopFeedback(new MatchResult(1L, pororo, cho, "https://github.com/example/java-racingcar/pull/3"));
-        reviewSocialAndDevelopFeedback(new MatchResult(1L, ash, cho, "https://github.com/example/java-racingcar/pull/3"));
-        reviewSocialAndDevelopFeedback(new MatchResult(1L, ash, movin, "https://github.com/example/java-racingcar/pull/4"));
-        reviewSocialAndDevelopFeedback(new MatchResult(1L, cho, movin, "https://github.com/example/java-racingcar/pull/4"));
-        reviewSocialAndDevelopFeedback(new MatchResult(1L, cho, ten, "https://github.com/example/java-racingcar/pull/5"));
-        reviewSocialAndDevelopFeedback(new MatchResult(1L, movin, ten, "https://github.com/example/java-racingcar/pull/5"));
-        reviewSocialAndDevelopFeedback(new MatchResult(1L, movin, dar, "https://github.com/example/java-racingcar/pull/2"));
-        reviewSocialAndDevelopFeedback(new MatchResult(1L, ten, pororo, "https://github.com/example/java-racingcar/pull/1"));
-        reviewSocialAndDevelopFeedback(new MatchResult(1L, ten, dar, "https://github.com/example/java-racingcar/pull/2"));
-        reviewSocialAndDevelopFeedback(new MatchResult(1L, dar, pororo, "https://github.com/example/java-racingcar/pull/1"));
-        reviewSocialAndDevelopFeedback(new MatchResult(1L, dar, ash, "https://github.com/example/java-racingcar/pull/2"));
+        reviewSocialAndDevelopFeedback(new MatchResult(room1.getId(), pororo, ash, "https://github.com/example/java-racingcar/pull/2"));
+        reviewSocialAndDevelopFeedback(new MatchResult(room1.getId(), pororo, cho, "https://github.com/example/java-racingcar/pull/3"));
+        reviewSocialAndDevelopFeedback(new MatchResult(room1.getId(), ash, cho, "https://github.com/example/java-racingcar/pull/3"));
+        reviewSocialAndDevelopFeedback(new MatchResult(room1.getId(), ash, movin, "https://github.com/example/java-racingcar/pull/4"));
+        reviewSocialAndDevelopFeedback(new MatchResult(room1.getId(), cho, movin, "https://github.com/example/java-racingcar/pull/4"));
+        reviewSocialAndDevelopFeedback(new MatchResult(room1.getId(), cho, ten, "https://github.com/example/java-racingcar/pull/5"));
+        reviewSocialAndDevelopFeedback(new MatchResult(room1.getId(), movin, ten, "https://github.com/example/java-racingcar/pull/5"));
+        reviewSocialAndDevelopFeedback(new MatchResult(room1.getId(), movin, dar, "https://github.com/example/java-racingcar/pull/2"));
+        reviewSocialAndDevelopFeedback(new MatchResult(room1.getId(), ten, pororo, "https://github.com/example/java-racingcar/pull/1"));
+        reviewSocialAndDevelopFeedback(new MatchResult(room1.getId(), ten, dar, "https://github.com/example/java-racingcar/pull/2"));
+        reviewSocialAndDevelopFeedback(new MatchResult(room1.getId(), dar, pororo, "https://github.com/example/java-racingcar/pull/1"));
+        reviewSocialAndDevelopFeedback(new MatchResult(room1.getId(), dar, ash, "https://github.com/example/java-racingcar/pull/2"));
 
         //room2 모두가 리뷰 완료만 되어있는 상태
         matchingAndReviewComplete(room2Participates,room2);
@@ -179,8 +179,8 @@ public class DemoDataInitializer implements ApplicationRunner {
         matchResultRepository.saveAll(matchResults);
     }
     private void reviewSocialAndDevelopFeedback(MatchResult matchResult){
-        socialFeedbackRepository.save(new SocialFeedback(1L, matchResult.getReviewee(), matchResult.getReviewer(), 5, List.of(KIND, GOOD_AT_EXPLAINING), "너무 맘에 드는 말투였어요~"));
-        developFeedbackRepository.save(new DevelopFeedback(1L, matchResult.getReviewer(), matchResult.getReviewee(), 5, List.of(EASY_TO_UNDERSTAND_THE_CODE, MAKE_CODE_FOR_THE_PURPOSE), "너무 맘에 드네요~ 몇살이세요?", 5));
+        socialFeedbackRepository.save(new SocialFeedback(matchResult.getRoomId(), matchResult.getReviewee(), matchResult.getReviewer(), 5, List.of(KIND, GOOD_AT_EXPLAINING), "너무 맘에 드는 말투였어요~"));
+        developFeedbackRepository.save(new DevelopFeedback(matchResult.getRoomId(), matchResult.getReviewer(), matchResult.getReviewee(), 5, List.of(EASY_TO_UNDERSTAND_THE_CODE, MAKE_CODE_FOR_THE_PURPOSE), "너무 맘에 드네요~ 몇살이세요?", 5));
         matchResult.reviewComplete();
         matchResult.reviewerCompleteFeedback();
         matchResult.revieweeCompleteFeedback();
