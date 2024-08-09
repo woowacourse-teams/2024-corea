@@ -9,15 +9,18 @@
               value="/home/ubuntu/build/logs/backend"/>
 
     <springProfile name="local">
-    <include resource="logs/console-appender.xml"/>
+        <include resource="logs/console-appender.xml"/>
 
-    <logger name="corea" level="DEBUG" additivity="false">
-        <appender-ref ref="CONSOLE"/>
-    </logger>
+        <logger name="corea" level="DEBUG" additivity="false">
+            <appender-ref ref="CONSOLE"/>
+        </logger>
 
-    <logger name="corea" level="INFO" additivity="false">
-        <appender-ref ref="CONSOLE"/>
-    </logger>
+        <logger name="corea" level="INFO" additivity="false">
+            <appender-ref ref="CONSOLE"/>
+        </logger>
+        <logger name="root" level="ERROR" additivity="false">
+            <appender-ref ref="CONSOLE"/>
+        </logger>
     </springProfile>
 
     <springProfile name="dev">

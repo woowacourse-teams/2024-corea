@@ -29,7 +29,7 @@ public class MatchingService {
     private final MatchResultRepository matchResultRepository;
 
     @Transactional
-    public void matchMaking(List<Participation> participations, int matchingSize) {
+    public List<MatchResult> matchMaking(List<Participation> participations, int matchingSize) {
         validateParticipationSize(participations, matchingSize);
         List<Long> memberIds = participations.stream()
                 .map(Participation::getMemberId)
@@ -39,9 +39,11 @@ public class MatchingService {
         log.info("매칭 시작 [방 번호 ({}), 매칭하는 인원 ({}), 총 인원({})]", roomId, matchingSize, memberIds.size());
         List<Pair> results = matchingStrategy.matchPairs(memberIds, matchingSize);
         //TODO: prLink 차후 수정
-        results.stream()
+        List<MatchResult> matchResults = results.stream()
                 .map(pair -> new MatchResult(roomId, getMember(pair.getFromMemberId()), getMember(pair.getToMemberId()), null))
-                .forEach(matchResultRepository::save);
+                .toList();
+
+        return matchResults;
     }
 
     private void validateParticipationSize(List<Participation> participations, int matchingSize) {
