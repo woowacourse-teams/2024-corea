@@ -1,6 +1,5 @@
 package corea;
 
-import corea.auth.service.LoginService;
 import corea.feedback.domain.DevelopFeedback;
 import corea.feedback.domain.SocialFeedback;
 import corea.feedback.repository.DevelopFeedbackRepository;
@@ -42,7 +41,6 @@ public class DemoDataInitializer implements ApplicationRunner {
     private final DevelopFeedbackRepository developFeedbackRepository;
     private final SocialFeedbackRepository socialFeedbackRepository;
     private final ProfileRepository profileRepository;
-    private final LoginService loginService;
     private final MatchingService matchingService;
 
     @Override
@@ -53,9 +51,6 @@ public class DemoDataInitializer implements ApplicationRunner {
         Member ash = memberRepository.save(
                 new Member("ashsty", "https://avatars.githubusercontent.com/u/77227961?v=4", "박민아",
                         "ash@email.com", false));
-
-        System.out.println(loginService.createAccessToken(ash));
-
         Member joysun = memberRepository.save(
                 new Member("youngsu5582", "https://avatars.githubusercontent.com/u/98307410?v=4", "이영수",
                         "joysun@email.com", false));
@@ -88,13 +83,13 @@ public class DemoDataInitializer implements ApplicationRunner {
         Room room2 = roomRepository.save(
                 new Room("자바 체스 - TDD", "애쉬와 함께하는 TDD", 3,
                         "https://github.com/woowacourse/java-chess",
-                        "https://www.google.com/url?sa=i&url=https%3A%2F%2Fnamu.wiki%2Fw%2F%25EC%25B2%25B4%25EC%258A%25A4&psig=AOvVaw05j3MCW1hohJcqp_erhVtK&ust=1723183640447000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCIjO8rfd5IcDFQAAAAAdAAAAABAE",
+                        "https://i.namu.wiki/i/ZuKHR3uGK77VBnvkBO9f1XrAdne3sKlaNR_a-no5alODVhSxhbt4_BnUFPJ1zQMMzkNrvdvpEYvXVt2BBAhIuMpotu6H6ua-Ou5ps01yKD66rukqtW2sCdAuyYUSg_bSngRl6b-tlt5umrKxwd5olQ.webp",
                         List.of("TDD", "클린코드", "자바"), 6, 30, ash,
                         LocalDateTime.now()
                                 .plusDays(3),
                         LocalDateTime.now()
                                 .plusDays(17),
-                        RoomClassification.BACKEND, RoomStatus.OPENED));
+                        RoomClassification.BACKEND, RoomStatus.CLOSED));
 
         // 애쉬가 참여했는데 끝난 방
         Room room3 = roomRepository.save(
@@ -180,7 +175,7 @@ public class DemoDataInitializer implements ApplicationRunner {
     }
     private void reviewSocialAndDevelopFeedback(MatchResult matchResult){
         socialFeedbackRepository.save(new SocialFeedback(matchResult.getRoomId(), matchResult.getReviewee(), matchResult.getReviewer(), 5, List.of(KIND, GOOD_AT_EXPLAINING), "너무 맘에 드는 말투였어요~"));
-        developFeedbackRepository.save(new DevelopFeedback(matchResult.getRoomId(), matchResult.getReviewer(), matchResult.getReviewee(), 5, List.of(EASY_TO_UNDERSTAND_THE_CODE, MAKE_CODE_FOR_THE_PURPOSE), "너무 맘에 드네요~ 몇살이세요?", 5));
+        developFeedbackRepository.save(new DevelopFeedback(matchResult.getRoomId(), matchResult.getReviewer(), matchResult.getReviewee(), 5, List.of(EASY_TO_UNDERSTAND_THE_CODE, MAKE_CODE_FOR_THE_PURPOSE), "너무 맘에 드네요~ 몇살이세요?", 3));
         matchResult.reviewComplete();
         matchResult.reviewerCompleteFeedback();
         matchResult.revieweeCompleteFeedback();
