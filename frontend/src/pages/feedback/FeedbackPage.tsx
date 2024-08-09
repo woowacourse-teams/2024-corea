@@ -1,4 +1,5 @@
 import * as S from "./FeedbackPage.style";
+import React from "react";
 import useSelectedFeedbackData from "@/hooks/feedback/useSelectedFeedbackData";
 import OptionSelect from "@/components/common/optionSelect/OptionSelect";
 import FeedbackCardList from "@/components/feedback/feedbackCardList/FeedbackCardList";
@@ -6,10 +7,10 @@ import FeedbackCardList from "@/components/feedback/feedbackCardList/FeedbackCar
 const options = ["쓴 피드백", "받은 피드백"] as const;
 
 const FeedbackPage = () => {
-  const { selectedFeedbackType, setSelectedFeedbackType, userFeedbacks } =
+  const { selectedFeedbackType, setSelectedFeedbackType, userFeedbacks, selectedFeedbackDatas } =
     useSelectedFeedbackData();
 
-  if (!userFeedbacks) return;
+  if (!userFeedbacks || !selectedFeedbackDatas) return;
 
   return (
     <>
@@ -20,7 +21,10 @@ const FeedbackPage = () => {
       />
       <S.FeedbackCardContainer>
         {userFeedbacks.map((userFeedback, userIdx) => (
-          <FeedbackCardList key={userIdx} userFeedback={userFeedback} />
+          <React.Fragment key={userIdx}>
+            <S.FeedbackMissionInfo>{selectedFeedbackDatas[userIdx].title}</S.FeedbackMissionInfo>
+            <FeedbackCardList userFeedback={userFeedback} />
+          </React.Fragment>
         ))}
       </S.FeedbackCardContainer>
     </>
