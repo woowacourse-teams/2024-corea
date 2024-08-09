@@ -95,7 +95,7 @@ public class DemoDataInitializer implements ApplicationRunner {
         Room room3 = roomRepository.save(
                 new Room("코틀린 숫자 야구", "코틀린 기초 같이 할 사람", 2,
                         "https://github.com/woowacourse-precourse/java-baseball-6",
-                        "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.istockphoto.com%2Fkr%2F%25EC%259D%25B4%25EB%25AF%25B8%25EC%25A7%2580%2F%25EC%2595%25BC%25EA%25B5%25AC&psig=AOvVaw2I1ENU-tsvDql-TFQyvEds&ust=1723188554258000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCIiyheDv5IcDFQAAAAAdAAAAABAE",
+                        "https://media.istockphoto.com/id/1471217278/ko/%EC%82%AC%EC%A7%84/%EC%95%BC%EA%B5%AC-%EA%B2%BD%EA%B8%B0%EC%9E%A5-%EA%B2%BD%EA%B8%B0%EC%9E%A5%EC%9D%98-%EC%9E%94%EB%94%94%EC%97%90-%EC%95%BC%EA%B5%AC-%EA%B3%B5.jpg?s=612x612&w=0&k=20&c=2comykS41HVEZgI5l9nPUVh4kmT-oxAOKmgHGAgK2aM=",
                         List.of("코틀린"), 6, 20, movin,
                         LocalDateTime.now()
                                 .minusDays(14),
@@ -107,7 +107,7 @@ public class DemoDataInitializer implements ApplicationRunner {
         Room room4 = roomRepository.save(
                 new Room("자바 로또 - 객체지향", "객체지향 한 접시", 2,
                         "https://github.com/woowacourse-precourse/java-lotto-6",
-                        "https://play.google.com/store/apps/details?id=com.min.lotto&hl=ko",
+                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYqN2oNe2BBVwm_lxJ6BbWS13Mkb9lmohGUw&s",
                         List.of("객체지향", "자바"), 5, 20, joysun,
                         LocalDateTime.now()
                                 .plusDays(2),
@@ -185,7 +185,7 @@ public class DemoDataInitializer implements ApplicationRunner {
         roomRepository.save(
                 new Room("코틀린 숫자 야구", "코틀린 기초 같이 할 사람", 3,
                         "https://github.com/example/kotlin-baseball",
-                        "https://www.google.com/url?sa=i&url=https%3A%2F%2Fhome.ebs.co.kr%2Fpororo%2Fetc%2F1%2Fcast&psig=AOvVaw2wRFOE5sri_pL_-Y3lRIPk&ust=1723188607417000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCIjv_Pfv5IcDFQAAAAAdAAAAABAE",
+                        "https://static.ebs.co.kr/images/public/lectures/2014/06/19/10/bhpImg/44deb98d-1c50-4073-9bd7-2c2c28d65f9e.jpg",
                         List.of("코틀린"), 1, 20, member,
                         LocalDateTime.now()
                                 .plusDays(2),
@@ -195,7 +195,7 @@ public class DemoDataInitializer implements ApplicationRunner {
         roomRepository.save(
                 new Room("자바스크립트 크리스마스", "진짜 요구사항대로 구현하기!", 3,
                         "https://github.com/example/javascript-christmas",
-                        "https://www.google.com/url?sa=i&url=https%3A%2F%2Fhome.ebs.co.kr%2Fpororo%2Fetc%2F1%2Fcast&psig=AOvVaw03Gxi-NexSw38NOiZFgqXp&ust=1723188624984000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCIDnrYDw5IcDFQAAAAAdAAAAABAE",
+                        "https://static.ebs.co.kr/images/ebs/WAS-HOME/portal/upload/img/programinfo/person/per/1242723588618_dphGgSgOAp.jpg",
                         List.of("구현", "자바스크립트"), 1, 20, member,
                         LocalDateTime.now()
                                 .plusDays(5),
@@ -205,7 +205,7 @@ public class DemoDataInitializer implements ApplicationRunner {
         roomRepository.save(
                 new Room("방 제목 6", "방 설명 6", 3,
                         "https://github.com/example/java-racingcar",
-                        "https://www.google.com/url?sa=i&url=https%3A%2F%2Fnamu.wiki%2Fw%2F%25ED%258F%25AC%25EB%25B9%2584%2528%25EB%25BD%2580%25EB%25A1%25B1%25EB%25BD%2580%25EB%25A1%25B1%2520%25EB%25BD%2580%25EB%25A1%259C%25EB%25A1%259C%2529&psig=AOvVaw0J3Yw1iEnjiUmaoVmRHq0y&ust=1723188649551000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCICEqozw5IcDFQAAAAAdAAAAABAE",
+                        "https://static.ebs.co.kr/images/ebs/WAS-HOME/portal/upload/img/programinfo/person/per/1242723572507_BOtiBfIuyL.jpg",
                         List.of("TDD"),
                         1, 20, member,
                         LocalDateTime.now()
@@ -216,7 +216,7 @@ public class DemoDataInitializer implements ApplicationRunner {
         roomRepository.save(
                 new Room("방 제목 7", "방 설명 7", 3,
                         "https://github.com/example/java-racingcar",
-                        "https://www.google.com/url?sa=i&url=https%3A%2F%2Fhome.ebs.co.kr%2Fpororo%2Fetc%2F1%2Fcast&psig=AOvVaw0pGtBrO8HxwZvWmufvfmDC&ust=1723188646712000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCKiY5Jrw5IcDFQAAAAAdAAAAABAE",
+                        "https://static.ebs.co.kr/images/ebs/WAS-HOME/portal/upload/img/programinfo/person/per/1242723212878_bxr2reBk9w.jpg",
                         List.of("TDD"),
                         1, 20, member,
                         LocalDateTime.now()
@@ -228,7 +228,7 @@ public class DemoDataInitializer implements ApplicationRunner {
         roomRepository.save(
                 new Room("방 제목 8", "방 설명 8", 3,
                         "https://github.com/example/java-racingcar",
-                        "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=13301655&filePath=L2Rpc2sxL25ld2RhdGEvMjAyMS8yMS9DTFMxMDAwNC8xMzMwMTY1NV9XUlRfMjFfQ0xTMTAwMDRfMjAyMTEyMTNfMQ==&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004",
+                        "https://static.ebs.co.kr/images/ebs/WAS-HOME/portal/upload/img/programinfo/person/per/1242723602807_VcCnrrJwzW.jpg",
                         List.of("TDD", "클린코드"),
                         1, 20, member,
                         LocalDateTime.now().plusDays(3),
@@ -237,7 +237,7 @@ public class DemoDataInitializer implements ApplicationRunner {
         roomRepository.save(
                 new Room("방 제목 9", "방 설명 9", 3,
                         "https://github.com/example/java-racingcar",
-                        "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=13301655&filePath=L2Rpc2sxL25ld2RhdGEvMjAyMS8yMS9DTFMxMDAwNC8xMzMwMTY1NV9XUlRfMjFfQ0xTMTAwMDRfMjAyMTEyMTNfMQ==&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004",
+                        "https://static.ebs.co.kr/images/ebs/WAS-HOME/portal/upload/img/programinfo/person/per/1242723549377_49L83YjvJL.jpg",
                         List.of("TDD"),
                         1, 20, member,
                         LocalDateTime.now().plusDays(3),
@@ -246,7 +246,7 @@ public class DemoDataInitializer implements ApplicationRunner {
         roomRepository.save(
                 new Room("방 제목 10", "방 설명 10", 3,
                         "https://github.com/example/java-racingcar",
-                        "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=13301655&filePath=L2Rpc2sxL25ld2RhdGEvMjAyMS8yMS9DTFMxMDAwNC8xMzMwMTY1NV9XUlRfMjFfQ0xTMTAwMDRfMjAyMTEyMTNfMQ==&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004",
+                        "https://static.ebs.co.kr/images/ebs/WAS-HOME/portal/upload/img/programinfo/person/per/1242723513396_kp9fgpCfTO.jpg",
                         List.of("TDD"),
                         1, 20, member,
                         LocalDateTime.now().plusDays(3),
@@ -255,7 +255,7 @@ public class DemoDataInitializer implements ApplicationRunner {
         roomRepository.save(
                 new Room("방 제목 11", "방 설명 11", 3,
                         "https://github.com/example/java-racingcar",
-                        "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=13301655&filePath=L2Rpc2sxL25ld2RhdGEvMjAyMS8yMS9DTFMxMDAwNC8xMzMwMTY1NV9XUlRfMjFfQ0xTMTAwMDRfMjAyMTEyMTNfMQ==&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004",
+                        "https://static.ebs.co.kr/images/ebs/WAS-HOME/portal/upload/img/programinfo/person/per/1242724730403_Qkb1tVuekp.jpg",
                         List.of("TDD"),
                         1, 20, member,
                         LocalDateTime.now().plusDays(3),
