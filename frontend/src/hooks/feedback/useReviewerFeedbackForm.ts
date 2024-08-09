@@ -42,11 +42,11 @@ export const useReviewerFeedbackForm = (
   ) => {
     if (modalType === "view") return;
     if (key === "evaluationPoint") {
-      setFormState({
-        ...initialFormState,
+      setFormState((prevState) => ({
+        ...prevState,
         receiverId: formState.receiverId,
         evaluationPoint: value as number,
-      });
+      }));
     } else {
       setFormState((prevState) => ({ ...prevState, [key]: value }));
     }
