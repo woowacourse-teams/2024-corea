@@ -26,17 +26,25 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: {},
-};
-
-export const BadOptions: Story = {
   args: {
-    selectedEvaluationId: 2,
+    options: [
+      "방의 목적에 맞게 코드를 작성하지 않았어요",
+      "코드를 이해하기 어려웠어요",
+      "응답 속도가 느렸어요",
+    ],
+    initialOptions: [],
+    readonly: false,
   },
 };
 
-export const GoodOptions: Story = {
+export const WithSelectedOptions: Story = {
   args: {
-    selectedEvaluationId: 4,
+    options: [
+      "방의 목적에 맞게 코드를 작성하지 않았어요",
+      "코드를 이해하기 어려웠어요",
+      "응답 속도가 느렸어요",
+    ],
+    initialOptions: ["방의 목적에 맞게 코드를 작성하지 않았어요"],
+    readonly: false,
   },
 };
