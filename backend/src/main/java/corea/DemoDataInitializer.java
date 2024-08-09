@@ -136,11 +136,11 @@ public class DemoDataInitializer implements ApplicationRunner {
 
         //room1 에서 작성된 매칭 & 피드백
         reviewSocialAndDevelopFeedback(new MatchResult(1L, pororo, ash, "https://github.com/example/java-racingcar/pull/2"));
-        reviewSocialAndDevelopFeedback(new MatchResult(1L, pororo, joysun, "https://github.com/example/java-racingcar/pull/3"));
-        reviewSocialAndDevelopFeedback(new MatchResult(1L, ash, joysun, "https://github.com/example/java-racingcar/pull/3"));
+        reviewSocialAndDevelopFeedback(new MatchResult(1L, pororo, cho, "https://github.com/example/java-racingcar/pull/3"));
+        reviewSocialAndDevelopFeedback(new MatchResult(1L, ash, cho, "https://github.com/example/java-racingcar/pull/3"));
         reviewSocialAndDevelopFeedback(new MatchResult(1L, ash, movin, "https://github.com/example/java-racingcar/pull/4"));
-        reviewSocialAndDevelopFeedback(new MatchResult(1L, joysun, movin, "https://github.com/example/java-racingcar/pull/4"));
-        reviewSocialAndDevelopFeedback(new MatchResult(1L, joysun, ten, "https://github.com/example/java-racingcar/pull/5"));
+        reviewSocialAndDevelopFeedback(new MatchResult(1L, cho, movin, "https://github.com/example/java-racingcar/pull/4"));
+        reviewSocialAndDevelopFeedback(new MatchResult(1L, cho, ten, "https://github.com/example/java-racingcar/pull/5"));
         reviewSocialAndDevelopFeedback(new MatchResult(1L, movin, ten, "https://github.com/example/java-racingcar/pull/5"));
         reviewSocialAndDevelopFeedback(new MatchResult(1L, movin, dar, "https://github.com/example/java-racingcar/pull/2"));
         reviewSocialAndDevelopFeedback(new MatchResult(1L, ten, pororo, "https://github.com/example/java-racingcar/pull/1"));
