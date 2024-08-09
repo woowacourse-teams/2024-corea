@@ -42,7 +42,7 @@ const useSelectedFeedbackData = () => {
 
   const userFeedbacks = feedbacks?.map((feedback) => groupFeedbacksByUser(feedback));
 
-  return { selectedFeedbackType, setSelectedFeedbackType, userFeedbacks };
+  return { selectedFeedbackType, setSelectedFeedbackType, userFeedbacks, selectedFeedbackDatas };
 };
 
 export default useSelectedFeedbackData;
