@@ -43,6 +43,8 @@ public class MatchingService {
                 .map(pair -> new MatchResult(roomId, getMember(pair.getFromMemberId()), getMember(pair.getToMemberId()), null))
                 .toList();
 
+        matchResultRepository.saveAll(matchResults);
+
         return matchResults;
     }
 
