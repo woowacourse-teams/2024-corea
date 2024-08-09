@@ -126,7 +126,7 @@ public class DemoDataInitializer implements ApplicationRunner {
         List<Participation> room3Participates = participateRoom(room3.getId(),List.of(pororo,ash,joysun,movin,ten,dar));
 
         //room4 에 참여한 참여자들
-        List<Participation> room4Participates = participateRoom(room4.getId(),List.of(joysun,pororo,movin,ten,dar));
+        List<Participation> room4Participates = participateRoom(room4.getId(),List.of(ash,pororo,movin,ten,dar,joysun));
 
 
         //room1 에서 작성된 매칭 & 피드백
@@ -148,6 +148,9 @@ public class DemoDataInitializer implements ApplicationRunner {
 
         //room3 에서 매칭되고 모두 피드백 되어있는 상태
         matchingAndReview(room3Participates,room3);
+
+        //room4 방이 열려있고 리뷰 완료만 되어있는 상태
+        matchingAndReviewComplete(room4Participates,room4);
 
         //프로필
         profileRepository.save(new corea.profile.domain.Profile(pororo, 1, 2, 3, 4.5f, 6.7f));
