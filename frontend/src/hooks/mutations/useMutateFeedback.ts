@@ -39,7 +39,11 @@ const useMutateFeedback = () => {
     mutationFn: ({ roomId, feedbackData }: PostRevieweeFeedbackMutationProps) =>
       postRevieweeFeedback(roomId, feedbackData),
     onSuccess: (_, variables) =>
-      handleMutateSuccess([QUERY_KEYS.REVIEWEE_FEEDBACK, variables.roomId.toString()]),
+      handleMutateSuccess([
+        QUERY_KEYS.REVIEWEES,
+        QUERY_KEYS.REVIEWEE_FEEDBACK,
+        variables.roomId.toString(),
+      ]),
     onError: (error) => handleMutateError(error),
     networkMode: "always",
   });
@@ -48,7 +52,11 @@ const useMutateFeedback = () => {
     mutationFn: ({ roomId, feedbackId, feedbackData }: PutRevieweeFeedbackMutationProps) =>
       putRevieweeFeedback(roomId, feedbackId, feedbackData),
     onSuccess: (_, variables) =>
-      handleMutateSuccess([QUERY_KEYS.REVIEWEE_FEEDBACK, variables.roomId.toString()]),
+      handleMutateSuccess([
+        QUERY_KEYS.REVIEWEES,
+        QUERY_KEYS.REVIEWEE_FEEDBACK,
+        variables.roomId.toString(),
+      ]),
     onError: (error) => handleMutateError(error),
     networkMode: "always",
   });
@@ -58,7 +66,11 @@ const useMutateFeedback = () => {
     mutationFn: ({ roomId, feedbackData }: PostReviewerFeedbackMutationProps) =>
       postReviewerFeedback(roomId, feedbackData),
     onSuccess: (_, variables) =>
-      handleMutateSuccess([QUERY_KEYS.REVIEWEE_FEEDBACK, variables.roomId.toString()]),
+      handleMutateSuccess([
+        QUERY_KEYS.REVIEWERS,
+        QUERY_KEYS.REVIEWER_FEEDBACK,
+        variables.roomId.toString(),
+      ]),
     onError: (error) => handleMutateError(error),
     networkMode: "always",
   });
@@ -67,7 +79,11 @@ const useMutateFeedback = () => {
     mutationFn: ({ roomId, feedbackId, feedbackData }: PutReviewerFeedbackMutationProps) =>
       putReviewerFeedback(roomId, feedbackId, feedbackData),
     onSuccess: (_, variables) =>
-      handleMutateSuccess([QUERY_KEYS.REVIEWEE_FEEDBACK, variables.roomId.toString()]),
+      handleMutateSuccess([
+        QUERY_KEYS.REVIEWERS,
+        QUERY_KEYS.REVIEWER_FEEDBACK,
+        variables.roomId.toString(),
+      ]),
     onError: (error) => handleMutateError(error),
     networkMode: "always",
   });
