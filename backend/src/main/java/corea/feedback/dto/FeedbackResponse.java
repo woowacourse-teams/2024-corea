@@ -44,16 +44,16 @@ public record FeedbackResponse(@Schema(description = "피드백 아이디", exam
                 developFeedback.getFeedBackText()
         );
     }
-    public static FeedbackResponse fromDeliver(DevelopFeedback socialFeedback) {
+    public static FeedbackResponse fromDeliver(DevelopFeedback developFeedback) {
         return new FeedbackResponse(
-                socialFeedback.getId(),
-                socialFeedback.getRoomId(),
-                socialFeedback.getReceiver().getId(),
-                socialFeedback.getReceiver().getThumbnailUrl(),
-                socialFeedback.getReceiver().getUsername(),
-                FeedbackKeywordConverter.convertToMessages(socialFeedback.getKeywords()),
-                socialFeedback.getEvaluatePoint(),
-                socialFeedback.getFeedBackText()
+                developFeedback.getId(),
+                developFeedback.getRoomId(),
+                developFeedback.getReceiver().getId(),
+                developFeedback.getReceiver().getThumbnailUrl(),
+                developFeedback.getReceiver().getUsername(),
+                FeedbackKeywordConverter.convertToMessages(developFeedback.getKeywords()),
+                developFeedback.getEvaluatePoint(),
+                developFeedback.getFeedBackText()
         );
     }
 
@@ -69,6 +69,7 @@ public record FeedbackResponse(@Schema(description = "피드백 아이디", exam
                 socialFeedback.getFeedBackText()
         );
     }
+
     public static FeedbackResponse fromDeliver(SocialFeedback socialFeedback) {
         return new FeedbackResponse(
                 socialFeedback.getId(),
