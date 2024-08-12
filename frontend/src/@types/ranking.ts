@@ -1,9 +1,11 @@
 export interface RankingData {
+  rankingNumber: number;
   nickname: string;
   githubLink: string;
   givenReviewCount: number;
   averageRating: number;
-  classification: string;
+  profileImage: string;
+  classification: "re" | "an" | "be" | "fe";
 }
 
 export interface RankingAllData {
