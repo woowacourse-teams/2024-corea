@@ -32,12 +32,24 @@ public record FeedbackResponse(@Schema(description = "피드백 아이디", exam
                                @Schema(description = "부가 작성 가능한 피드백 텍스트", example = "처음 자바를 접해봤다고 했는데 생각보다 매우 잘 구성되어 있는 코드였습니다. ...")
                                String feedbackText) {
 
-    public static FeedbackResponse from(DevelopFeedback developFeedback) {
+    public static FeedbackResponse fromReceiver(DevelopFeedback developFeedback) {
+        return new FeedbackResponse(
+                developFeedback.getId(),
+                developFeedback.getRoomId(),
+                developFeedback.getDeliver().getId(),
+                developFeedback.getDeliver().getThumbnailUrl(),
+                developFeedback.getDeliver().getUsername(),
+                FeedbackKeywordConverter.convertToMessages(developFeedback.getKeywords()),
+                developFeedback.getEvaluatePoint(),
+                developFeedback.getFeedBackText()
+        );
+    }
+    public static FeedbackResponse fromDeliver(DevelopFeedback developFeedback) {
         return new FeedbackResponse(
                 developFeedback.getId(),
                 developFeedback.getRoomId(),
                 developFeedback.getReceiver().getId(),
-                developFeedback.getReceiver().getProfileLink(),
+                developFeedback.getReceiver().getThumbnailUrl(),
                 developFeedback.getReceiver().getUsername(),
                 FeedbackKeywordConverter.convertToMessages(developFeedback.getKeywords()),
                 developFeedback.getEvaluatePoint(),
@@ -45,12 +57,25 @@ public record FeedbackResponse(@Schema(description = "피드백 아이디", exam
         );
     }
 
-    public static FeedbackResponse from(SocialFeedback socialFeedback) {
+    public static FeedbackResponse fromReceiver(SocialFeedback socialFeedback) {
+        return new FeedbackResponse(
+                socialFeedback.getId(),
+                socialFeedback.getRoomId(),
+                socialFeedback.getDeliver().getId(),
+                socialFeedback.getDeliver().getThumbnailUrl(),
+                socialFeedback.getDeliver().getUsername(),
+                FeedbackKeywordConverter.convertToMessages(socialFeedback.getKeywords()),
+                socialFeedback.getEvaluatePoint(),
+                socialFeedback.getFeedBackText()
+        );
+    }
+
+    public static FeedbackResponse fromDeliver(SocialFeedback socialFeedback) {
         return new FeedbackResponse(
                 socialFeedback.getId(),
                 socialFeedback.getRoomId(),
                 socialFeedback.getReceiver().getId(),
-                socialFeedback.getReceiver().getProfileLink(),
+                socialFeedback.getReceiver().getThumbnailUrl(),
                 socialFeedback.getReceiver().getUsername(),
                 FeedbackKeywordConverter.convertToMessages(socialFeedback.getKeywords()),
                 socialFeedback.getEvaluatePoint(),
