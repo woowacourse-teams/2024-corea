@@ -1,5 +1,4 @@
 import useSelectedCategory from "@/hooks/common/useSelectedCategory";
-import useMutateAuth from "@/hooks/mutations/useMutateAuth";
 import {
   useFetchParticipatedRoomList,
   useInfiniteFetchRoomList,
@@ -9,7 +8,7 @@ import MenuBar from "@/components/common/menuBar/MenuBar";
 import RoomList from "@/components/shared/roomList/RoomList";
 import * as S from "@/pages/main/MainPage.style";
 import QUERY_KEYS from "@/apis/queryKeys";
-import { getClosedRoomList, getOpenedRoomList, getParticipatedRoomList } from "@/apis/rooms.api";
+import { getClosedRoomList, getOpenedRoomList } from "@/apis/rooms.api";
 
 const MainPage = () => {
   const { selectedCategory, handleSelectedCategory } = useSelectedCategory();
