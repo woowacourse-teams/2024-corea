@@ -29,7 +29,7 @@ import java.util.List;
 
 import static corea.feedback.domain.FeedbackKeyword.*;
 
-@Profile("main")
+@Profile("dev")
 @Component
 @Transactional
 @RequiredArgsConstructor
