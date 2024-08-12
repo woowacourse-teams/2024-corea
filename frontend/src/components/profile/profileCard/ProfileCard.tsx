@@ -1,5 +1,4 @@
 import * as S from "./ProfileCard.style";
-import React from "react";
 import Icon from "@/components/common/icon/Icon";
 import Profile from "@/components/common/profile/Profile";
 import AttitudeScore from "@/components/profile/attitudeScore/AttitudeScore";

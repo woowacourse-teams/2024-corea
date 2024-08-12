@@ -1,4 +1,3 @@
-import React from "react";
 import IconButton from "@/components/common/iconButton/IconButton";
 import * as S from "@/components/common/menuBar/MenuBar.style";
 import { allLogo, androidLogo, backendLogo, frontendLogo } from "@/assets";

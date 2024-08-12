@@ -1,5 +1,4 @@
 import * as S from "./AttitudeScore.style";
-import React from "react";
 import Icon from "@/components/common/icon/Icon";
 import { theme } from "@/styles/theme";
 
