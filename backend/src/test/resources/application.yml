@@ -1,12 +1,15 @@
 spring:
   application:
     name: backend
+    config:
+      activate:
+        on-profile: test
   jpa:
     defer-datasource-initialization: true
     show-sql: false
     properties:
       hibernate:
-        format_sql: false
+        dialect: org.hibernate.dialect.MySQLDialect
     hibernate:
       ddl-auto: create-drop
   h2:
