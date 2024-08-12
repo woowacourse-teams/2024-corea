@@ -13,7 +13,15 @@ interface ModalProps {
 
 const Modal = ({ isOpen, onClose, hasCloseButton = true, children }: ModalProps) => {
   useEffect(() => {
-    document.body.style.overflow = isOpen ? "hidden" : "auto";
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
   }, [isOpen]);
 
   if (!isOpen) return null;
