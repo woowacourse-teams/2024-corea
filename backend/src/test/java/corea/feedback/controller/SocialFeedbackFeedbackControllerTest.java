@@ -51,7 +51,7 @@ class SocialFeedbackFeedbackControllerTest {
         SocialFeedbackRequest request = new SocialFeedbackRequest(
                 reviewer.getId(),
                 4,
-                List.of("방의 목적에 맞게 코드를 작성했어요.", "코드를 이해하기 쉬웠어요."),
+                List.of("방의 목적에 맞게 코드를 작성했어요", "코드를 이해하기 쉬웠어요"),
                 "유용한 블로그나 아티클도 남겨주시고, \n 사소한 부분까지 잘 챙겨준게 좋았씁니다."
         );
 
