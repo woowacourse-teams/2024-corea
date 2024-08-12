@@ -19,7 +19,7 @@ const Header = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const [isSelect, setIsSelect] = useState("");
-  const user = localStorage.getItem("accessToken");
+  const isLoggedIn = !!localStorage.getItem("accessToken");
 
   const handlePage = (path: string, name: string) => {
     setIsSelect(name);
@@ -52,7 +52,11 @@ const Header = () => {
             {item.name}
           </S.HeaderItem>
         ))}
-        {user ? <ProfileDropdown /> : <S.HeaderItem onClick={handleLogin}>로그인</S.HeaderItem>}
+        {isLoggedIn ? (
+          <ProfileDropdown />
+        ) : (
+          <S.HeaderItem onClick={handleLogin}>로그인</S.HeaderItem>
+        )}
       </S.HeaderNavBarContainer>
     </S.HeaderContainer>
   );
