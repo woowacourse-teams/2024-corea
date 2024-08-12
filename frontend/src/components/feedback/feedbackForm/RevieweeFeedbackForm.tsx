@@ -1,9 +1,15 @@
+import React from "react";
 import { Textarea } from "@/components/common/textarea/Textarea";
 import EvaluationPointBar from "@/components/feedback/evaluationPointBar/EvaluationPointBar";
 import * as S from "@/components/feedback/feedbackForm/FeedbackForm.style";
 import KeywordOptionButton from "@/components/feedback/keywordOptionButton/KeywordOptionButton";
 import RecommendationPointBar from "@/components/feedback/recommendationPointBar/RecommendationPointBar";
 import { RevieweeFeedbackData } from "@/@types/feedback";
+import {
+  DEVELOP_BAD_KEYWORD_OPTIONS,
+  DEVELOP_GOOD_KEYWORD_OPTIONS,
+  DEVELOP_NORMAL_KEYWORD_OPTIONS,
+} from "@/constants/feedback";
 import { FeedbackModalType } from "@/utils/feedbackUtils";
 
 interface RevieweeFeedbackFormProps {
@@ -14,6 +20,13 @@ interface RevieweeFeedbackFormProps {
   ) => void;
   modalType: FeedbackModalType;
 }
+
+const getDevelopKeywordOptions = (selectedEvaluationId: number | undefined) => {
+  if (selectedEvaluationId === undefined) return DEVELOP_GOOD_KEYWORD_OPTIONS;
+  if (selectedEvaluationId <= 2) return DEVELOP_BAD_KEYWORD_OPTIONS;
+  if (selectedEvaluationId === 3) return DEVELOP_NORMAL_KEYWORD_OPTIONS;
+  return DEVELOP_GOOD_KEYWORD_OPTIONS;
+};
 
 const RevieweeFeedbackForm = ({ formState, onChange, modalType }: RevieweeFeedbackFormProps) => {
   return (
@@ -36,6 +49,7 @@ const RevieweeFeedbackForm = ({ formState, onChange, modalType }: RevieweeFeedba
           onChange={(value) => onChange("feedbackKeywords", value)}
           selectedEvaluationId={formState.evaluationPoint}
           readonly={modalType === "view"}
+          options={getDevelopKeywordOptions(formState.evaluationPoint)}
         />
       </S.ItemContainer>
 

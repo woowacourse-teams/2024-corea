@@ -1,6 +1,7 @@
 import CallbackPage from "./pages/callback/CallbackPage";
 import FeedbackPage from "./pages/feedback/FeedbackPage";
 import GuidePage from "./pages/guide/GuidePage";
+import LogoutPage from "./pages/logout/LogoutPage";
 import ProfilePage from "./pages/profile/ProfilePage";
 import RankingPage from "./pages/ranking/RankingPage";
 import { createBrowserRouter } from "react-router-dom";
@@ -43,6 +44,10 @@ const router = sentryCreateBrowserRouter([
       {
         path: `profile`,
         element: <ProfilePage />,
+      },
+      {
+        path: `logout`,
+        element: <LogoutPage />,
       },
     ],
   },
