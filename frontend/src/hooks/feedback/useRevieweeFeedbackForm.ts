@@ -21,8 +21,13 @@ export const useRevieweeFeedbackForm = (
   onClose: () => void,
 ) => {
   const [formState, setFormState] = useState<RevieweeFeedbackData>(initialFormState);
-  const { data: feedbackData } = useFetchRevieweeFeedback(roomId, revieweeUsername);
   const { postRevieweeFeedbackMutation, putRevieweeFeedbackMutation } = useMutateFeedback();
+
+  const { data: feedbackData } = useFetchRevieweeFeedback({
+    roomId,
+    username: revieweeUsername,
+    enabled: modalType !== "create",
+  });
 
   useEffect(() => {
     if (modalType === "create") {
@@ -37,7 +42,15 @@ export const useRevieweeFeedbackForm = (
     value: RevieweeFeedbackData[keyof RevieweeFeedbackData],
   ) => {
     if (modalType === "view") return;
-    setFormState((prevState) => ({ ...prevState, [key]: value }));
+    if (key === "evaluationPoint") {
+      setFormState({
+        ...initialFormState,
+        receiverId: formState.receiverId,
+        evaluationPoint: value as number,
+      });
+    } else {
+      setFormState((prevState) => ({ ...prevState, [key]: value }));
+    }
   };
 
   const isFormValid =
