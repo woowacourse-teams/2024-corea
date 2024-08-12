@@ -16,7 +16,7 @@ public class RankingController implements RankingControllerSpecification {
     private final RankingService rankingService;
 
     @GetMapping("/board")
-    public ResponseEntity<RankingResponses> findTop3RankingSortByClassification() {
+    public ResponseEntity<RankingResponses> findTopRankingsSortByClassification() {
         RankingResponses response = rankingService.findTopRankings();
         return ResponseEntity.ok(response);
     }
