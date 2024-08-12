@@ -32,7 +32,7 @@ const ProfileDropdown = () => {
     navigate(path);
   };
 
-  const handelLogoutClick = () => {
+  const handleLogoutClick = () => {
     postLogoutMutation.mutate();
     handleToggleDropdown();
   };
@@ -58,7 +58,7 @@ const ProfileDropdown = () => {
             </S.DropdownItem>
           ))}
           <hr></hr>
-          <S.DropdownItem onClick={handelLogoutClick}>로그아웃</S.DropdownItem>
+          <S.DropdownItem onClick={handleLogoutClick}>로그아웃</S.DropdownItem>
         </S.DropdownItemWrapper>
       </S.DropdownMenu>
     </S.ProfileContainer>
