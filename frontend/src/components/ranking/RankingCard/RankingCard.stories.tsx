@@ -1,5 +1,4 @@
 import { Meta, StoryObj } from "@storybook/react";
-import React from "react";
 import RankingCard from "@/components/ranking/rankingCard/RankingCard";
 import { RankingData } from "@/@types/ranking";
 import rankingInfo from "@/mocks/mockResponse/rankingInfo.json";
