@@ -6,7 +6,7 @@ import MESSAGES from "@/constants/message";
 export const getRankingList = async (): Promise<RankingAllData> => {
   const res = await apiClient.get({
     endpoint: `${API_ENDPOINTS.RANKING}`,
-    // errorMessage: MESSAGES.ERROR.GET_OPENED_ROOM_LIST,
+    errorMessage: MESSAGES.ERROR.GET_RANKING,
   });
 
   return res.responses;
