@@ -49,6 +49,9 @@ public record RoomResponse(@Schema(description = "방 아이디", example = "1")
                            @Schema(description = "모집 완료 여부", example = "false")
                            boolean isClosed
 ) {
+    public static RoomResponse of(Room room) {
+        return RoomResponse.of(room, false);
+    }
 
     public static RoomResponse of(Room room, boolean isParticipated) {
         return new RoomResponse(
