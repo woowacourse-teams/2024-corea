@@ -15,7 +15,7 @@ public record PullRequestResponse(
         return this.user.id();
     }
 
-    public boolean isAfter(LocalDateTime localDateTime) {
-        return this.created_at.isAfter(localDateTime);
+    public boolean isBefore(LocalDateTime localDateTime) {
+        return this.created_at.isBefore(localDateTime);
     }
 }

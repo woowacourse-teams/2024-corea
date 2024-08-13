@@ -22,9 +22,9 @@ public class PullRequestProvider {
     public PullRequestInfo getUntilDeadline(String repositoryLink, LocalDateTime deadline) {
         return new PullRequestInfo(Stream.iterate(1, page -> page + 1)
                 .map(page -> githubPullRequestClient.getPullRequestListWithPageNumber(repositoryLink, PAGE_SIZE, page))
-                .takeWhile(data -> !(data.isLastPage() || data.isPastPage(deadline)))
+                .takeWhile(data -> !(data.isLastPage() || data.isAfterPage(deadline)))
                 .flatMap(PullRequestData::responseToStream)
-                .filter(pullRequestResponse -> pullRequestResponse.isAfter(deadline))
+                .filter(pullRequestResponse -> pullRequestResponse.isBefore(deadline))
                 .collect(Collectors.toMap(PullRequestResponse::getUserId, Function.identity())));
     }
 }
