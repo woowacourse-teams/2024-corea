@@ -1,0 +1,26 @@
+package corea.matching.dto;
+
+import corea.matching.infrastructure.dto.GithubUserResponse;
+import corea.matching.infrastructure.dto.PullRequestData;
+import corea.matching.infrastructure.dto.PullRequestResponse;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import java.time.LocalDateTime;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+class PullRequestDataTest {
+    @Test
+    @DisplayName("주어진 시간보다 마지막 데이터의 시간이 지났으면 지난 페이지가 된다.")
+    void some() {
+        GithubUserResponse githubUserResponse = new GithubUserResponse("3");
+        LocalDateTime time = LocalDateTime.of(2024, 11, 24, 18, 29);
+        PullRequestData pullRequestData = new PullRequestData(false,
+                new PullRequestResponse[]{new PullRequestResponse("https://pullRequestLink.com", githubUserResponse, time)});
+
+        boolean isPasted = pullRequestData.isPastPage(LocalDateTime.of(2024, 11, 24, 18, 30));
+        assertThat(isPasted).isTrue();
+    }
+
+}
