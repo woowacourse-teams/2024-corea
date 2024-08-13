@@ -1,8 +1,6 @@
 import { css, styled } from "styled-components";
-import media from "@/styles/media";
 
 export const RankingCardContainer = styled.div`
-  cursor: pointer;
   cursor: default;
 
   overflow: hidden;
@@ -11,7 +9,6 @@ export const RankingCardContainer = styled.div`
   gap: 1rem;
 
   width: 360px;
-  height: 400px;
   margin: 0 auto;
   padding: 1rem;
 
@@ -20,12 +17,21 @@ export const RankingCardContainer = styled.div`
   box-shadow: 0 4px 4px rgb(0 0 0 / 10%);
 
   h2 {
-    font: ${({ theme }) => theme.TEXT.semiSmall};
+    font: ${({ theme }) => theme.TEXT.small};
     color: ${({ theme }) => theme.COLOR.primary3};
   }
 `;
 
-// 시상대
+export const EmptyRankingData = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 100%;
+`;
+
+// board
 export const RankingBoardContainer = styled.div`
   display: flex;
   gap: 0.2rem;
@@ -82,7 +88,7 @@ export const RankingBoardBar = styled.div<{ $rankingNumber: string }>`
   }};
 `;
 
-// 표
+// table
 export const RankingTableContainer = styled.div`
   display: flex;
   flex-direction: column;
