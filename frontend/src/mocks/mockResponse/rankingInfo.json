@@ -1,0 +1,92 @@
+{
+  "responses": {
+    "re": [
+      {
+        "rankingNumber": 1,
+        "nickname": "1",
+        "githubLink": "www.github.com/sample/pull/24",
+        "profileImage": "https://avatars.githubusercontent.com/u/63334368?v=4",
+        "givenReviewCount": 17,
+        "averageRating": 4.9,
+        "classification": "re"
+      },
+      {
+        "rankingNumber": 2,
+        "nickname": "2",
+        "githubLink": "www.github.com/sample/pull/24",
+        "profileImage": "https://avatars.githubusercontent.com/u/63334368?v=4",
+        "givenReviewCount": 17,
+        "averageRating": 4.9,
+        "classification": "re"
+      },
+      {
+        "rankingNumber": 3,
+        "nickname": "3",
+        "githubLink": "www.github.com/sample/pull/24",
+        "profileImage": "https://avatars.githubusercontent.com/u/63334368?v=4",
+        "givenReviewCount": 17,
+        "averageRating": 4.9,
+        "classification": "re"
+      }
+    ],
+    "an": [
+      {
+        "rankingNumber": 1,
+        "nickname": "1",
+        "githubLink": "www.github.com/sample/pull/24",
+        "profileImage": "https://avatars.githubusercontent.com/u/63334368?v=4",
+        "givenReviewCount": 17,
+        "averageRating": 4.9,
+        "classification": "re"
+      },
+      {
+        "rankingNumber": 2,
+        "nickname": "2",
+        "githubLink": "www.github.com/sample/pull/24",
+        "profileImage": "https://avatars.githubusercontent.com/u/63334368?v=4",
+        "givenReviewCount": 17,
+        "averageRating": 4.9,
+        "classification": "re"
+      },
+      {
+        "rankingNumber": 3,
+        "nickname": "3",
+        "githubLink": "www.github.com/sample/pull/24",
+        "profileImage": "https://avatars.githubusercontent.com/u/63334368?v=4",
+        "givenReviewCount": 17,
+        "averageRating": 4.9,
+        "classification": "re"
+      }
+    ],
+    "be": [
+      {
+        "rankingNumber": 1,
+        "nickname": "1",
+        "githubLink": "www.github.com/sample/pull/24",
+        "profileImage": "https://avatars.githubusercontent.com/u/63334368?v=4",
+        "givenReviewCount": 17,
+        "averageRating": 4.9,
+        "classification": "re"
+      },
+      {
+        "rankingNumber": 2,
+        "nickname": "2",
+        "githubLink": "www.github.com/sample/pull/24",
+        "profileImage": "https://avatars.githubusercontent.com/u/63334368?v=4",
+        "givenReviewCount": 17,
+        "averageRating": 4.9,
+        "classification": "re"
+      },
+      {
+        "rankingNumber": 3,
+        "nickname": "3",
+        "githubLink": "www.github.com/sample/pull/24",
+        "profileImage": "https://avatars.githubusercontent.com/u/63334368?v=4",
+        "givenReviewCount": 17,
+        "averageRating": 4.9,
+        "classification": "re"
+      }
+    ],
+    "fe": []
+  }
+}

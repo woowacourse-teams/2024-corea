@@ -9,5 +9,5 @@ export const getRankingList = async (): Promise<RankingAllData> => {
     // errorMessage: MESSAGES.ERROR.GET_OPENED_ROOM_LIST,
   });
 
-  return res;
+  return res.responses;
 };
