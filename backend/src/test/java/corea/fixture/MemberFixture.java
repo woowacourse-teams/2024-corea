@@ -10,7 +10,8 @@ public class MemberFixture {
                 "https://avatars.githubusercontent.com/u/98307410?v=4",
                 null,
                 "youngsu5582@gmail.com",
-                false
+                false,
+                "98307410"
         );
     }
 
@@ -20,7 +21,8 @@ public class MemberFixture {
                 "https://avatars.githubusercontent.com/u/98307410?v=4",
                 null,
                 "jcoding-play@gmail.com",
-                false
+                false,
+                "119468757"
         );
     }
 
@@ -30,7 +32,8 @@ public class MemberFixture {
                 "https://avatars.githubusercontent.com/u/98307410?v=4",
                 null,
                 "ashsty@gmail.com",
-                false
+                false,
+                "77227961"
         );
     }
 
@@ -40,7 +43,8 @@ public class MemberFixture {
                 "https://avatars.githubusercontent.com/u/98307410?v=4",
                 null,
                 "hjk0761@gmail.com",
-                false
+                false,
+                "80106238"
         );
     }
 
@@ -50,7 +54,8 @@ public class MemberFixture {
                 "https://avatars.githubusercontent.com/u/98307410?v=4",
                 null,
                 "joyson5582@gmail.com",
-                false
+                false,
+                "99112400"
         );
     }
 
@@ -60,7 +65,8 @@ public class MemberFixture {
                 "https://avatars.githubusercontent.com/u/98307410?v=4",
                 null,
                 "tenten@gmail.com",
-                false
+                false,
+                "63334368"
         );
     }
 
@@ -70,7 +76,8 @@ public class MemberFixture {
                 "https://avatars.githubusercontent.com/u/98307410?v=4",
                 null,
                 "choco@gmail.com",
-                false
+                false,
+                "70834044"
         );
     }
 }

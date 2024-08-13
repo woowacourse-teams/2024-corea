@@ -1,6 +1,5 @@
 import RoomList from "./RoomList";
 import type { Meta, StoryObj } from "@storybook/react";
-import React from "react";
 import { RoomInfo } from "@/@types/roomInfo";
 import roomInfos from "@/mocks/mockResponse/roomInfos.json";
 

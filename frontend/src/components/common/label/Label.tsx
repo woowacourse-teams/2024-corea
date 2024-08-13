@@ -1,4 +1,3 @@
-import React from "react";
 import * as S from "@/components/common/label/Label.style";
 import { ThemeType } from "@/styles/theme";
 
