@@ -6,7 +6,6 @@ import corea.member.repository.MemberRepository;
 import corea.participation.domain.Participation;
 import corea.participation.dto.ParticipationRequest;
 import corea.participation.dto.ParticipationResponse;
-import corea.participation.dto.ParticipationsResponse;
 import corea.participation.repository.ParticipationRepository;
 import corea.room.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +25,7 @@ public class ParticipationService {
     public ParticipationResponse participate(ParticipationRequest request) {
         validateIdExist(request.roomId(), request.memberId());
 
-        final Participation participation = participationRepository.save(request.toEntity());
+        Participation participation = participationRepository.save(request.toEntity());
         return ParticipationResponse.from(participation);
     }
 
@@ -40,9 +39,5 @@ public class ParticipationService {
         if (participationRepository.existsByRoomIdAndMemberId(roomId, memberId)) {
             throw new CoreaException(ExceptionType.ALREADY_APPLY);
         }
-    }
-
-    public ParticipationsResponse getParticipation(long roomId) {
-        return new ParticipationsResponse(participationRepository.findAllByRoomId(roomId));
     }
 }

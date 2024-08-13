@@ -1,5 +1,6 @@
 package corea.matching.domain;
 
+import corea.member.domain.Member;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -7,6 +8,10 @@ import lombok.RequiredArgsConstructor;
 @Getter
 public class Pair {
 
-    private final Long fromMemberId;
-    private final Long toMemberId;
+    private final Member fromMember;
+    private final Member toMember;
+
+    public String getToMemberGithubId(){
+        return toMember.getGithubUserId();
+    }
 }

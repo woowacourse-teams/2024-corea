@@ -5,6 +5,7 @@ import corea.feedback.domain.SocialFeedback;
 import corea.feedback.repository.DevelopFeedbackRepository;
 import corea.feedback.repository.SocialFeedbackRepository;
 import corea.matching.domain.MatchResult;
+import corea.matching.domain.MatchingStrategy;
 import corea.matching.repository.MatchResultRepository;
 import corea.matching.service.MatchingService;
 import corea.member.domain.Member;
@@ -43,6 +44,7 @@ public class DemoDataInitializer implements ApplicationRunner {
     private final SocialFeedbackRepository socialFeedbackRepository;
     private final ProfileRepository profileRepository;
     private final MatchingService matchingService;
+    private final MatchingStrategy matchingStrategy;
     private final JdbcTemplate jdbcTemplate;
 
     @Override
@@ -172,12 +174,20 @@ public class DemoDataInitializer implements ApplicationRunner {
     }
 
     private void matchingAndReview(List<Participation> participations, Room room) {
-        List<MatchResult> matchResults = matchingService.matchMaking(participations, room.getMatchingSize());
+        List<MatchResult> matchResults = matchingStrategy.matchPairs(participations, room.getMatchingSize())
+                .stream()
+                .map(pair -> MatchResult.of(room.getId(), pair, ""))
+                .toList();
+
         matchResults.forEach(this::reviewSocialAndDevelopFeedback);
     }
 
     private void matchingAndReviewComplete(List<Participation> participations, Room room) {
-        List<MatchResult> matchResults = matchingService.matchMaking(participations, room.getMatchingSize());
+        List<MatchResult> matchResults = matchingStrategy.matchPairs(participations, room.getMatchingSize())
+                .stream()
+                .map(pair -> MatchResult.of(room.getId(), pair, ""))
+                .toList();
+
         matchResults.forEach(MatchResult::reviewComplete);
         matchResultRepository.saveAll(matchResults);
     }
