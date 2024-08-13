@@ -1,5 +1,5 @@
 import { useFetchRanking } from "@/hooks/queries/useFetchRanking";
-import RankingCard from "@/components/ranking/RankingCard/RankingCard";
+import RankingCard from "@/components/ranking/rankingCard/RankingCard";
 import * as S from "@/pages/ranking/RankingPage.style";
 import { RankingClassification } from "@/@types/ranking";
 

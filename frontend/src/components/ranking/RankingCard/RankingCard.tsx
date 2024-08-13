@@ -1,5 +1,5 @@
 import Profile from "@/components/common/profile/Profile";
-import * as S from "@/components/ranking/RankingCard/RankingCard.style";
+import * as S from "@/components/ranking/rankingCard/RankingCard.style";
 import { RankingData } from "@/@types/ranking";
 import { rank1, rank2, rank3 } from "@/assets";
 
