@@ -125,7 +125,7 @@ class DevelopFeedbackServiceTest {
         return new DevelopFeedbackRequest(
                 receiverId,
                 4,
-                List.of("방의 목적에 맞게 코드를 작성했어요.", "코드를 이해하기 쉬웠어요."),
+                List.of("방의 목적에 맞게 코드를 작성했어요", "코드를 이해하기 쉬웠어요"),
                 "처음 자바를 접해봤다고 했는데 \n 생각보다 매우 구성되어 있는 코드 였던거 같습니다. ...",
                 2
         );

@@ -1,5 +1,4 @@
 import * as S from "./Toast.style";
-import React from "react";
 import { useContext, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { ToastContext } from "@/providers/ToastProvider";

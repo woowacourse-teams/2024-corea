@@ -1,10 +1,10 @@
 spring:
   profiles:
     group:
-      main: dev, secret
-      test: dev, secret
+      dev: dev, secret
+      test: test
       local: local, secret
-    active: main
+    active: local
 
   config:
     import: ./corea-prod/application-secret.yml

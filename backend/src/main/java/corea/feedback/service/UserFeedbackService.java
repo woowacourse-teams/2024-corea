@@ -41,14 +41,14 @@ public class UserFeedbackService {
     private Map<Long, List<FeedbackResponse>> getDeliveredDevelopFeedback(long id) {
         return developFeedbackRepository.findByDeliverId(id)
                 .stream()
-                .map(FeedbackResponse::from)
+                .map(FeedbackResponse::fromDeliver)
                 .collect(Collectors.groupingBy(FeedbackResponse::roomId));
     }
 
     private Map<Long, List<FeedbackResponse>> getDeliveredSocialFeedback(long id) {
         return socialFeedbackRepository.findByDeliverId(id)
                 .stream()
-                .map(FeedbackResponse::from)
+                .map(FeedbackResponse::fromDeliver)
                 .collect(Collectors.groupingBy(FeedbackResponse::roomId));
     }
 
@@ -65,14 +65,14 @@ public class UserFeedbackService {
     private Map<Long, List<FeedbackResponse>> getReceivedDevelopFeedback(long id) {
         return developFeedbackRepository.findByReceiverId(id)
                 .stream()
-                .map(FeedbackResponse::from)
+                .map(FeedbackResponse::fromReceiver)
                 .collect(Collectors.groupingBy(FeedbackResponse::roomId));
     }
 
     private Map<Long, List<FeedbackResponse>> getReceivedSocialFeedback(long id) {
         return socialFeedbackRepository.findByReceiverId(id)
                 .stream()
-                .map(FeedbackResponse::from)
+                .map(FeedbackResponse::fromReceiver)
                 .collect(Collectors.groupingBy(FeedbackResponse::roomId));
     }
 

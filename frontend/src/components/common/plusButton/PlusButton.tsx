@@ -1,5 +1,4 @@
 import Icon from "../icon/Icon";
-import React from "react";
 import * as S from "@/components/common/plusButton/PlusButton.style";
 
 interface PlusButtonProps {

@@ -1,5 +1,4 @@
 import * as S from "./OptionSelect.style";
-import React from "react";
 import { NonEmptyArray } from "@/@types/NonEmptyArray";
 
 interface OptionSelect<T extends NonEmptyArray<string>> {
@@ -16,7 +15,11 @@ const OptionSelect = <T extends NonEmptyArray<string>>({
   return (
     <S.OptionSelectContainer>
       {options.map((option) => (
-        <S.Option $isSelected={option === selected} onClick={() => handleSelectedOption(option)}>
+        <S.Option
+          key={option}
+          $isSelected={option === selected}
+          onClick={() => handleSelectedOption(option)}
+        >
           {option}
         </S.Option>
       ))}

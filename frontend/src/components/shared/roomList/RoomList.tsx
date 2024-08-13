@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import PlusButton from "@/components/common/plusButton/PlusButton";
 import RoomCard from "@/components/shared/roomCard/RoomCard";
