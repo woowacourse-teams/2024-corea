@@ -7,26 +7,8 @@ import rankingInfo from "@/mocks/mockResponse/rankingInfo.json";
 const sampleRankingData: RankingData[] = rankingInfo.responses.re;
 
 const meta: Meta<typeof RankingCard> = {
-  title: "Shared/RoomCardModal",
+  title: "rankingCard/RankingData",
   component: RankingCard,
-  parameters: {
-    viewport: {
-      viewports: {
-        small: {
-          name: "Small",
-          styles: { width: "375px", height: "568px" },
-        },
-        medium: {
-          name: "Medium",
-          styles: { width: "768px", height: "1024px" },
-        },
-        large: {
-          name: "Large",
-          styles: { width: "1200px", height: "1366px" },
-        },
-      },
-    },
-  },
 };
 
 export default meta;
@@ -38,46 +20,11 @@ export const Default: Story = {
     title: "평점 좋은 리뷰어 랭킹",
     rankingData: sampleRankingData,
   },
-  parameters: {
-    docs: { disable: true },
-  },
 };
 
-export const SmallViewport: Story = {
+export const EmptyRankingData: Story = {
   args: {
     title: "평점 좋은 리뷰어 랭킹",
-    rankingData: sampleRankingData,
-  },
-  parameters: {
-    viewport: {
-      defaultViewport: "small",
-    },
-    docs: { disable: true },
-  },
-};
-
-export const MediumViewport: Story = {
-  args: {
-    title: "평점 좋은 리뷰어 랭킹",
-    rankingData: sampleRankingData,
-  },
-  parameters: {
-    viewport: {
-      defaultViewport: "medium",
-    },
-    docs: { disable: true },
-  },
-};
-
-export const LargeViewport: Story = {
-  args: {
-    title: "평점 좋은 리뷰어 랭킹",
-    rankingData: sampleRankingData,
-  },
-  parameters: {
-    viewport: {
-      defaultViewport: "large",
-    },
-    docs: { disable: true },
+    rankingData: [],
   },
 };

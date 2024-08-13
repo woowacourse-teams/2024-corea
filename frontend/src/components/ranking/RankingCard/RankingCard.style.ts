@@ -111,7 +111,7 @@ export const TableItem = styled.div`
   display: flex;
   justify-content: center;
 
-  width: 50px;
+  width: 60px;
 
   font: ${({ theme }) => theme.TEXT.semiSmall};
   color: ${({ theme }) => theme.COLOR.grey3};
