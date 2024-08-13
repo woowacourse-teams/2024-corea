@@ -1,5 +1,4 @@
 import useSelectedCategory from "@/hooks/common/useSelectedCategory";
-import useMutateAuth from "@/hooks/mutations/useMutateAuth";
 import {
   useFetchParticipatedRoomList,
   useInfiniteFetchRoomList,
