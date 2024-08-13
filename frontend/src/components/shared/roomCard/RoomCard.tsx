@@ -1,4 +1,3 @@
-import React from "react";
 import useModal from "@/hooks/common/useModal";
 import Icon from "@/components/common/icon/Icon";
 import Label from "@/components/common/label/Label";

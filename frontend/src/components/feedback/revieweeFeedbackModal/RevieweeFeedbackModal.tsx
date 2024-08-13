@@ -1,4 +1,3 @@
-import React from "react";
 import { useRevieweeFeedbackForm } from "@/hooks/feedback/useRevieweeFeedbackForm";
 import Button from "@/components/common/button/Button";
 import Label from "@/components/common/label/Label";

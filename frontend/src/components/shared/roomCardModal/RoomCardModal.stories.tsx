@@ -1,5 +1,4 @@
 import { Meta, StoryObj } from "@storybook/react";
-import React from "react";
 import RoomCardModal from "@/components/shared/roomCardModal/RoomCardModal";
 import { RoomInfo } from "@/@types/roomInfo";
 import roomInfo from "@/mocks/mockResponse/roomInfo.json";

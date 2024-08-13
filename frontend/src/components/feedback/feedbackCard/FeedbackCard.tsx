@@ -1,5 +1,4 @@
 import * as S from "./FeedbackCard.style";
-import React from "react";
 import Button from "@/components/common/button/Button";
 import Profile from "@/components/common/profile/Profile";
 import EvaluationPointBar from "@/components/feedback/evaluationPointBar/EvaluationPointBar";
