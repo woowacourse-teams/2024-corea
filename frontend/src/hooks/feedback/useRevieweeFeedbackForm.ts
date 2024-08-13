@@ -33,7 +33,7 @@ export const useRevieweeFeedbackForm = (
     if (modalType === "create") {
       setFormState({ ...initialFormState, receiverId });
     } else if (feedbackData) {
-      setFormState(feedbackData);
+      setFormState({ ...feedbackData, receiverId });
     }
   }, [modalType, feedbackData, receiverId]);
 
@@ -42,12 +42,13 @@ export const useRevieweeFeedbackForm = (
     value: RevieweeFeedbackData[keyof RevieweeFeedbackData],
   ) => {
     if (modalType === "view") return;
+
     if (key === "evaluationPoint") {
-      setFormState({
-        ...initialFormState,
-        receiverId: formState.receiverId,
+      setFormState((prevState) => ({
+        ...prevState,
         evaluationPoint: value as number,
-      });
+        feedbackKeywords: [],
+      }));
     } else {
       setFormState((prevState) => ({ ...prevState, [key]: value }));
     }
