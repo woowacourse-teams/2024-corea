@@ -1,6 +1,5 @@
 import MenuBar from "./MenuBar";
 import { Meta, StoryObj } from "@storybook/react";
-import React from "react";
 
 const meta = {
   title: "common/MenuBar",
