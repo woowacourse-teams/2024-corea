@@ -1,4 +1,3 @@
-import React from "react";
 import { useReviewerFeedbackForm } from "@/hooks/feedback/useReviewerFeedbackForm";
 import Button from "@/components/common/button/Button";
 import Label from "@/components/common/label/Label";

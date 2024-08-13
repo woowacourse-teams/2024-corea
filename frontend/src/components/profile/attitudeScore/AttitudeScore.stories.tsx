@@ -1,6 +1,5 @@
 import AttitudeScore from "./AttitudeScore";
 import type { Meta, StoryObj } from "@storybook/react";
-import React from "react";
 
 const meta = {
   title: "profile/AttitudeScore",

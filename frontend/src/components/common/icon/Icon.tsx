@@ -1,4 +1,3 @@
-import React from "react";
 import { MouseEventHandler } from "react";
 import {
   FaRegFaceFrown,

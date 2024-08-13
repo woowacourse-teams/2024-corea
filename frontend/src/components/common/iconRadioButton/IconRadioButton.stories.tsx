@@ -1,7 +1,6 @@
 import Icon from "../icon/Icon";
 import IconRadioButton from "./IconRadioButton";
 import type { Meta, StoryObj } from "@storybook/react";
-import React from "react";
 
 const meta = {
   title: "common/IconRadioButton",

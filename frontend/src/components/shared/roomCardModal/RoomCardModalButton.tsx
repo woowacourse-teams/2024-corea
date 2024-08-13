@@ -1,4 +1,3 @@
-import React from "react";
 import useMutateParticipateIn from "@/hooks/mutations/useMutateParticipateIn";
 import Button from "@/components/common/button/Button";
 import { RoomInfo } from "@/@types/roomInfo";

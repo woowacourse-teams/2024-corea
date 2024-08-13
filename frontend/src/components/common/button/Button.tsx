@@ -1,4 +1,3 @@
-import React from "react";
 import { ButtonHTMLAttributes } from "react";
 import * as S from "@/components/common/button/Button.style";
 
