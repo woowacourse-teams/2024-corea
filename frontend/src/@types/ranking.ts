@@ -7,7 +7,7 @@ export interface RankingData {
   givenReviewCount: number;
   averageRating: number;
   profileImage: string;
-  classification: RankingClassification;
+  classification: string;
 }
 
 export interface RankingAllData {
