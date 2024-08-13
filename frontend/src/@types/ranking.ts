@@ -1,3 +1,5 @@
+export type RankingClassification = "re" | "an" | "be" | "fe";
+
 export interface RankingData {
   rankingNumber: number;
   nickname: string;
@@ -5,12 +7,12 @@ export interface RankingData {
   givenReviewCount: number;
   averageRating: number;
   profileImage: string;
-  classification: "re" | "an" | "be" | "fe";
+  classification: RankingClassification;
 }
 
 export interface RankingAllData {
-  re: RankingData;
-  an: RankingData;
-  be: RankingData;
-  fe: RankingData;
+  re: RankingData[];
+  an: RankingData[];
+  be: RankingData[];
+  fe: RankingData[];
 }
