@@ -2,12 +2,13 @@ package corea.matching.infrastructure.dto;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 public record PullRequestData(boolean isLastPage, PullRequestResponse[] pullRequestResponses) {
-    public boolean isPastPage(LocalDateTime localDateTime) {
+    public boolean isAfterPage(LocalDateTime localDateTime) {
         LocalDateTime createdAt = pullRequestResponses[0].created_at();
-        return createdAt.isBefore(localDateTime);
+        return createdAt.isAfter(localDateTime);
     }
 
     public Stream<PullRequestResponse> responseToStream() {

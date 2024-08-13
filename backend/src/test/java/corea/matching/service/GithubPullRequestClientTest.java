@@ -20,8 +20,10 @@ GithubPullRequestClientTest {
     @Disabled
     @DisplayName("레포지토리 내 PR 목록을 가져온다.")
     void getPullRequestListWithPageNumber() {
-        String repositoryLink = "https://api.github.com/repos/woowacourse-precourse/java-baseball-6/";
-        final var result = client.getPullRequestListWithPageNumber(repositoryLink,1,1);
+        String repositoryLink = "https://api.github.com/repos/woowacourse-precourse/java-baseball-6";
+        final var result = client.getPullRequestListWithPageNumber(repositoryLink, 1, 1);
+        result.responseToStream()
+                .forEach(System.out::println);
         assertThat(result.pullRequestResponses()).hasSize(1);
         assertThat(result.isLastPage()).isFalse();
     }
