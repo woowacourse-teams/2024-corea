@@ -139,20 +139,20 @@ const fetchWithToken = async (
 };
 
 const apiClient = {
-  get: ({ endpoint, headers = {}, errorMessage = "" }: ApiProps) =>
-    apiClient.request({ method: "GET", endpoint, headers, errorMessage }),
+  get: <T extends object>({ endpoint, headers = {}, errorMessage = "" }: ApiProps) =>
+    apiClient.request({ method: "GET", endpoint, headers, errorMessage }) as Promise<T>,
 
-  post: ({ endpoint, headers = {}, body = {}, errorMessage = "" }: ApiProps) =>
-    apiClient.request({ method: "POST", endpoint, headers, body, errorMessage }),
+  post: <T extends object>({ endpoint, headers = {}, body = {}, errorMessage = "" }: ApiProps) =>
+    apiClient.request({ method: "POST", endpoint, headers, body, errorMessage }) as Promise<T>,
 
-  put: ({ endpoint, headers = {}, body = {}, errorMessage = "" }: ApiProps) =>
-    apiClient.request({ method: "PUT", endpoint, headers, body, errorMessage }),
+  put: <T extends object>({ endpoint, headers = {}, body = {}, errorMessage = "" }: ApiProps) =>
+    apiClient.request({ method: "PUT", endpoint, headers, body, errorMessage }) as Promise<T>,
 
-  patch: ({ endpoint, headers = {}, body = {}, errorMessage = "" }: ApiProps) =>
-    apiClient.request({ method: "PATCH", endpoint, headers, body, errorMessage }),
+  patch: <T extends object>({ endpoint, headers = {}, body = {}, errorMessage = "" }: ApiProps) =>
+    apiClient.request({ method: "PATCH", endpoint, headers, body, errorMessage }) as Promise<T>,
 
-  delete: ({ endpoint, headers = {}, errorMessage = "" }: ApiProps) =>
-    apiClient.request({ method: "DELETE", endpoint, headers, errorMessage }),
+  delete: <T extends object>({ endpoint, headers = {}, errorMessage = "" }: ApiProps) =>
+    apiClient.request({ method: "DELETE", endpoint, headers, errorMessage }) as Promise<T>,
 
   request: async ({
     method,
