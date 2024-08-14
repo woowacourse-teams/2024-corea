@@ -6,7 +6,7 @@ import rankingInfo from "@/mocks/mockResponse/rankingInfo.json";
 const sampleRankingData: RankingData[] = rankingInfo.responses.re;
 
 const meta: Meta<typeof RankingCard> = {
-  title: "rankingCard/RankingData",
+  title: "rankingCard/RankingCard",
   component: RankingCard,
 };
 
