@@ -1,0 +1,43 @@
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+
+<!--<configuration>-->
+<!--    <property name="FILE_LOG_PATTERN"-->
+<!--              value="[%d{yyyy-MM-dd HH:mm:ss}:%-4relative] [%thread] %-5level - [%X{requestId}] - %msg %ex{5}%n"/>-->
+<!--    <property name="CONSOLE_LOG_PATTERN"-->
+<!--              value="[%d{yyyy-MM-dd HH:mm:ss}:%-4relative] %green([%thread]) %highlight(%-5level) %boldWhite([%C.%M:%yellow(%L)]) - %msg %ex{5}%n"/>-->
+<!--    <property name="LOG_PATH"-->
+<!--              value="logs/backend"/>-->
+
+<!--    <springProfile name="local">-->
+<!--        <include resource="logs/console-appender.xml"/>-->
+
+<!--        <logger name="corea" level="DEBUG" additivity="false">-->
+<!--            <appender-ref ref="CONSOLE"/>-->
+<!--        </logger>-->
+
+<!--        <logger name="corea" level="INFO" additivity="false">-->
+<!--            <appender-ref ref="CONSOLE"/>-->
+<!--        </logger>-->
+<!--        <logger name="root" level="ERROR" additivity="false">-->
+<!--            <appender-ref ref="CONSOLE"/>-->
+<!--        </logger>-->
+<!--    </springProfile>-->
+
+<!--    <springProfile name="dev">-->
+<!--        <include resource="logs/file-debug-appender.xml"/>-->
+
+<!--        <include resource="logs/file-info-appender.xml"/>-->
+<!--        <include resource="logs/file-warn-appender.xml"/>-->
+<!--        <include resource="logs/file-error-appender.xml"/>-->
+
+<!--        <logger name="corea" level="DEBUG" additivity="false">-->
+<!--            <appender-ref ref="FILE-DEBUG"/>-->
+<!--        </logger>-->
+
+<!--        <logger name="corea" level="INFO" additivity="false">-->
+<!--            <appender-ref ref="FILE-INFO"/>-->
+<!--            <appender-ref ref="FILE-WARN"/>-->
+<!--            <appender-ref ref="FILE-ERROR"/>-->
+<!--        </logger>-->
+<!--    </springProfile>-->
+<!--</configuration>-->
