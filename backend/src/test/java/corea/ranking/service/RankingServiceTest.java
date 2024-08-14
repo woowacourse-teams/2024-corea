@@ -79,8 +79,11 @@ class RankingServiceTest {
 
         assertSoftly(softly -> {
             softly.assertThat(android.get(0).nickname()).isEqualTo("ashsty");
+            softly.assertThat(android.get(0).rank()).isEqualTo(1);
             softly.assertThat(android.get(1).nickname()).isEqualTo("hjk0761");
+            softly.assertThat(android.get(1).rank()).isEqualTo(2);
             softly.assertThat(android.get(2).nickname()).isEqualTo("pororo");
+            softly.assertThat(android.get(2).rank()).isEqualTo(3);
 
             softly.assertThat(backend.get(0).nickname()).isEqualTo("pororo");
             softly.assertThat(backend.get(1).nickname()).isEqualTo("youngsu5582");

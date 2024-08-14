@@ -1,5 +1,4 @@
 import * as S from "./FeedbackCardList.style";
-import React from "react";
 import FeedbackCard from "@/components/feedback/feedbackCard/FeedbackCard";
 import { FeedbackCardData } from "@/@types/feedback";
 
@@ -12,7 +11,7 @@ const FeedbackCardList = ({ userFeedback }: FeedbackCardListProps) => {
     <S.FeedbackCardListContainer>
       <S.XScrollWrapper>
         {Object.entries(userFeedback).map(([username, feedbackDatas]) => (
-          <S.FeedbackCardListWrapper>
+          <S.FeedbackCardListWrapper key={username}>
             {feedbackDatas.map((feedbackData, idx) => (
               <FeedbackCard key={idx} {...feedbackData} />
             ))}

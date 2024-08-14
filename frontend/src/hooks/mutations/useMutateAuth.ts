@@ -3,6 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { UserInfo } from "@/@types/userInfo";
 import { postLogin, postLogout } from "@/apis/auth.api";
+import QUERY_KEYS from "@/apis/queryKeys";
 
 const useMutateAuth = () => {
   const navigate = useNavigate();
@@ -35,6 +36,7 @@ const useMutateAuth = () => {
     mutationFn: () => postLogout(),
     onSuccess: () => {
       localStorage.clear();
+      navigate("/logout");
     },
     onError: (error) => handleMutateError(error),
     networkMode: "always",

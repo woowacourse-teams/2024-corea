@@ -47,10 +47,11 @@ public class RankingService {
     }
 
     private RankingResponse toRankingResponse(EvaluateClassification classification, Ranking ranking) {
+        int rank = ranking.getRanking();
         Member member = ranking.getMember();
         long deliverCount = profileRepository.findDeliverCountByMemberId(member.getId());
         float averageEvaluatePoint = ranking.getAverageEvaluatePoint();
 
-        return RankingResponse.of(member, deliverCount, averageEvaluatePoint, classification);
+        return RankingResponse.of(rank, member, deliverCount, averageEvaluatePoint, classification);
     }
 }

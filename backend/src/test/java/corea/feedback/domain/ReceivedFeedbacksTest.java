@@ -26,7 +26,7 @@ class ReceivedFeedbacksTest {
 
         List<String> result = receivedFeedbacks.findTopFeedbackKeywords(3);
 
-        assertThat(result).containsExactly("친절했어요.", "매우 도움이 되었어요.", "리뷰 속도가 빨랐어요.");
+        assertThat(result).containsExactly("친절했어요", "매우 도움이 되었어요", "리뷰 속도가 빨랐어요");
     }
 
     @Test
@@ -42,7 +42,7 @@ class ReceivedFeedbacksTest {
 
         List<String> result = receivedFeedbacks.findTopFeedbackKeywords(3);
 
-        assertThat(result).containsExactly("친절했어요.");
+        assertThat(result).containsExactly("친절했어요");
     }
 
     @Test

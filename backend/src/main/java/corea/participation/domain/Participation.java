@@ -18,6 +18,7 @@ import org.apache.logging.log4j.Logger;
 public class Participation {
 
     private static final Logger log = LogManager.getLogger(Participation.class);
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,6 +29,6 @@ public class Participation {
 
     public Participation(long roomId, long memberId) {
         this(null, roomId, memberId);
-        log.debug("참가자 생성[방 ID={}, 멤버 ID={}",roomId,memberId);
+        log.debug("참가자 생성[방 ID={}, 멤버 ID={}", roomId, memberId);
     }
 }

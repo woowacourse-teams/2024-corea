@@ -18,7 +18,8 @@
         <logger name="corea" level="INFO" additivity="false">
             <appender-ref ref="CONSOLE"/>
         </logger>
-        <logger name="root" level="ERROR" additivity="false">
+
+        <logger name="root" level="INFO" additivity="false">
             <appender-ref ref="CONSOLE"/>
         </logger>
     </springProfile>
