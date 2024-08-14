@@ -38,16 +38,15 @@ public class PullRequestProvider {
     }
 
     /**
-     *
      * LocalDateTime UTC 로 변환 함수
-     *
+     * <p>
      * 깃허브 서버는 UTC 를 사용, 서버 및 DB 는 Seoul TimeZone 을 사용하므로
      * 의도한 대로 해당 시간까지 PR을 조회할 떄 동작하지 않습니다.
      * 이로 인해, UTC 로 변환합니다.
      *
-     * @author youngsu5582
      * @param localDateTime
      * @return
+     * @author youngsu5582
      */
     private LocalDateTime convertUtc(LocalDateTime localDateTime) {
         return localDateTime.atZone(SERVER_ZONE_ID)

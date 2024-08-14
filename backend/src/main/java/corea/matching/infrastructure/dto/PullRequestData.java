@@ -2,7 +2,6 @@ package corea.matching.infrastructure.dto;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Objects;
 import java.util.stream.Stream;
 
 public record PullRequestData(boolean isLastPage, PullRequestResponse[] pullRequestResponses) {

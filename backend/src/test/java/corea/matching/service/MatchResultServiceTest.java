@@ -50,7 +50,8 @@ class MatchResultServiceTest {
 
     @BeforeEach
     void setUp() {
-        roomId = roomRepository.save(RoomFixture.ROOM_DOMAIN(createMember(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON()))).getId();
+        roomId = roomRepository.save(RoomFixture.ROOM_DOMAIN(createMember(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON())))
+                .getId();
         findMemberId = createMember(MemberFixture.MEMBER_YOUNGSU()).getId();
         participations.add(new Participation(roomId, findMemberId));
         participations.add(new Participation(roomId, createMember(MemberFixture.MEMBER_ASH()).getId()));
