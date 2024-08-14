@@ -6,7 +6,7 @@ export const HeaderContainer = styled.header`
   justify-content: space-between;
 
   box-sizing: border-box;
-  width: 100vw;
+  width: 100%;
   height: 65px;
 
   box-shadow: 0 4px 4px rgb(0 0 0 / 10%);
