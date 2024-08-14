@@ -13,6 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
@@ -27,7 +29,8 @@ class PullRequestProviderTest {
     private PullRequestProvider pullRequestProvider;
 
     private String link = "https://api.github.com/repos/woowacourse-precourse/java-baseball-6/";
-    private LocalDateTime time = LocalDateTime.now();
+    private LocalDateTime githubTime = LocalDateTime.now(ZoneOffset.UTC);
+    private LocalDateTime serverTime = LocalDateTime.now();
 
     @BeforeEach
     void setUp() {
@@ -38,8 +41,8 @@ class PullRequestProviderTest {
         )).thenReturn(
                 new PullRequestData(false,
                         new PullRequestResponse[]{
-                                new PullRequestResponse(link + "8", new GithubUserResponse("6"), time.minusHours(4)),
-                                new PullRequestResponse(link + "7", new GithubUserResponse("5"), time.minusHours(3))
+                                new PullRequestResponse(link + "8", new GithubUserResponse("6"), githubTime.minusHours(4)),
+                                new PullRequestResponse(link + "7", new GithubUserResponse("5"), githubTime.minusHours(3))
                         })
         );
         when(githubPullRequestClient.getPullRequestListWithPageNumber(
@@ -49,8 +52,8 @@ class PullRequestProviderTest {
         )).thenReturn(
                 new PullRequestData(false,
                         new PullRequestResponse[]{
-                                new PullRequestResponse(link + "9", new GithubUserResponse("3"), time.minusHours(2)),
-                                new PullRequestResponse(link + "8", new GithubUserResponse("4"), time.minusHours(1))
+                                new PullRequestResponse(link + "9", new GithubUserResponse("3"), githubTime.minusHours(2)),
+                                new PullRequestResponse(link + "8", new GithubUserResponse("4"), githubTime.minusHours(1))
                         })
         );
         when(githubPullRequestClient.getPullRequestListWithPageNumber(
@@ -66,7 +69,7 @@ class PullRequestProviderTest {
     void getUntilDeadline() {
 
         //이것보다 이전 시간의 값들을 가져오지 않게한다. ( 2시간 전은 1시간 59분 전보다 이전 값이므로 가져온다. )
-        PullRequestInfo pullRequestInfo = pullRequestProvider.getUntilDeadline(link, time.minusHours(2)
+        PullRequestInfo pullRequestInfo = pullRequestProvider.getUntilDeadline(link, serverTime.minusHours(2)
                 .plusMinutes(1));
         assertThat(pullRequestInfo.data()).hasSize(3);
     }
@@ -75,7 +78,7 @@ class PullRequestProviderTest {
     @DisplayName("지정한 시간보다 이후의 값들을 받아오기 시작하면, 멈춘다.")
     void getUntilDeadline3() {
         //이것보다 이후의 값들은 가져온다. ( 2시간 전은 2시간 1분 전보다 이후 값이므로 가져오지 않는다. )
-        PullRequestInfo pullRequestInfo = pullRequestProvider.getUntilDeadline(link, time.minusHours(2)
+        PullRequestInfo pullRequestInfo = pullRequestProvider.getUntilDeadline(link, serverTime.minusHours(2)
                 .minusMinutes(1));
         assertThat(pullRequestInfo.data()).hasSize(2);
     }
@@ -83,7 +86,7 @@ class PullRequestProviderTest {
     @Test
     @DisplayName("마지막 페이지이면, 끝난다.")
     void getUntilDeadline1() {
-        PullRequestInfo pullRequestInfo = pullRequestProvider.getUntilDeadline(link, time.minusMinutes(59));
+        PullRequestInfo pullRequestInfo = pullRequestProvider.getUntilDeadline(link, serverTime.minusMinutes(59));
         assertThat(pullRequestInfo.data()).hasSize(4);
     }
 }
