@@ -1,5 +1,7 @@
 package corea.room.domain;
 
+import corea.exception.CoreaException;
+import corea.exception.ExceptionType;
 import corea.member.domain.Member;
 import corea.util.StringToListConverter;
 import jakarta.persistence.*;
@@ -66,6 +68,16 @@ public class Room {
 
     public Room(String title, String content, int matchingSize, String repositoryLink, String thumbnailLink, List<String> keyword, int currentParticipantsSize, int limitedParticipantsSize, Member manager, LocalDateTime recruitmentDeadline, LocalDateTime reviewDeadline, RoomClassification classification, RoomStatus status) {
         this(null, title, content, matchingSize, repositoryLink, thumbnailLink, keyword, currentParticipantsSize, limitedParticipantsSize, manager, recruitmentDeadline, reviewDeadline, classification, status);
+    }
+
+    public void participate() {
+        if (status.isNotOpened()) {
+            throw new CoreaException(ExceptionType.ROOM_FINISHED);
+        }
+        currentParticipantsSize += 1;
+        if(currentParticipantsSize == limitedParticipantsSize){
+            this.status = RoomStatus.CLOSED;
+        }
     }
 
     public boolean isClosed() {

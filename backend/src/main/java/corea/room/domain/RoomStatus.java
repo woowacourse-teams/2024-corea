@@ -7,4 +7,8 @@ public enum RoomStatus {
     public boolean isClosed() {
         return this == CLOSED;
     }
+
+    public boolean isNotOpened() {
+        return this != OPENED;
+    }
 }
