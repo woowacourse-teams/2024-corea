@@ -32,14 +32,14 @@ export const EmptyRankingData = styled.div`
   height: 100%;
 `;
 
-// board
-export const RankingBoardContainer = styled.div`
+// award 시상대
+export const RankingAwardContainer = styled.div`
   display: flex;
   gap: 0.2rem;
   justify-content: space-between;
 `;
 
-export const RankingBoardItem = styled.div`
+export const RankingAwardItem = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -50,15 +50,15 @@ export const RankingBoardItem = styled.div`
 
   a {
     font: ${({ theme }) => theme.TEXT.semiSmall};
+    color: ${({ theme }) => theme.COLOR.grey2};
   }
 
-  p {
-    font: ${({ theme }) => theme.TEXT.semiSmall};
-    color: ${({ theme }) => theme.COLOR.grey2};
+  a:hover {
+    text-decoration: underline;
   }
 `;
 
-export const RankingBoardBar = styled.div<{ $rankingNumber: string }>`
+export const RankingAwardBar = styled.div<{ $rankingNumber: string }>`
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -104,7 +104,7 @@ export const RankingTableItem = styled.div`
 
   padding: 0.5rem 0;
 
-  border: 1px solid ${({ theme }) => theme.COLOR.grey3};
+  border: 1px solid ${({ theme }) => theme.COLOR.grey1};
   border-radius: 8px;
 `;
 

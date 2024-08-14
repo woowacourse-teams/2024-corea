@@ -24,25 +24,26 @@ const RankingCard = ({ title, rankingData }: RankingCardProps) => {
     );
   }
 
-  const boardOrder = [1, 0, 2];
-  const orderedData = boardOrder.map((index) => rankingData[index]);
+  // 시상대 2등, 1등, 3등 순으로
+  const awardOrderedData = [rankingData[1], rankingData[0], rankingData[2]];
 
   return (
     <S.RankingCardContainer>
       <h2>{title}</h2>
 
-      <S.RankingBoardContainer>
-        {orderedData.map((data) => (
-          <S.RankingBoardItem key={data.rankingNumber}>
+      <S.RankingAwardContainer>
+        {awardOrderedData.map((data) => (
+          <S.RankingAwardItem key={data.rankingNumber}>
             <Profile imgSrc={data.profileImage} size={50} />
-            <a href={data.githubLink}>{data.nickname}</a>
-            <p>{data.averageRating}</p>
-            <S.RankingBoardBar $rankingNumber={`rank-${data.rankingNumber}`}>
+            <a href={data.githubLink} target="_blank">
+              {data.nickname}
+            </a>
+            <S.RankingAwardBar $rankingNumber={`rank-${data.rankingNumber}`}>
               {data.rankingNumber}
-            </S.RankingBoardBar>
-          </S.RankingBoardItem>
+            </S.RankingAwardBar>
+          </S.RankingAwardItem>
         ))}
-      </S.RankingBoardContainer>
+      </S.RankingAwardContainer>
 
       <S.RankingTableContainer>
         <S.RankingTableItem>
@@ -57,7 +58,9 @@ const RankingCard = ({ title, rankingData }: RankingCardProps) => {
               <img src={rankImages[data.rankingNumber]} alt={`Rank ${data.rankingNumber}`} />
             </S.TableItem>
             <S.TableItem>
-              <a href={data.githubLink}>{data.nickname}</a>
+              <a href={data.githubLink} target="_blank">
+                {data.nickname}
+              </a>
             </S.TableItem>
             <S.TableItem>{data.givenReviewCount}개</S.TableItem>
             <S.TableItem>{data.averageRating}</S.TableItem>
