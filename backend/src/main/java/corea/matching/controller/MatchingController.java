@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class MatchingController {
 
-    MatchingService matchingService;
-    RoomService roomService;
-    PullRequestProvider pullRequestProvider;
+    private final MatchingService matchingService;
+    private final RoomService roomService;
+    private final PullRequestProvider pullRequestProvider;
 
     @PostMapping("/rooms/{id}/matching")
     public ResponseEntity<Void> matching(@PathVariable long id, @LoginMember AuthInfo authInfo) {
