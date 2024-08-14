@@ -1,5 +1,6 @@
 package corea.matching.service;
 
+import config.ServiceTest;
 import corea.matching.domain.PullRequestInfo;
 import corea.matching.infrastructure.GithubPullRequestClient;
 import corea.matching.infrastructure.dto.GithubUserResponse;
@@ -9,7 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDateTime;
@@ -18,7 +18,7 @@ import java.time.ZoneOffset;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
+@ServiceTest
 class PullRequestProviderTest {
 
     @MockBean
@@ -65,9 +65,9 @@ class PullRequestProviderTest {
 
     @Test
     @DisplayName("지정된 시간의 이전이면 값을 추가한다.")
-    void getUntilDeadline() {
+    void get_until_deadline() {
 
-        //이것보다 이전 시간의 값들을 가져오지 않게한다. ( 2시간 전은 1시간 59분 전보다 이전 값이므로 가져온다. )
+        //이것보다 이전 시간의 값들을 가져온다. ( 2시간 전은 1시간 59분 전보다 이전 값이므로 가져온다. )
         PullRequestInfo pullRequestInfo = pullRequestProvider.getUntilDeadline(link, serverTime.minusHours(2)
                 .plusMinutes(1));
         assertThat(pullRequestInfo.data()).hasSize(3);
@@ -75,8 +75,8 @@ class PullRequestProviderTest {
 
     @Test
     @DisplayName("지정한 시간보다 이후의 값들을 받아오기 시작하면, 멈춘다.")
-    void getUntilDeadline3() {
-        //이것보다 이후의 값들은 가져온다. ( 2시간 전은 2시간 1분 전보다 이후 값이므로 가져오지 않는다. )
+    void stop_after_deadline() {
+        //이것보다 이후의 값들은 가져오지 않는다. ( 2시간 전은 2시간 1분 전보다 이후 값이므로 가져오지 않는다. )
         PullRequestInfo pullRequestInfo = pullRequestProvider.getUntilDeadline(link, serverTime.minusHours(2)
                 .minusMinutes(1));
         assertThat(pullRequestInfo.data()).hasSize(2);
@@ -84,7 +84,7 @@ class PullRequestProviderTest {
 
     @Test
     @DisplayName("마지막 페이지이면, 끝난다.")
-    void getUntilDeadline1() {
+    void stop_is_lastPage() {
         PullRequestInfo pullRequestInfo = pullRequestProvider.getUntilDeadline(link, serverTime.minusMinutes(59));
         assertThat(pullRequestInfo.data()).hasSize(4);
     }
