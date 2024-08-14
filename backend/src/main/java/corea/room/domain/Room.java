@@ -75,7 +75,7 @@ public class Room {
             throw new CoreaException(ExceptionType.ROOM_FINISHED);
         }
         currentParticipantsSize += 1;
-        if(currentParticipantsSize == limitedParticipantsSize){
+        if (currentParticipantsSize == limitedParticipantsSize) {
             this.status = RoomStatus.CLOSED;
         }
     }

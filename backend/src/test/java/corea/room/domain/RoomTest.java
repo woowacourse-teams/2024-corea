@@ -25,17 +25,17 @@ class RoomTest {
         room.participate();
         assertThat(room.isClosed()).isTrue();
     }
+
     @Test
     @DisplayName("방이 닫힌 상태면, 참가 신청할 수 없다.")
-    void can_not_participate_closed_room(){
+    void can_not_participate_closed_room() {
         Room room = new Room("제목", "내용", 2, "repositoryLink", "thumbnailLink", List.of("TDD", "클린코드"),
                 0, 1,
                 MemberFixture.MEMBER_ROOM_MANAGER_JOYSON(), LocalDateTime.now()
                 .plusDays(2), LocalDateTime.now()
                 .plusDays(7), RoomClassification.BACKEND, RoomStatus.CLOSED);
 
-        assertThatThrownBy(()->room.participate())
+        assertThatThrownBy(() -> room.participate())
                 .isInstanceOf(CoreaException.class);
     }
-
 }
