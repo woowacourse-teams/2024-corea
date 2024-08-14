@@ -46,9 +46,14 @@ class RoomServiceTest {
         List<RoomResponse> rooms = response.rooms();
 
         assertSoftly(softly -> {
-            softly.assertThat(rooms).hasSize(2);
-            softly.assertThat(rooms.get(0).manager()).isEqualTo("강다빈");
-            softly.assertThat(rooms.get(1).manager()).isEqualTo("이상엽");
+            softly.assertThat(rooms)
+                    .hasSize(2);
+            softly.assertThat(rooms.get(0)
+                            .manager())
+                    .isEqualTo("강다빈");
+            softly.assertThat(rooms.get(1)
+                            .manager())
+                    .isEqualTo("이상엽");
         });
     }
 
@@ -100,7 +105,9 @@ class RoomServiceTest {
     void invalidRecruitmentDeadline() {
         RoomCreateRequest request = new RoomCreateRequest("title", "content", "repoLink",
                 "thumLink", 3, null, 3,
-                LocalDateTime.now().plusMinutes(59), LocalDateTime.now().plusDays(2), RoomClassification.ALL);
+                LocalDateTime.now()
+                        .plusMinutes(59), LocalDateTime.now()
+                .plusDays(2), RoomClassification.ALL);
 
         assertThatThrownBy(() -> roomService.create(1, request))
                 .isInstanceOf(CoreaException.class);
@@ -111,7 +118,9 @@ class RoomServiceTest {
     void invalidReviewDeadline() {
         RoomCreateRequest request = new RoomCreateRequest("title", "content", "repoLink",
                 "thumLink", 3, null, 3,
-                LocalDateTime.now().plusHours(2), LocalDateTime.now().plusHours(23), RoomClassification.ALL);
+                LocalDateTime.now()
+                        .plusHours(2), LocalDateTime.now()
+                .plusHours(23), RoomClassification.ALL);
 
         assertThatThrownBy(() -> roomService.create(1, request))
                 .isInstanceOf(CoreaException.class);

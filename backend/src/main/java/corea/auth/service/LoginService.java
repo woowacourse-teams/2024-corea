@@ -74,7 +74,7 @@ public class LoginService {
     @Transactional
     public Member login(GithubUserInfo userInfo) {
         return memberRepository.findByUsername(userInfo.login())
-                .orElseGet(() -> register(new Member(userInfo.login(), userInfo.avatarUrl(), userInfo.name(), userInfo.email(), true)));
+                .orElseGet(() -> register(new Member(userInfo.login(), userInfo.avatarUrl(), userInfo.name(), userInfo.email(), true, userInfo.githubUserId())));
     }
 
     private Member register(Member member) {

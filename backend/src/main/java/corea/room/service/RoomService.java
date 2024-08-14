@@ -106,6 +106,10 @@ public class RoomService {
         return RoomResponses.from(roomsWithPage);
     }
 
+    public RoomResponse getRoomById(long roomId) {
+        return RoomResponse.of(getRoom(roomId));
+    }
+
     private Room getRoom(long roomId) {
         return roomRepository.findById(roomId)
                 .orElseThrow(() -> new CoreaException(ExceptionType.ROOM_NOT_FOUND, String.format("해당 Id의 방이 없습니다. 입력된 Id=%d", roomId)));
