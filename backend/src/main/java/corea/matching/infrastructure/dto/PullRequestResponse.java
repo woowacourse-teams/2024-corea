@@ -1,10 +1,12 @@
 package corea.matching.infrastructure.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
 
 public record PullRequestResponse(
+        @JsonProperty("html_url")
         String pullRequestLink,
         GithubUserResponse user,
         @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
