@@ -9,6 +9,7 @@ export const RankingCardContainer = styled.div`
   gap: 1rem;
 
   width: 360px;
+  height: 440px;
   margin: 0 auto;
   padding: 1rem;
 
