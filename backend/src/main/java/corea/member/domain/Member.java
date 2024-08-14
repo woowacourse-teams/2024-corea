@@ -34,7 +34,9 @@ public class Member {
 
     private String profileLink;
 
-    public Member(String username, String thumbnailUrl, String name, String email, boolean isEmailAccepted) {
-        this(null, username, thumbnailUrl, name, email, isEmailAccepted, "");
+    private String githubUserId;
+
+    public Member(String username, String thumbnailUrl, String name, String email, boolean isEmailAccepted, String githubUserId) {
+        this(null, username, thumbnailUrl, name, email, isEmailAccepted, "", githubUserId);
     }
 }
