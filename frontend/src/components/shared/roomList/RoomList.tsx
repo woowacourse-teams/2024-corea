@@ -12,8 +12,6 @@ interface RoomListProps {
 }
 
 const RoomList = ({ roomList, hasNextPage, onLoadMore, roomType }: RoomListProps) => {
-  if (!roomList || roomList.length === 0) return <></>;
-
   return (
     <S.RoomListSection>
       <S.RoomListContainer>
