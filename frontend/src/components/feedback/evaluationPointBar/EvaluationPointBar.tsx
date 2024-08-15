@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Icon from "@/components/common/icon/Icon";
 import IconRadioButton from "@/components/common/iconRadioButton/IconRadioButton";
 import * as S from "@/components/feedback/evaluationPointBar/EvaluationPointBar.style";

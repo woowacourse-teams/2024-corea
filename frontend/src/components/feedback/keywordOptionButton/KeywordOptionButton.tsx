@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import * as S from "@/components/feedback/keywordOptionButton/KeywordOptionButton.style";
 
 interface OptionButtonProps {
