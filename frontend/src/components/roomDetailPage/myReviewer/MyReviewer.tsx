@@ -21,7 +21,7 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
 
   const { data: reviewerData } = useFetchReviewer(roomInfo);
 
-  if (!reviewerData || reviewerData.length === 0) {
+  if (reviewerData.length === 0) {
     return <>{MESSAGES.GUIDANCE.EMPTY_REVIEWER}</>;
   }
 
