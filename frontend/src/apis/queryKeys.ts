@@ -17,6 +17,9 @@ const QUERY_KEYS = {
   REVIEWER_FEEDBACK: "reviewer_feedback",
   RECEIVED_FEEDBACK: "receivedFeedback",
   DELIVERED_FEEDBACK: "deliveredFeedback",
+
+  // ranking
+  RANKING: "ranking",
 };
 
 export default QUERY_KEYS;
