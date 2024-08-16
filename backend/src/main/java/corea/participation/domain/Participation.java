@@ -27,8 +27,19 @@ public class Participation {
 
     private long memberId;
 
+    private String memberGithubId;
+
+    public Participation(long roomId, long memberId, String memberGithubId) {
+        this(null, roomId, memberId, memberGithubId);
+        debug(roomId, memberId);
+    }
+
     public Participation(long roomId, long memberId) {
-        this(null, roomId, memberId);
+        this(null, roomId, memberId, "");
+        debug(roomId, memberId);
+    }
+
+    private static void debug(long roomId, long memberId) {
         log.debug("참가자 생성[방 ID={}, 멤버 ID={}", roomId, memberId);
     }
 }

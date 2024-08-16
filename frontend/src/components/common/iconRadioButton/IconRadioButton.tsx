@@ -1,4 +1,4 @@
-import React, { InputHTMLAttributes } from "react";
+import { InputHTMLAttributes } from "react";
 import * as S from "@/components/common/iconRadioButton/IconRadioButton.style";
 
 interface IconRadioButtonProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "onChange"> {

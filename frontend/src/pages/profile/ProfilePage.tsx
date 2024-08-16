@@ -9,8 +9,6 @@ const ProfilePage = () => {
   const { data: profileData } = useFetchProfile();
   const { data: roomList } = useFetchParticipatedRoomList();
 
-  if (!profileData || !roomList) return;
-
   const participatingRoomList = roomList.rooms.filter((room) => !room.isClosed);
   const participatedRoomList = roomList.rooms.filter((room) => room.isClosed);
 

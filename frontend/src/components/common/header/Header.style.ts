@@ -5,7 +5,8 @@ export const HeaderContainer = styled.header`
   align-items: center;
   justify-content: space-between;
 
-  width: 100vw;
+  box-sizing: border-box;
+  width: 100%;
   height: 65px;
 
   box-shadow: 0 4px 4px rgb(0 0 0 / 10%);
@@ -21,7 +22,11 @@ export const HeaderContainer = styled.header`
 
 // 서비스 로고
 export const HeaderLogo = styled.button`
-  font: ${({ theme }) => theme.TEXT.large};
+  font-family: "Moirai One", system-ui;
+  font-size: 2rem;
+  font-weight: 900;
+  color: ${({ theme }) => theme.COLOR.primary2};
+
   background: transparent;
 `;
 

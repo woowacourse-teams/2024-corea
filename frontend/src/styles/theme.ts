@@ -16,12 +16,12 @@ const COLOR = {
 };
 
 const TEXT = {
-  xLarge: "800 1.8rem/1.8rem hanna",
-  large: "700 1.4rem/1.4rem hanna",
-  medium: "500 1.2rem/1.2rem hanna",
-  small: "400 1.0rem/1.0rem hanna",
-  semiSmall: "400 0.8rem/0.8rem hanna",
-  xSmall: "400 0.6rem/0.6rem hanna",
+  xLarge: "800 1.8rem/1.8rem Do Hyeon",
+  large: "700 1.4rem/1.4rem Do Hyeon",
+  medium: "500 1.2rem/1.2rem Do Hyeon",
+  small: "400 1.0rem/1.0rem Do Hyeon",
+  semiSmall: "400 0.8rem/0.8rem Do Hyeon",
+  xSmall: "400 0.6rem/0.6rem Do Hyeon",
 };
 
 export default TEXT;
