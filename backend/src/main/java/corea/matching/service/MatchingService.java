@@ -42,7 +42,7 @@ public class MatchingService {
 
         return matchResultRepository.saveAll(matchingStrategy.matchPairs(participations, room.getMatchingSize())
                 .stream()
-                .map(pair -> MatchResult.of(roomId, pair, pullRequestInfo.getPullrequestLinkWithGithubMemberId(pair.getToMemberGithubId())))
+                .map(pair -> MatchResult.of(roomId, pair, pullRequestInfo.getPullrequestLinkWithGithubMemberId(pair.getReceiverGithubId())))
                 .toList());
     }
 

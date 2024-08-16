@@ -11,7 +11,7 @@ public class Pair {
     private final Member deliver;
     private final Member receiver;
 
-    public String getToMemberGithubId() {
+    public String getReceiverGithubId() {
         return receiver.getGithubUserId();
     }
 }

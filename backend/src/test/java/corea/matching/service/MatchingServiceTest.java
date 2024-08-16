@@ -27,19 +27,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 class MatchingServiceTest {
 
     @Autowired
-    MatchingService matchingService;
+    private MatchingService matchingService;
 
     @Autowired
-    RoomRepository roomRepository;
+    private RoomRepository roomRepository;
 
     @Autowired
-    MemberRepository memberRepository;
+    private MemberRepository memberRepository;
 
     @Autowired
-    ParticipationRepository participationRepository;
+    private ParticipationRepository participationRepository;
 
-    long roomId;
-    Member noPullRequestMember;
+    private long roomId;
+    private Member noPullRequestMember;
 
     @Test
     @DisplayName("PR 정보에 있는 멤버만 매칭이 된다.")
