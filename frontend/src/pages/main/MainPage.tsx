@@ -5,14 +5,21 @@ import {
   useInfiniteFetchRoomList,
 } from "@/hooks/queries/useFetchRooms";
 import ContentSection from "@/components/common/contentSection/ContentSection";
+import Dropdown, { DropdownItem } from "@/components/common/dropdown/Dropdown";
 import OptionSelect from "@/components/common/optionSelect/OptionSelect";
-import CategoryDropdown from "@/components/mainPage/categoryDropdown/CategoryDropdown";
 import RoomList from "@/components/shared/roomList/RoomList";
 import * as S from "@/pages/main/MainPage.style";
 import { Option } from "@/@types/rooms";
 import QUERY_KEYS from "@/apis/queryKeys";
 import { getClosedRoomList, getOpenedRoomList } from "@/apis/rooms.api";
 import { optionsLoggedIn, optionsLoggedOut } from "@/constants/room";
+
+export const dropdownItems: DropdownItem[] = [
+  { text: "ALL", value: "all" },
+  { text: "ANDROID", value: "an" },
+  { text: "BACKEND", value: "be" },
+  { text: "FRONTEND", value: "fe" },
+];
 
 const MainPage = () => {
   const isLoggedIn = !!localStorage.getItem("accessToken");
@@ -61,7 +68,8 @@ const MainPage = () => {
         return (
           <ContentSection title="">
             <S.DropdownWrapper>
-              <CategoryDropdown
+              <Dropdown
+                dropdownItems={dropdownItems}
                 selectedCategory={selectedCategory}
                 onSelectCategory={handleSelectedCategory}
               />
@@ -78,7 +86,8 @@ const MainPage = () => {
         return (
           <ContentSection title="">
             <S.DropdownWrapper>
-              <CategoryDropdown
+              <Dropdown
+                dropdownItems={dropdownItems}
                 selectedCategory={selectedCategory}
                 onSelectCategory={handleSelectedCategory}
               />
