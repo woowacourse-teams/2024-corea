@@ -12,8 +12,8 @@ const meta = {
     },
   },
   argTypes: {
-    userFeedback: {
-      description: "유저별로 작성한 피드백 정보",
+    feedbackData: {
+      description: "피드백 정보",
     },
   },
 } satisfies Meta<typeof FeedbackCardList>;
@@ -24,87 +24,87 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    userFeedback: {
-      민수: [
-        {
-          feedbackId: 0,
-          roomId: 0,
-          receiverId: 0,
-          profile: "https://avatars.githubusercontent.com/u/63334368?v=4",
-          username: "민수",
-          feedbackKeywords: ["string"],
-          evaluationPoint: 1,
-          feedbackText: "string",
-        },
-        {
-          feedbackId: 0,
-          roomId: 0,
-          receiverId: 0,
-          profile: "https://avatars.githubusercontent.com/u/63334368?v=4",
-          username: "민수",
-          feedbackKeywords: ["string"],
-          evaluationPoint: 2,
-          feedbackText: "string",
-        },
-      ],
-      복순이: [
-        {
-          feedbackId: 0,
-          roomId: 0,
-          receiverId: 0,
-          profile: "https://avatars.githubusercontent.com/u/63334368?v=4",
-          username: "복순이",
-          feedbackKeywords: ["string"],
-          evaluationPoint: 1,
-          feedbackText: "string",
-        },
-      ],
-      영희: [
-        {
-          feedbackId: 0,
-          roomId: 0,
-          receiverId: 0,
-          profile: "https://avatars.githubusercontent.com/u/63334368?v=4",
-          username: "영희",
-          feedbackKeywords: ["string"],
-          evaluationPoint: 1,
-          feedbackText: "string",
-        },
-        {
-          feedbackId: 0,
-          roomId: 0,
-          receiverId: 0,
-          profile: "https://avatars.githubusercontent.com/u/63334368?v=4",
-          username: "영희",
-          feedbackKeywords: ["string"],
-          evaluationPoint: 2,
-          feedbackText: "string",
-        },
-      ],
-      철수: [
-        {
-          feedbackId: 0,
-          roomId: 0,
-          receiverId: 0,
-          profile: "https://avatars.githubusercontent.com/u/63334368?v=4",
-          username: "철수",
-          feedbackKeywords: ["string"],
-          evaluationPoint: 1,
-          feedbackText: "string",
-        },
-      ],
-      순자: [
-        {
-          feedbackId: 0,
-          roomId: 0,
-          receiverId: 0,
-          profile: "https://avatars.githubusercontent.com/u/63334368?v=4",
-          username: "순자",
-          feedbackKeywords: ["string"],
-          evaluationPoint: 1,
-          feedbackText: "string",
-        },
-      ],
-    },
+    feedbackData: [
+      {
+        roomId: 0,
+        title: "숫자 골프",
+        roomKeywords: ["string", "클린코드", "클린 아키텍쳐"],
+        isClosed: true,
+        developFeedback: [
+          {
+            feedbackId: 0,
+            roomId: 0,
+            receiverId: 0,
+            profile: "https://avatars.githubusercontent.com/u/63334368?v=4",
+            username: "a",
+            feedbackKeywords: ["string"],
+            evaluationPoint: 3,
+            feedbackText: "string",
+          },
+          {
+            feedbackId: 0,
+            roomId: 0,
+            receiverId: 0,
+            profile: "https://avatars.githubusercontent.com/u/63334368?v=4",
+            username: "q",
+            feedbackKeywords: ["string"],
+            evaluationPoint: 3,
+            feedbackText: "string",
+          },
+        ],
+        socialFeedback: [
+          {
+            feedbackId: 0,
+            roomId: 0,
+            receiverId: 0,
+            profile: "https://avatars.githubusercontent.com/u/63334368?v=4",
+            username: "b",
+            feedbackKeywords: ["string"],
+            evaluationPoint: 3,
+            feedbackText: "string",
+          },
+          {
+            feedbackId: 0,
+            roomId: 0,
+            receiverId: 0,
+            profile: "https://avatars.githubusercontent.com/u/63334368?v=4",
+            username: "q",
+            feedbackKeywords: ["string"],
+            evaluationPoint: 3,
+            feedbackText: "string",
+          },
+        ],
+      },
+      {
+        roomId: 1,
+        title: "복권 당첨",
+        roomKeywords: ["티디딕", "연금 복권"],
+        isClosed: true,
+        developFeedback: [
+          {
+            feedbackId: 3,
+            roomId: 4,
+            receiverId: 0,
+            profile: "https://avatars.githubusercontent.com/u/63334368?v=4",
+            username: "C",
+            feedbackKeywords: ["string"],
+            evaluationPoint: 3,
+            feedbackText: "string",
+          },
+        ],
+        socialFeedback: [
+          {
+            feedbackId: 0,
+            roomId: 0,
+            receiverId: 0,
+            profile: "https://avatars.githubusercontent.com/u/63334368?v=4",
+            username: "D",
+            feedbackKeywords: ["string"],
+            evaluationPoint: 3,
+            feedbackText: "string",
+          },
+        ],
+      },
+    ],
   },
 };
