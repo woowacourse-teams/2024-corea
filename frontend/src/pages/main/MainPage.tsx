@@ -5,6 +5,7 @@ import {
 } from "@/hooks/queries/useFetchRooms";
 import ContentSection from "@/components/common/contentSection/ContentSection";
 import MenuBar from "@/components/common/menuBar/MenuBar";
+import Banner from "@/components/main/banner/Banner";
 import RoomList from "@/components/shared/roomList/RoomList";
 import * as S from "@/pages/main/MainPage.style";
 import QUERY_KEYS from "@/apis/queryKeys";
@@ -39,6 +40,7 @@ const MainPage = () => {
 
   return (
     <S.Layout>
+      <Banner />
       <ContentSection title="참여 중인 방 리스트">
         {participatedRoomList ? (
           <RoomList roomList={participatedRoomList.rooms} roomType="participated" />
