@@ -3,14 +3,28 @@ import Button from "@/components/common/button/Button";
 import Profile from "@/components/common/profile/Profile";
 import EvaluationPointBar from "@/components/feedback/evaluationPointBar/EvaluationPointBar";
 import { FeedbackCardData } from "@/@types/feedback";
+import { theme } from "@/styles/theme";
 
-const FeedbackCard = (feedbackCardData: FeedbackCardData) => {
+interface FeedbackCardProps {
+  feedbackCardData: FeedbackCardData;
+  feedbackType: "develop" | "social";
+}
+
+const FeedbackCard = ({ feedbackCardData, feedbackType }: FeedbackCardProps) => {
+  const feedbackTypeInfo =
+    feedbackType === "develop" ? "개발역량 피드백" : "소프트스킬 역량 피드백";
+
   return (
-    <S.FeedbackCardContainer>
-      <S.FeedbackProfile>
-        <Profile imgSrc={feedbackCardData.profile} />
-        <S.FeedbackTitle>{feedbackCardData.username}</S.FeedbackTitle>
-      </S.FeedbackProfile>
+    <S.FeedbackCardContainer $isTypeDevelop={feedbackType === "develop"}>
+      <S.FeedbackHeader>
+        <S.FeedbackProfile>
+          <Profile imgSrc={feedbackCardData.profile} />
+          <S.FeedbackTitle>{feedbackCardData.username}</S.FeedbackTitle>
+        </S.FeedbackProfile>
+        <S.FeedbackType $isTypeDevelop={feedbackType === "develop"}>
+          {feedbackTypeInfo}
+        </S.FeedbackType>
+      </S.FeedbackHeader>
       <S.FeedbackScoreContainer>
         <S.FeedbackTitle>피드백 점수</S.FeedbackTitle>
         <EvaluationPointBar initialOptionId={feedbackCardData.evaluationPoint} readonly={true} />
@@ -19,7 +33,7 @@ const FeedbackCard = (feedbackCardData: FeedbackCardData) => {
         <S.FeedbackTitle>피드백 키워드</S.FeedbackTitle>
         <S.FeedbackKeywordWrapper>
           {feedbackCardData.feedbackKeywords.map((keyword) => (
-            <S.FeedbackKeyword>{keyword}</S.FeedbackKeyword>
+            <S.FeedbackKeyword key={keyword}>{keyword}</S.FeedbackKeyword>
           ))}
         </S.FeedbackKeywordWrapper>
       </S.FeedbackKeywordContainer>
@@ -29,7 +43,14 @@ const FeedbackCard = (feedbackCardData: FeedbackCardData) => {
           {feedbackCardData.feedbackText.length ? feedbackCardData.feedbackText : "없음"}
         </S.FeedbackDetail>
       </S.FeedbackDetailContainer>
-      <Button size="large">자세히 보기</Button>
+      <Button
+        size="large"
+        style={{
+          background: feedbackType === "develop" ? theme.COLOR.primary2 : theme.COLOR.warmPink,
+        }}
+      >
+        자세히 보기
+      </Button>
     </S.FeedbackCardContainer>
   );
 };
