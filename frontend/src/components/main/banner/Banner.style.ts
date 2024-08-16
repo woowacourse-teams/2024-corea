@@ -1,0 +1,130 @@
+import styled from "styled-components";
+import media from "@/styles/media";
+
+export const BannerContainer = styled.section`
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: calc(100vw - 3.5px);
+  height: 345px;
+  margin: -113px calc(-50vw + 50%);
+
+  background: linear-gradient(to bottom, #7ec8e3, #b8e3ff, ${({ theme }) => theme.COLOR.white});
+
+  ${media.small`
+    display:none;
+  `}
+`;
+
+export const BannerTextContainer = styled.p`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 100px;
+
+  font-size: 3.5rem;
+  color: ${({ theme }) => theme.COLOR.white};
+  text-shadow:
+    2px 2px 5px rgb(0 0 0 / 30%),
+    4px 4px 10px rgb(0 0 0 / 10%);
+
+  span {
+    font-size: 2.5rem;
+  }
+`;
+
+export const Sunlight = styled.div`
+  position: absolute;
+  background: rgb(255 255 255 / 20%);
+  border-radius: 50%;
+
+  &.sun {
+    top: -70px;
+    right: -30px;
+
+    width: 150px;
+    height: 150px;
+
+    background: rgb(255 255 255 / 70%);
+    filter: blur(10px);
+    box-shadow: 0 0 60px 40px rgb(255 255 255 / 20%);
+  }
+
+  &.sunlight-1 {
+    top: -110px;
+    right: -70px;
+
+    width: 250px;
+    height: 250px;
+
+    background: rgb(255 255 255 / 30%);
+    filter: blur(10px);
+  }
+
+  &.sunlight-2 {
+    top: 80px;
+    right: 75px;
+
+    width: 40px;
+    height: 40px;
+
+    filter: blur(3px);
+  }
+
+  &.sunlight-3 {
+    top: 130px;
+    right: 120px;
+
+    width: 20px;
+    height: 20px;
+
+    filter: blur(2px);
+  }
+
+  &.sunlight-4 {
+    top: 170px;
+    right: 160px;
+
+    width: 60px;
+    height: 60px;
+
+    filter: blur(3px);
+  }
+
+  &.sunlight-5 {
+    top: 190px;
+    right: 170px;
+
+    width: 100px;
+    height: 100px;
+
+    filter: blur(2px);
+  }
+`;
+
+export const Cloud = styled.img`
+  position: absolute;
+
+  &.cloud-1 {
+    top: 50px;
+    left: 100px;
+    height: 100px;
+  }
+
+  &.cloud-2 {
+    top: 30px;
+    left: 220px;
+    height: 150px;
+  }
+
+  &.cloud-3 {
+    top: 150px;
+    right: 100px;
+    height: 230px;
+  }
+`;
