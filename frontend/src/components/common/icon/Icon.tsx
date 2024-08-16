@@ -13,6 +13,8 @@ import {
   MdExpandMore,
   MdInfoOutline,
   MdInsertLink,
+  MdOutlineArrowDropDown,
+  MdOutlineArrowDropUp,
   MdOutlineCreate,
   MdOutlinePeopleAlt,
   MdOutlineStar,
@@ -39,6 +41,8 @@ const ICON: { [key in IconKind]: IconType } = {
   average: FaRegFaceSmile,
   satisfied: FaRegFaceGrinWide,
   verySatisfied: FaRegFaceGrinHearts,
+  arrowDropDown: MdOutlineArrowDropDown,
+  arrowDropUp: MdOutlineArrowDropUp,
 };
 
 interface IconProps {

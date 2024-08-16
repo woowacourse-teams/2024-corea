@@ -36,7 +36,7 @@ export const postLogin = async (
 };
 
 export const postLogout = async (): Promise<void> => {
-  const res = await apiClient.post({
+  await apiClient.post({
     endpoint: API_ENDPOINTS.LOGOUT,
     errorMessage: MESSAGES.ERROR.POST_LOGOUT,
   });

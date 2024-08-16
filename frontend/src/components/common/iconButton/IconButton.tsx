@@ -1,4 +1,4 @@
-import React, { ButtonHTMLAttributes } from "react";
+import { ButtonHTMLAttributes } from "react";
 import * as S from "@/components/common/iconButton/IconButton.style";
 
 interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {

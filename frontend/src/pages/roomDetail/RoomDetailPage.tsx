@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import ContentSection from "@/components/common/contentSection/ContentSection";
 import MyReviewee from "@/components/roomDetailPage/myReviewee/MyReviewee";
@@ -12,12 +12,10 @@ const RoomDetailPage = () => {
   const params = useParams();
   const roomId = params.id ? Number(params.id) : 0;
 
-  const { data: roomInfo } = useQuery({
+  const { data: roomInfo } = useSuspenseQuery({
     queryKey: [QUERY_KEYS.ROOM_DETAIL_INFO],
     queryFn: () => getRoomDetailInfo(roomId),
   });
-
-  if (!roomInfo) return <></>;
 
   return (
     <S.Layout>
