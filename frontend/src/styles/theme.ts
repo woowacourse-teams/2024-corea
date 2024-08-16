@@ -12,6 +12,7 @@ const COLOR = {
   secondary: "#FF3D45",
   lightGrass: "#D7E4D8",
   grass: "#00B707",
+  warmPink: "#ffaaaf",
 };
 
 const TEXT = {
