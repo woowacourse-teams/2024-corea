@@ -23,7 +23,7 @@ const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
 
   const { data: revieweeData } = useFetchReviewee(roomInfo);
 
-  if (!revieweeData || revieweeData.length === 0) {
+  if (revieweeData.length === 0) {
     return <>{MESSAGES.GUIDANCE.EMPTY_REVIEWEE}</>;
   }
 
