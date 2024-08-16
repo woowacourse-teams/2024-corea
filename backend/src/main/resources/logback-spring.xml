@@ -33,7 +33,7 @@
             <appender-ref ref="FILE-ERROR"/>
         </logger>
 
-        <root level="ERROR">
+        <root level="WARN">
             <appender-ref ref="FILE-WARN"/>
             <appender-ref ref="FILE-ERROR"/>
         </root>
