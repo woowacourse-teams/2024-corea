@@ -8,7 +8,9 @@ import {
 } from "react-icons/fa6";
 import { IconType } from "react-icons/lib";
 import {
+  MdArrowBackIos,
   MdArrowDropDown,
+  MdArrowForwardIos,
   MdCalendarMonth,
   MdExpandMore,
   MdInfoOutline,
@@ -39,6 +41,8 @@ const ICON: { [key in IconKind]: IconType } = {
   average: FaRegFaceSmile,
   satisfied: FaRegFaceGrinWide,
   verySatisfied: FaRegFaceGrinHearts,
+  arrowLeft: MdArrowBackIos,
+  arrowRight: MdArrowForwardIos,
 };
 
 interface IconProps {
