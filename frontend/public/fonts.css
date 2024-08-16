@@ -9,4 +9,5 @@ body {
   font-family: "Hanna", sans-serif !important;
   overflow-x: hidden;
   max-width: 100vw;
+  overflow-y: scroll;
 }
