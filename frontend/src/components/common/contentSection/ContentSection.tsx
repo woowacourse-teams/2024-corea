@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 import * as S from "@/components/common/contentSection/ContentSection.style";
 
 interface ContentSectionProps {
