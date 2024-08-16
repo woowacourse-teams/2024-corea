@@ -25,7 +25,7 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
+export const 기술적_피드백: Story = {
   args: {
     feedbackCardData: {
       feedbackId: 1,
@@ -40,6 +40,13 @@ export const Default: Story = {
   `,
       evaluationPoint: 1,
     },
+    feedbackType: "develop",
+  },
+};
+
+export const 소프트스킬_피드백: Story = {
+  args: {
+    feedbackCardData: 기술적_피드백.args.feedbackCardData,
     feedbackType: "social",
   },
 };
