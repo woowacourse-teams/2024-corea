@@ -3,5 +3,10 @@ import styled from "styled-components";
 export const Layout = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 5rem;
+`;
+
+export const DropdownWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
 `;
