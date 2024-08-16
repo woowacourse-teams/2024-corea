@@ -72,7 +72,7 @@ public class Room {
 
     public void participate() {
         if (status.isNotOpened()) {
-            throw new CoreaException(ExceptionType.ROOM_FINISHED);
+            throw new CoreaException(ExceptionType.ROOM_RECRUIT_FINISHED);
         }
         currentParticipantsSize += 1;
         if (currentParticipantsSize == limitedParticipantsSize) {
