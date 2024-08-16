@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import media from "@/styles/media";
 
-export const BannerContainer = styled.section`
+export const BannerContainer = styled.div`
   position: relative;
 
   display: flex;
@@ -10,7 +10,7 @@ export const BannerContainer = styled.section`
 
   width: calc(100vw - 3.5px);
   height: 345px;
-  margin: -113px calc(-50vw + 50%);
+  margin: -113px calc(-50vw + 50%) 0;
 
   background: linear-gradient(to bottom, #7ec8e3, #b8e3ff, ${({ theme }) => theme.COLOR.white});
 

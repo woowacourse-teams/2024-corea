@@ -4,8 +4,6 @@ import { RoomInfo } from "@/@types/roomInfo";
 import { formatDateTimeString } from "@/utils/dateFormatter";
 
 const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
-  if (!roomInfo.keywords) return <></>;
-
   return (
     <S.RoomInfoCardContainer>
       <S.RoomInfoCardImg src={roomInfo.thumbnailLink} alt="방 썸네일 이미지" />

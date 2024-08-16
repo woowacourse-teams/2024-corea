@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useToast from "@/hooks/common/useToast";
 import useMutateLogin from "@/hooks/mutations/useMutateAuth";
+import Loading from "@/components/common/loading/Loading";
 import MESSAGES from "@/constants/message";
 
 const CallbackPage = () => {
@@ -22,7 +23,7 @@ const CallbackPage = () => {
     openToast(MESSAGES.ERROR.POST_LOGIN);
   }
 
-  return <div>로그인 중...</div>;
+  return <Loading />;
 };
 
 export default CallbackPage;
