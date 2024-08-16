@@ -47,6 +47,10 @@ public class MatchResult {
         log.info("매칭 결과 [방 번호 ({}) ,리뷰어({}) , 리뷰이({})]", roomId, reviewer.getUsername(), reviewee.getUsername());
     }
 
+    public static MatchResult of(long roomId, Pair pair, String prLink) {
+        return new MatchResult(roomId, pair.getDeliver(), pair.getReceiver(), prLink);
+    }
+
     public void reviewerCompleteFeedback() {
         isReviewerCompletedFeedback = true;
     }
