@@ -13,7 +13,7 @@ export const FeedbackCardContainer = styled.div<{ $isTypeDevelop: boolean }>`
   padding: 1rem;
 
   border: 3px solid
-    ${({ theme, $isTypeDevelop }) => ($isTypeDevelop ? theme.COLOR.primary2 : theme.COLOR.warmPink)};
+    ${({ theme, $isTypeDevelop }) => ($isTypeDevelop ? theme.COLOR.primary3 : theme.COLOR.warmPink)};
   border-radius: 10px;
 
   ${media.small`
