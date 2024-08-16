@@ -30,7 +30,7 @@ const FeedbackCard = ({ feedbackCardData, feedbackType }: FeedbackCardProps) => 
         <EvaluationPointBar
           initialOptionId={feedbackCardData.evaluationPoint}
           readonly={true}
-          color={theme.COLOR.warmPink}
+          color={feedbackType === "social" ? theme.COLOR.warmPink : undefined}
         />
       </S.FeedbackScoreContainer>
       <S.FeedbackKeywordContainer>
