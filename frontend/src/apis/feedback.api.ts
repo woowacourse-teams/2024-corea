@@ -1,10 +1,14 @@
-import { FeedbackCardList, RevieweeFeedbackData, ReviewerFeedbackData } from "@/@types/feedback";
+import {
+  FeedbackCardDataList,
+  RevieweeFeedbackData,
+  ReviewerFeedbackData,
+} from "@/@types/feedback";
 import apiClient from "@/apis/apiClient";
 import { API_ENDPOINTS } from "@/apis/endpoints";
 import MESSAGES from "@/constants/message";
 
 // 피드백 모아보기
-export const getReceivedFeedback = async (): Promise<FeedbackCardList[]> => {
+export const getReceivedFeedback = async (): Promise<FeedbackCardDataList[]> => {
   const res = await apiClient.get({
     endpoint: API_ENDPOINTS.RECEIVED_FEEDBACK,
     errorMessage: MESSAGES.ERROR.GET_RECEIVED_FEEDBACK,
@@ -13,7 +17,7 @@ export const getReceivedFeedback = async (): Promise<FeedbackCardList[]> => {
   return res.feedbacks;
 };
 
-export const getDeliveredFeedback = async (): Promise<FeedbackCardList[]> => {
+export const getDeliveredFeedback = async (): Promise<FeedbackCardDataList[]> => {
   const res = await apiClient.get({
     endpoint: API_ENDPOINTS.DELIVERED_FEEDBACK,
     errorMessage: MESSAGES.ERROR.GET_DELIVERED_FEEDBACK,
