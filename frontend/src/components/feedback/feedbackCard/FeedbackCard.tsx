@@ -27,7 +27,11 @@ const FeedbackCard = ({ feedbackCardData, feedbackType }: FeedbackCardProps) => 
       </S.FeedbackHeader>
       <S.FeedbackScoreContainer>
         <S.FeedbackTitle>피드백 점수</S.FeedbackTitle>
-        <EvaluationPointBar initialOptionId={feedbackCardData.evaluationPoint} readonly={true} />
+        <EvaluationPointBar
+          initialOptionId={feedbackCardData.evaluationPoint}
+          readonly={true}
+          color={theme.COLOR.warmPink}
+        />
       </S.FeedbackScoreContainer>
       <S.FeedbackKeywordContainer>
         <S.FeedbackTitle>피드백 키워드</S.FeedbackTitle>
