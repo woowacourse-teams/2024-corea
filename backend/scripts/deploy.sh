@@ -24,4 +24,4 @@ nohup java -Duser.timezone=Asia/Seoul \
     -Dfile.encoding=UTF-8 \
     -Xms1G \
     -Xmx1G \
-    -jar -Dspring.profiles.active=dev $APPLICATION_JAR > /dev/null 2> /dev/null < /dev/null &
+    -jar -Dspring.profiles.active=prod $APPLICATION_JAR > /dev/null 2> /dev/null < /dev/null &
