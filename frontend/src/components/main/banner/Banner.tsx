@@ -2,6 +2,9 @@ import CyclingClasses from "./CyclingClasses";
 import * as S from "@/components/main/banner/Banner.style";
 import Cloud from "@/assets/cloud.png";
 
+const firstItems = ["코드", "개발자", "리뷰", "리뷰어", "리뷰이"];
+const secondItems = ["리뷰", "코드", "리뷰어", "개발자", "리뷰이"];
+
 const Banner = () => {
   return (
     <S.BannerContainer>
@@ -17,9 +20,9 @@ const Banner = () => {
       <S.Cloud className="cloud-3" src={Cloud} alt="구름" />
 
       <S.BannerTextContainer>
-        <CyclingClasses items={["코드", "개발자", "리뷰", "리뷰어", "리뷰이"]} speed={4100} />
+        <CyclingClasses items={firstItems} speed={4100} />
         <span>와</span>
-        <CyclingClasses items={["리뷰", "코드", "리뷰어", "개발자", "리뷰이"]} speed={2700} />
+        <CyclingClasses items={secondItems} speed={2700} />
         <span>를 연결합니다</span>
       </S.BannerTextContainer>
     </S.BannerContainer>
