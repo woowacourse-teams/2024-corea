@@ -122,6 +122,8 @@ const globalStyles = createGlobalStyle`
   }
 
   body {
+    overflow-x: hidden !important;
+
     font-family: 'Do Hyeon', system-ui;
     font-size: 62.5%;
     font-weight: 400;
@@ -131,7 +133,6 @@ const globalStyles = createGlobalStyle`
 
   html {
     overflow-x: hidden;
-
   }
 
   ol,

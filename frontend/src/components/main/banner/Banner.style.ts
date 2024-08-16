@@ -67,8 +67,8 @@ export const Sunlight = styled.div`
   }
 
   &.sunlight-2 {
-    top: 80px;
-    right: 75px;
+    top: 75px;
+    right: 85px;
 
     width: 40px;
     height: 40px;
@@ -77,8 +77,8 @@ export const Sunlight = styled.div`
   }
 
   &.sunlight-3 {
-    top: 130px;
-    right: 120px;
+    top: 135px;
+    right: 135px;
 
     width: 20px;
     height: 20px;
