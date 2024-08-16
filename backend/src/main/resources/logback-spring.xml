@@ -15,30 +15,48 @@
             <appender-ref ref="CONSOLE"/>
         </logger>
 
-        <logger name="corea" level="INFO" additivity="false">
+        <root level="INFO" additivity="false">
             <appender-ref ref="CONSOLE"/>
-        </logger>
-
-        <logger name="root" level="INFO" additivity="false">
-            <appender-ref ref="CONSOLE"/>
-        </logger>
+        </root>
     </springProfile>
 
     <springProfile name="dev">
         <include resource="logs/file-debug-appender.xml"/>
-
         <include resource="logs/file-info-appender.xml"/>
         <include resource="logs/file-warn-appender.xml"/>
         <include resource="logs/file-error-appender.xml"/>
 
         <logger name="corea" level="DEBUG" additivity="false">
             <appender-ref ref="FILE-DEBUG"/>
+            <appender-ref ref="FILE-INFO"/>
+            <appender-ref ref="FILE-WARN"/>
+            <appender-ref ref="FILE-ERROR"/>
         </logger>
+
+        <root level="ERROR">
+            <appender-ref ref="FILE-WARN"/>
+            <appender-ref ref="FILE-ERROR"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="prod">
+        <include resource="logs/file-info-appender.xml"/>
+        <include resource="logs/file-warn-appender.xml"/>
+        <include resource="logs/file-error-appender.xml"/>
 
         <logger name="corea" level="INFO" additivity="false">
             <appender-ref ref="FILE-INFO"/>
             <appender-ref ref="FILE-WARN"/>
             <appender-ref ref="FILE-ERROR"/>
         </logger>
+
+        <root level="WARN">
+            <appender-ref ref="FILE-WARN"/>
+            <appender-ref ref="FILE-ERROR"/>
+        </root>
     </springProfile>
+
+    <logger name="org.springframework" level="WARN"/>
+    <logger name="org.hibernate" level="WARN"/>
+    <logger name="org.apache" level="WARN"/>
 </configuration>
