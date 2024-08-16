@@ -15,7 +15,7 @@ export const HeaderContainer = styled.header`
   }
 
   @media screen and (width < 1200px) {
-    padding: 0 1rem;
+    padding: 0 2rem;
   }
 `;
 
