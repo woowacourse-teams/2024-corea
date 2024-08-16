@@ -122,6 +122,10 @@ const globalStyles = createGlobalStyle`
   }
 
   body {
+    font-family: 'Moirai One', system-ui;
+    font-size: 62.5%;
+    font-weight: 400;
+    font-style: normal;
     line-height: 1;
   }
 

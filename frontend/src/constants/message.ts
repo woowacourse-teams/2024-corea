@@ -37,6 +37,9 @@ const ERROR_MESSAGES = {
   //피드백 모아보기
   GET_RECEIVED_FEEDBACK: "받은 피드백 불러오는 도중 에러가 발생하였습니다.",
   GET_DELIVERED_FEEDBACK: "받은 피드백 불러오는 도중 에러가 발생하였습니다.",
+
+  // ranking
+  GET_RANKING: "랭킹을 불러오는 도중 에러가 발생하였습니다.",
 };
 
 const MESSAGES = {

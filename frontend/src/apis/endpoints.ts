@@ -30,4 +30,7 @@ export const API_ENDPOINTS = {
     `/rooms/${roomId}/social/feedbacks/${feedbackId}`,
   RECEIVED_FEEDBACK: "/user/feedbacks/received",
   DELIVERED_FEEDBACK: "/user/feedbacks/delivered",
+
+  // ranking
+  RANKING: "/ranks/board",
 };
