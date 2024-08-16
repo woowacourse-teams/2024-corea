@@ -41,7 +41,7 @@ class MatchResultServiceTest {
     private MatchResultRepository matchResultRepository;
 
     @Autowired
-    MatchingStrategy matchingStrategy;
+    private MatchingStrategy matchingStrategy;
 
     private List<Participation> participations = new ArrayList<>();
     private long findMemberId;
@@ -63,10 +63,6 @@ class MatchResultServiceTest {
                 .map(pair -> MatchResult.of(roomId, pair, ""))
                 .toList()
         );
-    }
-
-    private Member createMember(Member member) {
-        return memberRepository.save(member);
     }
 
     @Test
@@ -97,5 +93,9 @@ class MatchResultServiceTest {
                     CoreaException coreaException = (CoreaException) exception;
                     assertThat(coreaException.getExceptionType()).isEqualTo(MEMBER_NOT_FOUND);
                 });
+    }
+
+    private Member createMember(Member member) {
+        return memberRepository.save(member);
     }
 }

@@ -10,11 +10,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-class
-GithubPullRequestClientTest {
+class GithubPullRequestClientTest {
 
     @Autowired
-    GithubPullRequestClient client;
+    private GithubPullRequestClient client;
 
     @Test
     @Disabled
@@ -22,8 +21,6 @@ GithubPullRequestClientTest {
     void getPullRequestListWithPageNumber() {
         String repositoryLink = "https://api.github.com/repos/woowacourse-precourse/java-baseball-6";
         final var result = client.getPullRequestListWithPageNumber(repositoryLink, 1, 1);
-        result.responseToStream()
-                .forEach(System.out::println);
         assertThat(result.pullRequestResponses()).hasSize(1);
         assertThat(result.isLastPage()).isFalse();
     }

@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.stream.Stream;
 
 public record PullRequestData(boolean isLastPage, PullRequestResponse[] pullRequestResponses) {
+
     public boolean isAfterPage(LocalDateTime localDateTime) {
         LocalDateTime createdAt = pullRequestResponses[0].created_at();
         return createdAt.isAfter(localDateTime);

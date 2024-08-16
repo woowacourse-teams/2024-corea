@@ -8,10 +8,10 @@ import lombok.RequiredArgsConstructor;
 @Getter
 public class Pair {
 
-    private final Member fromMember;
-    private final Member toMember;
+    private final Member deliver;
+    private final Member receiver;
 
     public String getToMemberGithubId() {
-        return toMember.getGithubUserId();
+        return receiver.getGithubUserId();
     }
 }

@@ -65,7 +65,7 @@ public class RoomService {
     }
 
     public RoomResponse findOne(long roomId, long memberId) {
-        Room room = getRoom(roomId);
+        Room room = findRoomInfo(roomId);
         boolean isParticipated = participationRepository.existsByRoomIdAndMemberId(roomId, memberId);
 
         return RoomResponse.of(room, isParticipated);
@@ -76,7 +76,7 @@ public class RoomService {
 
         return participations.stream()
                 .map(Participation::getRoomId)
-                .map(this::getRoom)
+                .map(this::findRoomInfo)
                 .collect(collectingAndThen(toList(), rooms -> RoomResponses.of(rooms, true, true)));
     }
 
@@ -107,10 +107,10 @@ public class RoomService {
     }
 
     public RoomResponse getRoomById(long roomId) {
-        return RoomResponse.of(getRoom(roomId));
+        return RoomResponse.of(findRoomInfo(roomId));
     }
 
-    private Room getRoom(long roomId) {
+    private Room findRoomInfo(long roomId) {
         return roomRepository.findById(roomId)
                 .orElseThrow(() -> new CoreaException(ExceptionType.ROOM_NOT_FOUND, String.format("해당 Id의 방이 없습니다. 입력된 Id=%d", roomId)));
     }

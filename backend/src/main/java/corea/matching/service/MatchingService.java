@@ -36,7 +36,7 @@ public class MatchingService {
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new CoreaException(ExceptionType.ROOM_NOT_FOUND));
 
-        List<Participation> participations = getPullrequestSubmittedParticipations(pullRequestInfo, roomId);
+        List<Participation> participations = getParticipationsWithPullrequestSubmitted(pullRequestInfo, roomId);
 
         log.info("매칭 시작 [방 번호 ({}), 매칭하는 인원 ({}), 총 인원({})]", roomId, room.getMatchingSize(), participations.size());
 
@@ -46,7 +46,7 @@ public class MatchingService {
                 .toList());
     }
 
-    private List<Participation> getPullrequestSubmittedParticipations(PullRequestInfo pullRequestInfo, long roomId) {
+    private List<Participation> getParticipationsWithPullrequestSubmitted(PullRequestInfo pullRequestInfo, long roomId) {
         return participationRepository.findAllByRoomId(roomId)
                 .stream()
                 .filter(participation -> pullRequestInfo.containsGithubMemberId(participation.getMemberGithubId()))

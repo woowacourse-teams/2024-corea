@@ -22,11 +22,11 @@ public class PullRequestProvider {
     private static final Logger log = LogManager.getLogger(PullRequestProvider.class);
     private static final ZoneId SERVER_ZONE_ID = ZoneId.of("Asia/Seoul");
     private static final String UTC = "UTC";
-    private final GithubPullRequestClient githubPullRequestClient;
     private static final int PAGE_SIZE = 100;
 
-    public PullRequestInfo getUntilDeadline(String repositoryLink, LocalDateTime deadline) {
+    private final GithubPullRequestClient githubPullRequestClient;
 
+    public PullRequestInfo getUntilDeadline(String repositoryLink, LocalDateTime deadline) {
         log.debug("레포지토리 링크:{}, 마감 기한:{}", repositoryLink, deadline);
         LocalDateTime utcDeadline = convertUtc(deadline);
         return new PullRequestInfo(Stream.iterate(1, page -> page + 1)

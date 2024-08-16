@@ -32,7 +32,7 @@ public class GithubPullRequestClient {
         String requestLink = constructApiLink(repositoryLink, perPageSize, pageNumber);
         log.debug("요청 링크:{}", requestLink);
         PullRequestResponse[] response = restClient.get()
-                .uri(requestLink + PULLS_LINK + "?" + PER_PAGE_QUERY + perPageSize + "&" + PAGE + pageNumber + "&" + DIRECTION)
+                .uri(requestLink)
                 .accept(APPLICATION_JSON)
                 .retrieve()
                 .body(PullRequestResponse[].class);
@@ -50,7 +50,7 @@ public class GithubPullRequestClient {
 
     /**
      * 요청을 위해서 API 주소로 변환합니다.
-     *
+     * <p>
      * github.com -> api.github.com/repos 로 변환합니다.
      *
      * @param repositoryLink

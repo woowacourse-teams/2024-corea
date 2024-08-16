@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -23,11 +24,12 @@ public class PlainRandomMatching implements MatchingStrategy {
     public List<Pair> matchPairs(List<Participation> participations, int matchingSize) {
         validateParticipationSize(participations, matchingSize);
 
-        List<Member> members = new ArrayList<>(participations.stream()
+        List<Member> members = participations.stream()
                 .map(participation -> memberRepository.findById(participation.getMemberId()))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
-                .toList());
+                .collect(Collectors.toList());
+        
         Collections.shuffle(members);
 
         return match(members, matchingSize);

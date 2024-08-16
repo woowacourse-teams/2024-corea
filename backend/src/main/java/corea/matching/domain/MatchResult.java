@@ -48,7 +48,7 @@ public class MatchResult {
     }
 
     public static MatchResult of(long roomId, Pair pair, String prLink) {
-        return new MatchResult(roomId, pair.getFromMember(), pair.getToMember(), prLink);
+        return new MatchResult(roomId, pair.getDeliver(), pair.getReceiver(), prLink);
     }
 
     public void reviewerCompleteFeedback() {
