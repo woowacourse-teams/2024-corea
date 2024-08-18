@@ -29,13 +29,14 @@ export const FeedbackCardContainer = styled.div`
   padding-top: 1rem;
 `;
 
-export const FeedbackMissionWrapper = styled.button`
+export const FeedbackMissionWrapper = styled.button<{ $isSelected: boolean }>`
   padding: 1rem;
-  background: ${({ theme }) => theme.COLOR.primary1};
+  background: ${({ theme, $isSelected }) =>
+    $isSelected ? theme.COLOR.primary1 : theme.COLOR.grey0};
   border-radius: 10px;
 `;
 
-export const FeedbackInfoWrapper = styled.div<{ isVisible: boolean }>`
+export const FeedbackInfoWrapper = styled.div<{ $isVisible: boolean }>`
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
@@ -43,8 +44,8 @@ export const FeedbackInfoWrapper = styled.div<{ isVisible: boolean }>`
     opacity 0.5s ease,
     transform 0.5s ease;
 
-  ${({ isVisible }) =>
-    isVisible
+  ${({ $isVisible }) =>
+    $isVisible
       ? css`
           animation: ${fadeIn} 0.5s ease backwards;
         `

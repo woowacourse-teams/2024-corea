@@ -31,7 +31,10 @@ const FeedbackCardList = ({ feedbackData }: FeedbackCardListProps) => {
     <S.FeedbackCardContainer>
       {feedbackData.map((feedback) => (
         <React.Fragment key={feedback.roomId}>
-          <S.FeedbackMissionWrapper onClick={() => handleSelectedFeedback(feedback.roomId)}>
+          <S.FeedbackMissionWrapper
+            $isSelected={selectedFeedback === feedback.roomId}
+            onClick={() => handleSelectedFeedback(feedback.roomId)}
+          >
             <S.FeedbackMissionTitle>
               <S.FeedbackMissionInfo>{feedback.title}</S.FeedbackMissionInfo>
               <S.FeedbackKeywordContainer>
@@ -41,7 +44,7 @@ const FeedbackCardList = ({ feedbackData }: FeedbackCardListProps) => {
               </S.FeedbackKeywordContainer>
             </S.FeedbackMissionTitle>
           </S.FeedbackMissionWrapper>
-          <S.FeedbackInfoWrapper isVisible={feedback.roomId === selectedFeedback}>
+          <S.FeedbackInfoWrapper $isVisible={feedback.roomId === selectedFeedback}>
             {feedback.roomId === selectedFeedback && (
               <Carousel>
                 {feedback.developFeedback.map((developFeedback) => (
