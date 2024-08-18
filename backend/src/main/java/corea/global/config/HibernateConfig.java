@@ -5,11 +5,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernatePropertiesCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import static org.hibernate.cfg.JdbcSettings.STATEMENT_INSPECTOR;
 
 @Configuration
 @RequiredArgsConstructor
+@Profile("!prod")
 public class HibernateConfig {
 
     private final QueryInspector queryInspector;

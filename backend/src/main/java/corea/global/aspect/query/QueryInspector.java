@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 @Component
-@Profile({"!prod","!test"})
+@Profile("!prod")
 public class QueryInspector implements StatementInspector {
 
     private final transient QueryInfo queryInfo;

@@ -1,29 +1,29 @@
-package corea.global.aspect.query.dev;
+package corea.global.aspect.query.inspect;
 
 import corea.global.aspect.query.QueryInfo;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.annotation.RequestScope;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
-@Profile({"local","dev"})
-@RequestScope
+@Profile({"inspect", "test"})
 @Getter
-public class DevQueryInfo implements QueryInfo {
+public class InspectQueryInfo implements QueryInfo {
 
     private static final int MIN_WARN_SIZE = 10;
     private Map<String, Integer> data = new HashMap<>();
 
+    @Override
     public void increaseQueryCount(String query) {
         data.merge(query, 1, Integer::sum);
     }
 
+    @Override
     public String toFormatString() {
         StringBuilder sb = new StringBuilder();
         data.forEach((key, value) ->
@@ -31,26 +31,23 @@ public class DevQueryInfo implements QueryInfo {
                         .append(" : ")
                         .append(value)
                         .append(System.lineSeparator())
-                        .append(System.lineSeparator())
         );
         return sb.toString();
     }
 
     @Override
+    public int getCount() {
+        return sum();
+    }
+
+    @Override
     public boolean isExceedQuery() {
-        return data.values()
-                .stream()
-                .reduce(0, Integer::sum) >= MIN_WARN_SIZE;
+        return sum() >= MIN_WARN_SIZE;
     }
 
     @Override
     public void clear() {
-        data.clear();
-    }
-
-    @Override
-    public int getCount() {
-        return sum();
+        data = new HashMap<>();
     }
 
     private int sum() {
