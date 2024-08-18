@@ -43,7 +43,7 @@ export const ModalQuestion = styled.p<ModalQuestionProps>`
     `
     &::after {
       content: "*";
-      color: ${theme.COLOR.secondary};
+      color: ${theme.COLOR.error};
       margin-left: 4px;
     }
   `}

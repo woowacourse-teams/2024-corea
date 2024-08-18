@@ -3,21 +3,8 @@ import {
   useFetchDeliveredFeedback,
   useFetchReceivedFeedback,
 } from "@/hooks/queries/useFetchFeedback";
-import { FeedbackCardData } from "@/@types/feedback";
 
-type FeedbackType = "받은 피드백" | "쓴 피드백";
-
-const groupFeedbacksByUser = (feedbacks: FeedbackCardData[]) => {
-  return feedbacks.reduce(
-    (acc, feedback) => {
-      if (!acc[feedback.username]) acc[feedback.username] = [feedback];
-      else acc[feedback.username].push(feedback);
-
-      return acc;
-    },
-    {} as Record<string, FeedbackCardData[]>,
-  );
-};
+type FeedbackType = "쓴 피드백" | "받은 피드백";
 
 const useSelectedFeedbackData = () => {
   const [selectedFeedbackType, setSelectedFeedbackType] = useState<FeedbackType>("받은 피드백");
@@ -29,20 +16,10 @@ const useSelectedFeedbackData = () => {
     selectedFeedbackType === "쓴 피드백",
   );
 
-  const selectedFeedbackDatas =
+  const selectedFeedbackData =
     selectedFeedbackType === "받은 피드백" ? receivedFeedbacks : deliveredFeedbacks;
 
-  const feedbacks =
-    selectedFeedbackDatas?.length !== 0
-      ? selectedFeedbackDatas?.map((feedback) => [
-          ...feedback.socialFeedback,
-          ...feedback.developFeedback,
-        ])
-      : [];
-
-  const userFeedbacks = feedbacks?.map((feedback) => groupFeedbacksByUser(feedback));
-
-  return { selectedFeedbackType, setSelectedFeedbackType, userFeedbacks, selectedFeedbackDatas };
+  return { selectedFeedbackType, setSelectedFeedbackType, selectedFeedbackData };
 };
 
 export default useSelectedFeedbackData;
