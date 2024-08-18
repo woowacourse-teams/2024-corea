@@ -2,8 +2,8 @@
   "feedbacks": [
     {
       "roomId": 0,
-      "title": "미션 1",
-      "roomKeywords": ["string"],
+      "title": "숫자 골프",
+      "roomKeywords": ["string", "클린코드", "클린 아키텍쳐"],
       "isClosed": true,
       "developFeedback": [
         {
@@ -52,8 +52,8 @@
     },
     {
       "roomId": 1,
-      "title": "미션 2",
-      "roomKeywords": ["티디딕"],
+      "title": "복권 당첨",
+      "roomKeywords": ["티디딕", "연금 복권"],
       "isClosed": true,
       "developFeedback": [
         {

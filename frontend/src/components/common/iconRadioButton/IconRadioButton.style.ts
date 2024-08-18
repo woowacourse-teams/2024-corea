@@ -1,7 +1,8 @@
 import styled from "styled-components";
 
 interface IconRadioButtonBoxProps {
-  isSelected?: boolean;
+  $isSelected?: boolean;
+  $color?: string;
 }
 
 export const IconRadioButtonContainer = styled.label`
@@ -28,10 +29,10 @@ export const IconRadioButtonBox = styled.div<IconRadioButtonBoxProps>`
   height: 50px;
 
   background-color: "transparent";
-  border: ${(props) =>
-    props.isSelected
-      ? `4px solid ${props.theme.COLOR.primary3}`
-      : `1px solid ${props.theme.COLOR.grey1}`};
+  border: ${({ $color, $isSelected, theme }) =>
+    $isSelected
+      ? `4px solid ${$color ? $color : theme.COLOR.primary3}`
+      : `1px solid ${theme.COLOR.grey1}`};
   border-radius: 50%;
   box-shadow: 0 4px 4px rgb(0 0 0 / 10%);
 `;

@@ -32,7 +32,7 @@ const variantStyles = {
     background-color: ${({ theme }) => theme.COLOR.primary2};
   `,
   secondary: css`
-    background-color: ${({ theme }) => theme.COLOR.secondary};
+    background-color: ${({ theme }) => theme.COLOR.error};
   `,
   disable: css`
     background-color: ${({ theme }) => theme.COLOR.grey1};
