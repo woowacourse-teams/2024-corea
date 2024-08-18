@@ -5,5 +5,5 @@ export const ContentContainer = styled.section`
   min-width: 375px;
   max-width: 1200px;
   margin: 2rem auto;
-  padding: 1rem;
+  padding: 0 2rem 2rem;
 `;

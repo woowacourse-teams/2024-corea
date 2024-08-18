@@ -1,21 +1,21 @@
 import styled from "styled-components";
 import media from "@/styles/media";
 
-export const FeedbackCardContainer = styled.div`
+export const FeedbackCardContainer = styled.div<{ $isTypeDevelop: boolean }>`
   overflow-y: hidden;
   display: flex;
   flex-direction: column;
   gap: 2rem;
 
   width: 40%;
-  min-width: 420px;
+  min-width: 370px;
   height: 600px;
   padding: 1rem;
 
+  border: 3px solid
+    ${({ theme, $isTypeDevelop }) =>
+      $isTypeDevelop ? theme.COLOR.primary3 : theme.COLOR.secondary};
   border-radius: 10px;
-  box-shadow:
-    rgb(17 17 26 / 10%) 0 4px 16px,
-    rgb(17 17 26 / 5%) 0 8px 32px;
 
   ${media.small`
     width: 100%;
@@ -39,11 +39,21 @@ export const FeedbackKeywordWrapper = styled.div`
   margin-top: 1rem;
 `;
 
+export const FeedbackHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
 export const FeedbackProfile = styled.div`
   display: flex;
   flex-direction: row;
   gap: 0.5rem;
   align-items: center;
+`;
+
+export const FeedbackType = styled.span<{ $isTypeDevelop: boolean }>`
+  color: ${({ theme, $isTypeDevelop }) =>
+    $isTypeDevelop ? theme.COLOR.primary2 : theme.COLOR.secondary};
 `;
 
 export const FeedbackTitle = styled.h3`
