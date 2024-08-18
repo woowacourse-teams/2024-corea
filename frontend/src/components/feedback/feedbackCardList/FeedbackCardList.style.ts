@@ -22,6 +22,15 @@ const fadeOut = keyframes`
   }
 `;
 
+const fadeInOut = keyframes`
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+`;
+
 export const FeedbackCardContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -30,7 +39,13 @@ export const FeedbackCardContainer = styled.div`
 `;
 
 export const FeedbackMissionWrapper = styled.button<{ $isSelected: boolean }>`
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: space-between;
+
   padding: 1rem;
+
   background: ${({ theme, $isSelected }) =>
     $isSelected ? theme.COLOR.primary1 : theme.COLOR.grey0};
   border-radius: 10px;
@@ -58,6 +73,12 @@ export const FeedbackMissionTitle = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+`;
+
+export const FeedbackMissionPrompt = styled.span<{ $isSelected: boolean }>`
+  display: ${({ $isSelected }) => ($isSelected ? "none" : "inline")};
+  color: ${({ theme }) => theme.COLOR.grey2};
+  animation: ${fadeInOut} 2s infinite;
 `;
 
 export const FeedbackMissionInfo = styled.div`

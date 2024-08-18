@@ -43,6 +43,9 @@ const FeedbackCardList = ({ feedbackData }: FeedbackCardListProps) => {
                 ))}
               </S.FeedbackKeywordContainer>
             </S.FeedbackMissionTitle>
+            <S.FeedbackMissionPrompt $isSelected={selectedFeedback === feedback.roomId}>
+              피드백을 보려면 클릭해주세요
+            </S.FeedbackMissionPrompt>
           </S.FeedbackMissionWrapper>
           <S.FeedbackInfoWrapper $isVisible={feedback.roomId === selectedFeedback}>
             {feedback.roomId === selectedFeedback && (
