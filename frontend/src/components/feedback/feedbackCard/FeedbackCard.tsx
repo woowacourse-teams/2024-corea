@@ -30,7 +30,7 @@ const FeedbackCard = ({ feedbackCardData, feedbackType }: FeedbackCardProps) => 
         <EvaluationPointBar
           initialOptionId={feedbackCardData.evaluationPoint}
           readonly={true}
-          color={feedbackType === "social" ? theme.COLOR.warmPink : undefined}
+          color={feedbackType === "social" ? theme.COLOR.secondary : undefined}
         />
       </S.FeedbackScoreContainer>
       <S.FeedbackKeywordContainer>
@@ -50,7 +50,7 @@ const FeedbackCard = ({ feedbackCardData, feedbackType }: FeedbackCardProps) => 
       <Button
         size="large"
         style={{
-          background: feedbackType === "develop" ? theme.COLOR.primary2 : theme.COLOR.warmPink,
+          background: feedbackType === "develop" ? theme.COLOR.primary2 : theme.COLOR.secondary,
         }}
       >
         자세히 보기

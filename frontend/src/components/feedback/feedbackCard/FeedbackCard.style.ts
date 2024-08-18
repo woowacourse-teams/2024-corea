@@ -13,7 +13,8 @@ export const FeedbackCardContainer = styled.div<{ $isTypeDevelop: boolean }>`
   padding: 1rem;
 
   border: 3px solid
-    ${({ theme, $isTypeDevelop }) => ($isTypeDevelop ? theme.COLOR.primary3 : theme.COLOR.warmPink)};
+    ${({ theme, $isTypeDevelop }) =>
+      $isTypeDevelop ? theme.COLOR.primary3 : theme.COLOR.secondary};
   border-radius: 10px;
 
   ${media.small`
@@ -52,7 +53,7 @@ export const FeedbackProfile = styled.div`
 
 export const FeedbackType = styled.span<{ $isTypeDevelop: boolean }>`
   color: ${({ theme, $isTypeDevelop }) =>
-    $isTypeDevelop ? theme.COLOR.primary2 : theme.COLOR.warmPink};
+    $isTypeDevelop ? theme.COLOR.primary2 : theme.COLOR.secondary};
 `;
 
 export const FeedbackTitle = styled.h3`

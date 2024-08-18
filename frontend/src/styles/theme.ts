@@ -9,10 +9,10 @@ const COLOR = {
   primary1: "#D9F3FF",
   primary2: "#84AEE1",
   primary3: "#607999",
-  secondary: "#FF3D45",
+  secondary: "#ffaaaf",
   lightGrass: "#D7E4D8",
   grass: "#00B707",
-  warmPink: "#ffaaaf",
+  error: "FF3D45",
 };
 
 const TEXT = {

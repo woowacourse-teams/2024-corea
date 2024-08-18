@@ -10,8 +10,7 @@ export const Textarea = styled.textarea<{ $error: boolean }>`
 
   font-size: 1rem;
 
-  border: 1px solid
-    ${(props) => (props.$error ? props.theme.COLOR.secondary : props.theme.COLOR.grey1)};
+  border: 1px solid ${(props) => (props.$error ? props.theme.COLOR.error : props.theme.COLOR.grey1)};
   border-radius: 6px;
 
   &::-webkit-scrollbar {
