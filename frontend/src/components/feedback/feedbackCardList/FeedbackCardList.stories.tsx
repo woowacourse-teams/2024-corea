@@ -1,5 +1,8 @@
 import FeedbackCardList from "./FeedbackCardList";
 import type { Meta, StoryObj } from "@storybook/react";
+import { NonEmptyArray } from "@/@types/NonEmptyArray";
+import { FeedbackCardData } from "@/@types/feedback";
+import deliveredFeedbackInfo from "@/mocks/mockResponse/deliveredFeedbackInfo.json";
 
 const meta = {
   title: "feedback/FeedbackCardList",
@@ -22,6 +25,18 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
+const developFeedbackData = deliveredFeedbackInfo.feedbacks[0].developFeedback.map((feedback) => ({
+  ...feedback,
+  feedbackKeywords: feedback.feedbackKeywords as unknown as NonEmptyArray<string>,
+  evaluationPoint: feedback.evaluationPoint as 1 | 2 | 3 | 4 | 5,
+})) satisfies FeedbackCardData[];
+
+const socialFeedbackData = deliveredFeedbackInfo.feedbacks[0].socialFeedback.map((feedback) => ({
+  ...feedback,
+  feedbackKeywords: feedback.feedbackKeywords as unknown as NonEmptyArray<string>,
+  evaluationPoint: feedback.evaluationPoint as 1 | 2 | 3 | 4 | 5,
+})) satisfies FeedbackCardData[];
+
 export const Default: Story = {
   args: {
     feedbackData: [
@@ -30,80 +45,8 @@ export const Default: Story = {
         title: "숫자 골프",
         roomKeywords: ["string", "클린코드", "클린 아키텍쳐"],
         isClosed: true,
-        developFeedback: [
-          {
-            feedbackId: 0,
-            roomId: 0,
-            receiverId: 0,
-            profile: "https://avatars.githubusercontent.com/u/63334368?v=4",
-            username: "a",
-            feedbackKeywords: ["string"],
-            evaluationPoint: 3,
-            feedbackText: "string",
-          },
-          {
-            feedbackId: 0,
-            roomId: 0,
-            receiverId: 0,
-            profile: "https://avatars.githubusercontent.com/u/63334368?v=4",
-            username: "q",
-            feedbackKeywords: ["string"],
-            evaluationPoint: 3,
-            feedbackText: "string",
-          },
-        ],
-        socialFeedback: [
-          {
-            feedbackId: 0,
-            roomId: 0,
-            receiverId: 0,
-            profile: "https://avatars.githubusercontent.com/u/63334368?v=4",
-            username: "b",
-            feedbackKeywords: ["string"],
-            evaluationPoint: 3,
-            feedbackText: "string",
-          },
-          {
-            feedbackId: 0,
-            roomId: 0,
-            receiverId: 0,
-            profile: "https://avatars.githubusercontent.com/u/63334368?v=4",
-            username: "q",
-            feedbackKeywords: ["string"],
-            evaluationPoint: 3,
-            feedbackText: "string",
-          },
-        ],
-      },
-      {
-        roomId: 1,
-        title: "복권 당첨",
-        roomKeywords: ["티디딕", "연금 복권"],
-        isClosed: true,
-        developFeedback: [
-          {
-            feedbackId: 3,
-            roomId: 4,
-            receiverId: 0,
-            profile: "https://avatars.githubusercontent.com/u/63334368?v=4",
-            username: "C",
-            feedbackKeywords: ["string"],
-            evaluationPoint: 3,
-            feedbackText: "string",
-          },
-        ],
-        socialFeedback: [
-          {
-            feedbackId: 0,
-            roomId: 0,
-            receiverId: 0,
-            profile: "https://avatars.githubusercontent.com/u/63334368?v=4",
-            username: "D",
-            feedbackKeywords: ["string"],
-            evaluationPoint: 3,
-            feedbackText: "string",
-          },
-        ],
+        developFeedback: developFeedbackData,
+        socialFeedback: socialFeedbackData,
       },
     ],
   },
