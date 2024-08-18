@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 @RequiredArgsConstructor
 @Component
-@Profile("!prod")
+@Profile({"!prod","!test"})
 public class QueryLoggingAspect {
 
     private static final Logger log = LogManager.getLogger(QueryLoggingAspect.class);

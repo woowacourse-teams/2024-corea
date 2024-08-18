@@ -12,7 +12,7 @@ import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
-@Profile({"dev", "local"})
+@Profile({"!prod","!test"})
 @RequestScope
 @Getter
 public class DevQueryInfo implements QueryInfo {

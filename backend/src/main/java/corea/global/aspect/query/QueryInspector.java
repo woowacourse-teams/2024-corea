@@ -1,6 +1,7 @@
 package corea.global.aspect.query;
 
 import org.hibernate.resource.jdbc.spi.StatementInspector;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -9,6 +10,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 @Component
+@Profile({"!prod","!test"})
 public class QueryInspector implements StatementInspector {
 
     private final transient QueryInfo queryInfo;
