@@ -3,7 +3,7 @@ import * as S from "@/components/common/button/Button.style";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "secondary" | "disable";
-  size?: "small" | "medium" | "large";
+  size?: "xSmall" | "small" | "medium" | "large";
 }
 
 const Button = ({
