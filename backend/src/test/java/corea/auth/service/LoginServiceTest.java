@@ -1,7 +1,9 @@
 package corea.auth.service;
 
 import config.ServiceTest;
+import corea.auth.domain.LoginInfo;
 import corea.auth.infrastructure.TokenProvider;
+import corea.auth.repository.LoginInfoRepository;
 import corea.exception.CoreaException;
 import corea.fixture.MemberFixture;
 import corea.member.domain.Member;
@@ -12,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static corea.exception.ExceptionType.INVALID_TOKEN;
+import static corea.exception.ExceptionType.TOKEN_EXPIRED;
 import static org.assertj.core.api.Assertions.*;
 
 @ServiceTest
@@ -26,11 +29,15 @@ class LoginServiceTest {
     @Autowired
     private MemberRepository memberRepository;
 
+    @Autowired
+    private LoginInfoRepository loginInfoRepository;
+
+    private Member member;
     private String refreshToken;
 
     @BeforeEach
     void setUp() {
-        Member member = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
+        member = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
         refreshToken = authService.publishRefreshToken(member);
     }
 
@@ -39,6 +46,24 @@ class LoginServiceTest {
     void authorize() {
         assertThatCode(() -> authService.authorize(refreshToken))
                 .doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("RefreshToken의 유효기간이 만료되었을 경우 DB에서 해당 유저의 로그인 정보를 삭제한다.")
+    void authorizeException_TokenExpired() {
+        String expiredRefreshToken = tokenProvider.createToken(member, 10L);
+
+        loginInfoRepository.deleteAll();
+        loginInfoRepository.save(new LoginInfo(member, expiredRefreshToken));
+
+        assertThatThrownBy(() -> authService.authorize(expiredRefreshToken))
+                .isInstanceOf(CoreaException.class)
+                .satisfies(exception -> {
+                    CoreaException coreaException = (CoreaException) exception;
+                    assertThat(coreaException.getExceptionType()).isEqualTo(TOKEN_EXPIRED);
+                });
+
+        assertThat(loginInfoRepository.findByRefreshToken(expiredRefreshToken)).isEmpty();
     }
 
     @Test
