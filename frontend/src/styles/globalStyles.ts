@@ -122,11 +122,17 @@ const globalStyles = createGlobalStyle`
   }
 
   body {
-    font-family: 'Moirai One', system-ui;
+    overflow-x: hidden !important;
+
+    font-family: 'Do Hyeon', system-ui;
     font-size: 62.5%;
     font-weight: 400;
     font-style: normal;
     line-height: 1;
+  }
+
+  html {
+    overflow-x: hidden;
   }
 
   ol,
