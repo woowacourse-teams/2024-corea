@@ -8,6 +8,7 @@ import {
   SOCIAL_GOOD_KEYWORD_OPTIONS,
   SOCIAL_NORMAL_KEYWORD_OPTIONS,
 } from "@/constants/feedback";
+import { theme } from "@/styles/theme";
 import { FeedbackModalType } from "@/utils/feedbackUtils";
 
 interface ReviewerFeedbackFormProps {
@@ -37,6 +38,7 @@ const ReviewerFeedbackForm = ({ formState, onChange, modalType }: ReviewerFeedba
           initialOptionId={formState.evaluationPoint}
           onChange={(value) => onChange("evaluationPoint", value)}
           readonly={modalType === "view"}
+          color={theme.COLOR.secondary}
         />
       </S.ItemContainer>
 
@@ -48,6 +50,7 @@ const ReviewerFeedbackForm = ({ formState, onChange, modalType }: ReviewerFeedba
           selectedEvaluationId={formState.evaluationPoint}
           readonly={modalType === "view"}
           options={getSocialKeywordOptions(formState.evaluationPoint)}
+          color={theme.COLOR.secondary}
         />
       </S.ItemContainer>
 
