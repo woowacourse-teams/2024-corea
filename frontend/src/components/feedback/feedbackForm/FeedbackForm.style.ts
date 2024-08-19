@@ -31,3 +31,9 @@ export const ModalQuestion = styled.p<ModalQuestionProps>`
     }
   `}
 `;
+
+export const StyledTextarea = styled.p`
+  display: flex;
+  width: 100%;
+  font: ${({ theme }) => theme.TEXT.semiSmall};
+`;
