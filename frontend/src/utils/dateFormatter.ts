@@ -20,3 +20,23 @@ export const formatDateTimeString = (dateString: string): string => {
   const { year, month, day, hours, minutes } = formatDate(dateString);
   return `${year}년 ${month}월 ${day}일 ${hours}시 ${minutes}분`;
 };
+
+// 디데이 포맷 함수
+export const formatDday = (dateString: string): string => {
+  const targetDate = new Date(dateString);
+  const today = new Date();
+
+  today.setHours(0, 0, 0, 0);
+  targetDate.setHours(0, 0, 0, 0);
+
+  const timeDiff = targetDate.getTime() - today.getTime();
+  const dayDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+  if (dayDiff > 0) {
+    return `D-${dayDiff}`;
+  }
+  if (dayDiff === 0) {
+    return "D-Day";
+  }
+  return "종료됨";
+};
