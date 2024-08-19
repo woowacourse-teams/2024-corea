@@ -73,16 +73,18 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
               <S.MyReviewerContent>{reviewer.username}</S.MyReviewerContent>
               <S.MyReviewerContent>
                 <S.PRLink href={reviewer.link}>
-                  <Icon kind="link" />
+                  <S.IconWrapper>
+                    <Icon kind="link" />
+                  </S.IconWrapper>
                   바로가기
                 </S.PRLink>
               </S.MyReviewerContent>
 
               <S.MyReviewerContent>
                 <Button
-                  size="small"
+                  size="xSmall"
                   onClick={() => handleOpenFeedbackModal(reviewer)}
-                  variant={reviewer.isReviewed ? "primary" : "disable"}
+                  variant={reviewer.isReviewed ? "secondary" : "disable"}
                   disabled={!reviewer.isReviewed}
                 >
                   {buttonText}
