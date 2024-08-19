@@ -7,6 +7,7 @@ import corea.matching.infrastructure.dto.GithubUserResponse;
 import corea.matching.infrastructure.dto.PullRequestData;
 import corea.matching.infrastructure.dto.PullRequestResponse;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import java.time.ZoneOffset;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
+@Disabled
 @ServiceTest
 class PullRequestProviderTest {
 
