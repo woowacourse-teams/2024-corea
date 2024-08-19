@@ -12,7 +12,7 @@ const COLOR = {
   secondary: "#ffaaaf",
   lightGrass: "#D7E4D8",
   grass: "#00B707",
-  error: "FF3D45",
+  error: "#FF3D45",
 };
 
 const TEXT = {
