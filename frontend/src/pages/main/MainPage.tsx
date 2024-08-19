@@ -1,9 +1,13 @@
 import { useState } from "react";
 import useSelectedCategory from "@/hooks/common/useSelectedCategory";
-import { useInfiniteFetchRoomList } from "@/hooks/queries/useFetchRooms";
+import {
+  useFetchParticipatedRoomList,
+  useInfiniteFetchRoomList,
+} from "@/hooks/queries/useFetchRooms";
 import ContentSection from "@/components/common/contentSection/ContentSection";
 import Dropdown, { DropdownItem } from "@/components/common/dropdown/Dropdown";
 import OptionSelect from "@/components/common/optionSelect/OptionSelect";
+import Banner from "@/components/main/banner/Banner";
 import RoomList from "@/components/shared/roomList/RoomList";
 import * as S from "@/pages/main/MainPage.style";
 import { Option } from "@/@types/rooms";
@@ -24,7 +28,7 @@ const MainPage = () => {
   const [selectedTab, setSelectedTab] = useState<Option>(options[0]);
 
   const { selectedCategory, handleSelectedCategory } = useSelectedCategory();
-  // const { data: participatedRoomList } = useFetchParticipatedRoomList();
+  const { data: participatedRoomList } = useFetchParticipatedRoomList();
 
   const {
     data: openedRoomList,
@@ -104,6 +108,8 @@ const MainPage = () => {
 
   return (
     <S.Layout>
+      <Banner />
+
       <OptionSelect
         selected={selectedTab}
         options={options}

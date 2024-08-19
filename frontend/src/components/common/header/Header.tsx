@@ -40,7 +40,7 @@ const Header = () => {
   };
 
   return (
-    <S.HeaderContainer>
+    <S.HeaderContainer $pathname={pathname}>
       <S.HeaderLogo onClick={() => handlePage("/", "")}>CoReA</S.HeaderLogo>
       <S.HeaderNavBarContainer>
         {headerItems.map((item) => (
