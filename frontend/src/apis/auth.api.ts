@@ -1,6 +1,7 @@
 import apiClient from "./apiClient";
 import { API_ENDPOINTS } from "./endpoints";
 import { UserInfo } from "@/@types/userInfo";
+import Sentry from "@/Sentry";
 import { serverUrl } from "@/config/serverUrl";
 import MESSAGES from "@/constants/message";
 
@@ -26,11 +27,13 @@ export const postLogin = async (
 
   const authBody = text ? JSON.parse(text) : response;
   const refreshToken = authBody.refreshToken;
-  const userInfo = authBody.userInfo;
+  const userInfo = authBody.userInfo as UserInfo;
 
   if (!accessToken) {
     throw new Error(MESSAGES.ERROR.POST_LOGIN);
   }
+
+  Sentry.setUser(userInfo);
 
   return { accessToken, refreshToken, userInfo };
 };
@@ -40,4 +43,6 @@ export const postLogout = async (): Promise<void> => {
     endpoint: API_ENDPOINTS.LOGOUT,
     errorMessage: MESSAGES.ERROR.POST_LOGOUT,
   });
+
+  Sentry.setUser(null);
 };
