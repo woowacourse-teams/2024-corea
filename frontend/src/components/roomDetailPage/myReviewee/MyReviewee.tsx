@@ -91,7 +91,7 @@ const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
                 <S.ButtonContainer>
                   <Button
                     size="xSmall"
-                    variant={reviewee.isReviewed ? "disable" : "secondary"}
+                    variant={reviewee.isReviewed ? "disable" : "lightBlue"}
                     disabled={reviewee.isReviewed}
                     onClick={() => handleReviewCompleteClick(reviewee.userId)}
                   >
