@@ -10,6 +10,7 @@ export const IconRadioButtonContainer = styled.label`
 
   display: flex;
   flex-direction: column;
+  gap: 0.6rem;
   align-items: center;
   justify-content: center;
 `;
