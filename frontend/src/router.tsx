@@ -7,7 +7,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Layout from "@/components/layout/Layout";
 import MainPage from "@/pages/main/MainPage";
 import RoomDetailPage from "@/pages/roomDetail/RoomDetailPage";
-import Sentry from "@/Sentry";
+import { Sentry } from "@/Sentry";
 
 const sentryCreateBrowserRouter = Sentry.wrapCreateBrowserRouter(createBrowserRouter);
 

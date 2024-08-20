@@ -1,7 +1,6 @@
 import apiClient from "./apiClient";
 import { API_ENDPOINTS } from "./endpoints";
 import { UserInfo } from "@/@types/userInfo";
-import Sentry from "@/Sentry";
 import { serverUrl } from "@/config/serverUrl";
 import MESSAGES from "@/constants/message";
 
@@ -33,8 +32,6 @@ export const postLogin = async (
     throw new Error(MESSAGES.ERROR.POST_LOGIN);
   }
 
-  Sentry.setUser(userInfo);
-
   return { accessToken, refreshToken, userInfo };
 };
 
@@ -43,6 +40,4 @@ export const postLogout = async (): Promise<void> => {
     endpoint: API_ENDPOINTS.LOGOUT,
     errorMessage: MESSAGES.ERROR.POST_LOGOUT,
   });
-
-  Sentry.setUser(null);
 };

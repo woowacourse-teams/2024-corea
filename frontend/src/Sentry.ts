@@ -15,4 +15,11 @@ Sentry.init({
   replaysOnErrorSampleRate: 0.0, // If you're not already sampling the entire session, change the sample rate to 100% when sampling sessions where errors occur.
 });
 
-export default Sentry;
+const initializeSentryUser = () => {
+  const userInfo = localStorage.getItem("userInfo");
+  if (userInfo) {
+    Sentry.setUser(JSON.parse(userInfo));
+  }
+};
+
+export { Sentry, initializeSentryUser };
