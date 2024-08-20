@@ -54,6 +54,7 @@ export const HeaderNavBarContainer = styled.div`
 export const HeaderItem = styled.li`
   cursor: pointer;
   font: ${({ theme }) => theme.TEXT.medium};
+  transition: 0.3s;
 
   &:hover,
   &.selected {
