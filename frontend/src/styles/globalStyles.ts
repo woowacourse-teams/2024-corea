@@ -209,12 +209,12 @@ const globalStyles = createGlobalStyle`
 
   ::-webkit-scrollbar-thumb {
     height: 30%;
-    background: rgb(132 174 225 / 70%);
+    background: rgb(198 198 198 / 70%);
     border-radius: 10px;
   }
 
   ::-webkit-scrollbar-track {
-    background: rgb(132 174 225 / 20%);
+    background: rgb(198 198 198 / 20%);
   }
 `;
 

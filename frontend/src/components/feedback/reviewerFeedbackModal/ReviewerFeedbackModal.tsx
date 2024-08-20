@@ -6,6 +6,7 @@ import ReviewerFeedbackForm from "@/components/feedback/feedbackForm/ReviewerFee
 import * as S from "@/components/feedback/reviewerFeedbackModal/ReviewerFeedbackModal.style";
 import { ReviewerInfo } from "@/@types/reviewer";
 import { RoomInfo } from "@/@types/roomInfo";
+import { theme } from "@/styles/theme";
 import { FeedbackModalType } from "@/utils/feedbackUtils";
 
 interface ReviewerFeedbackModalProps {
@@ -39,7 +40,13 @@ const ReviewerFeedbackModal = ({
         <S.ModalTitle>{roomInfo.title}</S.ModalTitle>
         <S.Keywords>
           {roomInfo.keywords.map((keyword) => (
-            <Label key={keyword} type="keyword" text={keyword} size="semiSmall" />
+            <Label
+              key={keyword}
+              type="keyword"
+              text={keyword}
+              size="semiSmall"
+              backgroundColor={theme.COLOR.grey0}
+            />
           ))}
         </S.Keywords>
 
