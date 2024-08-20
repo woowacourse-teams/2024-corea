@@ -1,9 +1,6 @@
 package corea.member.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,7 +33,11 @@ public class Member {
 
     private String githubUserId;
 
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "profile_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    private Profile profile;
+
     public Member(String username, String thumbnailUrl, String name, String email, boolean isEmailAccepted, String githubUserId) {
-        this(null, username, thumbnailUrl, name, email, isEmailAccepted, "", githubUserId);
+        this(null, username, thumbnailUrl, name, email, isEmailAccepted, "", githubUserId, new Profile());
     }
 }
