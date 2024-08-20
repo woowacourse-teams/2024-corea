@@ -1,14 +1,11 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import useToast from "@/hooks/common/useToast";
 import useMutateLogin from "@/hooks/mutations/useMutateAuth";
 import * as S from "@/pages/callback/CallbackPage.style";
 import ThinkingCharacter from "@/assets/thinking-character.png";
-import MESSAGES from "@/constants/message";
 
 const CallbackPage = () => {
   const navigate = useNavigate();
-  const { openToast } = useToast();
   const { postLoginMutation } = useMutateLogin();
 
   useEffect(() => {
