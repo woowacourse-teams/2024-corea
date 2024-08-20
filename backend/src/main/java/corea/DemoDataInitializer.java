@@ -9,7 +9,6 @@ import corea.matching.domain.MatchingStrategy;
 import corea.matching.repository.MatchResultRepository;
 import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
-import corea.member.repository.ProfileRepository;
 import corea.participation.domain.Participation;
 import corea.participation.repository.ParticipationRepository;
 import corea.room.domain.Room;
@@ -41,7 +40,6 @@ public class DemoDataInitializer implements ApplicationRunner {
     private final MatchResultRepository matchResultRepository;
     private final DevelopFeedbackRepository developFeedbackRepository;
     private final SocialFeedbackRepository socialFeedbackRepository;
-    private final ProfileRepository profileRepository;
     private final MatchingStrategy matchingStrategy;
     private final JdbcTemplate jdbcTemplate;
 
@@ -170,13 +168,13 @@ public class DemoDataInitializer implements ApplicationRunner {
         matchingAndReviewComplete(room4Participates, room4);
 
         //프로필
-        profileRepository.save(new corea.member.domain.Profile(1, 2, 3, 4.5f, 6.7f));
-        profileRepository.save(new corea.member.domain.Profile(2, 3, 4, 5.6f, 7.8f));
-        profileRepository.save(new corea.member.domain.Profile(3, 4, 5, 6.7f, 8.9f));
-        profileRepository.save(new corea.member.domain.Profile(4, 5, 6, 7.8f, 9.10f));
-        profileRepository.save(new corea.member.domain.Profile(5, 6, 7, 8.9f, 10.11f));
-        profileRepository.save(new corea.member.domain.Profile(6, 7, 8, 9.10f, 11.12f));
-        profileRepository.save(new corea.member.domain.Profile(7, 8, 9, 10.11f, 12.13f));
+//        profileRepository.save(new corea.member.domain.Profile(1, 2, 3, 4.5f, 6.7f));
+//        profileRepository.save(new corea.member.domain.Profile(2, 3, 4, 5.6f, 7.8f));
+//        profileRepository.save(new corea.member.domain.Profile(3, 4, 5, 6.7f, 8.9f));
+//        profileRepository.save(new corea.member.domain.Profile(4, 5, 6, 7.8f, 9.10f));
+//        profileRepository.save(new corea.member.domain.Profile(5, 6, 7, 8.9f, 10.11f));
+//        profileRepository.save(new corea.member.domain.Profile(6, 7, 8, 9.10f, 11.12f));
+//        profileRepository.save(new corea.member.domain.Profile(7, 8, 9, 10.11f, 12.13f));
     }
 
     private List<Participation> participateRoom(long roomId, List<Member> members) {

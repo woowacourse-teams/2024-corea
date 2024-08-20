@@ -40,4 +40,8 @@ public class Member {
     public Member(String username, String thumbnailUrl, String name, String email, boolean isEmailAccepted, String githubUserId) {
         this(null, username, thumbnailUrl, name, email, isEmailAccepted, "", githubUserId, new Profile());
     }
+
+    public Member(String username, String thumbnailUrl, String name, String email, boolean isEmailAccepted, String githubUserId, Profile profile) {
+        this(null, username, thumbnailUrl, name, email, isEmailAccepted, "", githubUserId, profile);
+    }
 }

@@ -8,8 +8,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 
-@Tag(name = "Profile", description = "마이페이지 관련 API")
-public interface ProfileControllerSpecification {
+@Tag(name = "Member", description = "멤버 관련 API")
+public interface MemberControllerSpecification {
 
     @Operation(summary = "프로필 정보를 반환합니다.",
             description = "자신의 마이페이지에 디스플레이 되는 프로필 정보를 작성합니다. <br>" +

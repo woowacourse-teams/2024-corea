@@ -5,8 +5,6 @@ import corea.evaluation.domain.EvaluateClassification;
 import corea.fixture.MemberFixture;
 import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
-import corea.member.domain.Profile;
-import corea.member.repository.ProfileRepository;
 import corea.ranking.domain.Ranking;
 import corea.ranking.dto.RankingResponse;
 import corea.ranking.dto.RankingResponses;
@@ -33,9 +31,6 @@ class RankingServiceTest {
     @Autowired
     private MemberRepository memberRepository;
 
-    @Autowired
-    private ProfileRepository profileRepository;
-
     @Test
     @DisplayName("전체 순위를 조회할 수 있다.")
     void findTopRankings() {
@@ -44,11 +39,6 @@ class RankingServiceTest {
         Member youngsu = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
         Member ash = memberRepository.save(MemberFixture.MEMBER_ASH());
         Member mubin = memberRepository.save(MemberFixture.MEMBER_MUBIN());
-
-        profileRepository.save(new Profile(pororo, 0, 0, 0, 1.0f, 36.5f));
-        profileRepository.save(new Profile(youngsu, 0, 0, 0, 1.0f, 36.5f));
-        profileRepository.save(new Profile(ash, 0, 0, 0, 1.0f, 36.5f));
-        profileRepository.save(new Profile(mubin, 0, 0, 0, 1.0f, 36.5f));
 
         rankingRepository.save(new Ranking(pororo, 3, 3.0f, date, EvaluateClassification.ANDROID));
         rankingRepository.save(new Ranking(youngsu, 4, 2.0f, date, EvaluateClassification.ANDROID));
