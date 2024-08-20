@@ -3,7 +3,7 @@ import Button from "@/components/common/button/Button";
 import DelaySuspense from "@/components/common/delaySuspense/DelaySuspense";
 import SentryApiErrorBoundary from "@/components/common/errorBoundary/SentryApiErrorBoundary";
 import Loading from "@/components/common/loading/Loading";
-import Sentry from "@/Sentry";
+import { Sentry } from "@/Sentry";
 
 const FallbackComponent = ({ resetError }: { resetError: () => void }) => {
   return (

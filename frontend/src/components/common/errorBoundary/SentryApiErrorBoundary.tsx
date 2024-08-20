@@ -1,7 +1,7 @@
 import { useQueryErrorResetBoundary } from "@tanstack/react-query";
 import { ReactNode } from "react";
 import Button from "@/components/common/button/Button";
-import Sentry from "@/Sentry";
+import { Sentry } from "@/Sentry";
 import { HTTPError } from "@/utils/Errors";
 
 const ApiErrorFallback = ({ resetError }: { resetError: () => void }) => {
