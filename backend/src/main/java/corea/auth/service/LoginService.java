@@ -24,10 +24,11 @@ import static corea.global.config.Constants.TOKEN_TYPE;
 @Transactional(readOnly = true)
 public class LoginService {
 
+    private final LogoutService logoutService;
     private final LoginInfoRepository loginInfoRepository;
+    private final MemberRepository memberRepository;
     private final TokenProvider tokenProvider;
     private final TokenProperties tokenProperties;
-    private final MemberRepository memberRepository;
     private final GithubClient githubClient;
 
     public String createAccessToken(Member member) {
@@ -64,7 +65,7 @@ public class LoginService {
             tokenProvider.validateToken(token);
         } catch (CoreaException e) {
             if (e.getExceptionType().equals(TOKEN_EXPIRED)) {
-                loginInfoRepository.deleteByRefreshToken(token);
+                logoutService.logoutByExpiredRefreshToken(token);
                 throw new CoreaException(TOKEN_EXPIRED);
             }
             throw new CoreaException(INVALID_TOKEN);
@@ -79,11 +80,6 @@ public class LoginService {
 
     private Member register(Member member) {
         return memberRepository.save(member);
-    }
-
-    @Transactional
-    public void logout(long memberId) {
-        loginInfoRepository.deleteByMemberId(memberId);
     }
 
     public GithubUserInfo getUserInfo(String code) {
