@@ -8,7 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 
-@Tag(name = "Member", description = "멤버 관련 API")
+@Tag(name = "Profile", description = "마이페이지 관련 API")
 public interface MemberControllerSpecification {
 
     @Operation(summary = "프로필 정보를 반환합니다.",
