@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.*;
 class LoginServiceTest {
 
     @Autowired
-    private LoginService authService;
+    private LoginService loginService;
 
     @Autowired
     private TokenProvider tokenProvider;
@@ -38,13 +38,13 @@ class LoginServiceTest {
     @BeforeEach
     void setUp() {
         member = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
-        refreshToken = authService.publishRefreshToken(member);
+        refreshToken = loginService.publishRefreshToken(member);
     }
 
     @Test
     @DisplayName("RefreshToken에 문제가 없을 경우 예외가 발생하지 않는다.")
     void authorize() {
-        assertThatCode(() -> authService.authorize(refreshToken))
+        assertThatCode(() -> loginService.authorize(refreshToken))
                 .doesNotThrowAnyException();
     }
 
@@ -56,7 +56,7 @@ class LoginServiceTest {
         loginInfoRepository.deleteAll();
         loginInfoRepository.save(new LoginInfo(member, expiredRefreshToken));
 
-        assertThatThrownBy(() -> authService.authorize(expiredRefreshToken))
+        assertThatThrownBy(() -> loginService.authorize(expiredRefreshToken))
                 .isInstanceOf(CoreaException.class)
                 .satisfies(exception -> {
                     CoreaException coreaException = (CoreaException) exception;
@@ -71,7 +71,7 @@ class LoginServiceTest {
     void authorizeException() {
         String token = tokenProvider.createToken(MemberFixture.MEMBER_YOUNGSU(), 1600L);
 
-        assertThatThrownBy(() -> authService.authorize(token))
+        assertThatThrownBy(() -> loginService.authorize(token))
                 .isInstanceOf(CoreaException.class)
                 .satisfies(exception -> {
                     CoreaException coreaException = (CoreaException) exception;
