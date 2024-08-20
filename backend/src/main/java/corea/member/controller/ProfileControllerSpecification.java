@@ -1,9 +1,9 @@
-package corea.profile.controller;
+package corea.member.controller;
 
 import corea.auth.domain.AuthInfo;
 import corea.exception.ExceptionType;
 import corea.global.annotation.ApiErrorResponses;
-import corea.profile.dto.ProfileResponse;
+import corea.member.dto.ProfileResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;

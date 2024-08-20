@@ -1,6 +1,6 @@
-package corea.profile.repository;
+package corea.member.repository;
 
-import corea.profile.domain.Profile;
+import corea.member.domain.Profile;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

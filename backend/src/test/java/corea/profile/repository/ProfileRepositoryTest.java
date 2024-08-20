@@ -2,8 +2,9 @@ package corea.profile.repository;
 
 import corea.fixture.MemberFixture;
 import corea.member.domain.Member;
+import corea.member.repository.ProfileRepository;
 import corea.member.repository.MemberRepository;
-import corea.profile.domain.Profile;
+import corea.member.domain.Profile;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

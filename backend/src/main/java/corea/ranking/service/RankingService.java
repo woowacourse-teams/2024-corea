@@ -2,7 +2,7 @@ package corea.ranking.service;
 
 import corea.evaluation.domain.EvaluateClassification;
 import corea.member.domain.Member;
-import corea.profile.repository.ProfileRepository;
+import corea.member.repository.ProfileRepository;
 import corea.ranking.domain.Ranking;
 import corea.ranking.dto.RankingResponse;
 import corea.ranking.dto.RankingResponses;

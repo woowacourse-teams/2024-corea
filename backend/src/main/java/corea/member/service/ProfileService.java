@@ -1,4 +1,4 @@
-package corea.profile.service;
+package corea.member.service;
 
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
@@ -6,9 +6,9 @@ import corea.feedback.domain.FeedbackKeyword;
 import corea.feedback.domain.ReceivedFeedbacks;
 import corea.feedback.repository.DevelopFeedbackRepository;
 import corea.feedback.repository.SocialFeedbackRepository;
-import corea.profile.domain.Profile;
-import corea.profile.dto.ProfileResponse;
-import corea.profile.repository.ProfileRepository;
+import corea.member.domain.Profile;
+import corea.member.dto.ProfileResponse;
+import corea.member.repository.ProfileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
