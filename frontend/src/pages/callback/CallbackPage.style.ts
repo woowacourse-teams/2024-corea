@@ -7,6 +7,8 @@ export const CallbackPageContainer = styled.div`
   gap: 1rem;
   align-items: center;
   justify-content: center;
+
+  height: 100%;
 `;
 
 export const Character = styled.img`
