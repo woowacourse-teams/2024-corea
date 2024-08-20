@@ -7,6 +7,7 @@ import corea.auth.dto.LoginRequest;
 import corea.auth.dto.LoginResponse;
 import corea.auth.dto.TokenRefreshRequest;
 import corea.auth.service.LoginService;
+import corea.auth.service.LogoutService;
 import corea.member.domain.Member;
 import corea.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ import static corea.global.config.Constants.AUTHORIZATION_HEADER;
 public class LoginController implements LoginControllerSpecification {
 
     private final LoginService loginService;
+    private final LogoutService logoutService;
     private final MemberService memberService;
 
     @PostMapping("/login")
@@ -53,7 +55,7 @@ public class LoginController implements LoginControllerSpecification {
 
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(@LoginMember AuthInfo authInfo) {
-        loginService.logout(authInfo.getId());
+        logoutService.logoutByUser(authInfo.getId());
 
         return ResponseEntity.ok()
                 .build();
