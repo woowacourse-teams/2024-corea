@@ -29,7 +29,7 @@ public class PlainRandomMatching implements MatchingStrategy {
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .collect(Collectors.toList());
-        
+
         Collections.shuffle(members);
 
         return match(members, matchingSize);

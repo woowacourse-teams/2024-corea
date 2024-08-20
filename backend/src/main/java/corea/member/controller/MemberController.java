@@ -1,8 +1,8 @@
 package corea.member.controller;
 
 import corea.auth.domain.AuthInfo;
-import corea.member.service.MemberService;
 import corea.member.dto.ProfileResponse;
+import corea.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
