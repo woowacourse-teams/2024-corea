@@ -54,6 +54,7 @@ class SocialFeedbackServiceTest {
         assertThatCode(() -> socialFeedbackService.create(room.getId(), reviewee.getId(), createRequest(reviewer.getId())))
                 .doesNotThrowAnyException();
         assertThat(matchResult.isRevieweeCompletedFeedback()).isTrue();
+        assertThat(reviewer.getProfile().getFeedbackCount()).isEqualTo(1);
     }
 
     @Test

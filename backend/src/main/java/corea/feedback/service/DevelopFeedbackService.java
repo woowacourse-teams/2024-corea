@@ -8,6 +8,8 @@ import corea.feedback.dto.DevelopFeedbackResponse;
 import corea.feedback.repository.DevelopFeedbackRepository;
 import corea.matching.domain.MatchResult;
 import corea.matching.repository.MatchResultRepository;
+import corea.member.domain.CountType;
+import corea.member.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class DevelopFeedbackService {
 
     private static final Logger log = LogManager.getLogger(DevelopFeedbackService.class);
+
     private final MatchResultRepository matchResultRepository;
     private final DevelopFeedbackRepository developFeedbackRepository;
 
@@ -27,7 +30,10 @@ public class DevelopFeedbackService {
     public DevelopFeedbackResponse create(long roomId, long deliverId, DevelopFeedbackRequest request) {
         validateAlreadyExist(roomId, deliverId, request.receiverId());
         log.debug("개발 피드백 작성[작성자({}), 요청값({})", deliverId, request);
+
         DevelopFeedback developFeedback = developFeedbackRepository.save(createEntity(roomId, deliverId, request));
+        increaseFeedbackCount(developFeedback.getReceiver());
+
         return DevelopFeedbackResponse.of(developFeedback);
     }
 
@@ -35,6 +41,7 @@ public class DevelopFeedbackService {
     public DevelopFeedbackResponse update(long feedbackId, long roomId, long deliverId, DevelopFeedbackRequest request) {
         validateNotExist(feedbackId);
         log.debug("개발 피드백 업데이트[작성자({}), 피드백 ID({}), 요청값({})", deliverId, feedbackId, request);
+
         DevelopFeedback developFeedback = developFeedbackRepository.save(createEntity(feedbackId, roomId, deliverId, request));
         return DevelopFeedbackResponse.of(developFeedback);
     }
@@ -57,6 +64,13 @@ public class DevelopFeedbackService {
         }
     }
 
+    private DevelopFeedback createEntity(long roomId, long deliverId, DevelopFeedbackRequest request) {
+        MatchResult matchResult = matchResultRepository.findByRoomIdAndReviewerIdAndRevieweeId(roomId, deliverId, request.receiverId())
+                .orElseThrow(() -> new CoreaException(ExceptionType.NOT_MATCHED_MEMBER));
+        matchResult.reviewerCompleteFeedback();
+        return request.toEntity(roomId, matchResult.getReviewer(), matchResult.getReviewee());
+    }
+
     private DevelopFeedback createEntity(long feedbackId, long roomId, long deliverId, DevelopFeedbackRequest request) {
         MatchResult matchResult = matchResultRepository.findByRoomIdAndReviewerIdAndRevieweeId(roomId, deliverId, request.receiverId())
                 .orElseThrow(() -> new CoreaException(ExceptionType.NOT_MATCHED_MEMBER));
@@ -64,10 +78,7 @@ public class DevelopFeedbackService {
         return request.toEntity(feedbackId, roomId, matchResult.getReviewer(), matchResult.getReviewee());
     }
 
-    private DevelopFeedback createEntity(long roomId, long deliverId, DevelopFeedbackRequest request) {
-        MatchResult matchResult = matchResultRepository.findByRoomIdAndReviewerIdAndRevieweeId(roomId, deliverId, request.receiverId())
-                .orElseThrow(() -> new CoreaException(ExceptionType.NOT_MATCHED_MEMBER));
-        matchResult.reviewerCompleteFeedback();
-        return request.toEntity(roomId, matchResult.getReviewer(), matchResult.getReviewee());
+    private void increaseFeedbackCount(Member receiver) {
+        receiver.increaseCount(CountType.FEEDBACK);
     }
 }
