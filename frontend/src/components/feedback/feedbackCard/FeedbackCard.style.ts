@@ -14,7 +14,7 @@ export const FeedbackCardContainer = styled.div<{ $isTypeDevelop: boolean }>`
 
   border: 3px solid
     ${({ theme, $isTypeDevelop }) =>
-      $isTypeDevelop ? theme.COLOR.primary3 : theme.COLOR.secondary};
+      $isTypeDevelop ? theme.COLOR.primary2 : theme.COLOR.secondary};
   border-radius: 10px;
 
   ${media.small`

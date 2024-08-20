@@ -1,13 +1,13 @@
 import styled from "styled-components";
+import media from "@/styles/media";
 
 export const RoomInfoCardContainer = styled.div`
   display: flex;
 
   width: 100%;
-  padding-left: 2rem;
 
   border: 1px solid ${({ theme }) => theme.COLOR.grey1};
-  border-radius: 1rem;
+  border-radius: 8px;
   box-shadow: 0 4px 4px rgb(0 0 0 / 10%);
 `;
 
@@ -17,29 +17,41 @@ export const RoomInfoCardImg = styled.img`
 
   width: 15rem;
   height: 100%;
+  margin: 1rem;
 
   object-fit: scale-down;
+
+  ${media.small`
+    display: none;
+  `}
 `;
 
 export const RoomInfoCardContent = styled.div`
   display: flex;
   flex-direction: column;
 
-  width: calc(100% - 15rem);
+  width: 100%;
   height: 100%;
-  padding: 2rem;
+  padding: 2rem 1rem;
 `;
 
 export const RoomHeaderWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
 
   margin-bottom: 1rem;
-  padding-bottom: 1rem;
+  padding-bottom: 0.5rem;
 
   border-bottom: 1px solid ${({ theme }) => theme.COLOR.grey1};
+
+  ${media.small`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+  `}
 `;
 
 export const RoomTitle = styled.span`
@@ -49,6 +61,10 @@ export const RoomTitle = styled.span`
 
 export const RepositoryLink = styled.a`
   cursor: pointer;
+
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
 
   font: ${({ theme }) => theme.TEXT.small};
   color: ${({ theme }) => theme.COLOR.black};
@@ -73,14 +89,24 @@ export const RoomContentBox = styled.div`
 `;
 
 export const RoomContentSmall = styled.span`
+  display: flex;
+  gap: 1rem;
   font: ${({ theme }) => theme.TEXT.small};
   color: ${({ theme }) => theme.COLOR.black};
+
+  ${media.small`
+    gap: 0.4rem;
+  `}
+`;
+
+export const StyledDday = styled.span`
+  color: ${({ theme }) => theme.COLOR.error};
 `;
 
 export const RoomTagBox = styled.div`
   display: flex;
-  flex-direction: row;
-  gap: 1rem;
+  flex-wrap: wrap;
+  gap: 0.4rem;
 `;
 
 export const RoomKeyword = styled.div`
