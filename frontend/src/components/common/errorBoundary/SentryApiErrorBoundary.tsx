@@ -1,7 +1,7 @@
-import { ErrorBoundary, captureException } from "@sentry/react";
 import { useQueryErrorResetBoundary } from "@tanstack/react-query";
 import { ReactNode } from "react";
 import Button from "@/components/common/button/Button";
+import { Sentry } from "@/Sentry";
 import { HTTPError } from "@/utils/Errors";
 
 const ApiErrorFallback = ({ resetError }: { resetError: () => void }) => {
@@ -17,19 +17,23 @@ const SentryApiErrorBoundary = ({ children }: { children: ReactNode }) => {
   const { reset } = useQueryErrorResetBoundary();
 
   return (
-    <ErrorBoundary
+    <Sentry.ErrorBoundary
       onReset={reset}
       fallback={({ resetError }) => <ApiErrorFallback resetError={resetError} />}
       onError={(error) => {
         if (error instanceof HTTPError) {
-          captureException(error);
+          Sentry.withScope((scope) => {
+            scope.setTag("type", "apiError");
+
+            Sentry.captureException(error);
+          });
         } else {
           throw error;
         }
       }}
     >
       {children}
-    </ErrorBoundary>
+    </Sentry.ErrorBoundary>
   );
 };
 

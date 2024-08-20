@@ -1,9 +1,9 @@
-import { ErrorBoundary } from "@sentry/react";
 import { ReactNode, Suspense } from "react";
 import Button from "@/components/common/button/Button";
 import DelaySuspense from "@/components/common/delaySuspense/DelaySuspense";
 import SentryApiErrorBoundary from "@/components/common/errorBoundary/SentryApiErrorBoundary";
 import Loading from "@/components/common/loading/Loading";
+import { Sentry } from "@/Sentry";
 
 const FallbackComponent = ({ resetError }: { resetError: () => void }) => {
   return (
@@ -16,7 +16,16 @@ const FallbackComponent = ({ resetError }: { resetError: () => void }) => {
 
 const SentryTotalBoundary = ({ children }: { children: ReactNode }) => {
   return (
-    <ErrorBoundary fallback={({ resetError }) => <FallbackComponent resetError={resetError} />}>
+    <Sentry.ErrorBoundary
+      fallback={({ resetError }) => <FallbackComponent resetError={resetError} />}
+      onError={(error) => {
+        Sentry.withScope((scope) => {
+          scope.setTag("type", "runtimeError");
+
+          Sentry.captureException(error);
+        });
+      }}
+    >
       <SentryApiErrorBoundary>
         <Suspense
           fallback={
@@ -28,7 +37,7 @@ const SentryTotalBoundary = ({ children }: { children: ReactNode }) => {
           {children}
         </Suspense>
       </SentryApiErrorBoundary>
-    </ErrorBoundary>
+    </Sentry.ErrorBoundary>
   );
 };
 
