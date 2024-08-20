@@ -32,7 +32,7 @@ export const IconRadioButtonBox = styled.div<IconRadioButtonBoxProps>`
   background-color: "transparent";
   border: ${({ $color, $isSelected, theme }) =>
     $isSelected
-      ? `4px solid ${$color ? $color : theme.COLOR.primary3}`
+      ? `4px solid ${$color ? $color : theme.COLOR.primary2}`
       : `1px solid ${theme.COLOR.grey1}`};
   border-radius: 50%;
   box-shadow: 0 4px 4px rgb(0 0 0 / 10%);

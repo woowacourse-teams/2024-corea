@@ -16,7 +16,7 @@ const KeywordOptionButton = ({
   readonly = false,
   onChange,
   options,
-  color = theme.COLOR.primary3,
+  color = theme.COLOR.primary2,
 }: OptionButtonProps) => {
   const [selectedOptions, setSelectedOptions] = useState<string[]>(initialOptions);
 

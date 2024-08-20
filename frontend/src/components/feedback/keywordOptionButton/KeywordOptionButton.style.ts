@@ -26,6 +26,6 @@ export const ButtonWrapper = styled.button<OptionButtonBoxProps>`
   border-radius: 18px;
   outline: ${(props) =>
     props.isSelected
-      ? `4px solid ${props.color || props.theme.COLOR.primary3}`
+      ? `4px solid ${props.color || props.theme.COLOR.primary2}`
       : `2px dashed ${props.theme.COLOR.grey1}`};
 `;
