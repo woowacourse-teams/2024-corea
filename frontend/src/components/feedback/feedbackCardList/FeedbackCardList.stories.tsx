@@ -1,5 +1,8 @@
 import FeedbackCardList from "./FeedbackCardList";
 import type { Meta, StoryObj } from "@storybook/react";
+import { NonEmptyArray } from "@/@types/NonEmptyArray";
+import { FeedbackCardData } from "@/@types/feedback";
+import deliveredFeedbackInfo from "@/mocks/mockResponse/deliveredFeedbackInfo.json";
 
 const meta = {
   title: "feedback/FeedbackCardList",
@@ -12,8 +15,8 @@ const meta = {
     },
   },
   argTypes: {
-    userFeedback: {
-      description: "유저별로 작성한 피드백 정보",
+    feedbackData: {
+      description: "피드백 정보",
     },
   },
 } satisfies Meta<typeof FeedbackCardList>;
@@ -22,89 +25,29 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
+const developFeedbackData = deliveredFeedbackInfo.feedbacks[0].developFeedback.map((feedback) => ({
+  ...feedback,
+  feedbackKeywords: feedback.feedbackKeywords as unknown as NonEmptyArray<string>,
+  evaluationPoint: feedback.evaluationPoint as 1 | 2 | 3 | 4 | 5,
+})) satisfies FeedbackCardData[];
+
+const socialFeedbackData = deliveredFeedbackInfo.feedbacks[0].socialFeedback.map((feedback) => ({
+  ...feedback,
+  feedbackKeywords: feedback.feedbackKeywords as unknown as NonEmptyArray<string>,
+  evaluationPoint: feedback.evaluationPoint as 1 | 2 | 3 | 4 | 5,
+})) satisfies FeedbackCardData[];
+
 export const Default: Story = {
   args: {
-    userFeedback: {
-      민수: [
-        {
-          feedbackId: 0,
-          roomId: 0,
-          receiverId: 0,
-          profile: "https://avatars.githubusercontent.com/u/63334368?v=4",
-          username: "민수",
-          feedbackKeywords: ["string"],
-          evaluationPoint: 1,
-          feedbackText: "string",
-        },
-        {
-          feedbackId: 0,
-          roomId: 0,
-          receiverId: 0,
-          profile: "https://avatars.githubusercontent.com/u/63334368?v=4",
-          username: "민수",
-          feedbackKeywords: ["string"],
-          evaluationPoint: 2,
-          feedbackText: "string",
-        },
-      ],
-      복순이: [
-        {
-          feedbackId: 0,
-          roomId: 0,
-          receiverId: 0,
-          profile: "https://avatars.githubusercontent.com/u/63334368?v=4",
-          username: "복순이",
-          feedbackKeywords: ["string"],
-          evaluationPoint: 1,
-          feedbackText: "string",
-        },
-      ],
-      영희: [
-        {
-          feedbackId: 0,
-          roomId: 0,
-          receiverId: 0,
-          profile: "https://avatars.githubusercontent.com/u/63334368?v=4",
-          username: "영희",
-          feedbackKeywords: ["string"],
-          evaluationPoint: 1,
-          feedbackText: "string",
-        },
-        {
-          feedbackId: 0,
-          roomId: 0,
-          receiverId: 0,
-          profile: "https://avatars.githubusercontent.com/u/63334368?v=4",
-          username: "영희",
-          feedbackKeywords: ["string"],
-          evaluationPoint: 2,
-          feedbackText: "string",
-        },
-      ],
-      철수: [
-        {
-          feedbackId: 0,
-          roomId: 0,
-          receiverId: 0,
-          profile: "https://avatars.githubusercontent.com/u/63334368?v=4",
-          username: "철수",
-          feedbackKeywords: ["string"],
-          evaluationPoint: 1,
-          feedbackText: "string",
-        },
-      ],
-      순자: [
-        {
-          feedbackId: 0,
-          roomId: 0,
-          receiverId: 0,
-          profile: "https://avatars.githubusercontent.com/u/63334368?v=4",
-          username: "순자",
-          feedbackKeywords: ["string"],
-          evaluationPoint: 1,
-          feedbackText: "string",
-        },
-      ],
-    },
+    feedbackData: [
+      {
+        roomId: 0,
+        title: "숫자 골프",
+        roomKeywords: ["string", "클린코드", "클린 아키텍쳐"],
+        isClosed: true,
+        developFeedback: developFeedbackData,
+        socialFeedback: socialFeedbackData,
+      },
+    ],
   },
 };

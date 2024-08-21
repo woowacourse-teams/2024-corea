@@ -1,7 +1,9 @@
 import Icon from "@/components/common/icon/Icon";
+import Label from "@/components/common/label/Label";
 import * as S from "@/components/roomDetailPage/roomInfoCard/RoomInfoCard.style";
 import { RoomInfo } from "@/@types/roomInfo";
-import { formatDateTimeString } from "@/utils/dateFormatter";
+import { theme } from "@/styles/theme";
+import { formatDateTimeString, formatDday } from "@/utils/dateFormatter";
 
 const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
   return (
@@ -18,10 +20,14 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
 
         <S.RoomContentBox>
           <S.RoomTagBox>
-            {roomInfo.keywords.map((keyword, index) => (
-              <S.RoomKeyword key={keyword}>
-                <S.RoomContentSmall>#{keyword}</S.RoomContentSmall>
-              </S.RoomKeyword>
+            {roomInfo.keywords.map((keyword) => (
+              <Label
+                key={keyword}
+                type="keyword"
+                text={keyword}
+                size="small"
+                backgroundColor={theme.COLOR.primary1}
+              />
             ))}
           </S.RoomTagBox>
           <S.RoomContentSmall>{roomInfo.content}</S.RoomContentSmall>
@@ -41,11 +47,17 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
           </S.RoomContentSmall>
           <S.RoomContentSmall>
             <Icon kind="calendar" />
-            모집 마감일: {formatDateTimeString(roomInfo.recruitmentDeadline)}
+            <div>
+              모집 마감일: {formatDateTimeString(roomInfo.recruitmentDeadline)}
+              <S.StyledDday> {formatDday(roomInfo.recruitmentDeadline)}</S.StyledDday>
+            </div>
           </S.RoomContentSmall>
           <S.RoomContentSmall>
             <Icon kind="calendar" />
-            리뷰 마감일: {formatDateTimeString(roomInfo.reviewDeadline)}
+            <div>
+              리뷰 마감일: {formatDateTimeString(roomInfo.reviewDeadline)}
+              <S.StyledDday> {formatDday(roomInfo.reviewDeadline)}</S.StyledDday>
+            </div>
           </S.RoomContentSmall>
         </S.RoomContentBox>
       </S.RoomInfoCardContent>
