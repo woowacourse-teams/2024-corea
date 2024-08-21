@@ -1,6 +1,7 @@
 package corea.fixture;
 
 import corea.member.domain.Member;
+import corea.member.domain.Profile;
 
 public class MemberFixture {
 
@@ -78,6 +79,18 @@ public class MemberFixture {
                 "choco@gmail.com",
                 false,
                 "70834044"
+        );
+    }
+
+    public static Member MEMBER_PORORO(Profile profile) {
+        return new Member(
+                "pororo",
+                "https://avatars.githubusercontent.com/u/98307410?v=4",
+                null,
+                "jcoding-play@gmail.com",
+                false,
+                "119468757",
+                profile
         );
     }
 }

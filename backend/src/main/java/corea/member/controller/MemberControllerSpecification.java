@@ -1,15 +1,15 @@
-package corea.profile.controller;
+package corea.member.controller;
 
 import corea.auth.domain.AuthInfo;
 import corea.exception.ExceptionType;
 import corea.global.annotation.ApiErrorResponses;
-import corea.profile.dto.ProfileResponse;
+import corea.member.dto.ProfileResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 
 @Tag(name = "Profile", description = "마이페이지 관련 API")
-public interface ProfileControllerSpecification {
+public interface MemberControllerSpecification {
 
     @Operation(summary = "프로필 정보를 반환합니다.",
             description = "자신의 마이페이지에 디스플레이 되는 프로필 정보를 작성합니다. <br>" +
