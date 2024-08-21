@@ -27,7 +27,7 @@ public class Profile {
 
     private float attitude;
 
-    public Profile() {
+    protected Profile() {
         this(null, 0, 0, 0, 0, 36.5f);
     }
 

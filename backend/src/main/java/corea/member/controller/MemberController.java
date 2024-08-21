@@ -1,8 +1,10 @@
 package corea.member.controller;
 
+
+import corea.auth.annotation.LoginMember;
 import corea.auth.domain.AuthInfo;
-import corea.member.dto.ProfileResponse;
 import corea.member.service.MemberService;
+import corea.member.dto.ProfileResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +18,7 @@ public class MemberController implements MemberControllerSpecification {
 
     @Override
     @GetMapping("/user/profile")
-    public ResponseEntity<ProfileResponse> profile(AuthInfo authInfo) {
+    public ResponseEntity<ProfileResponse> profile(@LoginMember AuthInfo authInfo) {
         ProfileResponse response = memberService.findProfileInfoById(authInfo.getId());
         return ResponseEntity.ok(response);
     }
