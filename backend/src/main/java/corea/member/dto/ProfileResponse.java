@@ -1,6 +1,7 @@
-package corea.profile.dto;
+package corea.member.dto;
 
-import corea.profile.domain.Profile;
+import corea.member.domain.Member;
+import corea.member.domain.Profile;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.List;
@@ -31,10 +32,12 @@ public record ProfileResponse(@Schema(description = "프로필 이미지", examp
                               float attitudeScore
 ) {
 
-    public static ProfileResponse of(Profile profile, List<String> topThreeFeedbackKeywords) {
+    public static ProfileResponse of(Member member, List<String> topThreeFeedbackKeywords) {
+        Profile profile = member.getProfile();
+
         return new ProfileResponse(
-                profile.getMember().getThumbnailUrl(),
-                profile.getMember().getUsername(),
+                member.getThumbnailUrl(),
+                member.getUsername(),
                 profile.getReceiveCount(),
                 profile.getDeliverCount(),
                 profile.getFeedbackCount(),
