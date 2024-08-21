@@ -2,5 +2,3 @@ spring:
   profiles:
     active: local
 
-  config:
-    import: ./corea-prod/application-dev.yml, ./corea-prod/application-local.yml, ./corea-prod/application-prod.yml
