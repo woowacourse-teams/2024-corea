@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class MatchingController implements MacthingControllerSpecification{
+public class MatchingController implements MacthingControllerSpecification {
 
     private final MatchingService matchingService;
     private final RoomService roomService;
