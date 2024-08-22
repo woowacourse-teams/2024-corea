@@ -89,22 +89,25 @@ const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
 
               <S.MyRevieweeContent>
                 <S.ButtonContainer>
-                  <Button
-                    size="xSmall"
-                    variant={reviewee.isReviewed ? "disable" : "lightBlue"}
-                    disabled={reviewee.isReviewed}
-                    onClick={() => handleReviewCompleteClick(reviewee.userId)}
-                  >
-                    코드리뷰 완료
-                  </Button>
-                  <Button
-                    size="xSmall"
-                    onClick={() => handleOpenFeedbackModal(reviewee)}
-                    variant={reviewee.isReviewed ? "primary" : "disable"}
-                    disabled={!reviewee.isReviewed}
-                  >
-                    {buttonText}
-                  </Button>
+                  {reviewee.isReviewed ? (
+                    <Button
+                      size="xSmall"
+                      onClick={() => handleOpenFeedbackModal(reviewee)}
+                      variant={reviewee.isReviewed ? "primary" : "disable"}
+                      disabled={!reviewee.isReviewed}
+                    >
+                      {buttonText}
+                    </Button>
+                  ) : (
+                    <Button
+                      size="xSmall"
+                      variant={reviewee.isReviewed ? "disable" : "lightBlue"}
+                      disabled={reviewee.isReviewed}
+                      onClick={() => handleReviewCompleteClick(reviewee.userId)}
+                    >
+                      코드리뷰 완료
+                    </Button>
+                  )}
                 </S.ButtonContainer>
               </S.MyRevieweeContent>
             </S.MyRevieweeWrapper>
