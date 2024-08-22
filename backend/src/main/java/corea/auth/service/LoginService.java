@@ -37,9 +37,15 @@ public class LoginService {
 
     @Transactional
     public String publishRefreshToken(Member member) {
-        String refreshToken = tokenProvider.createToken(member, tokenProperties.expiration().refresh());
-        loginInfoRepository.save(new LoginInfo(member, refreshToken));
-        return refreshToken;
+        long memberId = member.getId();
+        return loginInfoRepository.findByMemberId(memberId)
+                .orElseGet(() -> saveLoginInfo(member))
+                .getRefreshToken();
+    }
+
+    private LoginInfo saveLoginInfo(Member member) {
+        return loginInfoRepository.save(
+                new LoginInfo(member, tokenProvider.createToken(member, tokenProperties.expiration().refresh())));
     }
 
     @Transactional
