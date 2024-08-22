@@ -74,11 +74,11 @@ export const ProfileContainer = styled.div`
 export const TitleContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-
+  gap: 0.5rem;
   ${media.small`
     flex-direction: row;
-  `}
+  `};
+  justify-content: space-between;
 `;
 
 export const RoomTitle = styled.h2`
