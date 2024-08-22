@@ -34,4 +34,16 @@ public class Profile {
     public Profile(long feedbackCount, long receiveCount, long deliverCount, float averageRating, float attitude) {
         this(null, feedbackCount, receiveCount, deliverCount, averageRating, attitude);
     }
+
+    public void increaseCount(ProfileCountType profileCountType) {
+        if (profileCountType.isFeedback()) {
+            feedbackCount++;
+            return;
+        }
+        if (profileCountType.isDeliver()) {
+            deliverCount++;
+            return;
+        }
+        receiveCount++;
+    }
 }
