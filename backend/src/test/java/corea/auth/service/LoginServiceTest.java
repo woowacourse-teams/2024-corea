@@ -38,14 +38,24 @@ class LoginServiceTest {
     @BeforeEach
     void setUp() {
         member = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
-        refreshToken = loginService.publishRefreshToken(member);
     }
 
     @Test
     @DisplayName("RefreshToken에 문제가 없을 경우 예외가 발생하지 않는다.")
     void authorize() {
+        refreshToken = loginService.publishRefreshToken(member);
+
         assertThatCode(() -> loginService.authorize(refreshToken))
                 .doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("RefreshToken가 이미 저장되어 있는 경우 새로운 RefreshToken을 발행하지 않는다.")
+    void publishRefreshToken() {
+        refreshToken = loginService.publishRefreshToken(member);
+        String republishedRefreshToken = loginService.publishRefreshToken(member);
+
+        assertThat(refreshToken).isEqualTo(republishedRefreshToken);
     }
 
     @Test
@@ -53,7 +63,6 @@ class LoginServiceTest {
     void authorizeException_TokenExpired() {
         String expiredRefreshToken = tokenProvider.createToken(member, 10L);
 
-        loginInfoRepository.deleteAll();
         loginInfoRepository.save(new LoginInfo(member, expiredRefreshToken));
 
         assertThatThrownBy(() -> loginService.authorize(expiredRefreshToken))
