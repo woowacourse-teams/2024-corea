@@ -53,6 +53,15 @@ const RevieweeFeedbackForm = ({ formState, onChange, modalType }: RevieweeFeedba
       </S.ItemContainer>
 
       <S.ItemContainer>
+        <S.ModalQuestion required>리뷰이의 코드를 추천하시나요?</S.ModalQuestion>
+        <RecommendationPointBar
+          initialOptionId={formState.recommendationPoint}
+          onChange={(value) => onChange("recommendationPoint", value)}
+          readonly={modalType === "view"}
+        />
+      </S.ItemContainer>
+
+      <S.ItemContainer>
         <S.ModalQuestion>추가적으로 하고 싶은 피드백이 있다면 남겨 주세요.</S.ModalQuestion>
         {modalType === "view" ? (
           <S.StyledTextarea>{formState.feedbackText}</S.StyledTextarea>
@@ -65,15 +74,6 @@ const RevieweeFeedbackForm = ({ formState, onChange, modalType }: RevieweeFeedba
             onChange={(e) => onChange("feedbackText", e.target.value)}
           />
         )}
-      </S.ItemContainer>
-
-      <S.ItemContainer>
-        <S.ModalQuestion required>리뷰이의 코드를 추천하시나요?</S.ModalQuestion>
-        <RecommendationPointBar
-          initialOptionId={formState.recommendationPoint}
-          onChange={(value) => onChange("recommendationPoint", value)}
-          readonly={modalType === "view"}
-        />
       </S.ItemContainer>
     </S.FeedbackFormContainer>
   );
