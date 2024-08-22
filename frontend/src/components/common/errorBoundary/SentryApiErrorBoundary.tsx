@@ -2,12 +2,17 @@ import { useQueryErrorResetBoundary } from "@tanstack/react-query";
 import { ReactNode } from "react";
 import { useLocation } from "react-router-dom";
 import Button from "@/components/common/button/Button";
+import { BannerContainer } from "@/components/main/banner/Banner.style";
 import { Sentry } from "@/Sentry";
 import { HTTPError } from "@/utils/Errors";
 
 const ApiErrorFallback = ({ resetError }: { resetError: () => void }) => {
+  const { pathname } = useLocation();
+  const isMain = pathname === "/";
+
   return (
     <div>
+      {isMain && <BannerContainer />}
       <h2>네트워크 에러가 발생했어요</h2>
       <Button onClick={resetError}>다시 시도하기</Button>
     </div>

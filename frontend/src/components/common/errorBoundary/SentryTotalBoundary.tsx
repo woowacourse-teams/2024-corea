@@ -4,11 +4,16 @@ import Button from "@/components/common/button/Button";
 import DelaySuspense from "@/components/common/delaySuspense/DelaySuspense";
 import SentryApiErrorBoundary from "@/components/common/errorBoundary/SentryApiErrorBoundary";
 import Loading from "@/components/common/loading/Loading";
+import { BannerContainer } from "@/components/main/banner/Banner.style";
 import { Sentry } from "@/Sentry";
 
 const FallbackComponent = ({ resetError }: { resetError: () => void }) => {
+  const { pathname } = useLocation();
+  const isMain = pathname === "/";
+
   return (
     <div>
+      {isMain && <BannerContainer />}
       <h2>일시적인 에러가 발생했어요</h2>
       <Button onClick={resetError}>다시 시도하기</Button>
     </div>
