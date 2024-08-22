@@ -1,19 +1,18 @@
 import Fallback from "./Fallback";
 import { ReactNode, Suspense } from "react";
-import Button from "@/components/common/button/Button";
+import { useLocation } from "react-router-dom";
 import DelaySuspense from "@/components/common/delaySuspense/DelaySuspense";
 import SentryApiErrorBoundary from "@/components/common/errorBoundary/SentryApiErrorBoundary";
 import Loading from "@/components/common/loading/Loading";
-import { BannerContainer } from "@/components/main/banner/Banner.style";
 import { Sentry } from "@/Sentry";
 import MESSAGES from "@/constants/message";
 
 const SentryTotalBoundary = ({ children }: { children: ReactNode }) => {
-  const location = useLocation();
+  const { pathname } = useLocation();
 
   return (
     <Sentry.ErrorBoundary
-      key={location.pathname}
+      key={pathname}
       fallback={({ resetError }) => (
         <Fallback message={MESSAGES.ERROR.BOUNDARY_TOTAL} resetError={resetError} />
       )}
