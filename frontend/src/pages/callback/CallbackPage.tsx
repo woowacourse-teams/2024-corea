@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useMutateLogin from "@/hooks/mutations/useMutateAuth";
 import * as S from "@/pages/callback/CallbackPage.style";
-import ThinkingCharacter from "@/assets/thinking-character.png";
+import { thingkingCharacter } from "@/assets";
 
 const CallbackPage = () => {
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ const CallbackPage = () => {
 
   return (
     <S.CallbackPageContainer>
-      <S.Character src={ThinkingCharacter} alt="로그인 중" />
+      <S.Character src={thingkingCharacter} alt="로그인 중" />
       <S.LoadingContainer>
         로그인 중 ...
         <S.LoadingBar />
