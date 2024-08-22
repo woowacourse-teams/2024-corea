@@ -37,6 +37,10 @@ export const ProfileInfoWrapper = styled.div`
 export const ProfileInfoTable = styled.table`
   border-spacing: 1rem;
   border-collapse: separate;
+
+  td {
+    font: ${({ theme }) => theme.TEXT.small};
+  }
 `;
 
 export const ProfileFlex = styled.div`
