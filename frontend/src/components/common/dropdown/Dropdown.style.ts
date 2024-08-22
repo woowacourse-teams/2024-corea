@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const DropdownContainer = styled.div`
   position: relative;
-  width: 140px;
+  width: 150px;
   height: 32px;
 `;
 
