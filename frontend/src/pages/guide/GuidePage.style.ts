@@ -4,7 +4,7 @@ import media from "@/styles/media";
 export const GuidPageLayout = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 4rem;
+  gap: 5rem;
 `;
 
 export const GuideContainer = styled.div`
@@ -86,6 +86,10 @@ export const StyledContainer = styled.div`
 
   li.third {
     margin-left: 3rem;
+  }
+
+  em {
+    font-style: italic;
   }
 `;
 
