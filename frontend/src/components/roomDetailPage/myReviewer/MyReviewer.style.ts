@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import media from "@/styles/media";
-import { theme } from "@/styles/theme";
 
 export const MyReviewerContainer = styled.div`
   width: 100%;
@@ -16,7 +15,7 @@ export const MyReviewerWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   align-items: center;
-  padding: 0.5rem 1rem;
+  padding: 0.7rem 1rem;
 
   &:not(:last-child) {
     border-bottom: 1px solid ${({ theme }) => theme.COLOR.grey1};
