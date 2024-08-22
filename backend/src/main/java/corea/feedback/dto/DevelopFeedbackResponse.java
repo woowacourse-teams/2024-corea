@@ -25,7 +25,7 @@ public record DevelopFeedbackResponse(@Schema(description = "피드백 아이디
                                       @Schema(description = "랭킹에 필요한 추천 점수", example = "2")
                                       int recommendationPoint) {
 
-    public static DevelopFeedbackResponse of(DevelopFeedback developFeedback) {
+    public static DevelopFeedbackResponse from(DevelopFeedback developFeedback) {
         return new DevelopFeedbackResponse(
                 developFeedback.getId(),
                 developFeedback.getReceiver().getId(),
