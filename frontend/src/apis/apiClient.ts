@@ -49,22 +49,24 @@ const refreshAccessToken = async (): Promise<string | undefined> => {
   const authHeader = response.headers.get("Authorization");
   const newAccessToken = authHeader?.split(" ")[1];
 
-  if (response.status === 401) {
-    const error = new AuthorizationError(MESSAGES.ERROR.POST_REFRESH);
-    processQueue(error, null);
-    isRefreshing = false;
-    localStorage.clear();
-  }
-
-  if (newAccessToken) {
+  if (!response.ok) {
+    if (response.status === 401) {
+      const error = new AuthorizationError(MESSAGES.ERROR.POST_REFRESH);
+      processQueue(error, null);
+      isRefreshing = false;
+      alert("토큰이 만료되었습니다. 다시 로그인 해주세요!");
+      localStorage.clear();
+      window.location.href = "/";
+    } else {
+      throw new HTTPError(MESSAGES.ERROR.POST_REFRESH);
+    }
+  } else if (newAccessToken) {
     localStorage.setItem("accessToken", newAccessToken);
     processQueue(null, newAccessToken);
     isRefreshing = false;
 
     return newAccessToken;
   }
-
-  throw new HTTPError(MESSAGES.ERROR.POST_REFRESH);
 };
 
 const createRequestInit = (
