@@ -81,4 +81,10 @@ export const AttitudeScoreWrapper = styled.div`
 
 export const AttitudeScoreText = styled.div`
   padding: 1rem 0 1rem 1rem;
+  font: ${({ theme }) => theme.TEXT.medium};
+
+  span {
+    padding-left: 1rem;
+    font: ${({ theme }) => theme.TEXT.semiSmall};
+  }
 `;

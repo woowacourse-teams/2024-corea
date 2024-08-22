@@ -67,7 +67,9 @@ const ProfileCard = (profileData: ProfileData) => {
         </S.KeywordContainer>
       </S.ProfileCardWrapper>
       <S.AttitudeScoreWrapper>
-        <S.AttitudeScoreText>매너잔디</S.AttitudeScoreText>
+        <S.AttitudeScoreText>
+          매너잔디<span>{profileData.attitudeScore}점</span>
+        </S.AttitudeScoreText>
         <AttitudeScore score={profileData.attitudeScore} />
       </S.AttitudeScoreWrapper>
     </S.ProfileCardContainer>
