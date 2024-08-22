@@ -9,6 +9,8 @@ public interface LoginInfoRepository extends JpaRepository<LoginInfo, Long> {
 
     Optional<LoginInfo> findByRefreshToken(String refreshToken);
 
+    Optional<LoginInfo> findByMemberId(long memberId);
+
     void deleteByRefreshToken(String refreshToken);
 
     void deleteByMemberId(long memberId);
