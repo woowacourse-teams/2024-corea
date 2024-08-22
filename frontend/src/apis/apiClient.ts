@@ -38,7 +38,7 @@ const processQueue = (error: Error | null = null, token: string | null = null) =
   failedQueue = [];
 };
 
-const refreshAccessToken = async (): Promise<string> => {
+const refreshAccessToken = async (): Promise<string | undefined> => {
   const response = await fetch(`${serverUrl}${API_ENDPOINTS.REFRESH}`, {
     method: "POST",
     headers: {
@@ -49,18 +49,22 @@ const refreshAccessToken = async (): Promise<string> => {
   const authHeader = response.headers.get("Authorization");
   const newAccessToken = authHeader?.split(" ")[1];
 
-  if (!response.ok || !newAccessToken) {
+  if (response.status === 401) {
     const error = new AuthorizationError(MESSAGES.ERROR.POST_REFRESH);
     processQueue(error, null);
     isRefreshing = false;
-    throw error;
+    localStorage.clear();
   }
 
-  localStorage.setItem("accessToken", newAccessToken);
-  processQueue(null, newAccessToken);
-  isRefreshing = false;
+  if (newAccessToken) {
+    localStorage.setItem("accessToken", newAccessToken);
+    processQueue(null, newAccessToken);
+    isRefreshing = false;
 
-  return newAccessToken;
+    return newAccessToken;
+  }
+
+  throw new HTTPError(MESSAGES.ERROR.POST_REFRESH);
 };
 
 const createRequestInit = (
@@ -93,10 +97,11 @@ const fetchWithToken = async (
   let response = await fetch(`${serverUrl}${endpoint}`, requestInit);
   const text = await response.text();
   const data = text ? JSON.parse(text) : null;
+  console.log(data);
 
   if (response.status === 401 && data.message === "토큰이 만료되었습니다.") {
     if (isRefreshing) {
-      return new Promise<string>((resolve, reject) => {
+      new Promise<string>((resolve, reject) => {
         failedQueue.push({ resolve, reject });
       }).then(async (token) => {
         requestInit.headers = {
@@ -106,11 +111,9 @@ const fetchWithToken = async (
 
         response = await fetch(`${serverUrl}${endpoint}`, requestInit);
 
-        if (!response.ok) {
+        if (!response.ok && response.status !== 401) {
           throw new HTTPError(MESSAGES.ERROR.POST_REFRESH);
         }
-
-        return response.json();
       });
     }
 
@@ -124,14 +127,12 @@ const fetchWithToken = async (
 
     response = await fetch(`${serverUrl}${endpoint}`, requestInit);
 
-    if (!response.ok) {
+    if (!response.ok && response.status !== 401) {
       throw new HTTPError(MESSAGES.ERROR.POST_REFRESH);
     }
-
-    return response.json();
   }
 
-  if (!response.ok) {
+  if (!response.ok && response.status !== 401) {
     throw new HTTPError(errorMessage || `Error: ${response.status} ${response.statusText}`);
   }
 
