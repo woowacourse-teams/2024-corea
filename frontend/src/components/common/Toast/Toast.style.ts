@@ -32,7 +32,7 @@ export const Wrapper = styled.div<{ closeAnimation: boolean }>`
   font: ${({ theme }) => theme.TEXT.small};
   color: ${({ theme }) => theme.COLOR.white};
 
-  background-color: ${({ theme }) => theme.COLOR.primary2};
+  background-color: ${({ theme }) => theme.COLOR.error};
   border-radius: 6px;
 
   ${media.small`
