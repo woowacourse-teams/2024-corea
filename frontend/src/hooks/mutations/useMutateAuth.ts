@@ -19,7 +19,6 @@ const useMutateAuth = () => {
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
       localStorage.setItem("userInfo", JSON.stringify(userInfo));
-      navigate("/");
     },
     onError: (error) => {
       localStorage.clear();

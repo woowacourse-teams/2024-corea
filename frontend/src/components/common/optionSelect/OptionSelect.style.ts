@@ -10,7 +10,7 @@ export const Option = styled.button<{ $isSelected: boolean }>`
   box-sizing: content-box;
   padding: 0.4rem 1rem;
 
-  font: ${({ theme }) => theme.TEXT.small};
+  font: ${({ theme }) => theme.TEXT.medium};
 
   background: transparent;
   border-bottom: ${({ $isSelected, theme }) =>

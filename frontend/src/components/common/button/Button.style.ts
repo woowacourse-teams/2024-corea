@@ -1,7 +1,7 @@
 import { css, styled } from "styled-components";
 
 export const ButtonContainer = styled.button<{
-  $variant: "primary" | "secondary" | "disable" | "lightBlue";
+  $variant: "primary" | "secondary" | "disable" | "lightBlue" | "error";
   $size: "xSmall" | "small" | "medium" | "large";
 }>`
   display: flex;
@@ -40,6 +40,9 @@ const variantStyles = {
   disable: css`
     background-color: ${({ theme }) => theme.COLOR.grey1};
   `,
+  error: css`
+    background-color: ${({ theme }) => theme.COLOR.error};
+  `,
 };
 
 const sizeStyles = {
@@ -56,8 +59,8 @@ const sizeStyles = {
     border-radius: 4px;
   `,
   medium: css`
-    width: 200px;
-    height: 40px;
+    width: 180px;
+    height: 30px;
     font: ${({ theme }) => theme.TEXT.medium};
     border-radius: 4px;
   `,

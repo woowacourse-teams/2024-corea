@@ -28,7 +28,7 @@ public class RankingService {
     private static final int NUMBER_OF_RANKINGS_TO_BE_SHOWN_TO_MEMBER = 3;
 
     private final RankingRepository rankingRepository;
-    private final ProfileRepository profileRepository;
+    private final MemberRepository memberRepository;
 
     public RankingResponses findTopRankings() {
         LocalDate date = LocalDate.now();
