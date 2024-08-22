@@ -55,6 +55,8 @@ export const DropdownItem = styled.li`
   font-size: 0.8rem;
   color: ${({ theme }) => theme.COLOR.grey4};
 
+  transition: background-color 0.3s;
+
   &:hover {
     background-color: ${({ theme }) => theme.COLOR.grey0};
   }
