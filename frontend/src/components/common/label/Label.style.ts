@@ -14,7 +14,7 @@ export const LabelWrapper = styled.div<LabelWrapperProps>`
 
   width: fit-content;
   height: fit-content;
-  padding: 0.3rem 0.8rem;
+  padding: 0.15rem 0.6rem;
 
   font: ${(props) => props.$size && props.theme.TEXT[props.$size]};
   color: ${({ theme }) => theme.COLOR.black};
