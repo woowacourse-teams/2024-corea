@@ -7,5 +7,7 @@ export const useFetchReviewer = (roomInfo: RoomInfo) => {
   return useSuspenseQuery({
     queryKey: [QUERY_KEYS.REVIEWERS, roomInfo.id],
     queryFn: () => getMyReviewers(roomInfo.id),
+    networkMode: "always",
+    retry: false,
   });
 };
