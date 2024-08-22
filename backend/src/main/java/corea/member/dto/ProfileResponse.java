@@ -41,7 +41,7 @@ public record ProfileResponse(@Schema(description = "프로필 이미지", examp
                 profile.getReceiveCount(),
                 profile.getDeliverCount(),
                 profile.getFeedbackCount(),
-                profile.getAverageRating(),
+                profile.getAverageRatingValue(),
                 topThreeFeedbackKeywords,
                 profile.getAttitude()
         );

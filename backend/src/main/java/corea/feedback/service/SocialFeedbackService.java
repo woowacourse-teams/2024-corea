@@ -8,8 +8,7 @@ import corea.feedback.dto.SocialFeedbackResponse;
 import corea.feedback.repository.SocialFeedbackRepository;
 import corea.matching.domain.MatchResult;
 import corea.matching.repository.MatchResultRepository;
-import corea.member.domain.ProfileCountType;
-import corea.member.domain.Member;
+import corea.member.domain.Profile;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -31,31 +30,15 @@ public class SocialFeedbackService {
         validateAlreadyExist(roomId, deliverId, request.receiverId());
         log.debug("소설 피드백 작성[작성자({}), 요청값({})", deliverId, request);
 
-        SocialFeedback socialFeedback = socialFeedbackRepository.save(createEntity(roomId, deliverId, request));
-        increaseFeedbackCount(socialFeedback.getReceiver());
+        MatchResult matchResult = matchResultRepository.findByRoomIdAndReviewerIdAndRevieweeId(roomId, request.receiverId(), deliverId)
+                .orElseThrow(() -> new CoreaException(ExceptionType.NOT_MATCHED_MEMBER));
+        matchResult.revieweeCompleteFeedback();
 
-        return SocialFeedbackResponse.of(socialFeedback);
-    }
+        SocialFeedback feedback = saveSocialFeedback(roomId, request, matchResult);
+        Profile profile = feedback.getReceiverProfile();
+        profile.updateProfile(request.evaluationPoint());
 
-    @Transactional
-    public SocialFeedbackResponse update(long feedbackId, long roomId, long deliverId, SocialFeedbackRequest request) {
-        validateNotExist(feedbackId);
-        log.debug("소설 피드백 업데이트[작성자({}), 피드백 ID({}), 요청값({})", deliverId, feedbackId, request);
-
-        SocialFeedback socialFeedback = socialFeedbackRepository.save(createEntity(feedbackId, roomId, deliverId, request));
-        return SocialFeedbackResponse.of(socialFeedback);
-    }
-
-    public SocialFeedbackResponse findSocialFeedback(long roomId, long deliverId, String username) {
-        return SocialFeedbackResponse
-                .of(socialFeedbackRepository.findByRoomIdAndDeliverIdAndReceiverUsername(roomId, deliverId, username)
-                        .orElseThrow(() -> new CoreaException(ExceptionType.FEEDBACK_NOT_FOUND)));
-    }
-
-    private void validateNotExist(long feedbackId) {
-        if (!socialFeedbackRepository.existsById(feedbackId)) {
-            throw new CoreaException(ExceptionType.FEEDBACK_NOT_FOUND);
-        }
+        return SocialFeedbackResponse.from(feedback);
     }
 
     private void validateAlreadyExist(long roomId, long deliverId, long receiverId) {
@@ -64,21 +47,34 @@ public class SocialFeedbackService {
         }
     }
 
-    private SocialFeedback createEntity(long roomId, long deliverId, SocialFeedbackRequest request) {
-        MatchResult matchResult = matchResultRepository.findByRoomIdAndReviewerIdAndRevieweeId(roomId, request.receiverId(), deliverId)
-                .orElseThrow(() -> new CoreaException(ExceptionType.NOT_MATCHED_MEMBER));
-        matchResult.revieweeCompleteFeedback();
-        return request.toEntity(roomId, matchResult.getReviewee(), matchResult.getReviewer());
+    private SocialFeedback saveSocialFeedback(long roomId, SocialFeedbackRequest request, MatchResult matchResult) {
+        SocialFeedback feedback = request.toEntity(roomId, matchResult.getReviewee(), matchResult.getReviewer());
+        return socialFeedbackRepository.save(feedback);
     }
 
-    private SocialFeedback createEntity(long feedbackId, long roomId, long deliverId, SocialFeedbackRequest request) {
-        MatchResult matchResult = matchResultRepository.findByRoomIdAndReviewerIdAndRevieweeId(roomId, request.receiverId(), deliverId)
-                .orElseThrow(() -> new CoreaException(ExceptionType.NOT_MATCHED_MEMBER));
+    @Transactional
+    public SocialFeedbackResponse update(long feedbackId, long deliverId, SocialFeedbackRequest request) {
+        log.debug("소설 피드백 업데이트[작성자({}), 피드백 ID({}), 요청값({})", deliverId, feedbackId, request);
 
-        return request.toEntity(feedbackId, roomId, matchResult.getReviewee(), matchResult.getReviewer());
+        SocialFeedback feedback = socialFeedbackRepository.findById(feedbackId)
+                .orElseThrow(() -> new CoreaException(ExceptionType.FEEDBACK_NOT_FOUND));
+        updateFeedback(feedback, request);
+
+        return SocialFeedbackResponse.from(feedback);
     }
 
-    private void increaseFeedbackCount(Member receiver) {
-        receiver.increaseCount(ProfileCountType.FEEDBACK);
+    private void updateFeedback(SocialFeedback feedback, SocialFeedbackRequest request) {
+        int preEvaluatePoint = feedback.getEvaluatePoint();
+        feedback.update(request);
+
+        Profile profile = feedback.getReceiverProfile();
+        profile.updateProfile(preEvaluatePoint, request.evaluationPoint());
+    }
+
+    public SocialFeedbackResponse findSocialFeedback(long roomId, long deliverId, String username) {
+        SocialFeedback feedback = socialFeedbackRepository.findByRoomIdAndDeliverIdAndReceiverUsername(roomId, deliverId, username)
+                .orElseThrow(() -> new CoreaException(ExceptionType.FEEDBACK_NOT_FOUND));
+
+        return SocialFeedbackResponse.from(feedback);
     }
 }
