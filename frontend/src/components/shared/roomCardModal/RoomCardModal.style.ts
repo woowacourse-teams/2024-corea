@@ -127,12 +127,13 @@ export const InfoRow = styled.div`
 `;
 
 export const InfoTitle = styled.span`
-  width: 30%;
-  font: ${({ theme }) => theme.TEXT.xSmall};
+  width: 100px;
+  font: ${({ theme }) => theme.TEXT.small};
+  color: ${({ theme }) => theme.COLOR.grey2};
 `;
 
 export const InfoContent = styled.span`
-  font: ${({ theme }) => theme.TEXT.semiSmall};
+  font: ${({ theme }) => theme.TEXT.small};
 `;
 
 // 키워드, 설명
@@ -145,10 +146,22 @@ export const DescriptionContainer = styled.div`
 export const KeywordsContainer = styled.div`
   display: flex;
   gap: 2px;
+  margin-bottom: 0.6rem;
+`;
+
+export const KeywordWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+`;
+
+export const KeywordText = styled.span`
+  font: ${({ theme }) => theme.TEXT.semiSmall};
+  color: ${({ theme }) => theme.COLOR.grey2};
 `;
 
 export const ContentContainer = styled.p`
-  font: ${({ theme }) => theme.TEXT.xSmall};
+  font: ${({ theme }) => theme.TEXT.small};
 `;
 
 // 버튼
