@@ -55,6 +55,7 @@ class SocialFeedbackServiceTest {
                 .doesNotThrowAnyException();
         assertThat(matchResult.isRevieweeCompletedFeedback()).isTrue();
         assertThat(reviewer.getProfile().getFeedbackCount()).isEqualTo(1);
+        assertThat(reviewer.getProfile().getAverageRatingValue()).isEqualTo(4);
     }
 
     @Test
@@ -100,7 +101,7 @@ class SocialFeedbackServiceTest {
                 reviewee
         ));
         SocialFeedbackResponse createResponse = socialFeedbackService.create(room.getId(), reviewee.getId(), createRequest(reviewer.getId()));
-        SocialFeedbackResponse updateResponse = socialFeedbackService.update(createResponse.feedbackId(), room.getId(), reviewee.getId(), createRequest(reviewer.getId()));
+        SocialFeedbackResponse updateResponse = socialFeedbackService.update(createResponse.feedbackId(), reviewee.getId(), createRequest(reviewer.getId()));
 
         assertThat(createResponse).isEqualTo(updateResponse);
     }
@@ -118,7 +119,7 @@ class SocialFeedbackServiceTest {
                 reviewee
         ));
 
-        assertThatThrownBy(() -> socialFeedbackService.update(room.getId(), -1, reviewer.getId(), createRequest(reviewee.getId())))
+        assertThatThrownBy(() -> socialFeedbackService.update(room.getId(), reviewer.getId(), createRequest(reviewee.getId())))
                 .isInstanceOf(CoreaException.class);
     }
 

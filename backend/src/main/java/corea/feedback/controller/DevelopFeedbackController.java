@@ -37,7 +37,7 @@ public class DevelopFeedbackController implements DevelopFeedbackControllerSpeci
     @PutMapping("/{feedbackId}")
     public ResponseEntity<Void> update(
             @PathVariable long roomId, @PathVariable long feedbackId, @LoginMember AuthInfo authInfo, @RequestBody DevelopFeedbackRequest request) {
-        developFeedbackService.update(feedbackId, roomId, authInfo.getId(), request);
+        developFeedbackService.update(feedbackId, authInfo.getId(), request);
         return ResponseEntity.ok()
                 .build();
     }

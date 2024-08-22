@@ -31,16 +31,4 @@ public record SocialFeedbackRequest(@Schema(description = "리뷰어 아이디",
                 feedbackText
         );
     }
-
-    public SocialFeedback toEntity(long feedbackId, long roomId, Member deliver, Member receiver) {
-        return new SocialFeedback(
-                feedbackId,
-                roomId,
-                deliver,
-                receiver,
-                evaluationPoint,
-                FeedbackKeywordConverter.convertToKeywords(feedbackKeywords),
-                feedbackText
-        );
-    }
 }

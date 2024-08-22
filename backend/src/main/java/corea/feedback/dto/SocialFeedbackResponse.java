@@ -22,7 +22,7 @@ public record SocialFeedbackResponse(@Schema(description = "피드백 아이디"
                                      @Schema(description = "부가 작성 가능한 피드백 텍스트", example = "말투가 너무 날카로운 것 같아요. ...")
                                      String feedbackText) {
 
-    public static SocialFeedbackResponse of(SocialFeedback socialFeedback) {
+    public static SocialFeedbackResponse from(SocialFeedback socialFeedback) {
         return new SocialFeedbackResponse(
                 socialFeedback.getId(),
                 socialFeedback.getReceiver().getId(),

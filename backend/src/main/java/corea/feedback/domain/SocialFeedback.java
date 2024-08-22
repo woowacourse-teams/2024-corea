@@ -1,6 +1,9 @@
 package corea.feedback.domain;
 
+import corea.feedback.dto.SocialFeedbackRequest;
+import corea.feedback.util.FeedbackKeywordConverter;
 import corea.member.domain.Member;
+import corea.member.domain.Profile;
 import corea.util.FeedbackKeywordToStringConverter;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -43,6 +46,20 @@ public class SocialFeedback {
 
     public SocialFeedback(long roomId, Member deliver, Member receiver, int evaluatePoint, List<FeedbackKeyword> keywords, String feedBackText) {
         this(null, roomId, deliver, receiver, evaluatePoint, keywords, feedBackText);
+    }
+
+    public void update(SocialFeedbackRequest request) {
+        int preEvaluatePoint = this.evaluatePoint;
+        this.evaluatePoint = request.evaluationPoint();
+        this.keywords = FeedbackKeywordConverter.convertToKeywords(request.feedbackKeywords());
+        this.feedBackText = request.feedbackText();
+
+        Profile profile = getReceiverProfile();
+        profile.updateProfile(preEvaluatePoint, evaluatePoint);
+    }
+
+    public Profile getReceiverProfile() {
+        return receiver.getProfile();
     }
 }
 

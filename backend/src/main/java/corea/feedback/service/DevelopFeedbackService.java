@@ -8,8 +8,7 @@ import corea.feedback.dto.DevelopFeedbackResponse;
 import corea.feedback.repository.DevelopFeedbackRepository;
 import corea.matching.domain.MatchResult;
 import corea.matching.repository.MatchResultRepository;
-import corea.member.domain.ProfileCountType;
-import corea.member.domain.Member;
+import corea.member.domain.Profile;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -31,31 +30,15 @@ public class DevelopFeedbackService {
         validateAlreadyExist(roomId, deliverId, request.receiverId());
         log.debug("개발 피드백 작성[작성자({}), 요청값({})", deliverId, request);
 
-        DevelopFeedback developFeedback = developFeedbackRepository.save(createEntity(roomId, deliverId, request));
-        increaseFeedbackCount(developFeedback.getReceiver());
+        MatchResult matchResult = matchResultRepository.findByRoomIdAndReviewerIdAndRevieweeId(roomId, deliverId, request.receiverId())
+                .orElseThrow(() -> new CoreaException(ExceptionType.NOT_MATCHED_MEMBER));
+        matchResult.reviewerCompleteFeedback();
 
-        return DevelopFeedbackResponse.of(developFeedback);
-    }
+        DevelopFeedback feedback = saveDevelopFeedback(roomId, request, matchResult);
+        Profile profile = feedback.getReceiverProfile();
+        profile.updateProfile(request.evaluationPoint());
 
-    @Transactional
-    public DevelopFeedbackResponse update(long feedbackId, long roomId, long deliverId, DevelopFeedbackRequest request) {
-        validateNotExist(feedbackId);
-        log.debug("개발 피드백 업데이트[작성자({}), 피드백 ID({}), 요청값({})", deliverId, feedbackId, request);
-
-        DevelopFeedback developFeedback = developFeedbackRepository.save(createEntity(feedbackId, roomId, deliverId, request));
-        return DevelopFeedbackResponse.of(developFeedback);
-    }
-
-    public DevelopFeedbackResponse findDevelopFeedback(long roomId, long deliverId, String username) {
-        return DevelopFeedbackResponse
-                .of(developFeedbackRepository.findByRoomIdAndDeliverIdAndReceiverUsername(roomId, deliverId, username)
-                        .orElseThrow(() -> new CoreaException(ExceptionType.FEEDBACK_NOT_FOUND)));
-    }
-
-    private void validateNotExist(long feedbackId) {
-        if (!developFeedbackRepository.existsById(feedbackId)) {
-            throw new CoreaException(ExceptionType.FEEDBACK_NOT_FOUND);
-        }
+        return DevelopFeedbackResponse.from(feedback);
     }
 
     private void validateAlreadyExist(long roomId, long deliverId, long receiverId) {
@@ -64,21 +47,26 @@ public class DevelopFeedbackService {
         }
     }
 
-    private DevelopFeedback createEntity(long roomId, long deliverId, DevelopFeedbackRequest request) {
-        MatchResult matchResult = matchResultRepository.findByRoomIdAndReviewerIdAndRevieweeId(roomId, deliverId, request.receiverId())
-                .orElseThrow(() -> new CoreaException(ExceptionType.NOT_MATCHED_MEMBER));
-        matchResult.reviewerCompleteFeedback();
-        return request.toEntity(roomId, matchResult.getReviewer(), matchResult.getReviewee());
+    private DevelopFeedback saveDevelopFeedback(long roomId, DevelopFeedbackRequest request, MatchResult matchResult) {
+        DevelopFeedback feedback = request.toEntity(roomId, matchResult.getReviewer(), matchResult.getReviewee());
+        return developFeedbackRepository.save(feedback);
     }
 
-    private DevelopFeedback createEntity(long feedbackId, long roomId, long deliverId, DevelopFeedbackRequest request) {
-        MatchResult matchResult = matchResultRepository.findByRoomIdAndReviewerIdAndRevieweeId(roomId, deliverId, request.receiverId())
-                .orElseThrow(() -> new CoreaException(ExceptionType.NOT_MATCHED_MEMBER));
+    @Transactional
+    public DevelopFeedbackResponse update(long feedbackId, long deliverId, DevelopFeedbackRequest request) {
+        log.debug("개발 피드백 업데이트[작성자({}), 피드백 ID({}), 요청값({})", deliverId, feedbackId, request);
 
-        return request.toEntity(feedbackId, roomId, matchResult.getReviewer(), matchResult.getReviewee());
+        DevelopFeedback feedback = developFeedbackRepository.findById(feedbackId)
+                .orElseThrow(() -> new CoreaException(ExceptionType.FEEDBACK_NOT_FOUND));
+        feedback.update(request);
+
+        return DevelopFeedbackResponse.from(feedback);
     }
 
-    private void increaseFeedbackCount(Member receiver) {
-        receiver.increaseCount(ProfileCountType.FEEDBACK);
+    public DevelopFeedbackResponse findDevelopFeedback(long roomId, long deliverId, String username) {
+        DevelopFeedback feedback = developFeedbackRepository.findByRoomIdAndDeliverIdAndReceiverUsername(roomId, deliverId, username)
+                .orElseThrow(() -> new CoreaException(ExceptionType.FEEDBACK_NOT_FOUND));
+
+        return DevelopFeedbackResponse.from(feedback);
     }
 }
