@@ -56,16 +56,4 @@ class MemberRepositoryTest {
         Profile findProfile = entityManager.find(Profile.class, savedMember.getProfile().getId());
         assertThat(findProfile).isNull();
     }
-
-    @Test
-    @DisplayName("사용자가 쓴 피드백의 개수를 셀 수 있다.")
-    void findDeliverCountByMember() {
-        Profile profile = new Profile(3, 2, 1, 5.0f, 5.0f);
-        Member member = MemberFixture.MEMBER_PORORO(profile);
-        Member savedMember = memberRepository.save(member);
-
-        long result = memberRepository.findDeliverCountByMember(savedMember);
-
-        assertThat(result).isEqualTo(1);
-    }
 }

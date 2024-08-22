@@ -9,6 +9,7 @@ import corea.matching.domain.MatchResult;
 import corea.matching.domain.ReviewStatus;
 import corea.matching.repository.MatchResultRepository;
 import corea.member.domain.Member;
+import corea.member.domain.Profile;
 import corea.member.repository.MemberRepository;
 import corea.room.domain.Room;
 import corea.room.repository.RoomRepository;
@@ -45,6 +46,7 @@ class ReviewServiceTest {
         MatchResult matchResult = matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), member1, member2));
 
         reviewService.review(room.getId(), member1.getId(), member2.getId());
+
         assertThat(matchResult.getReviewStatus()).isEqualTo(ReviewStatus.COMPLETE);
     }
 
@@ -53,5 +55,37 @@ class ReviewServiceTest {
     void review_throw_exception_when_not_exist_room_and_members() {
         assertThatThrownBy(() -> reviewService.review(-1, -1, -1))
                 .isInstanceOf(CoreaException.class);
+    }
+
+    @Test
+    @Transactional
+    @DisplayName("리뷰를 작성하면 리뷰 작성한 개수가 증가한다.")
+    void increaseReviewCount1() {
+        Member reviewer = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
+        Member reviewee = memberRepository.save(MemberFixture.MEMBER_PORORO());
+        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON())));
+        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), reviewer, reviewee));
+
+        reviewService.review(room.getId(), reviewer.getId(), reviewee.getId());
+
+        Profile profile = reviewer.getProfile();
+        assertThat(profile.getDeliverCount()).isEqualTo(1);
+        assertThat(profile.getReceiveCount()).isZero();
+    }
+
+    @Test
+    @Transactional
+    @DisplayName("리뷰를 받으면 리뷰 받은 개수가 증가한다.")
+    void increaseReviewCount2() {
+        Member reviewer = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
+        Member reviewee = memberRepository.save(MemberFixture.MEMBER_PORORO());
+        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON())));
+        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), reviewer, reviewee));
+
+        reviewService.review(room.getId(), reviewer.getId(), reviewee.getId());
+
+        Profile profile = reviewee.getProfile();
+        assertThat(profile.getDeliverCount()).isZero();
+        assertThat(profile.getReceiveCount()).isEqualTo(1);
     }
 }

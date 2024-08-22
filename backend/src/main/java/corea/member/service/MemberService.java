@@ -29,6 +29,7 @@ public class MemberService {
     public ProfileResponse findProfileInfoById(long id) {
         Member member = findById(id);
         List<String> topFeedbackKeywords = findTopFeedbackKeywords(id);
+
         return ProfileResponse.of(member, topFeedbackKeywords);
     }
 
