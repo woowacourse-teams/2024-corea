@@ -30,6 +30,9 @@ export const EmptyRankingData = styled.div`
 
   width: 100%;
   height: 100%;
+
+  font: ${({ theme }) => theme.TEXT.small};
+  color: ${({ theme }) => theme.COLOR.grey3};
 `;
 
 // award 시상대
