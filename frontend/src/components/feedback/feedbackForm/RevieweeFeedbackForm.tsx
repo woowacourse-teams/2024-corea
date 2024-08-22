@@ -29,7 +29,7 @@ const getDevelopKeywordOptions = (selectedEvaluationId: number | undefined) => {
 
 const RevieweeFeedbackForm = ({ formState, onChange, modalType }: RevieweeFeedbackFormProps) => {
   return (
-    <>
+    <S.FeedbackFormContainer>
       <S.ItemContainer>
         <S.ModalQuestion required>
           리뷰이의 개발 역량 향상을 위해 코드를 평가 해주세요.
@@ -75,7 +75,7 @@ const RevieweeFeedbackForm = ({ formState, onChange, modalType }: RevieweeFeedba
           readonly={modalType === "view"}
         />
       </S.ItemContainer>
-    </>
+    </S.FeedbackFormContainer>
   );
 };
 
