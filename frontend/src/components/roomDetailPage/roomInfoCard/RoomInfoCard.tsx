@@ -35,25 +35,25 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
 
         <S.RoomContentBox>
           <S.RoomContentSmall>
-            <Icon kind="person" />방 생성자 : {roomInfo.manager}
+            <Icon kind="person" size="1.4rem" />방 생성자 : {roomInfo.manager}
           </S.RoomContentSmall>
           <S.RoomContentSmall>
-            <Icon kind="person" />
+            <Icon kind="person" size="1.4rem" />
             현재 참여 인원 : {roomInfo.currentParticipants} / {roomInfo.limitedParticipants}명
           </S.RoomContentSmall>
           <S.RoomContentSmall>
-            <Icon kind="person" />
+            <Icon kind="person" size="1.4rem" />
             상호 리뷰 인원 : {roomInfo.matchingSize}명
           </S.RoomContentSmall>
           <S.RoomContentSmall>
-            <Icon kind="calendar" />
+            <Icon kind="calendar" size="1.4rem" />
             <div>
               모집 마감일: {formatDateTimeString(roomInfo.recruitmentDeadline)}
               <S.StyledDday> {formatDday(roomInfo.recruitmentDeadline)}</S.StyledDday>
             </div>
           </S.RoomContentSmall>
           <S.RoomContentSmall>
-            <Icon kind="calendar" />
+            <Icon kind="calendar" size="1.4rem" />
             <div>
               리뷰 마감일: {formatDateTimeString(roomInfo.reviewDeadline)}
               <S.StyledDday> {formatDday(roomInfo.reviewDeadline)}</S.StyledDday>
