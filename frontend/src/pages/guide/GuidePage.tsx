@@ -119,10 +119,10 @@ const GuidePage = () => {
           <ul>
             <li>
               코드 작성 가이드와
-              <S.IconWrapper>
-                <a href="https://meetup.nhncloud.com/posts/106">커밋 가이드라인</a>을 준수하여
-                코드의 일관성을 유지하는 것을 목표로 해요.
-              </S.IconWrapper>
+              <S.LinkWrapper>
+                <a href="https://meetup.nhncloud.com/posts/106"> 커밋 가이드라인</a>
+                <p>을 준수하여 코드의 일관성을 유지하는 것을 목표로 해요.</p>
+              </S.LinkWrapper>
             </li>
             <li>
               코딩 컨벤션을 철저히 지켜 가독성을 높이고, 다른 개발자들이 코드를 이해하기 쉽게 하는
