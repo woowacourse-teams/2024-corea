@@ -52,7 +52,7 @@ export const DropdownItem = styled.li`
 
   padding: 0.5rem;
 
-  font-size: 0.8rem;
+  font: ${({ theme }) => theme.TEXT.small};
   color: ${({ theme }) => theme.COLOR.grey4};
 
   transition: background-color 0.3s;

@@ -43,19 +43,19 @@ export const MainContainer = styled.div`
     width: 49%;
     height: 120px;
     gap: 2rem;
-  `}
-
+  `} 
+  
   ${media.large`
     width: 49%;
     height: 130px;
     gap: 2rem;
-  `}
+  `};
 `;
 
 export const ManagerContainer = styled.div`
   display: flex;
   gap: 0.5rem;
-  justify-content: flex-start;
+  align-items: center;
   font: ${({ theme }) => theme.TEXT.small};
 `;
 
