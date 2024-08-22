@@ -58,9 +58,17 @@ public class SocialFeedbackService {
 
         SocialFeedback feedback = socialFeedbackRepository.findById(feedbackId)
                 .orElseThrow(() -> new CoreaException(ExceptionType.FEEDBACK_NOT_FOUND));
-        feedback.update(request);
+        updateFeedback(feedback, request);
 
         return SocialFeedbackResponse.from(feedback);
+    }
+
+    private void updateFeedback(SocialFeedback feedback, SocialFeedbackRequest request) {
+        int preEvaluatePoint = feedback.getEvaluatePoint();
+        feedback.update(request);
+
+        Profile profile = feedback.getReceiverProfile();
+        profile.updateProfile(preEvaluatePoint, request.evaluationPoint());
     }
 
     public SocialFeedbackResponse findSocialFeedback(long roomId, long deliverId, String username) {

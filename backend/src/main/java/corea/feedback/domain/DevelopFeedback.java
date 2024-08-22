@@ -51,14 +51,10 @@ public class DevelopFeedback {
     }
 
     public void update(DevelopFeedbackRequest request) {
-        int preEvaluatePoint = this.evaluatePoint;
         this.evaluatePoint = request.evaluationPoint();
         this.keywords = FeedbackKeywordConverter.convertToKeywords(request.feedbackKeywords());
         this.feedBackText = request.feedbackText();
         this.recommendationPoint = request.recommendationPoint();
-
-        Profile profile = getReceiverProfile();
-        profile.updateProfile(preEvaluatePoint, evaluatePoint);
     }
 
     public Profile getReceiverProfile() {

@@ -58,9 +58,17 @@ public class DevelopFeedbackService {
 
         DevelopFeedback feedback = developFeedbackRepository.findById(feedbackId)
                 .orElseThrow(() -> new CoreaException(ExceptionType.FEEDBACK_NOT_FOUND));
-        feedback.update(request);
+        updateFeedback(feedback, request);
 
         return DevelopFeedbackResponse.from(feedback);
+    }
+
+    private void updateFeedback(DevelopFeedback feedback, DevelopFeedbackRequest request) {
+        int preEvaluatePoint = feedback.getEvaluatePoint();
+        feedback.update(request);
+
+        Profile profile = feedback.getReceiverProfile();
+        profile.updateProfile(preEvaluatePoint, request.evaluationPoint());
     }
 
     public DevelopFeedbackResponse findDevelopFeedback(long roomId, long deliverId, String username) {

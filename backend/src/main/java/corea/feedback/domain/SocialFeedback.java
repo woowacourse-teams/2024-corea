@@ -49,13 +49,9 @@ public class SocialFeedback {
     }
 
     public void update(SocialFeedbackRequest request) {
-        int preEvaluatePoint = this.evaluatePoint;
         this.evaluatePoint = request.evaluationPoint();
         this.keywords = FeedbackKeywordConverter.convertToKeywords(request.feedbackKeywords());
         this.feedBackText = request.feedbackText();
-
-        Profile profile = getReceiverProfile();
-        profile.updateProfile(preEvaluatePoint, evaluatePoint);
     }
 
     public Profile getReceiverProfile() {
