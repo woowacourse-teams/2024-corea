@@ -131,10 +131,6 @@ const globalStyles = createGlobalStyle`
     line-height: 1;
   }
 
-  html {
-    overflow-x: hidden;
-  }
-
   ol,
   ul {
     list-style: none;

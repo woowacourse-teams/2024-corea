@@ -13,7 +13,7 @@ const COLOR = {
   lightGrass: "#D7E4D8",
   grass: "#00B707",
   lightBlue: "#a2c4c9",
-  error: "#FF3D45",
+  error: "#FF5F5F",
 };
 
 const TEXT = {
