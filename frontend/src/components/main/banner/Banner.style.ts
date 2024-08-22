@@ -9,7 +9,7 @@ export const BannerContainer = styled.div`
   justify-content: center;
 
   width: calc(100vw - 3.5px);
-  height: 345px;
+  height: 400px;
   margin: -113px calc(-50vw + 50%) 0;
 
   background: linear-gradient(to bottom, #7ec8e3, #b8e3ff, ${({ theme }) => theme.COLOR.white});
