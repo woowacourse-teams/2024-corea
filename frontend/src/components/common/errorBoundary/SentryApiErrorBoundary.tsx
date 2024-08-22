@@ -1,5 +1,6 @@
 import { useQueryErrorResetBoundary } from "@tanstack/react-query";
 import { ReactNode } from "react";
+import { useLocation } from "react-router-dom";
 import Button from "@/components/common/button/Button";
 import { Sentry } from "@/Sentry";
 import { HTTPError } from "@/utils/Errors";
@@ -15,9 +16,11 @@ const ApiErrorFallback = ({ resetError }: { resetError: () => void }) => {
 
 const SentryApiErrorBoundary = ({ children }: { children: ReactNode }) => {
   const { reset } = useQueryErrorResetBoundary();
+  const location = useLocation();
 
   return (
     <Sentry.ErrorBoundary
+      key={location.pathname}
       onReset={reset}
       fallback={({ resetError }) => <ApiErrorFallback resetError={resetError} />}
       onError={(error) => {
