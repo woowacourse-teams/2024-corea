@@ -54,7 +54,7 @@ export const StyledSquare = styled.div`
   padding: 1rem;
 
   font: ${({ theme }) => theme.TEXT.small};
-  color: ${({ theme }) => theme.COLOR.grey3};
+  color: ${({ theme }) => theme.COLOR.black};
 
   background-color: ${({ theme }) => theme.COLOR.primary1};
   border-left: 4px solid ${({ theme }) => theme.COLOR.primary3};
@@ -64,7 +64,7 @@ export const ExpandableContent = styled.div`
   padding: 1rem;
 
   font: ${({ theme }) => theme.TEXT.small};
-  color: ${({ theme }) => theme.COLOR.grey3};
+  color: ${({ theme }) => theme.COLOR.black};
 
   background-color: ${({ theme }) => theme.COLOR.grey0};
   border-left: 4px solid ${({ theme }) => theme.COLOR.primary3};

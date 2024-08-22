@@ -70,7 +70,7 @@ export const ErrorWrapper = styled.div`
   width: 100%;
   height: 200px;
 
-  font: ${({ theme }) => theme.TEXT.semiSmall};
+  font: ${({ theme }) => theme.TEXT.small};
   color: ${({ theme }) => theme.COLOR.secondary};
 
   border: 1px solid ${({ theme }) => theme.COLOR.grey1};
