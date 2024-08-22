@@ -2,7 +2,7 @@ import { ButtonHTMLAttributes } from "react";
 import * as S from "@/components/common/button/Button.style";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary" | "disable" | "lightBlue";
+  variant?: "primary" | "secondary" | "disable" | "lightBlue" | "error";
   size?: "xSmall" | "small" | "medium" | "large";
 }
 
