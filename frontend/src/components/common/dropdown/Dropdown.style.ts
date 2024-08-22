@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 export const DropdownContainer = styled.div`
   position: relative;
-  width: 140px;
-  height: 32px;
+  width: 160px;
+  height: 40px;
 `;
 
 export const DropdownToggle = styled.div`
@@ -11,9 +11,10 @@ export const DropdownToggle = styled.div`
   align-items: center;
   justify-content: space-between;
 
+  box-sizing: border-box;
   width: 100%;
   height: 100%;
-  padding: 0.4rem;
+  padding: 0.6rem;
 
   font: ${({ theme }) => theme.TEXT.semiSmall};
   color: ${({ theme }) => theme.COLOR.grey4};
@@ -30,6 +31,7 @@ export const DropdownMenu = styled.div<{ show: boolean }>`
   display: ${({ show }) => (show ? "flex" : "none")};
   flex-direction: column;
 
+  box-sizing: border-box;
   width: 100%;
 
   background-color: white;
@@ -38,7 +40,7 @@ export const DropdownMenu = styled.div<{ show: boolean }>`
 `;
 
 export const DropdownItemWrapper = styled.ul`
-  margin: 0.5rem;
+  margin: 0.6rem;
 `;
 
 export const DropdownItem = styled.li`
@@ -47,7 +49,7 @@ export const DropdownItem = styled.li`
   display: flex;
   align-items: center;
 
-  padding: 0.6rem;
+  padding: 0.6rem 0;
 
   transition: background-color 0.3s;
 
