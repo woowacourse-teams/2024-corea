@@ -14,8 +14,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 import static corea.exception.ExceptionType.INVALID_TOKEN;
 import static corea.exception.ExceptionType.TOKEN_EXPIRED;
 import static corea.global.config.Constants.TOKEN_TYPE;
@@ -39,17 +37,15 @@ public class LoginService {
 
     @Transactional
     public String publishRefreshToken(Member member) {
-
         long memberId = member.getId();
-        Optional<LoginInfo> loginInfo = loginInfoRepository.findByMemberId(memberId);
+        return loginInfoRepository.findByMemberId(memberId)
+                .orElseGet(() -> saveLoginInfo(member))
+                .getRefreshToken();
+    }
 
-        if (loginInfo.isPresent()) {
-            return loginInfo.get().getRefreshToken();
-        }
-
-        String refreshToken = tokenProvider.createToken(member, tokenProperties.expiration().refresh());
-        loginInfoRepository.save(new LoginInfo(member, refreshToken));
-        return refreshToken;
+    private LoginInfo saveLoginInfo(Member member) {
+        return loginInfoRepository.save(
+                new LoginInfo(member, tokenProvider.createToken(member, tokenProperties.expiration().refresh())));
     }
 
     @Transactional
