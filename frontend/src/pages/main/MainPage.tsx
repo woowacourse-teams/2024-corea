@@ -55,7 +55,7 @@ const MainPage = () => {
 
   const renderContent = () => {
     switch (selectedTab) {
-      case "참여 중인 방 리스트":
+      case "참여 중":
         return (
           <ContentSection title="">
             {participatedRoomList ? (
@@ -65,7 +65,7 @@ const MainPage = () => {
             )}
           </ContentSection>
         );
-      case "모집 중인 방 리스트":
+      case "모집 중":
         return (
           <ContentSection title="">
             <S.DropdownWrapper>
@@ -83,7 +83,7 @@ const MainPage = () => {
             />
           </ContentSection>
         );
-      case "모집 마감된 방 리스트":
+      case "모집 마감":
         return (
           <ContentSection title="">
             <S.DropdownWrapper>
