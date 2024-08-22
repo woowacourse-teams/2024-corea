@@ -4,9 +4,10 @@ import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
 import corea.matching.domain.MatchResult;
 import corea.matching.repository.MatchResultRepository;
-import corea.member.domain.CountType;
+import corea.member.domain.ProfileCountType;
 import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
+import corea.member.service.ProfileService;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,8 +29,8 @@ public class ReviewService {
         MatchResult matchResult = getMatchResult(roomId, reviewerId, revieweeId);
         matchResult.reviewComplete();
 
-        increaseReviewCount(reviewerId, CountType.DELIVER);
-        increaseReviewCount(revieweeId, CountType.RECEIVE);
+        increaseReviewCount(reviewerId, ProfileCountType.DELIVER);
+        increaseReviewCount(revieweeId, ProfileCountType.RECEIVE);
 
         log.info("리뷰 완료[{매칭 ID({}), 리뷰어 ID({}, 리뷰이 ID({})", matchResult.getId(), reviewerId, revieweeId);
     }
@@ -40,10 +41,10 @@ public class ReviewService {
                         String.format("%d와 %d는 방 %d에서 매칭된 멤버가 아닙니다.", reviewerId, revieweeId, roomId)));
     }
 
-    private void increaseReviewCount(long memberId, CountType countType) {
+    private void increaseReviewCount(long memberId, ProfileCountType profileCountType) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND, String.format("%d에 해당하는 멤버가 없습니다.", memberId)));
 
-        member.increaseCount(countType);
+        member.increaseCount(profileCountType);
     }
 }

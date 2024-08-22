@@ -45,7 +45,7 @@ public class Member {
         this(null, username, thumbnailUrl, name, email, isEmailAccepted, "", githubUserId, profile);
     }
 
-    public void increaseCount(CountType countType) {
-        profile.increaseCount(countType);
+    public void increaseCount(ProfileCountType profileCountType) {
+        profile.increaseCount(profileCountType);
     }
 }

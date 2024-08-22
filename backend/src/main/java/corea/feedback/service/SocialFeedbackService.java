@@ -8,7 +8,7 @@ import corea.feedback.dto.SocialFeedbackResponse;
 import corea.feedback.repository.SocialFeedbackRepository;
 import corea.matching.domain.MatchResult;
 import corea.matching.repository.MatchResultRepository;
-import corea.member.domain.CountType;
+import corea.member.domain.ProfileCountType;
 import corea.member.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
@@ -79,6 +79,6 @@ public class SocialFeedbackService {
     }
 
     private void increaseFeedbackCount(Member receiver) {
-        receiver.increaseCount(CountType.FEEDBACK);
+        receiver.increaseCount(ProfileCountType.FEEDBACK);
     }
 }

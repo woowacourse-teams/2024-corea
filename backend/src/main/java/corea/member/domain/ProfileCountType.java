@@ -1,6 +1,6 @@
 package corea.member.domain;
 
-public enum CountType {
+public enum ProfileCountType {
 
     FEEDBACK, DELIVER, RECEIVE;
 

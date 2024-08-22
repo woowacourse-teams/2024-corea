@@ -35,12 +35,12 @@ public class Profile {
         this(null, feedbackCount, receiveCount, deliverCount, averageRating, attitude);
     }
 
-    public void increaseCount(CountType countType) {
-        if (countType.isFeedback()) {
+    public void increaseCount(ProfileCountType profileCountType) {
+        if (profileCountType.isFeedback()) {
             feedbackCount++;
             return;
         }
-        if (countType.isDeliver()) {
+        if (profileCountType.isDeliver()) {
             deliverCount++;
             return;
         }
