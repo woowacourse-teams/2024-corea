@@ -5,7 +5,7 @@ import * as S from "@/components/shared/roomCard/RoomCard.style";
 import RoomCardModal from "@/components/shared/roomCardModal/RoomCardModal";
 import { RoomInfo } from "@/@types/roomInfo";
 import { MAX_KEYWORDS } from "@/constants/room";
-import { formatDeadlineString } from "@/utils/dateFormatter";
+import { formatDday, formatDeadlineString } from "@/utils/dateFormatter";
 
 interface RoomCardProps {
   roomInfo: RoomInfo;
@@ -38,11 +38,14 @@ const RoomCard = ({ roomInfo }: RoomCardProps) => {
               <Label type="open" text="모집중" />
             )}
             <S.JoinMember>
-              <Icon kind="person" />
+              <Icon kind="person" size="1.2rem" />
               {roomInfo.currentParticipants}/{roomInfo.limitedParticipants} 명
             </S.JoinMember>
           </S.EtcContainer>
-          <S.DeadLineText>{formatDeadlineString(roomInfo.recruitmentDeadline)}</S.DeadLineText>
+          <S.DeadLineText>
+            {formatDeadlineString(roomInfo.recruitmentDeadline)}
+            <S.StyledDday> {formatDday(roomInfo.reviewDeadline)}</S.StyledDday>
+          </S.DeadLineText>
         </S.RoomInformation>
       </S.RoomCardContainer>
     </>
