@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import media from "@/styles/media";
 
-export const HeaderContainer = styled.header<{ $pathname: string }>`
+export const HeaderContainer = styled.header<{ $isMain: boolean }>`
   position: relative;
   z-index: 999;
 
@@ -14,7 +14,7 @@ export const HeaderContainer = styled.header<{ $pathname: string }>`
 
   color: ${({ theme }) => theme.COLOR.grey3};
 
-  box-shadow: ${({ $pathname }) => ($pathname === "/" ? "none" : "0 4px 4px rgb(0 0 0 / 10%)")};
+  box-shadow: ${({ $isMain }) => ($isMain ? "none" : "0 4px 4px rgb(0 0 0 / 10%)")};
 
   @media screen and (width >= 1200px) {
     padding: 0 calc(((100vw - 1200px) / 2) + 3rem);
@@ -31,11 +31,11 @@ export const HeaderContainer = styled.header<{ $pathname: string }>`
 `;
 
 // 서비스 로고
-export const HeaderLogo = styled.button`
+export const HeaderLogo = styled.button<{ $isMain: boolean }>`
   font-family: "Moirai One", system-ui;
   font-size: 2.2rem;
   font-weight: 900;
-  color: ${({ theme }) => theme.COLOR.grey3};
+  color: ${({ theme, $isMain }) => ($isMain ? theme.COLOR.white : theme.COLOR.grey3)};
 
   background: transparent;
 
@@ -51,9 +51,14 @@ export const HeaderNavBarContainer = styled.div`
   align-items: center;
 `;
 
-export const HeaderItem = styled.li`
+export const HeaderItem = styled.li<{ $isMain: boolean }>`
   cursor: pointer;
   font: ${({ theme }) => theme.TEXT.medium};
+  color: ${({ theme, $isMain }) => ($isMain ? theme.COLOR.white : theme.COLOR.grey3)};
+
+  ${media.small`
+    color: ${({ theme }) => theme.COLOR.black};
+  `}
 
   &:hover,
   &.selected {
