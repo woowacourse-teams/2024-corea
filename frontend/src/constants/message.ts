@@ -40,6 +40,10 @@ const ERROR_MESSAGES = {
 
   // ranking
   GET_RANKING: "랭킹을 불러오는 도중 에러가 발생하였습니다.",
+
+  // errorBoundary
+  BOUNDARY_TOTAL: "일시적인 에러가 발생했습니다.",
+  BOUNDARY_API: "네트워크 에러가 발생했습니다.",
 };
 
 const MESSAGES = {

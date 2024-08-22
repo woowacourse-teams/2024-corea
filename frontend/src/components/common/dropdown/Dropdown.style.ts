@@ -43,9 +43,13 @@ export const DropdownItemWrapper = styled.ul`
 
 export const DropdownItem = styled.li`
   cursor: pointer;
+
   display: flex;
   align-items: center;
-  padding: 0.4rem;
+
+  padding: 0.6rem;
+
+  transition: background-color 0.3s;
 
   &:hover {
     background-color: ${({ theme }) => theme.COLOR.grey0};

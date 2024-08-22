@@ -11,7 +11,7 @@ interface LabelProps {
   backgroundColor?: string;
 }
 
-const Label = ({ text, type, size = "xSmall", backgroundColor }: LabelProps) => {
+const Label = ({ text, type, size = "semiSmall", backgroundColor }: LabelProps) => {
   return (
     <S.LabelWrapper type={type} $size={size} $backgroundColor={backgroundColor}>
       {type === "keyword" && `#${text}`}
