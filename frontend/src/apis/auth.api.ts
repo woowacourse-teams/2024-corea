@@ -26,7 +26,7 @@ export const postLogin = async (
 
   const authBody = text ? JSON.parse(text) : response;
   const refreshToken = authBody.refreshToken;
-  const userInfo = authBody.userInfo;
+  const userInfo = authBody.userInfo as UserInfo;
 
   if (!accessToken) {
     throw new Error(MESSAGES.ERROR.POST_LOGIN);

@@ -2,7 +2,7 @@
   "feedbacks": [
     {
       "roomId": 0,
-      "title": "미션 1",
+      "title": "숫자 골프",
       "roomKeywords": ["string"],
       "isClosed": true,
       "developFeedback": [

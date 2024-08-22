@@ -1,6 +1,6 @@
 import { NonEmptyArray } from "@/@types/NonEmptyArray";
 
-export interface FeedbackCardList {
+export interface FeedbackCardDataList {
   readonly roomId: number;
   readonly title: string;
   readonly roomKeywords: NonEmptyArray<string>;

@@ -122,11 +122,17 @@ const globalStyles = createGlobalStyle`
   }
 
   body {
-    font-family: 'Moirai One', system-ui;
+    overflow-x: hidden !important;
+
+    font-family: 'Do Hyeon', system-ui;
     font-size: 62.5%;
     font-weight: 400;
     font-style: normal;
     line-height: 1;
+  }
+
+  html {
+    overflow-x: hidden;
   }
 
   ol,
@@ -203,12 +209,12 @@ const globalStyles = createGlobalStyle`
 
   ::-webkit-scrollbar-thumb {
     height: 30%;
-    background: rgb(132 174 225 / 70%);
+    background: rgb(198 198 198 / 70%);
     border-radius: 10px;
   }
 
   ::-webkit-scrollbar-track {
-    background: rgb(132 174 225 / 20%);
+    background: rgb(198 198 198 / 20%);
   }
 `;
 

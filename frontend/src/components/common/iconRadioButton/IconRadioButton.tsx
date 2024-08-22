@@ -6,6 +6,7 @@ interface IconRadioButtonProps extends Omit<InputHTMLAttributes<HTMLInputElement
   name: string;
   value: number;
   isSelected?: boolean;
+  color?: string;
   onChange: (id: number) => void;
 }
 
@@ -15,6 +16,7 @@ const IconRadioButton = ({
   name,
   value,
   isSelected,
+  color,
   onChange,
   ...rest
 }: IconRadioButtonProps) => {
@@ -31,7 +33,12 @@ const IconRadioButton = ({
         onChange={handleChange}
         {...rest}
       />
-      <S.IconRadioButtonBox isSelected={isSelected} aria-label="Icon Button" {...rest}>
+      <S.IconRadioButtonBox
+        $color={color}
+        $isSelected={isSelected}
+        aria-label="Icon Button"
+        {...rest}
+      >
         {children}
       </S.IconRadioButtonBox>
       <S.IconRadioButtonText>{text}</S.IconRadioButtonText>

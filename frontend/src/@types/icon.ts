@@ -15,6 +15,8 @@ type IconKind =
   | "satisfied"
   | "verySatisfied"
   | "info"
+  | "arrowLeft"
+  | "arrowRight"
   | "arrowDropDown"
   | "arrowDropUp";
 

@@ -1,7 +1,9 @@
 package corea.auth.service;
 
 import config.ServiceTest;
+import corea.auth.domain.LoginInfo;
 import corea.auth.infrastructure.TokenProvider;
+import corea.auth.repository.LoginInfoRepository;
 import corea.exception.CoreaException;
 import corea.fixture.MemberFixture;
 import corea.member.domain.Member;
@@ -12,13 +14,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static corea.exception.ExceptionType.INVALID_TOKEN;
+import static corea.exception.ExceptionType.TOKEN_EXPIRED;
 import static org.assertj.core.api.Assertions.*;
 
 @ServiceTest
 class LoginServiceTest {
 
     @Autowired
-    private LoginService authService;
+    private LoginService loginService;
 
     @Autowired
     private TokenProvider tokenProvider;
@@ -26,19 +29,41 @@ class LoginServiceTest {
     @Autowired
     private MemberRepository memberRepository;
 
+    @Autowired
+    private LoginInfoRepository loginInfoRepository;
+
+    private Member member;
     private String refreshToken;
 
     @BeforeEach
     void setUp() {
-        Member member = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
-        refreshToken = authService.publishRefreshToken(member);
+        member = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
+        refreshToken = loginService.publishRefreshToken(member);
     }
 
     @Test
     @DisplayName("RefreshToken에 문제가 없을 경우 예외가 발생하지 않는다.")
     void authorize() {
-        assertThatCode(() -> authService.authorize(refreshToken))
+        assertThatCode(() -> loginService.authorize(refreshToken))
                 .doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("RefreshToken의 유효기간이 만료되었을 경우 DB에서 해당 유저의 로그인 정보를 삭제한다.")
+    void authorizeException_TokenExpired() {
+        String expiredRefreshToken = tokenProvider.createToken(member, 10L);
+
+        loginInfoRepository.deleteAll();
+        loginInfoRepository.save(new LoginInfo(member, expiredRefreshToken));
+
+        assertThatThrownBy(() -> loginService.authorize(expiredRefreshToken))
+                .isInstanceOf(CoreaException.class)
+                .satisfies(exception -> {
+                    CoreaException coreaException = (CoreaException) exception;
+                    assertThat(coreaException.getExceptionType()).isEqualTo(TOKEN_EXPIRED);
+                });
+
+        assertThat(loginInfoRepository.findByRefreshToken(expiredRefreshToken)).isEmpty();
     }
 
     @Test
@@ -46,7 +71,7 @@ class LoginServiceTest {
     void authorizeException() {
         String token = tokenProvider.createToken(MemberFixture.MEMBER_YOUNGSU(), 1600L);
 
-        assertThatThrownBy(() -> authService.authorize(token))
+        assertThatThrownBy(() -> loginService.authorize(token))
                 .isInstanceOf(CoreaException.class)
                 .satisfies(exception -> {
                     CoreaException coreaException = (CoreaException) exception;

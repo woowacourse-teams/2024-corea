@@ -26,7 +26,7 @@ public class DevelopFeedbackService {
     @Transactional
     public DevelopFeedbackResponse create(long roomId, long deliverId, DevelopFeedbackRequest request) {
         validateAlreadyExist(roomId, deliverId, request.receiverId());
-        log.debug("개발 피드백 작성[작성자({}), 요청값({})",deliverId,request);
+        log.debug("개발 피드백 작성[작성자({}), 요청값({})", deliverId, request);
         DevelopFeedback developFeedback = developFeedbackRepository.save(createEntity(roomId, deliverId, request));
         return DevelopFeedbackResponse.of(developFeedback);
     }
@@ -34,7 +34,7 @@ public class DevelopFeedbackService {
     @Transactional
     public DevelopFeedbackResponse update(long feedbackId, long roomId, long deliverId, DevelopFeedbackRequest request) {
         validateNotExist(feedbackId);
-        log.debug("개발 피드백 업데이트[작성자({}), 피드백 ID({}), 요청값({})",deliverId,feedbackId,request);
+        log.debug("개발 피드백 업데이트[작성자({}), 피드백 ID({}), 요청값({})", deliverId, feedbackId, request);
         DevelopFeedback developFeedback = developFeedbackRepository.save(createEntity(feedbackId, roomId, deliverId, request));
         return DevelopFeedbackResponse.of(developFeedback);
     }

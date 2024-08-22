@@ -26,7 +26,7 @@ public class SocialFeedbackService {
     @Transactional
     public SocialFeedbackResponse create(long roomId, long deliverId, SocialFeedbackRequest request) {
         validateAlreadyExist(roomId, deliverId, request.receiverId());
-        log.debug("소설 피드백 작성[작성자({}), 요청값({})",deliverId,request);
+        log.debug("소설 피드백 작성[작성자({}), 요청값({})", deliverId, request);
         SocialFeedback socialFeedback = socialFeedbackRepository.save(createEntity(roomId, deliverId, request));
         return SocialFeedbackResponse.of(socialFeedback);
     }
@@ -35,7 +35,7 @@ public class SocialFeedbackService {
     public SocialFeedbackResponse update(long feedbackId, long roomId, long deliverId, SocialFeedbackRequest request) {
         validateNotExist(feedbackId);
 
-        log.debug("소설 피드백 업데이트[작성자({}), 피드백 ID({}), 요청값({})",deliverId,feedbackId,request);
+        log.debug("소설 피드백 업데이트[작성자({}), 피드백 ID({}), 요청값({})", deliverId, feedbackId, request);
         SocialFeedback socialFeedback = socialFeedbackRepository.save(createEntity(feedbackId, roomId, deliverId, request));
         return SocialFeedbackResponse.of(socialFeedback);
     }
