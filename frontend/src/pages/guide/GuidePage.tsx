@@ -35,7 +35,7 @@ const GuidePage = () => {
           {guidePageOptions.map((option) => (
             <Link to={option.link}>
               <S.CardContainer>
-                <Icon kind="link" size="2rem" />
+                <Icon kind="link" />
                 <span>{option.title}</span>
               </S.CardContainer>
             </Link>
@@ -120,7 +120,6 @@ const GuidePage = () => {
             <li>
               코드 작성 가이드와
               <S.IconWrapper>
-                <Icon kind="link" />
                 <a href="https://meetup.nhncloud.com/posts/106">커밋 가이드라인</a>을 준수하여
                 코드의 일관성을 유지하는 것을 목표로 해요.
               </S.IconWrapper>

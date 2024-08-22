@@ -76,7 +76,7 @@ export const StyledContainer = styled.div`
   }
 
   li {
-    margin-left: 1rem;
+    margin: 0 0 0.4rem 1rem;
     list-style-type: initial;
   }
 
