@@ -55,10 +55,10 @@ export const HeaderItem = styled.li<{ $isMain: boolean }>`
   cursor: pointer;
   font: ${({ theme }) => theme.TEXT.medium};
   color: ${({ theme, $isMain }) => ($isMain ? theme.COLOR.white : theme.COLOR.grey3)};
-
   ${media.small`
     color: ${({ theme }) => theme.COLOR.black};
   `}
+  transition: 0.3s;
 
   &:hover,
   &.selected {

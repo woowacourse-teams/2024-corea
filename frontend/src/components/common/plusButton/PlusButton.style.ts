@@ -9,13 +9,15 @@ export const ButtonContainer = styled.button`
   width: fit-content;
   margin: 1rem 0;
 
-  font: ${({ theme }) => theme.TEXT.semiSmall};
+  font: ${({ theme }) => theme.TEXT.small};
   color: ${({ theme }) => theme.COLOR.grey3};
   text-align: center;
 
   background-color: transparent;
 
+  transition: transform 0.3s;
+
   &:hover {
-    transform: scale(1.05);
+    transform: scale(1.1);
   }
 `;
