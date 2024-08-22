@@ -4,7 +4,7 @@ import Label from "@/components/common/label/Label";
 import Modal from "@/components/common/modal/Modal";
 import * as S from "@/components/shared/roomCardModal/RoomCardModal.style";
 import { RoomInfo } from "@/@types/roomInfo";
-import profileImage from "@/assets/profile.png";
+import { profile } from "@/assets";
 import { formatDateTimeString } from "@/utils/dateFormatter";
 
 interface RoomCardModalProps {
@@ -22,7 +22,7 @@ const RoomCardModal = ({ isOpen, onClose, roomInfo }: RoomCardModalProps) => {
         <S.MainContainer>
           <S.ManagerContainer>
             <S.ProfileContainer>
-              <img src={profileImage} alt="프로필 사진" />
+              <img src={profile} alt="프로필 사진" />
               <span> {roomInfo.manager}</span>
             </S.ProfileContainer>
             <div>
