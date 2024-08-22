@@ -8,11 +8,11 @@ export const BannerContainer = styled.div`
   align-items: center;
   justify-content: center;
 
-  width: calc(100vw - 3.5px);
+  width: 100vw;
   height: 400px;
   margin: -113px calc(-50vw + 50%) 0;
 
-  background: linear-gradient(to bottom, #7ec8e3, #b8e3ff, ${({ theme }) => theme.COLOR.white});
+  background: linear-gradient(to bottom, #ff7e5f, #feb47b, ${({ theme }) => theme.COLOR.white});
 
   ${media.small`
     display:none;
@@ -20,6 +20,11 @@ export const BannerContainer = styled.div`
 `;
 
 export const BannerTextContainer = styled.p`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const BannerText = styled.p`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -38,6 +43,15 @@ export const BannerTextContainer = styled.p`
   }
 `;
 
+export const BannerSubText = styled.p`
+  margin: 0 auto;
+  padding-top: 1rem;
+
+  font: ${({ theme }) => theme.TEXT.medium};
+  color: ${({ theme }) => theme.COLOR.grey0};
+  text-align: center;
+`;
+
 export const Sunlight = styled.div`
   position: absolute;
   background: rgb(255 255 255 / 20%);
@@ -50,7 +64,7 @@ export const Sunlight = styled.div`
     width: 150px;
     height: 150px;
 
-    background: rgb(255 255 255 / 70%);
+    background: rgb(255 255 255 / 50%);
     filter: blur(10px);
     box-shadow: 0 0 60px 40px rgb(255 255 255 / 20%);
   }
@@ -62,7 +76,7 @@ export const Sunlight = styled.div`
     width: 250px;
     height: 250px;
 
-    background: rgb(255 255 255 / 30%);
+    background: rgb(255 255 255 / 20%);
     filter: blur(10px);
   }
 
@@ -103,7 +117,7 @@ export const Sunlight = styled.div`
     width: 100px;
     height: 100px;
 
-    filter: blur(2px);
+    filter: blur(5px);
   }
 `;
 
