@@ -1,10 +1,11 @@
 //...
+import { hostType } from "./utils/hostType";
 import * as Sentry from "@sentry/react";
 import SECRET_KEYS from "@/config/secretKeys";
 
 Sentry.init({
   dsn: SECRET_KEYS.sentryDsnKey,
-  environment: process.env.NODE_ENV,
+  environment: hostType,
   integrations: [Sentry.browserTracingIntegration(), Sentry.replayIntegration()],
   // Performance Monitoring
   tracesSampleRate: 1.0, //  Capture 100% of the transactions

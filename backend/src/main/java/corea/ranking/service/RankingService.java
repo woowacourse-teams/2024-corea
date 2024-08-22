@@ -2,7 +2,7 @@ package corea.ranking.service;
 
 import corea.evaluation.domain.EvaluateClassification;
 import corea.member.domain.Member;
-import corea.member.repository.MemberRepository;
+import corea.member.repository.ProfileRepository;
 import corea.ranking.domain.Ranking;
 import corea.ranking.dto.RankingResponse;
 import corea.ranking.dto.RankingResponses;
@@ -28,7 +28,7 @@ public class RankingService {
     private static final int NUMBER_OF_RANKINGS_TO_BE_SHOWN_TO_MEMBER = 3;
 
     private final RankingRepository rankingRepository;
-    private final MemberRepository memberRepository;
+    private final ProfileRepository profileRepository;
 
     public RankingResponses findTopRankings() {
         LocalDate date = LocalDate.now();
@@ -49,7 +49,7 @@ public class RankingService {
     private RankingResponse toRankingResponse(EvaluateClassification classification, Ranking ranking) {
         int rank = ranking.getRanking();
         Member member = ranking.getMember();
-        long deliverCount = memberRepository.findDeliverCountByMember(member);
+        long deliverCount = profileRepository.findDeliverCountByProfile(member.getProfile());
         float averageEvaluatePoint = ranking.getAverageEvaluatePoint();
 
         return RankingResponse.of(rank, member, deliverCount, averageEvaluatePoint, classification);
