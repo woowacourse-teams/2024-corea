@@ -34,14 +34,14 @@ export const LoadingContainer = styled.div`
   justify-content: center;
 
   width: 200px;
-  height: 20px;
+  height: 30px;
 
-  font: ${({ theme }) => theme.TEXT.xSmall};
+  font: ${({ theme }) => theme.TEXT.small};
   color: ${({ theme }) => theme.COLOR.grey4};
 
   background-color: ${({ theme }) => theme.COLOR.white};
   border: 2px solid ${({ theme }) => theme.COLOR.primary2};
-  border-radius: 10px;
+  border-radius: 25px;
 `;
 
 export const LoadingBar = styled.div`
