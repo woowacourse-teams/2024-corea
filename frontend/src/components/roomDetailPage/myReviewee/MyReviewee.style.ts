@@ -15,7 +15,7 @@ export const MyRevieweeWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   align-items: center;
-  padding: 0.5rem 1rem;
+  padding: 0.7rem 1rem;
 
   &:not(:last-child) {
     border-bottom: 1px solid ${({ theme }) => theme.COLOR.grey1};

@@ -1,6 +1,6 @@
 import CyclingClasses from "./CyclingClasses";
 import * as S from "@/components/main/banner/Banner.style";
-import { cloud } from "@/assets";
+import Cloud from "@/assets/cloud.png";
 
 const firstItems = ["코드", "개발자", "리뷰", "리뷰어", "리뷰이"];
 const secondItems = ["리뷰", "코드", "리뷰어", "개발자", "리뷰이"];
@@ -15,15 +15,16 @@ const Banner = () => {
       <S.Sunlight className="sunlight-4" />
       <S.Sunlight className="sunlight-5" />
 
-      <S.Cloud className="cloud-1" src={cloud} alt="구름" />
-      <S.Cloud className="cloud-2" src={cloud} alt="구름" />
-      <S.Cloud className="cloud-3" src={cloud} alt="구름" />
-
       <S.BannerTextContainer>
-        <CyclingClasses items={firstItems} speed={4100} />
-        <span>와</span>
-        <CyclingClasses items={secondItems} speed={2700} />
-        <span>를 연결합니다</span>
+        <S.BannerText>
+          <CyclingClasses items={firstItems} speed={11100} />
+          <span>와</span>
+          <CyclingClasses items={secondItems} speed={3700} />
+          <span>를 연결합니다</span>
+        </S.BannerText>
+        <S.BannerSubText>
+          주니어 개발자를 위한 <span>코드 리뷰 플랫폼</span>
+        </S.BannerSubText>
       </S.BannerTextContainer>
     </S.BannerContainer>
   );
