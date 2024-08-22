@@ -8,7 +8,7 @@ import jakarta.persistence.Embeddable;
 public class AverageRating {
 
     private static final int MINIMUM_AVERAGE_RATING = 0;
-    private static final int DEFAULT_FEEDBACK_COUNT = 0;
+    private static final int INVALID_FEEDBACK_COUNT = 0;
 
     private float averageRating;
 
@@ -43,8 +43,8 @@ public class AverageRating {
     }
 
     private void validateFeedbackCount(long feedbackCount) {
-        if (feedbackCount == DEFAULT_FEEDBACK_COUNT) {
-            throw new CoreaException(ExceptionType.INVALID_CALCULATION_FORMULA, String.format("%d으로 값을 나눌 수 없습니다.", DEFAULT_FEEDBACK_COUNT));
+        if (feedbackCount == INVALID_FEEDBACK_COUNT) {
+            throw new CoreaException(ExceptionType.INVALID_CALCULATION_FORMULA, String.format("%d으로 값을 나눌 수 없습니다.", INVALID_FEEDBACK_COUNT));
         }
     }
 
