@@ -42,3 +42,83 @@ export const CardContainer = styled.div`
     font: ${({ theme }) => theme.TEXT.small};
   }
 `;
+
+export const StyledContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  margin-bottom: 2rem;
+
+  font: ${({ theme }) => theme.TEXT.small};
+  line-height: 1.2rem;
+
+  h1 {
+    margin-top: 1rem;
+    font: ${({ theme }) => theme.TEXT.large};
+  }
+
+  h2 {
+    margin-top: 1rem;
+    font: ${({ theme }) => theme.TEXT.medium};
+  }
+
+  h3 {
+    font: ${({ theme }) => theme.TEXT.small};
+  }
+
+  img {
+    width: 100%;
+  }
+
+  img.medium {
+    width: 70%;
+  }
+
+  li {
+    margin-left: 1rem;
+    list-style-type: initial;
+  }
+
+  li.second {
+    margin-left: 2rem;
+  }
+
+  li.third {
+    margin-left: 3rem;
+  }
+`;
+
+export const StyledSquare = styled.div`
+  padding: 1rem;
+  background-color: ${({ theme }) => theme.COLOR.grey0};
+  border-left: 4px solid ${({ theme }) => theme.COLOR.primary3};
+`;
+
+export const IconWrapper = styled.div`
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+
+  a {
+    font: ${({ theme }) => theme.TEXT.small};
+    color: ${({ theme }) => theme.COLOR.primary2};
+    text-decoration: underline;
+  }
+`;
+
+export const StyledPre = styled.pre`
+  overflow-x: auto;
+
+  padding: 1rem;
+
+  line-height: 1.2rem;
+
+  background-color: ${({ theme }) => theme.COLOR.black};
+  border-radius: 8px;
+`;
+
+export const StyledCode = styled.code`
+  font: ${({ theme }) => theme.TEXT.small};
+  color: ${({ theme }) => theme.COLOR.white};
+`;
