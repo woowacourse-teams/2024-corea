@@ -56,9 +56,9 @@ interface IconProps {
   size?: string | number;
 }
 
-const Icon = ({ kind, ...props }: IconProps) => {
+const Icon = ({ kind, size = "2.4rem", ...props }: IconProps) => {
   const TargetIcon = ICON[kind];
-  return <TargetIcon {...props} width={"2.4rem"} height={"2.4rem"} />;
+  return <TargetIcon {...props} size={size} />;
 };
 
 export default Icon;
