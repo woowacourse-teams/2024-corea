@@ -61,3 +61,18 @@ export const IconWrapper = styled.span`
     display: none;
 `}
 `;
+
+export const ErrorWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 200px;
+
+  font: ${({ theme }) => theme.TEXT.semiSmall};
+  color: ${({ theme }) => theme.COLOR.secondary};
+
+  border: 1px solid ${({ theme }) => theme.COLOR.grey1};
+  border-radius: 8px;
+`;
