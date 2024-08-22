@@ -53,7 +53,6 @@ const ProfileDropdown = () => {
         <S.DropdownItemWrapper>
           {dropdownItems.map((item) => (
             <S.DropdownItem key={item.name} onClick={() => handleDropdownItemClick(item.path)}>
-              <Icon kind="info" />
               <span>{item.name}</span>
             </S.DropdownItem>
           ))}

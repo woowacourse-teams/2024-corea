@@ -12,7 +12,7 @@ export const DropdownMenu = styled.div<{ show: boolean }>`
   display: ${({ show }) => (show ? "flex" : "none")};
   flex-direction: column;
 
-  width: 200px;
+  min-width: 200px;
   padding: 1rem;
 
   background-color: white;
