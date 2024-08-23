@@ -92,11 +92,6 @@ export const KeywordText = styled.span`
   color: ${({ theme }) => theme.COLOR.grey2};
 `;
 
-export const MoreKeywords = styled.span`
-  font: ${({ theme }) => theme.TEXT.medium};
-  color: ${({ theme }) => theme.COLOR.grey4};
-`;
-
 export const EtcContainer = styled.div`
   display: flex;
   justify-content: space-between;

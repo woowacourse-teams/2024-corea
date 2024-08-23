@@ -4,6 +4,12 @@ interface ModalQuestionProps {
   required?: boolean;
 }
 
+export const FeedbackFormContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+`;
+
 export const ItemContainer = styled.div`
   display: flex;
   flex-direction: column;

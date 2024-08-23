@@ -29,7 +29,7 @@ const getSocialKeywordOptions = (selectedEvaluationId: number | undefined) => {
 
 const ReviewerFeedbackForm = ({ formState, onChange, modalType }: ReviewerFeedbackFormProps) => {
   return (
-    <>
+    <S.FeedbackFormContainer>
       <S.ItemContainer>
         <S.ModalQuestion required>
           리뷰어의 소프트 스킬 역량 향상을 위해 피드백을 해주세요.
@@ -68,7 +68,7 @@ const ReviewerFeedbackForm = ({ formState, onChange, modalType }: ReviewerFeedba
           />
         )}
       </S.ItemContainer>
-    </>
+    </S.FeedbackFormContainer>
   );
 };
 
