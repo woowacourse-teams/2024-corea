@@ -3,7 +3,7 @@ import useToast from "@/hooks/common/useToast";
 
 const useMutateHandlers = () => {
   const queryClient = useQueryClient();
-  const { openToast } = useToast();
+  const { openToast } = useToast("error");
 
   const handleMutateSuccess = (queryKeys: string[]) => {
     queryKeys.forEach((queryKey) => {
