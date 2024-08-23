@@ -39,7 +39,7 @@ const FeedbackCardList = ({ feedbackData }: FeedbackCardListProps) => {
               <S.FeedbackMissionInfo>{feedback.title}</S.FeedbackMissionInfo>
               <S.FeedbackKeywordContainer>
                 {feedback.roomKeywords.map((keyword) => (
-                  <S.FeedbackKeywordWrapper key={keyword}>{keyword}</S.FeedbackKeywordWrapper>
+                  <S.FeedbackKeywordWrapper key={keyword}>#{keyword}</S.FeedbackKeywordWrapper>
                 ))}
               </S.FeedbackKeywordContainer>
             </S.FeedbackMissionTitle>
