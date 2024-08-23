@@ -45,6 +45,10 @@ public class Member {
         this(null, username, thumbnailUrl, name, email, isEmailAccepted, "", githubUserId, profile);
     }
 
+    public Member(String username, String thumbnailUrl, String name, String email, boolean isEmailAccepted,String profileLink, String githubUserId) {
+        this(null, username, thumbnailUrl, name, email, isEmailAccepted, profileLink, githubUserId, new Profile());
+    }
+
     public void increaseCount(ProfileCountType profileCountType) {
         profile.increaseCount(profileCountType);
     }

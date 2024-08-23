@@ -37,6 +37,7 @@ public class MatchingService {
                 .orElseThrow(() -> new CoreaException(ExceptionType.ROOM_NOT_FOUND));
 
         List<Participation> participations = getParticipationsWithPullrequestSubmitted(pullRequestInfo, roomId);
+        room.close();
 
         log.info("매칭 시작 [방 번호 ({}), 매칭하는 인원 ({}), 총 인원({})]", roomId, room.getMatchingSize(), participations.size());
 
