@@ -19,8 +19,8 @@ export const toastSlideOut = keyframes`
 
 export const Wrapper = styled.div<{ closeAnimation: boolean }>`
   position: fixed;
-  right: 30px;
-  bottom: 30px;
+  right: 50px;
+  top: 80px;
 
   display: flex;
   align-items: center;
