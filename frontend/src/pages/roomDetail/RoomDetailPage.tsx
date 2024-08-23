@@ -61,7 +61,7 @@ const RoomDetailPage = () => {
             $isExpanded={isReviewerInfoExpanded}
           >
             <S.StyledSquare>
-              나의 리뷰이 프로세스 {isReviewerInfoExpanded ? "닫기" : "보기"}
+              나의 리뷰이 프로세스
               <Icon kind={isReviewerInfoExpanded ? "arrowDropUp" : "arrowDropDown"} size="1.4rem" />
             </S.StyledSquare>
             {isReviewerInfoExpanded && (
@@ -82,7 +82,7 @@ const RoomDetailPage = () => {
             $isExpanded={isRevieweeInfoExpanded}
           >
             <S.StyledSquare>
-              나의 리뷰어 프로세스 {isRevieweeInfoExpanded ? "닫기" : "보기"}
+              나의 리뷰어 프로세스
               <Icon kind={isRevieweeInfoExpanded ? "arrowDropUp" : "arrowDropDown"} size="1.4rem" />
             </S.StyledSquare>
             {isRevieweeInfoExpanded && (
