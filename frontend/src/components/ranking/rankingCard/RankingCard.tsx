@@ -34,7 +34,11 @@ const RankingCard = ({ title, rankingData }: RankingCardProps) => {
       <S.RankingAwardContainer>
         {awardOrderedData.map((data) => (
           <S.RankingAwardItem key={data.rank}>
-            <Profile imgSrc={data.profileImage} size={50} />
+            <Profile
+              imgSrc={data.profileImage}
+              size={50}
+              onClick={() => window.open(data.githubLink)}
+            />
             <a href={data.githubLink} target="_blank">
               {data.nickname}
             </a>
