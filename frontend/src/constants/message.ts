@@ -48,6 +48,7 @@ const ERROR_MESSAGES = {
 
 const SUCCESS_MESSAGES = {
   POST_REVIEW_FEEDBACK: "피드백을 작성하였습니다.",
+  POST_PARTICIPATE_IN: "정상적으로 방에 참여하였습니다.",
   PUT_REVIEW_FEEDBACK: "피드백을 수정하였습니다.",
 };
 
