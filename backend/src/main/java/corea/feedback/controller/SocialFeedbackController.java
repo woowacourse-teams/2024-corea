@@ -35,7 +35,7 @@ public class SocialFeedbackController implements SocialFeedbackControllerSpecifi
     @Override
     @PutMapping("/{feedbackId}")
     public ResponseEntity<Void> update(@PathVariable long roomId, @PathVariable long feedbackId, @LoginMember AuthInfo authInfo, @RequestBody SocialFeedbackRequest request) {
-        socialFeedbackService.update(feedbackId, roomId, authInfo.getId(), request);
+        socialFeedbackService.update(feedbackId, authInfo.getId(), request);
         return ResponseEntity.ok()
                 .build();
     }

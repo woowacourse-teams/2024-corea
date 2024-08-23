@@ -55,6 +55,7 @@ class DevelopFeedbackServiceTest {
                 .doesNotThrowAnyException();
         assertThat(matchResult.isReviewerCompletedFeedback()).isTrue();
         assertThat(receiver.getProfile().getFeedbackCount()).isEqualTo(1);
+        assertThat(receiver.getProfile().getAverageRatingValue()).isEqualTo(4);
     }
 
     @Test
@@ -100,7 +101,7 @@ class DevelopFeedbackServiceTest {
                 receiver
         ));
         DevelopFeedbackResponse createResponse = developFeedbackService.create(room.getId(), deliver.getId(), createRequest(receiver.getId()));
-        DevelopFeedbackResponse updateResponse = developFeedbackService.update(createResponse.feedbackId(), room.getId(), deliver.getId(), createRequest(receiver.getId()));
+        DevelopFeedbackResponse updateResponse = developFeedbackService.update(createResponse.feedbackId(), deliver.getId(), createRequest(receiver.getId()));
 
         assertThat(createResponse).isEqualTo(updateResponse);
     }
@@ -118,7 +119,7 @@ class DevelopFeedbackServiceTest {
                 receiver
         ));
 
-        assertThatThrownBy(() -> developFeedbackService.update(room.getId(), -1, deliver.getId(), createRequest(receiver.getId())))
+        assertThatThrownBy(() -> developFeedbackService.update(room.getId(), deliver.getId(), createRequest(receiver.getId())))
                 .isInstanceOf(CoreaException.class);
     }
 

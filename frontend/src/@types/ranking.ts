@@ -1,7 +1,7 @@
 export type RankingClassification = "re" | "an" | "be" | "fe";
 
 export interface RankingData {
-  rankingNumber: number;
+  rank: number;
   nickname: string;
   githubLink: string;
   givenReviewCount: number;

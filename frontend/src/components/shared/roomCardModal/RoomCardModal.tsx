@@ -66,9 +66,11 @@ const RoomCardModal = ({ isOpen, onClose, roomInfo }: RoomCardModalProps) => {
 
         <S.DescriptionContainer>
           <S.KeywordsContainer>
-            {roomInfo.keywords.map((keyword) => (
-              <Label key={keyword} type="keyword" text={keyword} />
-            ))}
+            <S.KeywordWrapper>
+              {roomInfo.keywords.map((keyword) => (
+                <S.KeywordText key={keyword}>#{keyword}</S.KeywordText>
+              ))}
+            </S.KeywordWrapper>
           </S.KeywordsContainer>
           <S.ContentContainer>{roomInfo.content}</S.ContentContainer>
         </S.DescriptionContainer>
