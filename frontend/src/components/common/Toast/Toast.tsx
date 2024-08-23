@@ -26,7 +26,9 @@ const Toast = () => {
   }
 
   return createPortal(
-    <S.Wrapper closeAnimation={!toastInfo.isOpen}>{toastInfo.message}</S.Wrapper>,
+    <S.Wrapper $type={toastInfo.type} $closeAnimation={!toastInfo.isOpen}>
+      {toastInfo.message}
+    </S.Wrapper>,
     toastContainer,
   );
 };
