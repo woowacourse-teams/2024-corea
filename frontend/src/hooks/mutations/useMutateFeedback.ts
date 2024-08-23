@@ -35,7 +35,7 @@ interface PutReviewerFeedbackMutationProps {
 
 const useMutateFeedback = () => {
   const { handleMutateSuccess, handleMutateError } = useMutateHandlers();
-  const { openToast } = useToast();
+  const { openToast } = useToast("success");
 
   // 리뷰어 -> 리뷰이
   const postRevieweeFeedbackMutation = useMutation({
