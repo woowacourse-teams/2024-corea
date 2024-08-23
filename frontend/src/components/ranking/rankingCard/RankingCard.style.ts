@@ -30,6 +30,9 @@ export const EmptyRankingData = styled.div`
 
   width: 100%;
   height: 100%;
+
+  font: ${({ theme }) => theme.TEXT.small};
+  color: ${({ theme }) => theme.COLOR.grey3};
 `;
 
 // award 시상대
@@ -58,7 +61,7 @@ export const RankingAwardItem = styled.div`
   }
 `;
 
-export const RankingAwardBar = styled.div<{ $rankingNumber: string }>`
+export const RankingAwardBar = styled.div<{ $rank: string }>`
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -71,8 +74,8 @@ export const RankingAwardBar = styled.div<{ $rankingNumber: string }>`
   background-color: ${({ theme }) => theme.COLOR.grey0};
   border-radius: 3px 3px 0 0;
 
-  ${({ $rankingNumber }) => {
-    switch ($rankingNumber) {
+  ${({ $rank }) => {
+    switch ($rank) {
       case "rank-1":
         return css`
           height: 70px;

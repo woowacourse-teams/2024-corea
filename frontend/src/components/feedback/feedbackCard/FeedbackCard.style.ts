@@ -52,6 +52,7 @@ export const FeedbackProfile = styled.div`
 `;
 
 export const FeedbackType = styled.span<{ $isTypeDevelop: boolean }>`
+  font: ${({ theme }) => theme.TEXT.small};
   color: ${({ theme, $isTypeDevelop }) =>
     $isTypeDevelop ? theme.COLOR.primary2 : theme.COLOR.secondary};
 `;
@@ -60,7 +61,7 @@ export const FeedbackTitle = styled.h3`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  font-weight: bold;
+  font: ${({ theme }) => theme.TEXT.small};
 `;
 
 export const FeedbackSubTitle = styled.span`
@@ -88,7 +89,7 @@ export const FeedbackDetail = styled.p`
 
   height: 120px;
 
-  line-height: 1.2rem;
+  font: ${({ theme }) => theme.TEXT.semiSmall};
   text-overflow: ellipsis;
   white-space: break-spaces;
 `;

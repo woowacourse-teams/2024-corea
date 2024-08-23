@@ -33,14 +33,12 @@ const RankingCard = ({ title, rankingData }: RankingCardProps) => {
 
       <S.RankingAwardContainer>
         {awardOrderedData.map((data) => (
-          <S.RankingAwardItem key={data.rankingNumber}>
+          <S.RankingAwardItem key={data.rank}>
             <Profile imgSrc={data.profileImage} size={50} />
             <a href={data.githubLink} target="_blank">
               {data.nickname}
             </a>
-            <S.RankingAwardBar $rankingNumber={`rank-${data.rankingNumber}`}>
-              {data.rankingNumber}
-            </S.RankingAwardBar>
+            <S.RankingAwardBar $rank={`rank-${data.rank}`}>{data.rank}</S.RankingAwardBar>
           </S.RankingAwardItem>
         ))}
       </S.RankingAwardContainer>
@@ -53,9 +51,9 @@ const RankingCard = ({ title, rankingData }: RankingCardProps) => {
           <S.TableItem>평점</S.TableItem>
         </S.RankingTableItem>
         {rankingData.map((data) => (
-          <S.RankingTableItem key={data.rankingNumber}>
+          <S.RankingTableItem key={data.rank}>
             <S.TableItem>
-              <img src={rankImages[data.rankingNumber]} alt={`Rank ${data.rankingNumber}`} />
+              <img src={rankImages[data.rank]} alt={`Rank ${data.rank}`} />
             </S.TableItem>
             <S.TableItem>
               <a href={data.githubLink} target="_blank">
