@@ -44,7 +44,11 @@ const RoomCard = ({ roomInfo }: RoomCardProps) => {
           </S.EtcContainer>
           <S.DeadLineText>
             {formatDeadlineString(roomInfo.recruitmentDeadline)}
-            <S.StyledDday> {formatDday(roomInfo.reviewDeadline)}</S.StyledDday>
+            {roomInfo.isParticipated ? (
+              <S.StyledDday> {formatDday(roomInfo.reviewDeadline)}</S.StyledDday>
+            ) : (
+              <S.StyledDday> {formatDday(roomInfo.recruitmentDeadline)}</S.StyledDday>
+            )}
           </S.DeadLineText>
         </S.RoomInformation>
       </S.RoomCardContainer>
