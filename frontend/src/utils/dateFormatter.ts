@@ -12,7 +12,7 @@ const formatDate = (
 // 마감일 포맷 함수
 export const formatDeadlineString = (dateString: string): string => {
   const { year, month, day, hours, minutes } = formatDate(dateString);
-  return `~ ${year}년 ${month}월 ${day}일 ${hours}시 ${minutes}분까지`;
+  return `${year.slice(2)}-${month}-${day} ${hours}시 ${minutes}분`;
 };
 
 // 일반 날짜 시간 포맷 함수

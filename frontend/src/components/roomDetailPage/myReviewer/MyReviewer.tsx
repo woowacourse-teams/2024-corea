@@ -22,7 +22,7 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
   const { data: reviewerData } = useFetchReviewer(roomInfo);
 
   if (reviewerData.length === 0) {
-    return <>{MESSAGES.GUIDANCE.EMPTY_REVIEWER}</>;
+    return <S.ErrorWrapper>{MESSAGES.GUIDANCE.EMPTY_REVIEWER}</S.ErrorWrapper>;
   }
 
   const handleOpenFeedbackModal = (reviewer: ReviewerInfo) => {

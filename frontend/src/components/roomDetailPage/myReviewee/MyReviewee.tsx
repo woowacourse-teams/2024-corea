@@ -24,7 +24,7 @@ const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
   const { data: revieweeData } = useFetchReviewee(roomInfo);
 
   if (revieweeData.length === 0) {
-    return <>{MESSAGES.GUIDANCE.EMPTY_REVIEWEE}</>;
+    return <S.ErrorWrapper>{MESSAGES.GUIDANCE.EMPTY_REVIEWEE}</S.ErrorWrapper>;
   }
 
   const handleOpenFeedbackModal = (reviewee: ReviewerInfo) => {

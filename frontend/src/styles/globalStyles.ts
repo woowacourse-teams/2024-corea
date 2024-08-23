@@ -3,9 +3,7 @@ import { createGlobalStyle } from "styled-components";
 const globalStyles = createGlobalStyle`
   scrollbar-width: none;
 
-  :root {
-    font-size: 62.5%;
-  }
+
 
   *,
   *::before,

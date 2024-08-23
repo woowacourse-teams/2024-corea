@@ -57,12 +57,13 @@ export const RoomInfoThumbnail = styled.img`
 export const RoomInformation = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.8rem;
+  padding: 0.5rem;
+
   ${media.small`
     gap: 0.1rem;
     letter-spacing: -1.3px;
   `}
-  padding: 0.5rem;
 `;
 
 export const RoomTitle = styled.h2`
@@ -88,7 +89,7 @@ export const KeywordWrapper = styled.div`
 `;
 
 export const KeywordText = styled.span`
-  font: ${({ theme }) => theme.TEXT.semiSmall};
+  font: ${({ theme }) => theme.TEXT.small};
   color: ${({ theme }) => theme.COLOR.grey2};
 `;
 
@@ -100,11 +101,19 @@ export const EtcContainer = styled.div`
 export const JoinMember = styled.span`
   display: flex;
   flex-direction: row;
+  gap: 0.2rem;
   align-items: center;
-  font: ${({ theme }) => theme.TEXT.semiSmall};
+
+  font: ${({ theme }) => theme.TEXT.small};
 `;
 
 export const DeadLineText = styled.span`
+  display: flex;
+  gap: 0.5rem;
   margin: 0 0 0.5rem;
-  font: ${({ theme }) => theme.TEXT.semiSmall};
+  font: ${({ theme }) => theme.TEXT.small};
+`;
+
+export const StyledDday = styled.span`
+  color: ${({ theme }) => theme.COLOR.error};
 `;
