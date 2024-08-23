@@ -18,7 +18,7 @@ export const RankingCardContainer = styled.div`
   box-shadow: 0 4px 4px rgb(0 0 0 / 10%);
 
   h2 {
-    font: ${({ theme }) => theme.TEXT.small};
+    font: ${({ theme }) => theme.TEXT.medium};
     color: ${({ theme }) => theme.COLOR.primary3};
   }
 `;
@@ -52,7 +52,7 @@ export const RankingAwardItem = styled.div`
   width: 100%;
 
   a {
-    font: ${({ theme }) => theme.TEXT.semiSmall};
+    font: ${({ theme }) => theme.TEXT.small};
     color: ${({ theme }) => theme.COLOR.grey2};
   }
 
@@ -69,6 +69,7 @@ export const RankingAwardBar = styled.div<{ $rank: string }>`
   width: 100%;
   padding: 0.3rem;
 
+  font: ${({ theme }) => theme.TEXT.small};
   color: ${({ theme }) => theme.COLOR.grey2};
 
   background-color: ${({ theme }) => theme.COLOR.grey0};
@@ -117,12 +118,13 @@ export const TableItem = styled.div`
 
   width: 60px;
 
-  font: ${({ theme }) => theme.TEXT.semiSmall};
+  font: ${({ theme }) => theme.TEXT.small};
   color: ${({ theme }) => theme.COLOR.grey3};
+  text-overflow: ellipsis;
 
   img {
-    width: 26px;
-    height: 26px;
+    width: 28px;
+    height: 28px;
   }
 
   a:hover {
