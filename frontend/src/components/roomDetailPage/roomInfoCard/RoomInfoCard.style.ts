@@ -67,12 +67,12 @@ export const RepositoryLink = styled.a`
   align-items: center;
 
   font: ${({ theme }) => theme.TEXT.small};
-  color: ${({ theme }) => theme.COLOR.black};
+  color: ${({ theme }) => theme.COLOR.primary2};
   text-decoration: underline;
   text-underline-offset: 0.3rem;
 
   &:hover {
-    color: ${({ theme }) => theme.COLOR.primary2};
+    color: ${({ theme }) => theme.COLOR.primary3};
     text-decoration: underline;
   }
 `;
@@ -91,6 +91,8 @@ export const RoomContentBox = styled.div`
 export const RoomContentSmall = styled.span`
   display: flex;
   gap: 1rem;
+  align-items: center;
+
   font: ${({ theme }) => theme.TEXT.small};
   color: ${({ theme }) => theme.COLOR.black};
 
