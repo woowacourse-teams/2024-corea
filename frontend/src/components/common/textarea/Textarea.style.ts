@@ -5,13 +5,13 @@ export const Textarea = styled.textarea<{ $error: boolean }>`
 
   overflow: hidden auto;
 
-  width: 100%;
   padding: 0.6rem 1.1rem;
 
   font-size: 1rem;
 
   border: 1px solid ${(props) => (props.$error ? props.theme.COLOR.error : props.theme.COLOR.grey1)};
   border-radius: 6px;
+  outline-color: ${({ theme }) => theme.COLOR.black};
 
   &::-webkit-scrollbar {
     width: 5px;
