@@ -23,7 +23,6 @@ export const ModalQuestion = styled.p<ModalQuestionProps>`
 
   font: ${({ theme }) => theme.TEXT.small};
   font-weight: 600;
-  color: ${({ theme }) => theme.COLOR.black};
 
   ${({ required, theme }) =>
     required &&

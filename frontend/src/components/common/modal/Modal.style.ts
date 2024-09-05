@@ -23,7 +23,6 @@ export const ModalContent = styled.div`
     position: fixed;
     left: 0;
     bottom: 0;
-    width: 100vw;
     height: 70vh;
     border-radius: 8px 8px 0px 0px;
   `}
