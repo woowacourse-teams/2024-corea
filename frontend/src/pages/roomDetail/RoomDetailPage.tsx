@@ -13,7 +13,7 @@ const RoomDetailPage = () => {
   const roomId = params.id ? Number(params.id) : 0;
 
   const { data: roomInfo } = useSuspenseQuery({
-    queryKey: [QUERY_KEYS.ROOM_DETAIL_INFO],
+    queryKey: [QUERY_KEYS.ROOM_DETAIL_INFO, roomId],
     queryFn: () => getRoomDetailInfo(roomId),
   });
 
