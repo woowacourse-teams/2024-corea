@@ -11,7 +11,9 @@ interface FeedbackCardProps {
 
 const FeedbackCard = ({ feedbackCardData, feedbackType }: FeedbackCardProps) => {
   const feedbackTypeInfo =
-    feedbackType === "develop" ? "개발역량 피드백" : "소프트스킬 역량 피드백";
+    feedbackType === "develop"
+      ? "개발역량 피드백\nfrom. 나의 리뷰어"
+      : "소프트스킬 역량 피드백\nfrom. 나의 리뷰이";
 
   return (
     <S.FeedbackCardContainer $isTypeDevelop={feedbackType === "develop"}>

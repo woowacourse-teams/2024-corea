@@ -55,6 +55,8 @@ export const FeedbackType = styled.span<{ $isTypeDevelop: boolean }>`
   font: ${({ theme }) => theme.TEXT.small};
   color: ${({ theme, $isTypeDevelop }) =>
     $isTypeDevelop ? theme.COLOR.primary2 : theme.COLOR.secondary};
+  text-align: right;
+  white-space: pre-line;
 `;
 
 export const FeedbackTitle = styled.h3`
