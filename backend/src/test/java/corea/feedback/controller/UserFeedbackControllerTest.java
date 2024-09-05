@@ -2,6 +2,7 @@ package corea.feedback.controller;
 
 import config.ControllerTest;
 import corea.auth.service.LoginService;
+import corea.auth.service.TokenService;
 import corea.feedback.dto.UserFeedbackResponse;
 import corea.feedback.repository.DevelopFeedbackRepository;
 import corea.feedback.repository.SocialFeedbackRepository;
@@ -40,6 +41,8 @@ class UserFeedbackControllerTest {
 
     @Autowired
     private LoginService loginService;
+    @Autowired
+    private TokenService tokenService;
 
     @Test
     @DisplayName("자신이 작성한 피드백을 받는다.")
@@ -54,7 +57,7 @@ class UserFeedbackControllerTest {
         developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room2.getId(), member1, member2));
         socialFeedbackRepository.save(SocialFeedbackFixture.POSITIVE_FEEDBACK(room1.getId(), member1, manager));
 
-        String token = loginService.createAccessToken(member1);
+        String token = tokenService.createAccessToken(member1);
 
         UserFeedbackResponse response = RestAssured.given().header("Authorization", token).contentType(ContentType.JSON)
                 .when().get("/user/feedbacks/delivered")
@@ -78,7 +81,7 @@ class UserFeedbackControllerTest {
         developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room2.getId(), manager, member2));
         socialFeedbackRepository.save(SocialFeedbackFixture.POSITIVE_FEEDBACK(room1.getId(), manager, member2));
 
-        String token = loginService.createAccessToken(member2);
+        String token = tokenService.createAccessToken(member2);
 
         UserFeedbackResponse response = RestAssured.given().header("Authorization", token).contentType(ContentType.JSON)
                 .when().get("/user/feedbacks/received")
