@@ -58,11 +58,7 @@ const MainPage = () => {
       case "참여 중":
         return (
           <ContentSection title="">
-            {participatedRoomList ? (
-              <RoomList roomList={participatedRoomList.rooms} roomType="participated" />
-            ) : (
-              <div>❗ 참여 중인 방이 없습니다.</div>
-            )}
+            <RoomList roomList={participatedRoomList.rooms} roomType="participated" />
           </ContentSection>
         );
       case "모집 중":

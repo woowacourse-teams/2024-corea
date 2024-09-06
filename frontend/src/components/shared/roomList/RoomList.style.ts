@@ -1,6 +1,22 @@
 import styled from "styled-components";
 import media from "@/styles/media";
 
+export const EmptyContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+
+  margin-top: 4rem;
+
+  font: ${({ theme }) => theme.TEXT.large};
+`;
+
+export const Character = styled.img`
+  width: 70%;
+  max-width: 300px;
+`;
+
 export const RoomListSection = styled.div`
   display: flex;
   flex-direction: column;

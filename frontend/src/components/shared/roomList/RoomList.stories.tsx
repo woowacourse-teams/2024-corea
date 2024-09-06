@@ -28,6 +28,11 @@ const meta = {
       description: "더 보기 버튼 클릭 시 호출될 함수",
       action: "clicked",
     },
+    roomType: {
+      description: "방의 타입",
+      control: { type: "select" },
+      options: ["participated", "opened", "closed"],
+    },
   },
 } satisfies Meta<typeof RoomList>;
 
@@ -39,6 +44,7 @@ export const SmallViewport: Story = {
   args: {
     roomList: sampleRoomList,
     hasNextPage: false,
+    roomType: "participated",
   },
   parameters: {
     viewport: {
@@ -52,6 +58,7 @@ export const SmallViewport_With_NextPage: Story = {
     roomList: sampleRoomList,
     hasNextPage: true,
     onLoadMore: () => {},
+    roomType: "opened",
   },
   parameters: {
     viewport: {
@@ -64,6 +71,7 @@ export const MediumViewport: Story = {
   args: {
     roomList: sampleRoomList,
     hasNextPage: false,
+    roomType: "closed",
   },
   parameters: {
     viewport: {
@@ -76,6 +84,7 @@ export const LargeViewport: Story = {
   args: {
     roomList: sampleRoomList,
     hasNextPage: false,
+    roomType: "closed",
   },
   parameters: {
     viewport: {
