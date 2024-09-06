@@ -1,9 +1,12 @@
 import { ButtonHTMLAttributes } from "react";
 import * as S from "@/components/common/button/Button.style";
 
+export type ButtonVariant = "primary" | "secondary" | "disable" | "success" | "error";
+export type ButtonSize = "xSmall" | "small" | "medium" | "large";
+
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary" | "disable" | "lightBlue" | "error";
-  size?: "xSmall" | "small" | "medium" | "large";
+  variant?: ButtonVariant;
+  size?: ButtonSize;
 }
 
 const Button = ({
