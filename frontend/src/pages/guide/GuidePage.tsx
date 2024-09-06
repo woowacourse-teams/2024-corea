@@ -33,7 +33,7 @@ const GuidePage = () => {
       <ContentSection title="분야별 코드 작성 가이드 바로가기">
         <S.GuideContainer>
           {guidePageOptions.map((option) => (
-            <Link to={option.link}>
+            <Link to={option.link} target="_blank">
               <S.CardContainer>
                 <Icon kind="link" />
                 <span>{option.title}</span>
@@ -118,11 +118,11 @@ const GuidePage = () => {
           <p>코드 리뷰는 리뷰이의 코드가 클린 코드에 더 가까워질 수 있도록 도와주는 역할이에요.</p>
           <ul>
             <li>
-              코드 작성 가이드와
-              <S.LinkWrapper>
-                <a href="https://meetup.nhncloud.com/posts/106"> 커밋 가이드라인</a>
-                <p>을 준수하여 코드의 일관성을 유지하는 것을 목표로 해요.</p>
-              </S.LinkWrapper>
+              코드 작성 가이드와&nbsp;
+              <a href="https://meetup.nhncloud.com/posts/106" target="_blank">
+                커밋 가이드라인
+              </a>
+              을 준수하여 코드의 일관성을 유지하는 것을 목표로 해요.
             </li>
             <li>
               코딩 컨벤션을 철저히 지켜 가독성을 높이고, 다른 개발자들이 코드를 이해하기 쉽게 하는
@@ -156,7 +156,9 @@ const GuidePage = () => {
           </ul>
           <S.IconWrapper>
             <Icon kind="link" />
-            <a href="https://github.com/woowacourse/java-chess/pull/699">참고 가능한 PR 링크</a>
+            <a href="https://github.com/woowacourse/java-chess/pull/699" target="_blank">
+              참고 가능한 PR 링크
+            </a>
           </S.IconWrapper>
         </S.StyledContainer>
 
@@ -165,7 +167,10 @@ const GuidePage = () => {
           <h2>1. 코드 리뷰 시 주로 확인하면 좋은 것들</h2>
           <S.IconWrapper>
             <Icon kind="link" />
-            <a href="https://google.github.io/eng-practices/review/reviewer/looking-for.html">
+            <a
+              href="https://google.github.io/eng-practices/review/reviewer/looking-for.html"
+              target="_blank"
+            >
               구글 코드 리뷰 가이드
             </a>
           </S.IconWrapper>
@@ -264,13 +269,16 @@ private double getDiscountRate(boolean isMember, boolean isHoliday) {
           <h1>💡 추가로 참고하면 좋은 자료</h1>
           <S.IconWrapper>
             <Icon kind="link" />
-            <a href="https://tech.kakao.com/posts/498">
+            <a href="https://tech.kakao.com/posts/498" target="_blank">
               효과적인 코드리뷰를 위한 리뷰어의 자세(카카오)
             </a>
           </S.IconWrapper>
           <S.IconWrapper>
             <Icon kind="link" />
-            <a href="https://github.com/meshkorea/front-end-engineering/blob/main/conventions/code-review/index.md">
+            <a
+              href="https://github.com/meshkorea/front-end-engineering/blob/main/conventions/code-review/index.md"
+              target="_blank"
+            >
               메쉬코리아 팀의 코드 리뷰 규칙
             </a>
           </S.IconWrapper>
