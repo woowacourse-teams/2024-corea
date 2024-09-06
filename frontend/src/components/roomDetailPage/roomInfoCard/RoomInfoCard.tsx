@@ -55,7 +55,7 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
           <S.RoomContentSmall>
             <Icon kind="calendar" size="1.4rem" />
             <div>
-              리뷰 마감일: {formatDateTimeString(roomInfo.reviewDeadline)}
+              리뷰 및 피드백 마감일: {formatDateTimeString(roomInfo.reviewDeadline)}
               <S.StyledDday> {formatDday(roomInfo.reviewDeadline)}</S.StyledDday>
             </div>
           </S.RoomContentSmall>
