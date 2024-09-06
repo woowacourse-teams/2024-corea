@@ -14,6 +14,7 @@ export const ProfileTitle = styled.div`
 export const ProfileCardWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   justify-content: space-between;
 `;
 
@@ -43,9 +44,27 @@ export const InfoCount = styled.span`
   font: ${({ theme }) => theme.TEXT.small};
 `;
 
-export const ProfileInfoTable = styled.table`
-  border-spacing: 1.4rem;
-  border-collapse: separate;
+export const ProfileInfoDl = styled.dl`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  width: 180px;
+  margin: 0;
+  padding: 0;
+
+  font: ${({ theme }) => theme.TEXT.medium};
+
+  div {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  dd {
+    display: flex;
+    gap: 0.1rem;
+  }
 `;
 
 export const ProfileFlex = styled.div`
