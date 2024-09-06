@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import useSelectedCategory from "@/hooks/common/useSelectedCategory";
+import DelaySuspense from "@/components/common/delaySuspense/DelaySuspense";
+import Loading from "@/components/common/loading/Loading";
 import OptionSelect from "@/components/common/optionSelect/OptionSelect";
 import Banner from "@/components/main/banner/Banner";
 import ClosedRoomList from "@/components/main/room/ClosedRoomList";
@@ -22,17 +24,33 @@ const MainPage = () => {
         return <ParticipatedRoomList />;
       case "모집 중":
         return (
-          <OpenedRoomList
-            selectedCategory={selectedCategory}
-            handleSelectedCategory={handleSelectedCategory}
-          />
+          <Suspense
+            fallback={
+              <DelaySuspense>
+                <Loading />
+              </DelaySuspense>
+            }
+          >
+            <OpenedRoomList
+              selectedCategory={selectedCategory}
+              handleSelectedCategory={handleSelectedCategory}
+            />
+          </Suspense>
         );
       case "모집 마감":
         return (
-          <ClosedRoomList
-            selectedCategory={selectedCategory}
-            handleSelectedCategory={handleSelectedCategory}
-          />
+          <Suspense
+            fallback={
+              <DelaySuspense>
+                <Loading />
+              </DelaySuspense>
+            }
+          >
+            <ClosedRoomList
+              selectedCategory={selectedCategory}
+              handleSelectedCategory={handleSelectedCategory}
+            />
+          </Suspense>
         );
       default:
         return null;

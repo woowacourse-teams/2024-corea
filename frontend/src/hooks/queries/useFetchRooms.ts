@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { useSuspenseInfiniteQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { RoomListInfo } from "@/@types/roomInfo";
 import QUERY_KEYS from "@/apis/queryKeys";
 import { getParticipatedRoomList } from "@/apis/rooms.api";
@@ -23,7 +23,7 @@ export const useInfiniteFetchRoomList = ({
   getRoomList,
   classification,
 }: RoomListQueryProps) => {
-  return useInfiniteQuery({
+  return useSuspenseInfiniteQuery({
     queryKey,
     queryFn: ({ pageParam = 0 }) => {
       return getRoomList(classification, pageParam);
