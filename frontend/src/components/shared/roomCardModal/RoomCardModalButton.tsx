@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import useMutateParticipateIn from "@/hooks/mutations/useMutateParticipateIn";
 import Button from "@/components/common/button/Button";
 import { RoomInfo } from "@/@types/roomInfo";
@@ -7,7 +8,13 @@ interface RoomCardModalButtonProps {
 }
 
 const RoomCardModalButton = ({ roomInfo }: RoomCardModalButtonProps) => {
+  const navigate = useNavigate();
   const { postParticipateInMutation } = useMutateParticipateIn();
+
+  const handleParticipateClick = () => {
+    postParticipateInMutation.mutate(roomInfo.id);
+    navigate(`/rooms/${roomInfo.id}`);
+  };
 
   if (roomInfo.isParticipated) {
     return (
@@ -23,11 +30,7 @@ const RoomCardModalButton = ({ roomInfo }: RoomCardModalButtonProps) => {
     );
   }
   return (
-    <Button
-      variant="primary"
-      size="small"
-      onClick={() => postParticipateInMutation.mutate(roomInfo.id)}
-    >
+    <Button variant="primary" size="small" onClick={handleParticipateClick}>
       참여하기
     </Button>
   );
