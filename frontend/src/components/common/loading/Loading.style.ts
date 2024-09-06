@@ -5,6 +5,11 @@ export const LoadingContainer = styled.div`
   align-items: center;
   justify-content: center;
 
-  width: 100%;
-  height: 100%;
+  img {
+    min-width: 150px;
+    min-height: 150px;
+
+    width: 100%;
+    height: 100%;
+  }
 `;
