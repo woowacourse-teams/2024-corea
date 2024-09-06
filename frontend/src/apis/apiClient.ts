@@ -97,8 +97,8 @@ const fetchWithToken = async (
   }
 
   let response = await fetch(`${serverUrl}${endpoint}`, requestInit);
-  const text = await response.text();
-  const data = text ? JSON.parse(text) : null;
+  let text = await response.text();
+  let data = text ? JSON.parse(text) : null;
 
   if (response.status === 401 && data.message === "토큰이 만료되었습니다.") {
     if (isRefreshing) {
@@ -127,6 +127,8 @@ const fetchWithToken = async (
     };
 
     response = await fetch(`${serverUrl}${endpoint}`, requestInit);
+    text = await response.text();
+    data = text ? JSON.parse(text) : null;
 
     if (!response.ok && response.status !== 401) {
       throw new HTTPError(MESSAGES.ERROR.POST_REFRESH);
