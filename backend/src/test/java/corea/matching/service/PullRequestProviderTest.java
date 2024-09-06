@@ -40,28 +40,26 @@ class PullRequestProviderTest {
                 100,
                 1
         )).thenReturn(
-                new PullRequestData(false,
-                        new PullRequestResponse[]{
-                                new PullRequestResponse(link + "8", new GithubUserResponse("6"), githubTime.minusHours(4)),
-                                new PullRequestResponse(link + "7", new GithubUserResponse("5"), githubTime.minusHours(3))
-                        })
+                new PullRequestData(new PullRequestResponse[]{
+                        new PullRequestResponse(link + "8", new GithubUserResponse("6"), githubTime.minusHours(4)),
+                        new PullRequestResponse(link + "7", new GithubUserResponse("5"), githubTime.minusHours(3))
+                })
         );
         when(githubPullRequestClient.getPullRequestListWithPageNumber(
                 link,
                 100,
                 2
         )).thenReturn(
-                new PullRequestData(false,
-                        new PullRequestResponse[]{
-                                new PullRequestResponse(link + "9", new GithubUserResponse("3"), githubTime.minusHours(2)),
-                                new PullRequestResponse(link + "8", new GithubUserResponse("4"), githubTime.minusHours(1))
-                        })
+                new PullRequestData(new PullRequestResponse[]{
+                        new PullRequestResponse(link + "9", new GithubUserResponse("3"), githubTime.minusHours(2)),
+                        new PullRequestResponse(link + "8", new GithubUserResponse("4"), githubTime.minusHours(1))
+                })
         );
         when(githubPullRequestClient.getPullRequestListWithPageNumber(
                 link,
                 100,
                 3
-        )).thenReturn(new PullRequestData(true, new PullRequestResponse[]{}));
+        )).thenReturn(new PullRequestData(new PullRequestResponse[]{}));
 
     }
 
