@@ -44,7 +44,7 @@ export const InfoCount = styled.span`
   font: ${({ theme }) => theme.TEXT.small};
 `;
 
-export const ProfileInfoDl = styled.dl`
+export const ProfileSummaryContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -55,7 +55,7 @@ export const ProfileInfoDl = styled.dl`
 
   font: ${({ theme }) => theme.TEXT.medium};
 
-  div {
+  dl {
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;

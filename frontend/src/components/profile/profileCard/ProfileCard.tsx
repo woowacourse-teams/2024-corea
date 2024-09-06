@@ -42,26 +42,26 @@ const ProfileCard = (profileData: ProfileData) => {
         </S.ProfileWrapper>
 
         <S.ProfileInfoWrapper>
-          <S.ProfileInfoDl>
-            <div>
+          <S.ProfileSummaryContainer>
+            <dl>
               <dt>리뷰한 개수</dt>
               <dd>{profileData.givenReviewCount}개</dd>
-            </div>
-            <div>
+            </dl>
+            <dl>
               <dt>리뷰 받은 개수</dt>
               <dd>{profileData.receivedReviewCount}개</dd>
-            </div>
-            <div>
+            </dl>
+            <dl>
               <dt>피드백 받은 개수</dt>
               <dd>{profileData.feedbackCount}개</dd>
-            </div>
-            <div>
+            </dl>
+            <dl>
               <dt>평균 평점</dt>
               <dd>
                 <Icon kind="star" size="1rem" /> 1.4
               </dd>
-            </div>
-          </S.ProfileInfoDl>
+            </dl>
+          </S.ProfileSummaryContainer>
         </S.ProfileInfoWrapper>
 
         <S.KeywordContainer>
