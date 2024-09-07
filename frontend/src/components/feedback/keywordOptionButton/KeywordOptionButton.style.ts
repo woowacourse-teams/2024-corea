@@ -20,7 +20,7 @@ export const ButtonWrapper = styled.button<OptionButtonBoxProps>`
 
   padding: 0.5rem 0.9rem;
 
-  font: ${({ theme }) => theme.TEXT.semiSmall};
+  font: ${({ theme }) => theme.TEXT.small};
 
   background-color: ${({ theme }) => theme.COLOR.white};
   border-radius: 18px;
