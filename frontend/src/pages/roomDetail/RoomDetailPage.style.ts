@@ -36,6 +36,7 @@ export const FeedbackSection = styled.div`
 `;
 
 export const StyledDescription = styled.p`
+  height: 32px;
   font: ${({ theme }) => theme.TEXT.small};
   color: ${({ theme }) => theme.COLOR.grey3};
 `;
@@ -51,17 +52,17 @@ export const StyledSquare = styled.div`
   align-items: center;
   justify-content: space-between;
 
-  padding: 1rem;
+  padding: 1.4rem 1rem;
 
-  font: ${({ theme }) => theme.TEXT.small};
-  color: ${({ theme }) => theme.COLOR.black};
+  font: ${({ theme }) => theme.TEXT.small_bold};
+  color: ${({ theme }) => theme.COLOR.grey4};
 
   background-color: ${({ theme }) => theme.COLOR.primary1};
   border-left: 4px solid ${({ theme }) => theme.COLOR.primary3};
 `;
 
 export const ExpandableContent = styled.div`
-  padding: 1rem;
+  padding: 2rem 1rem;
 
   font: ${({ theme }) => theme.TEXT.small};
   color: ${({ theme }) => theme.COLOR.black};
@@ -73,14 +74,17 @@ export const ExpandableContent = styled.div`
 
   p {
     margin-bottom: 1rem;
+    font: ${({ theme }) => theme.TEXT.small};
   }
 
   ol {
     padding-left: 1rem;
+    font: ${({ theme }) => theme.TEXT.small};
   }
 
   li {
-    margin: 0 0 0.4rem 1rem;
+    margin: 0.4rem 1rem;
+    font: ${({ theme }) => theme.TEXT.semiSmall};
     list-style-type: auto;
   }
 `;
