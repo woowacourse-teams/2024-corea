@@ -55,8 +55,6 @@ jobs:
               reviewers="ashsty, jcoding-play, hjk0761, youngsu5582"
             elif [[ "$LABEL" == "FE" ]]; then
               reviewers="00kang, pp449, chlwlstlf"
-            elif [[ "$LABEL" == "ALL" ]]; then
-              reviewers="${{ env.ASSIGNEES }}"
             fi
           done
           
