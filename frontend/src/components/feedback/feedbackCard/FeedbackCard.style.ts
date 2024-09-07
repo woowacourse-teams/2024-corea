@@ -61,16 +61,18 @@ export const FeedbackTitle = styled.h3`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  font: ${({ theme }) => theme.TEXT.small};
+
+  font: ${({ theme }) => theme.TEXT.medium_bold};
+  color: ${({ theme }) => theme.COLOR.grey4};
 `;
 
 export const FeedbackSubTitle = styled.span`
-  font: ${({ theme }) => theme.TEXT.semiSmall};
+  font: ${({ theme }) => theme.TEXT.small};
 `;
 
 export const FeedbackKeyword = styled.div`
   padding: 1rem;
-  font: ${({ theme }) => theme.TEXT.semiSmall};
+  font: ${({ theme }) => theme.TEXT.small};
   background: ${({ theme }) => theme.COLOR.grey0};
   border-radius: 5px;
 `;
@@ -89,7 +91,7 @@ export const FeedbackDetail = styled.p`
 
   height: 120px;
 
-  font: ${({ theme }) => theme.TEXT.semiSmall};
+  font: ${({ theme }) => theme.TEXT.small};
   text-overflow: ellipsis;
   white-space: break-spaces;
 `;
