@@ -4,7 +4,7 @@ import media from "@/styles/media";
 export const GuidPageLayout = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 5rem;
+  gap: 6rem;
 `;
 
 export const GuideContainer = styled.div`
@@ -63,6 +63,10 @@ export const StyledContainer = styled.div`
   h2 {
     margin-top: 1rem;
     font: ${({ theme }) => theme.TEXT.medium_bold};
+
+    :first-child {
+      margin-top: 0;
+    }
   }
 
   h3,

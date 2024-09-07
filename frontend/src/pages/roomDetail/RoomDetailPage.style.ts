@@ -4,10 +4,10 @@ import media from "@/styles/media";
 export const Layout = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 5rem;
+  gap: 6rem;
 
   ${media.small`
-    gap: 2rem;
+    gap: 4rem;
   `}
 `;
 
@@ -18,7 +18,7 @@ export const FeedbackContainer = styled.div`
 
   ${media.small`
     display: flex;
-    gap: 2rem;  
+    gap: 4rem;  
     flex-direction: column;
   `}
 `;
