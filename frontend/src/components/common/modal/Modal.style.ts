@@ -24,6 +24,7 @@ export const ModalContent = styled.div`
     left: 0;
     bottom: 0;
     height: 70vh;
+    width:100%;
     border-radius: 8px 8px 0px 0px;
   `}
 
