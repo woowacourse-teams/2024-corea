@@ -21,15 +21,17 @@ export const CardContainer = styled.div`
   align-items: center;
   justify-content: center;
 
+  width: 200px;
+  height: 60px;
   margin: 0 auto;
-  padding: 0.5rem 1rem;
 
-  background-color: ${({ theme }) => theme.COLOR.primary1};
   border: 2px solid ${({ theme }) => theme.COLOR.grey1};
   border-radius: 12px;
   box-shadow: 0 4px 4px rgb(0 0 0 / 10%);
 
   &:hover {
+    background-color: ${({ theme }) => theme.COLOR.primary1};
+
     ${media.medium`
       transform: scale(1.05);
     `}
@@ -39,7 +41,7 @@ export const CardContainer = styled.div`
   }
 
   span {
-    font: ${({ theme }) => theme.TEXT.small};
+    font: ${({ theme }) => theme.TEXT.small_bold};
   }
 `;
 
@@ -55,15 +57,20 @@ export const StyledContainer = styled.div`
 
   h1 {
     margin-top: 1rem;
-    font: ${({ theme }) => theme.TEXT.large};
+    font: ${({ theme }) => theme.TEXT.large_bold};
   }
 
   h2 {
     margin-top: 1rem;
-    font: ${({ theme }) => theme.TEXT.medium};
+    font: ${({ theme }) => theme.TEXT.medium_bold};
   }
 
-  h3 {
+  h3,
+  h4,
+  p,
+  span,
+  li,
+  em {
     font: ${({ theme }) => theme.TEXT.small};
   }
 
@@ -94,7 +101,8 @@ export const StyledContainer = styled.div`
 `;
 
 export const StyledSquare = styled.div`
-  padding: 1rem;
+  padding: 1.6rem 1rem;
+  font: ${({ theme }) => theme.TEXT.small_bold};
   background-color: ${({ theme }) => theme.COLOR.grey0};
   border-left: 4px solid ${({ theme }) => theme.COLOR.primary3};
 `;
@@ -139,6 +147,7 @@ export const StyledPre = styled.pre`
 `;
 
 export const StyledCode = styled.code`
-  font: ${({ theme }) => theme.TEXT.small};
+  font: ${({ theme }) => theme.TEXT.xSmall};
+  line-height: 2rem;
   color: ${({ theme }) => theme.COLOR.white};
 `;

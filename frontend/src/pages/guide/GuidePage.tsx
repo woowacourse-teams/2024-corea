@@ -15,10 +15,10 @@ import {
 
 const guidePageOptions = [
   {
-    title: "BACKEND 코드 가이드",
+    title: "BACKEND",
     link: "https://code-review-area.notion.site/v-1-0-b2ea7761e0e949e396c3bdd45860d270?pvs=4",
   },
-  { title: "FRONTEND 코드 가이드", link: "http://code-review-area.notion.site" },
+  { title: "FRONTEND", link: "http://code-review-area.notion.site" },
 ];
 
 export const CodeBlock = ({ children }: { children: string }) => (
@@ -35,7 +35,7 @@ const GuidePage = () => {
           {guidePageOptions.map((option) => (
             <Link to={option.link}>
               <S.CardContainer>
-                <Icon kind="link" />
+                <Icon kind="link" size="2rem" />
                 <span>{option.title}</span>
               </S.CardContainer>
             </Link>
@@ -89,18 +89,14 @@ const GuidePage = () => {
             있어요.
           </p>
           <ul>
-            <li>
-              <code>Files changed</code> 탭에서만 노출되는 버튼이에요.
-            </li>
+            <li>Files changed 탭에서만 노출되는 버튼이에요.</li>
           </ul>
           <img src={github_suggestion_ex} alt="Suggestion 예시" />
 
           <h2>4. 제 코멘트가 pending 상태에서 넘어가지 않아요!</h2>
           <img src={github_comment_pending} alt="Pending 상태의 코멘트" />
           <ul>
-            <li>
-              코멘트만 남긴 상태에서는 코멘트 옆에서 노란색 <code>Pending</code> 마크가 떠있어요.
-            </li>
+            <li>코멘트만 남긴 상태에서는 코멘트 옆에서 노란색 Pending 마크가 떠있어요.</li>
             <li className="second">이 상태에서는 리뷰이가 리뷰 내용을 확인할 수 없어요.</li>
             <li>
               리뷰를 완료한 후 리뷰를 전달하기 위해서는 우측 상단에서 Review changes 버튼을 클릭해야
