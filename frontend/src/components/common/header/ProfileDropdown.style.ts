@@ -16,31 +16,43 @@ export const DropdownMenu = styled.div<{ show: boolean }>`
   padding: 1rem;
 
   background-color: white;
-  border-radius: 15px;
+  border-radius: 12px;
   box-shadow: 0 0 7px 1px ${({ theme }) => theme.COLOR.primary2};
 `;
 
 export const ProfileWrapper = styled.div`
   display: flex;
   gap: 0.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid ${({ theme }) => theme.COLOR.grey1};
 `;
 
 export const ProfileInfo = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 0.4rem;
 
   strong {
-    font: ${({ theme }) => theme.TEXT.medium};
+    font: ${({ theme }) => theme.TEXT.medium_bold};
+    color: ${({ theme }) => theme.COLOR.black};
   }
 
   span {
-    font-size: 0.8rem;
+    font: ${({ theme }) => theme.TEXT.xSmall};
     color: ${({ theme }) => theme.COLOR.grey3};
   }
 `;
 
 export const DropdownItemWrapper = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
   margin: 0.5rem;
+
+  :last-child {
+    gap: 0;
+    border-top: 1px solid ${({ theme }) => theme.COLOR.grey1};
+  }
 `;
 
 export const DropdownItem = styled.li`
@@ -58,6 +70,7 @@ export const DropdownItem = styled.li`
   transition: background-color 0.3s;
 
   &:hover {
+    font: ${({ theme }) => theme.TEXT.small_bold};
     background-color: ${({ theme }) => theme.COLOR.grey0};
   }
 `;
