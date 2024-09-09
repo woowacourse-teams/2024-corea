@@ -92,6 +92,7 @@ export const FeedbackDetail = styled.p`
   height: 120px;
 
   font: ${({ theme }) => theme.TEXT.small};
+  line-height: 2rem;
   text-overflow: ellipsis;
   white-space: break-spaces;
 `;

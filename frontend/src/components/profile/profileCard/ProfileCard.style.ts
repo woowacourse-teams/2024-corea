@@ -27,7 +27,8 @@ export const ProfileWrapper = styled.div`
 `;
 
 export const ProfileNickname = styled.div`
-  font: ${({ theme }) => theme.TEXT.semiSmall};
+  font: ${({ theme }) => theme.TEXT.medium_bold};
+  color: ${({ theme }) => theme.COLOR.grey3};
   text-align: center;
 `;
 
@@ -91,6 +92,6 @@ export const AttitudeScoreText = styled.div`
 
   span {
     padding-left: 1rem;
-    font: ${({ theme }) => theme.TEXT.xSmall};
+    font: ${({ theme }) => theme.TEXT.small};
   }
 `;

@@ -125,7 +125,7 @@ export const DateTimeText = styled.p`
 `;
 
 export const StyledDday = styled.p`
-  font: ${({ theme }) => theme.TEXT.small};
+  font: ${({ theme }) => theme.TEXT.small_bold};
   color: ${({ theme }) => theme.COLOR.error};
 `;
 

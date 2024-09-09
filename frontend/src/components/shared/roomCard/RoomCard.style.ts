@@ -118,6 +118,6 @@ export const DeadLineText = styled.span`
 export const StyledDday = styled.span`
   display: flex;
   align-items: center;
-  font: ${({ theme }) => theme.TEXT.semiSmall};
+  font: ${({ theme }) => theme.TEXT.small_bold};
   color: ${({ theme }) => theme.COLOR.error};
 `;
