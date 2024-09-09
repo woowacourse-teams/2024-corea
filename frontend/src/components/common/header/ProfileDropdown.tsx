@@ -1,4 +1,3 @@
-import Icon from "../icon/Icon";
 import Profile from "../profile/Profile";
 import { useNavigate } from "react-router-dom";
 import useDropdown from "@/hooks/common/useDropdown";
