@@ -24,7 +24,6 @@ export const ProfileWrapper = styled.div`
   display: flex;
   gap: 0.5rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid ${({ theme }) => theme.COLOR.grey1};
 `;
 
 export const ProfileInfo = styled.div`
