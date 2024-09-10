@@ -17,7 +17,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 @EnableConfigurationProperties(GithubProperties.class)
 @Component
 @RequiredArgsConstructor
-public class GithubClient {
+public class GithubOAuthClient {
 
     private static final String ERROR = "\"error\"";
 
