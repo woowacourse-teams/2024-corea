@@ -89,12 +89,12 @@ class LoginServiceTest {
     @Test
     @DisplayName("RefreshToken의 유효기간이 만료되었을 경우 DB에서 해당 유저의 로그인 정보를 삭제한다.")
     void authorizeException_TokenExpired() throws InterruptedException {
-        String expiredRefreshToken = tokenProvider.createToken(member, 5L);
+        String expiredRefreshToken = tokenProvider.createToken(member, 5L,secretKey);
 
         loginInfoRepository.save(new LoginInfo(member, expiredRefreshToken));
 
         Thread.sleep(5);
-        assertThatThrownBy(() -> loginService.authorize(expiredRefreshToken))
+        assertThatThrownBy(() -> loginService.refresh(expiredRefreshToken))
                 .isInstanceOf(CoreaException.class)
                 .satisfies(exception -> {
                     CoreaException coreaException = (CoreaException) exception;
