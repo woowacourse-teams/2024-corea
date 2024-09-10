@@ -17,8 +17,7 @@ class PullRequestDataTest {
     void some() {
         GithubUserResponse githubUserResponse = new GithubUserResponse("3");
         LocalDateTime time = LocalDateTime.of(2024, 11, 24, 18, 31);
-        PullRequestData pullRequestData = new PullRequestData(false,
-                new PullRequestResponse[]{new PullRequestResponse("https://pullRequestLink.com", githubUserResponse, time)});
+        PullRequestData pullRequestData = new PullRequestData(new PullRequestResponse[]{new PullRequestResponse("https://pullRequestLink.com", githubUserResponse, time)});
 
         boolean isAftered = pullRequestData.isAfterPage(LocalDateTime.of(2024, 11, 24, 18, 30));
         assertThat(isAftered).isTrue();

@@ -33,3 +33,5 @@ security:
     oAuth:
       client-id: testClientId102cxas
       client-secret: 8cfdclilente5525b15e0e01esecret7530cc2bf264
+    pullRequest:
+      tokens:
