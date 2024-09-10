@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -29,7 +30,7 @@ class PullRequestProviderTest {
 
     private String link = "https://api.github.com/repos/woowacourse-precourse/java-baseball-6/";
     private LocalDateTime githubTime = LocalDateTime.now(ZoneOffset.UTC);
-    private LocalDateTime serverTime = LocalDateTime.now();
+    private LocalDateTime serverTime = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
 
     @BeforeEach
     void setUp() {
