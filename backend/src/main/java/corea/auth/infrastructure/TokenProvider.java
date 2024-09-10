@@ -23,7 +23,7 @@ public class TokenProvider {
 
     private static final String ID = "id";
 
-    public String createToken(Member member, long expiration,SecretKey key) {
+    public String createToken(Member member, long expiration, SecretKey key) {
         Map<String, Long> claims = createClaimsByMember(member);
         Date now = new Date();
         Date validity = new Date(now.getTime() + expiration);
@@ -35,7 +35,7 @@ public class TokenProvider {
                 .compact();
     }
 
-    public void validateToken(String token,SecretKey key) {
+    public void validateToken(String token, SecretKey key) {
         try {
             Jwts.parser()
                     .verifyWith(key)
@@ -48,12 +48,12 @@ public class TokenProvider {
         }
     }
 
-    public OptionalLong findMemberIdByToken(String token,SecretKey key) {
-        Claims claims = getPayload(token,key);
+    public OptionalLong findMemberIdByToken(String token, SecretKey key) {
+        Claims claims = getPayload(token, key);
         return OptionalLong.of(claims.get(ID, Long.class));
     }
 
-    public Claims getPayload(String token,SecretKey key) {
+    public Claims getPayload(String token, SecretKey key) {
         return Jwts.parser()
                 .verifyWith(key)
                 .build()

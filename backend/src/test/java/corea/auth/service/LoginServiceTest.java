@@ -17,7 +17,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.crypto.SecretKey;
 
@@ -72,7 +71,7 @@ class LoginServiceTest {
 
     @Test
     @DisplayName("RefreshToken가 이미 저장되어 있는 경우 새로운 RefreshToken을 발행한다.")
-    void publishRefreshToken() {
+    void extendAuthorization() {
         String refreshToken = tokenProvider.createToken(member, 1500L, secretKey);
         loginInfoRepository.save(new LoginInfo(member, refreshToken));
 
@@ -88,7 +87,6 @@ class LoginServiceTest {
     }
 
     @Test
-    @Transactional
     @DisplayName("RefreshToken의 유효기간이 만료되었을 경우 DB에서 해당 유저의 로그인 정보를 삭제한다.")
     void refreshException_TokenExpired() {
         String expiredRefreshToken = tokenProvider.createToken(member, 10L, secretKey);

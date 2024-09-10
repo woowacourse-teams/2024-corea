@@ -22,6 +22,7 @@ public class LoginService {
     private final LoginInfoRepository loginInfoRepository;
     private final MemberRepository memberRepository;
     private final TokenService tokenService;
+    private final LogoutService logoutService;
 
     @Transactional
     public TokenInfo login(GithubUserInfo userInfo) {
@@ -29,15 +30,15 @@ public class LoginService {
                 .orElseGet(() -> register(userInfo));
 
         String accessToken = tokenService.createAccessToken(member);
-        String refreshToken = publishRefreshToken(member);
+        String refreshToken = extendAuthorization(member);
         return new TokenInfo(accessToken, refreshToken);
     }
 
     private Member register(GithubUserInfo userInfo) {
-        return new Member(userInfo.login(), userInfo.avatarUrl(), userInfo.name(), userInfo.email(), true, userInfo.githubUserId());
+        return memberRepository.save(new Member(userInfo.login(), userInfo.avatarUrl(), userInfo.name(), userInfo.email(), true, userInfo.githubUserId()));
     }
 
-    private String publishRefreshToken(Member member) {
+    private String extendAuthorization(Member member) {
         String refreshToken = tokenService.createRefreshToken(member);
         loginInfoRepository.findByMemberId(member.getId())
                 .ifPresentOrElse(
@@ -50,14 +51,13 @@ public class LoginService {
     @Transactional
     public String refresh(String refreshToken) {
         try {
-            System.out.println(refreshToken);
             tokenService.validateToken(refreshToken);
             LoginInfo info = loginInfoRepository.findByRefreshToken(refreshToken)
                     .orElseThrow(() -> new CoreaException(INVALID_TOKEN));
             return tokenService.createAccessToken(info.getMember());
         } catch (CoreaException e) {
             if (e.getExceptionType().equals(TOKEN_EXPIRED)) {
-                loginInfoRepository.deleteByRefreshToken(refreshToken);
+                logoutService.logoutByExpiredRefreshToken(refreshToken);
             }
             throw e;
         }

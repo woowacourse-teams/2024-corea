@@ -24,7 +24,6 @@ import static corea.global.config.Constants.AUTHORIZATION_HEADER;
 @RequiredArgsConstructor
 public class LoginController implements LoginControllerSpecification {
 
-
     private final GithubOAuthProvider githubOAuthProvider;
     private final LoginService loginService;
     private final LogoutService logoutService;
@@ -33,7 +32,6 @@ public class LoginController implements LoginControllerSpecification {
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
         GithubUserInfo userInfo = githubOAuthProvider.getUserInfo(loginRequest.code());
         TokenInfo tokenInfo = loginService.login(userInfo);
-
         return ResponseEntity.ok()
                 .header(AUTHORIZATION_HEADER, tokenInfo.accessToken())
                 .body(new LoginResponse(tokenInfo.refreshToken(), userInfo));

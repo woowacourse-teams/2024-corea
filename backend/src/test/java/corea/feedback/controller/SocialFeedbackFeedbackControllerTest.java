@@ -1,7 +1,6 @@
 package corea.feedback.controller;
 
 import config.ControllerTest;
-import corea.auth.service.LoginService;
 import corea.auth.service.TokenService;
 import corea.feedback.dto.SocialFeedbackRequest;
 import corea.fixture.MatchResultFixture;
@@ -33,8 +32,6 @@ class SocialFeedbackFeedbackControllerTest {
     private MatchResultRepository matchResultRepository;
 
     @Autowired
-    private LoginService loginService;
-    @Autowired
     private TokenService tokenService;
 
     @Test
@@ -58,8 +55,14 @@ class SocialFeedbackFeedbackControllerTest {
                 "유용한 블로그나 아티클도 남겨주시고, \n 사소한 부분까지 잘 챙겨준게 좋았씁니다."
         );
 
-        RestAssured.given().auth().oauth2(token).contentType(ContentType.JSON).body(request)
-                .when().post("/rooms/" + room.getId() + "/social/feedbacks")
-                .then().statusCode(200);
+        RestAssured.given()
+                .auth()
+                .oauth2(token)
+                .contentType(ContentType.JSON)
+                .body(request)
+                .when()
+                .post("/rooms/" + room.getId() + "/social/feedbacks")
+                .then()
+                .statusCode(200);
     }
 }

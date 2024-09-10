@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class GithubOAuthProvider {
+
     private final GithubOAuthClient githubOAuthClient;
 
     public GithubUserInfo getUserInfo(String code) {

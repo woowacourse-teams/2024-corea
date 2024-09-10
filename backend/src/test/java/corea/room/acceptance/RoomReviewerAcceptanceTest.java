@@ -117,7 +117,7 @@ class RoomReviewerAcceptanceTest {
         //@formatter:on
 
         //@formatter:off
-        MatchResultResponses response =RestAssured.given().auth().oauth2(accessToken)
+        MatchResultResponses response = RestAssured.given().auth().oauth2(accessToken)
                 .when().get("/rooms/" + room.getId() + "/reviewers")
                 .then().statusCode(200).extract().as(MatchResultResponses.class);
         //@formatter:on
