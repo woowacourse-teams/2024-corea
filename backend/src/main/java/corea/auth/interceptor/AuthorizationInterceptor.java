@@ -2,7 +2,7 @@ package corea.auth.interceptor;
 
 import corea.auth.RequestHandler;
 import corea.auth.annotation.LoginMember;
-import corea.auth.infrastructure.TokenProvider;
+import corea.auth.service.TokenService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +21,8 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 
     private static final Class<LoginMember> AUTH_ANNOTATION = LoginMember.class;
 
-    private final TokenProvider tokenProvider;
     private final RequestHandler requestHandler;
+    private final TokenService tokenService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
@@ -33,7 +33,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
         boolean hasAnnotation = checkAnnotation(handler);
         if (hasAnnotation) {
             String accessToken = requestHandler.extract(request);
-            tokenProvider.validateToken(accessToken);
+            tokenService.validateToken(accessToken);
         }
         return true;
     }
@@ -45,7 +45,8 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 
         HandlerMethod handlerMethod = (HandlerMethod) handler;
 
-        Parameter[] parameters = handlerMethod.getMethod().getParameters();
+        Parameter[] parameters = handlerMethod.getMethod()
+                .getParameters();
         return Arrays.stream(parameters)
                 .anyMatch(param -> param.isAnnotationPresent(AUTH_ANNOTATION));
     }
