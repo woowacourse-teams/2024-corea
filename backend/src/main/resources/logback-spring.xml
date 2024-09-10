@@ -8,10 +8,13 @@
     <property name="LOG_PATH"
               value="/home/ubuntu/build/logs/backend"/>
 
+    <springProperty scope="context" name="APP_NAME" source="spring.application.name"/>
+    <springProperty scope="context" name="LOKI_URL" source="loki.url"/>
+
     <springProfile name="local">
         <include resource="logs/console-appender.xml"/>
 
-        <logger name="corea" level="DEBUG" additivity="false">
+        <logger name="corea" level="DEBUG" additivity="true">
             <appender-ref ref="CONSOLE"/>
         </logger>
 
@@ -21,36 +24,32 @@
     </springProfile>
 
     <springProfile name="dev">
-        <include resource="logs/file-debug-appender.xml"/>
-        <include resource="logs/file-info-appender.xml"/>
-        <include resource="logs/file-warn-appender.xml"/>
-        <include resource="logs/file-error-appender.xml"/>
+        <include resource="logs/loki-appender.xml"/>
 
-        <logger name="corea" level="DEBUG" additivity="false">
-            <appender-ref ref="FILE-DEBUG"/>
-            <appender-ref ref="FILE-INFO"/>
-            <appender-ref ref="FILE-WARN"/>
-            <appender-ref ref="FILE-ERROR"/>
+        <logger name="corea" level="DEBUG">
+            <appender-ref ref="LOKI"/>
         </logger>
 
         <root level="WARN">
-            <appender-ref ref="FILE-WARN"/>
-            <appender-ref ref="FILE-ERROR"/>
+            <appender-ref ref="LOKI"/>
         </root>
     </springProfile>
 
     <springProfile name="prod">
+        <include resource="logs/loki-appender.xml"/>
         <include resource="logs/file-info-appender.xml"/>
         <include resource="logs/file-warn-appender.xml"/>
         <include resource="logs/file-error-appender.xml"/>
 
-        <logger name="corea" level="INFO" additivity="false">
+        <logger name="corea" level="INFO">
+            <appender-ref ref="LOKI"/>
             <appender-ref ref="FILE-INFO"/>
             <appender-ref ref="FILE-WARN"/>
             <appender-ref ref="FILE-ERROR"/>
         </logger>
 
         <root level="WARN">
+            <appender-ref ref="LOKI"/>
             <appender-ref ref="FILE-WARN"/>
             <appender-ref ref="FILE-ERROR"/>
         </root>

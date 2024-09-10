@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -17,6 +18,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 @Aspect
 @Component
@@ -56,21 +58,22 @@ public final class ControllerLoggingAspect {
         final var result = joinPoint.proceed();
         final var elapsedMillis = System.currentTimeMillis() - startMillis;
         final Consumer<HttpServletRequest> httpServletRequestLogger = request -> log.debug(
-                "return [time={}, url={}, httpMethod={}, class={}, method={}, elapsedMillis={}\nresult={}]",
+                "return [time={}, ip={},url={}, httpMethod={}, class={}, method={}, elapsedMillis={}\nresult={}]",
                 LocalDateTime.now(),
+                IpExtractor.extract(request),
                 request.getRequestURL(),
                 request.getMethod(),
                 joinPoint.getSignature().getDeclaringTypeName(),
                 joinPoint.getSignature().getName(),
                 elapsedMillis,
-                result
+                result.getClass()
         );
         final Runnable requestNotFoundLogger = () -> log.debug(
                 "return [time={}, class={}, method={}, result={}, elapsedMillis={}]",
                 LocalDateTime.now(),
                 joinPoint.getSignature().getDeclaringTypeName(),
                 joinPoint.getSignature().getName(),
-                result,
+                result.getClass(),
                 elapsedMillis
         );
         getRequest().ifPresentOrElse(httpServletRequestLogger, requestNotFoundLogger);
@@ -80,8 +83,9 @@ public final class ControllerLoggingAspect {
 
     private void loggingEnter(final ProceedingJoinPoint joinPoint, final Logger log) {
         final Consumer<HttpServletRequest> httpServletRequestLogger = request -> log.debug(
-                "enter [time={}, url={}, httpMethod={}, class={}, method={}, arguments={}]",
+                "enter [time={}, ip={},url={}, httpMethod={}, class={}, method={}, arguments={}]",
                 LocalDateTime.now(),
+                IpExtractor.extract(request),
                 request.getRequestURL(),
                 request.getMethod(),
                 joinPoint.getSignature().getDeclaringTypeName(),
@@ -101,5 +105,44 @@ public final class ControllerLoggingAspect {
     private Logger getLog(final JoinPoint joinPoint) {
         return LoggerFactory.getLogger(joinPoint.getTarget()
                 .getClass());
+    }
+
+    private enum IpExtractor {
+
+        X_FORWARDED_FOR("X-Forwarded-For"),
+        PROXY_CLIENT_IP("Proxy-Client-IP"),
+        WL_PROXY_CLIENT_IP("WL-Proxy-Client-IP"),
+        HTTP_CLIENT_IP("HTTP_CLIENT_IP"),
+        HTTP_X_FORWARDED_FOR("HTTP_X_FORWARDED_FOR"),
+        X_REAL_IP("X-Real-IP"),
+        @SuppressWarnings("SpellCheckingInspection") X_REALIP("X-RealIP"),
+        REMOTE_ADDR("REMOTE_ADDR"),
+        REMOTE_ADDR_BUILD_IN(HttpServletRequest::getRemoteAddr),
+
+        ;
+
+        private static final String UNKNOWN = "unknown";
+
+        private final Function<HttpServletRequest, String> mapper;
+
+        IpExtractor(final String headerName) {
+            this(request -> request.getHeader(headerName));
+        }
+
+        IpExtractor(final Function<HttpServletRequest, String> mapper) {
+            this.mapper = mapper;
+        }
+
+        private static String extract(final HttpServletRequest request) {
+            return Arrays.stream(values())
+                    .map(it -> it.mapper.apply(request))
+                    .filter(IpExtractor::isValidIp)
+                    .findAny()
+                    .orElse(UNKNOWN);
+        }
+
+        private static boolean isValidIp(final String ip) {
+            return StringUtils.hasText(ip) && !UNKNOWN.equalsIgnoreCase(ip);
+        }
     }
 }
