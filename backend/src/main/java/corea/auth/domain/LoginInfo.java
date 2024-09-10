@@ -28,4 +28,9 @@ public class LoginInfo {
     public LoginInfo(Member member, String refreshToken) {
         this(null, member, refreshToken);
     }
+
+    public LoginInfo changeRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+        return this;
+    }
 }

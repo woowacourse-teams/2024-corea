@@ -2,6 +2,7 @@ package corea.room.acceptance;
 
 import config.ControllerTest;
 import corea.auth.service.LoginService;
+import corea.auth.service.TokenService;
 import corea.feedback.dto.DevelopFeedbackRequest;
 import corea.feedback.dto.SocialFeedbackRequest;
 import corea.fixture.MatchResultFixture;
@@ -40,6 +41,9 @@ class RoomReviewerAcceptanceTest {
     @Autowired
     private LoginService authService;
 
+    @Autowired
+    private TokenService tokenService;
+
     @Test
     @DisplayName("개발 피드백을 작성하면 리뷰어가 리뷰이에게 피드백을 쓴 상태가 된다.")
     void reviewer_match_result_should_be_writed() {
@@ -52,7 +56,7 @@ class RoomReviewerAcceptanceTest {
                 reviewer,
                 reviewee
         ));
-        String accessToken = authService.createAccessToken(reviewer);
+        String accessToken = tokenService.createAccessToken(reviewer);
 
         DevelopFeedbackRequest request = new DevelopFeedbackRequest(
                 reviewee.getId(),
@@ -63,14 +67,14 @@ class RoomReviewerAcceptanceTest {
         );
 
         //@formatter:off
-        RestAssured.given().header("Authorization", accessToken).contentType(ContentType.JSON).body(request)
+        RestAssured.given().auth().oauth2(accessToken).contentType(ContentType.JSON).body(request)
                 .when().post("/rooms/" + room.getId() + "/develop/feedbacks")
                 .then().statusCode(200);
         //@formatter:on
 
 
         //@formatter:off
-        MatchResultResponses response = RestAssured.given().header("Authorization", accessToken)
+        MatchResultResponses response = RestAssured.given().auth().oauth2(accessToken)
                 .when().get("/rooms/" + room.getId() + "/reviewees")
                 .then().statusCode(200).extract().as(MatchResultResponses.class);
         //@formatter:on
@@ -92,7 +96,7 @@ class RoomReviewerAcceptanceTest {
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
         Member reviewer = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member reviewee = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
-        String accessToken = authService.createAccessToken(reviewee);
+        String accessToken = tokenService.createAccessToken(reviewee);
         matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(
                 room.getId(),
                 reviewer,
@@ -107,13 +111,13 @@ class RoomReviewerAcceptanceTest {
         );
 
         //@formatter:off
-        RestAssured.given().header("Authorization", accessToken).contentType(ContentType.JSON).body(request)
+        RestAssured.given().auth().oauth2(accessToken).contentType(ContentType.JSON).body(request)
                 .when().post("/rooms/" + room.getId() + "/social/feedbacks")
                 .then().statusCode(200);
         //@formatter:on
 
         //@formatter:off
-        MatchResultResponses response = RestAssured.given().header("Authorization", accessToken)
+        MatchResultResponses response = RestAssured.given().auth().oauth2(accessToken)
                 .when().get("/rooms/" + room.getId() + "/reviewers")
                 .then().statusCode(200).extract().as(MatchResultResponses.class);
         //@formatter:on

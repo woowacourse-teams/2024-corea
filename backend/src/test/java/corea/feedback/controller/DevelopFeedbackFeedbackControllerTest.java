@@ -1,7 +1,7 @@
 package corea.feedback.controller;
 
 import config.ControllerTest;
-import corea.auth.service.LoginService;
+import corea.auth.service.TokenService;
 import corea.feedback.dto.DevelopFeedbackRequest;
 import corea.fixture.MatchResultFixture;
 import corea.fixture.MemberFixture;
@@ -32,7 +32,7 @@ class DevelopFeedbackFeedbackControllerTest {
     private MatchResultRepository matchResultRepository;
 
     @Autowired
-    private LoginService loginService;
+    private TokenService tokenService;
 
     @Test
     @DisplayName("개발(리뷰어 -> 리뷰이) 피드백을 작성한다.")
@@ -41,7 +41,7 @@ class DevelopFeedbackFeedbackControllerTest {
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
         Member reviewer = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member reviewee = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
-        String token = loginService.createAccessToken(reviewer);
+        String token = tokenService.createAccessToken(reviewer);
         matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(
                 room.getId(),
                 reviewer,
@@ -56,8 +56,14 @@ class DevelopFeedbackFeedbackControllerTest {
                 2
         );
 
-        RestAssured.given().header("Authorization", token).contentType(ContentType.JSON).body(request)
-                .when().post("/rooms/" + room.getId() + "/develop/feedbacks")
-                .then().statusCode(200);
+        RestAssured.given()
+                .auth()
+                .oauth2(token)
+                .contentType(ContentType.JSON)
+                .body(request)
+                .when()
+                .post("/rooms/" + room.getId() + "/develop/feedbacks")
+                .then()
+                .statusCode(200);
     }
 }

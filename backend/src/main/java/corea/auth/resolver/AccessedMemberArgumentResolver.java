@@ -3,7 +3,7 @@ package corea.auth.resolver;
 import corea.auth.RequestHandler;
 import corea.auth.annotation.AccessedMember;
 import corea.auth.domain.AuthInfo;
-import corea.auth.infrastructure.TokenProvider;
+import corea.auth.service.TokenService;
 import corea.member.repository.MemberRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ public class AccessedMemberArgumentResolver implements HandlerMethodArgumentReso
 
     private final RequestHandler requestHandler;
     private final MemberRepository memberRepository;
-    private final TokenProvider tokenProvider;
+    private final TokenService tokenService;
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
@@ -41,9 +41,9 @@ public class AccessedMemberArgumentResolver implements HandlerMethodArgumentReso
             return AuthInfo.getAnonymous();
         }
 
-        tokenProvider.validateToken(accessToken);
+        tokenService.validateToken(accessToken);
+        long memberId = tokenService.findMemberIdByToken(accessToken);
 
-        Long memberId = tokenProvider.getPayload(accessToken).get(ID, Long.class);
         return memberRepository.findById(memberId)
                 .map(AuthInfo::from)
                 .orElse(AuthInfo.getAnonymous());
