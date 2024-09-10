@@ -43,7 +43,9 @@ const ReviewerFeedbackForm = ({ formState, onChange, modalType }: ReviewerFeedba
       </S.ItemContainer>
 
       <S.ItemContainer>
-        <S.ModalQuestion required>위와 같이 선택한 이유를 알려주세요.</S.ModalQuestion>
+        <S.ModalQuestion required>
+          위와 같이 선택한 이유를 알려주세요. (1개 이상 선택)
+        </S.ModalQuestion>
         <KeywordOptionButton
           initialOptions={formState.feedbackKeywords}
           onChange={(value) => onChange("feedbackKeywords", value)}
