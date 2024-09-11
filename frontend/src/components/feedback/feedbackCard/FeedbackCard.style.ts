@@ -5,7 +5,7 @@ export const FeedbackCardContainer = styled.div<{ $isTypeDevelop: boolean }>`
   overflow-y: hidden;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 3rem;
 
   width: 40%;
   min-width: 370px;
@@ -25,7 +25,7 @@ export const FeedbackCardContainer = styled.div<{ $isTypeDevelop: boolean }>`
 export const FeedbackScoreContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.2rem;
 `;
 
 export const FeedbackKeywordContainer = styled.div`
@@ -52,13 +52,18 @@ export const FeedbackProfile = styled.div`
 `;
 
 export const FeedbackType = styled.span<{ $isTypeDevelop: boolean }>`
-  font: ${({ theme }) => theme.TEXT.small};
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+
+  font: ${({ theme }) => theme.TEXT.small_bold};
   color: ${({ theme, $isTypeDevelop }) =>
     $isTypeDevelop ? theme.COLOR.primary2 : theme.COLOR.secondary};
   text-align: right;
   white-space: pre-line;
 
   p {
+    font: ${({ theme }) => theme.TEXT.semiSmall};
     color: ${({ theme }) => theme.COLOR.grey3};
   }
 `;
