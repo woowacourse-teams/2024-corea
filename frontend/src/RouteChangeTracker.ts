@@ -1,3 +1,4 @@
+import { hostType } from "./utils/hostType";
 import { useEffect, useState } from "react";
 import ReactGA from "react-ga4";
 import { useLocation } from "react-router-dom";
@@ -8,7 +9,7 @@ const RouteChangeTracker = () => {
   const location = useLocation();
 
   useEffect(() => {
-    if (process.env.NODE_ENV !== "development" && SECRET_KEYS.googleAnalytics) {
+    if (hostType !== "develop" && SECRET_KEYS.googleAnalytics) {
       ReactGA.initialize(SECRET_KEYS.googleAnalytics);
       setInitialized(true);
     }

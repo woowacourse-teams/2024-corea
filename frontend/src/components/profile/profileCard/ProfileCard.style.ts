@@ -8,6 +8,7 @@ export const ProfileCardContainer = styled.div`
 
 export const ProfileTitle = styled.div`
   padding: 1rem 0 0 1rem;
+  font: ${({ theme }) => theme.TEXT.medium};
 `;
 
 export const ProfileCardWrapper = styled.div`
@@ -26,16 +27,24 @@ export const ProfileWrapper = styled.div`
 `;
 
 export const ProfileNickname = styled.div`
+  font: ${({ theme }) => theme.TEXT.semiSmall};
   text-align: center;
 `;
 
 export const ProfileInfoWrapper = styled.div`
   margin: 0 auto;
-  padding: 1rem;
+`;
+
+export const InfoTitle = styled.td`
+  font: ${({ theme }) => theme.TEXT.medium};
+`;
+
+export const InfoCount = styled.span`
+  font: ${({ theme }) => theme.TEXT.small};
 `;
 
 export const ProfileInfoTable = styled.table`
-  border-spacing: 1rem;
+  border-spacing: 1.4rem;
   border-collapse: separate;
 `;
 
@@ -77,4 +86,10 @@ export const AttitudeScoreWrapper = styled.div`
 
 export const AttitudeScoreText = styled.div`
   padding: 1rem 0 1rem 1rem;
+  font: ${({ theme }) => theme.TEXT.medium};
+
+  span {
+    padding-left: 1rem;
+    font: ${({ theme }) => theme.TEXT.semiSmall};
+  }
 `;

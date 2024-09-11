@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Icon from "@/components/common/icon/Icon";
 import IconRadioButton from "@/components/common/iconRadioButton/IconRadioButton";
 import * as S from "@/components/feedback/evaluationPointBar/EvaluationPointBar.style";
@@ -22,11 +22,13 @@ interface EvaluationPointBarProps {
   initialOptionId?: number;
   readonly?: boolean;
   onChange?: (value: number) => void;
+  color?: string;
 }
 
 const EvaluationPointBar = ({
   initialOptionId,
   readonly = false,
+  color,
   onChange,
 }: EvaluationPointBarProps) => {
   const [selectedOptionId, setSelectedOptionId] = useState<number | undefined>(initialOptionId);
@@ -52,6 +54,7 @@ const EvaluationPointBar = ({
           name="recommendationOption"
           value={option.value}
           isSelected={selectedOptionId === option.value}
+          color={color}
           onChange={handleRadioChange}
         >
           <S.StyledChildren>

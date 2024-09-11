@@ -9,18 +9,20 @@ const COLOR = {
   primary1: "#D9F3FF",
   primary2: "#84AEE1",
   primary3: "#607999",
-  secondary: "#FF3D45",
+  secondary: "#ffaaaf",
   lightGrass: "#D7E4D8",
   grass: "#00B707",
+  lightBlue: "#a2c4c9",
+  error: "#FF5F5F",
 };
 
 const TEXT = {
-  xLarge: "800 1.8rem/1.8rem hanna",
-  large: "700 1.4rem/1.4rem hanna",
-  medium: "500 1.2rem/1.2rem hanna",
-  small: "400 1.0rem/1.0rem hanna",
-  semiSmall: "400 0.8rem/0.8rem hanna",
-  xSmall: "400 0.6rem/0.6rem hanna",
+  xLarge: "800 1.8rem/1.8rem Do Hyeon",
+  large: "700 1.4rem/1.4rem Do Hyeon",
+  medium: "500 1.2rem/1.2rem Do Hyeon",
+  small: "400 1.0rem/1.0rem Do Hyeon",
+  semiSmall: "400 0.8rem/0.8rem Do Hyeon",
+  xSmall: "400 0.6rem/0.6rem Do Hyeon",
 };
 
 export default TEXT;

@@ -14,6 +14,10 @@ type IconKind =
   | "average"
   | "satisfied"
   | "verySatisfied"
-  | "info";
+  | "info"
+  | "arrowLeft"
+  | "arrowRight"
+  | "arrowDropDown"
+  | "arrowDropUp";
 
 export default IconKind;

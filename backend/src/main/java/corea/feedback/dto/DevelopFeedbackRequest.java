@@ -34,17 +34,4 @@ public record DevelopFeedbackRequest(@Schema(description = "리뷰이 아이디"
                 recommendationPoint
         );
     }
-
-    public DevelopFeedback toEntity(long feedbackId, long roomId, Member deliver, Member receiver) {
-        return new DevelopFeedback(
-                feedbackId,
-                roomId,
-                deliver,
-                receiver,
-                evaluationPoint,
-                FeedbackKeywordConverter.convertToKeywords(feedbackKeywords),
-                feedbackText,
-                recommendationPoint
-        );
-    }
 }

@@ -4,6 +4,7 @@ import styled, { css } from "styled-components";
 interface LabelWrapperProps {
   type: LabelType;
   $size?: LabelSize;
+  $backgroundColor?: string;
 }
 
 export const LabelWrapper = styled.div<LabelWrapperProps>`
@@ -12,19 +13,20 @@ export const LabelWrapper = styled.div<LabelWrapperProps>`
   justify-content: center;
 
   width: fit-content;
-  padding: 0 0.4rem;
+  height: fit-content;
+  padding: 0.15rem 0.6rem;
 
   font: ${(props) => props.$size && props.theme.TEXT[props.$size]};
   color: ${({ theme }) => theme.COLOR.black};
 
   border-radius: 15px;
 
-  ${({ type, theme }) => {
+  ${({ $backgroundColor, type, theme }) => {
     switch (type) {
       case "keyword":
         return css`
-          background-color: ${theme.COLOR.white};
-          border: 1px solid ${theme.COLOR.grey1};
+          background-color: ${$backgroundColor || theme.COLOR.white};
+          border: 1px solid ${theme.COLOR.grey0};
         `;
       case "open":
         return css`

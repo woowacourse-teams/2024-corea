@@ -23,3 +23,13 @@ security:
       expiration:
         access: 1800000
         refresh: 604800000
+
+  github:
+    baseUrl:
+      oauth: https://test-api.github.com/login/oauth/access_token
+      user: https://test-api.github.com/user
+    oAuth:
+      client-id: testClientId102cxas
+      client-secret: 8cfdclilente5525b15e0e01esecret7530cc2bf264
+    pullRequest:
+      tokens:

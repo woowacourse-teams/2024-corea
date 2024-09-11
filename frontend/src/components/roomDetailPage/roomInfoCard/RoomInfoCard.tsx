@@ -1,11 +1,11 @@
 import Icon from "@/components/common/icon/Icon";
+import Label from "@/components/common/label/Label";
 import * as S from "@/components/roomDetailPage/roomInfoCard/RoomInfoCard.style";
 import { RoomInfo } from "@/@types/roomInfo";
-import { formatDateTimeString } from "@/utils/dateFormatter";
+import { theme } from "@/styles/theme";
+import { formatDateTimeString, formatDday } from "@/utils/dateFormatter";
 
 const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
-  if (!roomInfo.keywords) return <></>;
-
   return (
     <S.RoomInfoCardContainer>
       <S.RoomInfoCardImg src={roomInfo.thumbnailLink} alt="방 썸네일 이미지" />
@@ -20,10 +20,14 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
 
         <S.RoomContentBox>
           <S.RoomTagBox>
-            {roomInfo.keywords.map((keyword, index) => (
-              <S.RoomKeyword key={keyword}>
-                <S.RoomContentSmall>#{keyword}</S.RoomContentSmall>
-              </S.RoomKeyword>
+            {roomInfo.keywords.map((keyword) => (
+              <Label
+                key={keyword}
+                type="keyword"
+                text={keyword}
+                size="small"
+                backgroundColor={theme.COLOR.primary1}
+              />
             ))}
           </S.RoomTagBox>
           <S.RoomContentSmall>{roomInfo.content}</S.RoomContentSmall>
@@ -31,23 +35,29 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
 
         <S.RoomContentBox>
           <S.RoomContentSmall>
-            <Icon kind="person" />방 생성자 : {roomInfo.manager}
+            <Icon kind="person" size="1.4rem" />방 생성자 : {roomInfo.manager}
           </S.RoomContentSmall>
           <S.RoomContentSmall>
-            <Icon kind="person" />
+            <Icon kind="person" size="1.4rem" />
             현재 참여 인원 : {roomInfo.currentParticipants} / {roomInfo.limitedParticipants}명
           </S.RoomContentSmall>
           <S.RoomContentSmall>
-            <Icon kind="person" />
+            <Icon kind="person" size="1.4rem" />
             상호 리뷰 인원 : {roomInfo.matchingSize}명
           </S.RoomContentSmall>
           <S.RoomContentSmall>
-            <Icon kind="calendar" />
-            모집 마감일: {formatDateTimeString(roomInfo.recruitmentDeadline)}
+            <Icon kind="calendar" size="1.4rem" />
+            <div>
+              모집 마감일: {formatDateTimeString(roomInfo.recruitmentDeadline)}
+              <S.StyledDday> {formatDday(roomInfo.recruitmentDeadline)}</S.StyledDday>
+            </div>
           </S.RoomContentSmall>
           <S.RoomContentSmall>
-            <Icon kind="calendar" />
-            리뷰 마감일: {formatDateTimeString(roomInfo.reviewDeadline)}
+            <Icon kind="calendar" size="1.4rem" />
+            <div>
+              리뷰 마감일: {formatDateTimeString(roomInfo.reviewDeadline)}
+              <S.StyledDday> {formatDday(roomInfo.reviewDeadline)}</S.StyledDday>
+            </div>
           </S.RoomContentSmall>
         </S.RoomContentBox>
       </S.RoomInfoCardContent>

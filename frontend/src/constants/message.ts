@@ -37,11 +37,25 @@ const ERROR_MESSAGES = {
   //피드백 모아보기
   GET_RECEIVED_FEEDBACK: "받은 피드백 불러오는 도중 에러가 발생하였습니다.",
   GET_DELIVERED_FEEDBACK: "받은 피드백 불러오는 도중 에러가 발생하였습니다.",
+
+  // ranking
+  GET_RANKING: "랭킹을 불러오는 도중 에러가 발생하였습니다.",
+
+  // errorBoundary
+  BOUNDARY_TOTAL: "일시적인 에러가 발생했습니다.",
+  BOUNDARY_API: "네트워크 에러가 발생했습니다.",
+};
+
+const SUCCESS_MESSAGES = {
+  POST_REVIEW_FEEDBACK: "피드백을 작성하였습니다.",
+  POST_PARTICIPATE_IN: "정상적으로 방에 참여하였습니다.",
+  PUT_REVIEW_FEEDBACK: "피드백을 수정하였습니다.",
 };
 
 const MESSAGES = {
   GUIDANCE: GUIDANCE_MESSAGES,
   ERROR: ERROR_MESSAGES,
+  SUCCESS: SUCCESS_MESSAGES,
 };
 
 export default MESSAGES;

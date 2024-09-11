@@ -1,0 +1,92 @@
+{
+  "responses": {
+    "re": [
+      {
+        "rank": 1,
+        "nickname": "chlwlstlf",
+        "githubLink": "www.github.com/sample/pull/24",
+        "profileImage": "https://avatars.githubusercontent.com/u/63334368?v=4",
+        "givenReviewCount": 17,
+        "averageRating": 4.9,
+        "classification": "re"
+      },
+      {
+        "rank": 2,
+        "nickname": "jcoding",
+        "githubLink": "www.github.com/sample/pull/24",
+        "profileImage": "https://avatars.githubusercontent.com/u/63334368?v=4",
+        "givenReviewCount": 17,
+        "averageRating": 4.9,
+        "classification": "re"
+      },
+      {
+        "rank": 3,
+        "nickname": "ashsty",
+        "githubLink": "www.github.com/sample/pull/24",
+        "profileImage": "https://avatars.githubusercontent.com/u/63334368?v=4",
+        "givenReviewCount": 17,
+        "averageRating": 4.9,
+        "classification": "re"
+      }
+    ],
+    "an": [
+      {
+        "rank": 1,
+        "nickname": "chlwlstlf",
+        "githubLink": "www.github.com/sample/pull/24",
+        "profileImage": "https://avatars.githubusercontent.com/u/63334368?v=4",
+        "givenReviewCount": 17,
+        "averageRating": 4.9,
+        "classification": "an"
+      },
+      {
+        "rank": 2,
+        "nickname": "jcoding",
+        "githubLink": "www.github.com/sample/pull/24",
+        "profileImage": "https://avatars.githubusercontent.com/u/63334368?v=4",
+        "givenReviewCount": 17,
+        "averageRating": 4.9,
+        "classification": "an"
+      },
+      {
+        "rank": 3,
+        "nickname": "ashsty",
+        "githubLink": "www.github.com/sample/pull/24",
+        "profileImage": "https://avatars.githubusercontent.com/u/63334368?v=4",
+        "givenReviewCount": 17,
+        "averageRating": 4.9,
+        "classification": "an"
+      }
+    ],
+    "be": [
+      {
+        "rank": 1,
+        "nickname": "chlwlstlf",
+        "githubLink": "www.github.com/sample/pull/24",
+        "profileImage": "https://avatars.githubusercontent.com/u/63334368?v=4",
+        "givenReviewCount": 17,
+        "averageRating": 4.9,
+        "classification": "be"
+      },
+      {
+        "rank": 2,
+        "nickname": "jcoding",
+        "githubLink": "www.github.com/sample/pull/24",
+        "profileImage": "https://avatars.githubusercontent.com/u/63334368?v=4",
+        "givenReviewCount": 17,
+        "averageRating": 4.9,
+        "classification": "be"
+      },
+      {
+        "rank": 3,
+        "nickname": "ashsty",
+        "githubLink": "www.github.com/sample/pull/24",
+        "profileImage": "https://avatars.githubusercontent.com/u/63334368?v=4",
+        "givenReviewCount": 17,
+        "averageRating": 4.9,
+        "classification": "be"
+      }
+    ],
+    "fe": []
+  }
+}

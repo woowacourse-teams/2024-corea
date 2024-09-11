@@ -23,8 +23,8 @@ const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
 
   const { data: revieweeData } = useFetchReviewee(roomInfo);
 
-  if (!revieweeData || revieweeData.length === 0) {
-    return <>{MESSAGES.GUIDANCE.EMPTY_REVIEWEE}</>;
+  if (revieweeData.length === 0) {
+    return <S.ErrorWrapper>{MESSAGES.GUIDANCE.EMPTY_REVIEWEE}</S.ErrorWrapper>;
   }
 
   const handleOpenFeedbackModal = (reviewee: ReviewerInfo) => {
@@ -80,28 +80,35 @@ const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
 
               <S.MyRevieweeContent>
                 <S.PRLink href={reviewee.link}>
-                  <Icon kind="link" />
+                  <S.IconWrapper>
+                    <Icon kind="link" />
+                  </S.IconWrapper>
                   바로가기
                 </S.PRLink>
               </S.MyRevieweeContent>
 
               <S.MyRevieweeContent>
-                <Button
-                  size="small"
-                  variant={reviewee.isReviewed ? "disable" : "secondary"}
-                  disabled={reviewee.isReviewed}
-                  onClick={() => handleReviewCompleteClick(reviewee.userId)}
-                >
-                  {reviewee.isReviewed ? "코드리뷰 완료" : "코드리뷰 하기"}
-                </Button>
-                <Button
-                  size="small"
-                  onClick={() => handleOpenFeedbackModal(reviewee)}
-                  variant={reviewee.isReviewed ? "primary" : "disable"}
-                  disabled={!reviewee.isReviewed}
-                >
-                  {buttonText}
-                </Button>
+                <S.ButtonContainer>
+                  {reviewee.isReviewed ? (
+                    <Button
+                      size="xSmall"
+                      onClick={() => handleOpenFeedbackModal(reviewee)}
+                      variant={reviewee.isReviewed ? "primary" : "disable"}
+                      disabled={!reviewee.isReviewed}
+                    >
+                      {buttonText}
+                    </Button>
+                  ) : (
+                    <Button
+                      size="xSmall"
+                      variant={reviewee.isReviewed ? "disable" : "lightBlue"}
+                      disabled={reviewee.isReviewed}
+                      onClick={() => handleReviewCompleteClick(reviewee.userId)}
+                    >
+                      코드리뷰 완료
+                    </Button>
+                  )}
+                </S.ButtonContainer>
               </S.MyRevieweeContent>
             </S.MyRevieweeWrapper>
           );

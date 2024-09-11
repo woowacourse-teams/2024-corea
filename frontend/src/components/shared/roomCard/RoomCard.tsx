@@ -5,7 +5,7 @@ import * as S from "@/components/shared/roomCard/RoomCard.style";
 import RoomCardModal from "@/components/shared/roomCardModal/RoomCardModal";
 import { RoomInfo } from "@/@types/roomInfo";
 import { MAX_KEYWORDS } from "@/constants/room";
-import { formatDeadlineString } from "@/utils/dateFormatter";
+import { formatDday, formatDeadlineString } from "@/utils/dateFormatter";
 
 interface RoomCardProps {
   roomInfo: RoomInfo;
@@ -15,7 +15,6 @@ const RoomCard = ({ roomInfo }: RoomCardProps) => {
   const { isOpen, handleOpenModal, handleCloseModal } = useModal();
 
   const displayedKeywords = roomInfo.keywords.slice(0, MAX_KEYWORDS);
-  const hasMoreKeywords = roomInfo.keywords.length > MAX_KEYWORDS;
 
   return (
     <>
@@ -26,10 +25,11 @@ const RoomCard = ({ roomInfo }: RoomCardProps) => {
         <S.RoomInformation>
           <S.RoomTitle>{roomInfo.title}</S.RoomTitle>
           <S.KeywordsContainer>
-            {displayedKeywords.map((keyword) => (
-              <Label key={keyword} type="keyword" text={keyword} />
-            ))}
-            {hasMoreKeywords && <S.MoreKeywords>...</S.MoreKeywords>}
+            <S.KeywordWrapper>
+              {displayedKeywords.map((keyword) => (
+                <S.KeywordText key={keyword}>#{keyword}</S.KeywordText>
+              ))}
+            </S.KeywordWrapper>
           </S.KeywordsContainer>
           <S.EtcContainer>
             {roomInfo.isClosed ? (
@@ -37,12 +37,19 @@ const RoomCard = ({ roomInfo }: RoomCardProps) => {
             ) : (
               <Label type="open" text="모집중" />
             )}
-            <div>
-              <Icon kind="person" />
+            <S.JoinMember>
+              <Icon kind="person" size="1.2rem" />
               {roomInfo.currentParticipants}/{roomInfo.limitedParticipants} 명
-            </div>
+            </S.JoinMember>
           </S.EtcContainer>
-          {formatDeadlineString(roomInfo.recruitmentDeadline)}
+          <S.DeadLineText>
+            {formatDeadlineString(roomInfo.recruitmentDeadline)}
+            {roomInfo.isParticipated ? (
+              <S.StyledDday> {formatDday(roomInfo.reviewDeadline)}</S.StyledDday>
+            ) : (
+              <S.StyledDday> {formatDday(roomInfo.recruitmentDeadline)}</S.StyledDday>
+            )}
+          </S.DeadLineText>
         </S.RoomInformation>
       </S.RoomCardContainer>
     </>

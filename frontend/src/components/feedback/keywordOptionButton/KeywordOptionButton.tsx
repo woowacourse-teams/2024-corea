@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import * as S from "@/components/feedback/keywordOptionButton/KeywordOptionButton.style";
+import { theme } from "@/styles/theme";
 
 interface OptionButtonProps {
   initialOptions?: string[];
@@ -7,6 +8,7 @@ interface OptionButtonProps {
   onChange?: (options: string[]) => void;
   selectedEvaluationId?: number;
   options: string[];
+  color?: string;
 }
 
 const KeywordOptionButton = ({
@@ -14,6 +16,7 @@ const KeywordOptionButton = ({
   readonly = false,
   onChange,
   options,
+  color = theme.COLOR.primary2,
 }: OptionButtonProps) => {
   const [selectedOptions, setSelectedOptions] = useState<string[]>(initialOptions);
 
@@ -39,6 +42,7 @@ const KeywordOptionButton = ({
           key={text}
           onClick={() => toggleOption(text)}
           isSelected={selectedOptions.includes(text)}
+          color={color}
         >
           {text}
         </S.ButtonWrapper>

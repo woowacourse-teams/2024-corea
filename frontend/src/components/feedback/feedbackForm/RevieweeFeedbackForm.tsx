@@ -29,7 +29,7 @@ const getDevelopKeywordOptions = (selectedEvaluationId: number | undefined) => {
 
 const RevieweeFeedbackForm = ({ formState, onChange, modalType }: RevieweeFeedbackFormProps) => {
   return (
-    <>
+    <S.FeedbackFormContainer>
       <S.ItemContainer>
         <S.ModalQuestion required>
           리뷰이의 개발 역량 향상을 위해 코드를 평가 해주세요.
@@ -42,25 +42,15 @@ const RevieweeFeedbackForm = ({ formState, onChange, modalType }: RevieweeFeedba
       </S.ItemContainer>
 
       <S.ItemContainer>
-        <S.ModalQuestion required>어떤 점이 만족스러웠나요?</S.ModalQuestion>
+        <S.ModalQuestion required>
+          위와 같이 선택한 이유를 알려주세요. (1개 이상 선택)
+        </S.ModalQuestion>
         <KeywordOptionButton
           initialOptions={formState.feedbackKeywords}
           onChange={(value) => onChange("feedbackKeywords", value)}
           selectedEvaluationId={formState.evaluationPoint}
           readonly={modalType === "view"}
           options={getDevelopKeywordOptions(formState.evaluationPoint)}
-        />
-      </S.ItemContainer>
-
-      <S.ItemContainer>
-        <S.ModalQuestion>추가적으로 하고 싶은 피드백이 있다면 남겨 주세요.</S.ModalQuestion>
-        <Textarea
-          rows={5}
-          maxLength={512}
-          placeholder="상대 리뷰이의 개발 역량 향상을 위해 피드백을 남겨주세요."
-          value={formState.feedbackText}
-          onChange={(e) => onChange("feedbackText", e.target.value)}
-          readOnly={modalType === "view"}
         />
       </S.ItemContainer>
 
@@ -72,7 +62,22 @@ const RevieweeFeedbackForm = ({ formState, onChange, modalType }: RevieweeFeedba
           readonly={modalType === "view"}
         />
       </S.ItemContainer>
-    </>
+
+      <S.ItemContainer>
+        <S.ModalQuestion>추가적으로 하고 싶은 피드백이 있다면 남겨 주세요.</S.ModalQuestion>
+        {modalType === "view" ? (
+          <S.StyledTextarea>{formState.feedbackText}</S.StyledTextarea>
+        ) : (
+          <Textarea
+            rows={5}
+            maxLength={512}
+            placeholder="상대 리뷰이의 개발 역량 향상을 위해 피드백을 남겨주세요."
+            value={formState.feedbackText}
+            onChange={(e) => onChange("feedbackText", e.target.value)}
+          />
+        )}
+      </S.ItemContainer>
+    </S.FeedbackFormContainer>
   );
 };
 

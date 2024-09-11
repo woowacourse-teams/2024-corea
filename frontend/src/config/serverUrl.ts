@@ -1,2 +1,13 @@
-export const serverUrl =
-  process.env.NODE_ENV === "production" ? "http://13.209.18.207" : "http://localhost:8080";
+import { hostType } from "@/utils/hostType";
+
+const getServerUrl = () => {
+  if (hostType === "production") {
+    return "https://api-prod.code-review-area.com";
+  }
+  if (hostType === "release") {
+    return "https://api.code-review-area.com";
+  }
+  return "http://localhost:8080";
+};
+
+export const serverUrl = getServerUrl();

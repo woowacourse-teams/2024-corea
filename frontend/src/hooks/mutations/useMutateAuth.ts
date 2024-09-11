@@ -3,27 +3,22 @@ import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { UserInfo } from "@/@types/userInfo";
 import { postLogin, postLogout } from "@/apis/auth.api";
-import QUERY_KEYS from "@/apis/queryKeys";
 
+interface UserInfoResponse {
+  accessToken: string;
+  refreshToken: string;
+  userInfo: UserInfo;
+}
 const useMutateAuth = () => {
   const navigate = useNavigate();
-  const { handleMutateSuccess, handleMutateError } = useMutateHandlers();
+  const { handleMutateError } = useMutateHandlers();
 
   const postLoginMutation = useMutation({
     mutationFn: (code: string) => postLogin(code),
-    onSuccess: ({
-      accessToken,
-      refreshToken,
-      userInfo,
-    }: {
-      accessToken: string;
-      refreshToken: string;
-      userInfo: UserInfo;
-    }) => {
+    onSuccess: ({ accessToken, refreshToken, userInfo }: UserInfoResponse) => {
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
       localStorage.setItem("userInfo", JSON.stringify(userInfo));
-      navigate("/");
     },
     onError: (error) => {
       localStorage.clear();
@@ -36,7 +31,7 @@ const useMutateAuth = () => {
     mutationFn: () => postLogout(),
     onSuccess: () => {
       localStorage.clear();
-      navigate("/logout");
+      navigate("/");
     },
     onError: (error) => handleMutateError(error),
     networkMode: "always",

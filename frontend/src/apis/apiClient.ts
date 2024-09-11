@@ -1,6 +1,7 @@
 import { API_ENDPOINTS } from "./endpoints";
 import { serverUrl } from "@/config/serverUrl";
 import MESSAGES from "@/constants/message";
+import { AuthorizationError, HTTPError } from "@/utils/Errors";
 
 type Method = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
@@ -37,40 +38,34 @@ const processQueue = (error: Error | null = null, token: string | null = null) =
   failedQueue = [];
 };
 
-const refreshAccessToken = async (): Promise<string | void> => {
-  try {
-    const response = await fetch(`${serverUrl}${API_ENDPOINTS.REFRESH}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ refreshToken }),
-    });
+const refreshAccessToken = async (): Promise<string | undefined> => {
+  const response = await fetch(`${serverUrl}${API_ENDPOINTS.REFRESH}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ refreshToken }),
+  });
+  const authHeader = response.headers.get("Authorization");
+  const newAccessToken = authHeader?.split(" ")[1];
 
-    if (!response.ok) {
-      const error = new Error(MESSAGES.ERROR.POST_REFRESH);
+  if (!response.ok) {
+    if (response.status === 401) {
+      const error = new AuthorizationError(MESSAGES.ERROR.POST_REFRESH);
       processQueue(error, null);
-      throw error;
+      isRefreshing = false;
+      alert("토큰이 만료되었습니다. 다시 로그인 해주세요!");
+      localStorage.clear();
+      window.location.href = "/";
+    } else {
+      throw new HTTPError(MESSAGES.ERROR.POST_REFRESH);
     }
-
-    const authHeader = response.headers.get("Authorization");
-    const newAccessToken = authHeader?.split(" ")[1];
-
-    if (!newAccessToken) {
-      const error = new Error(MESSAGES.ERROR.POST_REFRESH);
-      processQueue(error, null);
-      throw error;
-    }
-
+  } else if (newAccessToken) {
     localStorage.setItem("accessToken", newAccessToken);
     processQueue(null, newAccessToken);
     isRefreshing = false;
 
     return newAccessToken;
-  } catch (e) {
-    isRefreshing = false;
-    failedQueue = [];
-    localStorage.clear();
   }
 };
 
@@ -92,61 +87,59 @@ const createRequestInit = (
   };
 };
 
-const fetchWithErrorHandling = async (
+const fetchWithToken = async (
   endpoint: string,
   requestInit: RequestInit,
   errorMessage: string = "",
 ) => {
   if (!navigator.onLine) {
-    throw new Error(MESSAGES.ERROR.OFFLINE);
+    throw new HTTPError(MESSAGES.ERROR.OFFLINE);
   }
 
   let response = await fetch(`${serverUrl}${endpoint}`, requestInit);
+  let text = await response.text();
+  let data = text ? JSON.parse(text) : null;
 
-  if (response.status === 401) {
+  if (response.status === 401 && data.message === "토큰이 만료되었습니다.") {
     if (isRefreshing) {
-      return new Promise<string>((resolve, reject) => {
+      new Promise<string>((resolve, reject) => {
         failedQueue.push({ resolve, reject });
       }).then(async (token) => {
         requestInit.headers = {
           ...requestInit.headers,
           Authorization: `Bearer ${token}`,
         };
+
         response = await fetch(`${serverUrl}${endpoint}`, requestInit);
-        if (!response.ok) {
-          throw new Error(MESSAGES.ERROR.POST_REFRESH);
+
+        if (!response.ok && response.status !== 401) {
+          throw new HTTPError(MESSAGES.ERROR.POST_REFRESH);
         }
-        return response.json();
       });
     }
 
     isRefreshing = true;
 
-    try {
-      const newAccessToken = await refreshAccessToken();
-      if (!newAccessToken) {
-        throw new Error(MESSAGES.ERROR.POST_REFRESH);
-      }
-      requestInit.headers = {
-        ...requestInit.headers,
-        Authorization: `Bearer ${newAccessToken}`,
-      };
-      response = await fetch(`${serverUrl}${endpoint}`, requestInit);
-      if (!response.ok) {
-        throw new Error(MESSAGES.ERROR.POST_REFRESH);
-      }
-      return response.json();
-    } catch (error) {
-      throw new Error(MESSAGES.ERROR.POST_REFRESH);
+    const newAccessToken = await refreshAccessToken();
+    requestInit.headers = {
+      ...requestInit.headers,
+      Authorization: `Bearer ${newAccessToken}`,
+    };
+
+    response = await fetch(`${serverUrl}${endpoint}`, requestInit);
+    text = await response.text();
+    data = text ? JSON.parse(text) : null;
+
+    if (!response.ok && response.status !== 401) {
+      throw new HTTPError(MESSAGES.ERROR.POST_REFRESH);
     }
   }
 
-  if (!response.ok) {
-    throw new Error(errorMessage || `Error: ${response.status} ${response.statusText}`);
+  if (!response.ok && response.status !== 401) {
+    throw new HTTPError(errorMessage || `Error: ${response.status} ${response.statusText}`);
   }
 
-  const text = await response.text();
-  return text ? JSON.parse(text) : response;
+  return text ? data : response;
 };
 
 const apiClient = {
@@ -173,7 +166,7 @@ const apiClient = {
     errorMessage = "",
   }: RequestProps) => {
     const requestInit = createRequestInit(method, headers, body);
-    return await fetchWithErrorHandling(endpoint, requestInit, errorMessage);
+    return await fetchWithToken(endpoint, requestInit, errorMessage);
   },
 };
 

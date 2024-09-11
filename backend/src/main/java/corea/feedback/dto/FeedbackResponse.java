@@ -44,6 +44,7 @@ public record FeedbackResponse(@Schema(description = "피드백 아이디", exam
                 developFeedback.getFeedBackText()
         );
     }
+
     public static FeedbackResponse fromDeliver(DevelopFeedback developFeedback) {
         return new FeedbackResponse(
                 developFeedback.getId(),

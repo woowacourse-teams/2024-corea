@@ -39,18 +39,22 @@ const ProfileCard = (profileData: ProfileData) => {
       <S.ProfileTitle>나의 프로필</S.ProfileTitle>
       <S.ProfileCardWrapper>
         <S.ProfileWrapper>
-          <Profile imgSrc={profileData.profileImage} size={100} />
+          <Profile imgSrc={profileData.profileImage} size={110} />
           <S.ProfileNickname>{profileData.nickname}</S.ProfileNickname>
         </S.ProfileWrapper>
         <S.ProfileInfoWrapper>
           <S.ProfileInfoTable>
             {userInfo.map((info) => (
               <tr key={info.title}>
-                <td>{info.title}</td>
+                <S.InfoTitle>{info.title}</S.InfoTitle>
                 <td>
                   <S.ProfileFlex>
-                    <Icon kind={info.iconKind} /> {"   " + info.value.toLocaleString()}
-                    {info.iconKind === "pencil" && "개"}
+                    <Icon kind={info.iconKind} size="1rem" />{" "}
+                    <S.InfoCount>
+                      {" "}
+                      {"   " + info.value.toLocaleString()}
+                      {info.iconKind === "pencil" && "개"}
+                    </S.InfoCount>
                   </S.ProfileFlex>
                 </td>
               </tr>
@@ -67,7 +71,9 @@ const ProfileCard = (profileData: ProfileData) => {
         </S.KeywordContainer>
       </S.ProfileCardWrapper>
       <S.AttitudeScoreWrapper>
-        <S.AttitudeScoreText>매너잔디</S.AttitudeScoreText>
+        <S.AttitudeScoreText>
+          매너잔디<span>{profileData.attitudeScore}점</span>
+        </S.AttitudeScoreText>
         <AttitudeScore score={profileData.attitudeScore} />
       </S.AttitudeScoreWrapper>
     </S.ProfileCardContainer>

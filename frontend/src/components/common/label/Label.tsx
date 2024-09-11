@@ -8,11 +8,12 @@ interface LabelProps {
   text?: string;
   type: LabelType;
   size?: LabelSize;
+  backgroundColor?: string;
 }
 
-const Label = ({ text, type, size = "xSmall" }: LabelProps) => {
+const Label = ({ text, type, size = "semiSmall", backgroundColor }: LabelProps) => {
   return (
-    <S.LabelWrapper type={type} $size={size}>
+    <S.LabelWrapper type={type} $size={size} $backgroundColor={backgroundColor}>
       {type === "keyword" && `#${text}`}
       {type === "open" && "모집 중"}
       {type === "close" && "모집 완료"}

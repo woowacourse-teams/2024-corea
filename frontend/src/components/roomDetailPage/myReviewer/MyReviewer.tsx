@@ -21,8 +21,8 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
 
   const { data: reviewerData } = useFetchReviewer(roomInfo);
 
-  if (!reviewerData || reviewerData.length === 0) {
-    return <>{MESSAGES.GUIDANCE.EMPTY_REVIEWER}</>;
+  if (reviewerData.length === 0) {
+    return <S.ErrorWrapper>{MESSAGES.GUIDANCE.EMPTY_REVIEWER}</S.ErrorWrapper>;
   }
 
   const handleOpenFeedbackModal = (reviewer: ReviewerInfo) => {
@@ -73,16 +73,18 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
               <S.MyReviewerContent>{reviewer.username}</S.MyReviewerContent>
               <S.MyReviewerContent>
                 <S.PRLink href={reviewer.link}>
-                  <Icon kind="link" />
+                  <S.IconWrapper>
+                    <Icon kind="link" />
+                  </S.IconWrapper>
                   바로가기
                 </S.PRLink>
               </S.MyReviewerContent>
 
               <S.MyReviewerContent>
                 <Button
-                  size="small"
+                  size="xSmall"
                   onClick={() => handleOpenFeedbackModal(reviewer)}
-                  variant={reviewer.isReviewed ? "primary" : "disable"}
+                  variant={reviewer.isReviewed ? "secondary" : "disable"}
                   disabled={!reviewer.isReviewed}
                 >
                   {buttonText}

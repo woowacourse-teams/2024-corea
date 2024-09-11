@@ -1,21 +1,21 @@
 import styled from "styled-components";
 import media from "@/styles/media";
 
-export const FeedbackCardContainer = styled.div`
+export const FeedbackCardContainer = styled.div<{ $isTypeDevelop: boolean }>`
   overflow-y: hidden;
   display: flex;
   flex-direction: column;
   gap: 2rem;
 
   width: 40%;
-  min-width: 420px;
+  min-width: 370px;
   height: 600px;
   padding: 1rem;
 
+  border: 3px solid
+    ${({ theme, $isTypeDevelop }) =>
+      $isTypeDevelop ? theme.COLOR.primary2 : theme.COLOR.secondary};
   border-radius: 10px;
-  box-shadow:
-    rgb(17 17 26 / 10%) 0 4px 16px,
-    rgb(17 17 26 / 5%) 0 8px 32px;
 
   ${media.small`
     width: 100%;
@@ -39,6 +39,11 @@ export const FeedbackKeywordWrapper = styled.div`
   margin-top: 1rem;
 `;
 
+export const FeedbackHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
 export const FeedbackProfile = styled.div`
   display: flex;
   flex-direction: row;
@@ -46,11 +51,23 @@ export const FeedbackProfile = styled.div`
   align-items: center;
 `;
 
+export const FeedbackType = styled.span<{ $isTypeDevelop: boolean }>`
+  font: ${({ theme }) => theme.TEXT.small};
+  color: ${({ theme, $isTypeDevelop }) =>
+    $isTypeDevelop ? theme.COLOR.primary2 : theme.COLOR.secondary};
+  text-align: right;
+  white-space: pre-line;
+
+  p {
+    color: ${({ theme }) => theme.COLOR.grey3};
+  }
+`;
+
 export const FeedbackTitle = styled.h3`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  font-weight: bold;
+  font: ${({ theme }) => theme.TEXT.small};
 `;
 
 export const FeedbackSubTitle = styled.span`
@@ -78,7 +95,7 @@ export const FeedbackDetail = styled.p`
 
   height: 120px;
 
-  line-height: 1.2rem;
+  font: ${({ theme }) => theme.TEXT.semiSmall};
   text-overflow: ellipsis;
   white-space: break-spaces;
 `;

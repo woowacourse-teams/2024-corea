@@ -3,9 +3,7 @@ import { createGlobalStyle } from "styled-components";
 const globalStyles = createGlobalStyle`
   scrollbar-width: none;
 
-  :root {
-    font-size: 62.5%;
-  }
+
 
   *,
   *::before,
@@ -96,6 +94,7 @@ const globalStyles = createGlobalStyle`
   mark,
   audio,
   video {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
 
@@ -122,6 +121,12 @@ const globalStyles = createGlobalStyle`
   }
 
   body {
+    overflow-x: hidden !important;
+
+    font-family: 'Do Hyeon', system-ui;
+    font-size: 62.5%;
+    font-weight: 400;
+    font-style: normal;
     line-height: 1;
   }
 
@@ -199,12 +204,12 @@ const globalStyles = createGlobalStyle`
 
   ::-webkit-scrollbar-thumb {
     height: 30%;
-    background: rgb(132 174 225 / 70%);
+    background: rgb(198 198 198 / 70%);
     border-radius: 10px;
   }
 
   ::-webkit-scrollbar-track {
-    background: rgb(132 174 225 / 20%);
+    background: rgb(198 198 198 / 20%);
   }
 `;
 

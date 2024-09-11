@@ -1,4 +1,5 @@
 import styled, { keyframes } from "styled-components";
+import { ToastType } from "@/@types/toast";
 import media from "@/styles/media";
 
 export const toastSlideIn = keyframes`
@@ -17,10 +18,10 @@ export const toastSlideOut = keyframes`
   }
 `;
 
-export const Wrapper = styled.div<{ closeAnimation: boolean }>`
+export const Wrapper = styled.div<{ $closeAnimation: boolean; $type: ToastType }>`
   position: fixed;
-  right: 30px;
-  bottom: 30px;
+  right: 50px;
+  top: 80px;
 
   display: flex;
   align-items: center;
@@ -32,7 +33,8 @@ export const Wrapper = styled.div<{ closeAnimation: boolean }>`
   font: ${({ theme }) => theme.TEXT.small};
   color: ${({ theme }) => theme.COLOR.white};
 
-  background-color: ${({ theme }) => theme.COLOR.primary2};
+  background-color: ${({ theme, $type }) =>
+    $type === "error" ? theme.COLOR.error : theme.COLOR.primary2};
   border-radius: 6px;
 
   ${media.small`
@@ -43,6 +45,6 @@ export const Wrapper = styled.div<{ closeAnimation: boolean }>`
     transform: translateX(-50%);
     `}
 
-  animation: ${({ closeAnimation }) => (closeAnimation ? toastSlideOut : toastSlideIn)} 0.4s
+  animation: ${({ $closeAnimation }) => ($closeAnimation ? toastSlideOut : toastSlideIn)} 0.4s
     ease-in-out forwards;
 `;

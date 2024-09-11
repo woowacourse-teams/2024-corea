@@ -2,7 +2,7 @@ package corea.ranking.service;
 
 import corea.evaluation.domain.EvaluateClassification;
 import corea.member.domain.Member;
-import corea.profile.repository.ProfileRepository;
+import corea.member.repository.ProfileRepository;
 import corea.ranking.domain.Ranking;
 import corea.ranking.dto.RankingResponse;
 import corea.ranking.dto.RankingResponses;
@@ -49,7 +49,7 @@ public class RankingService {
     private RankingResponse toRankingResponse(EvaluateClassification classification, Ranking ranking) {
         int rank = ranking.getRanking();
         Member member = ranking.getMember();
-        long deliverCount = profileRepository.findDeliverCountByMemberId(member.getId());
+        long deliverCount = profileRepository.findDeliverCountByProfile(member.getProfile());
         float averageEvaluatePoint = ranking.getAverageEvaluatePoint();
 
         return RankingResponse.of(rank, member, deliverCount, averageEvaluatePoint, classification);

@@ -1,71 +1,83 @@
+import { Suspense, useState } from "react";
 import useSelectedCategory from "@/hooks/common/useSelectedCategory";
-import {
-  useFetchParticipatedRoomList,
-  useInfiniteFetchRoomList,
-} from "@/hooks/queries/useFetchRooms";
-import ContentSection from "@/components/common/contentSection/ContentSection";
-import MenuBar from "@/components/common/menuBar/MenuBar";
-import RoomList from "@/components/shared/roomList/RoomList";
+import DelaySuspense from "@/components/common/delaySuspense/DelaySuspense";
+import Loading from "@/components/common/loading/Loading";
+import OptionSelect from "@/components/common/optionSelect/OptionSelect";
+import Banner from "@/components/main/banner/Banner";
+import ClosedRoomList from "@/components/main/room/ClosedRoomList";
+import OpenedRoomList from "@/components/main/room/OpenedRoomList";
+import ParticipatedRoomList from "@/components/main/room/ParticipatedRoomList";
 import * as S from "@/pages/main/MainPage.style";
-import QUERY_KEYS from "@/apis/queryKeys";
-import { getClosedRoomList, getOpenedRoomList } from "@/apis/rooms.api";
+import { Option } from "@/@types/rooms";
+import { optionsLoggedIn, optionsLoggedOut } from "@/constants/room";
 
 const MainPage = () => {
+  const isLoggedIn = !!localStorage.getItem("accessToken");
+  const options = isLoggedIn ? optionsLoggedIn : optionsLoggedOut;
+  const [selectedTab, setSelectedTab] = useState<Option>(options[0]);
+
   const { selectedCategory, handleSelectedCategory } = useSelectedCategory();
-  const { data: participatedRoomList } = useFetchParticipatedRoomList();
 
-  const {
-    data: openedRoomList,
-    fetchNextPage: fetchNextOpenedPage,
-    hasNextPage: hasNextOpenedPage,
-  } = useInfiniteFetchRoomList({
-    queryKey: [QUERY_KEYS.OPENED_ROOM_LIST, selectedCategory],
-    getRoomList: getOpenedRoomList,
-    classification: selectedCategory,
-  });
-
-  const {
-    data: closedRoomList,
-    fetchNextPage: fetchNextClosedPage,
-    hasNextPage: hasNextClosedPage,
-  } = useInfiniteFetchRoomList({
-    queryKey: [QUERY_KEYS.CLOSED_ROOM_LIST, selectedCategory],
-    getRoomList: getClosedRoomList,
-    classification: selectedCategory,
-  });
-
-  const openedRooms = openedRoomList?.pages.flatMap((page) => page.rooms) || [];
-  const closedRooms = closedRoomList?.pages.flatMap((page) => page.rooms) || [];
+  const renderContent = () => {
+    switch (selectedTab) {
+      case "참여 중":
+        return (
+          <Suspense
+            fallback={
+              <DelaySuspense>
+                <Loading />
+              </DelaySuspense>
+            }
+          >
+            <ParticipatedRoomList />
+          </Suspense>
+        );
+      case "모집 중":
+        return (
+          <Suspense
+            fallback={
+              <DelaySuspense>
+                <Loading />
+              </DelaySuspense>
+            }
+          >
+            <OpenedRoomList
+              selectedCategory={selectedCategory}
+              handleSelectedCategory={handleSelectedCategory}
+            />
+          </Suspense>
+        );
+      case "모집 마감":
+        return (
+          <Suspense
+            fallback={
+              <DelaySuspense>
+                <Loading />
+              </DelaySuspense>
+            }
+          >
+            <ClosedRoomList
+              selectedCategory={selectedCategory}
+              handleSelectedCategory={handleSelectedCategory}
+            />
+          </Suspense>
+        );
+      default:
+        return null;
+    }
+  };
 
   return (
     <S.Layout>
-      <ContentSection title="참여 중인 방 리스트">
-        {participatedRoomList ? (
-          <RoomList roomList={participatedRoomList.rooms} roomType="participated" />
-        ) : (
-          <div>❗ 로그인 후 참여 중인 방을 확인할 수 있습니다.</div>
-        )}
-      </ContentSection>
+      <Banner />
 
-      <MenuBar selectedCategory={selectedCategory} onCategoryClick={handleSelectedCategory} />
+      <OptionSelect
+        selected={selectedTab}
+        options={options}
+        handleSelectedOption={(option) => setSelectedTab(option)}
+      />
 
-      <ContentSection title="모집 중인 방 리스트">
-        <RoomList
-          roomList={openedRooms}
-          hasNextPage={hasNextOpenedPage}
-          onLoadMore={() => fetchNextOpenedPage()}
-          roomType="opened"
-        />
-      </ContentSection>
-
-      <ContentSection title="모집 마감된 방 리스트">
-        <RoomList
-          roomList={closedRooms}
-          hasNextPage={hasNextClosedPage}
-          onLoadMore={() => fetchNextClosedPage()}
-          roomType="closed"
-        />
-      </ContentSection>
+      {renderContent()}
     </S.Layout>
   );
 };

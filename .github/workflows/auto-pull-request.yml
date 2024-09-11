@@ -6,6 +6,8 @@ on:
       - 'feat/#*'
       - 'refactor/#*'
       - 'fix/#*'
+      - 'design/#*'
+      - 'config/#*'
 
 jobs:
   auto-pull-request:
@@ -20,8 +22,8 @@ jobs:
         run: |
           branch_name="${GITHUB_REF#refs/heads/}"
           echo "BRANCH_NAME=$branch_name" >> $GITHUB_ENV
-          
-          if [[ "$branch_name" =~ ^(feat|fix|refactor)/#([0-9]+)$ ]]; then
+
+          if [[ "$branch_name" =~ ^(feat|fix|refactor|design|config)/#([0-9]+)$ ]]; then
             branch_prefix="${BASH_REMATCH[1]}"
             issue_number="${BASH_REMATCH[2]}"
             echo "BRANCH_PREFIX=$branch_prefix" >> $GITHUB_ENV
@@ -35,7 +37,7 @@ jobs:
         run: |
           branch_name=${{ env.BRANCH_NAME }}
           existing_pr=$(gh pr list --state open -H "$branch_name" -B develop --json number -q '.[] | .number')
-          
+
           if [ -n "$existing_pr" ]; then
             echo "EXISTED=TRUE" >> $GITHUB_ENV
             echo "Alreadt Exist in https://github.com/${{ github.repository }}/pull/$existing_pr"
@@ -48,22 +50,22 @@ jobs:
         if: ${{ !env.EXISTED }}
         run: |
           issue_number="${{ env.ISSUE_NUMBER }}"
-          
+
           response=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
                             -H "Accept: application/vnd.github.v3+json" \
                             "https://api.github.com/repos/${{ github.repository }}/issues/$issue_number")
-          
+
           assignees=$(echo "$response" | jq -r '.assignees[].login' | awk '{ORS=","}1' | sed 's/, $//' | rev | cut -c 2- | rev)
-          
+
           title=$(echo "$response" | jq -r '.title')
-          
+
           labels=$(echo "$response" | jq -r '.labels[].name' | tr '\n' ', ' | sed 's/, $//')
           labels=$(echo "$labels" | rev | cut -c 2- | rev)
-          
+
           pr_title="${title}(#${issue_number})"
-          
+
           echo "$response" | jq -r '.body' > issue_body.txt
-          
+
           echo "ASSIGNEES=$assignees" >> $GITHUB_ENV
           echo "LABELS=$labels" >> $GITHUB_ENV
           echo "TITLE=$title" >> $GITHUB_ENV
@@ -93,7 +95,7 @@ jobs:
           echo "## ✨ PR 세부 내용" >> body.md
           echo "" >> body.md
           echo "<!-- 수정/추가한 내용을 적어주세요. -->" >> body.md
-          
+
           summary=$(cat body.md)
             echo "PR_BODY<<EOF" >> $GITHUB_ENV
           echo "$summary" >> $GITHUB_ENV

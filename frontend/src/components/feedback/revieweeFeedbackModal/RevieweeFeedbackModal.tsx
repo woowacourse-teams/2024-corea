@@ -1,16 +1,16 @@
 import { useRevieweeFeedbackForm } from "@/hooks/feedback/useRevieweeFeedbackForm";
 import Button from "@/components/common/button/Button";
 import Label from "@/components/common/label/Label";
-import Modal from "@/components/common/modal/Modal";
+import FeedbackModal from "@/components/common/modal/FeedbackModal";
+import { ModalProps } from "@/components/common/modal/Modal";
 import RevieweeFeedbackForm from "@/components/feedback/feedbackForm/RevieweeFeedbackForm";
 import * as S from "@/components/feedback/revieweeFeedbackModal/RevieweeFeedbackModal.style";
 import { ReviewerInfo } from "@/@types/reviewer";
 import { RoomInfo } from "@/@types/roomInfo";
+import { theme } from "@/styles/theme";
 import { FeedbackModalType } from "@/utils/feedbackUtils";
 
-interface RevieweeFeedbackModalProps {
-  isOpen: boolean;
-  onClose: () => void;
+interface RevieweeFeedbackModalProps extends ModalProps {
   roomInfo: Pick<RoomInfo, "id" | "title" | "keywords" | "isClosed">;
   reviewee: ReviewerInfo;
   modalType: FeedbackModalType;
@@ -29,7 +29,7 @@ const RevieweeFeedbackModal = ({
     useRevieweeFeedbackForm(roomInfo.id, reviewee.username, reviewee.userId, modalType, onClose);
 
   return (
-    <Modal isOpen={isOpen} onClose={handleClose}>
+    <FeedbackModal isOpen={isOpen} onClose={handleClose}>
       <S.FeedbackContainer>
         <S.ModalType>
           {modalType === "create" && "리뷰이 피드백 작성하기"}
@@ -39,7 +39,13 @@ const RevieweeFeedbackModal = ({
         <S.ModalTitle>{roomInfo.title}</S.ModalTitle>
         <S.Keywords>
           {roomInfo.keywords.map((keyword) => (
-            <Label key={keyword} type="keyword" text={keyword} size="semiSmall" />
+            <Label
+              key={keyword}
+              type="keyword"
+              text={keyword}
+              size="semiSmall"
+              backgroundColor={theme.COLOR.grey0}
+            />
           ))}
         </S.Keywords>
 
@@ -53,7 +59,7 @@ const RevieweeFeedbackModal = ({
           </S.ButtonWrapper>
         )}
       </S.FeedbackContainer>
-    </Modal>
+    </FeedbackModal>
   );
 };
 

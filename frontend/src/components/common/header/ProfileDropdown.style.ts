@@ -12,7 +12,7 @@ export const DropdownMenu = styled.div<{ show: boolean }>`
   display: ${({ show }) => (show ? "flex" : "none")};
   flex-direction: column;
 
-  width: 200px;
+  min-width: 200px;
   padding: 1rem;
 
   background-color: white;
@@ -52,8 +52,10 @@ export const DropdownItem = styled.li`
 
   padding: 0.5rem;
 
-  font-size: 0.8rem;
+  font: ${({ theme }) => theme.TEXT.small};
   color: ${({ theme }) => theme.COLOR.grey4};
+
+  transition: background-color 0.3s;
 
   &:hover {
     background-color: ${({ theme }) => theme.COLOR.grey0};

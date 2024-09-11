@@ -20,6 +20,7 @@ const Header = () => {
   const navigate = useNavigate();
   const [isSelect, setIsSelect] = useState("");
   const isLoggedIn = !!localStorage.getItem("accessToken");
+  const isMain = pathname === "/";
 
   const handlePage = (path: string, name: string) => {
     setIsSelect(name);
@@ -40,11 +41,14 @@ const Header = () => {
   };
 
   return (
-    <S.HeaderContainer>
-      <S.HeaderLogo onClick={() => handlePage("/", "")}>CoReA</S.HeaderLogo>
+    <S.HeaderContainer $isMain={isMain}>
+      <S.HeaderLogo $isMain={isMain} onClick={() => handlePage("/", "")}>
+        CoReA
+      </S.HeaderLogo>
       <S.HeaderNavBarContainer>
         {headerItems.map((item) => (
           <S.HeaderItem
+            $isMain={isMain}
             key={item.name}
             onClick={() => handlePage(item.path, item.name)}
             className={isSelect === item.name ? "selected" : ""}
@@ -55,7 +59,9 @@ const Header = () => {
         {isLoggedIn ? (
           <ProfileDropdown />
         ) : (
-          <S.HeaderItem onClick={handleLogin}>로그인</S.HeaderItem>
+          <S.HeaderItem $isMain={isMain} onClick={handleLogin}>
+            로그인
+          </S.HeaderItem>
         )}
       </S.HeaderNavBarContainer>
     </S.HeaderContainer>

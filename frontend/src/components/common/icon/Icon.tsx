@@ -8,11 +8,15 @@ import {
 } from "react-icons/fa6";
 import { IconType } from "react-icons/lib";
 import {
+  MdArrowBackIos,
   MdArrowDropDown,
+  MdArrowForwardIos,
   MdCalendarMonth,
   MdExpandMore,
   MdInfoOutline,
   MdInsertLink,
+  MdOutlineArrowDropDown,
+  MdOutlineArrowDropUp,
   MdOutlineCreate,
   MdOutlinePeopleAlt,
   MdOutlineStar,
@@ -39,6 +43,10 @@ const ICON: { [key in IconKind]: IconType } = {
   average: FaRegFaceSmile,
   satisfied: FaRegFaceGrinWide,
   verySatisfied: FaRegFaceGrinHearts,
+  arrowLeft: MdArrowBackIos,
+  arrowRight: MdArrowForwardIos,
+  arrowDropDown: MdOutlineArrowDropDown,
+  arrowDropUp: MdOutlineArrowDropUp,
 };
 
 interface IconProps {
@@ -48,9 +56,9 @@ interface IconProps {
   size?: string | number;
 }
 
-const Icon = ({ kind, ...props }: IconProps) => {
+const Icon = ({ kind, size = "1.6rem", ...props }: IconProps) => {
   const TargetIcon = ICON[kind];
-  return <TargetIcon {...props} width={"2.4rem"} height={"2.4rem"} />;
+  return <TargetIcon {...props} size={size} />;
 };
 
 export default Icon;

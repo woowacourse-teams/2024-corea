@@ -2,13 +2,14 @@ package corea.auth.controller;
 
 import corea.auth.annotation.LoginMember;
 import corea.auth.domain.AuthInfo;
+import corea.auth.domain.TokenInfo;
 import corea.auth.dto.GithubUserInfo;
 import corea.auth.dto.LoginRequest;
 import corea.auth.dto.LoginResponse;
 import corea.auth.dto.TokenRefreshRequest;
+import corea.auth.service.GithubOAuthProvider;
 import corea.auth.service.LoginService;
-import corea.member.domain.Member;
-import corea.member.service.MemberService;
+import corea.auth.service.LogoutService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,29 +24,22 @@ import static corea.global.config.Constants.AUTHORIZATION_HEADER;
 @RequiredArgsConstructor
 public class LoginController implements LoginControllerSpecification {
 
+    private final GithubOAuthProvider githubOAuthProvider;
     private final LoginService loginService;
-    private final MemberService memberService;
+    private final LogoutService logoutService;
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
-        GithubUserInfo userInfo = loginService.getUserInfo(loginRequest.code());
-        Member member = loginService.login(userInfo);
-
-        String accessToken = loginService.createAccessToken(member);
-        String refreshToken = loginService.publishRefreshToken(member);
-
+        GithubUserInfo userInfo = githubOAuthProvider.getUserInfo(loginRequest.code());
+        TokenInfo tokenInfo = loginService.login(userInfo);
         return ResponseEntity.ok()
-                .header(AUTHORIZATION_HEADER, accessToken)
-                .body(new LoginResponse(refreshToken, userInfo));
+                .header(AUTHORIZATION_HEADER, tokenInfo.accessToken())
+                .body(new LoginResponse(tokenInfo.refreshToken(), userInfo));
     }
 
     @PostMapping("/refresh")
     public ResponseEntity<Void> extendAuthorization(@RequestBody TokenRefreshRequest tokenRefreshRequest) {
-        Long memberId = loginService.authorize(tokenRefreshRequest.refreshToken());
-        Member member = memberService.findById(memberId);
-
-        String accessToken = loginService.createAccessToken(member);
-
+        String accessToken = loginService.refresh(tokenRefreshRequest.refreshToken());
         return ResponseEntity.ok()
                 .header(AUTHORIZATION_HEADER, accessToken)
                 .build();
@@ -53,8 +47,7 @@ public class LoginController implements LoginControllerSpecification {
 
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(@LoginMember AuthInfo authInfo) {
-        loginService.logout(authInfo.getId());
-
+        logoutService.logoutByUser(authInfo.getId());
         return ResponseEntity.ok()
                 .build();
     }
