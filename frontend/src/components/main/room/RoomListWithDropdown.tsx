@@ -33,7 +33,7 @@ const RoomListWithDropdown = ({
         roomList={roomList}
         hasNextPage={hasNextPage}
         onLoadMore={onLoadMore}
-        roomType="opened"
+        participated={false}
       />
     </ContentSection>
   );
