@@ -35,27 +35,33 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
 
         <S.RoomContentBox>
           <S.RoomContentSmall>
-            <Icon kind="person" size="1.4rem" />방 생성자 : {roomInfo.manager}
+            <Icon kind="person" size="1.4rem" color={theme.COLOR.grey4} />
+            <span>방 생성자 : </span>
+            {roomInfo.manager}
           </S.RoomContentSmall>
           <S.RoomContentSmall>
-            <Icon kind="person" size="1.4rem" />
-            현재 참여 인원 : {roomInfo.currentParticipants} / {roomInfo.limitedParticipants}명
+            <Icon kind="person" size="1.4rem" color={theme.COLOR.grey4} />
+            <span>현재 참여 인원 : </span>
+            {roomInfo.currentParticipants} / {roomInfo.limitedParticipants}명
           </S.RoomContentSmall>
           <S.RoomContentSmall>
-            <Icon kind="person" size="1.4rem" />
-            상호 리뷰 인원 : {roomInfo.matchingSize}명
+            <Icon kind="person" size="1.4rem" color={theme.COLOR.grey4} />
+            <span>상호 리뷰 인원 : </span>
+            {roomInfo.matchingSize}명
           </S.RoomContentSmall>
           <S.RoomContentSmall>
-            <Icon kind="calendar" size="1.4rem" />
+            <Icon kind="calendar" size="1.4rem" color={theme.COLOR.grey4} />
             <div>
-              모집 마감일: {formatDateTimeString(roomInfo.recruitmentDeadline)}
+              <span>모집 마감일: </span>
+              <S.DateTimeText>{formatDateTimeString(roomInfo.recruitmentDeadline)}</S.DateTimeText>
               <S.StyledDday> {formatDday(roomInfo.recruitmentDeadline)}</S.StyledDday>
             </div>
           </S.RoomContentSmall>
           <S.RoomContentSmall>
-            <Icon kind="calendar" size="1.4rem" />
+            <Icon kind="calendar" size="1.4rem" color={theme.COLOR.grey4} />
             <div>
-              리뷰 및 피드백 마감일: {formatDateTimeString(roomInfo.reviewDeadline)}
+              <span>리뷰 마감일: </span>
+              <S.DateTimeText>{formatDateTimeString(roomInfo.reviewDeadline)}</S.DateTimeText>
               <S.StyledDday> {formatDday(roomInfo.reviewDeadline)}</S.StyledDday>
             </div>
           </S.RoomContentSmall>

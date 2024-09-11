@@ -8,7 +8,7 @@ export const ProfileCardContainer = styled.div`
 
 export const ProfileTitle = styled.div`
   padding: 1rem 0 0 1rem;
-  font: ${({ theme }) => theme.TEXT.medium};
+  font: ${({ theme }) => theme.TEXT.medium_bold};
 `;
 
 export const ProfileCardWrapper = styled.div`
@@ -28,7 +28,8 @@ export const ProfileWrapper = styled.div`
 `;
 
 export const ProfileNickname = styled.div`
-  font: ${({ theme }) => theme.TEXT.semiSmall};
+  font: ${({ theme }) => theme.TEXT.medium_bold};
+  color: ${({ theme }) => theme.COLOR.grey3};
   text-align: center;
 `;
 
@@ -37,11 +38,12 @@ export const ProfileInfoWrapper = styled.div`
 `;
 
 export const InfoTitle = styled.td`
-  font: ${({ theme }) => theme.TEXT.medium};
+  font: ${({ theme }) => theme.TEXT.small};
+  color: ${({ theme }) => theme.COLOR.grey4};
 `;
 
 export const InfoCount = styled.span`
-  font: ${({ theme }) => theme.TEXT.small};
+  font: ${({ theme }) => theme.TEXT.small_bold};
 `;
 
 export const ProfileSummaryContainer = styled.div`
@@ -90,9 +92,9 @@ export const KeywordWrapper = styled.div`
 
 export const Keyword = styled.div`
   margin-top: 0.5rem;
-  padding: 0.5rem;
+  padding: 1rem;
 
-  font: ${({ theme }) => theme.TEXT.small};
+  font: ${({ theme }) => theme.TEXT.semiSmall};
   color: ${({ theme }) => theme.COLOR.black};
 
   background: ${({ theme }) => theme.COLOR.grey0};
@@ -105,10 +107,10 @@ export const AttitudeScoreWrapper = styled.div`
 
 export const AttitudeScoreText = styled.div`
   padding: 1rem 0 1rem 1rem;
-  font: ${({ theme }) => theme.TEXT.medium};
+  font: ${({ theme }) => theme.TEXT.medium_bold};
 
   span {
     padding-left: 1rem;
-    font: ${({ theme }) => theme.TEXT.semiSmall};
+    font: ${({ theme }) => theme.TEXT.small};
   }
 `;

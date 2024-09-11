@@ -12,6 +12,8 @@ export const BannerContainer = styled.div`
   height: 400px;
   margin: -113px calc(-50vw + 50%) 0;
 
+  font-family: "Do Hyeon", sans-serif;
+
   background: linear-gradient(to bottom, #ff7e5f, #feb47b, ${({ theme }) => theme.COLOR.white});
 
   ${media.small`
@@ -32,24 +34,25 @@ export const BannerText = styled.p`
   width: 100%;
   height: 100px;
 
-  font-size: 3.5rem;
   color: ${({ theme }) => theme.COLOR.white};
   text-shadow:
     2px 2px 5px rgb(0 0 0 / 30%),
     4px 4px 10px rgb(0 0 0 / 10%);
 
   span {
-    font-size: 2.5rem;
+    font: ${({ theme }) => theme.TEXT.large_bold};
   }
 `;
 
 export const BannerSubText = styled.p`
   margin: 0 auto;
-  padding-top: 1rem;
-
-  font: ${({ theme }) => theme.TEXT.medium};
+  font: ${({ theme }) => theme.TEXT.large_bold};
   color: ${({ theme }) => theme.COLOR.grey0};
   text-align: center;
+
+  span {
+    font: ${({ theme }) => theme.TEXT.large_bold};
+  }
 `;
 
 export const Sunlight = styled.div`
@@ -118,27 +121,5 @@ export const Sunlight = styled.div`
     height: 100px;
 
     filter: blur(5px);
-  }
-`;
-
-export const Cloud = styled.img`
-  position: absolute;
-
-  &.cloud-1 {
-    top: 50px;
-    left: 100px;
-    height: 100px;
-  }
-
-  &.cloud-2 {
-    top: 30px;
-    left: 220px;
-    height: 150px;
-  }
-
-  &.cloud-3 {
-    top: 150px;
-    right: 100px;
-    height: 230px;
   }
 `;

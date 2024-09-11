@@ -12,19 +12,22 @@ export const CyclingList = styled.ul`
   flex-direction: column;
   align-items: flex-end;
 
-  width: 150px;
-  height: 54px;
+  width: 140px;
+  height: 48px;
   padding: 0.2rem;
+
+  font-family: "Do Hyeon", sans-serif;
+  font-size: 7.2rem;
 
   li {
     position: absolute;
-    bottom: -4rem;
+    bottom: -5rem;
     visibility: hidden;
     opacity: 0;
   }
 
   li.prev {
-    bottom: 4rem;
+    bottom: 5rem;
     visibility: hidden;
     opacity: 1;
     transition: all 1.3s;

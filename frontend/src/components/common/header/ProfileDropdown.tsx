@@ -1,4 +1,3 @@
-import Icon from "../icon/Icon";
 import Profile from "../profile/Profile";
 import { useNavigate } from "react-router-dom";
 import useDropdown from "@/hooks/common/useDropdown";
@@ -53,10 +52,9 @@ const ProfileDropdown = () => {
         <S.DropdownItemWrapper>
           {dropdownItems.map((item) => (
             <S.DropdownItem key={item.name} onClick={() => handleDropdownItemClick(item.path)}>
-              <span>{item.name}</span>
+              {item.name}
             </S.DropdownItem>
           ))}
-          <hr></hr>
           <S.DropdownItem onClick={handleLogoutClick}>로그아웃</S.DropdownItem>
         </S.DropdownItemWrapper>
       </S.DropdownMenu>

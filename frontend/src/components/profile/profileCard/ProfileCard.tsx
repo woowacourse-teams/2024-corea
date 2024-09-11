@@ -33,7 +33,7 @@ const ProfileCard = (profileData: ProfileData) => {
 
   return (
     <S.ProfileCardContainer>
-      <S.ProfileTitle>나의 프로필</S.ProfileTitle>
+      <S.ProfileTitle>프로필</S.ProfileTitle>
 
       <S.ProfileCardWrapper>
         <S.ProfileWrapper>

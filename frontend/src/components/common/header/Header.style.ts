@@ -33,7 +33,7 @@ export const HeaderContainer = styled.header<{ $isMain: boolean }>`
 // 서비스 로고
 export const HeaderLogo = styled.button<{ $isMain: boolean }>`
   font-family: "Moirai One", system-ui;
-  font-size: 2.2rem;
+  font-size: 3rem;
   font-weight: 900;
   color: ${({ theme, $isMain }) => ($isMain ? theme.COLOR.white : theme.COLOR.grey3)};
 
@@ -53,8 +53,14 @@ export const HeaderNavBarContainer = styled.div`
 
 export const HeaderItem = styled.li<{ $isMain: boolean }>`
   cursor: pointer;
-  font: ${({ theme }) => theme.TEXT.medium};
+
+  width: fit-content;
+  padding: 0 0.4rem;
+
+  font: ${({ theme }) => theme.TEXT.large};
+  font-family: "Do Hyeon", sans-serif;
   color: ${({ theme, $isMain }) => ($isMain ? theme.COLOR.white : theme.COLOR.grey3)};
+
   ${media.small`
     color: ${({ theme }) => theme.COLOR.black};
   `}
@@ -62,8 +68,8 @@ export const HeaderItem = styled.li<{ $isMain: boolean }>`
 
   &:hover,
   &.selected {
-    width: fit-content;
-    font-weight: 700;
+    font: ${({ theme }) => theme.TEXT.large};
+    font-family: "Do Hyeon", sans-serif;
     color: ${({ theme }) => theme.COLOR.black};
     border-bottom: 3px solid ${({ theme }) => theme.COLOR.black};
   }
