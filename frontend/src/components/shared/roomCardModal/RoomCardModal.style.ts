@@ -127,7 +127,7 @@ export const InfoRow = styled.div`
 `;
 
 export const InfoTitle = styled.span`
-  width: 100px;
+  width: 150px;
   font: ${({ theme }) => theme.TEXT.small};
   color: ${({ theme }) => theme.COLOR.grey2};
 `;

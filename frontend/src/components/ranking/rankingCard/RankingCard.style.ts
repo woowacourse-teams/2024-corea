@@ -59,6 +59,10 @@ export const RankingAwardItem = styled.div`
   a:hover {
     text-decoration: underline;
   }
+
+  a:visited {
+    color: ${({ theme }) => theme.COLOR.grey2};
+  }
 `;
 
 export const RankingAwardBar = styled.div<{ $rank: string }>`
@@ -113,18 +117,31 @@ export const RankingTableItem = styled.div`
 `;
 
 export const TableItem = styled.div`
+  overflow: hidden;
   display: flex;
   justify-content: center;
 
-  width: 60px;
+  width: 80px;
 
   font: ${({ theme }) => theme.TEXT.small};
   color: ${({ theme }) => theme.COLOR.grey3};
   text-overflow: ellipsis;
+  white-space: nowrap;
 
   img {
     width: 28px;
     height: 28px;
+  }
+
+  a {
+    overflow: hidden;
+    display: inline-block;
+
+    width: 100%;
+
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   a:hover {

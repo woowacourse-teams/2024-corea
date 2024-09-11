@@ -36,7 +36,7 @@ const RoomCardModal = ({ isOpen, onClose, roomInfo }: RoomCardModalProps) => {
 
           <S.TitleContainer>
             <S.RoomTitle>{roomInfo.title}</S.RoomTitle>
-            <S.RepositoryLink href={roomInfo.repositoryLink}>
+            <S.RepositoryLink href={roomInfo.repositoryLink} target="_blank">
               <Icon kind="link" />
               저장소 바로가기
             </S.RepositoryLink>
@@ -49,7 +49,7 @@ const RoomCardModal = ({ isOpen, onClose, roomInfo }: RoomCardModalProps) => {
             <S.InfoContent>{formatDateTimeString(roomInfo.recruitmentDeadline)}</S.InfoContent>
           </S.InfoRow>
           <S.InfoRow>
-            <S.InfoTitle>리뷰 마감일</S.InfoTitle>
+            <S.InfoTitle>리뷰 및 피드백 마감일</S.InfoTitle>
             <S.InfoContent>{formatDateTimeString(roomInfo.reviewDeadline)}</S.InfoContent>
           </S.InfoRow>
           <S.InfoRow>
