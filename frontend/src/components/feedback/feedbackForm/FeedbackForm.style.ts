@@ -13,7 +13,7 @@ export const FeedbackFormContainer = styled.div`
 export const ItemContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+  gap: 1.2rem;
 `;
 
 export const ModalQuestion = styled.p<ModalQuestionProps>`
