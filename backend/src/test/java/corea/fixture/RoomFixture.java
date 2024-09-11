@@ -47,4 +47,23 @@ public class RoomFixture {
                 RoomStatus.OPENED
         );
     }
+
+    public static Room ROOM_DOMAIN_WITH_CLOSED(Member member) {
+        return new Room(
+                "자바 레이싱 카 - MVC",
+                "MVC 패턴을 아시나요?",
+                4,
+                "https://github.com/example/java-racingcar",
+                "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=13301655&filePath=L2Rpc2sxL25ld2RhdGEvMjAyMS8yMS9DTFMxMDAwNC8xMzMwMTY1NV9XUlRfMjFfQ0xTMTAwMDRfMjAyMTEyMTNfMQ==&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004",
+                List.of("TDD, 클린코드,자바"),
+                17,
+                30,
+                member,
+                LocalDateTime.now(),
+                LocalDateTime.now()
+                        .plusDays(14),
+                RoomClassification.BACKEND,
+                RoomStatus.CLOSED
+        );
+    }
 }
