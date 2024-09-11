@@ -97,16 +97,16 @@ const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
                   {reviewee.isReviewed ? (
                     <Button
                       size="xSmall"
-                      onClick={() => handleOpenFeedbackModal(reviewee)}
-                      variant={reviewee.isReviewed ? "primary" : "disable"}
+                      variant="primary"
                       disabled={!reviewee.isReviewed}
+                      onClick={() => handleOpenFeedbackModal(reviewee)}
                     >
                       {buttonText}
                     </Button>
                   ) : (
                     <Button
                       size="xSmall"
-                      variant={reviewee.isReviewed ? "disable" : "lightBlue"}
+                      variant="confirm"
                       disabled={reviewee.isReviewed}
                       onClick={() => handleReviewCompleteClick(reviewee.userId)}
                     >

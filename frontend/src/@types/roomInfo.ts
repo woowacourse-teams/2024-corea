@@ -18,4 +18,5 @@ export interface RoomInfo {
 export interface RoomListInfo {
   rooms: RoomInfo[];
   isLastPage: boolean;
+  pageNumber: number;
 }

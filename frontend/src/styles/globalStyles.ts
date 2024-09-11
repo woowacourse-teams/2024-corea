@@ -94,6 +94,7 @@ const globalStyles = createGlobalStyle`
   mark,
   audio,
   video {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
 

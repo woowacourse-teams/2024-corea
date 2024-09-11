@@ -86,14 +86,18 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
               </S.MyReviewerContent>
 
               <S.MyReviewerContent>
-                <Button
-                  size="xSmall"
-                  onClick={() => handleOpenFeedbackModal(reviewer)}
-                  variant={reviewer.isReviewed ? "secondary" : "disable"}
-                  disabled={!reviewer.isReviewed}
-                >
-                  {buttonText}
-                </Button>
+                {reviewer.isReviewed ? (
+                  <Button
+                    size="xSmall"
+                    onClick={() => handleOpenFeedbackModal(reviewer)}
+                    variant={reviewer.isReviewed ? "secondary" : "disable"}
+                    disabled={!reviewer.isReviewed}
+                  >
+                    {buttonText}
+                  </Button>
+                ) : (
+                  <p>리뷰어가 리뷰 중이에요!</p>
+                )}
               </S.MyReviewerContent>
             </S.MyReviewerWrapper>
           );

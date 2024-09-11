@@ -71,7 +71,7 @@ export const FeedbackInfoWrapper = styled.div<{ $isVisible: boolean }>`
 
 export const FeedbackMissionTitle = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-flow: row wrap;
   align-items: center;
 `;
 
@@ -100,7 +100,7 @@ export const FeedbackKeywordWrapper = styled.div`
   display: flex;
   align-items: center;
 
-  padding: 0.7rem;
+  padding: 0.7rem 0;
 
   font: ${({ theme }) => theme.TEXT.semiSmall};
   color: ${({ theme }) => theme.COLOR.grey3};

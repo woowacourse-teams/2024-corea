@@ -49,7 +49,7 @@ const RoomCardModal = ({ isOpen, onClose, roomInfo }: RoomCardModalProps) => {
             <S.InfoContent>{formatDateTimeString(roomInfo.recruitmentDeadline)}</S.InfoContent>
           </S.InfoRow>
           <S.InfoRow>
-            <S.InfoTitle>리뷰 마감일</S.InfoTitle>
+            <S.InfoTitle>리뷰 및 피드백 마감일</S.InfoTitle>
             <S.InfoContent>{formatDateTimeString(roomInfo.reviewDeadline)}</S.InfoContent>
           </S.InfoRow>
           <S.InfoRow>

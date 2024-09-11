@@ -7,7 +7,7 @@ import IconKind from "@/@types/icon";
 interface UserInfo {
   title: string;
   value: number;
-  iconKind: IconKind;
+  iconKind?: IconKind;
 }
 
 const ProfileCard = (profileData: ProfileData) => {
@@ -15,17 +15,14 @@ const ProfileCard = (profileData: ProfileData) => {
     {
       title: "리뷰한 개수",
       value: profileData.givenReviewCount,
-      iconKind: "pencil",
     },
     {
       title: "리뷰 받은 개수",
       value: profileData.receivedReviewCount,
-      iconKind: "pencil",
     },
     {
       title: "피드백 받은 개수",
       value: profileData.feedbackCount,
-      iconKind: "pencil",
     },
     {
       title: "평균 평점",
@@ -37,30 +34,36 @@ const ProfileCard = (profileData: ProfileData) => {
   return (
     <S.ProfileCardContainer>
       <S.ProfileTitle>프로필</S.ProfileTitle>
+
       <S.ProfileCardWrapper>
         <S.ProfileWrapper>
           <Profile imgSrc={profileData.profileImage} size={110} />
           <S.ProfileNickname>{profileData.nickname}</S.ProfileNickname>
         </S.ProfileWrapper>
+
         <S.ProfileInfoWrapper>
-          <S.ProfileInfoTable>
-            {userInfo.map((info) => (
-              <tr key={info.title}>
-                <S.InfoTitle>{info.title}</S.InfoTitle>
-                <td>
-                  <S.ProfileFlex>
-                    <Icon kind={info.iconKind} size="1rem" />{" "}
-                    <S.InfoCount>
-                      {" "}
-                      {"   " + info.value.toLocaleString()}
-                      {info.iconKind === "pencil" && "개"}
-                    </S.InfoCount>
-                  </S.ProfileFlex>
-                </td>
-              </tr>
-            ))}
-          </S.ProfileInfoTable>
+          <S.ProfileSummaryContainer>
+            <dl>
+              <dt>리뷰한 개수</dt>
+              <dd>{profileData.givenReviewCount}개</dd>
+            </dl>
+            <dl>
+              <dt>리뷰 받은 개수</dt>
+              <dd>{profileData.receivedReviewCount}개</dd>
+            </dl>
+            <dl>
+              <dt>피드백 받은 개수</dt>
+              <dd>{profileData.feedbackCount}개</dd>
+            </dl>
+            <dl>
+              <dt>평균 평점</dt>
+              <dd>
+                <Icon kind="star" size="1rem" /> 1.4
+              </dd>
+            </dl>
+          </S.ProfileSummaryContainer>
         </S.ProfileInfoWrapper>
+
         <S.KeywordContainer>
           {profileData.feedbackKeywords.map((keyword) => (
             <S.KeywordWrapper key={keyword}>
@@ -70,6 +73,7 @@ const ProfileCard = (profileData: ProfileData) => {
           ))}
         </S.KeywordContainer>
       </S.ProfileCardWrapper>
+
       <S.AttitudeScoreWrapper>
         <S.AttitudeScoreText>
           매너잔디<span>{profileData.attitudeScore}점</span>

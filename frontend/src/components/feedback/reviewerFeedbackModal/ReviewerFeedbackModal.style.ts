@@ -32,6 +32,21 @@ export const ItemContainer = styled.div`
   gap: 0.8rem;
 `;
 
+export const ModalQuestion = styled.p<ModalQuestionProps>`
+  font: ${({ theme }) => theme.TEXT.small};
+  font-weight: 600;
+
+  ${({ required, theme }) =>
+    required &&
+    `
+    &::after {
+      content: "*";
+      color: ${theme.COLOR.error};
+      margin-left: 4px;
+    }
+  `}
+`;
+
 export const ButtonWrapper = styled.div`
   display: flex;
   align-items: center;

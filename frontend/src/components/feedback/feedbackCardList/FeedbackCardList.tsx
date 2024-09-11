@@ -57,10 +57,10 @@ const FeedbackCardList = ({ feedbackData }: FeedbackCardListProps) => {
                     feedbackType="develop"
                   />
                 ))}
-                {feedback.socialFeedback.map((developFeedback) => (
+                {feedback.socialFeedback.map((socialFeedback) => (
                   <FeedbackCard
-                    key={developFeedback.feedbackId}
-                    feedbackCardData={developFeedback}
+                    key={socialFeedback.feedbackId}
+                    feedbackCardData={socialFeedback}
                     feedbackType="social"
                   />
                 ))}

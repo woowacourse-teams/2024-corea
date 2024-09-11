@@ -102,6 +102,19 @@ export const StyledContainer = styled.div`
   em {
     font-style: italic;
   }
+
+  a {
+    font: ${({ theme }) => theme.TEXT.small};
+    color: ${({ theme }) => theme.COLOR.primary2};
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  a:visited {
+    color: ${({ theme }) => theme.COLOR.primary2};
+  }
 `;
 
 export const StyledSquare = styled.div`
@@ -109,22 +122,6 @@ export const StyledSquare = styled.div`
   font: ${({ theme }) => theme.TEXT.small_bold};
   background-color: ${({ theme }) => theme.COLOR.grey0};
   border-left: 4px solid ${({ theme }) => theme.COLOR.primary3};
-`;
-
-export const LinkWrapper = styled.div`
-  display: inline;
-
-  a {
-    font: ${({ theme }) => theme.TEXT.small};
-    color: ${({ theme }) => theme.COLOR.primary2};
-    text-decoration: underline;
-  }
-
-  p {
-    font: ${({ theme }) => theme.TEXT.small};
-    color: ${({ theme }) => theme.COLOR.black};
-    text-decoration: none;
-  }
 `;
 
 export const IconWrapper = styled.div`
@@ -135,7 +132,14 @@ export const IconWrapper = styled.div`
   a {
     font: ${({ theme }) => theme.TEXT.small};
     color: ${({ theme }) => theme.COLOR.primary2};
+  }
+
+  a:hover {
     text-decoration: underline;
+  }
+
+  a:visited {
+    color: ${({ theme }) => theme.COLOR.primary2};
   }
 `;
 

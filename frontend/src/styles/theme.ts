@@ -11,8 +11,7 @@ const COLOR = {
   primary3: "#607999",
   secondary: "#ffaaaf",
   lightGrass: "#D7E4D8",
-  grass: "#00B707",
-  lightBlue: "#a2c4c9",
+  grass: "#33B939",
   error: "#FF5F5F",
 };
 

@@ -11,7 +11,6 @@ export const DropdownToggle = styled.div`
   align-items: center;
   justify-content: space-between;
 
-  box-sizing: border-box;
   width: 100%;
   height: 100%;
   padding: 0.6rem;
@@ -31,7 +30,6 @@ export const DropdownMenu = styled.div<{ show: boolean }>`
   display: ${({ show }) => (show ? "flex" : "none")};
   flex-direction: column;
 
-  box-sizing: border-box;
   width: 100%;
 
   background-color: white;

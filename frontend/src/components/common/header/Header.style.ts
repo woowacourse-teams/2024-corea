@@ -9,7 +9,6 @@ export const HeaderContainer = styled.header<{ $isMain: boolean }>`
   align-items: center;
   justify-content: space-between;
 
-  box-sizing: border-box;
   width: 100%;
   height: 65px;
 

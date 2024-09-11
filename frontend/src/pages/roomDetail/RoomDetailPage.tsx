@@ -17,7 +17,7 @@ const RoomDetailPage = () => {
   const [isRevieweeInfoExpanded, setIsRevieweeInfoExpanded] = useState(false);
 
   const { data: roomInfo } = useSuspenseQuery({
-    queryKey: [QUERY_KEYS.ROOM_DETAIL_INFO],
+    queryKey: [QUERY_KEYS.ROOM_DETAIL_INFO, roomId],
     queryFn: () => getRoomDetailInfo(roomId),
   });
 

@@ -1,0 +1,23 @@
+<included>
+    <appender name="LOKI" class="com.github.loki4j.logback.Loki4jAppender">
+        <http>
+            <url>${LOKI_URL}</url>
+        </http>
+        <format>
+            <label>
+                <pattern>app=Corea,host=${HOSTNAME},level=%level</pattern>
+                <readMarkers>true</readMarkers>
+            </label>
+            <message>
+                <pattern>
+                    {
+                    "level":"%level",
+                    "class":"%logger{36}",
+                    "requestId":"%X{requestId},
+                    "message": "%replace(%replace(%message){"\\","\\\\"}){"\"","\\\""}"
+                    }
+                </pattern>
+            </message>
+        </format>
+    </appender>
+</included>
