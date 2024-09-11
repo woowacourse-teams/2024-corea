@@ -32,14 +32,14 @@ const variantStyles = {
   primary: css`
     background-color: ${({ theme }) => theme.COLOR.primary2};
   `,
-  success: css`
-    background-color: ${({ theme }) => theme.COLOR.grass};
-  `,
   secondary: css`
     background-color: ${({ theme }) => theme.COLOR.secondary};
   `,
   disable: css`
     background-color: ${({ theme }) => theme.COLOR.grey1};
+  `,
+  confirm: css`
+    background-color: ${({ theme }) => theme.COLOR.primary3};
   `,
   error: css`
     background-color: ${({ theme }) => theme.COLOR.error};

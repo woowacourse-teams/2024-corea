@@ -1,7 +1,7 @@
 import { ButtonHTMLAttributes } from "react";
 import * as S from "@/components/common/button/Button.style";
 
-export type ButtonVariant = "primary" | "secondary" | "disable" | "success" | "error";
+export type ButtonVariant = "primary" | "secondary" | "disable" | "confirm" | "error";
 export type ButtonSize = "xSmall" | "small" | "medium" | "large";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
