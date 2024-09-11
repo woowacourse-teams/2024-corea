@@ -18,23 +18,17 @@ export const ItemContainer = styled.div`
 
 export const ModalQuestion = styled.p<ModalQuestionProps>`
   display: flex;
-  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.4rem;
   align-items: center;
 
   font: ${({ theme }) => theme.TEXT.small_bold};
   color: ${({ theme }) => theme.COLOR.grey4};
 
-  ${({ required, theme }) =>
-    required &&
-    `
-    &::after {
-      content: "*필수입력";
-      font: ${theme.TEXT.semiSmall};
-      font-weight: 400;
-      color: ${theme.COLOR.error};
-      margin-left: 4px;
-    }
-  `}
+  span {
+    font: ${({ theme }) => theme.TEXT.semiSmall};
+    color: ${({ theme }) => theme.COLOR.error};
+  }
 `;
 
 export const StyledTextarea = styled.p`
