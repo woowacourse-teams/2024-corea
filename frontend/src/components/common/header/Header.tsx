@@ -6,7 +6,7 @@ import { githubAuthUrl } from "@/config/githubAuthUrl";
 
 const headerItems = [
   {
-    name: "가이드",
+    name: "코드리뷰가이드",
     path: "/guide",
   },
   {

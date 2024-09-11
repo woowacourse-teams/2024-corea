@@ -22,7 +22,12 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
   const { data: reviewerData } = useFetchReviewer(roomInfo);
 
   if (reviewerData.length === 0) {
-    return <S.ErrorWrapper>{MESSAGES.GUIDANCE.EMPTY_REVIEWER}</S.ErrorWrapper>;
+    return (
+      <S.ErrorWrapper>
+        <p>{MESSAGES.GUIDANCE.EMPTY_REVIEWER}</p>
+        <p>{MESSAGES.GUIDANCE.SUB_DESCRIPTION}</p>
+      </S.ErrorWrapper>
+    );
   }
 
   const handleOpenFeedbackModal = (reviewer: ReviewerInfo) => {
@@ -74,7 +79,7 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
               <S.MyReviewerContent>
                 <S.PRLink href={reviewer.link}>
                   <S.IconWrapper>
-                    <Icon kind="link" />
+                    <Icon kind="link" size="1.6rem" />
                   </S.IconWrapper>
                   바로가기
                 </S.PRLink>

@@ -11,7 +11,8 @@ export const FallbackContainer = styled.div`
 `;
 
 export const ErrorMessage = styled.h2`
-  font: ${({ theme }) => theme.TEXT.xLarge};
+  font: ${({ theme }) => theme.TEXT.large};
+  color: ${({ theme }) => theme.COLOR.grey3};
 `;
 
 export const Character = styled.img`

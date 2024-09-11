@@ -36,7 +36,7 @@ export const LoadingContainer = styled.div`
   width: 200px;
   height: 30px;
 
-  font: ${({ theme }) => theme.TEXT.small};
+  font: ${({ theme }) => theme.TEXT.medium};
   color: ${({ theme }) => theme.COLOR.grey4};
 
   background-color: ${({ theme }) => theme.COLOR.white};
