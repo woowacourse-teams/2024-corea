@@ -61,7 +61,7 @@ export const StyledContainer = styled.div`
   }
 
   h2 {
-    margin-top: 1rem;
+    margin-top: 1.4rem;
     font: ${({ theme }) => theme.TEXT.medium_bold};
 
     :first-child {
@@ -81,6 +81,10 @@ export const StyledContainer = styled.div`
   p {
     font: ${({ theme }) => theme.TEXT.small};
     line-height: 2rem;
+
+    span {
+      font: ${({ theme }) => theme.TEXT.small_bold};
+    }
   }
 
   img {
@@ -91,17 +95,23 @@ export const StyledContainer = styled.div`
     width: 70%;
   }
 
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
   li {
-    margin: 0 0 0.4rem 1rem;
+    margin-left: 2rem;
     list-style-type: initial;
   }
 
   li.second {
-    margin-left: 2rem;
+    margin-left: 4rem;
   }
 
   li.third {
-    margin-left: 3rem;
+    margin-left: 6rem;
   }
 
   em {
@@ -109,7 +119,7 @@ export const StyledContainer = styled.div`
   }
 
   a {
-    font: ${({ theme }) => theme.TEXT.small};
+    font: ${({ theme }) => theme.TEXT.small_bold};
     color: ${({ theme }) => theme.COLOR.primary2};
   }
 
@@ -135,7 +145,7 @@ export const IconWrapper = styled.div`
   align-items: center;
 
   a {
-    font: ${({ theme }) => theme.TEXT.small};
+    font: ${({ theme }) => theme.TEXT.small_bold};
     color: ${({ theme }) => theme.COLOR.primary2};
   }
 
@@ -155,7 +165,7 @@ export const StyledPre = styled.pre`
 
   line-height: 1.2rem;
 
-  background-color: ${({ theme }) => theme.COLOR.black};
+  background-color: ${({ theme }) => theme.COLOR.grey4};
   border-radius: 8px;
 `;
 
@@ -163,4 +173,20 @@ export const StyledCode = styled.code`
   font: ${({ theme }) => theme.TEXT.xSmall};
   line-height: 2rem;
   color: ${({ theme }) => theme.COLOR.white};
+`;
+
+export const SubContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+`;
+
+export const StyledCodeLine = styled.span`
+  padding: 0 0.4rem;
+
+  font: ${({ theme }) => theme.TEXT.semiSmall} !important;
+  color: ${({ theme }) => theme.COLOR.error};
+
+  background-color: ${({ theme }) => theme.COLOR.grey0};
+  border-radius: 0.6rem;
 `;

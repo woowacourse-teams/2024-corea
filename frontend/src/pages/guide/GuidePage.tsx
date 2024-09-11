@@ -60,12 +60,19 @@ const GuidePage = () => {
 
         <S.StyledContainer>
           <h1>🛠️ 알아두면 편한 GitHub 기능들</h1>
+
           <h2>1. 코드 리뷰는 어떻게 시작하나요?</h2>
           <img src={github_pr} alt="GitHub PR 화면" />
-          <p>열려 있는 Pull Request(PR)를 통해 코드 리뷰를 시작할 수 있어요.</p>
+          <p>
+            열려 있는 <span>Pull Request(PR)</span>를 통해 코드 리뷰를 시작할 수 있어요.
+          </p>
           <ul>
-            <li>Commits 탭 : 커밋 기록 확인</li>
-            <li>Files changed 탭 : 코드 변화 확인</li>
+            <li>
+              <S.StyledCodeLine>Commits</S.StyledCodeLine> 탭 : 커밋 기록 확인
+            </li>
+            <li>
+              <S.StyledCodeLine>Files changed</S.StyledCodeLine> 탭 : 코드 변화 확인
+            </li>
           </ul>
 
           <h2>2. 리뷰 코멘트는 어떻게 다나요?</h2>
@@ -85,8 +92,8 @@ const GuidePage = () => {
           <h2>3. Suggestion 코멘트를 달고 싶어요!</h2>
           <img src={github_suggestion} alt="GitHub Suggestion 기능" />
           <p>
-            코드 변경 제안을 할 때, 리뷰어가 제안하는 코드를 suggestion 기능을 활용해 직접 보여줄 수
-            있어요.
+            코드 변경 제안을 할 때, 리뷰어가 제안하는 코드를 <span>suggestion</span> 기능을 활용해
+            직접 보여줄 수 있어요.
           </p>
           <ul>
             <li>Files changed 탭에서만 노출되는 버튼이에요.</li>
@@ -96,16 +103,23 @@ const GuidePage = () => {
           <h2>4. 제 코멘트가 pending 상태에서 넘어가지 않아요!</h2>
           <img src={github_comment_pending} alt="Pending 상태의 코멘트" />
           <ul>
-            <li>코멘트만 남긴 상태에서는 코멘트 옆에서 노란색 Pending 마크가 떠있어요.</li>
+            <li>
+              코멘트만 남긴 상태에서는 코멘트 옆에서 노란색{" "}
+              <S.StyledCodeLine>Pending</S.StyledCodeLine> 마크가 떠있어요.
+            </li>
             <li className="second">이 상태에서는 리뷰이가 리뷰 내용을 확인할 수 없어요.</li>
             <li>
-              리뷰를 완료한 후 리뷰를 전달하기 위해서는 우측 상단에서 Review changes 버튼을 클릭해야
-              해요.
+              리뷰를 완료한 후 리뷰를 전달하기 위해서는 우측 상단에서{" "}
+              <S.StyledCodeLine>Review changes</S.StyledCodeLine> 버튼을 클릭해야 해요.
             </li>
             <li className="second">
-              리뷰 종류(`Request Changes`, `Approve`, `Comment`)를 선택하고
+              리뷰 종류(<S.StyledCodeLine>Request Changes</S.StyledCodeLine>,{" "}
+              <S.StyledCodeLine>Approve</S.StyledCodeLine>,
+              <S.StyledCodeLine>Comment</S.StyledCodeLine>)를 선택하고
             </li>
-            <li className="second">Submit review` 버튼을 누르면 모든 리뷰가 완료돼요.</li>
+            <li className="second">
+              <S.StyledCodeLine>Submit review</S.StyledCodeLine> 버튼을 누르면 모든 리뷰가 완료돼요.
+            </li>
           </ul>
         </S.StyledContainer>
 
@@ -151,7 +165,7 @@ const GuidePage = () => {
             </li>
           </ul>
           <S.IconWrapper>
-            <Icon kind="link" />
+            <Icon kind="link" size="2rem" />
             <a href="https://github.com/woowacourse/java-chess/pull/699" target="_blank">
               참고 가능한 PR 링크
             </a>
@@ -162,7 +176,7 @@ const GuidePage = () => {
           <h1>🤔 고려하면 좋은 요소들 - 리뷰어</h1>
           <h2>1. 코드 리뷰 시 주로 확인하면 좋은 것들</h2>
           <S.IconWrapper>
-            <Icon kind="link" />
+            <Icon kind="link" size="2rem" />
             <a
               href="https://google.github.io/eng-practices/review/reviewer/looking-for.html"
               target="_blank"
@@ -190,8 +204,8 @@ const GuidePage = () => {
 
           <h2>2. 예시를 들어 설명하기</h2>
           <p>
-            피드백을 줄 때는 가능하면 구체적인 예시를 들어 설명해주세요. <br />
-            suggestion 기능을 활용하면 좋아요!
+            피드백을 줄 때는 가능하면 구체적인 예시를 들어 설명해주세요. <span>suggestion</span>
+            기능을 활용하면 좋아요!
           </p>
 
           <p>코드 예시</p>
@@ -264,13 +278,13 @@ private double getDiscountRate(boolean isMember, boolean isHoliday) {
         <S.StyledContainer>
           <h1>💡 추가로 참고하면 좋은 자료</h1>
           <S.IconWrapper>
-            <Icon kind="link" />
+            <Icon kind="link" size="2rem" />
             <a href="https://tech.kakao.com/posts/498" target="_blank">
               효과적인 코드리뷰를 위한 리뷰어의 자세(카카오)
             </a>
           </S.IconWrapper>
           <S.IconWrapper>
-            <Icon kind="link" />
+            <Icon kind="link" size="2rem" />
             <a
               href="https://github.com/meshkorea/front-end-engineering/blob/main/conventions/code-review/index.md"
               target="_blank"
