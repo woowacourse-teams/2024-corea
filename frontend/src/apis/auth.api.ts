@@ -16,6 +16,7 @@ export const postLogin = async (
   });
 
   if (!response.ok) {
+    console.log("여긴가 혹쉬1");
     throw new Error(MESSAGES.ERROR.POST_LOGIN);
   }
 
@@ -29,6 +30,7 @@ export const postLogin = async (
   const userInfo = authBody.userInfo as UserInfo;
 
   if (!accessToken) {
+    console.log("여긴가 혹쉬2");
     throw new Error(MESSAGES.ERROR.POST_LOGIN);
   }
 
