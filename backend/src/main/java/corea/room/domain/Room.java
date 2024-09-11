@@ -76,12 +76,20 @@ public class Room {
         }
         currentParticipantsSize += 1;
         if (currentParticipantsSize == limitedParticipantsSize) {
-            this.status = RoomStatus.CLOSED;
+            this.status = RoomStatus.PROGRESS;
         }
     }
 
     public boolean isClosed() {
         return status.isClosed();
+    }
+
+    public boolean isProgress() {
+        return status.isProgress();
+    }
+
+    public String getRoomStatus() {
+        return status.getStatus();
     }
 
     public String getManagerName() {
