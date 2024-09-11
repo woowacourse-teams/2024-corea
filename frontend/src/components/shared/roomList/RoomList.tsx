@@ -8,15 +8,15 @@ interface RoomListProps {
   roomList: RoomInfo[];
   hasNextPage?: boolean;
   onLoadMore?: () => void;
-  roomType?: "participated" | "opened" | "closed";
+  participated?: boolean;
 }
 
-const RoomList = ({ roomList, hasNextPage, onLoadMore, roomType }: RoomListProps) => {
+const RoomList = ({ roomList, hasNextPage, onLoadMore, participated }: RoomListProps) => {
   return (
     <S.RoomListSection>
       <S.RoomListContainer>
         {roomList.map((roomInfo) =>
-          roomType === "participated" ? (
+          participated ? (
             <Link to={`/rooms/${roomInfo.id}`} key={roomInfo.id}>
               <RoomCard roomInfo={roomInfo} />
             </Link>
