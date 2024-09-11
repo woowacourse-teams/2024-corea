@@ -71,7 +71,7 @@ public class Room {
     }
 
     public void participate() {
-        if (status.isNotOpened()) {
+        if (!status.isOpened()) {
             throw new CoreaException(ExceptionType.ROOM_RECRUIT_FINISHED);
         }
         currentParticipantsSize += 1;
@@ -86,6 +86,13 @@ public class Room {
 
     public boolean isProgress() {
         return status.isProgress();
+    }
+
+    public void toProgress() {
+        if (!status.isOpened()) {
+            throw new CoreaException(ExceptionType.ROOM_STATUS_INVALID);
+        }
+        status = RoomStatus.PROGRESS;
     }
 
     public String getRoomStatus() {

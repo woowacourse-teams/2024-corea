@@ -11,6 +11,7 @@ public enum ExceptionType {
     AUTHORIZATION_ERROR(HttpStatus.UNAUTHORIZED, "인증에 실패했습니다."),
     ALREADY_APPLY(HttpStatus.BAD_REQUEST, "해당 방에 이미 참여했습니다."),
     ROOM_RECRUIT_FINISHED(HttpStatus.BAD_REQUEST, "방이 마감되었습니다."),
+    ROOM_STATUS_INVALID(HttpStatus.BAD_REQUEST, "방 상태가 올바르지 않습니다."),
     PARTICIPANT_SIZE_LACK(HttpStatus.BAD_REQUEST, "참여 인원 수가 부족합니다."),
     NOT_MATCHED_MEMBER(HttpStatus.BAD_REQUEST, "매칭된 인원들이 아닙니다."),
     ALREADY_COMPLETED_REVIEW(HttpStatus.BAD_REQUEST, "이미 리뷰를 완료했습니다."),
