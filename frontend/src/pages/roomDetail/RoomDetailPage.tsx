@@ -17,7 +17,7 @@ const RoomDetailPage = () => {
   const [isRevieweeInfoExpanded, setIsRevieweeInfoExpanded] = useState(false);
 
   const { data: roomInfo } = useSuspenseQuery({
-    queryKey: [QUERY_KEYS.ROOM_DETAIL_INFO],
+    queryKey: [QUERY_KEYS.ROOM_DETAIL_INFO, roomId],
     queryFn: () => getRoomDetailInfo(roomId),
   });
 
@@ -62,7 +62,7 @@ const RoomDetailPage = () => {
           >
             <S.StyledSquare>
               나의 리뷰이 프로세스
-              <Icon kind={isReviewerInfoExpanded ? "arrowDropUp" : "arrowDropDown"} size="1.4rem" />
+              <Icon kind={isReviewerInfoExpanded ? "arrowDropUp" : "arrowDropDown"} size="2rem" />
             </S.StyledSquare>
             {isReviewerInfoExpanded && (
               <S.ExpandableContent>
@@ -83,7 +83,7 @@ const RoomDetailPage = () => {
           >
             <S.StyledSquare>
               나의 리뷰어 프로세스
-              <Icon kind={isRevieweeInfoExpanded ? "arrowDropUp" : "arrowDropDown"} size="1.4rem" />
+              <Icon kind={isRevieweeInfoExpanded ? "arrowDropUp" : "arrowDropDown"} size="2rem" />
             </S.StyledSquare>
             {isRevieweeInfoExpanded && (
               <S.ExpandableContent>

@@ -77,7 +77,8 @@ export const FeedbackMissionTitle = styled.div`
 
 export const FeedbackMissionPrompt = styled.span<{ $isSelected: boolean }>`
   display: ${({ $isSelected }) => ($isSelected ? "none" : "inline")};
-  color: ${({ theme }) => theme.COLOR.grey2};
+  font: ${({ theme }) => theme.TEXT.xSmall};
+  color: ${({ theme }) => theme.COLOR.grey3};
   animation: ${fadeInOut} 2s infinite;
 `;
 
@@ -85,7 +86,7 @@ export const FeedbackMissionInfo = styled.div`
   display: flex;
   align-items: center;
   margin-right: 1rem;
-  font: ${({ theme }) => theme.TEXT.large};
+  font: ${({ theme }) => theme.TEXT.medium_bold};
 `;
 
 export const FeedbackKeywordContainer = styled.div`
@@ -104,5 +105,6 @@ export const FeedbackKeywordWrapper = styled.div`
   font: ${({ theme }) => theme.TEXT.semiSmall};
   color: ${({ theme }) => theme.COLOR.grey3};
 
-  border-radius: 10px;
+  background-color: ${({ theme }) => theme.COLOR.white};
+  border-radius: 12px;
 `;

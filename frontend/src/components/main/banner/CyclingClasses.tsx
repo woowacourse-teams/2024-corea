@@ -25,7 +25,7 @@ const CyclingClasses = ({ items, speed }: { items: string[]; speed: number }) =>
 
           return (
             <li key={index} className={className}>
-              {item}
+              "{item}"
             </li>
           );
         })}
