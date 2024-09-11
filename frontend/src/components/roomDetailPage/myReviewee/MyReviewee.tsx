@@ -64,7 +64,7 @@ const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
         <S.MyRevieweeWrapper>
           <S.MyRevieweeTitle>아이디</S.MyRevieweeTitle>
           <S.MyRevieweeTitle>PR 링크</S.MyRevieweeTitle>
-          <S.MyRevieweeTitle>제출 여부</S.MyRevieweeTitle>
+          <S.MyRevieweeTitle>리뷰 및 피드백 여부</S.MyRevieweeTitle>
         </S.MyRevieweeWrapper>
 
         {revieweeData?.map((reviewee) => {

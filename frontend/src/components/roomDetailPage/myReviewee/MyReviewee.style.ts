@@ -23,7 +23,7 @@ export const MyRevieweeWrapper = styled.div`
 `;
 
 export const MyRevieweeTitle = styled.span`
-  font-weight: bold;
+  font: ${({ theme }) => theme.TEXT.small_bold};
   text-align: center;
 `;
 

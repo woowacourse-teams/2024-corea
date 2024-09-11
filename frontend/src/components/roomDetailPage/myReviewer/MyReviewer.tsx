@@ -58,7 +58,7 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
         <S.MyReviewerWrapper>
           <S.MyReviewerTitle>아이디</S.MyReviewerTitle>
           <S.MyReviewerTitle>PR 링크</S.MyReviewerTitle>
-          <S.MyReviewerTitle>제출 여부</S.MyReviewerTitle>
+          <S.MyReviewerTitle>피드백 여부</S.MyReviewerTitle>
         </S.MyReviewerWrapper>
 
         {reviewerData.map((reviewer) => {
