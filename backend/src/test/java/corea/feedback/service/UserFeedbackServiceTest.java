@@ -43,16 +43,18 @@ class UserFeedbackServiceTest {
     private SocialFeedbackRepository socialFeedbackRepository;
 
     @Test
-    @DisplayName("방마다 작성한 피드백들을 구분해서 가져온다.")
+    @DisplayName("닫힌 방마다 작성한 피드백들을 구분해서 가져온다.")
     void findFeedbacksWithEachRoom() {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
-        Room room1 = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
-        Room room2 = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
+        Room room1 = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_CLOSED(manager));
+        Room room2 = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_CLOSED(manager));
+        Room room3 = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
         Member reviewer = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member reviewee = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
 
         developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room1.getId(), reviewer, reviewee));
         developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room2.getId(), reviewer, reviewee));
+        developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room3.getId(), reviewer, reviewee));
 
         UserFeedbackResponse response = userFeedbackService.getDeliveredFeedback(reviewer.getId());
 
@@ -60,17 +62,20 @@ class UserFeedbackServiceTest {
     }
 
     @Test
-    @DisplayName("자신이 해준 피드백들만 가져온다.")
+    @DisplayName("닫힌 방에서 자신이 해준 피드백들만 가져온다.")
     void findFeedbacksWithReviewer() {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
-        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
+        Room room1 = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_CLOSED(manager));
+        Room room2 = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
         Member member1 = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member member2 = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
 
-        developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room.getId(), member1, member2));
-        developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room.getId(), manager, member1));
+        developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room1.getId(), member1, member2));
+        developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room1.getId(), manager, member1));
+        developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room2.getId(), member1, member2));
+        developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room2.getId(), manager, member1));
 
-        socialFeedbackRepository.save(SocialFeedbackFixture.POSITIVE_FEEDBACK(room.getId(), member1, member2));
+        socialFeedbackRepository.save(SocialFeedbackFixture.POSITIVE_FEEDBACK(room1.getId(), member1, member2));
 
         UserFeedbackResponse response = userFeedbackService.getDeliveredFeedback(member1.getId());
         FeedbacksResponse feedbackResponses = response.feedbacks()
@@ -82,18 +87,23 @@ class UserFeedbackServiceTest {
     }
 
     @Test
-    @DisplayName("자신이 받은 피드백들만 가져온다.")
+    @DisplayName("닫힌 방에서 자신이 받은 피드백들만 가져온다.")
     void getReceivedFeedback() {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
-        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
+        Room room1 = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_CLOSED(manager));
+        Room room2 = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
         Member reviewer1 = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member reviewer2 = memberRepository.save(MemberFixture.MEMBER_ASH());
         Member reviewee = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
 
         developFeedbackRepository.save(
-                DevelopFeedbackFixture.POSITIVE_FEEDBACK(room.getId(), reviewer1, reviewee));
-        saveRevieweeToReviewer(room.getId(), reviewer1, reviewee);
-        saveRevieweeToReviewer(room.getId(), reviewer2, reviewee);
+                DevelopFeedbackFixture.POSITIVE_FEEDBACK(room1.getId(), reviewer1, reviewee));
+        saveRevieweeToReviewer(room1.getId(), reviewer1, reviewee);
+        saveRevieweeToReviewer(room1.getId(), reviewer2, reviewee);
+        developFeedbackRepository.save(
+                DevelopFeedbackFixture.POSITIVE_FEEDBACK(room2.getId(), reviewer1, reviewee));
+        saveRevieweeToReviewer(room2.getId(), reviewer1, reviewee);
+        saveRevieweeToReviewer(room2.getId(), reviewer2, reviewee);
 
         UserFeedbackResponse response = userFeedbackService.getReceivedFeedback(reviewee.getId());
         List<FeedbackResponse> feedbackData = response.feedbacks()

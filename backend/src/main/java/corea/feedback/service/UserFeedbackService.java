@@ -34,6 +34,7 @@ public class UserFeedbackService {
         Map<Long, List<FeedbackResponse>> deliverSocialFeedback = getDeliveredSocialFeedback(id);
         return new UserFeedbackResponse(
                 extractDistinctKeyStreams(deliveredDevelopFeedback, deliverSocialFeedback)
+                        .filter(key -> getRoom(key).isClosed())
                         .map(key -> FeedbacksResponse.of(getRoom(key), emptyListIfNull(deliveredDevelopFeedback.get(key)), emptyListIfNull(deliverSocialFeedback.get(key))))
                         .toList());
     }
@@ -58,6 +59,7 @@ public class UserFeedbackService {
 
         return new UserFeedbackResponse(
                 extractDistinctKeyStreams(receivedDevelopFeedback, receivedSocialFeedback)
+                        .filter(key -> getRoom(key).isClosed())
                         .map(key -> FeedbacksResponse.of(getRoom(key), emptyListIfNull(receivedDevelopFeedback.get(key)), emptyListIfNull(receivedSocialFeedback.get(key))))
                         .toList());
     }
