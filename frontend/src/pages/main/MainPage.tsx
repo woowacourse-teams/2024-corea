@@ -21,7 +21,17 @@ const MainPage = () => {
   const renderContent = () => {
     switch (selectedTab) {
       case "참여 중":
-        return <ParticipatedRoomList />;
+        return (
+          <Suspense
+            fallback={
+              <DelaySuspense>
+                <Loading />
+              </DelaySuspense>
+            }
+          >
+            <ParticipatedRoomList />
+          </Suspense>
+        );
       case "모집 중":
         return (
           <Suspense
