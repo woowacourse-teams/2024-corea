@@ -21,8 +21,8 @@ export const ModalQuestion = styled.p<ModalQuestionProps>`
   flex-direction: row;
   align-items: center;
 
-  font: ${({ theme }) => theme.TEXT.small};
-  font-weight: 600;
+  font: ${({ theme }) => theme.TEXT.small_bold};
+  color: ${({ theme }) => theme.COLOR.grey4};
 
   ${({ required, theme }) =>
     required &&
@@ -40,5 +40,5 @@ export const ModalQuestion = styled.p<ModalQuestionProps>`
 export const StyledTextarea = styled.p`
   display: flex;
   width: 100%;
-  font: ${({ theme }) => theme.TEXT.semiSmall};
+  font: ${({ theme }) => theme.TEXT.small};
 `;

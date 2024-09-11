@@ -15,7 +15,7 @@ export const RoomInfoCardImg = styled.img`
   overflow: hidden;
   align-self: center;
 
-  width: 15rem;
+  width: 30rem;
   height: 100%;
   margin: 1rem;
 
@@ -42,7 +42,7 @@ export const RoomHeaderWrapper = styled.div`
   justify-content: space-between;
 
   margin-bottom: 1rem;
-  padding-bottom: 0.5rem;
+  padding-bottom: 1rem;
 
   border-bottom: 1px solid ${({ theme }) => theme.COLOR.grey1};
 
@@ -50,12 +50,12 @@ export const RoomHeaderWrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.6rem;
+    gap: 1rem;
   `}
 `;
 
 export const RoomTitle = styled.span`
-  font: ${({ theme }) => theme.TEXT.large};
+  font: ${({ theme }) => theme.TEXT.large_bold};
   color: ${({ theme }) => theme.COLOR.black};
 `;
 
@@ -66,7 +66,7 @@ export const RepositoryLink = styled.a`
   gap: 0.5rem;
   align-items: center;
 
-  font: ${({ theme }) => theme.TEXT.small};
+  font: ${({ theme }) => theme.TEXT.medium_bold};
   color: ${({ theme }) => theme.COLOR.primary2};
   text-decoration: underline;
   text-underline-offset: 0.3rem;
@@ -88,27 +88,45 @@ export const RoomContentBox = styled.div`
   }
 `;
 
+export const RoomTagBox = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+`;
+
 export const RoomContentSmall = styled.span`
   display: flex;
   gap: 1rem;
   align-items: center;
 
-  font: ${({ theme }) => theme.TEXT.small};
+  font: ${({ theme }) => theme.TEXT.small_bold};
   color: ${({ theme }) => theme.COLOR.black};
+
+  span {
+    font: ${({ theme }) => theme.TEXT.small};
+    color: ${({ theme }) => theme.COLOR.grey4};
+  }
+
+  div {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+  }
 
   ${media.small`
     gap: 0.4rem;
   `}
 `;
 
-export const StyledDday = styled.span`
-  color: ${({ theme }) => theme.COLOR.error};
+export const DateTimeText = styled.p`
+  font: ${({ theme }) => theme.TEXT.small_bold};
+  color: ${({ theme }) => theme.COLOR.black};
 `;
 
-export const RoomTagBox = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
+export const StyledDday = styled.p`
+  font: ${({ theme }) => theme.TEXT.small_bold};
+  color: ${({ theme }) => theme.COLOR.error};
 `;
 
 export const RoomKeyword = styled.div`

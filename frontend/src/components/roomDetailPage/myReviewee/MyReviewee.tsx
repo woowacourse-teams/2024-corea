@@ -24,7 +24,12 @@ const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
   const { data: revieweeData } = useFetchReviewee(roomInfo);
 
   if (revieweeData.length === 0) {
-    return <S.ErrorWrapper>{MESSAGES.GUIDANCE.EMPTY_REVIEWEE}</S.ErrorWrapper>;
+    return (
+      <S.ErrorWrapper>
+        <p>{MESSAGES.GUIDANCE.EMPTY_REVIEWER}</p>
+        <p>{MESSAGES.GUIDANCE.SUB_DESCRIPTION}</p>
+      </S.ErrorWrapper>
+    );
   }
 
   const handleOpenFeedbackModal = (reviewee: ReviewerInfo) => {
@@ -81,7 +86,7 @@ const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
               <S.MyRevieweeContent>
                 <S.PRLink href={reviewee.link}>
                   <S.IconWrapper>
-                    <Icon kind="link" />
+                    <Icon kind="link" size="1.6rem" />
                   </S.IconWrapper>
                   바로가기
                 </S.PRLink>
@@ -92,16 +97,16 @@ const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
                   {reviewee.isReviewed ? (
                     <Button
                       size="xSmall"
-                      onClick={() => handleOpenFeedbackModal(reviewee)}
-                      variant={reviewee.isReviewed ? "primary" : "disable"}
+                      variant="primary"
                       disabled={!reviewee.isReviewed}
+                      onClick={() => handleOpenFeedbackModal(reviewee)}
                     >
                       {buttonText}
                     </Button>
                   ) : (
                     <Button
                       size="xSmall"
-                      variant={reviewee.isReviewed ? "disable" : "lightBlue"}
+                      variant="confirm"
                       disabled={reviewee.isReviewed}
                       onClick={() => handleReviewCompleteClick(reviewee.userId)}
                     >

@@ -37,7 +37,7 @@ const RankingCard = ({ title, rankingData }: RankingCardProps) => {
             <Profile
               imgSrc={data.profileImage}
               size={50}
-              onClick={() => window.open(data.githubLink)}
+              onClick={() => window.open(data.githubLink, "_blank")}
             />
             <a href={data.githubLink} target="_blank">
               {data.nickname}

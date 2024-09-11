@@ -5,6 +5,7 @@ import * as S from "@/components/shared/roomCard/RoomCard.style";
 import RoomCardModal from "@/components/shared/roomCardModal/RoomCardModal";
 import { RoomInfo } from "@/@types/roomInfo";
 import { MAX_KEYWORDS } from "@/constants/room";
+import { theme } from "@/styles/theme";
 import { formatDday, formatDeadlineString } from "@/utils/dateFormatter";
 
 interface RoomCardProps {
@@ -24,6 +25,7 @@ const RoomCard = ({ roomInfo }: RoomCardProps) => {
         <S.RoomInfoThumbnail src={roomInfo.thumbnailLink} alt={roomInfo.title} />
         <S.RoomInformation>
           <S.RoomTitle>{roomInfo.title}</S.RoomTitle>
+
           <S.KeywordsContainer>
             <S.KeywordWrapper>
               {displayedKeywords.map((keyword) => (
@@ -31,6 +33,7 @@ const RoomCard = ({ roomInfo }: RoomCardProps) => {
               ))}
             </S.KeywordWrapper>
           </S.KeywordsContainer>
+
           <S.EtcContainer>
             {roomInfo.isClosed ? (
               <Label type="close" text="마감됨" />
@@ -38,10 +41,11 @@ const RoomCard = ({ roomInfo }: RoomCardProps) => {
               <Label type="open" text="모집중" />
             )}
             <S.JoinMember>
-              <Icon kind="person" size="1.2rem" />
-              {roomInfo.currentParticipants}/{roomInfo.limitedParticipants} 명
+              <Icon kind="person" size="1.6rem" color={theme.COLOR.grey4} />
+              {roomInfo.currentParticipants}/{roomInfo.limitedParticipants}
             </S.JoinMember>
           </S.EtcContainer>
+
           <S.DeadLineText>
             {formatDeadlineString(roomInfo.recruitmentDeadline)}
             {roomInfo.isParticipated ? (
