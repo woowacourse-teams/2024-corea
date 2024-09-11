@@ -99,7 +99,6 @@ const fetchWithToken = async (
   let response = await fetch(`${serverUrl}${endpoint}`, requestInit);
   let text = await response.text();
   let data = text ? JSON.parse(text) : null;
-  console.log(data);
 
   if (response.status === 401 && data.message === "토큰이 만료되었습니다.") {
     if (isRefreshing) {

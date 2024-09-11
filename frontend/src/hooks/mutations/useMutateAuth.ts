@@ -21,7 +21,6 @@ const useMutateAuth = () => {
       localStorage.setItem("userInfo", JSON.stringify(userInfo));
     },
     onError: (error) => {
-      console.log(error);
       localStorage.clear();
       handleMutateError(error);
     },
