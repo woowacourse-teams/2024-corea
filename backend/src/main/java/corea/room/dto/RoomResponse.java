@@ -46,8 +46,8 @@ public record RoomResponse(@Schema(description = "방 아이디", example = "1")
                            @Schema(description = "조회한 유저가 참여하고 있는 방인지 여부", example = "true")
                            boolean isParticipated,
 
-                           @Schema(description = "모집 완료 여부", example = "false")
-                           boolean isClosed
+                           @Schema(description = "방 상태", example = "OPENED")
+                           String roomStatus
 ) {
 
     public static RoomResponse of(Room room) {
@@ -69,7 +69,7 @@ public record RoomResponse(@Schema(description = "방 아이디", example = "1")
                 room.getRecruitmentDeadline(),
                 room.getReviewDeadline(),
                 isParticipated,
-                room.isClosed()
+                room.getRoomStatus()
         );
     }
 }
