@@ -6,10 +6,13 @@ export const LoadingContainer = styled.div`
   justify-content: center;
 
   img {
-    min-width: 150px;
-    min-height: 150px;
+    min-width: 50px;
+    min-height: 50px;
 
     width: 100%;
     height: 100%;
+
+    max-width: 300px;
+    max-height: 300px;
   }
 `;
