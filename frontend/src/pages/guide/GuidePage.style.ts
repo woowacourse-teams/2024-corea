@@ -67,6 +67,11 @@ export const StyledContainer = styled.div`
     font: ${({ theme }) => theme.TEXT.small};
   }
 
+  p {
+    font: ${({ theme }) => theme.TEXT.small};
+    line-height: 2rem;
+  }
+
   img {
     width: 100%;
   }
