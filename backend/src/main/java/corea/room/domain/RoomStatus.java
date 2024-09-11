@@ -23,7 +23,7 @@ public enum RoomStatus {
         return this == PROGRESS;
     }
 
-    public boolean isNotOpened() {
-        return this != OPENED;
+    public boolean isOpened() {
+        return this == OPENED;
     }
 }
