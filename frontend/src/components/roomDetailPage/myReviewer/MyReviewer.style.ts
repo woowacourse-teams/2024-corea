@@ -32,6 +32,11 @@ export const MyReviewerContent = styled.span`
 
   font: ${({ theme }) => theme.TEXT.semiSmall};
   text-align: center;
+
+  p {
+    font: ${({ theme }) => theme.TEXT.semiSmall};
+    text-align: center;
+  }
 `;
 
 export const PRLink = styled.a`
