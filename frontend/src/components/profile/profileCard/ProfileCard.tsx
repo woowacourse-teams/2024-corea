@@ -1,7 +1,7 @@
-import * as S from "./ProfileCard.style";
 import Icon from "@/components/common/icon/Icon";
 import Profile from "@/components/common/profile/Profile";
 import AttitudeScore from "@/components/profile/attitudeScore/AttitudeScore";
+import * as S from "@/components/profile/profileCard/ProfileCard.style";
 import IconKind from "@/@types/icon";
 
 interface UserInfo {

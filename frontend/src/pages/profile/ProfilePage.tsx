@@ -1,9 +1,9 @@
-import * as S from "./ProfilePage.style";
 import { useFetchProfile } from "@/hooks/queries/useFetchProfile";
 import { useFetchParticipatedRoomList } from "@/hooks/queries/useFetchRooms";
 import ContentSection from "@/components/common/contentSection/ContentSection";
 import ProfileCard from "@/components/profile/profileCard/ProfileCard";
 import RoomList from "@/components/shared/roomList/RoomList";
+import * as S from "@/pages/profile/ProfilePage.style";
 
 const ProfilePage = () => {
   const { data: profileData } = useFetchProfile();

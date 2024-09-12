@@ -1,5 +1,5 @@
-import * as S from "./Profile.style";
 import { ButtonHTMLAttributes } from "react";
+import * as S from "@/components/common/profile/Profile.style";
 
 interface ProfileProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   imgSrc: string;

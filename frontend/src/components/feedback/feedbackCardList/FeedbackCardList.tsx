@@ -1,8 +1,8 @@
-import * as S from "./FeedbackCardList.style";
 import React, { useEffect, useState } from "react";
 import Carousel from "@/components/common/carousel/Carousel";
 import Label from "@/components/common/label/Label";
 import FeedbackCard from "@/components/feedback/feedbackCard/FeedbackCard";
+import * as S from "@/components/feedback/feedbackCardList/FeedbackCardList.style";
 import { FeedbackCardDataList } from "@/@types/feedback";
 import { theme } from "@/styles/theme";
 
