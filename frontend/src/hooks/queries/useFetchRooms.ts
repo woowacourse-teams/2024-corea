@@ -9,6 +9,8 @@ export const useFetchParticipatedRoomList = () => {
     queryFn: getParticipatedRoomList,
     networkMode: "always",
     retry: false,
+    staleTime: Infinity,
+    gcTime: Infinity,
   });
 };
 
