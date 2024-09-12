@@ -6,6 +6,5 @@ export const useFetchRanking = () => {
   return useQuery({
     queryKey: [QUERY_KEYS.RANKING],
     queryFn: getRankingList,
-    retry: false,
   });
 };

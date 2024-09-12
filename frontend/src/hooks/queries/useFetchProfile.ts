@@ -6,6 +6,5 @@ export const useFetchProfile = () => {
   return useSuspenseQuery({
     queryKey: [QUERY_KEYS.PROFILE],
     queryFn: getUserProfile,
-    retry: false,
   });
 };
