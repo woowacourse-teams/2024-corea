@@ -10,7 +10,6 @@ import org.junit.jupiter.params.provider.EnumSource;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static corea.exception.ExceptionType.ROOM_RECRUIT_FINISHED;
 import static corea.exception.ExceptionType.ROOM_STATUS_INVALID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -47,7 +46,7 @@ class RoomTest {
                 .isInstanceOf(CoreaException.class)
                 .satisfies(exception -> {
                     CoreaException coreaException = (CoreaException) exception;
-                    assertThat(coreaException.getExceptionType()).isEqualTo(ROOM_RECRUIT_FINISHED);
+                    assertThat(coreaException.getExceptionType()).isEqualTo(ROOM_STATUS_INVALID);
                 });
     }
 

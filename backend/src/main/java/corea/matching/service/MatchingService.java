@@ -18,8 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static corea.exception.ExceptionType.ROOM_STATUS_INVALID;
-
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -37,9 +35,7 @@ public class MatchingService {
     public List<MatchResult> match(long roomId, PullRequestInfo pullRequestInfo) {
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new CoreaException(ExceptionType.ROOM_NOT_FOUND));
-        if (room.isNotOpened()) {
-            throw new CoreaException(ROOM_STATUS_INVALID);
-        }
+        room.validateOpened();
 
         List<Participation> participations = getParticipationsWithPullrequestSubmitted(pullRequestInfo, roomId);
 

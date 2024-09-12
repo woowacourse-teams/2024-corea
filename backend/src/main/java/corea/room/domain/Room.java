@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static corea.exception.ExceptionType.ROOM_PARTICIPANT_EXCEED;
+import static corea.exception.ExceptionType.ROOM_STATUS_INVALID;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -72,9 +73,7 @@ public class Room {
     }
 
     public void participate() {
-        if (status.isNotOpened()) {
-            throw new CoreaException(ExceptionType.ROOM_RECRUIT_FINISHED);
-        }
+        validateOpened();
         if (currentParticipantsSize >= limitedParticipantsSize) {
             throw new CoreaException(ROOM_PARTICIPANT_EXCEED);
         }
@@ -85,15 +84,17 @@ public class Room {
         return status.isClosed();
     }
 
-    public boolean isNotOpened() {
-        return status.isNotOpened();
+    public void toProgress() {
+        if (status.isNotOpened()) {
+            throw new CoreaException(ROOM_STATUS_INVALID);
+        }
+        status = RoomStatus.PROGRESS;
     }
 
-    public void toProgress() {
+    public void validateOpened() {
         if (status.isNotOpened()) {
             throw new CoreaException(ExceptionType.ROOM_STATUS_INVALID);
         }
-        status = RoomStatus.PROGRESS;
     }
 
     public String getRoomStatus() {
