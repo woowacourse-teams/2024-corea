@@ -50,7 +50,6 @@ const useMutateFeedback = () => {
       openToast(MESSAGES.SUCCESS.POST_REVIEW_FEEDBACK);
     },
     onError: (error) => handleMutateError(error),
-    networkMode: "always",
   });
 
   const putRevieweeFeedbackMutation = useMutation({
@@ -65,7 +64,6 @@ const useMutateFeedback = () => {
       openToast(MESSAGES.SUCCESS.PUT_REVIEW_FEEDBACK);
     },
     onError: (error) => handleMutateError(error),
-    networkMode: "always",
   });
 
   // 리뷰이 -> 리뷰어
@@ -81,7 +79,6 @@ const useMutateFeedback = () => {
         openToast(MESSAGES.SUCCESS.POST_REVIEW_FEEDBACK);
     },
     onError: (error) => handleMutateError(error),
-    networkMode: "always",
   });
 
   const putReviewerFeedbackMutation = useMutation({
@@ -96,7 +93,6 @@ const useMutateFeedback = () => {
         openToast(MESSAGES.SUCCESS.PUT_REVIEW_FEEDBACK);
     },
     onError: (error) => handleMutateError(error),
-    networkMode: "always",
   });
 
   return {

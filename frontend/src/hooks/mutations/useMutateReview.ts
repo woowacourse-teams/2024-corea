@@ -11,7 +11,6 @@ const useMutateReviewComplete = () => {
       postReviewComplete(roomId, revieweeId),
     onSuccess: () => handleMutateSuccess([QUERY_KEYS.REVIEWEES]),
     onError: (error) => handleMutateError(error),
-    networkMode: "always",
   });
 
   return { postReviewCompleteMutation };

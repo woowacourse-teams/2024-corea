@@ -7,7 +7,6 @@ export const useFetchParticipatedRoomList = () => {
   return useSuspenseQuery({
     queryKey: [QUERY_KEYS.PARTICIPATED_ROOM_LIST],
     queryFn: getParticipatedRoomList,
-    networkMode: "always",
     retry: false,
     staleTime: Infinity,
     gcTime: Infinity,
@@ -35,7 +34,6 @@ export const useInfiniteFetchRoomList = ({
       return lastPage.pageNumber;
     },
     initialPageParam: 0,
-    networkMode: "always",
     retry: false,
   });
 };

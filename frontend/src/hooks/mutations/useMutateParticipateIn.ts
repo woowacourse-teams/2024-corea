@@ -12,7 +12,6 @@ const useMutateParticipateIn = () => {
       handleMutateSuccess([QUERY_KEYS.PARTICIPATED_ROOM_LIST, QUERY_KEYS.OPENED_ROOM_LIST]);
     },
     onError: (error) => handleMutateError(error),
-    networkMode: "always",
   });
 
   return { postParticipateInMutation };

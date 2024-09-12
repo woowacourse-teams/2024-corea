@@ -18,7 +18,6 @@ export const useFetchReceivedFeedback = (enabled: boolean) => {
     queryKey: [QUERY_KEYS.RECEIVED_FEEDBACK],
     queryFn: getReceivedFeedback,
     enabled,
-    networkMode: "always",
     retry: false,
   });
 };
@@ -28,7 +27,6 @@ export const useFetchDeliveredFeedback = (enabled: boolean) => {
     queryKey: [QUERY_KEYS.DELIVERED_FEEDBACK],
     queryFn: getDeliveredFeedback,
     enabled,
-    networkMode: "always",
     retry: false,
   });
 };
@@ -43,7 +41,6 @@ export const useFetchRevieweeFeedback = ({
     queryKey: [QUERY_KEYS.REVIEWEE_FEEDBACK, roomId.toString(), username],
     queryFn: () => getRevieweeFeedback(roomId, username),
     enabled: enabled && !!roomId && !!username,
-    networkMode: "always",
     retry: false,
   });
 };
@@ -58,7 +55,6 @@ export const useFetchReviewerFeedback = ({
     queryKey: [QUERY_KEYS.REVIEWER_FEEDBACK, roomId.toString(), username],
     queryFn: () => getReviewerFeedback(roomId, username),
     enabled: enabled && !!roomId && !!username,
-    networkMode: "always",
     retry: false,
   });
 };
