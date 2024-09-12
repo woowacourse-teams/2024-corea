@@ -44,7 +44,7 @@ export const FeedbackMissionWrapper = styled.button<{ $isSelected: boolean }>`
   align-items: center;
   justify-content: space-between;
 
-  padding: 1rem;
+  padding: 1.6rem;
 
   background: ${({ theme, $isSelected }) =>
     $isSelected ? theme.COLOR.primary1 : theme.COLOR.grey0};
