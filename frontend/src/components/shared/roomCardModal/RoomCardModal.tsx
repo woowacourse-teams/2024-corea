@@ -37,7 +37,7 @@ const RoomCardModal = ({ isOpen, onClose, roomInfo }: RoomCardModalProps) => {
           <S.TitleContainer>
             <S.RoomTitle>{roomInfo.title}</S.RoomTitle>
             <S.RepositoryLink href={roomInfo.repositoryLink}>
-              <Icon kind="link" />
+              <Icon kind="link" size="1.8rem" />
               저장소 바로가기
             </S.RepositoryLink>
           </S.TitleContainer>
@@ -49,7 +49,7 @@ const RoomCardModal = ({ isOpen, onClose, roomInfo }: RoomCardModalProps) => {
             <S.InfoContent>{formatDateTimeString(roomInfo.recruitmentDeadline)}</S.InfoContent>
           </S.InfoRow>
           <S.InfoRow>
-            <S.InfoTitle>리뷰 마감일</S.InfoTitle>
+            <S.InfoTitle>리뷰 및 피드백 마감일</S.InfoTitle>
             <S.InfoContent>{formatDateTimeString(roomInfo.reviewDeadline)}</S.InfoContent>
           </S.InfoRow>
           <S.InfoRow>
@@ -59,7 +59,7 @@ const RoomCardModal = ({ isOpen, onClose, roomInfo }: RoomCardModalProps) => {
           <S.InfoRow>
             <S.InfoTitle>미션 참여 인원</S.InfoTitle>
             <S.InfoContent>
-              {roomInfo.currentParticipants} / {roomInfo.limitedParticipants}
+              {roomInfo.currentParticipants}명 / {roomInfo.limitedParticipants}명
             </S.InfoContent>
           </S.InfoRow>
         </S.EtcContainer>

@@ -57,40 +57,37 @@ export const RoomInfoThumbnail = styled.img`
 export const RoomInformation = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
-  padding: 0.5rem;
-
-  ${media.small`
-    gap: 0.1rem;
-    letter-spacing: -1.3px;
-  `}
+  gap: 1rem;
+  padding: 1rem;
 `;
 
 export const RoomTitle = styled.h2`
   overflow: hidden;
 
-  padding-top: 1rem;
+  padding: 1rem 0;
 
-  font: ${({ theme }) => theme.TEXT.medium};
+  font: ${({ theme }) => theme.TEXT.medium_bold};
   text-overflow: ellipsis;
   white-space: nowrap;
+
+  border-bottom: 1px solid ${({ theme }) => theme.COLOR.grey1};
 `;
 
 export const KeywordsContainer = styled.div`
   display: flex;
   gap: 2px;
-  margin-bottom: 0.6rem;
 `;
 
 export const KeywordWrapper = styled.div`
   display: flex;
   flex-direction: row;
   gap: 0.5rem;
+  align-items: center;
 `;
 
 export const KeywordText = styled.span`
   font: ${({ theme }) => theme.TEXT.small};
-  color: ${({ theme }) => theme.COLOR.grey2};
+  color: ${({ theme }) => theme.COLOR.grey3};
 `;
 
 export const EtcContainer = styled.div`
@@ -105,15 +102,22 @@ export const JoinMember = styled.span`
   align-items: center;
 
   font: ${({ theme }) => theme.TEXT.small};
+  color: ${({ theme }) => theme.COLOR.grey4};
 `;
 
 export const DeadLineText = styled.span`
   display: flex;
-  gap: 0.5rem;
-  margin: 0 0 0.5rem;
-  font: ${({ theme }) => theme.TEXT.small};
+  gap: 0.6rem;
+  align-items: center;
+
+  padding-bottom: 0.4rem;
+
+  font: ${({ theme }) => theme.TEXT.small_bold};
 `;
 
 export const StyledDday = styled.span`
+  display: flex;
+  align-items: center;
+  font: ${({ theme }) => theme.TEXT.small_bold};
   color: ${({ theme }) => theme.COLOR.error};
 `;

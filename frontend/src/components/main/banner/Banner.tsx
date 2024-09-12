@@ -1,6 +1,5 @@
 import CyclingClasses from "./CyclingClasses";
 import * as S from "@/components/main/banner/Banner.style";
-import Cloud from "@/assets/cloud.png";
 
 const firstItems = ["코드", "개발자", "리뷰", "리뷰어", "리뷰이"];
 const secondItems = ["리뷰", "코드", "리뷰어", "개발자", "리뷰이"];

@@ -15,7 +15,7 @@ export const DropdownToggle = styled.div`
   height: 100%;
   padding: 0.6rem;
 
-  font: ${({ theme }) => theme.TEXT.semiSmall};
+  font: ${({ theme }) => theme.TEXT.small};
   color: ${({ theme }) => theme.COLOR.grey4};
 
   border: 1px solid ${({ theme }) => theme.COLOR.grey2};
@@ -47,7 +47,7 @@ export const DropdownItem = styled.li`
   display: flex;
   align-items: center;
 
-  padding: 0.6rem 0;
+  padding: 0.8rem 0;
 
   transition: background-color 0.3s;
 
@@ -56,7 +56,7 @@ export const DropdownItem = styled.li`
   }
 
   span {
-    font: ${({ theme }) => theme.TEXT.semiSmall};
+    font: ${({ theme }) => theme.TEXT.small};
     color: ${({ theme }) => theme.COLOR.grey4};
   }
 `;

@@ -3,10 +3,7 @@ import media from "@/styles/media";
 
 export const MyReviewerContainer = styled.div`
   width: 100%;
-
   font: ${({ theme }) => theme.TEXT.small};
-  font-family: "Do Hyeon", sans-serif;
-
   border: 1px solid ${({ theme }) => theme.COLOR.grey1};
   border-radius: 8px;
 `;
@@ -23,7 +20,8 @@ export const MyReviewerWrapper = styled.div`
 `;
 
 export const MyReviewerTitle = styled.span`
-  font-weight: bold;
+  font: ${({ theme }) => theme.TEXT.small_bold};
+  color: ${({ theme }) => theme.COLOR.grey3};
   text-align: center;
 `;
 
@@ -31,6 +29,8 @@ export const MyReviewerContent = styled.span`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  font: ${({ theme }) => theme.TEXT.semiSmall};
   text-align: center;
 `;
 
@@ -41,6 +41,7 @@ export const PRLink = styled.a`
   gap: 0.5rem;
   align-items: center;
 
+  font: ${({ theme }) => theme.TEXT.semiSmall};
   text-decoration: underline;
   text-underline-offset: 0.3rem;
 
@@ -58,15 +59,19 @@ export const IconWrapper = styled.span`
 
 export const ErrorWrapper = styled.div`
   display: flex;
+  flex-direction: column;
+  gap: 1rem;
   align-items: center;
   justify-content: center;
 
   width: 100%;
   height: 200px;
 
-  font: ${({ theme }) => theme.TEXT.small};
-  color: ${({ theme }) => theme.COLOR.secondary};
-
   border: 1px solid ${({ theme }) => theme.COLOR.grey1};
   border-radius: 8px;
+
+  p {
+    font: ${({ theme }) => theme.TEXT.small_bold};
+    color: ${({ theme }) => theme.COLOR.secondary};
+  }
 `;
