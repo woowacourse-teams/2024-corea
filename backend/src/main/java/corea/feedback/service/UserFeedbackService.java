@@ -1,7 +1,6 @@
 package corea.feedback.service;
 
 import corea.exception.CoreaException;
-import corea.exception.ExceptionType;
 import corea.feedback.dto.FeedbackResponse;
 import corea.feedback.dto.FeedbacksResponse;
 import corea.feedback.dto.UserFeedbackResponse;
@@ -17,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static corea.exception.ExceptionType.ROOM_NOT_FOUND;
 import static corea.global.util.MapHandler.extractDistinctKeyStreams;
 import static corea.global.util.NullHandler.emptyListIfNull;
 
@@ -32,11 +32,7 @@ public class UserFeedbackService {
     public UserFeedbackResponse getDeliveredFeedback(long id) {
         Map<Long, List<FeedbackResponse>> deliveredDevelopFeedback = getDeliveredDevelopFeedback(id);
         Map<Long, List<FeedbackResponse>> deliverSocialFeedback = getDeliveredSocialFeedback(id);
-        return new UserFeedbackResponse(
-                extractDistinctKeyStreams(deliveredDevelopFeedback, deliverSocialFeedback)
-                        .filter(key -> getRoom(key).isClosed())
-                        .map(key -> FeedbacksResponse.of(getRoom(key), emptyListIfNull(deliveredDevelopFeedback.get(key)), emptyListIfNull(deliverSocialFeedback.get(key))))
-                        .toList());
+        return getUserFeedbackResponse(deliveredDevelopFeedback, deliverSocialFeedback);
     }
 
     private Map<Long, List<FeedbackResponse>> getDeliveredDevelopFeedback(long id) {
@@ -56,12 +52,7 @@ public class UserFeedbackService {
     public UserFeedbackResponse getReceivedFeedback(long id) {
         Map<Long, List<FeedbackResponse>> receivedDevelopFeedback = getReceivedDevelopFeedback(id);
         Map<Long, List<FeedbackResponse>> receivedSocialFeedback = getReceivedSocialFeedback(id);
-
-        return new UserFeedbackResponse(
-                extractDistinctKeyStreams(receivedDevelopFeedback, receivedSocialFeedback)
-                        .filter(key -> getRoom(key).isClosed())
-                        .map(key -> FeedbacksResponse.of(getRoom(key), emptyListIfNull(receivedDevelopFeedback.get(key)), emptyListIfNull(receivedSocialFeedback.get(key))))
-                        .toList());
+        return getUserFeedbackResponse(receivedDevelopFeedback, receivedSocialFeedback);
     }
 
     private Map<Long, List<FeedbackResponse>> getReceivedDevelopFeedback(long id) {
@@ -78,8 +69,15 @@ public class UserFeedbackService {
                 .collect(Collectors.groupingBy(FeedbackResponse::roomId));
     }
 
-    private Room getRoom(long roomId) {
-        return roomRepository.findById(roomId)
-                .orElseThrow(() -> new CoreaException(ExceptionType.ROOM_NOT_FOUND));
+    private UserFeedbackResponse getUserFeedbackResponse(Map<Long, List<FeedbackResponse>> developFeedback, Map<Long, List<FeedbackResponse>> socialFeedback) {
+        List<Room> rooms = roomRepository.findAllById(
+                extractDistinctKeyStreams(developFeedback, socialFeedback).toList());
+        if (rooms.isEmpty()) {
+            throw new CoreaException(ROOM_NOT_FOUND);
+        }
+        return new UserFeedbackResponse(rooms.stream()
+                .filter(Room::isClosed)
+                .map(room -> FeedbacksResponse.of(room, emptyListIfNull(developFeedback.get(room.getId())), emptyListIfNull(socialFeedback.get(room.getId()))))
+                .toList());
     }
 }
