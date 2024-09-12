@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static corea.exception.ExceptionType.ROOM_PARTICIPANT_EXCEED;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -74,10 +75,10 @@ public class Room {
         if (!status.isOpened()) {
             throw new CoreaException(ExceptionType.ROOM_RECRUIT_FINISHED);
         }
-        currentParticipantsSize += 1;
-        if (currentParticipantsSize == limitedParticipantsSize) {
-            this.status = RoomStatus.PROGRESS;
+        if (currentParticipantsSize >= limitedParticipantsSize) {
+            throw new CoreaException(ROOM_PARTICIPANT_EXCEED);
         }
+        currentParticipantsSize += 1;
     }
 
     public boolean isClosed() {
