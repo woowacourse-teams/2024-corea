@@ -29,41 +29,41 @@ public class UserFeedbackService {
     private final DevelopFeedbackRepository developFeedbackRepository;
     private final SocialFeedbackRepository socialFeedbackRepository;
 
-    public UserFeedbackResponse getDeliveredFeedback(long id) {
-        Map<Long, List<FeedbackResponse>> deliveredDevelopFeedback = getDeliveredDevelopFeedback(id);
-        Map<Long, List<FeedbackResponse>> deliverSocialFeedback = getDeliveredSocialFeedback(id);
+    public UserFeedbackResponse getDeliveredFeedback(long feedbackDeliverId) {
+        Map<Long, List<FeedbackResponse>> deliveredDevelopFeedback = getDeliveredDevelopFeedback(feedbackDeliverId);
+        Map<Long, List<FeedbackResponse>> deliverSocialFeedback = getDeliveredSocialFeedback(feedbackDeliverId);
         return getUserFeedbackResponse(deliveredDevelopFeedback, deliverSocialFeedback);
     }
 
-    private Map<Long, List<FeedbackResponse>> getDeliveredDevelopFeedback(long id) {
-        return developFeedbackRepository.findByDeliverId(id)
+    private Map<Long, List<FeedbackResponse>> getDeliveredDevelopFeedback(long feedbackDeliverId) {
+        return developFeedbackRepository.findByDeliverId(feedbackDeliverId)
                 .stream()
                 .map(FeedbackResponse::fromDeliver)
                 .collect(Collectors.groupingBy(FeedbackResponse::roomId));
     }
 
-    private Map<Long, List<FeedbackResponse>> getDeliveredSocialFeedback(long id) {
-        return socialFeedbackRepository.findByDeliverId(id)
+    private Map<Long, List<FeedbackResponse>> getDeliveredSocialFeedback(long feedbackDeliverId) {
+        return socialFeedbackRepository.findByDeliverId(feedbackDeliverId)
                 .stream()
                 .map(FeedbackResponse::fromDeliver)
                 .collect(Collectors.groupingBy(FeedbackResponse::roomId));
     }
 
-    public UserFeedbackResponse getReceivedFeedback(long id) {
-        Map<Long, List<FeedbackResponse>> receivedDevelopFeedback = getReceivedDevelopFeedback(id);
-        Map<Long, List<FeedbackResponse>> receivedSocialFeedback = getReceivedSocialFeedback(id);
+    public UserFeedbackResponse getReceivedFeedback(long feedbackReceiverId) {
+        Map<Long, List<FeedbackResponse>> receivedDevelopFeedback = getReceivedDevelopFeedback(feedbackReceiverId);
+        Map<Long, List<FeedbackResponse>> receivedSocialFeedback = getReceivedSocialFeedback(feedbackReceiverId);
         return getUserFeedbackResponse(receivedDevelopFeedback, receivedSocialFeedback);
     }
 
-    private Map<Long, List<FeedbackResponse>> getReceivedDevelopFeedback(long id) {
-        return developFeedbackRepository.findByReceiverId(id)
+    private Map<Long, List<FeedbackResponse>> getReceivedDevelopFeedback(long feedbackReceiverId) {
+        return developFeedbackRepository.findByReceiverId(feedbackReceiverId)
                 .stream()
                 .map(FeedbackResponse::fromReceiver)
                 .collect(Collectors.groupingBy(FeedbackResponse::roomId));
     }
 
-    private Map<Long, List<FeedbackResponse>> getReceivedSocialFeedback(long id) {
-        return socialFeedbackRepository.findByReceiverId(id)
+    private Map<Long, List<FeedbackResponse>> getReceivedSocialFeedback(long feedbackReceiverId) {
+        return socialFeedbackRepository.findByReceiverId(feedbackReceiverId)
                 .stream()
                 .map(FeedbackResponse::fromReceiver)
                 .collect(Collectors.groupingBy(FeedbackResponse::roomId));
