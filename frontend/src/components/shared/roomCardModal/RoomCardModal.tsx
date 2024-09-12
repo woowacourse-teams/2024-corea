@@ -1,5 +1,6 @@
 import RoomCardModalButton from "./RoomCardModalButton";
 import Icon from "@/components/common/icon/Icon";
+import ImageWithFallback from "@/components/common/img/ImageWithFallback";
 import Label from "@/components/common/label/Label";
 import Modal from "@/components/common/modal/Modal";
 import * as S from "@/components/shared/roomCardModal/RoomCardModal.style";
@@ -17,7 +18,11 @@ const RoomCardModal = ({ isOpen, onClose, roomInfo }: RoomCardModalProps) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <S.RoomCardModalContainer>
-        <S.RoomInfoThumbnail src={roomInfo.thumbnailLink} alt={roomInfo.title} />
+        <S.RoomInfoThumbnail
+          as={ImageWithFallback}
+          src={roomInfo.thumbnailLink}
+          alt={roomInfo.title}
+        />
 
         <S.MainContainer>
           <S.ManagerContainer>
