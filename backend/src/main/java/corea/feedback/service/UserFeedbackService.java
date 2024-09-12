@@ -1,6 +1,5 @@
 package corea.feedback.service;
 
-import corea.exception.CoreaException;
 import corea.feedback.dto.FeedbackResponse;
 import corea.feedback.dto.FeedbacksResponse;
 import corea.feedback.dto.UserFeedbackResponse;
@@ -16,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static corea.exception.ExceptionType.ROOM_NOT_FOUND;
 import static corea.global.util.MapHandler.extractDistinctKeyStreams;
 import static corea.global.util.NullHandler.emptyListIfNull;
 
@@ -72,9 +70,6 @@ public class UserFeedbackService {
     private UserFeedbackResponse getUserFeedbackResponse(Map<Long, List<FeedbackResponse>> developFeedback, Map<Long, List<FeedbackResponse>> socialFeedback) {
         List<Room> rooms = roomRepository.findAllById(
                 extractDistinctKeyStreams(developFeedback, socialFeedback).toList());
-        if (rooms.isEmpty()) {
-            throw new CoreaException(ROOM_NOT_FOUND);
-        }
         return new UserFeedbackResponse(rooms.stream()
                 .filter(Room::isClosed)
                 .map(room -> FeedbacksResponse.of(room, emptyListIfNull(developFeedback.get(room.getId())), emptyListIfNull(socialFeedback.get(room.getId()))))

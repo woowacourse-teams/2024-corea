@@ -117,4 +117,29 @@ class UserFeedbackServiceTest {
                 new SocialFeedback(null, roomId, reviewer, reviewee, 4, List.of(FeedbackKeyword.REVIEW_FAST, FeedbackKeyword.KIND), "유용한 정보들이 많았어요")
         );
     }
+
+    @Test
+    @DisplayName("속한 방이 없는 경우 빈 응답을 반환한다.")
+    void getFeedback_when_no_room_participated() {
+        Member member = memberRepository.save(MemberFixture.MEMBER_PORORO());
+
+        UserFeedbackResponse receivedFeedback = userFeedbackService.getReceivedFeedback(member.getId());
+        UserFeedbackResponse deliveredFeedback = userFeedbackService.getDeliveredFeedback(member.getId());
+
+        assertThat(receivedFeedback.feedbacks()).isEmpty();
+        assertThat(deliveredFeedback.feedbacks()).isEmpty();
+    }
+
+    @Test
+    @DisplayName("속한 방에서 작성된 피드백이 없는 경우 빈 응답을 반환한다.")
+    void getFeedback_when_no_feedback_written() {
+        Member member = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
+        roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_CLOSED(member));
+
+        UserFeedbackResponse receivedFeedback = userFeedbackService.getReceivedFeedback(member.getId());
+        UserFeedbackResponse deliveredFeedback = userFeedbackService.getDeliveredFeedback(member.getId());
+
+        assertThat(receivedFeedback.feedbacks()).isEmpty();
+        assertThat(deliveredFeedback.feedbacks()).isEmpty();
+    }
 }
