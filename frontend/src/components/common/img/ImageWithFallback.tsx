@@ -1,4 +1,3 @@
-import { useState } from "react";
 import * as S from "@/components/common/img/ImageWithFallback.style";
 import { errorCharacter } from "@/assets";
 
