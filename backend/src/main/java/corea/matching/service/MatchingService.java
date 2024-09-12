@@ -37,7 +37,7 @@ public class MatchingService {
     public List<MatchResult> match(long roomId, PullRequestInfo pullRequestInfo) {
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new CoreaException(ExceptionType.ROOM_NOT_FOUND));
-        if (room.isClosed() || room.isProgress()) {
+        if (room.isNotOpened()) {
             throw new CoreaException(ROOM_STATUS_INVALID);
         }
 

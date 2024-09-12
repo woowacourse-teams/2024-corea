@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class RoomTest {
 
     @Test
-    @DisplayName("참가자 수가 최대가 되면, 방은 진행 중 상태가 된다.")
+    @DisplayName("참가자 수가 최대가 되면, 더 이상 신청할 수 없다.")
     void closed_when_participate_full() {
         Room room = new Room("제목", "내용", 2, "repositoryLink", "thumbnailLink", List.of("TDD", "클린코드"),
                 0, 1,
@@ -27,7 +27,10 @@ class RoomTest {
                 .plusDays(7), RoomClassification.BACKEND, RoomStatus.OPENED);
 
         room.participate();
-        assertThat(room.isProgress()).isTrue();
+
+        assertThatThrownBy(room::participate)
+                .isInstanceOf(CoreaException.class)
+                .hasMessageContaining("방 참여 인원 수가 최대입니다.");
     }
 
     @ParameterizedTest
