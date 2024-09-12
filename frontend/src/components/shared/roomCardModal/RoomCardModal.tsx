@@ -36,7 +36,7 @@ const RoomCardModal = ({ isOpen, onClose, roomInfo }: RoomCardModalProps) => {
 
           <S.TitleContainer>
             <S.RoomTitle>{roomInfo.title}</S.RoomTitle>
-            <S.RepositoryLink href={roomInfo.repositoryLink}>
+            <S.RepositoryLink href={roomInfo.repositoryLink} target="_blank">
               <Icon kind="link" size="1.8rem" />
               저장소 바로가기
             </S.RepositoryLink>
