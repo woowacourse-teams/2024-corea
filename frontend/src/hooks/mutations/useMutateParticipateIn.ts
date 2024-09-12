@@ -9,7 +9,7 @@ const useMutateParticipateIn = () => {
   const postParticipateInMutation = useMutation({
     mutationFn: (roomId: number) => postParticipateIn(roomId),
     onSuccess: () => {
-      handleMutateSuccess([QUERY_KEYS.PARTICIPATED_ROOM_LIST, QUERY_KEYS.OPENED_ROOM_LIST]);
+      handleMutateSuccess([QUERY_KEYS.PARTICIPATED_ROOM_LIST]);
     },
     onError: (error) => handleMutateError(error),
   });
