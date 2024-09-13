@@ -104,16 +104,16 @@ const GuidePage = () => {
           <img src={github_comment_pending} alt="Pending 상태의 코멘트" />
           <ul>
             <li>
-              코멘트만 남긴 상태에서는 코멘트 옆에서 노란색{" "}
+              코멘트만 남긴 상태에서는 코멘트 옆에서 노란색
               <S.StyledCodeLine>Pending</S.StyledCodeLine> 마크가 떠있어요.
             </li>
             <li className="second">이 상태에서는 리뷰이가 리뷰 내용을 확인할 수 없어요.</li>
             <li>
-              리뷰를 완료한 후 리뷰를 전달하기 위해서는 우측 상단에서{" "}
+              리뷰를 완료한 후 리뷰를 전달하기 위해서는 우측 상단에서
               <S.StyledCodeLine>Review changes</S.StyledCodeLine> 버튼을 클릭해야 해요.
             </li>
             <li className="second">
-              리뷰 종류(<S.StyledCodeLine>Request Changes</S.StyledCodeLine>,{" "}
+              리뷰 종류(<S.StyledCodeLine>Request Changes</S.StyledCodeLine>,
               <S.StyledCodeLine>Approve</S.StyledCodeLine>,
               <S.StyledCodeLine>Comment</S.StyledCodeLine>)를 선택하고
             </li>

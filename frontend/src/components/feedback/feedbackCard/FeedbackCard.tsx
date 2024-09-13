@@ -28,7 +28,7 @@ const FeedbackCard = ({ feedbackCardData, feedbackType }: FeedbackCardProps) => 
               소프트스킬 역량 피드백
               <p>from. 나의 리뷰이</p>
             </>
-          )}{" "}
+          )}
         </S.FeedbackType>
       </S.FeedbackHeader>
       <S.FeedbackScoreContainer>
