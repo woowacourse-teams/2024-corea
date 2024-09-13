@@ -38,6 +38,8 @@ export const RoomInfoThumbnail = styled.img`
   height: 100%;
   margin: 0 auto;
 
+  object-fit: scale-down;
+
   ${media.small`
     height: 120px;
   `}
@@ -49,8 +51,6 @@ export const RoomInfoThumbnail = styled.img`
   ${media.large`
     height: 160px;
   `};
-
-  object-fit: scale-down;
 `;
 
 export const RoomInformation = styled.div`
