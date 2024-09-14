@@ -37,15 +37,6 @@ export const ProfileInfoWrapper = styled.div`
   margin: 0 auto;
 `;
 
-export const InfoTitle = styled.td`
-  font: ${({ theme }) => theme.TEXT.small};
-  color: ${({ theme }) => theme.COLOR.grey4};
-`;
-
-export const InfoCount = styled.span`
-  font: ${({ theme }) => theme.TEXT.small_bold};
-`;
-
 export const ProfileSummaryContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -63,9 +54,16 @@ export const ProfileSummaryContainer = styled.div`
     margin-bottom: 10px;
   }
 
+  dt {
+    font: ${({ theme }) => theme.TEXT.small};
+    color: ${({ theme }) => theme.COLOR.grey4};
+  }
+
   dd {
     display: flex;
     gap: 0.1rem;
+    align-items: center;
+    font: ${({ theme }) => theme.TEXT.small_bold};
   }
 `;
 
