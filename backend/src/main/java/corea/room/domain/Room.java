@@ -70,6 +70,13 @@ public class Room {
         this(null, title, content, matchingSize, repositoryLink, thumbnailLink, keyword, currentParticipantsSize, limitedParticipantsSize, manager, recruitmentDeadline, reviewDeadline, classification, status);
     }
 
+    public void cancel() {
+        if (status.isNotOpened()) {
+            throw new CoreaException(ExceptionType.ROOM_RECRUIT_FINISHED);
+        }
+        currentParticipantsSize -= 1;
+    }
+
     public void participate() {
         if (status.isNotOpened()) {
             throw new CoreaException(ExceptionType.ROOM_RECRUIT_FINISHED);

@@ -10,6 +10,7 @@ public enum ExceptionType {
     NOT_FOUND_ERROR(HttpStatus.NOT_FOUND, "해당하는 값이 없습니다."),
     AUTHORIZATION_ERROR(HttpStatus.UNAUTHORIZED, "인증에 실패했습니다."),
     ALREADY_APPLY(HttpStatus.BAD_REQUEST, "해당 방에 이미 참여했습니다."),
+    NOT_ALREADY_APPLY(HttpStatus.BAD_REQUEST, "해당 방은 아직 신청 안했습니다."),
     ROOM_RECRUIT_FINISHED(HttpStatus.BAD_REQUEST, "방이 마감되었습니다."),
     PARTICIPANT_SIZE_LACK(HttpStatus.BAD_REQUEST, "참여 인원 수가 부족합니다."),
     NOT_MATCHED_MEMBER(HttpStatus.BAD_REQUEST, "매칭된 인원들이 아닙니다."),
