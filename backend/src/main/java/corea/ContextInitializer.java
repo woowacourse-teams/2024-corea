@@ -128,21 +128,20 @@ public class ContextInitializer implements ApplicationRunner {
                                 .plusDays(14),
                         RoomClassification.BACKEND, RoomStatus.OPEN));
 
-        List<Participation> room5Participates = participateRoom(room5.getId(), List.of(pororo, ash, cho, movin, ten, dar));
+        List<Participation> room5Participates = participateRoom(room5, List.of(pororo, ash, cho, movin, ten, dar));
         saveExtraRooms(dar);
 
         //room1 에 참여한 참여자들
-        List<Participation> room1Participates = participateRoom(room1.getId(), List.of(pororo, ash, cho, movin, ten, dar));
+        List<Participation> room1Participates = participateRoom(room1, List.of(pororo, ash, cho, movin, ten, dar));
 
         //room2 에 참여한 참여자들
-        List<Participation> room2Participates = participateRoom(room2.getId(), List.of(ash, cho, joysun, movin, ten, dar));
+        List<Participation> room2Participates = participateRoom(room2, List.of(ash, cho, joysun, movin, ten, dar));
 
         //room3 에 참여한 참여자들
-        List<Participation> room3Participates = participateRoom(room3.getId(), List.of(pororo, ash, joysun, movin, ten, dar));
+        List<Participation> room3Participates = participateRoom(room3, List.of(pororo, ash, joysun, movin, ten, dar));
 
         //room4 에 참여한 참여자들
-        List<Participation> room4Participates = participateRoom(room4.getId(), List.of(ash, pororo, movin, ten, dar, cho));
-
+        List<Participation> room4Participates = participateRoom(room4, List.of(ash, pororo, movin, ten, dar, cho));
 
         //room1 에서 작성된 매칭 & 피드백
         reviewSocialAndDevelopFeedback(new MatchResult(room1.getId(), pororo, ash, "https://github.com/example/java-racingcar/pull/2"));
@@ -177,9 +176,9 @@ public class ContextInitializer implements ApplicationRunner {
 //        profileRepository.save(new corea.member.domain.Profile(7, 8, 9, 10.11f, 12.13f));
     }
 
-    private List<Participation> participateRoom(long roomId, List<Member> members) {
+    private List<Participation> participateRoom(Room room, List<Member> members) {
         return participationRepository.saveAll(members.stream()
-                .map(member -> new Participation(roomId, member.getId(), member.getGithubUserId()))
+                .map(member -> new Participation(room, member.getId(), member.getGithubUserId()))
                 .toList());
     }
 

@@ -79,7 +79,7 @@ ParticipationServiceTest {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
         Member member = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
-        participationRepository.save(new Participation(room.getId(), member.getId()));
+        participationRepository.save(new Participation(room, member.getId()));
 
         participationService.cancel(room.getId(), member.getId());
 

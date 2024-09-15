@@ -31,7 +31,7 @@ public class ParticipationService {
     private Participation saveParticipation(ParticipationRequest request) {
         Room room = getRoom(request.roomId());
         room.participate();
-        return participationRepository.save(request.toEntity());
+        return participationRepository.save(new Participation(room, request.memberId()));
     }
 
     @Transactional
@@ -57,7 +57,7 @@ public class ParticipationService {
 
     private void validateIdNotExist(long roomId, long memberId) {
         validateMemberExist(memberId);
-        if (participationRepository.notExistsByRoomIdAndMemberId(roomId, memberId)) {
+        if (!participationRepository.existsByRoomIdAndMemberId(roomId, memberId)) {
             throw new CoreaException(ExceptionType.NOT_ALREADY_APPLY);
         }
     }

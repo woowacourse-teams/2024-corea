@@ -1,21 +1,22 @@
 package corea.fixture;
 
 import corea.participation.domain.Participation;
+import corea.room.domain.Room;
 
 import java.util.List;
 
 public class ParticipationFixture {
 
-    public static List<Participation> PARTICIPATIONS_EIGHT() {
+    public static List<Participation> PARTICIPATIONS_EIGHT(Room room) {
         return List.of(
-                new Participation(1L, 1L),
-                new Participation(1L, 2L),
-                new Participation(1L, 3L),
-                new Participation(1L, 4L),
-                new Participation(1L, 5L),
-                new Participation(1L, 6L),
-                new Participation(1L, 7L),
-                new Participation(1L, 8L)
+                new Participation(room, 1L),
+                new Participation(room, 2L),
+                new Participation(room, 3L),
+                new Participation(room, 4L),
+                new Participation(room, 5L),
+                new Participation(room, 6L),
+                new Participation(room, 7L),
+                new Participation(room, 8L)
         );
     }
 }
