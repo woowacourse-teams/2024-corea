@@ -36,29 +36,21 @@ public class ParticipationService {
 
     @Transactional
     public void cancel(long roomId, long memberId) {
-        validateIdNotExist(roomId, memberId);
+        validateMemberExist(memberId);
         deleteParticipation(roomId, memberId);
     }
 
     private void deleteParticipation(long roomId, long memberId) {
-        Room room = getRoom(roomId);
-        room.cancel();
-
-        participationRepository.findByRoomIdAndMemberId(roomId, memberId)
-                .ifPresent(participationRepository::delete);
+        Participation participation = participationRepository.findByRoomIdAndMemberId(roomId, memberId)
+                .orElseThrow(()->new CoreaException(ExceptionType.NOT_ALREADY_APPLY));
+        participation.getRoom().cancel();
+        participationRepository.delete(participation);
     }
 
     private void validateIdExist(long roomId, long memberId) {
         validateMemberExist(memberId);
         if (participationRepository.existsByRoomIdAndMemberId(roomId, memberId)) {
             throw new CoreaException(ExceptionType.ALREADY_APPLY);
-        }
-    }
-
-    private void validateIdNotExist(long roomId, long memberId) {
-        validateMemberExist(memberId);
-        if (!participationRepository.existsByRoomIdAndMemberId(roomId, memberId)) {
-            throw new CoreaException(ExceptionType.NOT_ALREADY_APPLY);
         }
     }
 
