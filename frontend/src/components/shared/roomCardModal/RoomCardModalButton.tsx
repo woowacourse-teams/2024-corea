@@ -11,7 +11,7 @@ const RoomCardModalButton = ({ roomInfo }: RoomCardModalButtonProps) => {
   const { postParticipateInMutation } = useMutateParticipateIn();
   const navigate = useNavigate();
 
-  const participateRoom = () => {
+  const handleParticipateRoomClick = () => {
     postParticipateInMutation.mutate(roomInfo.id, {
       onSuccess: () => navigate(`/rooms/${roomInfo.id}`),
     });
@@ -31,7 +31,7 @@ const RoomCardModalButton = ({ roomInfo }: RoomCardModalButtonProps) => {
     );
   }
   return (
-    <Button variant="primary" size="small" onClick={participateRoom}>
+    <Button variant="primary" size="small" onClick={handleParticipateRoomClick}>
       참여하기
     </Button>
   );
