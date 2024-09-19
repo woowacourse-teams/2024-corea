@@ -136,7 +136,7 @@ public class RoomService {
     }
 
     public RoomResponse getRoomById(long roomId) {
-        return RoomResponse.of(getRoom(roomId));
+        return RoomResponse.from(getRoom(roomId));
     }
 
     private Room getRoom(long roomId) {
