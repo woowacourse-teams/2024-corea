@@ -3,8 +3,6 @@ import { createGlobalStyle } from "styled-components";
 const globalStyles = createGlobalStyle`
   scrollbar-width: none;
 
-
-
   *,
   *::before,
   *::after {
@@ -93,7 +91,8 @@ const globalStyles = createGlobalStyle`
   time,
   mark,
   audio,
-  video {
+  video,
+  input {
     box-sizing: border-box;
     margin: 0;
     padding: 0;

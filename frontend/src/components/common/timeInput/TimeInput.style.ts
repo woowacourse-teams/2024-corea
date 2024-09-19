@@ -29,7 +29,7 @@ export const TimePickerWrapper = styled.div`
   gap: 1rem;
   align-items: flex-start;
 
-  width: 124px;
+  width: 100px;
   padding: 1rem;
 
   background-color: ${({ theme }) => theme.COLOR.white};
