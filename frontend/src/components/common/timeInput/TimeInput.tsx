@@ -1,4 +1,4 @@
-import React, { InputHTMLAttributes, useState } from "react";
+import { InputHTMLAttributes, useState } from "react";
 import useDropdown from "@/hooks/common/useDropdown";
 import * as S from "@/components/common/timeInput/TimeInput.style";
 import { Time } from "@/@types/date";
@@ -27,7 +27,7 @@ const TimePicker = ({
   return (
     <S.TimePickerWrapper>
       <S.TimeSelector>
-        {Array.from({ length: 24 }, (_, i) => i + 1).map((h) => (
+        {Array.from({ length: 24 }, (_, i) => i).map((h) => (
           <S.TimeButton key={h} isActive={h === time.hour} onClick={() => handleHourClick(h)}>
             {h < 10 ? `0${h}` : h}
           </S.TimeButton>
