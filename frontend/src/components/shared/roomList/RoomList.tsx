@@ -6,12 +6,25 @@ import { RoomInfo } from "@/@types/roomInfo";
 
 interface RoomListProps {
   roomList: RoomInfo[];
+  isPending: boolean;
   hasNextPage?: boolean;
   onLoadMore?: () => void;
   participated?: boolean;
 }
 
-const RoomList = ({ roomList, hasNextPage, onLoadMore, participated }: RoomListProps) => {
+const RoomList = ({
+  roomList,
+  isPending,
+  hasNextPage,
+  onLoadMore,
+  participated,
+}: RoomListProps) => {
+  const handleClickLoadMore = () => {
+    if (isPending) return;
+
+    onLoadMore?.();
+  };
+
   return (
     <S.RoomListSection>
       <S.RoomListContainer>
@@ -25,7 +38,7 @@ const RoomList = ({ roomList, hasNextPage, onLoadMore, participated }: RoomListP
           ),
         )}
       </S.RoomListContainer>
-      {hasNextPage && onLoadMore && <PlusButton onClick={onLoadMore} />}
+      {hasNextPage && onLoadMore && <PlusButton onClick={handleClickLoadMore} />}
     </S.RoomListSection>
   );
 };

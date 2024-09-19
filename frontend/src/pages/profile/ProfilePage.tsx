@@ -7,7 +7,7 @@ import RoomList from "@/components/shared/roomList/RoomList";
 
 const ProfilePage = () => {
   const { data: profileData } = useFetchProfile();
-  const { data: roomList } = useFetchParticipatedRoomList();
+  const { data: roomList, isPending } = useFetchParticipatedRoomList();
 
   const participatingRoomList = roomList.rooms.filter((room) => !room.isClosed);
   const participatedRoomList = roomList.rooms.filter((room) => room.isClosed);
@@ -16,10 +16,10 @@ const ProfilePage = () => {
     <S.ProfilePageContainer>
       <ProfileCard {...profileData} />
       <ContentSection title="참여 중인 방 리스트">
-        <RoomList roomList={participatingRoomList} participated={true} />
+        <RoomList roomList={participatingRoomList} isPending={isPending} participated={true} />
       </ContentSection>
       <ContentSection title="참여 했던 방 리스트">
-        <RoomList roomList={participatedRoomList} participated={true} />
+        <RoomList roomList={participatedRoomList} isPending={isPending} participated={true} />
       </ContentSection>
     </S.ProfilePageContainer>
   );
