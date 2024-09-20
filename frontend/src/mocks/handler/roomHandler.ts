@@ -1,4 +1,4 @@
-import { HttpResponse, http } from "msw";
+import { HttpResponse, delay, http } from "msw";
 import { API_ENDPOINTS } from "@/apis/endpoints";
 import { serverUrl } from "@/config/serverUrl";
 import reviewInfo from "@/mocks/mockResponse/reviewInfo.json";
@@ -9,7 +9,8 @@ const roomHandler = [
   http.get(serverUrl + API_ENDPOINTS.PARTICIPATED_ROOMS, () => {
     return HttpResponse.json(roomInfos, { status: 200 });
   }),
-  http.get(serverUrl + API_ENDPOINTS.OPENED_ROOMS, () => {
+  http.get(serverUrl + API_ENDPOINTS.OPENED_ROOMS, async () => {
+    await delay(3000);
     return HttpResponse.json(roomInfos, { status: 200 });
   }),
   http.get(serverUrl + API_ENDPOINTS.CLOSED_ROOMS, () => {
