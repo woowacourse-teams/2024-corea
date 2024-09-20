@@ -62,7 +62,7 @@ public class RoomService {
     }
 
     public RoomResponse findOne(long roomId, long memberId) {
-        Room room = findRoomInfo(roomId);
+        Room room = getRoom(roomId);
         boolean isParticipated = participationRepository.existsByRoomIdAndMemberId(roomId, memberId);
 
         return RoomResponse.of(room, isParticipated);
@@ -85,10 +85,10 @@ public class RoomService {
 
         if (classification.isAll()) {
             Page<Room> roomsWithPage = roomRepository.findAllByMemberAndStatus(memberId, status, pageRequest);
-            return RoomResponses.from(roomsWithPage,false,pageNumber);
+            return RoomResponses.from(roomsWithPage, false, pageNumber);
         }
         Page<Room> roomsWithPage = roomRepository.findAllByMemberAndClassificationAndStatus(memberId, classification, status, pageRequest);
-        return RoomResponses.from(roomsWithPage,false,pageNumber);
+        return RoomResponses.from(roomsWithPage, false, pageNumber);
     }
 
     public RoomResponses findProgressRooms(long memberId, String expression, int pageNumber) {
@@ -117,11 +117,29 @@ public class RoomService {
         return RoomResponses.from(roomsWithPage, false, pageNumber);
     }
 
-    public RoomResponse getRoomById(long roomId) {
-        return RoomResponse.of(findRoomInfo(roomId));
+    @Transactional
+    public void delete(long roomId, long memberId) {
+        Room room = getRoom(roomId);
+        validateDeletionAuthority(room, memberId);
+
+        participationRepository.deleteAllByRoomId(roomId);
+        roomRepository.delete(room);
     }
 
-    private Room findRoomInfo(long roomId) {
+    private void validateDeletionAuthority(Room room, long memberId) {
+        if (room.isNotManagerMatch(memberId)) {
+            throw new CoreaException(
+                    ExceptionType.ROOM_DELETION_AUTHORIZATION_ERROR,
+                    String.format("방 삭제 권한이 없습니다. 방 생성자만 방을 삭제할 수 있습니다. (요청한 사용자 ID: %d, 방 생성자 ID: %d)", memberId, room.getManagerId())
+            );
+        }
+    }
+
+    public RoomResponse getRoomById(long roomId) {
+        return RoomResponse.of(getRoom(roomId));
+    }
+
+    private Room getRoom(long roomId) {
         return roomRepository.findById(roomId)
                 .orElseThrow(() -> new CoreaException(ExceptionType.ROOM_NOT_FOUND, String.format("해당 Id의 방이 없습니다. 입력된 Id=%d", roomId)));
     }

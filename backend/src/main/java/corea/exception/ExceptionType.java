@@ -4,11 +4,6 @@ import org.springframework.http.HttpStatus;
 
 public enum ExceptionType {
 
-    SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버에 문제가 발생했습니다."),
-    MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 멤버를 찾을 수 없습니다."),
-    ROOM_NOT_FOUND(HttpStatus.NOT_FOUND, "방을 찾을 수 없습니다."),
-    NOT_FOUND_ERROR(HttpStatus.NOT_FOUND, "해당하는 값이 없습니다."),
-    AUTHORIZATION_ERROR(HttpStatus.UNAUTHORIZED, "인증에 실패했습니다."),
     ALREADY_APPLY(HttpStatus.BAD_REQUEST, "해당 방에 이미 참여했습니다."),
     NOT_ALREADY_APPLY(HttpStatus.BAD_REQUEST, "아직 참여하지 않은 방입니다."),
     ROOM_STATUS_INVALID(HttpStatus.BAD_REQUEST, "방이 마감되었습니다."),
@@ -19,13 +14,22 @@ public enum ExceptionType {
     ALREADY_COMPLETED_FEEDBACK(HttpStatus.BAD_REQUEST, "이미 작성한 피드백이 존재합니다."),
     INVALID_CALCULATION_FORMULA(HttpStatus.BAD_REQUEST, "잘못된 계산식입니다."),
     INVALID_VALUE(HttpStatus.BAD_REQUEST, "올바르지 않은 값입니다."),
-    FEEDBACK_NOT_FOUND(HttpStatus.NOT_FOUND, "피드백을 찾을 수 없습니다."),
     INVALID_RECRUITMENT_DEADLINE(HttpStatus.BAD_REQUEST, "올바르지 않은 모집 마감 시간입니다."),
     INVALID_REVIEW_DEADLINE(HttpStatus.BAD_REQUEST, "올바르지 않은 리뷰 마감 시간입니다."),
-    COOKIE_NOT_EXIST(HttpStatus.NOT_FOUND, "해당 쿠키를 찾을 수 없습니다."),
-    GITHUB_AUTHORIZATION_ERROR(HttpStatus.SERVICE_UNAVAILABLE, "깃허브 인증 서버가 원활하게 작동하지 않습니다."),
+
     TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "토큰이 만료되었습니다."),
     INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "토큰이 올바르지 않습니다."),
+    AUTHORIZATION_ERROR(HttpStatus.UNAUTHORIZED, "인증에 실패했습니다."),
+    ROOM_DELETION_AUTHORIZATION_ERROR(HttpStatus.UNAUTHORIZED, "해당 방을 삭제할 권한이 없습니다."),
+
+    MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 멤버를 찾을 수 없습니다."),
+    ROOM_NOT_FOUND(HttpStatus.NOT_FOUND, "방을 찾을 수 없습니다."),
+    NOT_FOUND_ERROR(HttpStatus.NOT_FOUND, "해당하는 값이 없습니다."),
+    FEEDBACK_NOT_FOUND(HttpStatus.NOT_FOUND, "피드백을 찾을 수 없습니다."),
+    COOKIE_NOT_EXIST(HttpStatus.NOT_FOUND, "해당 쿠키를 찾을 수 없습니다."),
+
+    SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버에 문제가 발생했습니다."),
+    GITHUB_AUTHORIZATION_ERROR(HttpStatus.SERVICE_UNAVAILABLE, "깃허브 인증 서버가 원활하게 작동하지 않습니다."),
     ;
 
     private final HttpStatus httpStatus;

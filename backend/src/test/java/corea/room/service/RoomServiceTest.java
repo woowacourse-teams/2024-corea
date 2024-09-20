@@ -2,10 +2,17 @@ package corea.room.service;
 
 import corea.auth.domain.AuthInfo;
 import corea.exception.CoreaException;
+import corea.exception.ExceptionType;
+import corea.fixture.MemberFixture;
+import corea.fixture.RoomFixture;
+import corea.member.domain.Member;
+import corea.member.repository.MemberRepository;
 import corea.room.domain.RoomClassification;
 import corea.room.dto.RoomCreateRequest;
 import corea.room.dto.RoomResponse;
 import corea.room.dto.RoomResponses;
+import corea.room.repository.RoomRepository;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -13,6 +20,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,12 +29,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
+@Transactional
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @ActiveProfiles("test")
 class RoomServiceTest {
 
     @Autowired
     private RoomService roomService;
+
+    @Autowired
+    private RoomRepository roomRepository;
+
+    @Autowired
+    private MemberRepository memberRepository;
 
     @ParameterizedTest
     @CsvSource({"2, true", "4, false"})
@@ -45,18 +60,15 @@ class RoomServiceTest {
         RoomResponses response = roomService.findParticipatedRooms(1);
         List<RoomResponse> rooms = response.rooms();
 
+        String firstRoomManager = rooms.get(0).manager();
+        String secondRoomManager = rooms.get(1).manager();
+        String thirdRoomManager = rooms.get(2).manager();
+
         assertSoftly(softly -> {
-            softly.assertThat(rooms)
-                    .hasSize(3);
-            softly.assertThat(rooms.get(0)
-                            .manager())
-                    .isEqualTo("강다빈");
-            softly.assertThat(rooms.get(1)
-                            .manager())
-                    .isEqualTo("이상엽");
-            softly.assertThat(rooms.get(2)
-                            .manager())
-                    .isEqualTo("최진실");
+            softly.assertThat(rooms).hasSize(3);
+            softly.assertThat(firstRoomManager).isEqualTo("강다빈");
+            softly.assertThat(secondRoomManager).isEqualTo("이상엽");
+            softly.assertThat(thirdRoomManager).isEqualTo("최진실");
         });
     }
 
@@ -129,25 +141,57 @@ class RoomServiceTest {
     @DisplayName("모집 마감 시간은 현재 시간보다 1시간 이후가 아니라면 예외가 발생한다.")
     void invalidRecruitmentDeadline() {
         RoomCreateRequest request = new RoomCreateRequest("title", "content", "repoLink",
-                "thumLink", 3, List.of("TDD","클린코드"), 3,
-                LocalDateTime.now()
-                        .plusMinutes(59), LocalDateTime.now()
-                .plusHours(1).plusMinutes(58), RoomClassification.ALL);
+                "thumLink", 3, List.of("TDD", "클린코드"), 3,
+                LocalDateTime.now().plusMinutes(59),
+                LocalDateTime.now().plusHours(1).plusMinutes(58),
+                RoomClassification.ALL);
 
         assertThatThrownBy(() -> roomService.create(1, request))
-                .isInstanceOf(CoreaException.class);
+                .asInstanceOf(InstanceOfAssertFactories.type(CoreaException.class))
+                .extracting(CoreaException::getExceptionType)
+                .isEqualTo(ExceptionType.INVALID_RECRUITMENT_DEADLINE);
     }
 
     @Test
     @DisplayName("리뷰 마감 시간은 모집 마감 시간보다 1일 이후가 아니라면 예외가 발생한다.")
     void invalidReviewDeadline() {
         RoomCreateRequest request = new RoomCreateRequest("title", "content", "repoLink",
-                "thumLink", 3, null, 3,
-                LocalDateTime.now()
-                        .plusHours(2), LocalDateTime.now()
-                .plusHours(23), RoomClassification.ALL);
+                "thumLink", 3, List.of(), 3,
+                LocalDateTime.now().plusHours(2),
+                LocalDateTime.now().plusHours(23),
+                RoomClassification.ALL);
 
         assertThatThrownBy(() -> roomService.create(1, request))
-                .isInstanceOf(CoreaException.class);
+                .asInstanceOf(InstanceOfAssertFactories.type(CoreaException.class))
+                .extracting(CoreaException::getExceptionType)
+                .isEqualTo(ExceptionType.INVALID_REVIEW_DEADLINE);
+    }
+
+    @Test
+    @DisplayName("방을 삭제할 수 있다.")
+    void delete() {
+        Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
+        RoomCreateRequest request = RoomFixture.ROOM_CREATE_REQUEST();
+        RoomResponse roomResponse = roomService.create(manager.getId(), request);
+
+        long roomId = roomResponse.id();
+        roomService.delete(roomId, manager.getId());
+
+        assertThat(roomRepository.findById(roomId)).isEmpty();
+    }
+
+    @Test
+    @DisplayName("방을 생성한 유저가 아닌 사람이 방을 삭제하려고 하면 예외가 발생한다.")
+    void invalidDelete() {
+        Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
+        RoomCreateRequest request = RoomFixture.ROOM_CREATE_REQUEST();
+        RoomResponse roomResponse = roomService.create(manager.getId(), request);
+
+        Member member = memberRepository.save(MemberFixture.MEMBER_PORORO());
+
+        assertThatThrownBy(() -> roomService.delete(roomResponse.id(), member.getId()))
+                .asInstanceOf(InstanceOfAssertFactories.type(CoreaException.class))
+                .extracting(CoreaException::getExceptionType)
+                .isEqualTo(ExceptionType.ROOM_DELETION_AUTHORIZATION_ERROR);
     }
 }
