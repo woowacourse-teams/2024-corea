@@ -33,7 +33,7 @@ class RoomTest {
     }
 
     @ParameterizedTest
-    @EnumSource(mode = EnumSource.Mode.EXCLUDE, names = {"OPENED"})
+    @EnumSource(mode = EnumSource.Mode.EXCLUDE, names = {"OPEN"})
     @DisplayName("방이 열린 상태가 아니면, 참가 신청할 수 없다.")
     void can_not_participate_closed_room(RoomStatus roomStatus) {
         Room room = new Room("제목", "내용", 2, "repositoryLink", "thumbnailLink", List.of("TDD", "클린코드"),
@@ -51,7 +51,7 @@ class RoomTest {
     }
 
     @ParameterizedTest
-    @EnumSource(mode = EnumSource.Mode.EXCLUDE, names = {"OPENED"})
+    @EnumSource(mode = EnumSource.Mode.EXCLUDE, names = {"OPEN"})
     @DisplayName("방이 열린 상태가 아니면, PROGRESS 상태가 될 수 없다.")
     void can_not_be_progress_if_status_not_opened(RoomStatus roomStatus) {
         Room room = new Room("제목", "내용", 2, "repositoryLink", "thumbnailLink", List.of("TDD", "클린코드"),
