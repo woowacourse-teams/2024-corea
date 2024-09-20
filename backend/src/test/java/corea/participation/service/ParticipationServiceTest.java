@@ -18,8 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import static org.assertj.core.api.Assertions.*;
 
 @ServiceTest
-class
-ParticipationServiceTest {
+class ParticipationServiceTest {
 
     @Autowired
     private ParticipationService participationService;
