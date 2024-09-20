@@ -27,16 +27,24 @@ const TimePicker = ({
   return (
     <S.TimePickerWrapper>
       <S.TimeSelector>
-        {Array.from({ length: 24 }, (_, i) => i).map((h) => (
-          <S.TimeButton key={h} isActive={h === time.hour} onClick={() => handleHourClick(h)}>
-            {h < 10 ? `0${h}` : h}
+        {Array.from({ length: 24 }).map((_, hour) => (
+          <S.TimeButton
+            key={hour}
+            isActive={hour === time.hour}
+            onClick={() => handleHourClick(hour)}
+          >
+            {hour < 10 ? `0${hour}` : hour}
           </S.TimeButton>
         ))}
       </S.TimeSelector>
       <S.TimeSelector>
-        {Array.from({ length: 60 }, (_, i) => i).map((m) => (
-          <S.TimeButton key={m} isActive={m === time.minute} onClick={() => handleMinuteClick(m)}>
-            {m < 10 ? `0${m}` : m}
+        {Array.from({ length: 60 }).map((_, minute) => (
+          <S.TimeButton
+            key={minute}
+            isActive={minute === time.minute}
+            onClick={() => handleMinuteClick(minute)}
+          >
+            {minute < 10 ? `0${minute}` : minute}
           </S.TimeButton>
         ))}
       </S.TimeSelector>
