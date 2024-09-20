@@ -74,7 +74,7 @@ public class Room {
 
     public void cancelParticipation() {
         if (status.isNotOpened()) {
-            throw new CoreaException(ExceptionType.ROOM_RECRUIT_FINISHED);
+            throw new CoreaException(ExceptionType.ROOM_STATUS_INVALID);
         }
         currentParticipantsSize = Math.max(0, currentParticipantsSize - 1);
     }

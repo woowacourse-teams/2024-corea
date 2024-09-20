@@ -42,7 +42,7 @@ public class RoomService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND, String.format("%d에 해당하는 멤버가 없습니다.", memberId)));
         Room room = roomRepository.save(request.toEntity(member));
-        participationRepository.save(new Participation(room.getId(), memberId));
+        participationRepository.save(new Participation(room, memberId));
         return RoomResponse.of(room, true);
     }
 
@@ -71,7 +71,7 @@ public class RoomService {
     public RoomResponses findParticipatedRooms(long memberId) {
         List<Participation> participations = participationRepository.findAllByMemberId(memberId);
         List<Long> roomIds = participations.stream()
-                .map(Participation::getRoomId)
+                .map(Participation::getRoomsId)
                 .toList();
 
         List<Room> rooms = roomRepository.findAllById(roomIds);
