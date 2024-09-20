@@ -43,6 +43,14 @@ public class Participation {
         return room.getId();
     }
 
+    public void cancel(){
+        room.cancelParticipation();
+    }
+
+    public void participate(){
+        room.participate();
+    }
+
     private static void debug(long roomId, long memberId) {
         log.debug("참가자 생성[방 ID={}, 멤버 ID={}", roomId, memberId);
     }

@@ -29,9 +29,9 @@ public class ParticipationService {
     }
 
     private Participation saveParticipation(ParticipationRequest request) {
-        Room room = getRoom(request.roomId());
-        room.participate();
-        return participationRepository.save(new Participation(room, request.memberId()));
+        Participation participation = new Participation(getRoom(request.roomId()), request.memberId());
+        participation.participate();
+        return participationRepository.save(participation);
     }
 
     @Transactional
@@ -43,7 +43,7 @@ public class ParticipationService {
     private void deleteParticipation(long roomId, long memberId) {
         Participation participation = participationRepository.findByRoomIdAndMemberId(roomId, memberId)
                 .orElseThrow(()->new CoreaException(ExceptionType.NOT_ALREADY_APPLY));
-        participation.getRoom().cancel();
+        participation.cancel();
         participationRepository.delete(participation);
     }
 
