@@ -1,12 +1,14 @@
 import { Link } from "react-router-dom";
 import PlusButton from "@/components/common/plusButton/PlusButton";
+import WithSuspense from "@/components/common/withSuspense/WithSuspense";
 import RoomCard from "@/components/shared/roomCard/RoomCard";
+import * as RoomCardSkeleton from "@/components/shared/roomCard/RoomCard.skeleton";
 import * as S from "@/components/shared/roomList/RoomList.style";
 import { RoomInfo } from "@/@types/roomInfo";
 
 interface RoomListProps {
   roomList: RoomInfo[];
-  isPending: boolean;
+  isFetching: boolean;
   hasNextPage?: boolean;
   onLoadMore?: () => void;
   participated?: boolean;
@@ -14,13 +16,13 @@ interface RoomListProps {
 
 const RoomList = ({
   roomList,
-  isPending,
+  isFetching,
   hasNextPage,
   onLoadMore,
   participated,
 }: RoomListProps) => {
   const handleClickLoadMore = () => {
-    if (isPending) return;
+    if (isFetching) return;
 
     onLoadMore?.();
   };
@@ -37,10 +39,12 @@ const RoomList = ({
             <RoomCard roomInfo={roomInfo} key={roomInfo.id} />
           ),
         )}
+        {isFetching &&
+          Array.from({ length: 5 }).map((_, idx) => <RoomCardSkeleton.Wrapper key={idx} />)}
       </S.RoomListContainer>
       {hasNextPage && onLoadMore && <PlusButton onClick={handleClickLoadMore} />}
     </S.RoomListSection>
   );
 };
 
-export default RoomList;
+export default WithSuspense(RoomList, null);

@@ -1,7 +1,5 @@
-import { Suspense, useState } from "react";
+import { useState } from "react";
 import useSelectedCategory from "@/hooks/common/useSelectedCategory";
-import DelaySuspense from "@/components/common/delaySuspense/DelaySuspense";
-import Loading from "@/components/common/loading/Loading";
 import OptionSelect from "@/components/common/optionSelect/OptionSelect";
 import Banner from "@/components/main/banner/Banner";
 import ClosedRoomList from "@/components/main/room/ClosedRoomList";
@@ -18,49 +16,23 @@ const MainPage = () => {
 
   const { selectedCategory, handleSelectedCategory } = useSelectedCategory();
 
-  const renderContent = () => {
+  const FilteredRoomList = () => {
     switch (selectedTab) {
       case "참여 중":
-        return (
-          <Suspense
-            fallback={
-              <DelaySuspense>
-                <Loading />
-              </DelaySuspense>
-            }
-          >
-            <ParticipatedRoomList />
-          </Suspense>
-        );
+        return <ParticipatedRoomList />;
       case "모집 중":
         return (
-          <Suspense
-            fallback={
-              <DelaySuspense>
-                <Loading />
-              </DelaySuspense>
-            }
-          >
-            <OpenedRoomList
-              selectedCategory={selectedCategory}
-              handleSelectedCategory={handleSelectedCategory}
-            />
-          </Suspense>
+          <OpenedRoomList
+            selectedCategory={selectedCategory}
+            handleSelectedCategory={handleSelectedCategory}
+          />
         );
       case "모집 마감":
         return (
-          <Suspense
-            fallback={
-              <DelaySuspense>
-                <Loading />
-              </DelaySuspense>
-            }
-          >
-            <ClosedRoomList
-              selectedCategory={selectedCategory}
-              handleSelectedCategory={handleSelectedCategory}
-            />
-          </Suspense>
+          <ClosedRoomList
+            selectedCategory={selectedCategory}
+            handleSelectedCategory={handleSelectedCategory}
+          />
         );
       default:
         return null;
@@ -77,7 +49,7 @@ const MainPage = () => {
         handleSelectedOption={(option) => setSelectedTab(option)}
       />
 
-      {renderContent()}
+      <FilteredRoomList />
     </S.Layout>
   );
 };
