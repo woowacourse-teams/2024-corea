@@ -15,7 +15,7 @@ export const RankingCardContainer = styled.div`
 
   border: 1px solid ${({ theme }) => theme.COLOR.grey1};
   border-radius: 15px;
-  box-shadow: 0 4px 4px rgb(0 0 0 / 10%);
+  box-shadow: ${({ theme }) => theme.BOX_SHADOW.regular};
 
   h2 {
     font: ${({ theme }) => theme.TEXT.medium_bold};

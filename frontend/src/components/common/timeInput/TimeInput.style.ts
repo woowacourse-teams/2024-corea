@@ -34,7 +34,7 @@ export const TimePickerWrapper = styled.div`
 
   background-color: ${({ theme }) => theme.COLOR.white};
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgb(0 0 0 / 10%);
+  box-shadow: ${({ theme }) => theme.BOX_SHADOW.regular};
 `;
 
 export const TimeSelector = styled.div`
