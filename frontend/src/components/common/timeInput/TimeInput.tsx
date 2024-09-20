@@ -9,19 +9,24 @@ interface TimeInputProps extends InputHTMLAttributes<HTMLInputElement> {
   initialTime: { hour: number; minute: number };
 }
 
+interface TimeInputChangeProps {
+  newTime: Time;
+  isCloseDropdown: boolean;
+}
+
 const TimePicker = ({
   time,
   onTimeInputChange,
 }: {
   time: Time;
-  onTimeInputChange: (newTime: Time, isMinuteClick?: boolean) => void;
+  onTimeInputChange: (event: TimeInputChangeProps) => void;
 }) => {
   const handleHourClick = (hour: number) => {
-    onTimeInputChange({ ...time, hour }, false);
+    onTimeInputChange({ newTime: { ...time, hour }, isCloseDropdown: false });
   };
 
   const handleMinuteClick = (minute: number) => {
-    onTimeInputChange({ ...time, minute }, true);
+    onTimeInputChange({ newTime: { ...time, minute }, isCloseDropdown: true });
   };
 
   return (
@@ -65,10 +70,11 @@ export const TimeInput = ({
     minute: initialTime.minute,
   });
 
-  const handleTimeChange = (newTime: Time, isMinuteClick?: boolean) => {
+  const handleTimeChange = ({ newTime, isCloseDropdown }: TimeInputChangeProps) => {
     setSelectedTime(newTime);
     onTimeChange(newTime);
-    if (isMinuteClick) {
+
+    if (isCloseDropdown) {
       handleToggleDropdown();
     }
   };
