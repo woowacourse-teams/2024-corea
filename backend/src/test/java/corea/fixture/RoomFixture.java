@@ -25,7 +25,7 @@ public class RoomFixture {
                 LocalDateTime.now()
                         .plusDays(14),
                 RoomClassification.BACKEND,
-                RoomStatus.OPENED
+                RoomStatus.OPEN
         );
     }
 
@@ -44,7 +44,7 @@ public class RoomFixture {
                 LocalDateTime.now()
                         .plusDays(14),
                 RoomClassification.BACKEND,
-                RoomStatus.OPENED
+                RoomStatus.OPEN
         );
     }
 
@@ -63,7 +63,7 @@ public class RoomFixture {
                 LocalDateTime.now()
                         .plusDays(14),
                 RoomClassification.BACKEND,
-                RoomStatus.CLOSED
+                RoomStatus.CLOSE
         );
     }
 }

@@ -46,7 +46,7 @@ public record RoomResponse(@Schema(description = "방 아이디", example = "1")
                            @Schema(description = "조회한 유저가 참여하고 있는 방인지 여부", example = "true")
                            boolean isParticipated,
 
-                           @Schema(description = "방 상태", example = "OPENED")
+                           @Schema(description = "방 상태", example = "OPEN")
                            String roomStatus
 ) {
 

@@ -2,14 +2,14 @@ package corea.room.domain;
 
 public enum RoomStatus {
 
-    OPENED, PROGRESS, CLOSED;
+    OPEN, PROGRESS, CLOSE;
 
     public boolean isClosed() {
-        return this == CLOSED;
+        return this == CLOSE;
     }
 
     public boolean isNotOpened() {
-        return this != OPENED;
+        return this != OPEN;
     }
 
     public String getStatus() {

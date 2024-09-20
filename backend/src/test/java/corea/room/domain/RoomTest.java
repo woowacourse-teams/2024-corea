@@ -23,7 +23,7 @@ class RoomTest {
                 0, 1,
                 MemberFixture.MEMBER_ROOM_MANAGER_JOYSON(), LocalDateTime.now()
                 .plusDays(2), LocalDateTime.now()
-                .plusDays(7), RoomClassification.BACKEND, RoomStatus.OPENED);
+                .plusDays(7), RoomClassification.BACKEND, RoomStatus.OPEN);
 
         room.participate();
 

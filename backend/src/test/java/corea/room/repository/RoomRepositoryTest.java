@@ -32,7 +32,7 @@ class RoomRepositoryTest {
     @CsvSource(value = {"ANDROID, 2", "FRONTEND, 1", "BACKEND, 3"})
     @DisplayName("자신이 참여하지 않고, 계속 모집 중인 방들을 조회할 수 있다.")
     void findAllByMemberAndClassificationAndStatus(RoomClassification classification, int expectedSize) {
-        Page<Room> rooms = roomRepository.findAllByMemberAndClassificationAndStatus(1, classification, RoomStatus.OPENED, PageRequest.of(0, 8));
+        Page<Room> rooms = roomRepository.findAllByMemberAndClassificationAndStatus(1, classification, RoomStatus.OPEN, PageRequest.of(0, 8));
 
         assertThat(rooms.getContent()).hasSize(expectedSize);
     }
@@ -40,7 +40,7 @@ class RoomRepositoryTest {
     @Test
     @DisplayName("분야와 상관 없이 자신이 참여하지 않고, 계속 모집 중인 방들을 조회할 수 있다.")
     void findAllByMemberAndStatus() {
-        Page<Room> roomsWithPage = roomRepository.findAllByMemberAndStatus(1, RoomStatus.OPENED, PageRequest.of(0, 8));
+        Page<Room> roomsWithPage = roomRepository.findAllByMemberAndStatus(1, RoomStatus.OPEN, PageRequest.of(0, 8));
         List<Room> rooms = roomsWithPage.getContent();
 
         assertSoftly(softly -> {

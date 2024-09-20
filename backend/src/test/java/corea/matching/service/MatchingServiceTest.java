@@ -108,6 +108,5 @@ class MatchingServiceTest {
                     CoreaException coreaException = (CoreaException) exception;
                     assertThat(coreaException.getExceptionType()).isEqualTo(ROOM_STATUS_INVALID);
                 });
-        ;
     }
 }
