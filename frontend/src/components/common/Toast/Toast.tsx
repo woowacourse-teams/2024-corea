@@ -1,6 +1,6 @@
-import * as S from "./Toast.style";
 import { useContext, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
+import * as S from "@/components/common/Toast/Toast.style";
 import { ToastContext } from "@/providers/ToastProvider";
 
 const Toast = () => {

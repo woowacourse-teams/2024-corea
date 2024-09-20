@@ -51,7 +51,7 @@ public class RoomService {
 
     //TODO: 검증 로직 추후 변경할게용~
     private void validateDeadLine(LocalDateTime recruitmentDeadline, LocalDateTime reviewDeadline) {
-        LocalDateTime minimumRecruitmentDeadline = reviewDeadline.plusHours(PLUS_HOURS_TO_MINIMUM_RECRUITMENT_DEADLINE);
+        LocalDateTime minimumRecruitmentDeadline = recruitmentDeadline.plusHours(PLUS_HOURS_TO_MINIMUM_RECRUITMENT_DEADLINE);
         if (reviewDeadline.isBefore(minimumRecruitmentDeadline)) {
             throw new CoreaException(ExceptionType.INVALID_RECRUITMENT_DEADLINE,
                     String.format("모집 마감 시간은 현재 시간보다 %d시간 이후여야 합니다.", PLUS_HOURS_TO_MINIMUM_RECRUITMENT_DEADLINE));

@@ -5,11 +5,12 @@ import corea.exception.ExceptionType;
 import corea.global.annotation.ApiErrorResponses;
 import corea.member.dto.ProfileResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 
 @Tag(name = "Profile", description = "마이페이지 관련 API")
-public interface MemberControllerSpecification {
+public interface ProfileControllerSpecification {
 
     @Operation(summary = "프로필 정보를 반환합니다.",
             description = "자신의 마이페이지에 디스플레이 되는 프로필 정보를 작성합니다. <br>" +
@@ -19,5 +20,11 @@ public interface MemberControllerSpecification {
                     "<br><br>**참고:** 이 API를 사용하기 위해서는 유효한 JWT 토큰이 필요하며, " +
                     "토큰이 없거나 유효하지 않은 경우 인증 오류가 발생합니다.")
     @ApiErrorResponses(value = ExceptionType.MEMBER_NOT_FOUND)
-    ResponseEntity<ProfileResponse> profile(AuthInfo authInfo);
+    ResponseEntity<ProfileResponse> getMyProfile(AuthInfo authInfo);
+
+    @Operation(summary = "다른 사람의 프로필 정보를 반홥하니다.",
+            description = "유저네임을 기반으로 다른 사람의 프로필 정보를 조회합니다.")
+    @ApiErrorResponses(value = ExceptionType.MEMBER_NOT_FOUND)
+    ResponseEntity<ProfileResponse> getWithUserName(
+            @Parameter(description = "유저 네임", example = "youngsu5582") String username);
 }
