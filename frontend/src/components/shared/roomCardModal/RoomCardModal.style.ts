@@ -22,12 +22,12 @@ export const RoomInfoThumbnail = styled.img`
   `}
 
   ${media.medium`
-    width: 47%;
+    width: calc(50% - 2rem);
     height: 140px;
   `}
 
   ${media.large`
-    width: 47%;
+    width: calc(50% - 2rem);
     height: 160px;
   `}
 `;
@@ -43,12 +43,12 @@ export const MainContainer = styled.div`
   `}
 
   ${media.medium`
-    width: 48%;
+    width: calc(50% - 2rem);
     gap: 2rem;
   `} 
   
   ${media.large`
-    width: 48%;
+    width: calc(50% - 2rem);
     gap: 2rem;
   `};
 `;
@@ -118,7 +118,6 @@ export const EtcContainer = styled.div`
   background-color: ${({ theme }) => theme.COLOR.white};
   border: 1px solid ${({ theme }) => theme.COLOR.grey1};
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
 `;
 
 export const InfoRow = styled.div`

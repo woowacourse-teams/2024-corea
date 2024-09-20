@@ -15,7 +15,7 @@ export const RoomCardContainer = styled.div`
 
   border: 1px solid ${({ theme }) => theme.COLOR.grey1};
   border-radius: 15px;
-  box-shadow: 0 4px 4px rgb(0 0 0 / 10%);
+  box-shadow: ${({ theme }) => theme.BOX_SHADOW.regular};
 
   transition: transform 0.3s ease;
 
@@ -26,7 +26,7 @@ export const RoomCardContainer = styled.div`
   &:active {
     position: relative;
     top: 3px;
-    box-shadow: 0 1px 1px rgb(0 0 0 / 10%);
+    box-shadow: ${({ theme }) => theme.BOX_SHADOW.light};
   }
 `;
 

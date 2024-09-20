@@ -24,9 +24,7 @@ const ImageWithFallback = ({
   };
 
   return (
-    <S.ImageWrapper $isFallback={isFallback}>
-      <S.StyledImg src={src} alt={alt} onError={handleError} $isFallback={isFallback} {...props} />
-    </S.ImageWrapper>
+    <S.StyledImg src={src} alt={alt} onError={handleError} $isFallback={isFallback} {...props} />
   );
 };
 
