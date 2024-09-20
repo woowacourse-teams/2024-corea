@@ -11,7 +11,7 @@ interface TimeInputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 interface TimeInputChangeProps {
   newTime: Time;
-  isCloseDropdown: boolean;
+  canCloseDropdown: boolean;
 }
 
 const TimePicker = ({
@@ -22,11 +22,11 @@ const TimePicker = ({
   onTimeInputChange: (event: TimeInputChangeProps) => void;
 }) => {
   const handleHourClick = (hour: number) => {
-    onTimeInputChange({ newTime: { ...time, hour }, isCloseDropdown: false });
+    onTimeInputChange({ newTime: { ...time, hour }, canCloseDropdown: false });
   };
 
   const handleMinuteClick = (minute: number) => {
-    onTimeInputChange({ newTime: { ...time, minute }, isCloseDropdown: true });
+    onTimeInputChange({ newTime: { ...time, minute }, canCloseDropdown: true });
   };
 
   return (
@@ -70,11 +70,11 @@ export const TimeInput = ({
     minute: initialTime.minute,
   });
 
-  const handleTimeChange = ({ newTime, isCloseDropdown }: TimeInputChangeProps) => {
+  const handleTimeChange = ({ newTime, canCloseDropdown }: TimeInputChangeProps) => {
     setSelectedTime(newTime);
     onTimeChange(newTime);
 
-    if (isCloseDropdown) {
+    if (canCloseDropdown) {
       handleToggleDropdown();
     }
   };
