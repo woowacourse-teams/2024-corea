@@ -82,7 +82,20 @@ public class RoomService {
 
     public RoomResponses findOpenedRooms(long memberId, String expression, int pageNumber) {
         RoomClassification classification = RoomClassification.from(expression);
-        RoomStatus status = RoomStatus.OPENED;
+        RoomStatus status = RoomStatus.OPEN;
+        PageRequest pageRequest = PageRequest.of(pageNumber, PAGE_SIZE);
+
+        if (classification.isAll()) {
+            Page<Room> roomsWithPage = roomRepository.findAllByMemberAndStatus(memberId, status, pageRequest);
+            return RoomResponses.from(roomsWithPage);
+        }
+        Page<Room> roomsWithPage = roomRepository.findAllByMemberAndClassificationAndStatus(memberId, classification, status, pageRequest);
+        return RoomResponses.from(roomsWithPage);
+    }
+
+    public RoomResponses findProgressRooms(long memberId, String expression, int pageNumber) {
+        RoomClassification classification = RoomClassification.from(expression);
+        RoomStatus status = RoomStatus.PROGRESS;
         PageRequest pageRequest = PageRequest.of(pageNumber, PAGE_SIZE);
 
         if (classification.isAll()) {
@@ -95,7 +108,7 @@ public class RoomService {
 
     public RoomResponses findClosedRooms(String expression, int pageNumber) {
         RoomClassification classification = RoomClassification.from(expression);
-        RoomStatus status = RoomStatus.CLOSED;
+        RoomStatus status = RoomStatus.CLOSE;
         PageRequest pageRequest = PageRequest.of(pageNumber, PAGE_SIZE);
 
         if (classification.isAll()) {

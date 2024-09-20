@@ -13,6 +13,8 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static corea.exception.ExceptionType.ROOM_PARTICIPANT_EXCEED;
+import static corea.exception.ExceptionType.ROOM_STATUS_INVALID;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -71,17 +73,32 @@ public class Room {
     }
 
     public void participate() {
-        if (status.isNotOpened()) {
-            throw new CoreaException(ExceptionType.ROOM_RECRUIT_FINISHED);
+        validateOpened();
+        if (currentParticipantsSize >= limitedParticipantsSize) {
+            throw new CoreaException(ROOM_PARTICIPANT_EXCEED);
         }
         currentParticipantsSize += 1;
-        if (currentParticipantsSize == limitedParticipantsSize) {
-            this.status = RoomStatus.CLOSED;
-        }
     }
 
     public boolean isClosed() {
         return status.isClosed();
+    }
+
+    public void toProgress() {
+        if (status.isNotOpened()) {
+            throw new CoreaException(ROOM_STATUS_INVALID);
+        }
+        status = RoomStatus.PROGRESS;
+    }
+
+    public void validateOpened() {
+        if (status.isNotOpened()) {
+            throw new CoreaException(ExceptionType.ROOM_STATUS_INVALID);
+        }
+    }
+
+    public String getRoomStatus() {
+        return status.getStatus();
     }
 
     public String getManagerName() {
