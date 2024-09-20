@@ -1,4 +1,4 @@
-import * as S from "./OptionSelect.style";
+import * as S from "@/components/common/optionSelect/OptionSelect.style";
 import { NonEmptyArray } from "@/@types/NonEmptyArray";
 
 interface OptionSelect<T extends NonEmptyArray<string>> {

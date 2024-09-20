@@ -134,8 +134,16 @@ export const TableItem = styled.div`
   }
 
   a {
+    overflow: hidden;
+    display: inline-block;
+
+    width: 100%;
+
     font: ${({ theme }) => theme.TEXT.small};
     color: ${({ theme }) => theme.COLOR.grey3};
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   a:hover {

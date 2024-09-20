@@ -1,5 +1,6 @@
 import useModal from "@/hooks/common/useModal";
 import Icon from "@/components/common/icon/Icon";
+import ImageWithFallback from "@/components/common/img/ImageWithFallback";
 import Label from "@/components/common/label/Label";
 import * as S from "@/components/shared/roomCard/RoomCard.style";
 import RoomCardModal from "@/components/shared/roomCardModal/RoomCardModal";
@@ -22,7 +23,11 @@ const RoomCard = ({ roomInfo }: RoomCardProps) => {
       <RoomCardModal isOpen={isOpen} onClose={handleCloseModal} roomInfo={roomInfo} />
 
       <S.RoomCardContainer onClick={handleOpenModal}>
-        <S.RoomInfoThumbnail src={roomInfo.thumbnailLink} alt={roomInfo.title} />
+        <S.RoomInfoThumbnail
+          as={ImageWithFallback}
+          src={roomInfo.thumbnailLink}
+          alt={roomInfo.title}
+        />
         <S.RoomInformation>
           <S.RoomTitle>{roomInfo.title}</S.RoomTitle>
 

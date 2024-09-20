@@ -8,7 +8,7 @@ interface OptionButtonBoxProps {
 export const OptionContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 0.8rem;
+  gap: 1.2rem;
 `;
 
 export const ButtonWrapper = styled.button<OptionButtonBoxProps>`

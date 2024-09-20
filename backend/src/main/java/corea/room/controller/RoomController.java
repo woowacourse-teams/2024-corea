@@ -64,6 +64,14 @@ public class RoomController implements RoomControllerSpecification {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/progress")
+    public ResponseEntity<RoomResponses> progressRooms(@AccessedMember AuthInfo authInfo,
+                                                     @RequestParam(value = "classification", defaultValue = "all") String expression,
+                                                     @RequestParam(defaultValue = "0") int page) {
+        RoomResponses response = roomService.findProgressRooms(authInfo.getId(), expression, page);
+        return ResponseEntity.ok(response);
+    }
+
     @GetMapping("/closed")
     public ResponseEntity<RoomResponses> closedRooms(@RequestParam(value = "classification", defaultValue = "all") String expression,
                                                      @RequestParam(defaultValue = "0") int page) {

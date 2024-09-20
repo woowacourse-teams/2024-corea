@@ -1,7 +1,6 @@
 package corea.participation.controller;
 
 import config.ControllerTest;
-import corea.auth.service.LoginService;
 import corea.auth.service.TokenService;
 import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;

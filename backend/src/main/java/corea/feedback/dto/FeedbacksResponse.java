@@ -15,9 +15,6 @@ public record FeedbacksResponse(@Schema(description = "방 아이디", example =
                                 @Schema(description = "방 키워드", example = "[\"TDD\", \"클린코드\"]")
                                 List<String> roomKeywords,
 
-                                @Schema(description = "방 종료 여부", example = "true")
-                                boolean isClosed,
-
                                 @Schema(description = "개발 관련 피드백 리스트")
                                 List<FeedbackResponse> developFeedback,
 
@@ -30,7 +27,6 @@ public record FeedbacksResponse(@Schema(description = "방 아이디", example =
                 room.getId(),
                 room.getTitle(),
                 room.getKeyword(),
-                room.isClosed(),
                 developFeedback,
                 socialFeedback
         );

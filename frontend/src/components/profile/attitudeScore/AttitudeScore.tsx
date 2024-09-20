@@ -1,5 +1,5 @@
-import * as S from "./AttitudeScore.style";
 import Icon from "@/components/common/icon/Icon";
+import * as S from "@/components/profile/attitudeScore/AttitudeScore.style";
 import { theme } from "@/styles/theme";
 
 interface AttitudeScoreProps {
