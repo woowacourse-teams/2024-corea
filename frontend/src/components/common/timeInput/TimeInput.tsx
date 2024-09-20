@@ -21,14 +21,6 @@ const TimePicker = ({
   time: Time;
   onTimeInputChange: (event: TimeInputChangeProps) => void;
 }) => {
-  const handleHourClick = (hour: number) => {
-    onTimeInputChange({ newTime: { ...time, hour }, canCloseDropdown: false });
-  };
-
-  const handleMinuteClick = (minute: number) => {
-    onTimeInputChange({ newTime: { ...time, minute }, canCloseDropdown: true });
-  };
-
   return (
     <S.TimePickerWrapper>
       <S.TimeSelector>
@@ -36,7 +28,9 @@ const TimePicker = ({
           <S.TimeButton
             key={hour}
             isActive={hour === time.hour}
-            onClick={() => handleHourClick(hour)}
+            onClick={() =>
+              onTimeInputChange({ newTime: { ...time, hour }, canCloseDropdown: false })
+            }
           >
             {hour < 10 ? `0${hour}` : hour}
           </S.TimeButton>
@@ -48,7 +42,9 @@ const TimePicker = ({
           <S.TimeButton
             key={minute}
             isActive={minute === time.minute}
-            onClick={() => handleMinuteClick(minute)}
+            onClick={() =>
+              onTimeInputChange({ newTime: { ...time, minute }, canCloseDropdown: true })
+            }
           >
             {minute < 10 ? `0${minute}` : minute}
           </S.TimeButton>
