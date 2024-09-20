@@ -11,7 +11,7 @@ interface RoomListWithDropdownProps {
   roomList: RoomInfo[];
   hasNextPage: boolean;
   onLoadMore: () => void;
-  isPending: boolean;
+  isFetching: boolean;
 }
 
 const RoomListWithDropdown = ({
@@ -20,7 +20,7 @@ const RoomListWithDropdown = ({
   roomList,
   hasNextPage,
   onLoadMore,
-  isPending,
+  isFetching,
 }: RoomListWithDropdownProps) => {
   return (
     <ContentSection title="">
@@ -36,7 +36,7 @@ const RoomListWithDropdown = ({
         hasNextPage={hasNextPage}
         onLoadMore={onLoadMore}
         participated={false}
-        isPending={isPending}
+        isFetching={isFetching}
       />
     </ContentSection>
   );

@@ -11,10 +11,10 @@ const UserParticipatedRoom = () => {
   return (
     <>
       <ContentSection title="참여 중인 방 리스트">
-        <RoomList isPending={isFetching} roomList={participatingRoomList} participated={true} />
+        <RoomList isFetching={isFetching} roomList={participatingRoomList} participated={true} />
       </ContentSection>
       <ContentSection title="참여 했던 방 리스트">
-        <RoomList isPending={isFetching} roomList={participatedRoomList} participated={true} />
+        <RoomList isFetching={isFetching} roomList={participatedRoomList} participated={true} />
       </ContentSection>
     </>
   );

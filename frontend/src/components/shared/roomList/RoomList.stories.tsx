@@ -39,7 +39,7 @@ export const SmallViewport: Story = {
   args: {
     roomList: sampleRoomList,
     hasNextPage: false,
-    isPending: false,
+    isFetching: false,
   },
   parameters: {
     viewport: {
@@ -53,7 +53,7 @@ export const SmallViewport_With_NextPage: Story = {
     roomList: sampleRoomList,
     hasNextPage: true,
     onLoadMore: () => {},
-    isPending: false,
+    isFetching: false,
   },
   parameters: {
     viewport: {
@@ -66,7 +66,7 @@ export const MediumViewport: Story = {
   args: {
     roomList: sampleRoomList,
     hasNextPage: false,
-    isPending: false,
+    isFetching: false,
   },
   parameters: {
     viewport: {
@@ -79,7 +79,7 @@ export const LargeViewport: Story = {
   args: {
     roomList: sampleRoomList,
     hasNextPage: false,
-    isPending: false,
+    isFetching: false,
   },
   parameters: {
     viewport: {

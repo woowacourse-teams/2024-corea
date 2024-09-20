@@ -13,7 +13,7 @@ const OpenedRoomList = ({ selectedCategory, handleSelectedCategory }: OpenedRoom
     data: openedRoomList,
     fetchNextPage: fetchNextOpenedPage,
     hasNextPage: hasNextOpenedPage,
-    isPending,
+    isFetching,
   } = useInfiniteFetchRoomList({
     queryKey: [QUERY_KEYS.OPENED_ROOM_LIST, selectedCategory],
     getRoomList: getOpenedRoomList,
@@ -29,7 +29,7 @@ const OpenedRoomList = ({ selectedCategory, handleSelectedCategory }: OpenedRoom
       roomList={openedRooms}
       hasNextPage={hasNextOpenedPage}
       onLoadMore={fetchNextOpenedPage}
-      isPending={isPending}
+      isFetching={isFetching}
     />
   );
 };
