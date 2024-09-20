@@ -34,24 +34,23 @@ export const RoomInfoThumbnail = styled.img`
   display: flex;
   align-items: center;
 
-  width: 90%;
-  height: 90%;
+  width: 100%;
+  height: 100%;
   margin: 0 auto;
-  padding-top: 0.5rem;
+
+  object-fit: scale-down;
 
   ${media.small`
-    height: 100px;
+    height: 120px;
   `}
 
   ${media.medium`
-    height: 120px;
+    height: 140px;
   `} 
   
   ${media.large`
-    height: 130px;
+    height: 160px;
   `};
-
-  object-fit: scale-down;
 `;
 
 export const RoomInformation = styled.div`

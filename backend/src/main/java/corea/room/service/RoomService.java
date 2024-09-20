@@ -22,9 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static java.util.stream.Collectors.collectingAndThen;
-import static java.util.stream.Collectors.toList;
-
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -73,37 +70,51 @@ public class RoomService {
 
     public RoomResponses findParticipatedRooms(long memberId) {
         List<Participation> participations = participationRepository.findAllByMemberId(memberId);
-
-        return participations.stream()
+        List<Long> roomIds = participations.stream()
                 .map(Participation::getRoomId)
-                .map(this::findRoomInfo)
-                .collect(collectingAndThen(toList(), rooms -> RoomResponses.of(rooms, true, true)));
+                .toList();
+
+        List<Room> rooms = roomRepository.findAllById(roomIds);
+        return RoomResponses.of(rooms, true, true, 0);
     }
 
     public RoomResponses findOpenedRooms(long memberId, String expression, int pageNumber) {
         RoomClassification classification = RoomClassification.from(expression);
-        RoomStatus status = RoomStatus.OPENED;
+        RoomStatus status = RoomStatus.OPEN;
         PageRequest pageRequest = PageRequest.of(pageNumber, PAGE_SIZE);
 
         if (classification.isAll()) {
             Page<Room> roomsWithPage = roomRepository.findAllByMemberAndStatus(memberId, status, pageRequest);
-            return RoomResponses.from(roomsWithPage);
+            return RoomResponses.from(roomsWithPage,false,pageNumber);
         }
         Page<Room> roomsWithPage = roomRepository.findAllByMemberAndClassificationAndStatus(memberId, classification, status, pageRequest);
-        return RoomResponses.from(roomsWithPage);
+        return RoomResponses.from(roomsWithPage,false,pageNumber);
+    }
+
+    public RoomResponses findProgressRooms(long memberId, String expression, int pageNumber) {
+        RoomClassification classification = RoomClassification.from(expression);
+        RoomStatus status = RoomStatus.PROGRESS;
+        PageRequest pageRequest = PageRequest.of(pageNumber, PAGE_SIZE);
+
+        if (classification.isAll()) {
+            Page<Room> roomsWithPage = roomRepository.findAllByMemberAndStatus(memberId, status, pageRequest);
+            return RoomResponses.from(roomsWithPage, false, pageNumber);
+        }
+        Page<Room> roomsWithPage = roomRepository.findAllByMemberAndClassificationAndStatus(memberId, classification, status, pageRequest);
+        return RoomResponses.from(roomsWithPage, false, pageNumber);
     }
 
     public RoomResponses findClosedRooms(String expression, int pageNumber) {
         RoomClassification classification = RoomClassification.from(expression);
-        RoomStatus status = RoomStatus.CLOSED;
+        RoomStatus status = RoomStatus.CLOSE;
         PageRequest pageRequest = PageRequest.of(pageNumber, PAGE_SIZE);
 
         if (classification.isAll()) {
             Page<Room> roomsWithPage = roomRepository.findAllByStatus(status, pageRequest);
-            return RoomResponses.from(roomsWithPage);
+            return RoomResponses.from(roomsWithPage, false, pageNumber);
         }
         Page<Room> roomsWithPage = roomRepository.findAllByClassificationAndStatus(classification, status, pageRequest);
-        return RoomResponses.from(roomsWithPage);
+        return RoomResponses.from(roomsWithPage, false, pageNumber);
     }
 
     public RoomResponse getRoomById(long roomId) {

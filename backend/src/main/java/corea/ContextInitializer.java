@@ -28,11 +28,11 @@ import java.util.List;
 
 import static corea.feedback.domain.FeedbackKeyword.*;
 
-@Profile("dev")
+@Profile({"dev","local"})
 @Component
 @Transactional
 @RequiredArgsConstructor
-public class DemoDataInitializer implements ApplicationRunner {
+public class ContextInitializer implements ApplicationRunner {
 
     private final MemberRepository memberRepository;
     private final RoomRepository roomRepository;
@@ -78,7 +78,7 @@ public class DemoDataInitializer implements ApplicationRunner {
                                 .minusDays(7),
                         LocalDateTime.now()
                                 .minusDays(1),
-                        RoomClassification.BACKEND, RoomStatus.CLOSED));
+                        RoomClassification.BACKEND, RoomStatus.CLOSE));
 
         // ash 기준 방장인 방
         Room room2 = roomRepository.save(
@@ -90,7 +90,7 @@ public class DemoDataInitializer implements ApplicationRunner {
                                 .plusDays(3),
                         LocalDateTime.now()
                                 .plusDays(17),
-                        RoomClassification.BACKEND, RoomStatus.CLOSED));
+                        RoomClassification.BACKEND, RoomStatus.CLOSE));
 
         // 애쉬가 참여했는데 끝난 방
         Room room3 = roomRepository.save(
@@ -102,7 +102,7 @@ public class DemoDataInitializer implements ApplicationRunner {
                                 .minusDays(14),
                         LocalDateTime.now()
                                 .minusDays(2),
-                        RoomClassification.ANDROID, RoomStatus.CLOSED));
+                        RoomClassification.ANDROID, RoomStatus.CLOSE));
 
         // 애쉬가 참여 가능한 방들
         Room room4 = roomRepository.save(
@@ -114,7 +114,7 @@ public class DemoDataInitializer implements ApplicationRunner {
                                 .plusDays(2),
                         LocalDateTime.now()
                                 .plusDays(14),
-                        RoomClassification.BACKEND, RoomStatus.OPENED));
+                        RoomClassification.BACKEND, RoomStatus.OPEN));
 
         // 실제 미션을 걸어놓은 방
         Room room5 = roomRepository.save(
@@ -126,7 +126,7 @@ public class DemoDataInitializer implements ApplicationRunner {
                                 .minusHours(1),
                         LocalDateTime.now()
                                 .plusDays(14),
-                        RoomClassification.BACKEND, RoomStatus.OPENED));
+                        RoomClassification.BACKEND, RoomStatus.OPEN));
 
         List<Participation> room5Participates = participateRoom(room5.getId(), List.of(pororo, ash, cho, movin, ten, dar));
         saveExtraRooms(dar);
@@ -221,7 +221,7 @@ public class DemoDataInitializer implements ApplicationRunner {
                                 .plusDays(2),
                         LocalDateTime.now()
                                 .plusDays(14),
-                        RoomClassification.ANDROID, RoomStatus.OPENED));
+                        RoomClassification.ANDROID, RoomStatus.OPEN));
         roomRepository.save(
                 new Room("자바스크립트 크리스마스", "진짜 요구사항대로 구현하기!", 3,
                         "https://github.com/example/javascript-christmas",
@@ -231,7 +231,7 @@ public class DemoDataInitializer implements ApplicationRunner {
                                 .plusDays(5),
                         LocalDateTime.now()
                                 .plusDays(19),
-                        RoomClassification.FRONTEND, RoomStatus.OPENED));
+                        RoomClassification.FRONTEND, RoomStatus.OPEN));
         roomRepository.save(
                 new Room("방 제목 6", "방 설명 6", 3,
                         "https://github.com/example/java-racingcar",
@@ -242,7 +242,7 @@ public class DemoDataInitializer implements ApplicationRunner {
                                 .plusDays(3),
                         LocalDateTime.now()
                                 .plusDays(17),
-                        RoomClassification.FRONTEND, RoomStatus.OPENED));
+                        RoomClassification.FRONTEND, RoomStatus.OPEN));
         roomRepository.save(
                 new Room("방 제목 7", "방 설명 7", 3,
                         "https://github.com/example/java-racingcar",
@@ -253,7 +253,7 @@ public class DemoDataInitializer implements ApplicationRunner {
                                 .plusDays(3),
                         LocalDateTime.now()
                                 .plusDays(17),
-                        RoomClassification.FRONTEND, RoomStatus.OPENED));
+                        RoomClassification.FRONTEND, RoomStatus.OPEN));
 
         roomRepository.save(
                 new Room("방 제목 8", "방 설명 8", 3,
@@ -265,7 +265,7 @@ public class DemoDataInitializer implements ApplicationRunner {
                                 .plusDays(3),
                         LocalDateTime.now()
                                 .plusDays(17),
-                        RoomClassification.BACKEND, RoomStatus.OPENED));
+                        RoomClassification.BACKEND, RoomStatus.OPEN));
         roomRepository.save(
                 new Room("방 제목 9", "방 설명 9", 3,
                         "https://github.com/example/java-racingcar",
@@ -276,7 +276,7 @@ public class DemoDataInitializer implements ApplicationRunner {
                                 .plusDays(3),
                         LocalDateTime.now()
                                 .plusDays(17),
-                        RoomClassification.ANDROID, RoomStatus.OPENED));
+                        RoomClassification.ANDROID, RoomStatus.OPEN));
         roomRepository.save(
                 new Room("방 제목 10", "방 설명 10", 3,
                         "https://github.com/example/java-racingcar",
@@ -287,7 +287,7 @@ public class DemoDataInitializer implements ApplicationRunner {
                                 .plusDays(3),
                         LocalDateTime.now()
                                 .plusDays(17),
-                        RoomClassification.FRONTEND, RoomStatus.OPENED));
+                        RoomClassification.FRONTEND, RoomStatus.OPEN));
         roomRepository.save(
                 new Room("방 제목 11", "방 설명 11", 3,
                         "https://github.com/example/java-racingcar",
@@ -298,7 +298,7 @@ public class DemoDataInitializer implements ApplicationRunner {
                                 .plusDays(3),
                         LocalDateTime.now()
                                 .plusDays(17),
-                        RoomClassification.FRONTEND, RoomStatus.OPENED));
+                        RoomClassification.FRONTEND, RoomStatus.OPEN));
         roomRepository.save(
                 new Room("방 제목 11", "방 설명 11", 3,
                         "https://github.com/example/java-racingcar",
@@ -309,7 +309,7 @@ public class DemoDataInitializer implements ApplicationRunner {
                                 .plusDays(3),
                         LocalDateTime.now()
                                 .plusDays(17),
-                        RoomClassification.FRONTEND, RoomStatus.OPENED));
+                        RoomClassification.FRONTEND, RoomStatus.OPEN));
         roomRepository.save(
                 new Room("방 제목 11", "방 설명 11", 3,
                         "https://github.com/example/java-racingcar",
@@ -320,7 +320,7 @@ public class DemoDataInitializer implements ApplicationRunner {
                                 .plusDays(3),
                         LocalDateTime.now()
                                 .plusDays(17),
-                        RoomClassification.FRONTEND, RoomStatus.OPENED));
+                        RoomClassification.FRONTEND, RoomStatus.OPEN));
         roomRepository.save(
                 new Room("방 제목 11", "방 설명 11", 3,
                         "https://github.com/example/java-racingcar",
@@ -331,7 +331,7 @@ public class DemoDataInitializer implements ApplicationRunner {
                                 .plusDays(3),
                         LocalDateTime.now()
                                 .plusDays(17),
-                        RoomClassification.FRONTEND, RoomStatus.OPENED));
+                        RoomClassification.FRONTEND, RoomStatus.OPEN));
         roomRepository.save(
                 new Room("방 제목 11", "방 설명 11", 3,
                         "https://github.com/example/java-racingcar",
@@ -342,7 +342,7 @@ public class DemoDataInitializer implements ApplicationRunner {
                                 .plusDays(3),
                         LocalDateTime.now()
                                 .plusDays(17),
-                        RoomClassification.FRONTEND, RoomStatus.OPENED));
+                        RoomClassification.FRONTEND, RoomStatus.OPEN));
 
         // 방 모집 완료
         roomRepository.save(
@@ -355,7 +355,7 @@ public class DemoDataInitializer implements ApplicationRunner {
                                 .plusDays(3),
                         LocalDateTime.now()
                                 .plusDays(17),
-                        RoomClassification.FRONTEND, RoomStatus.CLOSED));
+                        RoomClassification.FRONTEND, RoomStatus.CLOSE));
         roomRepository.save(
                 new Room("방 제목 13", "방 설명 13", 3,
                         "https://github.com/example/java-racingcar",
@@ -366,7 +366,7 @@ public class DemoDataInitializer implements ApplicationRunner {
                                 .plusDays(3),
                         LocalDateTime.now()
                                 .plusDays(17),
-                        RoomClassification.FRONTEND, RoomStatus.CLOSED));
+                        RoomClassification.FRONTEND, RoomStatus.CLOSE));
         roomRepository.save(
                 new Room("방 제목 14", "방 설명 14", 3,
                         "https://github.com/example/java-racingcar",
@@ -377,7 +377,7 @@ public class DemoDataInitializer implements ApplicationRunner {
                                 .plusDays(3),
                         LocalDateTime.now()
                                 .plusDays(17),
-                        RoomClassification.FRONTEND, RoomStatus.CLOSED));
+                        RoomClassification.FRONTEND, RoomStatus.CLOSE));
         roomRepository.save(
                 new Room("방 제목 15", "방 설명 15", 3,
                         "https://github.com/example/java-racingcar",
@@ -388,7 +388,7 @@ public class DemoDataInitializer implements ApplicationRunner {
                                 .plusDays(3),
                         LocalDateTime.now()
                                 .plusDays(17),
-                        RoomClassification.FRONTEND, RoomStatus.CLOSED));
+                        RoomClassification.FRONTEND, RoomStatus.CLOSE));
         roomRepository.save(
                 new Room("방 제목 16", "방 설명 16", 3,
                         "https://github.com/example/java-racingcar",
@@ -399,7 +399,7 @@ public class DemoDataInitializer implements ApplicationRunner {
                                 .plusDays(3),
                         LocalDateTime.now()
                                 .plusDays(17),
-                        RoomClassification.FRONTEND, RoomStatus.CLOSED));
+                        RoomClassification.FRONTEND, RoomStatus.CLOSE));
         roomRepository.save(
                 new Room("방 제목 17", "방 설명 17", 3,
                         "https://github.com/example/java-racingcar",
@@ -410,7 +410,7 @@ public class DemoDataInitializer implements ApplicationRunner {
                                 .plusDays(3),
                         LocalDateTime.now()
                                 .plusDays(17),
-                        RoomClassification.FRONTEND, RoomStatus.CLOSED));
+                        RoomClassification.FRONTEND, RoomStatus.CLOSE));
         roomRepository.save(
                 new Room("방 제목 18", "방 설명 18", 3,
                         "https://github.com/example/java-racingcar",
@@ -421,7 +421,7 @@ public class DemoDataInitializer implements ApplicationRunner {
                                 .plusDays(3),
                         LocalDateTime.now()
                                 .plusDays(17),
-                        RoomClassification.FRONTEND, RoomStatus.CLOSED));
+                        RoomClassification.FRONTEND, RoomStatus.CLOSE));
         roomRepository.save(
                 new Room("방 제목 19", "방 설명 19", 3,
                         "https://github.com/example/java-racingcar",
@@ -432,7 +432,7 @@ public class DemoDataInitializer implements ApplicationRunner {
                                 .plusDays(3),
                         LocalDateTime.now()
                                 .plusDays(17),
-                        RoomClassification.FRONTEND, RoomStatus.CLOSED));
+                        RoomClassification.FRONTEND, RoomStatus.CLOSE));
         roomRepository.save(
                 new Room("방 제목 20", "방 설명 20", 3,
                         "https://github.com/example/java-racingcar",
@@ -443,7 +443,7 @@ public class DemoDataInitializer implements ApplicationRunner {
                                 .plusDays(3),
                         LocalDateTime.now()
                                 .plusDays(17),
-                        RoomClassification.FRONTEND, RoomStatus.CLOSED));
+                        RoomClassification.FRONTEND, RoomStatus.CLOSE));
         roomRepository.save(
                 new Room("방 제목 21", "방 설명 21", 3,
                         "https://github.com/example/java-racingcar",
@@ -454,7 +454,7 @@ public class DemoDataInitializer implements ApplicationRunner {
                                 .plusDays(3),
                         LocalDateTime.now()
                                 .plusDays(17),
-                        RoomClassification.FRONTEND, RoomStatus.CLOSED));
+                        RoomClassification.FRONTEND, RoomStatus.CLOSE));
     }
 
     private void initialize() {
@@ -467,16 +467,5 @@ public class DemoDataInitializer implements ApplicationRunner {
         jdbcTemplate.execute("DELETE FROM participation;");
         jdbcTemplate.execute("DELETE FROM develop_feedback;");
         jdbcTemplate.execute("DELETE FROM social_feedback;");
-
-        // AUTO_INCREMENT 재설정
-        jdbcTemplate.execute("ALTER TABLE login_info AUTO_INCREMENT 1;");
-        jdbcTemplate.execute("ALTER TABLE match_result AUTO_INCREMENT 1;");
-        jdbcTemplate.execute("ALTER TABLE member AUTO_INCREMENT 1;");
-        jdbcTemplate.execute("ALTER TABLE room AUTO_INCREMENT 1;");
-        jdbcTemplate.execute("ALTER TABLE ranking AUTO_INCREMENT 1;");
-        jdbcTemplate.execute("ALTER TABLE profile AUTO_INCREMENT 1;");
-        jdbcTemplate.execute("ALTER TABLE participation AUTO_INCREMENT 1;");
-        jdbcTemplate.execute("ALTER TABLE develop_feedback AUTO_INCREMENT 1;");
-        jdbcTemplate.execute("ALTER TABLE social_feedback AUTO_INCREMENT 1;");
     }
 }

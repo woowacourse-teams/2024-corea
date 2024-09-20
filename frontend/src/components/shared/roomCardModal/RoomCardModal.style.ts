@@ -18,17 +18,17 @@ export const RoomInfoThumbnail = styled.img`
 
   ${media.small`
     width: 100%;
-    height: 100px;
+    height: 120px;
   `}
 
   ${media.medium`
     width: 47%;
-    height: 120px;
+    height: 140px;
   `}
 
   ${media.large`
     width: 47%;
-    height: 130px;
+    height: 160px;
   `}
 `;
 
@@ -127,7 +127,7 @@ export const InfoRow = styled.div`
 `;
 
 export const InfoTitle = styled.span`
-  width: 120px;
+  width: 200px;
   font: ${({ theme }) => theme.TEXT.small};
   color: ${({ theme }) => theme.COLOR.grey3};
 `;

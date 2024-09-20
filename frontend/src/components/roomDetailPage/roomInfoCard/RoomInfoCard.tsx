@@ -1,4 +1,5 @@
 import Icon from "@/components/common/icon/Icon";
+import ImageWithFallback from "@/components/common/img/ImageWithFallback";
 import Label from "@/components/common/label/Label";
 import * as S from "@/components/roomDetailPage/roomInfoCard/RoomInfoCard.style";
 import { RoomInfo } from "@/@types/roomInfo";
@@ -8,7 +9,11 @@ import { formatDateTimeString, formatDday } from "@/utils/dateFormatter";
 const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
   return (
     <S.RoomInfoCardContainer>
-      <S.RoomInfoCardImg src={roomInfo.thumbnailLink} alt="방 썸네일 이미지" />
+      <S.RoomInfoCardImg
+        as={ImageWithFallback}
+        src={roomInfo.thumbnailLink}
+        alt="방 썸네일 이미지"
+      />
       <S.RoomInfoCardContent>
         <S.RoomHeaderWrapper>
           <S.RoomTitle>{roomInfo.title}</S.RoomTitle>
@@ -60,7 +65,7 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
           <S.RoomContentSmall>
             <Icon kind="calendar" size="1.4rem" color={theme.COLOR.grey4} />
             <div>
-              <span>리뷰 마감일: </span>
+              <span>리뷰 및 피드백 마감일: </span>
               <S.DateTimeText>{formatDateTimeString(roomInfo.reviewDeadline)}</S.DateTimeText>
               <S.StyledDday> {formatDday(roomInfo.reviewDeadline)}</S.StyledDday>
             </div>

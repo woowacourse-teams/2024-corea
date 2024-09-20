@@ -1,7 +1,5 @@
 package corea.feedback.service;
 
-import corea.exception.CoreaException;
-import corea.exception.ExceptionType;
 import corea.feedback.dto.FeedbackResponse;
 import corea.feedback.dto.FeedbacksResponse;
 import corea.feedback.dto.UserFeedbackResponse;
@@ -29,55 +27,52 @@ public class UserFeedbackService {
     private final DevelopFeedbackRepository developFeedbackRepository;
     private final SocialFeedbackRepository socialFeedbackRepository;
 
-    public UserFeedbackResponse getDeliveredFeedback(long id) {
-        Map<Long, List<FeedbackResponse>> deliveredDevelopFeedback = getDeliveredDevelopFeedback(id);
-        Map<Long, List<FeedbackResponse>> deliverSocialFeedback = getDeliveredSocialFeedback(id);
-        return new UserFeedbackResponse(
-                extractDistinctKeyStreams(deliveredDevelopFeedback, deliverSocialFeedback)
-                        .map(key -> FeedbacksResponse.of(getRoom(key), emptyListIfNull(deliveredDevelopFeedback.get(key)), emptyListIfNull(deliverSocialFeedback.get(key))))
-                        .toList());
+    public UserFeedbackResponse getDeliveredFeedback(long feedbackDeliverId) {
+        Map<Long, List<FeedbackResponse>> deliveredDevelopFeedback = getDeliveredDevelopFeedback(feedbackDeliverId);
+        Map<Long, List<FeedbackResponse>> deliverSocialFeedback = getDeliveredSocialFeedback(feedbackDeliverId);
+        return getUserFeedbackResponse(deliveredDevelopFeedback, deliverSocialFeedback);
     }
 
-    private Map<Long, List<FeedbackResponse>> getDeliveredDevelopFeedback(long id) {
-        return developFeedbackRepository.findByDeliverId(id)
+    private Map<Long, List<FeedbackResponse>> getDeliveredDevelopFeedback(long feedbackDeliverId) {
+        return developFeedbackRepository.findByDeliverId(feedbackDeliverId)
                 .stream()
                 .map(FeedbackResponse::fromDeliver)
                 .collect(Collectors.groupingBy(FeedbackResponse::roomId));
     }
 
-    private Map<Long, List<FeedbackResponse>> getDeliveredSocialFeedback(long id) {
-        return socialFeedbackRepository.findByDeliverId(id)
+    private Map<Long, List<FeedbackResponse>> getDeliveredSocialFeedback(long feedbackDeliverId) {
+        return socialFeedbackRepository.findByDeliverId(feedbackDeliverId)
                 .stream()
                 .map(FeedbackResponse::fromDeliver)
                 .collect(Collectors.groupingBy(FeedbackResponse::roomId));
     }
 
-    public UserFeedbackResponse getReceivedFeedback(long id) {
-        Map<Long, List<FeedbackResponse>> receivedDevelopFeedback = getReceivedDevelopFeedback(id);
-        Map<Long, List<FeedbackResponse>> receivedSocialFeedback = getReceivedSocialFeedback(id);
-
-        return new UserFeedbackResponse(
-                extractDistinctKeyStreams(receivedDevelopFeedback, receivedSocialFeedback)
-                        .map(key -> FeedbacksResponse.of(getRoom(key), emptyListIfNull(receivedDevelopFeedback.get(key)), emptyListIfNull(receivedSocialFeedback.get(key))))
-                        .toList());
+    public UserFeedbackResponse getReceivedFeedback(long feedbackReceiverId) {
+        Map<Long, List<FeedbackResponse>> receivedDevelopFeedback = getReceivedDevelopFeedback(feedbackReceiverId);
+        Map<Long, List<FeedbackResponse>> receivedSocialFeedback = getReceivedSocialFeedback(feedbackReceiverId);
+        return getUserFeedbackResponse(receivedDevelopFeedback, receivedSocialFeedback);
     }
 
-    private Map<Long, List<FeedbackResponse>> getReceivedDevelopFeedback(long id) {
-        return developFeedbackRepository.findByReceiverId(id)
+    private Map<Long, List<FeedbackResponse>> getReceivedDevelopFeedback(long feedbackReceiverId) {
+        return developFeedbackRepository.findByReceiverId(feedbackReceiverId)
                 .stream()
                 .map(FeedbackResponse::fromReceiver)
                 .collect(Collectors.groupingBy(FeedbackResponse::roomId));
     }
 
-    private Map<Long, List<FeedbackResponse>> getReceivedSocialFeedback(long id) {
-        return socialFeedbackRepository.findByReceiverId(id)
+    private Map<Long, List<FeedbackResponse>> getReceivedSocialFeedback(long feedbackReceiverId) {
+        return socialFeedbackRepository.findByReceiverId(feedbackReceiverId)
                 .stream()
                 .map(FeedbackResponse::fromReceiver)
                 .collect(Collectors.groupingBy(FeedbackResponse::roomId));
     }
 
-    private Room getRoom(long roomId) {
-        return roomRepository.findById(roomId)
-                .orElseThrow(() -> new CoreaException(ExceptionType.ROOM_NOT_FOUND));
+    private UserFeedbackResponse getUserFeedbackResponse(Map<Long, List<FeedbackResponse>> developFeedback, Map<Long, List<FeedbackResponse>> socialFeedback) {
+        List<Room> rooms = roomRepository.findAllById(
+                extractDistinctKeyStreams(developFeedback, socialFeedback).toList());
+        return new UserFeedbackResponse(rooms.stream()
+                .filter(Room::isClosed)
+                .map(room -> FeedbacksResponse.of(room, emptyListIfNull(developFeedback.get(room.getId())), emptyListIfNull(socialFeedback.get(room.getId()))))
+                .toList());
     }
 }

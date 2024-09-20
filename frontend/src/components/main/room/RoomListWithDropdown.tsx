@@ -1,6 +1,6 @@
-import * as S from "./RoomList.style";
 import ContentSection from "@/components/common/contentSection/ContentSection";
 import Dropdown from "@/components/common/dropdown/Dropdown";
+import * as S from "@/components/main/room/RoomList.style";
 import RoomList from "@/components/shared/roomList/RoomList";
 import { RoomInfo } from "@/@types/roomInfo";
 import { dropdownItems } from "@/constants/roomDropdownItems";
