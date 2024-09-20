@@ -1,4 +1,4 @@
-import { InputHTMLAttributes, useState } from "react";
+import { InputHTMLAttributes } from "react";
 import useDropdown from "@/hooks/common/useDropdown";
 import * as S from "@/components/common/timeInput/TimeInput.style";
 import { Time } from "@/@types/date";
@@ -6,7 +6,7 @@ import { Time } from "@/@types/date";
 interface TimeInputProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: boolean;
   onTimeChange: (time: Time) => void;
-  initialTime: { hour: number; minute: number };
+  selectedTime: { hour: number; minute: number };
 }
 
 interface TimeInputChangeProps {
@@ -42,6 +42,7 @@ const TimePicker = ({
           </S.TimeButton>
         ))}
       </S.TimeSelector>
+
       <S.TimeSelector>
         {Array.from({ length: 60 }).map((_, minute) => (
           <S.TimeButton
@@ -60,30 +61,22 @@ const TimePicker = ({
 export const TimeInput = ({
   error = false,
   onTimeChange,
-  initialTime,
+  selectedTime,
   ...rest
 }: TimeInputProps) => {
   const { isOpen, handleToggleDropdown, dropdownRef } = useDropdown();
 
-  const [selectedTime, setSelectedTime] = useState<Time>({
-    hour: initialTime.hour,
-    minute: initialTime.minute,
-  });
-
   const handleTimeChange = ({ newTime, canCloseDropdown }: TimeInputChangeProps) => {
-    setSelectedTime(newTime);
     onTimeChange(newTime);
 
-    if (canCloseDropdown) {
-      handleToggleDropdown();
-    }
+    if (canCloseDropdown) handleToggleDropdown();
   };
 
   return (
     <S.TimeInputContainer ref={dropdownRef}>
       <S.TimeInputToggle
         type="text"
-        value={`${selectedTime.hour < 10 ? `0${selectedTime.hour}` : selectedTime.hour}:${selectedTime.minute < 10 ? `0${selectedTime.minute}` : selectedTime.minute}`}
+        value={`${selectedTime.hour < 10 ? `0${selectedTime.hour}` : selectedTime.hour} : ${selectedTime.minute < 10 ? `0${selectedTime.minute}` : selectedTime.minute}`}
         onClick={handleToggleDropdown}
         placeholder="시간을 선택하세요"
         readOnly

@@ -14,7 +14,7 @@ const meta = {
       description: "시간 입력 오류 여부",
       defaultValue: false,
     },
-    initialTime: {
+    selectedTime: {
       control: {
         type: "object",
       },
@@ -39,18 +39,18 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     error: false,
-    initialTime: {
+    selectedTime: {
       hour: 10,
       minute: 30,
     },
     onTimeChange: () => {},
   },
   render: (args) => {
-    const [time, setTime] = useState<Time>(args.initialTime);
+    const [time, setTime] = useState<Time>(args.selectedTime);
     return (
       <TimeInput
         error={args.error}
-        initialTime={time}
+        selectedTime={time}
         onTimeChange={(newTime) => {
           setTime(newTime);
           args.onTimeChange(newTime);
@@ -64,18 +64,18 @@ export const Default: Story = {
 export const 에러일_때: Story = {
   args: {
     error: true,
-    initialTime: {
+    selectedTime: {
       hour: 12,
       minute: 45,
     },
     onTimeChange: () => {},
   },
   render: (args) => {
-    const [time, setTime] = useState<Time>(args.initialTime);
+    const [time, setTime] = useState<Time>(args.selectedTime);
     return (
       <TimeInput
         error={args.error}
-        initialTime={time}
+        selectedTime={time}
         onTimeChange={(newTime) => {
           setTime(newTime);
           args.onTimeChange(newTime);

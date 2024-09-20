@@ -14,7 +14,7 @@ export const TimeInputToggle = styled.input<{ $error: boolean }>`
 
   font: ${({ theme }) => theme.TEXT.semiSmall};
   text-align: center;
-  letter-spacing: 0.3rem;
+  letter-spacing: 0.2rem;
 
   border: 1px solid ${(props) => (props.$error ? props.theme.COLOR.error : props.theme.COLOR.grey1)};
   border-radius: 6px;

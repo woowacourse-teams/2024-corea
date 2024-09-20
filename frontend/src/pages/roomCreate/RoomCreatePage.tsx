@@ -16,7 +16,7 @@ const RoomCreatePage = () => {
   return (
     <div>
       여긴 룸 생성 페이지
-      <TimeInput onTimeChange={handleTimeChange} initialTime={selectedTime} />
+      <TimeInput onTimeChange={handleTimeChange} selectedTime={selectedTime} />
     </div>
   );
 };
