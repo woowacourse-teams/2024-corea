@@ -72,6 +72,13 @@ public class Room {
         this(null, title, content, matchingSize, repositoryLink, thumbnailLink, keyword, currentParticipantsSize, limitedParticipantsSize, manager, recruitmentDeadline, reviewDeadline, classification, status);
     }
 
+    public void cancelParticipation() {
+        if (status.isNotOpened()) {
+            throw new CoreaException(ExceptionType.ROOM_STATUS_INVALID);
+        }
+        currentParticipantsSize = Math.max(0, currentParticipantsSize - 1);
+    }
+
     public void participate() {
         validateOpened();
         if (currentParticipantsSize >= limitedParticipantsSize) {
