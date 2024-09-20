@@ -28,11 +28,11 @@ import java.util.List;
 
 import static corea.feedback.domain.FeedbackKeyword.*;
 
-@Profile("dev")
+@Profile({"dev","local"})
 @Component
 @Transactional
 @RequiredArgsConstructor
-public class DemoDataInitializer implements ApplicationRunner {
+public class ContextInitializer implements ApplicationRunner {
 
     private final MemberRepository memberRepository;
     private final RoomRepository roomRepository;
@@ -467,16 +467,5 @@ public class DemoDataInitializer implements ApplicationRunner {
         jdbcTemplate.execute("DELETE FROM participation;");
         jdbcTemplate.execute("DELETE FROM develop_feedback;");
         jdbcTemplate.execute("DELETE FROM social_feedback;");
-
-        // AUTO_INCREMENT 재설정
-        jdbcTemplate.execute("ALTER TABLE login_info AUTO_INCREMENT 1;");
-        jdbcTemplate.execute("ALTER TABLE match_result AUTO_INCREMENT 1;");
-        jdbcTemplate.execute("ALTER TABLE member AUTO_INCREMENT 1;");
-        jdbcTemplate.execute("ALTER TABLE room AUTO_INCREMENT 1;");
-        jdbcTemplate.execute("ALTER TABLE ranking AUTO_INCREMENT 1;");
-        jdbcTemplate.execute("ALTER TABLE profile AUTO_INCREMENT 1;");
-        jdbcTemplate.execute("ALTER TABLE participation AUTO_INCREMENT 1;");
-        jdbcTemplate.execute("ALTER TABLE develop_feedback AUTO_INCREMENT 1;");
-        jdbcTemplate.execute("ALTER TABLE social_feedback AUTO_INCREMENT 1;");
     }
 }
