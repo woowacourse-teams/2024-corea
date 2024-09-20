@@ -1,8 +1,10 @@
-import * as S from "./FeedbackCardList.style";
 import React, { useEffect, useState } from "react";
 import Carousel from "@/components/common/carousel/Carousel";
+import Label from "@/components/common/label/Label";
 import FeedbackCard from "@/components/feedback/feedbackCard/FeedbackCard";
+import * as S from "@/components/feedback/feedbackCardList/FeedbackCardList.style";
 import { FeedbackCardDataList } from "@/@types/feedback";
+import { theme } from "@/styles/theme";
 
 interface FeedbackCardListProps {
   feedbackData: FeedbackCardDataList[];
@@ -39,7 +41,13 @@ const FeedbackCardList = ({ feedbackData }: FeedbackCardListProps) => {
               <S.FeedbackMissionInfo>{feedback.title}</S.FeedbackMissionInfo>
               <S.FeedbackKeywordContainer>
                 {feedback.roomKeywords.map((keyword) => (
-                  <S.FeedbackKeywordWrapper key={keyword}>#{keyword}</S.FeedbackKeywordWrapper>
+                  <Label
+                    key={keyword}
+                    type="keyword"
+                    text={keyword}
+                    size="semiSmall"
+                    backgroundColor={theme.COLOR.white}
+                  />
                 ))}
               </S.FeedbackKeywordContainer>
             </S.FeedbackMissionTitle>

@@ -1,5 +1,7 @@
 import { Suspense, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import useSelectedCategory from "@/hooks/common/useSelectedCategory";
+import Button from "@/components/common/button/Button";
 import DelaySuspense from "@/components/common/delaySuspense/DelaySuspense";
 import Loading from "@/components/common/loading/Loading";
 import OptionSelect from "@/components/common/optionSelect/OptionSelect";
@@ -12,6 +14,7 @@ import { Option } from "@/@types/rooms";
 import { optionsLoggedIn, optionsLoggedOut } from "@/constants/room";
 
 const MainPage = () => {
+  const navigate = useNavigate();
   const isLoggedIn = !!localStorage.getItem("accessToken");
   const options = isLoggedIn ? optionsLoggedIn : optionsLoggedOut;
   const [selectedTab, setSelectedTab] = useState<Option>(options[0]);
@@ -70,6 +73,8 @@ const MainPage = () => {
   return (
     <S.Layout>
       <Banner />
+
+      <Button onClick={() => navigate("/rooms/create")}>방 생성하기</Button>
 
       <OptionSelect
         selected={selectedTab}

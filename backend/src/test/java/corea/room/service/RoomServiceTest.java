@@ -47,13 +47,16 @@ class RoomServiceTest {
 
         assertSoftly(softly -> {
             softly.assertThat(rooms)
-                    .hasSize(2);
+                    .hasSize(3);
             softly.assertThat(rooms.get(0)
                             .manager())
                     .isEqualTo("강다빈");
             softly.assertThat(rooms.get(1)
                             .manager())
                     .isEqualTo("이상엽");
+            softly.assertThat(rooms.get(2)
+                            .manager())
+                    .isEqualTo("최진실");
         });
     }
 
@@ -80,8 +83,30 @@ class RoomServiceTest {
     }
 
     @ParameterizedTest
+    @CsvSource({"be, 3", "fe, 2", "an, 1", "all, 6"})
+    @DisplayName("로그인하지 않은 사용자가 분야별로 현재 모집 완료된 방들을 조회할 수 있다.")
+    void findProgressRoomsWithoutMember(String expression, int expectedSize) {
+        AuthInfo anonymous = AuthInfo.getAnonymous();
+
+        RoomResponses response = roomService.findProgressRooms(anonymous.getId(), expression, 0);
+        List<RoomResponse> rooms = response.rooms();
+
+        assertThat(rooms).hasSize(expectedSize);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"be, 2", "fe, 2", "an, 1", "all, 5"})
+    @DisplayName("로그인한 사용자가 자신이 참여하지 않고, 분야별로 현재 모집 완료된 방들을 조회할 수 있다.")
+    void findProgressRoomsWithMember(String expression, int expectedSize) {
+        RoomResponses response = roomService.findProgressRooms(1, expression, 0);
+        List<RoomResponse> rooms = response.rooms();
+
+        assertThat(rooms).hasSize(expectedSize);
+    }
+
+    @ParameterizedTest
     @CsvSource({"be, 1", "fe, 1", "an, 1", "all, 3"})
-    @DisplayName("현재 모집 완료된 방들을 조회할 수 있다.")
+    @DisplayName("현재 종료된 방들을 조회할 수 있다.")
     void findClosedRooms(String expression, int expectedSize) {
         RoomResponses response = roomService.findClosedRooms(expression, 0);
         List<RoomResponse> rooms = response.rooms();
@@ -104,10 +129,10 @@ class RoomServiceTest {
     @DisplayName("모집 마감 시간은 현재 시간보다 1시간 이후가 아니라면 예외가 발생한다.")
     void invalidRecruitmentDeadline() {
         RoomCreateRequest request = new RoomCreateRequest("title", "content", "repoLink",
-                "thumLink", 3, null, 3,
+                "thumLink", 3, List.of("TDD","클린코드"), 3,
                 LocalDateTime.now()
                         .plusMinutes(59), LocalDateTime.now()
-                .plusDays(2), RoomClassification.ALL);
+                .plusHours(1).plusMinutes(58), RoomClassification.ALL);
 
         assertThatThrownBy(() -> roomService.create(1, request))
                 .isInstanceOf(CoreaException.class);

@@ -14,6 +14,6 @@ public record ParticipationResponse(@Schema(description = "Participation 객체 
                                     long memberId) {
 
     public static ParticipationResponse from(Participation participation) {
-        return new ParticipationResponse(participation.getId(), participation.getRoomId(), participation.getMemberId());
+        return new ParticipationResponse(participation.getId(), participation.getRoomsId(), participation.getMemberId());
     }
 }

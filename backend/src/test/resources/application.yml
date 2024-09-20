@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active: test
   application:
     name: backend
   jpa:

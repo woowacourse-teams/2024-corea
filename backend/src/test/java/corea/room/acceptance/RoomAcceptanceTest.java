@@ -120,13 +120,16 @@ class RoomAcceptanceTest {
 
         assertSoftly(softly -> {
             softly.assertThat(rooms)
-                    .hasSize(2);
+                    .hasSize(3);
             softly.assertThat(rooms.get(0)
                             .manager())
                     .isEqualTo("강다빈");
             softly.assertThat(rooms.get(1)
                             .manager())
                     .isEqualTo("이상엽");
+            softly.assertThat(rooms.get(2)
+                            .manager())
+                    .isEqualTo("최진실");
         });
     }
 

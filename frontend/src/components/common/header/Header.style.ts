@@ -14,7 +14,7 @@ export const HeaderContainer = styled.header<{ $isMain: boolean }>`
 
   color: ${({ theme }) => theme.COLOR.grey3};
 
-  box-shadow: ${({ $isMain }) => ($isMain ? "none" : "0 4px 4px rgb(0 0 0 / 10%)")};
+  box-shadow: ${({ theme, $isMain }) => ($isMain ? "none" : theme.BOX_SHADOW.regular)};
 
   @media screen and (width >= 1200px) {
     padding: 0 calc(((100vw - 1200px) / 2) + 3rem);
@@ -26,7 +26,7 @@ export const HeaderContainer = styled.header<{ $isMain: boolean }>`
 
   ${media.small`
     color: ${({ theme }) => theme.COLOR.grey1};
-    box-shadow: 0 4px 4px rgb(0 0 0 / 10%);
+    box-shadow: ${({ theme }) => theme.BOX_SHADOW.regular};
   `}
 `;
 
