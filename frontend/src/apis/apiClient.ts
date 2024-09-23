@@ -46,8 +46,8 @@ const refreshAccessToken = async (): Promise<string | undefined> => {
     },
     body: JSON.stringify({ refreshToken }),
   });
-  const authHeader = response.headers.get("Authorization");
-  const newAccessToken = authHeader?.split(" ")[1];
+
+  const newAccessToken = response.headers.get("Authorization");
 
   if (!response.ok) {
     if (response.status === 401) {
