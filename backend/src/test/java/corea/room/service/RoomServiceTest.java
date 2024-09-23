@@ -49,7 +49,7 @@ class RoomServiceTest {
                 .map(RoomResponse::manager)
                 .toList();
 
-        List<LocalDateTime> reviewDeadLines = rooms.stream()
+        List<LocalDateTime> reviewDeadlines = rooms.stream()
                 .map(RoomResponse::reviewDeadline)
                 .toList();
 
@@ -58,7 +58,7 @@ class RoomServiceTest {
                     .hasSize(3);
             softly.assertThat(managers)
                     .containsExactlyInAnyOrder("강다빈", "이상엽", "최진실");
-            softly.assertThat(reviewDeadLines)
+            softly.assertThat(reviewDeadlines)
                     .isSortedAccordingTo(LocalDateTime::compareTo);
         });
     }
