@@ -59,35 +59,35 @@ public class DataInitializer implements ApplicationRunner {
                 new Room("방 제목 1", "방 설명 1", 3,
                         null, null, List.of("TDD", "클린코드"),
                         1, 20, member1,
-                        LocalDateTime.of(2024, 12, 25, 12, 0),
+                        LocalDateTime.of(2024, 12, 20, 12, 0),
                         LocalDateTime.of(2024, 12, 26, 12, 0),
                         RoomClassification.BACKEND, RoomStatus.OPEN));
         Room room2 = roomRepository.save(
                 new Room("방 제목 2", "방 설명 2", 3,
                         null, null, List.of("TDD"),
                         1, 20, member2,
-                        LocalDateTime.of(2024, 12, 25, 12, 0),
+                        LocalDateTime.of(2024, 12, 21, 12, 0),
                         LocalDateTime.of(2024, 12, 27, 12, 0),
                         RoomClassification.BACKEND, RoomStatus.OPEN));
         Room room3 = roomRepository.save(
                 new Room("방 제목 3", "방 설명 3", 3,
                         null, null, List.of("TDD"),
                         1, 20, member3,
-                        LocalDateTime.of(2024, 12, 25, 12, 0),
+                        LocalDateTime.of(2024, 12, 22, 12, 0),
                         LocalDateTime.of(2024, 12, 28, 12, 0),
                         RoomClassification.ANDROID, RoomStatus.OPEN));
         Room room4 = roomRepository.save(
                 new Room("방 제목 4", "방 설명 4", 3,
                         null, null, List.of("TDD"),
                         1, 20, member4,
-                        LocalDateTime.of(2024, 12, 25, 12, 0),
+                        LocalDateTime.of(2024, 12, 23, 12, 0),
                         LocalDateTime.of(2024, 12, 29, 12, 0),
                         RoomClassification.ANDROID, RoomStatus.OPEN));
         Room room5 = roomRepository.save(
                 new Room("방 제목 5", "방 설명 5", 3,
                         null, null, List.of("TDD"),
                         1, 20, member5,
-                        LocalDateTime.of(2024, 12, 25, 12, 0),
+                        LocalDateTime.of(2024, 12, 24, 12, 0),
                         LocalDateTime.of(2024, 12, 30, 12, 0),
                         RoomClassification.FRONTEND, RoomStatus.OPEN));
         Room room6 = roomRepository.save(
@@ -101,21 +101,21 @@ public class DataInitializer implements ApplicationRunner {
                 new Room("방 제목 7", "방 설명 7", 3,
                         null, null, List.of("TDD"),
                         1, 20, member7,
-                        LocalDateTime.of(2024, 12, 25, 12, 0),
+                        LocalDateTime.of(2024, 12, 25, 12, 10),
                         LocalDateTime.of(2024, 12, 31, 12, 2),
                         RoomClassification.FRONTEND, RoomStatus.OPEN));
         roomRepository.save(
                 new Room("방 제목 8", "방 설명 8", 3,
                         null, null, List.of("TDD", "클린코드"),
                         1, 20, member8,
-                        LocalDateTime.of(2024, 12, 25, 12, 0),
+                        LocalDateTime.of(2024, 12, 25, 12, 20),
                         LocalDateTime.of(2025, 1, 2, 12, 0),
                         RoomClassification.BACKEND, RoomStatus.OPEN));
         roomRepository.save(
                 new Room("방 제목 9", "방 설명 9", 3,
                         null, null, List.of("TDD"),
                         1, 20, member8,
-                        LocalDateTime.of(2024, 12, 25, 12, 0),
+                        LocalDateTime.of(2024, 12, 25, 12, 30),
                         LocalDateTime.of(2025, 1, 3, 12, 0),
                         RoomClassification.BACKEND, RoomStatus.OPEN));
         roomRepository.save(

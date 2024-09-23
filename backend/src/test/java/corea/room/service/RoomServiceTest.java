@@ -65,46 +65,74 @@ class RoomServiceTest {
 
     @ParameterizedTest
     @CsvSource({"be, 4", "fe, 3", "an, 2", "all, 8"})
-    @DisplayName("로그인하지 않은 사용자가 분야별로 현재 모집 중인 방들을 조회할 수 있다.")
+    @DisplayName("로그인하지 않은 사용자가 분야별로 현재 모집 중인 방들을 모집 마감일이 임박한 순으로 조회할 수 있다.")
     void findOpenedRoomsWithoutMember(String expression, int expectedSize) {
         AuthInfo anonymous = AuthInfo.getAnonymous();
 
         RoomResponses response = roomService.findOpenedRooms(anonymous.getId(), expression, 0);
         List<RoomResponse> rooms = response.rooms();
+        List<LocalDateTime> recruitmentDeadlines = rooms.stream()
+                .map(RoomResponse::recruitmentDeadline)
+                .toList();
 
-        assertThat(rooms).hasSize(expectedSize);
+        assertSoftly(softly -> {
+            softly.assertThat(rooms).hasSize(expectedSize);
+            softly.assertThat(recruitmentDeadlines)
+                    .isSortedAccordingTo(LocalDateTime::compareTo);
+        });
     }
 
     @ParameterizedTest
     @CsvSource({"be, 3", "fe, 1", "an, 2", "all, 6"})
-    @DisplayName("로그인한 사용자가 자신이 참여하지 않고, 분야별로 현재 모집 중인 방들을 조회할 수 있다.")
+    @DisplayName("로그인한 사용자가 자신이 참여하지 않고, 분야별로 현재 모집 중인 방들을 모집 마감일이 임박한 순으로 조회할 수 있다.")
     void findOpenedRoomsWithMember(String expression, int expectedSize) {
         RoomResponses response = roomService.findOpenedRooms(1, expression, 0);
         List<RoomResponse> rooms = response.rooms();
+        List<LocalDateTime> recruitmentDeadlines = rooms.stream()
+                .map(RoomResponse::recruitmentDeadline)
+                .toList();
 
-        assertThat(rooms).hasSize(expectedSize);
+        assertSoftly(softly -> {
+            softly.assertThat(rooms).hasSize(expectedSize);
+            softly.assertThat(recruitmentDeadlines)
+                    .isSortedAccordingTo(LocalDateTime::compareTo);
+        });
     }
 
     @ParameterizedTest
     @CsvSource({"be, 3", "fe, 2", "an, 1", "all, 6"})
-    @DisplayName("로그인하지 않은 사용자가 분야별로 현재 모집 완료된 방들을 조회할 수 있다.")
+    @DisplayName("로그인하지 않은 사용자가 분야별로 현재 모집 완료된 방들을 모집 마감일이 임박한 순으로 조회할 수 있다.")
     void findProgressRoomsWithoutMember(String expression, int expectedSize) {
         AuthInfo anonymous = AuthInfo.getAnonymous();
 
         RoomResponses response = roomService.findProgressRooms(anonymous.getId(), expression, 0);
         List<RoomResponse> rooms = response.rooms();
+        List<LocalDateTime> recruitmentDeadlines = rooms.stream()
+                .map(RoomResponse::recruitmentDeadline)
+                .toList();
 
-        assertThat(rooms).hasSize(expectedSize);
+        assertSoftly(softly -> {
+            softly.assertThat(rooms).hasSize(expectedSize);
+            softly.assertThat(recruitmentDeadlines)
+                    .isSortedAccordingTo(LocalDateTime::compareTo);
+        });
     }
 
     @ParameterizedTest
     @CsvSource({"be, 2", "fe, 2", "an, 1", "all, 5"})
-    @DisplayName("로그인한 사용자가 자신이 참여하지 않고, 분야별로 현재 모집 완료된 방들을 조회할 수 있다.")
+    @DisplayName("로그인한 사용자가 자신이 참여하지 않고, 분야별로 현재 모집 완료된 방들을 모집 마감일이 임박한 순으로 조회할 수 있다.")
     void findProgressRoomsWithMember(String expression, int expectedSize) {
         RoomResponses response = roomService.findProgressRooms(1, expression, 0);
         List<RoomResponse> rooms = response.rooms();
+        List<LocalDateTime> recruitmentDeadlines = rooms.stream()
+                .map(RoomResponse::recruitmentDeadline)
+                .toList();
 
-        assertThat(rooms).hasSize(expectedSize);
+        assertSoftly(softly -> {
+            softly.assertThat(rooms).hasSize(expectedSize);
+            softly.assertThat(recruitmentDeadlines)
+                    .isSortedAccordingTo(LocalDateTime::compareTo);
+        });
     }
 
     @ParameterizedTest

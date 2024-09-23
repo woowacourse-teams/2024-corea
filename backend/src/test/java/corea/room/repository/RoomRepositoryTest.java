@@ -32,24 +32,38 @@ class RoomRepositoryTest {
 
     @ParameterizedTest
     @CsvSource(value = {"ANDROID, 2", "FRONTEND, 1", "BACKEND, 3"})
-    @DisplayName("자신이 참여하지 않고, 계속 모집 중인 방들을 조회할 수 있다.")
+    @DisplayName("자신이 참여하지 않고, 계속 모집 중인 방들을 모집 마감일이 임박한 순으로 조회할 수 있다.")
     void findAllByMemberAndClassificationAndStatus(RoomClassification classification, int expectedSize) {
         Page<Room> rooms = roomRepository.findAllByMemberAndClassificationAndStatus(1, classification, RoomStatus.OPEN, PageRequest.of(0, 8));
 
-        assertThat(rooms.getContent()).hasSize(expectedSize);
+        List<LocalDateTime> recruitmentDeadlines = rooms.stream()
+                .map(Room::getRecruitmentDeadline)
+                .toList();
+
+        assertSoftly(softly -> {
+            softly.assertThat(rooms.getContent()).hasSize(expectedSize);
+            softly.assertThat(recruitmentDeadlines)
+                    .isSortedAccordingTo(LocalDateTime::compareTo);
+        });
     }
 
     @Test
-    @DisplayName("분야와 상관 없이 자신이 참여하지 않고, 계속 모집 중인 방들을 조회할 수 있다.")
+    @DisplayName("분야와 상관 없이 자신이 참여하지 않고, 계속 모집 중인 방들을 모집 마감일이 임박한 순으로 조회할 수 있다.")
     void findAllByMemberAndStatus() {
         Page<Room> roomsWithPage = roomRepository.findAllByMemberAndStatus(1, RoomStatus.OPEN, PageRequest.of(0, 8));
         List<Room> rooms = roomsWithPage.getContent();
+
+        List<LocalDateTime> recruitmentDeadlines = rooms.stream()
+                .map(Room::getRecruitmentDeadline)
+                .toList();
 
         assertSoftly(softly -> {
             softly.assertThat(rooms.get(0).getId()).isEqualTo(2);
             softly.assertThat(rooms.get(1).getId()).isEqualTo(3);
             softly.assertThat(rooms.get(2).getId()).isEqualTo(4);
             softly.assertThat(rooms.get(3).getId()).isEqualTo(5);
+            softly.assertThat(recruitmentDeadlines)
+                    .isSortedAccordingTo(LocalDateTime::compareTo);
         });
     }
 
@@ -59,10 +73,10 @@ class RoomRepositoryTest {
         List<Long> roomIds = new ArrayList<>(List.of(2L, 1L, 4L, 6L, 3L, 5L));
         List<Room> participatedRooms = roomRepository.findAllByIdInOrderByReviewDeadlineAsc(roomIds);
 
-        List<LocalDateTime> reviewDeadLines = participatedRooms.stream()
+        List<LocalDateTime> reviewDeadlines = participatedRooms.stream()
                 .map(Room::getReviewDeadline)
                 .toList();
 
-        assertThat(reviewDeadLines).isSortedAccordingTo(LocalDateTime::compareTo);
+        assertThat(reviewDeadlines).isSortedAccordingTo(LocalDateTime::compareTo);
     }
 }
