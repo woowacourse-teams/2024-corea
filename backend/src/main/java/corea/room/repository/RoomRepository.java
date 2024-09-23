@@ -18,6 +18,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
             LEFT JOIN Participation p 
             ON r = p.room AND p.memberId = :memberId 
             WHERE p.id IS NULL AND r.status = :status AND r.manager.id <> :memberId
+            ORDER BY r.recruitmentDeadline ASC
             """)
     Page<Room> findAllByMemberAndStatus(long memberId, RoomStatus status, PageRequest pageRequest);
 
@@ -26,12 +27,13 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
             LEFT JOIN Participation p 
             ON r = p.room AND p.memberId = :memberId 
             WHERE p.id IS NULL AND r.classification = :classification AND r.status = :status AND r.manager.id <> :memberId
+            ORDER BY r.recruitmentDeadline ASC
             """)
     Page<Room> findAllByMemberAndClassificationAndStatus(long memberId, RoomClassification classification, RoomStatus status, Pageable pageable);
 
-    Page<Room> findAllByStatus(RoomStatus status, PageRequest pageRequest);
+    Page<Room> findAllByStatusOrderByRecruitmentDeadlineAsc(RoomStatus status, PageRequest pageRequest);
 
-    Page<Room> findAllByClassificationAndStatus(RoomClassification classification, RoomStatus status, Pageable pageable);
+    Page<Room> findAllByClassificationAndStatusOrderByRecruitmentDeadlineAsc(RoomClassification classification, RoomStatus status, Pageable pageable);
 
     List<Room> findAllByIdInOrderByReviewDeadlineAsc(List<Long> ids);
 }

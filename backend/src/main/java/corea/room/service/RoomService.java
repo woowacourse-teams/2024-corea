@@ -110,10 +110,10 @@ public class RoomService {
         PageRequest pageRequest = PageRequest.of(pageNumber, PAGE_SIZE);
 
         if (classification.isAll()) {
-            Page<Room> roomsWithPage = roomRepository.findAllByStatus(status, pageRequest);
+            Page<Room> roomsWithPage = roomRepository.findAllByStatusOrderByRecruitmentDeadlineAsc(status, pageRequest);
             return RoomResponses.from(roomsWithPage, false, pageNumber);
         }
-        Page<Room> roomsWithPage = roomRepository.findAllByClassificationAndStatus(classification, status, pageRequest);
+        Page<Room> roomsWithPage = roomRepository.findAllByClassificationAndStatusOrderByRecruitmentDeadlineAsc(classification, status, pageRequest);
         return RoomResponses.from(roomsWithPage, false, pageNumber);
     }
 
