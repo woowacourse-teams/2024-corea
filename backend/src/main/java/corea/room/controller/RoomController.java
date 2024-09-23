@@ -10,6 +10,7 @@ import corea.room.dto.RoomCreateRequest;
 import corea.room.dto.RoomResponse;
 import corea.room.dto.RoomResponses;
 import corea.room.service.RoomService;
+import corea.scheduler.service.AutomaticMatchingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,12 +24,15 @@ public class RoomController implements RoomControllerSpecification {
 
     private final RoomService roomService;
     private final MatchResultService matchResultService;
+    private final AutomaticMatchingService automaticMatchingService;
 
     @PostMapping("/{id}")
     public ResponseEntity<RoomResponse> create(@PathVariable long id,
                                                @LoginMember AuthInfo authInfo,
                                                @RequestBody RoomCreateRequest request) {
         RoomResponse roomResponse = roomService.create(authInfo.getId(), request);
+        automaticMatchingService.matchOnRecruitmentDeadline(roomResponse);
+
         return ResponseEntity.created(URI.create(String.format("/rooms/%d", id)))
                 .body(roomResponse);
     }
@@ -79,5 +83,12 @@ public class RoomController implements RoomControllerSpecification {
                                                      @RequestParam(defaultValue = "0") int page) {
         RoomResponses response = roomService.findRoomsWithRoomStatus(authInfo.getId(),page, expression, RoomStatus.CLOSE);
         return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable long id, @LoginMember AuthInfo authInfo) {
+        roomService.delete(id, authInfo.getId());
+        return ResponseEntity.noContent()
+                .build();
     }
 }

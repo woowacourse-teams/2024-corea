@@ -14,7 +14,10 @@ import corea.room.dto.RoomCreateRequest;
 import corea.room.dto.RoomResponse;
 import corea.room.dto.RoomResponses;
 import corea.room.repository.RoomRepository;
+import corea.scheduler.domain.AutomaticMatching;
+import corea.scheduler.repository.AutomaticMatchingRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -25,6 +28,7 @@ import java.util.List;
 
 import static corea.room.domain.ParticipationStatus.*;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -37,6 +41,7 @@ public class RoomService {
     private final RoomRepository roomRepository;
     private final MemberRepository memberRepository;
     private final ParticipationRepository participationRepository;
+    private final AutomaticMatchingRepository automaticMatchingRepository;
 
     @Transactional
     public RoomResponse create(long memberId, RoomCreateRequest request) {
@@ -45,6 +50,8 @@ public class RoomService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND, String.format("%d에 해당하는 멤버가 없습니다.", memberId)));
         Room room = roomRepository.save(request.toEntity(member));
+
+        long roomId = room.getId();
         participationRepository.save(new Participation(room, memberId));
         return RoomResponse.of(room, ParticipationStatus.PARTICIPATED);
     }
@@ -101,11 +108,27 @@ public class RoomService {
         return RoomResponses.from(roomsWithPage, NOT_PARTICIPATED, pageNumber);
     }
 
-    public RoomResponse getRoomById(long roomId) {
-        return RoomResponse.of(findRoomInfo(roomId));
+    @Transactional
+    public void delete(long roomId, long memberId) {
+        Room room = getRoom(roomId);
+        validateDeletionAuthority(room, memberId);
+
+        participationRepository.deleteAllByRoomId(roomId);
+        roomRepository.delete(room);
     }
 
-    private Room findRoomInfo(long roomId) {
+    private void validateDeletionAuthority(Room room, long memberId) {
+        if (room.isNotMatchingManager(memberId)) {
+            log.warn("방 삭제 권한이 없습니다. 방 생성자만 방을 삭제할 수 있습니다. 방 생성자 id={}, 요청한 사용자 id={}", room.getManagerId(), memberId);
+            throw new CoreaException(ExceptionType.ROOM_DELETION_AUTHORIZATION_ERROR);
+        }
+    }
+
+    public RoomResponse getRoomById(long roomId) {
+        return RoomResponse.from(getRoom(roomId));
+    }
+
+    private Room getRoom(long roomId) {
         return roomRepository.findById(roomId)
                 .orElseThrow(() -> new CoreaException(ExceptionType.ROOM_NOT_FOUND, String.format("해당 Id의 방이 없습니다. 입력된 Id=%d", roomId)));
     }

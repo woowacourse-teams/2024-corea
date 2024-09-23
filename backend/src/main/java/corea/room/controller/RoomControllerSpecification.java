@@ -115,4 +115,16 @@ public interface RoomControllerSpecification {
 
                                               @Parameter(description = "페이지 정보", example = "2")
                                               int page);
+
+    @Operation(summary = "방을 삭제합니다.",
+            description = "이미 생성되어 있는 방을 삭제합니다. <br>" +
+                    "요청 시 `Authorization Header`에 `Bearer JWT token`을 포함시켜야 합니다. " +
+                    "이 토큰을 기반으로 `AuthInfo` 객체가 생성되며 사용자의 정보가 자동으로 주입됩니다. <br>" +
+                    "JWT 토큰에서 추출된 사용자 정보는 방을 생성한 사용자와 일치하는지 파악합니다. " +
+                    "<br><br>**참고:** 이 API를 사용하기 위해서는 유효한 JWT 토큰이 필요하며, " +
+                    "토큰이 없거나 유효하지 않은 경우 인증 오류가 발생합니다.")
+    @ApiErrorResponses(value = ExceptionType.ROOM_DELETION_AUTHORIZATION_ERROR)
+    ResponseEntity<Void> delete(@Parameter(description = "방 아이디", example = "1")
+                                long id,
+                                AuthInfo authInfo);
 }

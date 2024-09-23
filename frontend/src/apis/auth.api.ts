@@ -21,8 +21,7 @@ export const postLogin = async (
 
   const text = await response.text();
 
-  const authHeader = response.headers.get("Authorization");
-  const accessToken = authHeader?.split(" ")[1];
+  const accessToken = response.headers.get("Authorization");
 
   const authBody = text ? JSON.parse(text) : response;
   const refreshToken = authBody.refreshToken;
