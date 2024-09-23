@@ -67,14 +67,13 @@ class AutomaticMatchingExecutorTest {
         Member cho = memberRepository.save(MemberFixture.MEMBER_CHOCO());
 
         room = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_DEADLINE(pororo, LocalDateTime.now().plusSeconds(3)));
-        long roomId = room.getId();
 
-        participationRepository.save(new Participation(roomId, pororo.getId(), pororo.getGithubUserId()));
-        participationRepository.save(new Participation(roomId, ash.getId(), ash.getGithubUserId()));
-        participationRepository.save(new Participation(roomId, joysun.getId(), joysun.getGithubUserId()));
-        participationRepository.save(new Participation(roomId, movin.getId(), movin.getGithubUserId()));
-        participationRepository.save(new Participation(roomId, ten.getId(), ten.getGithubUserId()));
-        participationRepository.save(new Participation(roomId, cho.getId(), cho.getGithubUserId()));
+        participationRepository.save(new Participation(room, pororo.getId(), pororo.getGithubUserId()));
+        participationRepository.save(new Participation(room, ash.getId(), ash.getGithubUserId()));
+        participationRepository.save(new Participation(room, joysun.getId(), joysun.getGithubUserId()));
+        participationRepository.save(new Participation(room, movin.getId(), movin.getGithubUserId()));
+        participationRepository.save(new Participation(room, ten.getId(), ten.getGithubUserId()));
+        participationRepository.save(new Participation(room, cho.getId(), cho.getGithubUserId()));
 
         Mockito.when(pullRequestProvider.getUntilDeadline(any(), any()))
                 .thenReturn(new PullRequestInfo(Map.of(

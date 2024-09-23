@@ -80,6 +80,6 @@ class AutomaticMatchingServiceTest {
                 LocalDateTime.now().plusSeconds(2),
                 LocalDateTime.now().plusDays(2),
                 true,
-                false);
+                "OPEN");
     }
 }
