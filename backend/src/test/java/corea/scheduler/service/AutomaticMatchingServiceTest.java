@@ -3,6 +3,8 @@ package corea.scheduler.service;
 import config.ServiceTest;
 import corea.room.dto.RoomResponse;
 import corea.room.service.RoomService;
+import corea.scheduler.domain.AutomaticMatching;
+import corea.scheduler.repository.AutomaticMatchingRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,9 @@ class AutomaticMatchingServiceTest {
     @Autowired
     private AutomaticMatchingService automaticMatchingService;
 
+    @Autowired
+    private AutomaticMatchingRepository automaticMatchingRepository;
+
     @MockBean
     private RoomService roomService;
 
@@ -34,7 +39,8 @@ class AutomaticMatchingServiceTest {
     @DisplayName("모집 마감 기한이 되면 매칭을 자동으로 진행한다.")
     void matchOnRecruitmentDeadline() throws InterruptedException {
         when(roomService.create(anyLong(), any())).thenReturn(getRoomResponse());
-        RoomResponse roomResponse = roomService.create(anyLong(), any());
+        RoomResponse response = roomService.create(anyLong(), any());
+        automaticMatchingRepository.save(new AutomaticMatching(response.id(), response.recruitmentDeadline()));
 
         // 비동기 작업을 동기화 시키기 위한 클래스
         // 파라미터 인자에 비동기 작업의 개수를 입력해준다.
@@ -49,8 +55,8 @@ class AutomaticMatchingServiceTest {
             return null;
         }).when(automaticMatchingExecutor).execute(any());
 
-        // 5초후에 매칭이 되도록 설정된 automaticMatchingService의 matchOnRecruitmentDeadline 메서드를 호출한다.
-        automaticMatchingService.matchOnRecruitmentDeadline(roomResponse);
+        // 2초후에 매칭이 되도록 설정된 automaticMatchingService의 matchOnRecruitmentDeadline 메서드를 호출한다.
+        automaticMatchingService.matchOnRecruitmentDeadline(response);
 
         // latch의 카운트가 0이될 때까지 대기할 시간을 정의한다.
         // CountDownLatch의 카운트가 2초 내에 0이 되었을 때 await() 메서드가 즉시 반환되고 true를 반환합니다.

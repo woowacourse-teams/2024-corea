@@ -1,5 +1,7 @@
 package corea.scheduler.service;
 
+import corea.exception.CoreaException;
+import corea.exception.ExceptionType;
 import corea.room.dto.RoomResponse;
 import corea.scheduler.domain.AutomaticMatching;
 import corea.scheduler.domain.MatchingStatus;
@@ -34,24 +36,26 @@ public class AutomaticMatchingService {
 
     private final Map<Long, ScheduledFuture<?>> scheduledTasks = new ConcurrentHashMap<>();
 
-    @Transactional
     public void matchOnRecruitmentDeadline(RoomResponse response) {
         long roomId = response.id();
-        LocalDateTime recruitmentDeadline = response.recruitmentDeadline();
-        AutomaticMatching automaticMatching = automaticMatchingRepository.save(new AutomaticMatching(roomId, recruitmentDeadline));
+        AutomaticMatching automaticMatching = getAutomaticMatchingByRoomId(roomId);
 
-        scheduleMatching(automaticMatching, recruitmentDeadline);
-
-        log.info("{}번 방 자동 매칭 예약 - 예약 시간: {}", roomId, recruitmentDeadline);
+        scheduleMatching(automaticMatching, roomId, response.recruitmentDeadline());
     }
 
-    private void scheduleMatching(AutomaticMatching automaticMatching, LocalDateTime matchingStartTime) {
+    private AutomaticMatching getAutomaticMatchingByRoomId(long roomId) {
+        return automaticMatchingRepository.findByRoomId(roomId)
+                .orElseThrow(() -> new CoreaException(ExceptionType.AUTOMATIC_MATCHING_NOT_FOUND));
+    }
+
+    private void scheduleMatching(AutomaticMatching automaticMatching, long roomId, LocalDateTime matchingStartTime) {
         ScheduledFuture<?> schedule = taskScheduler.schedule(
                 () -> automaticMatchingExecutor.execute(automaticMatching),
                 toInstance(matchingStartTime)
         );
 
-        scheduledTasks.put(automaticMatching.getRoomId(), schedule);
+        log.info("{}번 방 자동 매칭 예약 - 예약 시간: {}", roomId, matchingStartTime);
+        scheduledTasks.put(roomId, schedule);
     }
 
     private Instant toInstance(LocalDateTime recruitmentDeadline) {
@@ -62,8 +66,8 @@ public class AutomaticMatchingService {
     public void schedulePendingAutomaticMatching() {
         List<AutomaticMatching> matchings = automaticMatchingRepository.findAllByStatus(MatchingStatus.PENDING);
 
-        matchings.forEach(matching -> scheduleMatching(matching, matching.getMatchingStartTime()));
+        log.info("{}개의 방에 대해 자동 매칭 재예약 시작", matchings.size());
 
-        log.info("{}개의 방에 대해 자동 매칭 재예약", matchings.size());
+        matchings.forEach(matching -> scheduleMatching(matching, matching.getRoomId(), matching.getMatchingStartTime()));
     }
 }
