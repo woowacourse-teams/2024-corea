@@ -111,5 +111,10 @@ public class Room {
     public String getManagerName() {
         return manager.getName();
     }
+
+    public boolean isManagerId(long memberId) {
+        return manager.getId()
+                .equals(memberId);
+    }
 }
 
