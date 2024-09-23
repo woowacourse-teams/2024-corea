@@ -14,6 +14,7 @@ const ERROR_MESSAGES = {
 
   // rooms
   GET_PARTICIPATED_ROOM_LIST: "참여하는 방 목록을 불러오는 도중 에러가 발생하였습니다.",
+  GET_PROGRESS_ROOM_LIST: "진행 중인 방 목록을 불러오는 도중 에러가 발생하였습니다.",
   GET_OPENED_ROOM_LIST: "모집 중인 방 목록을 불러오는 도중 에러가 발생하였습니다.",
   GET_CLOSED_ROOM_LIST: "모집 완료 방 목록을 불러오는 도중 에러가 발생하였습니다.",
   GET_ROOM_DETAIL_INFO: "방 상세정보를 불러오는 도중 에러가 발생하였습니다.",

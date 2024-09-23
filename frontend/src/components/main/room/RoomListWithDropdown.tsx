@@ -11,7 +11,7 @@ interface RoomListWithDropdownProps {
   roomList: RoomInfo[];
   hasNextPage: boolean;
   onLoadMore: () => void;
-  roomType: "participated" | "opened" | "closed";
+  roomType: "participated" | "progress" | "opened" | "closed";
 }
 
 const RoomListWithDropdown = ({

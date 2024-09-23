@@ -9,11 +9,12 @@ interface RoomListProps {
   roomList: RoomInfo[];
   hasNextPage?: boolean;
   onLoadMore?: () => void;
-  roomType: "participated" | "opened" | "closed";
+  roomType: "participated" | "progress" | "opened" | "closed";
 }
 
 const RoomEmptyText = {
   participated: "참여한 방이 없습니다.",
+  progress: "진행 중인 방이 없습니다.",
   opened: "모집 중인 방이 없습니다.",
   closed: "모집 마감된 방이 없습니다.",
 };

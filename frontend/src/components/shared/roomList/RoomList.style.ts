@@ -10,7 +10,7 @@ export const EmptyContainer = styled.div`
   margin-top: 4rem;
 
   p {
-    font: ${({ theme }) => theme.TEXT.large};
+    font: ${({ theme }) => theme.TEXT.medium_bold};
   }
 `;
 
