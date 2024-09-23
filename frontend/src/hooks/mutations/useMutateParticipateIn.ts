@@ -1,7 +1,7 @@
 import useMutateHandlers from "./useMutateHandlers";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import QUERY_KEYS from "@/apis/queryKeys";
-import { postParticipateIn } from "@/apis/rooms.api";
+import { deleteParticipateIn, postParticipateIn } from "@/apis/rooms.api";
 
 const useMutateParticipateIn = () => {
   const queryClient = useQueryClient();
@@ -15,7 +15,15 @@ const useMutateParticipateIn = () => {
     onError: (error) => handleMutateError(error),
   });
 
-  return { postParticipateInMutation };
+  const deleteParticipateInMutation = useMutation({
+    mutationFn: (roomId: number) => deleteParticipateIn(roomId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.PARTICIPATED_ROOM_LIST] });
+    },
+    onError: (error) => handleMutateError(error),
+  });
+
+  return { postParticipateInMutation, deleteParticipateInMutation };
 };
 
 export default useMutateParticipateIn;

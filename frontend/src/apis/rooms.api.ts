@@ -51,3 +51,10 @@ export const postParticipateIn = async (roomId: number): Promise<void> => {
     errorMessage: MESSAGES.ERROR.POST_PARTICIPATE_IN,
   });
 };
+
+export const deleteParticipateIn = async (roomId: number): Promise<void> => {
+  const res = await apiClient.delete({
+    endpoint: API_ENDPOINTS.PARTICIPATE_IN(roomId),
+    errorMessage: MESSAGES.ERROR.DELETE_PARTIPATE_IN,
+  });
+};
