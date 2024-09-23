@@ -51,7 +51,6 @@ public class RoomService {
                 .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND, String.format("%d에 해당하는 멤버가 없습니다.", memberId)));
         Room room = roomRepository.save(request.toEntity(member));
 
-        long roomId = room.getId();
         participationRepository.save(new Participation(room, memberId));
         return RoomResponse.of(room, ParticipationStatus.PARTICIPATED);
     }
@@ -72,7 +71,7 @@ public class RoomService {
     }
 
     public RoomResponse findOne(long roomId, long memberId) {
-        Room room = findRoomInfo(roomId);
+        Room room = getRoom(roomId);
         if (room.isManagerId(memberId)) {
             return RoomResponse.of(room, MANAGER);
         }
@@ -125,7 +124,7 @@ public class RoomService {
     }
 
     public RoomResponse getRoomById(long roomId) {
-        return RoomResponse.from(getRoom(roomId));
+        return RoomResponse.of(getRoom(roomId));
     }
 
     private Room getRoom(long roomId) {

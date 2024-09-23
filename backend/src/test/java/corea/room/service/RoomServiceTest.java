@@ -2,10 +2,19 @@ package corea.room.service;
 
 import corea.auth.domain.AuthInfo;
 import corea.exception.CoreaException;
+import corea.exception.ExceptionType;
+import corea.fixture.MemberFixture;
+import corea.fixture.RoomFixture;
+import corea.member.domain.Member;
+import corea.member.repository.MemberRepository;
+import corea.room.domain.ParticipationStatus;
 import corea.room.domain.RoomClassification;
+import corea.room.domain.RoomStatus;
 import corea.room.dto.RoomCreateRequest;
 import corea.room.dto.RoomResponse;
 import corea.room.dto.RoomResponses;
+import corea.room.repository.RoomRepository;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -13,6 +22,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;

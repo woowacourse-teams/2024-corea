@@ -48,7 +48,9 @@ class RoomAcceptanceTest {
 
         assertSoftly(softly -> {
             softly.assertThat(response.manager()).isEqualTo("이상엽");
-            softly.assertThat(response.isParticipated()).isEqualTo(false);
+            softly.assertThat(response.participationStatus()).isEqualTo(
+                    ParticipationStatus.NOT_PARTICIPATED
+            );
         });
     }
 
@@ -66,7 +68,7 @@ class RoomAcceptanceTest {
 
         assertSoftly(softly -> {
             softly.assertThat(response.manager()).isEqualTo("이상엽");
-            softly.assertThat(response.isParticipated()).isEqualTo(true);
+            softly.assertThat(response.participationStatus()).isEqualTo(ParticipationStatus.PARTICIPATED);
         });
     }
 
