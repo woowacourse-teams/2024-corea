@@ -9,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 public interface RoomRepository extends JpaRepository<Room, Long> {
 
     @Query("""
@@ -30,4 +32,6 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     Page<Room> findAllByStatus(RoomStatus status, PageRequest pageRequest);
 
     Page<Room> findAllByClassificationAndStatus(RoomClassification classification, RoomStatus status, Pageable pageable);
+
+    List<Room> findAllByIdInOrderByReviewDeadlineAsc(List<Long> ids);
 }

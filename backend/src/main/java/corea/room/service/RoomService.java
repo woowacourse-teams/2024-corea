@@ -74,7 +74,7 @@ public class RoomService {
                 .map(Participation::getRoomsId)
                 .toList();
 
-        List<Room> rooms = roomRepository.findAllById(roomIds);
+        List<Room> rooms = roomRepository.findAllByIdInOrderByReviewDeadlineAsc(roomIds);
         return RoomResponses.of(rooms, true, true, 0);
     }
 
