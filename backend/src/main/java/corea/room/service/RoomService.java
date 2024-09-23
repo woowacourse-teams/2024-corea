@@ -36,13 +36,13 @@ public class RoomService {
     private final ParticipationRepository participationRepository;
 
     @Transactional
-    public RoomResponse create(long memberId, RoomCreateRequest request) {
+    public RoomResponse create(long managerId, RoomCreateRequest request) {
         validateDeadLine(request.recruitmentDeadline(), request.reviewDeadline());
 
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND, String.format("%d에 해당하는 멤버가 없습니다.", memberId)));
-        Room room = roomRepository.save(request.toEntity(member));
-        participationRepository.save(new Participation(room, memberId));
+        Member manager = memberRepository.findById(managerId)
+                .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND, String.format("%d에 해당하는 멤버가 없습니다.", managerId)));
+        Room room = roomRepository.save(request.toEntity(manager));
+        participationRepository.save(new Participation(room, managerId));
         return RoomResponse.of(room, true);
     }
 
@@ -85,10 +85,10 @@ public class RoomService {
 
         if (classification.isAll()) {
             Page<Room> roomsWithPage = roomRepository.findAllByMemberAndStatus(memberId, status, pageRequest);
-            return RoomResponses.from(roomsWithPage,false,pageNumber);
+            return RoomResponses.from(roomsWithPage, false, pageNumber);
         }
         Page<Room> roomsWithPage = roomRepository.findAllByMemberAndClassificationAndStatus(memberId, classification, status, pageRequest);
-        return RoomResponses.from(roomsWithPage,false,pageNumber);
+        return RoomResponses.from(roomsWithPage, false, pageNumber);
     }
 
     public RoomResponses findProgressRooms(long memberId, String expression, int pageNumber) {
