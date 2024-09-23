@@ -4,17 +4,19 @@ import media from "@/styles/media";
 export const EmptyContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 2rem;
   align-items: center;
 
   margin-top: 4rem;
 
-  font: ${({ theme }) => theme.TEXT.large};
+  p {
+    font: ${({ theme }) => theme.TEXT.large};
+  }
 `;
 
 export const Character = styled.img`
   width: 70%;
-  max-width: 300px;
+  max-width: 270px;
 `;
 
 export const RoomListSection = styled.div`
