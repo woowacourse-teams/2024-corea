@@ -4,6 +4,7 @@ import corea.member.domain.Member;
 import corea.room.domain.Room;
 import corea.room.domain.RoomClassification;
 import corea.room.domain.RoomStatus;
+import corea.room.dto.RoomCreateRequest;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,8 +23,7 @@ public class RoomFixture {
                 30,
                 member,
                 LocalDateTime.now(),
-                LocalDateTime.now()
-                        .plusDays(14),
+                LocalDateTime.now().plusDays(14),
                 RoomClassification.BACKEND,
                 RoomStatus.OPEN
         );
@@ -41,8 +41,7 @@ public class RoomFixture {
                 30,
                 member,
                 deadline,
-                LocalDateTime.now()
-                        .plusDays(14),
+                LocalDateTime.now().plusDays(14),
                 RoomClassification.BACKEND,
                 RoomStatus.OPEN
         );
@@ -60,10 +59,24 @@ public class RoomFixture {
                 30,
                 member,
                 LocalDateTime.now(),
-                LocalDateTime.now()
-                        .plusDays(14),
+                LocalDateTime.now().plusDays(14),
                 RoomClassification.BACKEND,
                 RoomStatus.CLOSE
+        );
+    }
+
+    public static RoomCreateRequest ROOM_CREATE_REQUEST() {
+        return new RoomCreateRequest(
+                "자바 레이싱 카 - MVC",
+                "MVC 패턴을 아시나요?",
+                "https://github.com/example/java-racingcar",
+                "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=13301655&filePath=L2Rpc2sxL25ld2RhdGEvMjAyMS8yMS9DTFMxMDAwNC8xMzMwMTY1NV9XUlRfMjFfQ0xTMTAwMDRfMjAyMTEyMTNfMQ==&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004",
+                3,
+                List.of("TDD, 클린코드,자바"),
+                10,
+                LocalDateTime.now().plusHours(2),
+                LocalDateTime.now().plusDays(2),
+                RoomClassification.ALL
         );
     }
 }
