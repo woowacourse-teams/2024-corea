@@ -35,10 +35,13 @@ public class MatchingService {
     public List<MatchResult> match(long roomId, PullRequestInfo pullRequestInfo) {
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new CoreaException(ExceptionType.ROOM_NOT_FOUND));
+        room.validateOpened();
 
         List<Participation> participations = getParticipationsWithPullrequestSubmitted(pullRequestInfo, roomId);
 
         log.info("매칭 시작 [방 번호 ({}), 매칭하는 인원 ({}), 총 인원({})]", roomId, room.getMatchingSize(), participations.size());
+
+        room.toProgress();
 
         return matchResultRepository.saveAll(matchingStrategy.matchPairs(participations, room.getMatchingSize())
                 .stream()

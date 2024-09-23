@@ -1,6 +1,7 @@
 package corea.matching.service;
 
 import config.ServiceTest;
+import corea.exception.CoreaException;
 import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
 import corea.matching.domain.MatchResult;
@@ -18,10 +19,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static corea.exception.ExceptionType.ROOM_STATUS_INVALID;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @ServiceTest
 class MatchingServiceTest {
@@ -64,13 +68,12 @@ class MatchingServiceTest {
         Member cho = memberRepository.save(MemberFixture.MEMBER_CHOCO());
         noPullRequestMember = cho;
 
-        participationRepository.save(new Participation(roomId, pororo.getId(), pororo.getGithubUserId()));
-        participationRepository.save(new Participation(roomId, ash.getId(), ash.getGithubUserId()));
-        participationRepository.save(new Participation(roomId, joysun.getId(), joysun.getGithubUserId()));
-        participationRepository.save(new Participation(roomId, movin.getId(), movin.getGithubUserId()));
-        participationRepository.save(new Participation(roomId, ten.getId(), ten.getGithubUserId()));
-        participationRepository.save(new Participation(roomId, cho.getId(), cho.getGithubUserId()));
-
+        participationRepository.save(new Participation(room, pororo.getId(), pororo.getGithubUserId()));
+        participationRepository.save(new Participation(room, ash.getId(), ash.getGithubUserId()));
+        participationRepository.save(new Participation(room, joysun.getId(), joysun.getGithubUserId()));
+        participationRepository.save(new Participation(room, movin.getId(), movin.getGithubUserId()));
+        participationRepository.save(new Participation(room, ten.getId(), ten.getGithubUserId()));
+        participationRepository.save(new Participation(room, cho.getId(), cho.getGithubUserId()));
 
         return new PullRequestInfo(
                 Map.of(
@@ -91,5 +94,18 @@ class MatchingServiceTest {
                                 LocalDateTime.of(2024, 10, 12, 18, 01)
                         )
                 ));
+    }
+
+    @Test
+    @DisplayName("열린 방이 아닌 경우 매칭을 수행하면 예외가 발생한다.")
+    void match_with_not_opened_room() {
+        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_CLOSED(memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON())));
+
+        assertThatThrownBy(() -> matchingService.match(room.getId(), new PullRequestInfo(new HashMap<>())))
+                .isInstanceOf(CoreaException.class)
+                .satisfies(exception -> {
+                    CoreaException coreaException = (CoreaException) exception;
+                    assertThat(coreaException.getExceptionType()).isEqualTo(ROOM_STATUS_INVALID);
+                });
     }
 }

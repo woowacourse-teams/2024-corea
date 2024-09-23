@@ -1,9 +1,7 @@
 package corea.participation.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import corea.room.domain.Room;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,20 +21,34 @@ public class Participation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private long roomId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "room_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    private Room room;
 
     private long memberId;
 
     private String memberGithubId;
 
-    public Participation(long roomId, long memberId, String memberGithubId) {
-        this(null, roomId, memberId, memberGithubId);
-        debug(roomId, memberId);
+    public Participation(Room room, long memberId, String memberGithubId) {
+        this(null, room, memberId, memberGithubId);
+        debug(room.getId(), memberId);
     }
 
-    public Participation(long roomId, long memberId) {
-        this(null, roomId, memberId, "");
-        debug(roomId, memberId);
+    public Participation(Room room, long memberId) {
+        this(null, room, memberId, "");
+        debug(room.getId(), memberId);
+    }
+
+    public long getRoomsId() {
+        return room.getId();
+    }
+
+    public void cancel(){
+        room.cancelParticipation();
+    }
+
+    public void participate(){
+        room.participate();
     }
 
     private static void debug(long roomId, long memberId) {

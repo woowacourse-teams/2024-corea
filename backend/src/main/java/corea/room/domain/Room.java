@@ -13,6 +13,8 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static corea.exception.ExceptionType.ROOM_PARTICIPANT_EXCEED;
+import static corea.exception.ExceptionType.ROOM_STATUS_INVALID;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -70,18 +72,40 @@ public class Room {
         this(null, title, content, matchingSize, repositoryLink, thumbnailLink, keyword, currentParticipantsSize, limitedParticipantsSize, manager, recruitmentDeadline, reviewDeadline, classification, status);
     }
 
-    public void participate() {
+    public void cancelParticipation() {
         if (status.isNotOpened()) {
-            throw new CoreaException(ExceptionType.ROOM_RECRUIT_FINISHED);
+            throw new CoreaException(ExceptionType.ROOM_STATUS_INVALID);
+        }
+        currentParticipantsSize = Math.max(0, currentParticipantsSize - 1);
+    }
+
+    public void participate() {
+        validateOpened();
+        if (currentParticipantsSize >= limitedParticipantsSize) {
+            throw new CoreaException(ROOM_PARTICIPANT_EXCEED);
         }
         currentParticipantsSize += 1;
-        if (currentParticipantsSize == limitedParticipantsSize) {
-            this.status = RoomStatus.CLOSED;
-        }
     }
 
     public boolean isClosed() {
         return status.isClosed();
+    }
+
+    public void toProgress() {
+        if (status.isNotOpened()) {
+            throw new CoreaException(ROOM_STATUS_INVALID);
+        }
+        status = RoomStatus.PROGRESS;
+    }
+
+    public void validateOpened() {
+        if (status.isNotOpened()) {
+            throw new CoreaException(ExceptionType.ROOM_STATUS_INVALID);
+        }
+    }
+
+    public String getRoomStatus() {
+        return status.getStatus();
     }
 
     public String getManagerName() {

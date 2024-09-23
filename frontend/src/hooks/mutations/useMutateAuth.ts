@@ -24,7 +24,6 @@ const useMutateAuth = () => {
       localStorage.clear();
       handleMutateError(error);
     },
-    networkMode: "always",
   });
 
   const postLogoutMutation = useMutation({
@@ -34,7 +33,6 @@ const useMutateAuth = () => {
       navigate("/");
     },
     onError: (error) => handleMutateError(error),
-    networkMode: "always",
   });
 
   return { postLoginMutation, postLogoutMutation };
