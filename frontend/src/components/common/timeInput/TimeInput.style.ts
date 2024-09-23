@@ -10,7 +10,7 @@ export const TimeInputToggle = styled.input<{ $error: boolean }>`
   cursor: pointer;
 
   width: 100%;
-  padding: 0.6rem 1.2rem;
+  padding: 0.6rem 1.1rem;
 
   font: ${({ theme }) => theme.TEXT.semiSmall};
   text-align: center;
