@@ -57,19 +57,20 @@ export const Th = styled.th`
   font: ${({ theme }) => theme.TEXT.medium};
 `;
 
-export const Td = styled.td<{ $isSelected: boolean }>`
-  cursor: pointer;
+export const Td = styled.td<{ $isSelected: boolean; $isAvailableClick: boolean }>`
+  cursor: ${({ $isAvailableClick }) => $isAvailableClick && "pointer"};
 
   padding: 1rem;
 
   font: ${({ theme }) => theme.TEXT.medium_bold};
+  color: ${({ $isAvailableClick, theme }) => !$isAvailableClick && theme.COLOR.grey1};
   text-align: center;
 
   background-color: ${({ $isSelected, theme }) => $isSelected && theme.COLOR.white};
   border-radius: ${({ $isSelected }) => $isSelected && "10px"};
 
   &:hover {
-    background-color: ${({ theme }) => theme.COLOR.white};
-    border-radius: 10px;
+    background-color: ${({ theme, $isAvailableClick }) => $isAvailableClick && theme.COLOR.white};
+    border-radius: ${({ $isAvailableClick }) => $isAvailableClick && "10px"};
   }
 `;

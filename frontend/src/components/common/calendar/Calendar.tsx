@@ -7,9 +7,12 @@ import DAYS from "@/constants/days";
 interface CalendarProps {
   selectedDate: CalendarDate;
   handleSelectedDate: (newSelectedDate: CalendarDate) => void;
+  options?: {
+    isPastDateDisabled: boolean;
+  };
 }
 
-const Calendar = ({ selectedDate, handleSelectedDate }: CalendarProps) => {
+const Calendar = ({ selectedDate, handleSelectedDate, options }: CalendarProps) => {
   const { currentDate, weekCalendarList, goToNextMonth, goToPreviousMonth } = useCalendar();
 
   const selectedYear = currentDate.getFullYear();
@@ -33,8 +36,19 @@ const Calendar = ({ selectedDate, handleSelectedDate }: CalendarProps) => {
       month: selectedMonth,
       date: date,
     };
+    if (!checkIsAvailableClick(date)) return;
 
     handleSelectedDate(newSelectedDate);
+  };
+
+  const checkIsAvailableClick = (selectedDate: number) => {
+    if (!options?.isPastDateDisabled) return true;
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const checkDate = new Date(selectedYear, selectedMonth - 1, selectedDate);
+
+    return today <= checkDate;
   };
 
   return (
@@ -68,6 +82,7 @@ const Calendar = ({ selectedDate, handleSelectedDate }: CalendarProps) => {
                     key={dateIdx}
                     onClick={() => handleClickCalendar(date)}
                     $isSelected={checkIsSelected(date)}
+                    $isAvailableClick={checkIsAvailableClick(date)}
                   >
                     {date}
                   </S.Td>

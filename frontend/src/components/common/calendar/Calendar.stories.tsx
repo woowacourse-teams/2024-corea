@@ -46,3 +46,32 @@ export const Default: Story = {
     return <Calendar selectedDate={selectedDate} handleSelectedDate={handleSelectedDate} />;
   },
 };
+
+export const 이전날짜_선택_불가_캘린더: Story = {
+  args: {
+    selectedDate: {
+      year: 9,
+      month: 24,
+      date: 15,
+    },
+    handleSelectedDate: () => {},
+    options: {
+      isPastDateDisabled: true,
+    },
+  },
+  render: (args) => {
+    const [selectedDate, setSelectedDate] = useState<CalendarDate>(args.selectedDate);
+
+    const handleSelectedDate = (newSelectedDate: CalendarDate) => {
+      setSelectedDate(newSelectedDate);
+    };
+
+    return (
+      <Calendar
+        selectedDate={selectedDate}
+        handleSelectedDate={handleSelectedDate}
+        options={args.options}
+      />
+    );
+  },
+};
