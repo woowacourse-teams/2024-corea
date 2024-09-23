@@ -23,7 +23,7 @@ jobs:
           branch_name="${GITHUB_REF#refs/heads/}"
           echo "BRANCH_NAME=$branch_name" >> $GITHUB_ENV
 
-          if [[ "$branch_name" =~ ^(feat|fix|refactor)/#([0-9]+)$ ]]; then
+          if [[ "$branch_name" =~ ^(feat|fix|refactor|design|config)/#([0-9]+)$ ]]; then
             branch_prefix="${BASH_REMATCH[1]}"
             issue_number="${BASH_REMATCH[2]}"
             echo "BRANCH_PREFIX=$branch_prefix" >> $GITHUB_ENV

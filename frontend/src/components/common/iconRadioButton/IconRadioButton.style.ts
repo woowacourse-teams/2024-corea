@@ -35,9 +35,9 @@ export const IconRadioButtonBox = styled.div<IconRadioButtonBoxProps>`
       ? `4px solid ${$color ? $color : theme.COLOR.primary2}`
       : `1px solid ${theme.COLOR.grey1}`};
   border-radius: 50%;
-  box-shadow: 0 4px 4px rgb(0 0 0 / 10%);
+  box-shadow: ${({ theme }) => theme.BOX_SHADOW.regular};
 `;
 
 export const IconRadioButtonText = styled.span`
-  font: ${({ theme }) => theme.TEXT.semiSmall};
+  font: ${({ theme }) => theme.TEXT.small};
 `;

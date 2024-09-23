@@ -23,8 +23,8 @@ export const ModalContent = styled.div`
     position: fixed;
     left: 0;
     bottom: 0;
-    width: 100vw;
     height: 70vh;
+    width:100%;
     border-radius: 8px 8px 0px 0px;
   `}
 
@@ -54,7 +54,7 @@ export const CloseButton = styled.button`
   top: 1rem;
   right: 1rem;
 
-  font-size: 1.6rem;
+  font: ${({ theme }) => theme.TEXT.large_bold};
   color: ${({ theme }) => theme.COLOR.grey2};
 
   background: transparent;

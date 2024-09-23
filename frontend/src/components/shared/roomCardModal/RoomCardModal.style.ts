@@ -4,8 +4,12 @@ import media from "@/styles/media";
 export const RoomCardModalContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 2rem 2%;
+  gap: 2rem;
   justify-content: space-between;
+
+  :last-child {
+    gap: 0;
+  }
 `;
 
 // 썸네일
@@ -14,17 +18,17 @@ export const RoomInfoThumbnail = styled.img`
 
   ${media.small`
     width: 100%;
-    height: 100px;
-  `}
-
-  ${media.medium`
-    width: 49%;
     height: 120px;
   `}
 
+  ${media.medium`
+    width: calc(50% - 2rem);
+    height: 140px;
+  `}
+
   ${media.large`
-    width: 49%;
-    height: 130px;
+    width: calc(50% - 2rem);
+    height: 160px;
   `}
 `;
 
@@ -35,19 +39,16 @@ export const MainContainer = styled.div`
 
   ${media.small`
     width: 100%;
-    height: 50px;
     gap: 1rem;
   `}
 
   ${media.medium`
-    width: 49%;
-    height: 120px;
+    width: calc(50% - 2rem);
     gap: 2rem;
   `} 
   
   ${media.large`
-    width: 49%;
-    height: 130px;
+    width: calc(50% - 2rem);
     gap: 2rem;
   `};
 `;
@@ -61,12 +62,16 @@ export const ManagerContainer = styled.div`
 
 export const ProfileContainer = styled.div`
   display: flex;
-  gap: 2px;
+  gap: 0.4rem;
   align-items: center;
 
   img {
     width: 20px;
     height: 20px;
+  }
+
+  span {
+    font: ${({ theme }) => theme.TEXT.small};
   }
 `;
 
@@ -74,27 +79,22 @@ export const ProfileContainer = styled.div`
 export const TitleContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  ${media.small`
-    flex-direction: row;
-  `};
-  justify-content: space-between;
 `;
 
 export const RoomTitle = styled.h2`
   overflow: hidden;
-  font: ${({ theme }) => theme.TEXT.medium};
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  margin-bottom: 1rem;
+  font: ${({ theme }) => theme.TEXT.large_bold};
 `;
 
 export const RepositoryLink = styled.a`
   cursor: pointer;
 
   display: flex;
+  gap: 0.4rem;
   align-items: center;
 
-  font: ${({ theme }) => theme.TEXT.semiSmall};
+  font: ${({ theme }) => theme.TEXT.small_bold};
   color: ${({ theme }) => theme.COLOR.primary2};
   text-decoration: underline;
   text-underline-offset: 0.3rem;
@@ -118,7 +118,6 @@ export const EtcContainer = styled.div`
   background-color: ${({ theme }) => theme.COLOR.white};
   border: 1px solid ${({ theme }) => theme.COLOR.grey1};
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
 `;
 
 export const InfoRow = styled.div`
@@ -127,9 +126,9 @@ export const InfoRow = styled.div`
 `;
 
 export const InfoTitle = styled.span`
-  width: 100px;
+  width: 200px;
   font: ${({ theme }) => theme.TEXT.small};
-  color: ${({ theme }) => theme.COLOR.grey2};
+  color: ${({ theme }) => theme.COLOR.grey3};
 `;
 
 export const InfoContent = styled.span`

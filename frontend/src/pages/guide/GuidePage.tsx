@@ -15,10 +15,10 @@ import {
 
 const guidePageOptions = [
   {
-    title: "BACKEND 코드 가이드",
+    title: "BACKEND",
     link: "https://code-review-area.notion.site/v-1-0-b2ea7761e0e949e396c3bdd45860d270?pvs=4",
   },
-  { title: "FRONTEND 코드 가이드", link: "http://code-review-area.notion.site" },
+  { title: "FRONTEND", link: "http://code-review-area.notion.site" },
 ];
 
 export const CodeBlock = ({ children }: { children: string }) => (
@@ -33,9 +33,9 @@ const GuidePage = () => {
       <ContentSection title="분야별 코드 작성 가이드 바로가기">
         <S.GuideContainer>
           {guidePageOptions.map((option) => (
-            <Link to={option.link}>
+            <Link to={option.link} target="_blank">
               <S.CardContainer>
-                <Icon kind="link" />
+                <Icon kind="link" size="2rem" />
                 <span>{option.title}</span>
               </S.CardContainer>
             </Link>
@@ -60,12 +60,19 @@ const GuidePage = () => {
 
         <S.StyledContainer>
           <h1>🛠️ 알아두면 편한 GitHub 기능들</h1>
+
           <h2>1. 코드 리뷰는 어떻게 시작하나요?</h2>
           <img src={github_pr} alt="GitHub PR 화면" />
-          <p>열려 있는 Pull Request(PR)를 통해 코드 리뷰를 시작할 수 있어요.</p>
+          <p>
+            열려 있는 <span>Pull Request(PR)</span>를 통해 코드 리뷰를 시작할 수 있어요.
+          </p>
           <ul>
-            <li>Commits 탭 : 커밋 기록 확인</li>
-            <li>Files changed 탭 : 코드 변화 확인</li>
+            <li>
+              <S.StyledCodeLine>Commits</S.StyledCodeLine> 탭 : 커밋 기록 확인
+            </li>
+            <li>
+              <S.StyledCodeLine>Files changed</S.StyledCodeLine> 탭 : 코드 변화 확인
+            </li>
           </ul>
 
           <h2>2. 리뷰 코멘트는 어떻게 다나요?</h2>
@@ -85,13 +92,11 @@ const GuidePage = () => {
           <h2>3. Suggestion 코멘트를 달고 싶어요!</h2>
           <img src={github_suggestion} alt="GitHub Suggestion 기능" />
           <p>
-            코드 변경 제안을 할 때, 리뷰어가 제안하는 코드를 suggestion 기능을 활용해 직접 보여줄 수
-            있어요.
+            코드 변경 제안을 할 때, 리뷰어가 제안하는 코드를 <span>suggestion</span> 기능을 활용해
+            직접 보여줄 수 있어요.
           </p>
           <ul>
-            <li>
-              <code>Files changed</code> 탭에서만 노출되는 버튼이에요.
-            </li>
+            <li>Files changed 탭에서만 노출되는 버튼이에요.</li>
           </ul>
           <img src={github_suggestion_ex} alt="Suggestion 예시" />
 
@@ -99,17 +104,22 @@ const GuidePage = () => {
           <img src={github_comment_pending} alt="Pending 상태의 코멘트" />
           <ul>
             <li>
-              코멘트만 남긴 상태에서는 코멘트 옆에서 노란색 <code>Pending</code> 마크가 떠있어요.
+              코멘트만 남긴 상태에서는 코멘트 옆에서 노란색
+              <S.StyledCodeLine>Pending</S.StyledCodeLine> 마크가 떠있어요.
             </li>
             <li className="second">이 상태에서는 리뷰이가 리뷰 내용을 확인할 수 없어요.</li>
             <li>
-              리뷰를 완료한 후 리뷰를 전달하기 위해서는 우측 상단에서 Review changes 버튼을 클릭해야
-              해요.
+              리뷰를 완료한 후 리뷰를 전달하기 위해서는 우측 상단에서
+              <S.StyledCodeLine>Review changes</S.StyledCodeLine> 버튼을 클릭해야 해요.
             </li>
             <li className="second">
-              리뷰 종류(`Request Changes`, `Approve`, `Comment`)를 선택하고
+              리뷰 종류(<S.StyledCodeLine>Request Changes</S.StyledCodeLine>,
+              <S.StyledCodeLine>Approve</S.StyledCodeLine>,
+              <S.StyledCodeLine>Comment</S.StyledCodeLine>)를 선택하고
             </li>
-            <li className="second">Submit review` 버튼을 누르면 모든 리뷰가 완료돼요.</li>
+            <li className="second">
+              <S.StyledCodeLine>Submit review</S.StyledCodeLine> 버튼을 누르면 모든 리뷰가 완료돼요.
+            </li>
           </ul>
         </S.StyledContainer>
 
@@ -118,11 +128,11 @@ const GuidePage = () => {
           <p>코드 리뷰는 리뷰이의 코드가 클린 코드에 더 가까워질 수 있도록 도와주는 역할이에요.</p>
           <ul>
             <li>
-              코드 작성 가이드와
-              <S.LinkWrapper>
-                <a href="https://meetup.nhncloud.com/posts/106"> 커밋 가이드라인</a>
-                <p>을 준수하여 코드의 일관성을 유지하는 것을 목표로 해요.</p>
-              </S.LinkWrapper>
+              코드 작성 가이드와&nbsp;
+              <a href="https://meetup.nhncloud.com/posts/106" target="_blank">
+                커밋 가이드라인
+              </a>
+              을 준수하여 코드의 일관성을 유지하는 것을 목표로 해요.
             </li>
             <li>
               코딩 컨벤션을 철저히 지켜 가독성을 높이고, 다른 개발자들이 코드를 이해하기 쉽게 하는
@@ -155,8 +165,10 @@ const GuidePage = () => {
             </li>
           </ul>
           <S.IconWrapper>
-            <Icon kind="link" />
-            <a href="https://github.com/woowacourse/java-chess/pull/699">참고 가능한 PR 링크</a>
+            <Icon kind="link" size="2rem" />
+            <a href="https://github.com/woowacourse/java-chess/pull/699" target="_blank">
+              참고 가능한 PR 링크
+            </a>
           </S.IconWrapper>
         </S.StyledContainer>
 
@@ -164,8 +176,11 @@ const GuidePage = () => {
           <h1>🤔 고려하면 좋은 요소들 - 리뷰어</h1>
           <h2>1. 코드 리뷰 시 주로 확인하면 좋은 것들</h2>
           <S.IconWrapper>
-            <Icon kind="link" />
-            <a href="https://google.github.io/eng-practices/review/reviewer/looking-for.html">
+            <Icon kind="link" size="2rem" />
+            <a
+              href="https://google.github.io/eng-practices/review/reviewer/looking-for.html"
+              target="_blank"
+            >
               구글 코드 리뷰 가이드
             </a>
           </S.IconWrapper>
@@ -189,8 +204,8 @@ const GuidePage = () => {
 
           <h2>2. 예시를 들어 설명하기</h2>
           <p>
-            피드백을 줄 때는 가능하면 구체적인 예시를 들어 설명해주세요. <br />
-            suggestion 기능을 활용하면 좋아요!
+            피드백을 줄 때는 가능하면 구체적인 예시를 들어 설명해주세요. <span>suggestion</span>
+            기능을 활용하면 좋아요!
           </p>
 
           <p>코드 예시</p>
@@ -263,14 +278,17 @@ private double getDiscountRate(boolean isMember, boolean isHoliday) {
         <S.StyledContainer>
           <h1>💡 추가로 참고하면 좋은 자료</h1>
           <S.IconWrapper>
-            <Icon kind="link" />
-            <a href="https://tech.kakao.com/posts/498">
+            <Icon kind="link" size="2rem" />
+            <a href="https://tech.kakao.com/posts/498" target="_blank">
               효과적인 코드리뷰를 위한 리뷰어의 자세(카카오)
             </a>
           </S.IconWrapper>
           <S.IconWrapper>
-            <Icon kind="link" />
-            <a href="https://github.com/meshkorea/front-end-engineering/blob/main/conventions/code-review/index.md">
+            <Icon kind="link" size="2rem" />
+            <a
+              href="https://github.com/meshkorea/front-end-engineering/blob/main/conventions/code-review/index.md"
+              target="_blank"
+            >
               메쉬코리아 팀의 코드 리뷰 규칙
             </a>
           </S.IconWrapper>

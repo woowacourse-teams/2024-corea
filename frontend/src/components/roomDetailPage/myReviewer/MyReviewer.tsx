@@ -22,7 +22,12 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
   const { data: reviewerData } = useFetchReviewer(roomInfo);
 
   if (reviewerData.length === 0) {
-    return <S.ErrorWrapper>{MESSAGES.GUIDANCE.EMPTY_REVIEWER}</S.ErrorWrapper>;
+    return (
+      <S.ErrorWrapper>
+        <p>{MESSAGES.GUIDANCE.EMPTY_REVIEWER}</p>
+        <p>{MESSAGES.GUIDANCE.SUB_DESCRIPTION}</p>
+      </S.ErrorWrapper>
+    );
   }
 
   const handleOpenFeedbackModal = (reviewer: ReviewerInfo) => {
@@ -58,7 +63,7 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
         <S.MyReviewerWrapper>
           <S.MyReviewerTitle>아이디</S.MyReviewerTitle>
           <S.MyReviewerTitle>PR 링크</S.MyReviewerTitle>
-          <S.MyReviewerTitle>제출 여부</S.MyReviewerTitle>
+          <S.MyReviewerTitle>피드백 여부</S.MyReviewerTitle>
         </S.MyReviewerWrapper>
 
         {reviewerData.map((reviewer) => {
@@ -74,21 +79,25 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
               <S.MyReviewerContent>
                 <S.PRLink href={reviewer.link}>
                   <S.IconWrapper>
-                    <Icon kind="link" />
+                    <Icon kind="link" size="1.6rem" />
                   </S.IconWrapper>
                   바로가기
                 </S.PRLink>
               </S.MyReviewerContent>
 
               <S.MyReviewerContent>
-                <Button
-                  size="xSmall"
-                  onClick={() => handleOpenFeedbackModal(reviewer)}
-                  variant={reviewer.isReviewed ? "secondary" : "disable"}
-                  disabled={!reviewer.isReviewed}
-                >
-                  {buttonText}
-                </Button>
+                {reviewer.isReviewed ? (
+                  <Button
+                    size="xSmall"
+                    onClick={() => handleOpenFeedbackModal(reviewer)}
+                    variant={reviewer.isReviewed ? "secondary" : "disable"}
+                    disabled={!reviewer.isReviewed}
+                  >
+                    {buttonText}
+                  </Button>
+                ) : (
+                  <p>리뷰어가 리뷰 중이에요!</p>
+                )}
               </S.MyReviewerContent>
             </S.MyReviewerWrapper>
           );

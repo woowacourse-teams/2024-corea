@@ -15,7 +15,7 @@ export const RoomCardContainer = styled.div`
 
   border: 1px solid ${({ theme }) => theme.COLOR.grey1};
   border-radius: 15px;
-  box-shadow: 0 4px 4px rgb(0 0 0 / 10%);
+  box-shadow: ${({ theme }) => theme.BOX_SHADOW.regular};
 
   transition: transform 0.3s ease;
 
@@ -26,7 +26,7 @@ export const RoomCardContainer = styled.div`
   &:active {
     position: relative;
     top: 3px;
-    box-shadow: 0 1px 1px rgb(0 0 0 / 10%);
+    box-shadow: ${({ theme }) => theme.BOX_SHADOW.light};
   }
 `;
 
@@ -34,63 +34,59 @@ export const RoomInfoThumbnail = styled.img`
   display: flex;
   align-items: center;
 
-  width: 90%;
-  height: 90%;
+  width: 100%;
+  height: 100%;
   margin: 0 auto;
-  padding-top: 0.5rem;
+
+  object-fit: scale-down;
 
   ${media.small`
-    height: 100px;
+    height: 120px;
   `}
 
   ${media.medium`
-    height: 120px;
+    height: 140px;
   `} 
   
   ${media.large`
-    height: 130px;
+    height: 160px;
   `};
-
-  object-fit: scale-down;
 `;
 
 export const RoomInformation = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
-  padding: 0.5rem;
-
-  ${media.small`
-    gap: 0.1rem;
-    letter-spacing: -1.3px;
-  `}
+  gap: 1rem;
+  padding: 1rem;
 `;
 
 export const RoomTitle = styled.h2`
   overflow: hidden;
 
-  padding-top: 1rem;
+  padding: 1rem 0;
 
-  font: ${({ theme }) => theme.TEXT.medium};
+  font: ${({ theme }) => theme.TEXT.medium_bold};
   text-overflow: ellipsis;
   white-space: nowrap;
+
+  border-bottom: 1px solid ${({ theme }) => theme.COLOR.grey1};
 `;
 
 export const KeywordsContainer = styled.div`
   display: flex;
   gap: 2px;
-  margin-bottom: 0.6rem;
 `;
 
 export const KeywordWrapper = styled.div`
   display: flex;
   flex-direction: row;
   gap: 0.5rem;
+  align-items: center;
 `;
 
 export const KeywordText = styled.span`
   font: ${({ theme }) => theme.TEXT.small};
-  color: ${({ theme }) => theme.COLOR.grey2};
+  color: ${({ theme }) => theme.COLOR.grey3};
 `;
 
 export const EtcContainer = styled.div`
@@ -105,15 +101,22 @@ export const JoinMember = styled.span`
   align-items: center;
 
   font: ${({ theme }) => theme.TEXT.small};
+  color: ${({ theme }) => theme.COLOR.grey4};
 `;
 
 export const DeadLineText = styled.span`
   display: flex;
-  gap: 0.5rem;
-  margin: 0 0 0.5rem;
-  font: ${({ theme }) => theme.TEXT.small};
+  gap: 0.6rem;
+  align-items: center;
+
+  padding-bottom: 0.4rem;
+
+  font: ${({ theme }) => theme.TEXT.small_bold};
 `;
 
 export const StyledDday = styled.span`
+  display: flex;
+  align-items: center;
+  font: ${({ theme }) => theme.TEXT.small_bold};
   color: ${({ theme }) => theme.COLOR.error};
 `;

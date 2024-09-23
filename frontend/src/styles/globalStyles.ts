@@ -3,8 +3,6 @@ import { createGlobalStyle } from "styled-components";
 const globalStyles = createGlobalStyle`
   scrollbar-width: none;
 
-
-
   *,
   *::before,
   *::after {
@@ -93,12 +91,14 @@ const globalStyles = createGlobalStyle`
   time,
   mark,
   audio,
-  video {
+  video,
+  input {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
 
     font: inherit;
-    font-size: 100%;
+    font-size: 62.5%;
     vertical-align: baseline;
 
     border: 0;
@@ -122,8 +122,8 @@ const globalStyles = createGlobalStyle`
   body {
     overflow-x: hidden !important;
 
-    font-family: 'Do Hyeon', system-ui;
-    font-size: 62.5%;
+    font-family: "Noto Sans KR", sans-serif;
+    font-size: 100%;
     font-weight: 400;
     font-style: normal;
     line-height: 1;
@@ -176,25 +176,6 @@ const globalStyles = createGlobalStyle`
     list-style: none;
   }
 
-  /* h1 {
-    font-size: 2.5em;
-  }
-
-  h2 {
-    font-size: 2.2em;
-  }
-
-  h3 {
-    font-size: 2em;
-  }
-
-  h4 {
-    font-size: 1.6em;
-  }
-
-  h5 {
-    font-size: 1.3em;
-  } */
 
   ::-webkit-scrollbar {
     width: 7px;

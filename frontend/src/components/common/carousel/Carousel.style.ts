@@ -16,7 +16,6 @@ export const CarouselWrapper = styled.div<{ $currentIndex: number }>`
 export const CarouselItem = styled.div`
   display: flex;
   justify-content: center;
-  box-sizing: border-box;
   min-width: 100%;
 `;
 

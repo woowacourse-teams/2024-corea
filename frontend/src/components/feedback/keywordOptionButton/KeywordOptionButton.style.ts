@@ -8,7 +8,7 @@ interface OptionButtonBoxProps {
 export const OptionContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 0.8rem;
+  gap: 1.2rem;
 `;
 
 export const ButtonWrapper = styled.button<OptionButtonBoxProps>`
@@ -20,7 +20,7 @@ export const ButtonWrapper = styled.button<OptionButtonBoxProps>`
 
   padding: 0.5rem 0.9rem;
 
-  font: ${({ theme }) => theme.TEXT.semiSmall};
+  font: ${({ theme }) => theme.TEXT.small};
 
   background-color: ${({ theme }) => theme.COLOR.white};
   border-radius: 18px;

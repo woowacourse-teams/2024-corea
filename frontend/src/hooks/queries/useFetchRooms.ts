@@ -1,5 +1,4 @@
 import { useSuspenseInfiniteQuery, useSuspenseQuery } from "@tanstack/react-query";
-import { useSearchParams } from "react-router-dom";
 import { RoomListInfo } from "@/@types/roomInfo";
 import QUERY_KEYS from "@/apis/queryKeys";
 import { getParticipatedRoomList } from "@/apis/rooms.api";
@@ -8,8 +7,7 @@ export const useFetchParticipatedRoomList = () => {
   return useSuspenseQuery({
     queryKey: [QUERY_KEYS.PARTICIPATED_ROOM_LIST],
     queryFn: getParticipatedRoomList,
-    networkMode: "always",
-    retry: false,
+    staleTime: Infinity,
   });
 };
 
@@ -24,8 +22,6 @@ export const useInfiniteFetchRoomList = ({
   getRoomList,
   classification,
 }: RoomListQueryProps) => {
-  const [searchParams] = useSearchParams();
-
   return useSuspenseInfiniteQuery({
     queryKey,
     queryFn: ({ pageParam = 0 }) => {
@@ -33,10 +29,8 @@ export const useInfiniteFetchRoomList = ({
     },
     getNextPageParam: (lastPage) => {
       if (lastPage.isLastPage) return undefined;
-      return Number(searchParams.get("page")) + 1;
+      return lastPage.pageNumber;
     },
     initialPageParam: 0,
-    networkMode: "always",
-    retry: false,
   });
 };

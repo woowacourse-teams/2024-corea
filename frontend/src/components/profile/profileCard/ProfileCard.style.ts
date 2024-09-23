@@ -8,12 +8,13 @@ export const ProfileCardContainer = styled.div`
 
 export const ProfileTitle = styled.div`
   padding: 1rem 0 0 1rem;
-  font: ${({ theme }) => theme.TEXT.medium};
+  font: ${({ theme }) => theme.TEXT.medium_bold};
 `;
 
 export const ProfileCardWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   justify-content: space-between;
 `;
 
@@ -27,7 +28,8 @@ export const ProfileWrapper = styled.div`
 `;
 
 export const ProfileNickname = styled.div`
-  font: ${({ theme }) => theme.TEXT.semiSmall};
+  font: ${({ theme }) => theme.TEXT.medium_bold};
+  color: ${({ theme }) => theme.COLOR.grey3};
   text-align: center;
 `;
 
@@ -35,17 +37,34 @@ export const ProfileInfoWrapper = styled.div`
   margin: 0 auto;
 `;
 
-export const InfoTitle = styled.td`
+export const ProfileSummaryContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  width: 180px;
+  margin: 0;
+  padding: 0;
+
   font: ${({ theme }) => theme.TEXT.medium};
-`;
 
-export const InfoCount = styled.span`
-  font: ${({ theme }) => theme.TEXT.small};
-`;
+  dl {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
 
-export const ProfileInfoTable = styled.table`
-  border-spacing: 1.4rem;
-  border-collapse: separate;
+  dt {
+    font: ${({ theme }) => theme.TEXT.small};
+    color: ${({ theme }) => theme.COLOR.grey4};
+  }
+
+  dd {
+    display: flex;
+    gap: 0.1rem;
+    align-items: center;
+    font: ${({ theme }) => theme.TEXT.small_bold};
+  }
 `;
 
 export const ProfileFlex = styled.div`
@@ -71,9 +90,9 @@ export const KeywordWrapper = styled.div`
 
 export const Keyword = styled.div`
   margin-top: 0.5rem;
-  padding: 0.5rem;
+  padding: 1rem;
 
-  font: ${({ theme }) => theme.TEXT.small};
+  font: ${({ theme }) => theme.TEXT.semiSmall};
   color: ${({ theme }) => theme.COLOR.black};
 
   background: ${({ theme }) => theme.COLOR.grey0};
@@ -86,10 +105,10 @@ export const AttitudeScoreWrapper = styled.div`
 
 export const AttitudeScoreText = styled.div`
   padding: 1rem 0 1rem 1rem;
-  font: ${({ theme }) => theme.TEXT.medium};
+  font: ${({ theme }) => theme.TEXT.medium_bold};
 
   span {
     padding-left: 1rem;
-    font: ${({ theme }) => theme.TEXT.semiSmall};
+    font: ${({ theme }) => theme.TEXT.small};
   }
 `;

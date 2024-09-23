@@ -11,9 +11,10 @@ const RoomCardModalButton = ({ roomInfo }: RoomCardModalButtonProps) => {
   const navigate = useNavigate();
   const { postParticipateInMutation } = useMutateParticipateIn();
 
-  const handleParticipateClick = () => {
-    postParticipateInMutation.mutate(roomInfo.id);
-    navigate(`/rooms/${roomInfo.id}`);
+  const handleParticipateRoomClick = () => {
+    postParticipateInMutation.mutate(roomInfo.id, {
+      onSuccess: () => navigate(`/rooms/${roomInfo.id}`),
+    });
   };
 
   if (roomInfo.isParticipated) {
@@ -30,7 +31,7 @@ const RoomCardModalButton = ({ roomInfo }: RoomCardModalButtonProps) => {
     );
   }
   return (
-    <Button variant="primary" size="small" onClick={handleParticipateClick}>
+    <Button variant="primary" size="small" onClick={handleParticipateRoomClick}>
       참여하기
     </Button>
   );

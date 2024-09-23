@@ -44,7 +44,7 @@ export const FeedbackMissionWrapper = styled.button<{ $isSelected: boolean }>`
   align-items: center;
   justify-content: space-between;
 
-  padding: 1rem;
+  padding: 1.6rem;
 
   background: ${({ theme, $isSelected }) =>
     $isSelected ? theme.COLOR.primary1 : theme.COLOR.grey0};
@@ -71,13 +71,14 @@ export const FeedbackInfoWrapper = styled.div<{ $isVisible: boolean }>`
 
 export const FeedbackMissionTitle = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-flow: row wrap;
   align-items: center;
 `;
 
 export const FeedbackMissionPrompt = styled.span<{ $isSelected: boolean }>`
   display: ${({ $isSelected }) => ($isSelected ? "none" : "inline")};
-  color: ${({ theme }) => theme.COLOR.grey2};
+  font: ${({ theme }) => theme.TEXT.xSmall};
+  color: ${({ theme }) => theme.COLOR.grey3};
   animation: ${fadeInOut} 2s infinite;
 `;
 
@@ -85,7 +86,7 @@ export const FeedbackMissionInfo = styled.div`
   display: flex;
   align-items: center;
   margin-right: 1rem;
-  font: ${({ theme }) => theme.TEXT.large};
+  font: ${({ theme }) => theme.TEXT.medium_bold};
 `;
 
 export const FeedbackKeywordContainer = styled.div`
@@ -93,17 +94,4 @@ export const FeedbackKeywordContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 1rem;
-`;
-
-export const FeedbackKeywordWrapper = styled.div`
-  display: flex;
-  align-items: center;
-
-  padding: 0.7rem;
-
-  font: ${({ theme }) => theme.TEXT.semiSmall};
-  color: ${({ theme }) => theme.COLOR.grey3};
-
-  background: ${({ theme }) => theme.COLOR.grey0};
-  border-radius: 10px;
 `;

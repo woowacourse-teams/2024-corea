@@ -11,24 +11,38 @@ const COLOR = {
   primary3: "#607999",
   secondary: "#ffaaaf",
   lightGrass: "#D7E4D8",
-  grass: "#00B707",
-  lightBlue: "#a2c4c9",
+  grass: "#33B939",
   error: "#FF5F5F",
 };
 
 const TEXT = {
-  xLarge: "800 1.8rem/1.8rem Do Hyeon",
-  large: "700 1.4rem/1.4rem Do Hyeon",
-  medium: "500 1.2rem/1.2rem Do Hyeon",
-  small: "400 1.0rem/1.0rem Do Hyeon",
-  semiSmall: "400 0.8rem/0.8rem Do Hyeon",
-  xSmall: "400 0.6rem/0.6rem Do Hyeon",
+  //22px
+  xLarge: "2.2rem/2.2rem Noto Sans KR",
+  xLarge_bold: "700 2.2rem/2.2rem Noto Sans KR",
+  //20px
+  large: "2.0rem/2.0rem Noto Sans KR",
+  large_bold: "600 2.0rem/2.0rem Noto Sans KR",
+  //18px
+  medium: "1.8rem/1.8rem Noto Sans KR",
+  medium_bold: "600 1.8rem/1.8rem Noto Sans KR",
+  //16px
+  small: "1.6rem/1.6rem Noto Sans KR",
+  small_bold: "600 1.6rem/1.6rem Noto Sans KR",
+  //14px
+  semiSmall: "1.4rem/1.4rem Noto Sans KR",
+  //12px
+  xSmall: "1.2rem/1.2rem Noto Sans KR",
 };
 
-export default TEXT;
+const BOX_SHADOW = {
+  light: "0 1px 1px rgb(0 0 0 / 10%)",
+  regular: "0 4px 4px rgb(0 0 0 / 10%)",
+};
+
 export const theme = {
   COLOR,
   TEXT,
+  BOX_SHADOW,
 };
 
 export type ThemeType = typeof theme;

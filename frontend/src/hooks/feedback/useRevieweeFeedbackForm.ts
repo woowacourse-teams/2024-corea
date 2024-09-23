@@ -21,7 +21,7 @@ export const useRevieweeFeedbackForm = (
   onClose: () => void,
 ) => {
   const [formState, setFormState] = useState<RevieweeFeedbackData>(initialFormState);
-  const { postRevieweeFeedbackMutation, putRevieweeFeedbackMutation } = useMutateFeedback();
+  const { postRevieweeFeedbackMutation, putRevieweeFeedbackMutation } = useMutateFeedback(roomId);
 
   const { data: feedbackData } = useFetchRevieweeFeedback({
     roomId,
@@ -66,7 +66,7 @@ export const useRevieweeFeedbackForm = (
 
     if (modalType === "create") {
       postRevieweeFeedbackMutation.mutate(
-        { roomId, feedbackData },
+        { feedbackData },
         {
           onSuccess: () => {
             onClose();
@@ -77,7 +77,7 @@ export const useRevieweeFeedbackForm = (
 
     if (modalType === "edit") {
       putRevieweeFeedbackMutation.mutate(
-        { roomId, feedbackId: feedbackData.feedbackId, feedbackData },
+        { feedbackId: feedbackData.feedbackId, feedbackData },
         {
           onSuccess: () => {
             onClose();

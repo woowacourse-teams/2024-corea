@@ -1,8 +1,9 @@
+import { ButtonSize, ButtonVariant } from "./Button";
 import { css, styled } from "styled-components";
 
 export const ButtonContainer = styled.button<{
-  $variant: "primary" | "secondary" | "disable" | "lightBlue" | "error";
-  $size: "xSmall" | "small" | "medium" | "large";
+  $variant: ButtonVariant;
+  $size: ButtonSize;
 }>`
   display: flex;
   align-items: center;
@@ -34,11 +35,11 @@ const variantStyles = {
   secondary: css`
     background-color: ${({ theme }) => theme.COLOR.secondary};
   `,
-  lightBlue: css`
-    background-color: ${({ theme }) => theme.COLOR.lightGrass};
-  `,
   disable: css`
     background-color: ${({ theme }) => theme.COLOR.grey1};
+  `,
+  confirm: css`
+    background-color: ${({ theme }) => theme.COLOR.primary3};
   `,
   error: css`
     background-color: ${({ theme }) => theme.COLOR.error};

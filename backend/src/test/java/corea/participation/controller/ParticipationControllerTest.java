@@ -1,7 +1,7 @@
 package corea.participation.controller;
 
 import config.ControllerTest;
-import corea.auth.service.LoginService;
+import corea.auth.service.TokenService;
 import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
 import corea.member.domain.Member;
@@ -24,7 +24,7 @@ class ParticipationControllerTest {
     private MemberRepository memberRepository;
 
     @Autowired
-    private LoginService loginService;
+    private TokenService tokenService;
 
     @Test
     @DisplayName("사용자가 방에 참여한다.")
@@ -32,10 +32,9 @@ class ParticipationControllerTest {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
         Member member = memberRepository.save(MemberFixture.MEMBER_PORORO());
-        String token = loginService.createAccessToken(member);
+        String token = tokenService.createAccessToken(member);
 
-        RestAssured.given().log().all()
-                .header("Authorization", token)
+        RestAssured.given().auth().oauth2(token)
                 .contentType(ContentType.JSON)
                 .when().post("/participate/" + room.getId())
                 .then().log().all()

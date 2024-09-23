@@ -17,10 +17,10 @@ import java.util.List;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 @ServiceTest
-class MemberServiceTest {
+class ProfileServiceTest {
 
     @Autowired
-    private MemberService memberService;
+    private ProfileService profileService;
 
     @Autowired
     private MemberRepository memberRepository;
@@ -38,11 +38,23 @@ class MemberServiceTest {
         DevelopFeedback developFeedback = new DevelopFeedback(1, joyson, pororo, 5, feedbackKeywords, "", 1);
         reviewerToRevieweeRepository.save(developFeedback);
 
-        ProfileResponse response = memberService.findProfileInfoById(pororo.getId());
+        ProfileResponse response = profileService.findProfileInfoById(pororo.getId());
 
         assertSoftly(softly -> {
             softly.assertThat(response.nickname()).isEqualTo("pororo");
             softly.assertThat(response.feedbackKeywords()).hasSize(3);
+        });
+    }
+
+    @Test
+    @DisplayName("유저 네임을 통해 프로필 정보를 조회 한다.")
+    void find_with_username() {
+        Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
+
+        ProfileResponse response = profileService.findProfileInfoByUsername(pororo.getUsername());
+
+        assertSoftly(softly -> {
+            softly.assertThat(response.nickname()).isEqualTo("pororo");
         });
     }
 

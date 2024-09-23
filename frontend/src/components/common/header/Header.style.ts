@@ -9,13 +9,12 @@ export const HeaderContainer = styled.header<{ $isMain: boolean }>`
   align-items: center;
   justify-content: space-between;
 
-  box-sizing: border-box;
   width: 100%;
   height: 65px;
 
   color: ${({ theme }) => theme.COLOR.grey3};
 
-  box-shadow: ${({ $isMain }) => ($isMain ? "none" : "0 4px 4px rgb(0 0 0 / 10%)")};
+  box-shadow: ${({ theme, $isMain }) => ($isMain ? "none" : theme.BOX_SHADOW.regular)};
 
   @media screen and (width >= 1200px) {
     padding: 0 calc(((100vw - 1200px) / 2) + 3rem);
@@ -27,14 +26,14 @@ export const HeaderContainer = styled.header<{ $isMain: boolean }>`
 
   ${media.small`
     color: ${({ theme }) => theme.COLOR.grey1};
-    box-shadow: 0 4px 4px rgb(0 0 0 / 10%);
+    box-shadow: ${({ theme }) => theme.BOX_SHADOW.regular};
   `}
 `;
 
 // 서비스 로고
 export const HeaderLogo = styled.button<{ $isMain: boolean }>`
   font-family: "Moirai One", system-ui;
-  font-size: 2.2rem;
+  font-size: 3rem;
   font-weight: 900;
   color: ${({ theme, $isMain }) => ($isMain ? theme.COLOR.white : theme.COLOR.grey3)};
 
@@ -54,8 +53,14 @@ export const HeaderNavBarContainer = styled.div`
 
 export const HeaderItem = styled.li<{ $isMain: boolean }>`
   cursor: pointer;
-  font: ${({ theme }) => theme.TEXT.medium};
+
+  width: fit-content;
+  padding: 0 0.4rem;
+
+  font: ${({ theme }) => theme.TEXT.large};
+  font-family: "Do Hyeon", sans-serif;
   color: ${({ theme, $isMain }) => ($isMain ? theme.COLOR.white : theme.COLOR.grey3)};
+
   ${media.small`
     color: ${({ theme }) => theme.COLOR.black};
   `}
@@ -63,8 +68,8 @@ export const HeaderItem = styled.li<{ $isMain: boolean }>`
 
   &:hover,
   &.selected {
-    width: fit-content;
-    font-weight: 700;
+    font: ${({ theme }) => theme.TEXT.large};
+    font-family: "Do Hyeon", sans-serif;
     color: ${({ theme }) => theme.COLOR.black};
     border-bottom: 3px solid ${({ theme }) => theme.COLOR.black};
   }

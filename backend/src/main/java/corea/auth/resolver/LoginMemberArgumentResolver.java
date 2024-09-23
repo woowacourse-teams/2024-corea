@@ -3,7 +3,7 @@ package corea.auth.resolver;
 import corea.auth.RequestHandler;
 import corea.auth.annotation.LoginMember;
 import corea.auth.domain.AuthInfo;
-import corea.auth.infrastructure.TokenProvider;
+import corea.auth.service.TokenService;
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
 import corea.member.domain.Member;
@@ -30,7 +30,7 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
 
     private final RequestHandler requestHandler;
     private final MemberRepository memberRepository;
-    private final TokenProvider tokenProvider;
+    private final TokenService tokenService;
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
@@ -46,7 +46,8 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
             throw new CoreaException(ExceptionType.AUTHORIZATION_ERROR);
         }
         log.info("로그인 시도[토큰={}]", accessToken);
-        Long memberId = tokenProvider.getPayload(accessToken).get(ID, Long.class);
+
+        long memberId = tokenService.findMemberIdByToken(accessToken);
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new CoreaException(ExceptionType.AUTHORIZATION_ERROR));
 
