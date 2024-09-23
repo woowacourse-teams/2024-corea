@@ -8,12 +8,13 @@ import java.util.Optional;
 
 public interface ParticipationRepository extends JpaRepository<Participation, Long> {
 
+    Optional<Participation> findByRoomIdAndMemberId(long roomId, long memberId);
+
     List<Participation> findAllByRoomId(long roomId);
 
     List<Participation> findAllByMemberId(long memberId);
 
     boolean existsByRoomIdAndMemberId(long roomId, long memberId);
-    
-    Optional<Participation> findByRoomIdAndMemberId(long roomId, long memberId);
 
+    void deleteAllByRoomId(long roomId);
 }

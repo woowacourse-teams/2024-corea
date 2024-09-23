@@ -7,7 +7,7 @@ export const Textarea = styled.textarea<{ $error: boolean }>`
 
   padding: 0.6rem 1.1rem;
 
-  font-size: 1rem;
+  font: ${({ theme }) => theme.TEXT.semiSmall};
 
   border: 1px solid ${(props) => (props.$error ? props.theme.COLOR.error : props.theme.COLOR.grey1)};
   border-radius: 6px;
