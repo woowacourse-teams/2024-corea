@@ -48,4 +48,8 @@ public class Member {
     public void increaseCount(ProfileCountType profileCountType) {
         profile.increaseCount(profileCountType);
     }
+
+    public boolean isNotMatchingId(long memberId) {
+        return this.id != memberId;
+    }
 }
