@@ -40,23 +40,26 @@ class RoomServiceTest {
     }
 
     @Test
-    @DisplayName("현재 로그인한 멤버가 참여 중인 방을 보여준다.")
+    @DisplayName("현재 로그인한 멤버가 참여 중인 방을 리뷰 마감일이 임박한 순으로 보여준다.")
     void findParticipatedRooms() {
         RoomResponses response = roomService.findParticipatedRooms(1);
         List<RoomResponse> rooms = response.rooms();
 
+        List<String> managers = rooms.stream()
+                .map(RoomResponse::manager)
+                .toList();
+
+        List<LocalDateTime> reviewDeadLines = rooms.stream()
+                .map(RoomResponse::reviewDeadline)
+                .toList();
+
         assertSoftly(softly -> {
             softly.assertThat(rooms)
                     .hasSize(3);
-            softly.assertThat(rooms.get(0)
-                            .manager())
-                    .isEqualTo("강다빈");
-            softly.assertThat(rooms.get(1)
-                            .manager())
-                    .isEqualTo("이상엽");
-            softly.assertThat(rooms.get(2)
-                            .manager())
-                    .isEqualTo("최진실");
+            softly.assertThat(managers)
+                    .containsExactlyInAnyOrder("강다빈", "이상엽", "최진실");
+            softly.assertThat(reviewDeadLines)
+                    .isSortedAccordingTo(LocalDateTime::compareTo);
         });
     }
 
@@ -129,7 +132,7 @@ class RoomServiceTest {
     @DisplayName("모집 마감 시간은 현재 시간보다 1시간 이후가 아니라면 예외가 발생한다.")
     void invalidRecruitmentDeadline() {
         RoomCreateRequest request = new RoomCreateRequest("title", "content", "repoLink",
-                "thumLink", 3, List.of("TDD","클린코드"), 3,
+                "thumLink", 3, List.of("TDD", "클린코드"), 3,
                 LocalDateTime.now()
                         .plusMinutes(59), LocalDateTime.now()
                 .plusHours(1).plusMinutes(58), RoomClassification.ALL);

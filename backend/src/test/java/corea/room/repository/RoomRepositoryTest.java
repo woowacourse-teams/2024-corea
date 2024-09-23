@@ -15,6 +15,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -49,5 +51,18 @@ class RoomRepositoryTest {
             softly.assertThat(rooms.get(2).getId()).isEqualTo(4);
             softly.assertThat(rooms.get(3).getId()).isEqualTo(5);
         });
+    }
+
+    @Test
+    @DisplayName("리뷰 마감일이 임박한 순으로 방 리스트를 반환한다.")
+    void findAllByIdInOrderByReviewDeadlineAsc() {
+        List<Long> roomIds = new ArrayList<>(List.of(2L, 1L, 4L, 6L, 3L, 5L));
+        List<Room> participatedRooms = roomRepository.findAllByIdInOrderByReviewDeadlineAsc(roomIds);
+
+        List<LocalDateTime> reviewDeadLines = participatedRooms.stream()
+                .map(Room::getReviewDeadline)
+                .toList();
+
+        assertThat(reviewDeadLines).isSortedAccordingTo(LocalDateTime::compareTo);
     }
 }
