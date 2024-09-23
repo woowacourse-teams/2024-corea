@@ -100,8 +100,8 @@ public class Room {
         return status.isClosed();
     }
 
-    public boolean isNotManagerMatch(long memberId) {
-        return manager.isNotIdMatch(memberId);
+    public boolean isNotMatchingManager(long memberId) {
+        return manager.isNotMatchingId(memberId);
     }
 
     public long getManagerId() {

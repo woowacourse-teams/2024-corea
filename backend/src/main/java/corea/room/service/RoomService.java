@@ -14,6 +14,7 @@ import corea.room.dto.RoomResponse;
 import corea.room.dto.RoomResponses;
 import corea.room.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -127,11 +129,9 @@ public class RoomService {
     }
 
     private void validateDeletionAuthority(Room room, long memberId) {
-        if (room.isNotManagerMatch(memberId)) {
-            throw new CoreaException(
-                    ExceptionType.ROOM_DELETION_AUTHORIZATION_ERROR,
-                    String.format("방 삭제 권한이 없습니다. 방 생성자만 방을 삭제할 수 있습니다. (요청한 사용자 ID: %d, 방 생성자 ID: %d)", memberId, room.getManagerId())
-            );
+        if (room.isNotMatchingManager(memberId)) {
+            log.warn("방 삭제 권한이 없습니다. 방 생성자만 방을 삭제할 수 있습니다. 방 생성자 id={}, 요청한 사용자 id={}", room.getManagerId(), memberId);
+            throw new CoreaException(ExceptionType.ROOM_DELETION_AUTHORIZATION_ERROR);
         }
     }
 

@@ -20,7 +20,7 @@ public enum ExceptionType {
     TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "토큰이 만료되었습니다."),
     INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "토큰이 올바르지 않습니다."),
     AUTHORIZATION_ERROR(HttpStatus.UNAUTHORIZED, "인증에 실패했습니다."),
-    ROOM_DELETION_AUTHORIZATION_ERROR(HttpStatus.UNAUTHORIZED, "해당 방을 삭제할 권한이 없습니다."),
+    ROOM_DELETION_AUTHORIZATION_ERROR(HttpStatus.UNAUTHORIZED, "방 삭제 권한이 없습니다. 방 생성자만 방을 삭제할 수 있습니다."),
 
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 멤버를 찾을 수 없습니다."),
     ROOM_NOT_FOUND(HttpStatus.NOT_FOUND, "방을 찾을 수 없습니다."),

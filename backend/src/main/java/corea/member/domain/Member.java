@@ -49,7 +49,7 @@ public class Member {
         profile.increaseCount(profileCountType);
     }
 
-    public boolean isNotIdMatch(long memberId) {
+    public boolean isNotMatchingId(long memberId) {
         return this.id != memberId;
     }
 }
