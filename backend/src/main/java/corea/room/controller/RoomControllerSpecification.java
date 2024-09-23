@@ -108,7 +108,9 @@ public interface RoomControllerSpecification {
     @Operation(summary = "현재 종료된 방 정보를 반환합니다.",
             description = "현재 종료된 방들의 정보를 반환합니다.")
     @ApiErrorResponses(value = ExceptionType.NOT_FOUND_ERROR)
-    ResponseEntity<RoomResponses> closedRooms(@Parameter(description = "방 분야", example = "FE")
+    ResponseEntity<RoomResponses> closedRooms(AuthInfo authInfo,
+
+                                              @Parameter(description = "방 분야", example = "FE")
                                               String expression,
 
                                               @Parameter(description = "페이지 정보", example = "2")
