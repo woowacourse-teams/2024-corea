@@ -54,7 +54,7 @@ class AutomaticMatchingServiceTest {
                 List.of(),
                 1,
                 10,
-                LocalDateTime.now().plusSeconds(2),
+                LocalDateTime.now().plusSeconds(5),
                 LocalDateTime.now().plusDays(2),
                 ParticipationStatus.PARTICIPATED,
                 "OPEN");
@@ -80,12 +80,12 @@ class AutomaticMatchingServiceTest {
             return null;
         }).when(automaticMatchingExecutor).execute(any());
 
-        // 2초후에 매칭이 되도록 설정된 automaticMatchingService의 matchOnRecruitmentDeadline 메서드를 호출한다.
+        // 5초후에 매칭이 되도록 설정된 automaticMatchingService의 matchOnRecruitmentDeadline 메서드를 호출한다.
         automaticMatchingService.matchOnRecruitmentDeadline(response);
 
         // latch의 카운트가 0이될 때까지 대기할 시간을 정의한다.
-        // CountDownLatch의 카운트가 3초 내에 0이 되었을 때 await() 메서드가 즉시 반환되고 true를 반환합니다.
-        assertThat(latch.await(3, TimeUnit.SECONDS)).isTrue();
+        // CountDownLatch의 카운트가 5초 내에 0이 되었을 때 await() 메서드가 즉시 반환되고 true를 반환합니다.
+        assertThat(latch.await(6, TimeUnit.SECONDS)).isTrue();
 
         // automaticMatchingExecutor의 execute() 메서드가 호출되었는지 검증한다.
         verify(automaticMatchingExecutor).execute(any());
@@ -107,7 +107,7 @@ class AutomaticMatchingServiceTest {
         automaticMatchingService.matchOnRecruitmentDeadline(response);
         automaticMatchingService.cancel(response.id());
 
-        assertThat(latch.await(3, TimeUnit.SECONDS)).isFalse();
+        assertThat(latch.await(6, TimeUnit.SECONDS)).isFalse();
         verify(automaticMatchingExecutor, never()).execute(any());
     }
 }
