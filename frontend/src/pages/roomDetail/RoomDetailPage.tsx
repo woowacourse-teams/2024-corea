@@ -1,6 +1,7 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import useMutateParticipateIn from "@/hooks/mutations/useMutateParticipateIn";
 import ContentSection from "@/components/common/contentSection/ContentSection";
 import Icon from "@/components/common/icon/Icon";
 import MyReviewee from "@/components/roomDetailPage/myReviewee/MyReviewee";
@@ -15,6 +16,8 @@ const RoomDetailPage = () => {
   const roomId = params.id ? Number(params.id) : 0;
   const [isReviewerInfoExpanded, setIsReviewerInfoExpanded] = useState(false);
   const [isRevieweeInfoExpanded, setIsRevieweeInfoExpanded] = useState(false);
+  const { deleteParticipateInMutation } = useMutateParticipateIn();
+  const navigate = useNavigate();
 
   const { data: roomInfo } = useSuspenseQuery({
     queryKey: [QUERY_KEYS.ROOM_DETAIL_INFO, roomId],
@@ -29,9 +32,25 @@ const RoomDetailPage = () => {
     setIsRevieweeInfoExpanded(!isRevieweeInfoExpanded);
   };
 
+  const handleCancleParticipateInClick = () => {
+    deleteParticipateInMutation.mutate(roomInfo.id, {
+      onSuccess: () => navigate("/"),
+    });
+  };
+
   return (
     <S.Layout>
-      <ContentSection title="미션 정보">
+      <ContentSection
+        title="미션 정보"
+        button={
+          roomInfo.roomStatus === "OPEN"
+            ? {
+                label: "방 참여 취소하기",
+                onClick: handleCancleParticipateInClick,
+              }
+            : undefined
+        }
+      >
         <RoomInfoCard roomInfo={roomInfo} />
       </ContentSection>
       <S.FeedbackContainer>
