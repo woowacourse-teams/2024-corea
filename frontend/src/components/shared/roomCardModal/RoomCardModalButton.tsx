@@ -17,7 +17,7 @@ const RoomCardModalButton = ({ roomInfo }: RoomCardModalButtonProps) => {
     });
   };
 
-  if (roomInfo.isParticipated) {
+  if (roomInfo.participationStatus !== "NOT_PARTICIPATED") {
     return (
       <Button variant="disable" size="small" disabled>
         참여중
