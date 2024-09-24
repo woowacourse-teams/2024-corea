@@ -45,25 +45,25 @@ public class RoomService {
         validateDeadLine(request.recruitmentDeadline(), request.reviewDeadline());
 
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND, String.format("%d에 해당하는 멤버가 없습니다.", memberId)));
+                .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND));
         Room room = roomRepository.save(request.toEntity(member));
 
-        long roomId = room.getId();
         participationRepository.save(new Participation(room, memberId));
-        automaticMatchingRepository.save(new AutomaticMatching(roomId, request.recruitmentDeadline()));
+        automaticMatchingRepository.save(new AutomaticMatching(room.getId(), request.recruitmentDeadline()));
+
         return RoomResponse.of(room, true);
     }
 
-    //TODO: 검증 로직 추후 변경할게용~
     private void validateDeadLine(LocalDateTime recruitmentDeadline, LocalDateTime reviewDeadline) {
-        LocalDateTime minimumRecruitmentDeadline = recruitmentDeadline.plusHours(PLUS_HOURS_TO_MINIMUM_RECRUITMENT_DEADLINE);
-        if (reviewDeadline.isBefore(minimumRecruitmentDeadline)) {
+        LocalDateTime currentDateTime = LocalDateTime.now();
+
+        LocalDateTime minimumRecruitmentDeadline = currentDateTime.plusHours(PLUS_HOURS_TO_MINIMUM_RECRUITMENT_DEADLINE);
+        if (recruitmentDeadline.isBefore(minimumRecruitmentDeadline)) {
             throw new CoreaException(ExceptionType.INVALID_RECRUITMENT_DEADLINE,
                     String.format("모집 마감 시간은 현재 시간보다 %d시간 이후여야 합니다.", PLUS_HOURS_TO_MINIMUM_RECRUITMENT_DEADLINE));
         }
-
-        LocalDateTime minimumReviewDeadLine = recruitmentDeadline.plusDays(PLUS_DAYS_TO_MINIMUM_REVIEW_DEADLINE);
-        if (reviewDeadline.isBefore(minimumReviewDeadLine)) {
+        LocalDateTime minimumReviewDeadline = recruitmentDeadline.plusDays(PLUS_DAYS_TO_MINIMUM_REVIEW_DEADLINE);
+        if (reviewDeadline.isBefore(minimumReviewDeadline)) {
             throw new CoreaException(ExceptionType.INVALID_REVIEW_DEADLINE,
                     String.format("리뷰 마감 시간은 모집 마감 시간보다 %d일 이후여야 합니다.", PLUS_DAYS_TO_MINIMUM_REVIEW_DEADLINE));
         }

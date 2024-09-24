@@ -143,7 +143,7 @@ class RoomServiceTest {
         RoomCreateRequest request = new RoomCreateRequest("title", "content", "repoLink",
                 "thumLink", 3, List.of("TDD", "클린코드"), 3,
                 LocalDateTime.now().plusMinutes(59),
-                LocalDateTime.now().plusHours(1).plusMinutes(58),
+                LocalDateTime.now().plusDays(2),
                 RoomClassification.ALL);
 
         assertThatThrownBy(() -> roomService.create(1, request))
@@ -155,10 +155,11 @@ class RoomServiceTest {
     @Test
     @DisplayName("리뷰 마감 시간은 모집 마감 시간보다 1일 이후가 아니라면 예외가 발생한다.")
     void invalidReviewDeadline() {
+        LocalDateTime recruitmentDeadline = LocalDateTime.now().plusHours(2);
         RoomCreateRequest request = new RoomCreateRequest("title", "content", "repoLink",
                 "thumLink", 3, List.of(), 3,
-                LocalDateTime.now().plusHours(2),
-                LocalDateTime.now().plusHours(23),
+                recruitmentDeadline,
+                recruitmentDeadline.plusHours(23),
                 RoomClassification.ALL);
 
         assertThatThrownBy(() -> roomService.create(1, request))
