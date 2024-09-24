@@ -37,7 +37,13 @@ export const Default: Story = {
     handleSelectedDate: () => {},
   },
   render: (args) => {
-    const [selectedDate, setSelectedDate] = useState<CalendarDate>(args.selectedDate);
+    const today = new Date();
+    const calendarDate: CalendarDate = {
+      year: today.getFullYear(),
+      month: today.getMonth() + 1,
+      date: today.getDate(),
+    };
+    const [selectedDate, setSelectedDate] = useState<CalendarDate>(calendarDate);
 
     const handleSelectedDate = (newSelectedDate: CalendarDate) => {
       setSelectedDate(newSelectedDate);
@@ -60,7 +66,13 @@ export const 이전날짜_선택_불가_캘린더: Story = {
     },
   },
   render: (args) => {
-    const [selectedDate, setSelectedDate] = useState<CalendarDate>(args.selectedDate);
+    const today = new Date();
+    const calendarDate: CalendarDate = {
+      year: today.getFullYear(),
+      month: today.getMonth() + 1,
+      date: today.getDate(),
+    };
+    const [selectedDate, setSelectedDate] = useState<CalendarDate>(calendarDate);
 
     const handleSelectedDate = (newSelectedDate: CalendarDate) => {
       setSelectedDate(newSelectedDate);
