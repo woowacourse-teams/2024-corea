@@ -44,7 +44,7 @@ public class RoomController implements RoomControllerSpecification {
 
     @GetMapping("/{id}/members")
     public ResponseEntity<RoomParticipantResponses> participants(@PathVariable long id, @AccessedMember AuthInfo authInfo) {
-        RoomParticipantResponses response = roomService.findMembers(id, authInfo.getId());
+        RoomParticipantResponses response = roomService.findParticipants(id, authInfo.getId());
         return ResponseEntity.ok(response);
     }
 
