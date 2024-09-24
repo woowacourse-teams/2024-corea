@@ -47,27 +47,31 @@ const variantStyles = {
 };
 
 const sizeStyles = {
+  icon: css`
+    padding: 1rem;
+    border-radius: 4px;
+  `,
   xSmall: css`
     width: 90px;
-    padding: 0.3rem 0;
-    font: ${({ theme }) => theme.TEXT.small};
+    padding: 1rem;
+    font: ${({ theme }) => theme.TEXT.semiSmall};
     border-radius: 4px;
   `,
   small: css`
     width: 120px;
-    padding: 0.3rem 0;
-    font: ${({ theme }) => theme.TEXT.small};
+    padding: 1rem;
+    font: ${({ theme }) => theme.TEXT.semiSmall};
     border-radius: 4px;
   `,
   medium: css`
     width: 180px;
-    height: 30px;
+    padding: 1rem;
     font: ${({ theme }) => theme.TEXT.medium};
     border-radius: 4px;
   `,
   large: css`
     width: 100%;
-    height: 40px;
+    padding: 1rem;
     font: ${({ theme }) => theme.TEXT.medium};
     border-radius: 4px;
   `,
