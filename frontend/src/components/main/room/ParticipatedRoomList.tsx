@@ -7,11 +7,7 @@ const ParticipatedRoomList = () => {
 
   return (
     <ContentSection title="">
-      {participatedRoomList ? (
-        <RoomList roomList={participatedRoomList.rooms} participated={true} />
-      ) : (
-        <div>❗ 참여 중인 방이 없습니다.</div>
-      )}
+      <RoomList roomList={participatedRoomList.rooms} roomType="participated" />
     </ContentSection>
   );
 };

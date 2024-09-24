@@ -28,6 +28,7 @@ const ClosedRoomList = ({ selectedCategory, handleSelectedCategory }: ClosedRoom
       roomList={closedRooms}
       hasNextPage={hasNextClosedPage}
       onLoadMore={fetchNextClosedPage}
+      roomType="closed"
     />
   );
 };

@@ -2,6 +2,7 @@ package corea.room.acceptance;
 
 import corea.auth.service.TokenService;
 import corea.member.repository.MemberRepository;
+import corea.room.domain.ParticipationStatus;
 import corea.room.dto.RoomResponse;
 import corea.room.dto.RoomResponses;
 import io.restassured.RestAssured;
@@ -47,7 +48,9 @@ class RoomAcceptanceTest {
 
         assertSoftly(softly -> {
             softly.assertThat(response.manager()).isEqualTo("이상엽");
-            softly.assertThat(response.isParticipated()).isEqualTo(false);
+            softly.assertThat(response.participationStatus()).isEqualTo(
+                    ParticipationStatus.NOT_PARTICIPATED
+            );
         });
     }
 
@@ -65,7 +68,7 @@ class RoomAcceptanceTest {
 
         assertSoftly(softly -> {
             softly.assertThat(response.manager()).isEqualTo("이상엽");
-            softly.assertThat(response.isParticipated()).isEqualTo(true);
+            softly.assertThat(response.participationStatus()).isEqualTo(ParticipationStatus.PARTICIPATED);
         });
     }
 
@@ -93,11 +96,15 @@ class RoomAcceptanceTest {
 
         List<RoomResponse> rooms = response.rooms();
 
+        List<String> managers = rooms.stream()
+                .map(RoomResponse::manager)
+                .toList();
+
         assertSoftly(softly -> {
-            softly.assertThat(rooms).hasSize(3);
-            softly.assertThat(rooms.get(0).manager()).isEqualTo("강다빈");
-            softly.assertThat(rooms.get(1).manager()).isEqualTo("이상엽");
-            softly.assertThat(rooms.get(2).manager()).isEqualTo("최진실");
+            softly.assertThat(rooms)
+                    .hasSize(3);
+            softly.assertThat(managers)
+                    .containsExactlyInAnyOrder("강다빈", "이상엽", "최진실");
         });
     }
 

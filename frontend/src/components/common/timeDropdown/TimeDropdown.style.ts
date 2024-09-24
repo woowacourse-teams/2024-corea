@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
-//TimeInput
-export const TimeInputContainer = styled.div`
+//TimeDropdown
+export const TimeDropdownContainer = styled.section`
   position: relative;
   width: 100px;
 `;
 
-export const TimeInputToggle = styled.input<{ $error: boolean }>`
+export const TimeDropdownToggle = styled.input<{ $error: boolean }>`
   cursor: pointer;
 
   width: 100%;
