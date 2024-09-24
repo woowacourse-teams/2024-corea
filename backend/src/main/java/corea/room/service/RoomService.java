@@ -13,6 +13,7 @@ import corea.room.dto.RoomCreateRequest;
 import corea.room.dto.RoomResponse;
 import corea.room.dto.RoomResponses;
 import corea.room.repository.RoomRepository;
+import corea.scheduler.domain.AutomaticMatching;
 import corea.scheduler.repository.AutomaticMatchingRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
