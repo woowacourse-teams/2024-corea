@@ -1,16 +1,22 @@
-export interface RoomInfo {
-  id: number;
+interface BaseRoomInfo {
   title: string;
   content: string;
-  manager: string;
   repositoryLink: string;
   thumbnailLink: string;
   matchingSize: number;
   keywords: string[];
-  currentParticipants: number;
   limitedParticipants: number;
   recruitmentDeadline: string;
   reviewDeadline: string;
+}
+export interface CreateRoomInfo extends BaseRoomInfo {
+  classification: "AN" | "FE" | "BE";
+}
+
+export interface RoomInfo extends BaseRoomInfo {
+  id: number;
+  manager: string;
+  currentParticipants: number;
   isParticipated: boolean;
   roomStatus: "OPEN" | "CLOSE" | "PROGRESS";
 }

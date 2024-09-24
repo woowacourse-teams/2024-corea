@@ -57,6 +57,13 @@ export const getRoomDetailInfo = async (id: number): Promise<RoomInfo> => {
   return res;
 };
 
+export const postCreateRoom = async (): Promise<void> => {
+  return apiClient.post({
+    endpoint: API_ENDPOINTS.ROOMS,
+    errorMessage: MESSAGES.ERROR.POST_CREATE_ROOM,
+  });
+};
+
 export const postParticipateIn = async (roomId: number): Promise<void> => {
   return apiClient.post({
     endpoint: API_ENDPOINTS.PARTICIPATE_IN(roomId),
@@ -67,6 +74,6 @@ export const postParticipateIn = async (roomId: number): Promise<void> => {
 export const deleteParticipateIn = async (roomId: number): Promise<void> => {
   return apiClient.delete({
     endpoint: API_ENDPOINTS.PARTICIPATE_IN(roomId),
-    errorMessage: MESSAGES.ERROR.DELETE_PARTIPATE_IN,
+    errorMessage: MESSAGES.ERROR.DELETE_PARTICIPATE_IN,
   });
 };
