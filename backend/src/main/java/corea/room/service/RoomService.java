@@ -110,8 +110,9 @@ public class RoomService {
         Room room = getRoom(roomId);
         validateDeletionAuthority(room, memberId);
 
-        participationRepository.deleteAllByRoomId(roomId);
         roomRepository.delete(room);
+        participationRepository.deleteAllByRoomId(roomId);
+        automaticMatchingRepository.deleteByRoomId(roomId);
     }
 
     private void validateDeletionAuthority(Room room, long memberId) {
