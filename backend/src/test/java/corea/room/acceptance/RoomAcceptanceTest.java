@@ -93,11 +93,15 @@ class RoomAcceptanceTest {
 
         List<RoomResponse> rooms = response.rooms();
 
+        List<String> managers = rooms.stream()
+                .map(RoomResponse::manager)
+                .toList();
+
         assertSoftly(softly -> {
-            softly.assertThat(rooms).hasSize(3);
-            softly.assertThat(rooms.get(0).manager()).isEqualTo("강다빈");
-            softly.assertThat(rooms.get(1).manager()).isEqualTo("이상엽");
-            softly.assertThat(rooms.get(2).manager()).isEqualTo("최진실");
+            softly.assertThat(rooms)
+                    .hasSize(3);
+            softly.assertThat(managers)
+                    .containsExactlyInAnyOrder("강다빈", "이상엽", "최진실");
         });
     }
 

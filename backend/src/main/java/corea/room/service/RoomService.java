@@ -41,16 +41,17 @@ public class RoomService {
     private final AutomaticMatchingRepository automaticMatchingRepository;
 
     @Transactional
-    public RoomResponse create(long memberId, RoomCreateRequest request) {
+    public RoomResponse create(long managerId, RoomCreateRequest request) {
         validateDeadLine(request.recruitmentDeadline(), request.reviewDeadline());
 
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND, String.format("%d에 해당하는 멤버가 없습니다.", memberId)));
-        Room room = roomRepository.save(request.toEntity(member));
-
+        Member manager = memberRepository.findById(managerId)
+                .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND, String.format("%d에 해당하는 멤버가 없습니다.", managerId)));
+        Room room = roomRepository.save(request.toEntity(manager));
+      
         long roomId = room.getId();
-        participationRepository.save(new Participation(room, memberId));
+        participationRepository.save(new Participation(room, managerId));
         automaticMatchingRepository.save(new AutomaticMatching(roomId, request.recruitmentDeadline()));
+
         return RoomResponse.of(room, true);
     }
 
@@ -82,7 +83,7 @@ public class RoomService {
                 .map(Participation::getRoomsId)
                 .toList();
 
-        List<Room> rooms = roomRepository.findAllById(roomIds);
+        List<Room> rooms = roomRepository.findAllByIdInOrderByReviewDeadlineAsc(roomIds);
         return RoomResponses.of(rooms, true, true, 0);
     }
 
@@ -118,10 +119,10 @@ public class RoomService {
         PageRequest pageRequest = PageRequest.of(pageNumber, PAGE_SIZE);
 
         if (classification.isAll()) {
-            Page<Room> roomsWithPage = roomRepository.findAllByStatus(status, pageRequest);
+            Page<Room> roomsWithPage = roomRepository.findAllByStatusOrderByRecruitmentDeadlineAsc(status, pageRequest);
             return RoomResponses.from(roomsWithPage, false, pageNumber);
         }
-        Page<Room> roomsWithPage = roomRepository.findAllByClassificationAndStatus(classification, status, pageRequest);
+        Page<Room> roomsWithPage = roomRepository.findAllByClassificationAndStatusOrderByRecruitmentDeadlineAsc(classification, status, pageRequest);
         return RoomResponses.from(roomsWithPage, false, pageNumber);
     }
 
