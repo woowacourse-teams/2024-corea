@@ -20,7 +20,7 @@ const ERROR_MESSAGES = {
   GET_ROOM_DETAIL_INFO: "방 상세정보를 불러오는 도중 에러가 발생하였습니다.",
   POST_PARTICIPATE_IN: "방 참여하기를 실패했습니다.",
   DELETE_PARTIPATE_IN: "방 참여 취소하기를 실패했습니다.",
-  DELETE_PARTICIPATED_ROOM: "방 참여 취소하기를 실패했습니다.",
+  DELETE_PARTICIPATED_ROOM: "방 삭제하기를 실패했습니다.",
 
   // reviews
   GET_MY_REVIEWERS: "리뷰어 목록을 불러오는 도중 에러가 발생하였습니다.",
