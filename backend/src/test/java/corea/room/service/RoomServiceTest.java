@@ -3,12 +3,18 @@ package corea.room.service;
 import corea.auth.domain.AuthInfo;
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
+import corea.fixture.MatchResultFixture;
 import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
+import corea.matching.repository.MatchResultRepository;
 import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
+import corea.participation.domain.Participation;
+import corea.participation.repository.ParticipationRepository;
+import corea.room.domain.Room;
 import corea.room.domain.RoomClassification;
 import corea.room.dto.RoomCreateRequest;
+import corea.room.dto.RoomMemberResponses;
 import corea.room.dto.RoomResponse;
 import corea.room.dto.RoomResponses;
 import corea.room.repository.RoomRepository;
@@ -42,6 +48,10 @@ class RoomServiceTest {
 
     @Autowired
     private MemberRepository memberRepository;
+    @Autowired
+    private MatchResultRepository matchResultRepository;
+    @Autowired
+    private ParticipationRepository participationRepository;
 
     @ParameterizedTest
     @CsvSource({"2, true", "4, false"})
@@ -193,5 +203,39 @@ class RoomServiceTest {
                 .asInstanceOf(InstanceOfAssertFactories.type(CoreaException.class))
                 .extracting(CoreaException::getExceptionType)
                 .isEqualTo(ExceptionType.ROOM_DELETION_AUTHORIZATION_ERROR);
+    }
+
+    @Test
+    @DisplayName("본인을 제외하고 방에 참여한 사람의 정보를 최대 5명까지 가져온다.")
+    void findMembers() {
+        Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
+        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
+
+        Member member1 = memberRepository.save(MemberFixture.MEMBER_PORORO());
+        Member member2 = memberRepository.save(MemberFixture.MEMBER_ASH());
+        Member member3 = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
+        Member member4 = memberRepository.save(MemberFixture.MEMBER_CHOCO());
+        Member member5 = memberRepository.save(MemberFixture.MEMBER_MUBIN());
+        Member member6 = memberRepository.save(MemberFixture.MEMBER_TENTEN());
+
+        participationRepository.save(new Participation(room, manager.getId()));
+        participationRepository.save(new Participation(room, member1.getId()));
+        participationRepository.save(new Participation(room, member2.getId()));
+        participationRepository.save(new Participation(room, member3.getId()));
+        participationRepository.save(new Participation(room, member4.getId()));
+        participationRepository.save(new Participation(room, member5.getId()));
+        participationRepository.save(new Participation(room, member6.getId()));
+
+        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), manager, member1));
+        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), member1, member2));
+        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), member2, member3));
+        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), member3, member4));
+        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), member4, member5));
+        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), member5, member6));
+        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), member6, manager));
+
+        RoomMemberResponses members = roomService.findMembers(room.getId(), manager.getId());
+
+        assertThat(members.members()).hasSize(5);
     }
 }

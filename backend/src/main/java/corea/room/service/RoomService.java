@@ -2,6 +2,8 @@ package corea.room.service;
 
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
+import corea.matching.domain.MatchResult;
+import corea.matching.repository.MatchResultRepository;
 import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
 import corea.participation.domain.Participation;
@@ -9,9 +11,7 @@ import corea.participation.repository.ParticipationRepository;
 import corea.room.domain.Room;
 import corea.room.domain.RoomClassification;
 import corea.room.domain.RoomStatus;
-import corea.room.dto.RoomCreateRequest;
-import corea.room.dto.RoomResponse;
-import corea.room.dto.RoomResponses;
+import corea.room.dto.*;
 import corea.room.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -32,10 +33,12 @@ public class RoomService {
     private static final int PLUS_HOURS_TO_MINIMUM_RECRUITMENT_DEADLINE = 1;
     private static final int PLUS_DAYS_TO_MINIMUM_REVIEW_DEADLINE = 1;
     private static final int PAGE_SIZE = 8;
+    private static final int MEMBER_SIZE = 5;
 
     private final RoomRepository roomRepository;
     private final MemberRepository memberRepository;
     private final ParticipationRepository participationRepository;
+    private final MatchResultRepository matchResultRepository;
 
     @Transactional
     public RoomResponse create(long memberId, RoomCreateRequest request) {
@@ -133,6 +136,27 @@ public class RoomService {
             log.warn("방 삭제 권한이 없습니다. 방 생성자만 방을 삭제할 수 있습니다. 방 생성자 id={}, 요청한 사용자 id={}", room.getManagerId(), memberId);
             throw new CoreaException(ExceptionType.ROOM_DELETION_AUTHORIZATION_ERROR);
         }
+    }
+
+    public RoomMemberResponses findMembers(long roomId, long memberId) {
+        List<Participation> participants = new java.util.ArrayList<>(
+                participationRepository.findAllByRoomId(roomId).stream()
+                .filter(participation -> participation.getMemberId() != memberId)
+                .toList());
+        Collections.shuffle(participants);
+
+        return new RoomMemberResponses(participants.stream()
+                .limit(MEMBER_SIZE)
+                .map(participation -> getRoomMemberResponse(roomId, participation))
+                .toList());
+    }
+
+    private RoomMemberResponse getRoomMemberResponse(long roomId, Participation participant) {
+        List<MatchResult> matchResults = matchResultRepository.findAllByRevieweeIdAndRoomId(participant.getMemberId(), roomId);
+        if (matchResults.isEmpty()) {
+            throw new CoreaException(ExceptionType.MEMBER_NOT_FOUND);
+        }
+        return new RoomMemberResponse(participant.getMemberGithubId(), matchResults.get(0).getPrLink());
     }
 
     public RoomResponse getRoomById(long roomId) {

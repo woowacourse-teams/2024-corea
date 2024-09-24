@@ -6,6 +6,7 @@ import corea.auth.domain.AuthInfo;
 import corea.matching.dto.MatchResultResponses;
 import corea.matching.service.MatchResultService;
 import corea.room.dto.RoomCreateRequest;
+import corea.room.dto.RoomMemberResponses;
 import corea.room.dto.RoomResponse;
 import corea.room.dto.RoomResponses;
 import corea.room.service.RoomService;
@@ -35,6 +36,12 @@ public class RoomController implements RoomControllerSpecification {
     @GetMapping("/{id}")
     public ResponseEntity<RoomResponse> room(@PathVariable long id, @AccessedMember AuthInfo authInfo) {
         RoomResponse response = roomService.findOne(id, authInfo.getId());
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{id}/members")
+    public ResponseEntity<RoomMemberResponses> members(@PathVariable long id, @AccessedMember AuthInfo authInfo) {
+        RoomMemberResponses response = roomService.findMembers(id, authInfo.getId());
         return ResponseEntity.ok(response);
     }
 
