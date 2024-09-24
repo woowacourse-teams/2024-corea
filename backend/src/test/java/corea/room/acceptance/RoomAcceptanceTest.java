@@ -1,11 +1,14 @@
 package corea.room.acceptance;
 
 import corea.auth.service.TokenService;
+import corea.fixture.RoomFixture;
 import corea.member.repository.MemberRepository;
 import corea.room.domain.ParticipationStatus;
+import corea.room.dto.RoomCreateRequest;
 import corea.room.dto.RoomResponse;
 import corea.room.dto.RoomResponses;
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,6 +37,28 @@ class RoomAcceptanceTest {
     @BeforeEach
     void setUp() {
         RestAssured.port = port;
+    }
+
+    @Test
+    @DisplayName("방을 생성 및 삭제할 수 있다.")
+    void create() {
+        String accessToken = tokenService.createAccessToken(memberRepository.findByUsername("jcoding-play").get());
+        RoomCreateRequest request = RoomFixture.ROOM_CREATE_REQUEST();
+
+        RoomResponse response = RestAssured.given().log().all()
+                .auth().oauth2(accessToken)
+                .contentType(ContentType.JSON)
+                .body(request)
+                .when().post("/rooms")
+                .then().log().all()
+                .statusCode(201)
+                .extract().as(RoomResponse.class);
+
+        RestAssured.given().log().all()
+                .auth().oauth2(accessToken)
+                .when().delete("/rooms/" + response.id())
+                .then().log().all()
+                .statusCode(204);
     }
 
     @Test

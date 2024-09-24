@@ -24,10 +24,7 @@ public interface RoomControllerSpecification {
                     "<br><br>**참고:** 이 API를 사용하기 위해서는 유효한 JWT 토큰이 필요하며, " +
                     "토큰이 없거나 유효하지 않은 경우 인증 오류가 발생합니다.")
     @ApiErrorResponses(value = ExceptionType.MEMBER_NOT_FOUND)
-    ResponseEntity<RoomResponse> create(@Parameter(description = "방 아이디", example = "1")
-                                        long id,
-                                        AuthInfo authInfo,
-                                        RoomCreateRequest request);
+    ResponseEntity<RoomResponse> create(AuthInfo authInfo, RoomCreateRequest request);
 
     @Operation(summary = "방 상세 정보를 반환합니다.",
             description = "상세 페이지에 디스플레이 되는 방 상세 정보를 반환합니다. <br>" +
