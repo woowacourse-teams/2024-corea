@@ -13,6 +13,7 @@ export interface RoomInfo {
   reviewDeadline: string;
   isParticipated: boolean;
   roomStatus: "OPEN" | "CLOSE" | "PROGRESS";
+  participationStatus: "NOT_PARTICIPATED" | "PARTICIPATED" | "MANAGER"; // 참여X, 참여자, 방장
 }
 
 export interface RoomListInfo {
