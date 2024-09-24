@@ -57,10 +57,10 @@ const Calendar = ({ selectedDate, handleSelectedDate, options }: CalendarProps) 
         <S.CalendarSelectedDay>{`${selectedYear}년 ${selectedMonth}월`}</S.CalendarSelectedDay>
         <S.CalendarAdjustWrapper>
           <S.CalendarAdjustPrevious>
-            <Icon kind="arrowLeft" size={24} onClick={goToPreviousMonth} />
+            <Icon kind="arrowLeft" size="2rem" onClick={goToPreviousMonth} />
           </S.CalendarAdjustPrevious>
           <S.CalendarAdjustNext>
-            <Icon kind="arrowRight" size={24} onClick={goToNextMonth} />
+            <Icon kind="arrowRight" size="2rem" onClick={goToNextMonth} />
           </S.CalendarAdjustNext>
         </S.CalendarAdjustWrapper>
       </S.CalendarHeader>
