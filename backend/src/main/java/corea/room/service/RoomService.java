@@ -2,7 +2,6 @@ package corea.room.service;
 
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
-import corea.matching.domain.MatchResult;
 import corea.matching.repository.MatchResultRepository;
 import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
@@ -35,8 +34,8 @@ public class RoomService {
 
     private static final int PLUS_HOURS_TO_MINIMUM_RECRUITMENT_DEADLINE = 1;
     private static final int PLUS_DAYS_TO_MINIMUM_REVIEW_DEADLINE = 1;
-    private static final int PAGE_SIZE = 8;
-    private static final int MEMBER_SIZE = 6;
+    private static final int PAGE_DISPLAY_SIZE = 8;
+    private static final int RANDOM_DISPLAY_PARTICIPANTS_SIZE = 6;
 
     private final RoomRepository roomRepository;
     private final MemberRepository memberRepository;
@@ -98,7 +97,7 @@ public class RoomService {
     }
 
     private RoomResponses getRoomResponses(long memberId, int pageNumber, RoomClassification classification, RoomStatus status) {
-        PageRequest pageRequest = PageRequest.of(pageNumber, PAGE_SIZE);
+        PageRequest pageRequest = PageRequest.of(pageNumber, PAGE_DISPLAY_SIZE);
 
         if (classification.isAll()) {
             Page<Room> roomsWithPage = roomRepository.findAllByMemberAndStatus(memberId, status, pageRequest);
@@ -125,23 +124,23 @@ public class RoomService {
         }
     }
 
-    public RoomMemberResponses findMembers(long roomId, long memberId) {
+    public RoomParticipantResponses findMembers(long roomId, long memberId) {
         List<Participation> participants = new java.util.ArrayList<>(
                 participationRepository.findAllByRoomId(roomId).stream()
                 .filter(participation -> participation.getMemberId() != memberId)
                 .toList());
         Collections.shuffle(participants);
 
-        return new RoomMemberResponses(participants.stream()
-                .limit(MEMBER_SIZE)
+        return new RoomParticipantResponses(participants.stream()
+                .limit(RANDOM_DISPLAY_PARTICIPANTS_SIZE)
                 .map(participation -> getRoomMemberResponse(roomId, participation))
                 .toList());
     }
 
-    private RoomMemberResponse getRoomMemberResponse(long roomId, Participation participant) {
+    private RoomParticipantResponse getRoomMemberResponse(long roomId, Participation participant) {
         return matchResultRepository.findAllByRevieweeIdAndRoomId(participant.getMemberId(), roomId).stream()
                 .findFirst()
-                .map(matchResult -> new RoomMemberResponse(
+                .map(matchResult -> new RoomParticipantResponse(
                         participant.getMemberGithubId(), matchResult.getPrLink(), matchResult.getReviewee().getThumbnailUrl()))
                 .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND));
     }

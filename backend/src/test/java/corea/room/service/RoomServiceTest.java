@@ -16,7 +16,7 @@ import corea.room.domain.ParticipationStatus;
 import corea.room.domain.RoomClassification;
 import corea.room.domain.RoomStatus;
 import corea.room.dto.RoomCreateRequest;
-import corea.room.dto.RoomMemberResponses;
+import corea.room.dto.RoomParticipantResponses;
 import corea.room.dto.RoomResponse;
 import corea.room.dto.RoomResponses;
 import corea.room.repository.RoomRepository;
@@ -50,8 +50,10 @@ class RoomServiceTest {
 
     @Autowired
     private MemberRepository memberRepository;
+
     @Autowired
     private MatchResultRepository matchResultRepository;
+
     @Autowired
     private ParticipationRepository participationRepository;
 
@@ -244,7 +246,7 @@ class RoomServiceTest {
     }
 
     @Test
-    @DisplayName("본인을 제외하고 방에 참여한 사람의 정보를 최대 5명까지 가져온다.")
+    @DisplayName("본인을 제외하고 방에 참여한 사람의 정보를 최대 6명까지 가져온다.")
     void findMembers() {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
@@ -272,7 +274,7 @@ class RoomServiceTest {
         matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), member5, member6));
         matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), member6, manager));
 
-        RoomMemberResponses members = roomService.findMembers(room.getId(), manager.getId());
+        RoomParticipantResponses members = roomService.findMembers(room.getId(), manager.getId());
 
         assertThat(members.members()).hasSize(6);
     }
