@@ -3,8 +3,8 @@ import styled from "styled-components";
 export const CalendarContainer = styled.section`
   width: 400px;
   padding: 2rem;
-  background-color: ${({ theme }) => theme.COLOR.primary1};
   border-radius: 10px;
+  box-shadow: ${({ theme }) => theme.BOX_SHADOW.regular};
 `;
 
 export const CalendarHeader = styled.div`
@@ -66,11 +66,12 @@ export const Td = styled.td<{ $isSelected: boolean; $isAvailableClick: boolean }
   color: ${({ $isAvailableClick, theme }) => !$isAvailableClick && theme.COLOR.grey1};
   text-align: center;
 
-  background-color: ${({ $isSelected, theme }) => $isSelected && theme.COLOR.white};
+  background-color: ${({ $isSelected, theme }) => $isSelected && theme.COLOR.primary2};
   border-radius: ${({ $isSelected }) => $isSelected && "10px"};
 
   &:hover {
-    background-color: ${({ theme, $isAvailableClick }) => $isAvailableClick && theme.COLOR.white};
-    border-radius: ${({ $isAvailableClick }) => $isAvailableClick && "10px"};
+    background-color: ${({ theme, $isAvailableClick, $isSelected }) =>
+      $isAvailableClick && $isSelected ? theme.COLOR.primary2 : theme.COLOR.grey0};
+    border-radius: 10px;
   }
 `;

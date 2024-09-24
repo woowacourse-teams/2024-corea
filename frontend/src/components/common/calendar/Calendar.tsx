@@ -4,7 +4,7 @@ import Icon from "@/components/common/icon/Icon";
 import { CalendarDate } from "@/@types/date";
 import DAYS from "@/constants/days";
 
-interface CalendarProps {
+export interface CalendarProps {
   selectedDate: CalendarDate;
   handleSelectedDate: (newSelectedDate: CalendarDate) => void;
   options?: {
