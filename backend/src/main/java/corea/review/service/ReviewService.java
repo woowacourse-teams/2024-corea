@@ -1,5 +1,7 @@
 package corea.review.service;
 
+import corea.auth.dto.GithubPullRequestReview;
+import corea.auth.service.GithubOAuthProvider;
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
 import corea.matching.domain.MatchResult;
@@ -13,6 +15,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.stream.Stream;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -22,16 +26,35 @@ public class ReviewService {
 
     private final MatchResultRepository matchResultRepository;
     private final MemberRepository memberRepository;
+    private final GithubOAuthProvider githubOAuthProvider;
 
     @Transactional
     public void review(long roomId, long reviewerId, long revieweeId) {
         MatchResult matchResult = getMatchResult(roomId, reviewerId, revieweeId);
         matchResult.reviewComplete();
+        reviewLinkUpdate(matchResult, reviewerId);
 
         increaseReviewCount(reviewerId, ProfileCountType.DELIVER);
         increaseReviewCount(revieweeId, ProfileCountType.RECEIVE);
 
         log.info("리뷰 완료[{매칭 ID({}), 리뷰어 ID({}, 리뷰이 ID({})", matchResult.getId(), reviewerId, revieweeId);
+    }
+
+    private void reviewLinkUpdate(MatchResult matchResult, long reviewerId) {
+        Member reviewer = memberRepository.findById(reviewerId)
+                .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND, String.format("%d에 해당하는 멤버가 없습니다.", reviewerId)));
+        String userName = reviewer.getUsername();
+        String newReviewLink = findReviewLink(userName, matchResult.getReviewLink());
+        matchResult.updateReviewLink(newReviewLink);
+    }
+
+    private String findReviewLink(String userName, String reviewLink) {
+        GithubPullRequestReview[] githubPullRequestReviews = githubOAuthProvider.getPullRequestReview(reviewLink);
+        return Stream.of(githubPullRequestReviews)
+                .filter(review -> review.user().login().equals(userName))
+                .findFirst()
+                .map(GithubPullRequestReview::html_url)
+                .orElse(reviewLink);
     }
 
     private MatchResult getMatchResult(long roomId, long reviewerId, long revieweeId) {
