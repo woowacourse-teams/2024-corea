@@ -248,35 +248,18 @@ class RoomServiceTest {
 
     @Test
     @DisplayName("본인을 제외하고 방에 참여한 사람의 정보를 최대 6명까지 가져온다.")
-    void findMembers() {
+    void findParticipants() {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
 
-        Member member1 = memberRepository.save(MemberFixture.MEMBER_PORORO());
-        Member member2 = memberRepository.save(MemberFixture.MEMBER_ASH());
-        Member member3 = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
-        Member member4 = memberRepository.save(MemberFixture.MEMBER_CHOCO());
-        Member member5 = memberRepository.save(MemberFixture.MEMBER_MUBIN());
-        Member member6 = memberRepository.save(MemberFixture.MEMBER_TENTEN());
-
+        List<Member> members = memberRepository.saveAll(MemberFixture.SEVEN_MEMBERS());
         participationRepository.save(new Participation(room, manager.getId()));
-        participationRepository.save(new Participation(room, member1.getId()));
-        participationRepository.save(new Participation(room, member2.getId()));
-        participationRepository.save(new Participation(room, member3.getId()));
-        participationRepository.save(new Participation(room, member4.getId()));
-        participationRepository.save(new Participation(room, member5.getId()));
-        participationRepository.save(new Participation(room, member6.getId()));
+        participationRepository.saveAll(members.stream().map(member -> new Participation(room, member.getId())).toList());
+        matchResultRepository.saveAll(members.stream().map(member -> MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), manager, member)).toList());
+        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), members.get(0), manager));
 
-        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), manager, member1));
-        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), member1, member2));
-        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), member2, member3));
-        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), member3, member4));
-        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), member4, member5));
-        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), member5, member6));
-        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), member6, manager));
+        RoomParticipantResponses participants = roomService.findParticipants(room.getId(), manager.getId());
 
-        RoomParticipantResponses members = roomService.findMembers(room.getId(), manager.getId());
-
-        assertThat(members.participants()).hasSize(6);
+        assertThat(participants.participants()).hasSize(6);
     }
 }

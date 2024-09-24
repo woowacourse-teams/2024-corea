@@ -3,6 +3,8 @@ package corea.fixture;
 import corea.member.domain.Member;
 import corea.member.domain.Profile;
 
+import java.util.List;
+
 public class MemberFixture {
 
     public static Member MEMBER_YOUNGSU() {
@@ -92,5 +94,9 @@ public class MemberFixture {
                 "119468757",
                 profile
         );
+    }
+
+    public static List<Member> SEVEN_MEMBERS() {
+        return List.of(MEMBER_PORORO(), MEMBER_ASH(), MEMBER_YOUNGSU(), MEMBER_CHOCO(), MEMBER_MUBIN(), MEMBER_TENTEN());
     }
 }
