@@ -1,12 +1,9 @@
 import { ReactNode } from "react";
 import Button, { ButtonProps } from "@/components/common/button/Button";
 import * as S from "@/components/common/contentSection/ContentSection.style";
-import Icon from "@/components/common/icon/Icon";
-import IconKind from "@/@types/icon";
 
 interface ContentSectionButton extends ButtonProps {
-  label?: string;
-  icon?: IconKind;
+  label: string;
 }
 
 interface ContentSectionProps {
@@ -16,15 +13,12 @@ interface ContentSectionProps {
 }
 
 const ContentSection = ({ title, children, button }: ContentSectionProps) => {
-  const buttonSize = button?.icon ? "xSmall" : "small";
-
   return (
     <S.ContentSectionContainer>
       <S.ContentSectionHeader>
         <S.ContentSectionTitle>{title}</S.ContentSectionTitle>
         {button && (
-          <Button onClick={button.onClick} size={buttonSize}>
-            {button.icon && <Icon kind={button.icon} size={20} />}
+          <Button onClick={button.onClick} size="small">
             {button.label}
           </Button>
         )}
