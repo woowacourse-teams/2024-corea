@@ -51,7 +51,7 @@ public record RoomResponse(@Schema(description = "방 아이디", example = "1")
                            String roomStatus
 ) {
 
-    public static RoomResponse of(Room room) {
+    public static RoomResponse from(Room room) {
         return RoomResponse.of(room, ParticipationStatus.NOT_PARTICIPATED);
     }
 

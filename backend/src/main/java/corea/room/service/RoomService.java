@@ -6,7 +6,6 @@ import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
 import corea.participation.domain.Participation;
 import corea.participation.repository.ParticipationRepository;
-import corea.room.domain.ParticipationStatus;
 import corea.room.domain.Room;
 import corea.room.domain.RoomClassification;
 import corea.room.domain.RoomStatus;
@@ -14,7 +13,6 @@ import corea.room.dto.RoomCreateRequest;
 import corea.room.dto.RoomResponse;
 import corea.room.dto.RoomResponses;
 import corea.room.repository.RoomRepository;
-import corea.scheduler.domain.AutomaticMatching;
 import corea.scheduler.repository.AutomaticMatchingRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -52,7 +50,7 @@ public class RoomService {
         Room room = roomRepository.save(request.toEntity(member));
 
         participationRepository.save(new Participation(room, memberId));
-        return RoomResponse.of(room, ParticipationStatus.PARTICIPATED);
+        return RoomResponse.of(room, MANAGER);
     }
 
     //TODO: 검증 로직 추후 변경할게용~
@@ -101,10 +99,10 @@ public class RoomService {
 
         if (classification.isAll()) {
             Page<Room> roomsWithPage = roomRepository.findAllByMemberAndStatus(memberId, status, pageRequest);
-            return RoomResponses.from(roomsWithPage, NOT_PARTICIPATED, pageNumber);
+            return RoomResponses.of(roomsWithPage, NOT_PARTICIPATED, pageNumber);
         }
         Page<Room> roomsWithPage = roomRepository.findAllByMemberAndClassificationAndStatus(memberId, classification, status, pageRequest);
-        return RoomResponses.from(roomsWithPage, NOT_PARTICIPATED, pageNumber);
+        return RoomResponses.of(roomsWithPage, NOT_PARTICIPATED, pageNumber);
     }
 
     @Transactional
@@ -124,7 +122,7 @@ public class RoomService {
     }
 
     public RoomResponse getRoomById(long roomId) {
-        return RoomResponse.of(getRoom(roomId));
+        return RoomResponse.from(getRoom(roomId));
     }
 
     private Room getRoom(long roomId) {

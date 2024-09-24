@@ -116,9 +116,8 @@ public class Room {
         return manager.getName();
     }
 
-    public boolean isManagerId(long memberId) {
-        return manager.getId()
-                .equals(memberId);
+    public boolean isManagerId(long managerId) {
+        return manager.isMatchingId(managerId);
     }
 }
 

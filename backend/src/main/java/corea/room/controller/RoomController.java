@@ -63,25 +63,25 @@ public class RoomController implements RoomControllerSpecification {
 
     @GetMapping("/opened")
     public ResponseEntity<RoomResponses> openedRooms(@AccessedMember AuthInfo authInfo,
-                                                     @RequestParam(value = "classification", defaultValue = "all") String expression,
-                                                     @RequestParam(defaultValue = "0") int page) {
-        RoomResponses response = roomService.findRoomsWithRoomStatus(authInfo.getId(),page, expression, RoomStatus.OPEN);
+                                                     @RequestParam(defaultValue = "0") int page,
+                                                     @RequestParam(value = "classification", defaultValue = "all") String expression) {
+        RoomResponses response = roomService.findRoomsWithRoomStatus(authInfo.getId(), page, expression, RoomStatus.OPEN);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/progress")
     public ResponseEntity<RoomResponses> progressRooms(@AccessedMember AuthInfo authInfo,
-                                                       @RequestParam(value = "classification", defaultValue = "all") String expression,
-                                                       @RequestParam(defaultValue = "0") int page) {
-        RoomResponses response = roomService.findRoomsWithRoomStatus(authInfo.getId(),page, expression, RoomStatus.PROGRESS);
+                                                       @RequestParam(defaultValue = "0") int page,
+                                                       @RequestParam(value = "classification", defaultValue = "all") String expression) {
+        RoomResponses response = roomService.findRoomsWithRoomStatus(authInfo.getId(), page, expression, RoomStatus.PROGRESS);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/closed")
     public ResponseEntity<RoomResponses> closedRooms(@AccessedMember AuthInfo authInfo,
-                                                     @RequestParam(value = "classification", defaultValue = "all") String expression,
-                                                     @RequestParam(defaultValue = "0") int page) {
-        RoomResponses response = roomService.findRoomsWithRoomStatus(authInfo.getId(),page, expression, RoomStatus.CLOSE);
+                                                     @RequestParam(defaultValue = "0") int page,
+                                                     @RequestParam(value = "classification", defaultValue = "all") String expression) {
+        RoomResponses response = roomService.findRoomsWithRoomStatus(authInfo.getId(), page, expression, RoomStatus.CLOSE);
         return ResponseEntity.ok(response);
     }
 

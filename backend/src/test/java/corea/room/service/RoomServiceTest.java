@@ -90,7 +90,7 @@ class RoomServiceTest {
     @CsvSource({"be, 3", "fe, 1", "an, 2", "all, 6"})
     @DisplayName("로그인한 사용자가 자신이 참여하지 않고, 분야별로 현재 모집 중인 방들을 조회할 수 있다.")
     void findOpenedRoomsWithMember(String expression, int expectedSize) {
-        RoomResponses response = roomService.findRoomsWithRoomStatus(1, 0,expression, RoomStatus.OPEN);
+        RoomResponses response = roomService.findRoomsWithRoomStatus(1, 0, expression, RoomStatus.OPEN);
         List<RoomResponse> rooms = response.rooms();
 
         assertThat(rooms).hasSize(expectedSize);
@@ -102,7 +102,7 @@ class RoomServiceTest {
     void findProgressRoomsWithoutMember(String expression, int expectedSize) {
         AuthInfo anonymous = AuthInfo.getAnonymous();
 
-        RoomResponses response = roomService.findRoomsWithRoomStatus(anonymous.getId(), 0, expression,RoomStatus.PROGRESS);
+        RoomResponses response = roomService.findRoomsWithRoomStatus(anonymous.getId(), 0, expression, RoomStatus.PROGRESS);
         List<RoomResponse> rooms = response.rooms();
 
         assertThat(rooms).hasSize(expectedSize);
@@ -113,7 +113,7 @@ class RoomServiceTest {
     @DisplayName("로그인한 사용자가 자신이 참여하지 않고, 분야별로 현재 모집 완료된 방들을 조회할 수 있다.")
     void findProgressRoomsWithMember(String expression, int expectedSize) {
 
-        RoomResponses response = roomService.findRoomsWithRoomStatus(1, 0, expression,RoomStatus.PROGRESS);
+        RoomResponses response = roomService.findRoomsWithRoomStatus(1, 0, expression, RoomStatus.PROGRESS);
         List<RoomResponse> rooms = response.rooms();
 
         assertThat(rooms).hasSize(expectedSize);
@@ -123,7 +123,7 @@ class RoomServiceTest {
     @CsvSource({"be, 1", "fe, 1", "an, 1", "all, 3"})
     @DisplayName("현재 종료된 방들을 조회할 수 있다.")
     void findClosedRooms(String expression, int expectedSize) {
-        RoomResponses response = roomService.findRoomsWithRoomStatus(-1, 0, expression,RoomStatus.CLOSE);
+        RoomResponses response = roomService.findRoomsWithRoomStatus(-1, 0, expression, RoomStatus.CLOSE);
         List<RoomResponse> rooms = response.rooms();
 
         assertThat(rooms).hasSize(expectedSize);
@@ -135,7 +135,7 @@ class RoomServiceTest {
     void isLastPage(int pageNumber, boolean expected) {
         AuthInfo anonymous = AuthInfo.getAnonymous();
 
-        RoomResponses response = roomService.findRoomsWithRoomStatus(anonymous.getId(), pageNumber, "all",RoomStatus.OPEN);
+        RoomResponses response = roomService.findRoomsWithRoomStatus(anonymous.getId(), pageNumber, "all", RoomStatus.OPEN);
 
         assertThat(response.isLastPage()).isEqualTo(expected);
     }

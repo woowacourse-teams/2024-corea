@@ -27,7 +27,7 @@ public record RoomResponses(@Schema(description = "방 정보들")
                 .collect(collectingAndThen(toList(), responses -> new RoomResponses(responses, isLastPage, pageNumber)));
     }
 
-    public static RoomResponses from(Page<Room> roomsWithPage, ParticipationStatus participationStatus, int pageNumber) {
+    public static RoomResponses of(Page<Room> roomsWithPage, ParticipationStatus participationStatus, int pageNumber) {
         return of(roomsWithPage.getContent(), participationStatus, roomsWithPage.isLast(), pageNumber);
     }
 }
