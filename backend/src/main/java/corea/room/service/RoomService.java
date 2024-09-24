@@ -42,7 +42,7 @@ public class RoomService {
     private final AutomaticMatchingRepository automaticMatchingRepository;
 
     @Transactional
-    public RoomResponse create(long memberId, RoomCreateRequest request) {
+    public RoomResponse create(long managerId, RoomCreateRequest request) {
         validateDeadLine(request.recruitmentDeadline(), request.reviewDeadline());
 
         Member member = memberRepository.findById(memberId)
