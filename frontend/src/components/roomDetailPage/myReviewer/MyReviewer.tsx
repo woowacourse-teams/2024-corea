@@ -31,13 +31,13 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
   }
 
   const handleOpenFeedbackModal = (reviewer: ReviewerInfo) => {
-    const result = getFeedbackType({
+    const feedbackType = getFeedbackType({
       isReviewed: reviewer.isReviewed,
       isWrited: reviewer.isWrited,
-      isClosed: roomInfo.isClosed,
+      isClosed: roomInfo.roomStatus === "CLOSE",
     });
     setSelectedReviewer(reviewer);
-    setFeedbackTypeResult(result);
+    setFeedbackTypeResult(feedbackType);
     handleOpenModal();
   };
 
@@ -70,7 +70,7 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
           const { buttonText } = getFeedbackType({
             isReviewed: reviewer.isReviewed,
             isWrited: reviewer.isWrited,
-            isClosed: roomInfo.isClosed,
+            isClosed: roomInfo.roomStatus === "CLOSE",
           });
 
           return (

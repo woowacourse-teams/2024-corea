@@ -43,7 +43,7 @@ const FeedbackCardList = ({ feedbackData }: FeedbackCardListProps) => {
                 {feedback.roomKeywords.map((keyword) => (
                   <Label
                     key={keyword}
-                    type="keyword"
+                    type="KEYWORD"
                     text={keyword}
                     size="semiSmall"
                     backgroundColor={theme.COLOR.white}

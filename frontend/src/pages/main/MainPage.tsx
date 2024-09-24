@@ -9,6 +9,7 @@ import Banner from "@/components/main/banner/Banner";
 import ClosedRoomList from "@/components/main/room/ClosedRoomList";
 import OpenedRoomList from "@/components/main/room/OpenedRoomList";
 import ParticipatedRoomList from "@/components/main/room/ParticipatedRoomList";
+import ProgressRoomList from "@/components/main/room/ProgressRoomList";
 import * as S from "@/pages/main/MainPage.style";
 import { Option } from "@/@types/rooms";
 import { optionsLoggedIn, optionsLoggedOut } from "@/constants/room";
@@ -23,7 +24,7 @@ const MainPage = () => {
 
   const renderContent = () => {
     switch (selectedTab) {
-      case "참여 중":
+      case "참여중":
         return (
           <Suspense
             fallback={
@@ -35,7 +36,22 @@ const MainPage = () => {
             <ParticipatedRoomList />
           </Suspense>
         );
-      case "모집 중":
+      case "진행중":
+        return (
+          <Suspense
+            fallback={
+              <DelaySuspense>
+                <Loading />
+              </DelaySuspense>
+            }
+          >
+            <ProgressRoomList
+              selectedCategory={selectedCategory}
+              handleSelectedCategory={handleSelectedCategory}
+            />
+          </Suspense>
+        );
+      case "모집중":
         return (
           <Suspense
             fallback={
@@ -50,7 +66,7 @@ const MainPage = () => {
             />
           </Suspense>
         );
-      case "모집 마감":
+      case "모집마감":
         return (
           <Suspense
             fallback={

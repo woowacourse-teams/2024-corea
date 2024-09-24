@@ -30,19 +30,19 @@ type Story = StoryObj<typeof meta>;
 
 export const Keyword: Story = {
   args: {
-    type: "keyword",
+    type: "KEYWORD",
     text: "FRONTEND",
   },
 };
 
 export const Open: Story = {
   args: {
-    type: "open",
+    type: "OPEN",
   },
 };
 
 export const Close: Story = {
   args: {
-    type: "close",
+    type: "OPEN",
   },
 };

@@ -12,6 +12,18 @@ export const getParticipatedRoomList = async (): Promise<RoomListInfo> => {
   return res;
 };
 
+export const getProgressRoomList = async (
+  classification: string,
+  page: number,
+): Promise<RoomListInfo> => {
+  const res = await apiClient.get({
+    endpoint: `${API_ENDPOINTS.PROGRESS_ROOMS}?classification=${classification}&page=${page}`,
+    errorMessage: MESSAGES.ERROR.GET_PROGRESS_ROOM_LIST,
+  });
+
+  return res;
+};
+
 export const getOpenedRoomList = async (
   classification: string,
   page: number,

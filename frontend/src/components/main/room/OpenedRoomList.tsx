@@ -28,6 +28,7 @@ const OpenedRoomList = ({ selectedCategory, handleSelectedCategory }: OpenedRoom
       roomList={openedRooms}
       hasNextPage={hasNextOpenedPage}
       onLoadMore={fetchNextOpenedPage}
+      roomType="opened"
     />
   );
 };
