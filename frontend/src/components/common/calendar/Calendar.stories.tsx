@@ -29,23 +29,13 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    selectedDate: {
-      year: 9,
-      month: 24,
-      date: 15,
-    },
+    selectedDate: new Date(),
     handleSelectedDate: () => {},
   },
   render: (args) => {
-    const today = new Date();
-    const calendarDate: CalendarDate = {
-      year: today.getFullYear(),
-      month: today.getMonth() + 1,
-      date: today.getDate(),
-    };
-    const [selectedDate, setSelectedDate] = useState<CalendarDate>(calendarDate);
+    const [selectedDate, setSelectedDate] = useState<Date>(args.selectedDate);
 
-    const handleSelectedDate = (newSelectedDate: CalendarDate) => {
+    const handleSelectedDate = (newSelectedDate: Date) => {
       setSelectedDate(newSelectedDate);
     };
 
@@ -55,26 +45,16 @@ export const Default: Story = {
 
 export const 이전날짜_선택_불가_캘린더: Story = {
   args: {
-    selectedDate: {
-      year: 9,
-      month: 24,
-      date: 15,
-    },
+    selectedDate: new Date(),
     handleSelectedDate: () => {},
     options: {
       isPastDateDisabled: true,
     },
   },
   render: (args) => {
-    const today = new Date();
-    const calendarDate: CalendarDate = {
-      year: today.getFullYear(),
-      month: today.getMonth() + 1,
-      date: today.getDate(),
-    };
-    const [selectedDate, setSelectedDate] = useState<CalendarDate>(calendarDate);
+    const [selectedDate, setSelectedDate] = useState<Date>(args.selectedDate);
 
-    const handleSelectedDate = (newSelectedDate: CalendarDate) => {
+    const handleSelectedDate = (newSelectedDate: Date) => {
       setSelectedDate(newSelectedDate);
     };
 

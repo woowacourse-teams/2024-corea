@@ -5,10 +5,10 @@ const DAY_OF_WEEK = 7;
 const DEFAULT_TRASH_VALUE = 0;
 
 const useCalendar = () => {
-  const [currentDate, setCurrentDate] = useState(new Date());
+  const [currentViewDate, setCurrentViewDate] = useState(new Date());
 
-  const year = currentDate.getFullYear();
-  const month = currentDate.getMonth();
+  const year = currentViewDate.getFullYear();
+  const month = currentViewDate.getMonth();
 
   const firstDay = new Date(year, month, 1).getDay();
   const lastDate = new Date(year, month + 1, 0).getDate();
@@ -29,16 +29,16 @@ const useCalendar = () => {
   }, []);
 
   const goToPreviousMonth = () => {
-    setCurrentDate(new Date(year, month - 1, 1));
+    setCurrentViewDate(new Date(year, month - 1, 1));
   };
 
   const goToNextMonth = () => {
-    setCurrentDate(new Date(year, month + 1, 1));
+    setCurrentViewDate(new Date(year, month + 1, 1));
   };
 
   return {
     weekCalendarList,
-    currentDate,
+    currentViewDate,
     goToNextMonth,
     goToPreviousMonth,
   };

@@ -1,60 +1,52 @@
 import * as S from "./Calendar.style";
 import useCalendar from "@/hooks/common/useCalendar";
 import Icon from "@/components/common/icon/Icon";
-import { CalendarDate } from "@/@types/date";
 import DAYS from "@/constants/days";
+import areDatesEqual from "@/utils/areDatesEqual";
 
 export interface CalendarProps {
-  selectedDate: CalendarDate;
-  handleSelectedDate: (newSelectedDate: CalendarDate) => void;
+  selectedDate: Date;
+  handleSelectedDate: (newSelectedDate: Date) => void;
   options?: {
     isPastDateDisabled: boolean;
   };
 }
 
 const Calendar = ({ selectedDate, handleSelectedDate, options }: CalendarProps) => {
-  const { currentDate, weekCalendarList, goToNextMonth, goToPreviousMonth } = useCalendar();
+  const { currentViewDate, weekCalendarList, goToNextMonth, goToPreviousMonth } = useCalendar();
 
-  const selectedYear = currentDate.getFullYear();
-  const selectedMonth = currentDate.getMonth() + 1;
+  const currentViewYear = currentViewDate.getFullYear();
+  const currentViewMonth = currentViewDate.getMonth() + 1;
 
-  const checkIsSelected = (date: number) => {
-    if (
-      selectedDate.year === selectedYear &&
-      selectedDate.month === selectedMonth &&
-      selectedDate.date === date
-    ) {
-      return true;
-    }
+  const checkIsSelected = (day: number) => {
+    const checkingDate = new Date(currentViewYear, currentViewMonth - 1, day);
 
-    return false;
+    return areDatesEqual(selectedDate, checkingDate);
   };
 
-  const handleClickCalendar = (date: number) => {
-    const newSelectedDate: CalendarDate = {
-      year: selectedYear,
-      month: selectedMonth,
-      date: date,
-    };
-    if (!checkIsAvailableClick(date)) return;
+  const handleClickCalendar = (day: number) => {
+    if (!checkIsAvailableClick(day)) return;
+
+    const newSelectedDate = new Date(currentViewYear, currentViewMonth - 1, day);
 
     handleSelectedDate(newSelectedDate);
   };
 
-  const checkIsAvailableClick = (selectedDate: number) => {
+  const checkIsAvailableClick = (day: number) => {
     if (!options?.isPastDateDisabled) return true;
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    const checkDate = new Date(selectedYear, selectedMonth - 1, selectedDate);
 
-    return today <= checkDate;
+    const checkingDate = new Date(currentViewYear, currentViewMonth - 1, day);
+
+    return today <= checkingDate;
   };
 
   return (
     <S.CalendarContainer>
       <S.CalendarHeader>
-        <S.CalendarSelectedDay>{`${selectedYear}년 ${selectedMonth}월`}</S.CalendarSelectedDay>
+        <S.CalendarSelectedDay>{`${currentViewYear}년 ${currentViewMonth}월`}</S.CalendarSelectedDay>
         <S.CalendarAdjustWrapper>
           <S.CalendarAdjustPrevious>
             <Icon kind="arrowLeft" size="2rem" onClick={goToPreviousMonth} />

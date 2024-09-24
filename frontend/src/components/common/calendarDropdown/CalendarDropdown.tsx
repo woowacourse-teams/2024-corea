@@ -2,7 +2,6 @@ import * as S from "./CalendarDropdown.style";
 import { InputHTMLAttributes } from "react";
 import useDropdown from "@/hooks/common/useDropdown";
 import Calendar, { CalendarProps } from "@/components/common/calendar/Calendar";
-import { CalendarDate } from "@/@types/date";
 
 type CalendarDropdownProps = CalendarProps &
   InputHTMLAttributes<HTMLInputElement> & {
@@ -18,7 +17,11 @@ const CalendarDropdown = ({
 }: CalendarDropdownProps) => {
   const { isOpen, handleToggleDropdown, dropdownRef } = useDropdown();
 
-  const handleDateChange = (newSelectedDate: CalendarDate) => {
+  const selectedYear = selectedDate.getFullYear();
+  const selectedMonth = selectedDate.getMonth() + 1;
+  const selectedDay = selectedDate.getDate();
+
+  const handleDateChange = (newSelectedDate: Date) => {
     handleSelectedDate(newSelectedDate);
 
     handleToggleDropdown();
@@ -28,7 +31,7 @@ const CalendarDropdown = ({
     <S.CalendarDropdownContainer ref={dropdownRef}>
       <S.CalendarDropdownToggle
         type="text"
-        value={`${selectedDate.year}-${selectedDate.month}-${selectedDate.date}`}
+        value={`${selectedYear}-${selectedMonth}-${selectedDay}`}
         onClick={handleToggleDropdown}
         placeholder="날짜를 선택하세요"
         readOnly
