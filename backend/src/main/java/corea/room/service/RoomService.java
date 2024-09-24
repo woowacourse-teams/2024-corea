@@ -13,6 +13,8 @@ import corea.room.domain.RoomClassification;
 import corea.room.domain.RoomStatus;
 import corea.room.dto.*;
 import corea.room.repository.RoomRepository;
+import corea.scheduler.domain.AutomaticMatching;
+import corea.scheduler.repository.AutomaticMatchingRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -38,6 +40,7 @@ public class RoomService {
     private final RoomRepository roomRepository;
     private final MemberRepository memberRepository;
     private final ParticipationRepository participationRepository;
+    private final AutomaticMatchingRepository automaticMatchingRepository;
     private final MatchResultRepository matchResultRepository;
 
     @Transactional
@@ -47,7 +50,10 @@ public class RoomService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND, String.format("%d에 해당하는 멤버가 없습니다.", memberId)));
         Room room = roomRepository.save(request.toEntity(member));
+
+        long roomId = room.getId();
         participationRepository.save(new Participation(room, memberId));
+        automaticMatchingRepository.save(new AutomaticMatching(roomId, request.recruitmentDeadline()));
         return RoomResponse.of(room, true);
     }
 
@@ -160,7 +166,7 @@ public class RoomService {
     }
 
     public RoomResponse getRoomById(long roomId) {
-        return RoomResponse.of(getRoom(roomId));
+        return RoomResponse.from(getRoom(roomId));
     }
 
     private Room getRoom(long roomId) {
