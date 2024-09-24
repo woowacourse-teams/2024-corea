@@ -78,7 +78,7 @@ public interface RoomControllerSpecification {
                                                    AuthInfo authInfo);
 
     @Operation(summary = "참여 중인 방 정보를 반환합니다..",
-            description = "해당 멤버가 참여 중인 방들의 정보를 반환합니다. <br>" +
+            description = "해당 멤버가 참여 중인 방들의 정보를 리뷰 마감일이 임박한 순으로 정렬해 반환합니다. <br>" +
                     "요청 시 `Authorization Header`에 `Bearer JWT token`을 포함시켜야 합니다. " +
                     "이 토큰을 기반으로 `AuthInfo` 객체가 생성되며 사용자의 정보가 자동으로 주입됩니다. <br>" +
                     "JWT 토큰에서 추출된 사용자 정보는 피드백 작성에 필요한 인증된 사용자 정보를 제공합니다. " +
@@ -87,7 +87,7 @@ public interface RoomControllerSpecification {
     ResponseEntity<RoomResponses> participatedRooms(AuthInfo authInfo);
 
     @Operation(summary = "현재 모집 중인 방 정보를 반환합니다.",
-            description = "현재 모집 중인 방들의 정보를 반환합니다. 이미 참여 중인 방들의 정보는 제외됩니다. <br>" +
+            description = "현재 모집 중인 방들의 정보를 모집 마감일이 임박한 순으로 정렬해 반환합니다. 이미 참여 중인 방들의 정보는 제외됩니다. <br>" +
                     "요청 시 `Authorization Header`에 `Bearer JWT token`을 포함시켜야 합니다. " +
                     "이 토큰을 기반으로 `AuthInfo` 객체가 생성되며 사용자의 정보가 자동으로 주입됩니다. <br>" +
                     "JWT 토큰에서 추출된 사용자 정보는 피드백 작성에 필요한 인증된 사용자 정보를 제공합니다. " +
