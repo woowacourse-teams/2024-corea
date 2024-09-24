@@ -1,8 +1,8 @@
 {
   "id": 1,
-  "title": "자바 레이싱 카 - TDD",
+  "title": "(강다빈)자바 레이싱 카 - TDD ",
   "content": "TDD를 배우고 싶은 자 나에게로",
-  "manager": "김코딩",
+  "manager": "강다빈",
   "repositoryLink": "https://github.com/example/java-racingcar",
   "thumbnailLink": "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=13301655&filePath=L2Rpc2sxL25ld2RhdGEvMjAyMS8yMS9DTFMxMDAwNC8xMzMwMTY1NV9XUlRfMjFfQ0xTMTAwMDRfMjAyMTEyMTNfMQ==&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004",
   "matchingSize": 3,
@@ -12,5 +12,6 @@
   "recruitmentDeadline": "2024-07-30T15:00",
   "reviewDeadline": "2024-08-10T23:59",
   "isParticipated": true,
+  "roomStatus": "OPEN",
   "isClosed": false
 }
