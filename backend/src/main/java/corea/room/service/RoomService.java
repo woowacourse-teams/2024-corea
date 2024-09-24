@@ -35,7 +35,7 @@ public class RoomService {
     private static final int PLUS_HOURS_TO_MINIMUM_RECRUITMENT_DEADLINE = 1;
     private static final int PLUS_DAYS_TO_MINIMUM_REVIEW_DEADLINE = 1;
     private static final int PAGE_SIZE = 8;
-    private static final int MEMBER_SIZE = 5;
+    private static final int MEMBER_SIZE = 6;
 
     private final RoomRepository roomRepository;
     private final MemberRepository memberRepository;

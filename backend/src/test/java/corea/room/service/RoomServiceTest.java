@@ -236,6 +236,6 @@ class RoomServiceTest {
 
         RoomMemberResponses members = roomService.findMembers(room.getId(), manager.getId());
 
-        assertThat(members.members()).hasSize(5);
+        assertThat(members.members()).hasSize(6);
     }
 }
