@@ -11,7 +11,7 @@ import { theme } from "@/styles/theme";
 import { FeedbackModalType } from "@/utils/feedbackUtils";
 
 interface ReviewerFeedbackModalProps extends ModalProps {
-  roomInfo: Pick<RoomInfo, "id" | "title" | "keywords" | "isClosed">;
+  roomInfo: Pick<RoomInfo, "id" | "title" | "keywords">;
   reviewer: ReviewerInfo;
   modalType: FeedbackModalType;
   buttonText: string;
@@ -41,7 +41,7 @@ const ReviewerFeedbackModal = ({
           {roomInfo.keywords.map((keyword) => (
             <Label
               key={keyword}
-              type="keyword"
+              type="KEYWORD"
               text={keyword}
               size="semiSmall"
               backgroundColor={theme.COLOR.grey0}
