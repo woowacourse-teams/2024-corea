@@ -3,7 +3,10 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { RoomInfo } from "@/@types/roomInfo";
 import roomInfos from "@/mocks/mockResponse/roomInfos.json";
 
-const sampleRoomList: RoomInfo[] = roomInfos.rooms;
+const sampleRoomList = roomInfos.rooms.map((roomInfo) => ({
+  ...roomInfo,
+  roomStatus: roomInfo.roomStatus as "OPEN" | "CLOSE" | "PROGRESS",
+})) satisfies RoomInfo[];
 
 const meta = {
   title: "shared/RoomList",

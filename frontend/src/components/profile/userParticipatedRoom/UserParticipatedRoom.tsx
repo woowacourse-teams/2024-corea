@@ -5,8 +5,8 @@ import RoomList from "@/components/shared/roomList/RoomList";
 const UserParticipatedRoom = () => {
   const { data: roomList } = useFetchParticipatedRoomList();
 
-  const participatingRoomList = roomList.rooms.filter((room) => !room.isClosed);
-  const participatedRoomList = roomList.rooms.filter((room) => room.isClosed);
+  const participatingRoomList = roomList.rooms.filter((room) => room.roomStatus !== "CLOSE");
+  const participatedRoomList = roomList.rooms.filter((room) => room.roomStatus === "CLOSE");
 
   return (
     <>
