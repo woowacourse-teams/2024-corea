@@ -25,15 +25,13 @@ public class RoomController implements RoomControllerSpecification {
     private final MatchResultService matchResultService;
     private final AutomaticMatchingService automaticMatchingService;
 
-    @PostMapping("/{id}")
-    public ResponseEntity<RoomResponse> create(@PathVariable long id,
-                                               @LoginMember AuthInfo authInfo,
-                                               @RequestBody RoomCreateRequest request) {
-        RoomResponse roomResponse = roomService.create(authInfo.getId(), request);
-        automaticMatchingService.matchOnRecruitmentDeadline(roomResponse);
+    @PostMapping
+    public ResponseEntity<RoomResponse> create(@LoginMember AuthInfo authInfo, @RequestBody RoomCreateRequest request) {
+        RoomResponse response = roomService.create(authInfo.getId(), request);
+        automaticMatchingService.matchOnRecruitmentDeadline(response);
 
-        return ResponseEntity.created(URI.create(String.format("/rooms/%d", id)))
-                .body(roomResponse);
+        return ResponseEntity.created(URI.create(String.format("/rooms/%d", response.id())))
+                .body(response);
     }
 
     @GetMapping("/{id}")
