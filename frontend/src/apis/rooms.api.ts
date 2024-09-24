@@ -1,6 +1,6 @@
 import apiClient from "./apiClient";
 import { API_ENDPOINTS } from "./endpoints";
-import { RoomInfo, RoomListInfo } from "@/@types/roomInfo";
+import { CreateRoomInfo, RoomInfo, RoomListInfo } from "@/@types/roomInfo";
 import MESSAGES from "@/constants/message";
 
 export const getParticipatedRoomList = async (): Promise<RoomListInfo> => {
@@ -57,9 +57,10 @@ export const getRoomDetailInfo = async (id: number): Promise<RoomInfo> => {
   return res;
 };
 
-export const postCreateRoom = async (): Promise<void> => {
+export const postCreateRoom = async (roomData: CreateRoomInfo): Promise<void> => {
   return apiClient.post({
     endpoint: API_ENDPOINTS.ROOMS,
+    body: { roomData },
     errorMessage: MESSAGES.ERROR.POST_CREATE_ROOM,
   });
 };
