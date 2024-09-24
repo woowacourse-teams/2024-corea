@@ -40,7 +40,7 @@ const RoomList = ({
           ),
         )}
         {isFetching &&
-          Array.from({ length: 5 }).map((_, idx) => <RoomCardSkeleton.Wrapper key={idx} />)}
+          Array.from({ length: 8 }).map((_, idx) => <RoomCardSkeleton.Wrapper key={idx} />)}
       </S.RoomListContainer>
       {hasNextPage && onLoadMore && <PlusButton onClick={handleClickLoadMore} />}
     </S.RoomListSection>
