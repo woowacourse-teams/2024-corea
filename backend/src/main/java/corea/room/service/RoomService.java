@@ -158,11 +158,11 @@ public class RoomService {
     }
 
     private RoomMemberResponse getRoomMemberResponse(long roomId, Participation participant) {
-        List<MatchResult> matchResults = matchResultRepository.findAllByRevieweeIdAndRoomId(participant.getMemberId(), roomId);
-        if (matchResults.isEmpty()) {
-            throw new CoreaException(ExceptionType.MEMBER_NOT_FOUND);
-        }
-        return new RoomMemberResponse(participant.getMemberGithubId(), matchResults.get(0).getPrLink());
+        return matchResultRepository.findAllByRevieweeIdAndRoomId(participant.getMemberId(), roomId).stream()
+                .findFirst()
+                .map(matchResult -> new RoomMemberResponse(
+                        participant.getMemberGithubId(), matchResult.getPrLink(), matchResult.getReviewee().getThumbnailUrl()))
+                .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND));
     }
 
     public RoomResponse getRoomById(long roomId) {

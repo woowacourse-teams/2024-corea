@@ -8,6 +8,9 @@ public record RoomMemberResponse(
         String githubId,
 
         @Schema(description = "pr 링크", example = "https://github.com/repos/pr/pull/123")
-        String prLink
+        String prLink,
+
+        @Schema(description = "썸네일 링크", example = "www.myProfile.jpg")
+        String thumbnailLink
 ) {
 }
