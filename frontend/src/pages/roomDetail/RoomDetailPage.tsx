@@ -1,5 +1,5 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import useMutateParticipateIn from "@/hooks/mutations/useMutateParticipateIn";
 import useMutateRoom from "@/hooks/mutations/useMutateRoom";
@@ -46,19 +46,27 @@ const RoomDetailPage = () => {
     });
   };
 
+  const buttonProps = useMemo(() => {
+    if (roomInfo.roomStatus !== "OPEN") {
+      return undefined;
+    }
+
+    if (roomInfo.participationStatus === "MANAGER") {
+      return {
+        label: "방 삭제하기",
+        onClick: handleDeleteRoomClick,
+      };
+    }
+
+    return {
+      label: "방 참여 취소하기",
+      onClick: handleCancleParticipateInClick,
+    };
+  }, [roomInfo.roomStatus, roomInfo.participationStatus]);
+
   return (
     <S.Layout>
-      <ContentSection
-        title="미션 정보"
-        button={
-          roomInfo.roomStatus === "OPEN"
-            ? {
-                label: "방 삭제하기",
-                onClick: handleDeleteRoomClick,
-              }
-            : undefined
-        }
-      >
+      <ContentSection title="미션 정보" button={buttonProps}>
         <RoomInfoCard roomInfo={roomInfo} />
       </ContentSection>
 
