@@ -19,13 +19,11 @@ const useCalendar = () => {
     { length: CALENDER_LENGTH - firstDay - lastDate },
     () => DEFAULT_TRASH_VALUE,
   );
-  const currentCalendarList = prevDayList.concat(currentDayList, nextDayList);
+  const currentCalendarList = [...prevDayList, ...currentDayList, ...nextDayList];
 
   const weekCalendarList = currentCalendarList.reduce((acc: number[][], cur, idx) => {
     const chunkIndex = Math.floor(idx / DAY_OF_WEEK);
-    if (!acc[chunkIndex]) {
-      acc[chunkIndex] = [];
-    }
+    acc[chunkIndex] = acc[chunkIndex] || [];
     acc[chunkIndex].push(cur);
     return acc;
   }, []);
