@@ -12,4 +12,6 @@ public interface AutomaticMatchingRepository extends JpaRepository<AutomaticMatc
     Optional<AutomaticMatching> findByRoomId(long roomId);
 
     List<AutomaticMatching> findAllByStatus(MatchingStatus status);
+
+    void deleteByRoomId(long roomId);
 }

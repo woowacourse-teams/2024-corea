@@ -7,7 +7,9 @@ import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
 import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
+import corea.room.domain.ParticipationStatus;
 import corea.room.domain.RoomClassification;
+import corea.room.domain.RoomStatus;
 import corea.room.dto.RoomCreateRequest;
 import corea.room.dto.RoomResponse;
 import corea.room.dto.RoomResponses;
@@ -44,14 +46,14 @@ class RoomServiceTest {
     private MemberRepository memberRepository;
 
     @ParameterizedTest
-    @CsvSource({"2, true", "4, false"})
+    @CsvSource({"2, PARTICIPATED", "4, NOT_PARTICIPATED"})
     @DisplayName("해당 방에 자신이 참여 중인지 아닌지를 판단할 수 있다.")
-    void findOne(long memberId, boolean expected) {
+    void findOne(long memberId, ParticipationStatus participationStatus) {
         RoomResponse response = roomService.findOne(1, memberId);
 
-        boolean actual = response.isParticipated();
+        ParticipationStatus status = response.participationStatus();
 
-        assertThat(actual).isEqualTo(expected);
+        assertThat(status).isEqualTo(participationStatus);
     }
 
     @Test
@@ -84,7 +86,7 @@ class RoomServiceTest {
     void findOpenedRoomsWithoutMember(String expression, int expectedSize) {
         AuthInfo anonymous = AuthInfo.getAnonymous();
 
-        RoomResponses response = roomService.findOpenedRooms(anonymous.getId(), expression, 0);
+        RoomResponses response = roomService.findRoomsWithRoomStatus(anonymous.getId(), 0, expression, RoomStatus.OPEN);
         List<RoomResponse> rooms = response.rooms();
         List<LocalDateTime> recruitmentDeadlines = rooms.stream()
                 .map(RoomResponse::recruitmentDeadline)
@@ -101,7 +103,7 @@ class RoomServiceTest {
     @CsvSource({"be, 3", "fe, 1", "an, 2", "all, 6"})
     @DisplayName("로그인한 사용자가 자신이 참여하지 않고, 분야별로 현재 모집 중인 방들을 모집 마감일이 임박한 순으로 조회할 수 있다.")
     void findOpenedRoomsWithMember(String expression, int expectedSize) {
-        RoomResponses response = roomService.findOpenedRooms(1, expression, 0);
+        RoomResponses response = roomService.findRoomsWithRoomStatus(1, 0, expression, RoomStatus.OPEN);
         List<RoomResponse> rooms = response.rooms();
         List<LocalDateTime> recruitmentDeadlines = rooms.stream()
                 .map(RoomResponse::recruitmentDeadline)
@@ -120,7 +122,7 @@ class RoomServiceTest {
     void findProgressRoomsWithoutMember(String expression, int expectedSize) {
         AuthInfo anonymous = AuthInfo.getAnonymous();
 
-        RoomResponses response = roomService.findProgressRooms(anonymous.getId(), expression, 0);
+        RoomResponses response = roomService.findRoomsWithRoomStatus(anonymous.getId(), 0, expression, RoomStatus.PROGRESS);
         List<RoomResponse> rooms = response.rooms();
         List<LocalDateTime> recruitmentDeadlines = rooms.stream()
                 .map(RoomResponse::recruitmentDeadline)
@@ -137,7 +139,8 @@ class RoomServiceTest {
     @CsvSource({"be, 2", "fe, 2", "an, 1", "all, 5"})
     @DisplayName("로그인한 사용자가 자신이 참여하지 않고, 분야별로 현재 모집 완료된 방들을 모집 마감일이 임박한 순으로 조회할 수 있다.")
     void findProgressRoomsWithMember(String expression, int expectedSize) {
-        RoomResponses response = roomService.findProgressRooms(1, expression, 0);
+
+        RoomResponses response = roomService.findRoomsWithRoomStatus(1, 0, expression, RoomStatus.PROGRESS);
         List<RoomResponse> rooms = response.rooms();
         List<LocalDateTime> recruitmentDeadlines = rooms.stream()
                 .map(RoomResponse::recruitmentDeadline)
@@ -154,7 +157,7 @@ class RoomServiceTest {
     @CsvSource({"be, 1", "fe, 1", "an, 1", "all, 3"})
     @DisplayName("현재 종료된 방들을 조회할 수 있다.")
     void findClosedRooms(String expression, int expectedSize) {
-        RoomResponses response = roomService.findClosedRooms(expression, 0);
+        RoomResponses response = roomService.findRoomsWithRoomStatus(-1, 0, expression, RoomStatus.CLOSE);
         List<RoomResponse> rooms = response.rooms();
 
         assertThat(rooms).hasSize(expectedSize);
@@ -166,7 +169,7 @@ class RoomServiceTest {
     void isLastPage(int pageNumber, boolean expected) {
         AuthInfo anonymous = AuthInfo.getAnonymous();
 
-        RoomResponses response = roomService.findOpenedRooms(anonymous.getId(), "all", pageNumber);
+        RoomResponses response = roomService.findRoomsWithRoomStatus(anonymous.getId(), pageNumber, "all", RoomStatus.OPEN);
 
         assertThat(response.isLastPage()).isEqualTo(expected);
     }
@@ -178,7 +181,7 @@ class RoomServiceTest {
                 "thumLink", 3, List.of("TDD", "클린코드"), 3,
 
                 LocalDateTime.now().plusMinutes(59),
-                LocalDateTime.now().plusHours(1).plusMinutes(58),
+                LocalDateTime.now().plusDays(2),
                 RoomClassification.ALL);
 
         assertThatThrownBy(() -> roomService.create(1, request))
@@ -190,10 +193,11 @@ class RoomServiceTest {
     @Test
     @DisplayName("리뷰 마감 시간은 모집 마감 시간보다 1일 이후가 아니라면 예외가 발생한다.")
     void invalidReviewDeadline() {
+        LocalDateTime recruitmentDeadline = LocalDateTime.now().plusHours(2);
         RoomCreateRequest request = new RoomCreateRequest("title", "content", "repoLink",
                 "thumLink", 3, List.of(), 3,
-                LocalDateTime.now().plusHours(2),
-                LocalDateTime.now().plusHours(23),
+                recruitmentDeadline,
+                recruitmentDeadline.plusHours(23),
                 RoomClassification.ALL);
 
         assertThatThrownBy(() -> roomService.create(1, request))

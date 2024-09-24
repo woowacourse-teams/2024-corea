@@ -25,6 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static corea.room.domain.ParticipationStatus.*;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -41,30 +43,29 @@ public class RoomService {
     private final AutomaticMatchingRepository automaticMatchingRepository;
 
     @Transactional
-    public RoomResponse create(long managerId, RoomCreateRequest request) {
+    public RoomResponse create(long memberId, RoomCreateRequest request) {
         validateDeadLine(request.recruitmentDeadline(), request.reviewDeadline());
 
-        Member manager = memberRepository.findById(managerId)
-                .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND, String.format("%d에 해당하는 멤버가 없습니다.", managerId)));
-        Room room = roomRepository.save(request.toEntity(manager));
-      
-        long roomId = room.getId();
-        participationRepository.save(new Participation(room, managerId));
-        automaticMatchingRepository.save(new AutomaticMatching(roomId, request.recruitmentDeadline()));
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND));
+        Room room = roomRepository.save(request.toEntity(member));
 
-        return RoomResponse.of(room, true);
+        participationRepository.save(new Participation(room, memberId));
+        automaticMatchingRepository.save(new AutomaticMatching(room.getId(), request.recruitmentDeadline()));
+      
+        return RoomResponse.of(room, MANAGER);
     }
 
-    //TODO: 검증 로직 추후 변경할게용~
     private void validateDeadLine(LocalDateTime recruitmentDeadline, LocalDateTime reviewDeadline) {
-        LocalDateTime minimumRecruitmentDeadline = recruitmentDeadline.plusHours(PLUS_HOURS_TO_MINIMUM_RECRUITMENT_DEADLINE);
-        if (reviewDeadline.isBefore(minimumRecruitmentDeadline)) {
+        LocalDateTime currentDateTime = LocalDateTime.now();
+
+        LocalDateTime minimumRecruitmentDeadline = currentDateTime.plusHours(PLUS_HOURS_TO_MINIMUM_RECRUITMENT_DEADLINE);
+        if (recruitmentDeadline.isBefore(minimumRecruitmentDeadline)) {
             throw new CoreaException(ExceptionType.INVALID_RECRUITMENT_DEADLINE,
                     String.format("모집 마감 시간은 현재 시간보다 %d시간 이후여야 합니다.", PLUS_HOURS_TO_MINIMUM_RECRUITMENT_DEADLINE));
         }
-
-        LocalDateTime minimumReviewDeadLine = recruitmentDeadline.plusDays(PLUS_DAYS_TO_MINIMUM_REVIEW_DEADLINE);
-        if (reviewDeadline.isBefore(minimumReviewDeadLine)) {
+        LocalDateTime minimumReviewDeadline = recruitmentDeadline.plusDays(PLUS_DAYS_TO_MINIMUM_REVIEW_DEADLINE);
+        if (reviewDeadline.isBefore(minimumReviewDeadline)) {
             throw new CoreaException(ExceptionType.INVALID_REVIEW_DEADLINE,
                     String.format("리뷰 마감 시간은 모집 마감 시간보다 %d일 이후여야 합니다.", PLUS_DAYS_TO_MINIMUM_REVIEW_DEADLINE));
         }
@@ -72,9 +73,13 @@ public class RoomService {
 
     public RoomResponse findOne(long roomId, long memberId) {
         Room room = getRoom(roomId);
-        boolean isParticipated = participationRepository.existsByRoomIdAndMemberId(roomId, memberId);
-
-        return RoomResponse.of(room, isParticipated);
+        if (room.isManagerId(memberId)) {
+            return RoomResponse.of(room, MANAGER);
+        }
+        if (participationRepository.existsByRoomIdAndMemberId(roomId, memberId)) {
+            return RoomResponse.of(room, PARTICIPATED);
+        }
+        return RoomResponse.of(room, NOT_PARTICIPATED);
     }
 
     public RoomResponses findParticipatedRooms(long memberId) {
@@ -84,46 +89,23 @@ public class RoomService {
                 .toList();
 
         List<Room> rooms = roomRepository.findAllByIdInOrderByReviewDeadlineAsc(roomIds);
-        return RoomResponses.of(rooms, true, true, 0);
+        return RoomResponses.of(rooms, PARTICIPATED, true, 0);
     }
 
-    public RoomResponses findOpenedRooms(long memberId, String expression, int pageNumber) {
+    public RoomResponses findRoomsWithRoomStatus(long memberId, int pageNumber, String expression, RoomStatus roomStatus) {
         RoomClassification classification = RoomClassification.from(expression);
-        RoomStatus status = RoomStatus.OPEN;
+        return getRoomResponses(memberId, pageNumber, classification, roomStatus);
+    }
+
+    private RoomResponses getRoomResponses(long memberId, int pageNumber, RoomClassification classification, RoomStatus status) {
         PageRequest pageRequest = PageRequest.of(pageNumber, PAGE_SIZE);
 
         if (classification.isAll()) {
             Page<Room> roomsWithPage = roomRepository.findAllByMemberAndStatus(memberId, status, pageRequest);
-            return RoomResponses.from(roomsWithPage, false, pageNumber);
+            return RoomResponses.of(roomsWithPage, NOT_PARTICIPATED, pageNumber);
         }
         Page<Room> roomsWithPage = roomRepository.findAllByMemberAndClassificationAndStatus(memberId, classification, status, pageRequest);
-        return RoomResponses.from(roomsWithPage, false, pageNumber);
-    }
-
-    public RoomResponses findProgressRooms(long memberId, String expression, int pageNumber) {
-        RoomClassification classification = RoomClassification.from(expression);
-        RoomStatus status = RoomStatus.PROGRESS;
-        PageRequest pageRequest = PageRequest.of(pageNumber, PAGE_SIZE);
-
-        if (classification.isAll()) {
-            Page<Room> roomsWithPage = roomRepository.findAllByMemberAndStatus(memberId, status, pageRequest);
-            return RoomResponses.from(roomsWithPage, false, pageNumber);
-        }
-        Page<Room> roomsWithPage = roomRepository.findAllByMemberAndClassificationAndStatus(memberId, classification, status, pageRequest);
-        return RoomResponses.from(roomsWithPage, false, pageNumber);
-    }
-
-    public RoomResponses findClosedRooms(String expression, int pageNumber) {
-        RoomClassification classification = RoomClassification.from(expression);
-        RoomStatus status = RoomStatus.CLOSE;
-        PageRequest pageRequest = PageRequest.of(pageNumber, PAGE_SIZE);
-
-        if (classification.isAll()) {
-            Page<Room> roomsWithPage = roomRepository.findAllByStatusOrderByRecruitmentDeadlineAsc(status, pageRequest);
-            return RoomResponses.from(roomsWithPage, false, pageNumber);
-        }
-        Page<Room> roomsWithPage = roomRepository.findAllByClassificationAndStatusOrderByRecruitmentDeadlineAsc(classification, status, pageRequest);
-        return RoomResponses.from(roomsWithPage, false, pageNumber);
+        return RoomResponses.of(roomsWithPage, NOT_PARTICIPATED, pageNumber);
     }
 
     @Transactional
@@ -131,8 +113,9 @@ public class RoomService {
         Room room = getRoom(roomId);
         validateDeletionAuthority(room, memberId);
 
-        participationRepository.deleteAllByRoomId(roomId);
         roomRepository.delete(room);
+        participationRepository.deleteAllByRoomId(roomId);
+        automaticMatchingRepository.deleteByRoomId(roomId);
     }
 
     private void validateDeletionAuthority(Room room, long memberId) {
