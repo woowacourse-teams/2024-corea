@@ -34,10 +34,15 @@ const TEXT = {
   xSmall: "1.2rem/1.2rem Noto Sans KR",
 };
 
-export default TEXT;
+const BOX_SHADOW = {
+  light: "0 1px 1px rgb(0 0 0 / 10%)",
+  regular: "0 4px 4px rgb(0 0 0 / 10%)",
+};
+
 export const theme = {
   COLOR,
   TEXT,
+  BOX_SHADOW,
 };
 
 export type ThemeType = typeof theme;

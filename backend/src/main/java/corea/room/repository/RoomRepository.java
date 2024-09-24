@@ -14,7 +14,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     @Query("""
             SELECT r FROM Room r 
             LEFT JOIN Participation p 
-            ON r.id = p.roomId AND p.memberId = :memberId 
+            ON r = p.room AND p.memberId = :memberId 
             WHERE p.id IS NULL AND r.status = :status AND r.manager.id <> :memberId
             """)
     Page<Room> findAllByMemberAndStatus(long memberId, RoomStatus status, PageRequest pageRequest);
@@ -22,7 +22,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     @Query("""
             SELECT r FROM Room r 
             LEFT JOIN Participation p 
-            ON r.id = p.roomId AND p.memberId = :memberId 
+            ON r = p.room AND p.memberId = :memberId 
             WHERE p.id IS NULL AND r.classification = :classification AND r.status = :status AND r.manager.id <> :memberId
             """)
     Page<Room> findAllByMemberAndClassificationAndStatus(long memberId, RoomClassification classification, RoomStatus status, Pageable pageable);

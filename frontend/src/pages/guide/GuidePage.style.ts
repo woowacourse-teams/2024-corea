@@ -27,7 +27,7 @@ export const CardContainer = styled.div`
 
   border: 2px solid ${({ theme }) => theme.COLOR.grey1};
   border-radius: 12px;
-  box-shadow: 0 4px 4px rgb(0 0 0 / 10%);
+  box-shadow: ${({ theme }) => theme.BOX_SHADOW.regular};
 
   &:hover {
     background-color: ${({ theme }) => theme.COLOR.primary1};

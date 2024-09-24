@@ -6,14 +6,16 @@ import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
 import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
+import corea.participation.domain.Participation;
 import corea.participation.dto.ParticipationRequest;
+import corea.participation.repository.ParticipationRepository;
 import corea.room.domain.Room;
 import corea.room.repository.RoomRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.*;
 
 @ServiceTest
 class ParticipationServiceTest {
@@ -26,6 +28,9 @@ class ParticipationServiceTest {
 
     @Autowired
     private MemberRepository memberRepository;
+
+    @Autowired
+    private ParticipationRepository participationRepository;
 
     @Test
     @DisplayName("멤버가 방에 참여한다.")
@@ -64,6 +69,31 @@ class ParticipationServiceTest {
         participationService.participate(new ParticipationRequest(room.getId(), member.getId()));
 
         assertThatCode(() -> participationService.participate(new ParticipationRequest(room.getId(), member.getId())))
+                .isInstanceOf(CoreaException.class);
+    }
+
+    @Test
+    @DisplayName("참여한 방을 취소한다.")
+    void cancel_participate() {
+        Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
+        Member member = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
+        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
+        participationRepository.save(new Participation(room, member.getId()));
+
+        participationService.cancel(room.getId(), member.getId());
+
+        boolean existed = participationRepository.existsByRoomIdAndMemberId(room.getId(), member.getId());
+
+        assertThat(existed).isFalse();
+    }
+
+    @Test
+    @DisplayName("참여하지 않은 방을 취소 하면 예외를 발생한다.")
+    void throw_exception_when_not_participate_room() {
+        Member member = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
+        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(member));
+
+        assertThatThrownBy(() -> participationService.cancel(room.getId(), member.getId()))
                 .isInstanceOf(CoreaException.class);
     }
 }

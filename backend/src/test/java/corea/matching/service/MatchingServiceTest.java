@@ -68,13 +68,12 @@ class MatchingServiceTest {
         Member cho = memberRepository.save(MemberFixture.MEMBER_CHOCO());
         noPullRequestMember = cho;
 
-        participationRepository.save(new Participation(roomId, pororo.getId(), pororo.getGithubUserId()));
-        participationRepository.save(new Participation(roomId, ash.getId(), ash.getGithubUserId()));
-        participationRepository.save(new Participation(roomId, joysun.getId(), joysun.getGithubUserId()));
-        participationRepository.save(new Participation(roomId, movin.getId(), movin.getGithubUserId()));
-        participationRepository.save(new Participation(roomId, ten.getId(), ten.getGithubUserId()));
-        participationRepository.save(new Participation(roomId, cho.getId(), cho.getGithubUserId()));
-
+        participationRepository.save(new Participation(room, pororo.getId(), pororo.getGithubUserId()));
+        participationRepository.save(new Participation(room, ash.getId(), ash.getGithubUserId()));
+        participationRepository.save(new Participation(room, joysun.getId(), joysun.getGithubUserId()));
+        participationRepository.save(new Participation(room, movin.getId(), movin.getGithubUserId()));
+        participationRepository.save(new Participation(room, ten.getId(), ten.getGithubUserId()));
+        participationRepository.save(new Participation(room, cho.getId(), cho.getGithubUserId()));
 
         return new PullRequestInfo(
                 Map.of(
