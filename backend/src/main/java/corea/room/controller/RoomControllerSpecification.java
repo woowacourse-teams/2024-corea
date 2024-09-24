@@ -50,7 +50,7 @@ public interface RoomControllerSpecification {
                     "토큰이 없거나 유효하지 않은 경우 인증 오류가 발생합니다.")
     @ApiErrorResponses(value = {ExceptionType.MEMBER_NOT_FOUND, ExceptionType.ROOM_NOT_FOUND})
     ResponseEntity<RoomParticipantResponses> participants(@Parameter(description = "방 아이디", example = "1")
-                                                long id,
+                                                          long id,
                                                           AuthInfo authInfo);
 
     @Operation(summary = "해당 방에서 나에게 배정된 리뷰어들의 정보를 반환합니다.",
