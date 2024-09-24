@@ -33,13 +33,13 @@ const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
   }
 
   const handleOpenFeedbackModal = (reviewee: ReviewerInfo) => {
-    const result = getFeedbackType({
+    const feedbackType = getFeedbackType({
       isReviewed: reviewee.isReviewed,
       isWrited: reviewee.isWrited,
-      isClosed: roomInfo.isClosed,
+      isClosed: roomInfo.roomStatus === "CLOSE",
     });
     setSelectedReviewee(reviewee);
-    setFeedbackTypeResult(result);
+    setFeedbackTypeResult(feedbackType);
     handleOpenModal();
   };
 
@@ -76,7 +76,7 @@ const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
           const { buttonText } = getFeedbackType({
             isReviewed: reviewee.isReviewed,
             isWrited: reviewee.isWrited,
-            isClosed: roomInfo.isClosed,
+            isClosed: roomInfo.roomStatus === "CLOSE",
           });
 
           return (

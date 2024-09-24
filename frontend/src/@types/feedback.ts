@@ -4,7 +4,6 @@ export interface FeedbackCardDataList {
   readonly roomId: number;
   readonly title: string;
   readonly roomKeywords: NonEmptyArray<string>;
-  readonly isClosed: boolean;
   readonly developFeedback: FeedbackCardData[];
   readonly socialFeedback: FeedbackCardData[];
 }

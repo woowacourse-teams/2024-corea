@@ -36,6 +36,17 @@ public class AutomaticMatchingService {
 
     private final Map<Long, ScheduledFuture<?>> scheduledTasks = new ConcurrentHashMap<>();
 
+    @EventListener(ApplicationReadyEvent.class)
+    public void schedulePendingAutomaticMatching() {
+        List<AutomaticMatching> matchings = automaticMatchingRepository.findAllByStatus(MatchingStatus.PENDING);
+
+        log.info("{}개의 방에 대해 자동 매칭 재예약 시작", matchings.size());
+
+        matchings.forEach(matching -> scheduleMatching(matching, matching.getRoomId(), matching.getMatchingStartTime()));
+
+        log.info("{}개의 방에 대해 자동 매칭 재예약 완료", matchings.size());
+    }
+
     public void matchOnRecruitmentDeadline(RoomResponse response) {
         long roomId = response.id();
         AutomaticMatching automaticMatching = getAutomaticMatchingByRoomId(roomId);
@@ -51,23 +62,32 @@ public class AutomaticMatchingService {
     private void scheduleMatching(AutomaticMatching automaticMatching, long roomId, LocalDateTime matchingStartTime) {
         ScheduledFuture<?> schedule = taskScheduler.schedule(
                 () -> automaticMatchingExecutor.execute(automaticMatching),
-                toInstance(matchingStartTime)
+                toInstant(matchingStartTime)
         );
 
         log.info("{}번 방 자동 매칭 예약 - 예약 시간: {}", roomId, matchingStartTime);
         scheduledTasks.put(roomId, schedule);
     }
 
-    private Instant toInstance(LocalDateTime recruitmentDeadline) {
+    private Instant toInstant(LocalDateTime recruitmentDeadline) {
         return recruitmentDeadline.atZone(ZONE_ID).toInstant();
     }
 
-    @EventListener(ApplicationReadyEvent.class)
-    public void schedulePendingAutomaticMatching() {
-        List<AutomaticMatching> matchings = automaticMatchingRepository.findAllByStatus(MatchingStatus.PENDING);
+    public void cancel(long roomId) {
+        if (scheduledTasks.containsKey(roomId)) {
+            cancelScheduledMatching(roomId);
+            return;
+        }
+        throw new CoreaException(
+                ExceptionType.AUTOMATIC_MATCHING_NOT_FOUND,
+                String.format("해당 방 아이디에 예약된 자동 매칭이 존재하지 않아 예약을 취소할 수 없습니다. 요청 방 ID=%d", roomId)
+        );
+    }
 
-        log.info("{}개의 방에 대해 자동 매칭 재예약 시작", matchings.size());
+    private void cancelScheduledMatching(long roomId) {
+        ScheduledFuture<?> scheduledMatching = scheduledTasks.remove(roomId);
+        scheduledMatching.cancel(true);
 
-        matchings.forEach(matching -> scheduleMatching(matching, matching.getRoomId(), matching.getMatchingStartTime()));
+        log.info("{}번 방 기존 자동 매칭 예약 취소", roomId);
     }
 }

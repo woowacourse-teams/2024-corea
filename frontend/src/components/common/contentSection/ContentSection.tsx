@@ -9,7 +9,7 @@ interface ContentSectionButton extends ButtonProps {
 interface ContentSectionProps {
   title: string;
   children?: ReactNode;
-  button?: ContentSectionButton | false;
+  button?: ContentSectionButton | undefined;
 }
 
 const ContentSection = ({ title, children, button }: ContentSectionProps) => {

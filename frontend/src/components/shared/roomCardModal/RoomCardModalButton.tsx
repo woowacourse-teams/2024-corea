@@ -8,8 +8,8 @@ interface RoomCardModalButtonProps {
 }
 
 const RoomCardModalButton = ({ roomInfo }: RoomCardModalButtonProps) => {
-  const { postParticipateInMutation } = useMutateParticipateIn();
   const navigate = useNavigate();
+  const { postParticipateInMutation } = useMutateParticipateIn();
 
   const handleParticipateRoomClick = () => {
     postParticipateInMutation.mutate(roomInfo.id, {
@@ -23,7 +23,7 @@ const RoomCardModalButton = ({ roomInfo }: RoomCardModalButtonProps) => {
         참여중
       </Button>
     );
-  } else if (roomInfo.isClosed) {
+  } else if (roomInfo.roomStatus === "CLOSE") {
     return (
       <Button variant="disable" size="small" disabled>
         모집 완료
