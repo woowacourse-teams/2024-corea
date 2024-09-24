@@ -58,10 +58,12 @@ const RoomDetailPage = () => {
       };
     }
 
-    return {
-      label: "방 참여 취소하기",
-      onClick: handleCancleParticipateInClick,
-    };
+    if (roomInfo.participationStatus === "PARTICIPATED") {
+      return {
+        label: "방 참여 취소하기",
+        onClick: handleCancleParticipateInClick,
+      };
+    }
   }, [roomInfo.roomStatus, roomInfo.participationStatus]);
 
   return (
