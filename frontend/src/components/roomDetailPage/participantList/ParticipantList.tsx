@@ -1,24 +1,30 @@
+import { useFetchParticipantList } from "@/hooks/queries/useFetchRooms";
 import Button from "@/components/common/button/Button";
 import Icon from "@/components/common/icon/Icon";
 import Profile from "@/components/common/profile/Profile";
 import * as S from "@/components/roomDetailPage/participantList/ParticipantList.style";
-import { ParticipantListInfo } from "@/@types/participantList";
 
-interface ParticipantListProps extends ParticipantListInfo {
-  onRefresh: () => void;
+interface ParticipantListProps {
+  roomId: number;
 }
 
-const ParticipantList = ({ participants, onRefresh }: ParticipantListProps) => {
+const ParticipantList = ({ roomId }: ParticipantListProps) => {
+  const { data: participantListInfo, refetch } = useFetchParticipantList(roomId);
+
+  const handleRefresh = () => {
+    refetch();
+  };
+
   return (
     <S.TotalContainer>
       <S.RenewButtonWrapper>
-        <Button onClick={onRefresh} size="xSmall">
+        <Button onClick={handleRefresh} size="xSmall">
           <Icon kind="arrowRenew" size={20} />
         </Button>
       </S.RenewButtonWrapper>
 
       <S.ParticipantListContainer>
-        {participants.map((participant) => (
+        {participantListInfo.participants.map((participant) => (
           <S.ParticipantInfo key={participant.githubId}>
             <S.ProfileWrapper>
               <Profile imgSrc={participant.thumbnailLink} size={80} />

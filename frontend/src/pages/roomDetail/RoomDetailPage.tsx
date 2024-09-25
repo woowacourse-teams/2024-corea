@@ -2,7 +2,6 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import useMutateParticipateIn from "@/hooks/mutations/useMutateParticipateIn";
-import { useFetchParticipantList } from "@/hooks/queries/useFetchRooms";
 import ContentSection from "@/components/common/contentSection/ContentSection";
 import Icon from "@/components/common/icon/Icon";
 import MyReviewee from "@/components/roomDetailPage/myReviewee/MyReviewee";
@@ -25,9 +24,6 @@ const RoomDetailPage = () => {
     queryKey: [QUERY_KEYS.ROOM_DETAIL_INFO, roomId],
     queryFn: () => getRoomDetailInfo(roomId),
   });
-
-  const { data: participantListInfo, refetch: refetchParticipants } =
-    useFetchParticipantList(roomId);
 
   const toggleReviewerInfoExpand = () => {
     setIsReviewerInfoExpanded(!isReviewerInfoExpanded);
@@ -84,12 +80,7 @@ const RoomDetailPage = () => {
           해당 방에 같이 참여중인 인원 중 6명을 랜덤으로 보여줍니다. 새로고침 버튼을 통해 새로운
           리스트를 확인할 수 있습니다.
         </S.StyledDescription>
-        {participantListInfo && (
-          <ParticipantList
-            participants={participantListInfo.participants}
-            onRefresh={refetchParticipants}
-          />
-        )}
+        <ParticipantList roomId={roomInfo.id} />
       </ContentSection>
 
       <ContentSection title="피드백 프로세스 설명보기">
