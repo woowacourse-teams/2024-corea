@@ -96,6 +96,10 @@ public class Room {
         }
     }
 
+    public void close() {
+        this.status = RoomStatus.CLOSED;
+    }
+
     public boolean isClosed() {
         return status.isClosed();
     }
