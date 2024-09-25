@@ -1,11 +1,9 @@
 package corea.review.controller;
 
-import corea.auth.service.TokenService;
 import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
 import corea.matching.domain.MatchResult;
 import corea.matching.domain.PullRequestInfo;
-import corea.matching.repository.MatchResultRepository;
 import corea.matching.service.MatchingService;
 import corea.matching.service.PullRequestProvider;
 import corea.member.domain.Member;
@@ -44,9 +42,6 @@ class ReviewControllerTest {
     private PullRequestProvider pullRequestProvider;
 
     @Autowired
-    private MatchResultRepository matchResultRepository;
-
-    @Autowired
     private ParticipationService participationService;
 
     @Autowired
@@ -75,12 +70,12 @@ class ReviewControllerTest {
         PullRequestInfo prInfo = pullRequestProvider.getUntilDeadline(room.getRepositoryLink(), room.getRecruitmentDeadline());
         matchingService.match(room.getId(), prInfo);
 
-        MatchResult matchResultBeforeReview = matchResultRepository.findByRoomIdAndReviewerIdAndRevieweeId(room.getId(), reviewer.getId(), reviewee.getId()).get();
+        MatchResult matchResultBeforeReview = reviewService.getMatchResult(room.getId(), reviewer.getId(), reviewee.getId());
         assertThat(matchResultBeforeReview.getReviewLink()).isEmpty();
 
         reviewService.review(room.getId(), reviewer.getId(), reviewee.getId());
 
-        MatchResult matchResultAfterReview = matchResultRepository.findByRoomIdAndReviewerIdAndRevieweeId(room.getId(), reviewer.getId(), reviewee.getId()).get();
+        MatchResult matchResultAfterReview = reviewService.getMatchResult(room.getId(), reviewer.getId(), reviewee.getId());
         assertThat(matchResultAfterReview.getReviewLink()).isEqualTo("https://github.com/youngsu5582/github-api-test/pull/5#pullrequestreview-2327172283");
     }
 }
