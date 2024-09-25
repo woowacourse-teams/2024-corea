@@ -1,4 +1,4 @@
-package corea.review.controller;
+package corea.review.pullRequest;
 
 import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
@@ -24,7 +24,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class ReviewControllerTest {
+class ReviewPullRequestTest {
 
     @LocalServerPort
     int port;
