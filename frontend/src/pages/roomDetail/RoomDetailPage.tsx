@@ -1,5 +1,5 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import useMutateRoom from "@/hooks/mutations/useMutateRoom";
 import ContentSection from "@/components/common/contentSection/ContentSection";
@@ -44,7 +44,7 @@ const RoomDetailPage = () => {
     });
   };
 
-  const buttonProps = useMemo(() => {
+  const buttonProps = () => {
     if (roomInfo.roomStatus !== "OPEN") {
       return undefined;
     }
@@ -62,11 +62,11 @@ const RoomDetailPage = () => {
         onClick: handleCancleParticipateInClick,
       };
     }
-  }, [roomInfo.roomStatus, roomInfo.participationStatus]);
+  };
 
   return (
     <S.Layout>
-      <ContentSection title="미션 정보" button={buttonProps}>
+      <ContentSection title="미션 정보" button={buttonProps()}>
         <RoomInfoCard roomInfo={roomInfo} />
       </ContentSection>
 
