@@ -97,7 +97,9 @@ public class RoomController implements RoomControllerSpecification {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable long id, @LoginMember AuthInfo authInfo) {
         roomService.delete(id, authInfo.getId());
+
         automaticMatchingService.cancel(id);
+        automaticUpdateService.cancel(id);
 
         return ResponseEntity.noContent()
                 .build();

@@ -122,6 +122,7 @@ public class RoomService {
         roomRepository.delete(room);
         participationRepository.deleteAllByRoomId(roomId);
         automaticMatchingRepository.deleteByRoomId(roomId);
+        automaticUpdateRepository.deleteByRoomId(roomId);
     }
 
     private void validateDeletionAuthority(Room room, long memberId) {

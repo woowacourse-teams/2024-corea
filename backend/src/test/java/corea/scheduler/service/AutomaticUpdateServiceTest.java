@@ -66,6 +66,23 @@ class AutomaticUpdateServiceTest {
         verify(automaticUpdateExecutor).execute(any(AutomaticUpdate.class));
     }
 
+    @Test
+    @DisplayName("예약된 자동 업데이트를 삭제한다.")
+    void cancel() {
+        LocalDateTime reviewDeadline = LocalDateTime.now().plusDays(2);
+        when(roomService.create(anyLong(), any())).thenReturn(getRoomResponse(reviewDeadline));
+        ScheduledFuture scheduledFuture = mock(ScheduledFuture.class);
+        when(taskScheduler.schedule(any(Runnable.class), any(Instant.class))).thenReturn(scheduledFuture);
+
+        RoomResponse response = roomService.create(anyLong(), any());
+        automaticUpdateRepository.save(new AutomaticUpdate(response.id(), response.reviewDeadline()));
+
+        automaticUpdateService.updateAtReviewDeadline(response);
+        automaticUpdateService.cancel(response.id());
+
+        verify(scheduledFuture).cancel(true);
+    }
+
     private RoomResponse getRoomResponse(LocalDateTime reviewDeadline) {
         return new RoomResponse(10,
                 "title",
