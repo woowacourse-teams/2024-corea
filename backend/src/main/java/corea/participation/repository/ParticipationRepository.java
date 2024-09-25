@@ -4,7 +4,6 @@ import corea.participation.domain.Participation;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ParticipationRepository extends JpaRepository<Participation, Long> {
 
@@ -13,10 +12,4 @@ public interface ParticipationRepository extends JpaRepository<Participation, Lo
     List<Participation> findAllByMemberId(long memberId);
 
     boolean existsByRoomIdAndMemberId(long roomId, long memberId);
-
-    Optional<Participation> findByRoomIdAndMemberId(long roomId, long memberId);
-
-    default boolean notExistsByRoomIdAndMemberId(long roomId, long memberId) {
-        return !existsByRoomIdAndMemberId(roomId, memberId);
-    }
 }

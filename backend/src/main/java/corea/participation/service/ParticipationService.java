@@ -6,6 +6,7 @@ import corea.member.repository.MemberRepository;
 import corea.participation.domain.Participation;
 import corea.participation.dto.ParticipationRequest;
 import corea.participation.dto.ParticipationResponse;
+import corea.participation.dto.ParticipationsResponse;
 import corea.participation.repository.ParticipationRepository;
 import corea.room.domain.Room;
 import corea.room.repository.RoomRepository;
@@ -34,42 +35,21 @@ public class ParticipationService {
         return participationRepository.save(request.toEntity());
     }
 
-    @Transactional
-    public void cancel(long roomId, long memberId) {
-        validateIdNotExist(roomId, memberId);
-        deleteParticipation(roomId, memberId);
-    }
-
-    private void deleteParticipation(long roomId, long memberId) {
-        Room room = getRoom(roomId);
-        room.cancel();
-
-        participationRepository.findByRoomIdAndMemberId(roomId, memberId)
-                .ifPresent(participationRepository::delete);
-    }
-
     private void validateIdExist(long roomId, long memberId) {
-        validateMemberExist(memberId);
-        if (participationRepository.existsByRoomIdAndMemberId(roomId, memberId)) {
-            throw new CoreaException(ExceptionType.ALREADY_APPLY);
-        }
-    }
-
-    private void validateIdNotExist(long roomId, long memberId) {
-        validateMemberExist(memberId);
-        if (participationRepository.notExistsByRoomIdAndMemberId(roomId, memberId)) {
-            throw new CoreaException(ExceptionType.NOT_ALREADY_APPLY);
-        }
-    }
-
-    private void validateMemberExist(long memberId) {
         if (!memberRepository.existsById(memberId)) {
             throw new CoreaException(ExceptionType.MEMBER_NOT_FOUND, String.format("%d에 해당하는 멤버가 없습니다.", memberId));
+        }
+        if (participationRepository.existsByRoomIdAndMemberId(roomId, memberId)) {
+            throw new CoreaException(ExceptionType.ALREADY_APPLY);
         }
     }
 
     private Room getRoom(long roomId) {
         return roomRepository.findById(roomId)
                 .orElseThrow(() -> new CoreaException(ExceptionType.ROOM_NOT_FOUND));
+    }
+
+    public ParticipationsResponse getParticipation(long roomId) {
+        return new ParticipationsResponse(participationRepository.findAllByRoomId(roomId));
     }
 }
