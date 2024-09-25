@@ -30,13 +30,7 @@ const RoomCardModal = ({ isOpen, onClose, roomInfo }: RoomCardModalProps) => {
               <img src={profile} alt="프로필 사진" />
               <span> {roomInfo.manager}</span>
             </S.ProfileContainer>
-            <div>
-              {roomInfo.isClosed ? (
-                <Label type="close" text="마감됨" />
-              ) : (
-                <Label type="open" text="모집중" />
-              )}
-            </div>
+            <Label type={roomInfo.roomStatus} />
           </S.ManagerContainer>
 
           <S.TitleContainer>

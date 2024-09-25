@@ -44,7 +44,6 @@ export const Default: Story = {
         roomId: 0,
         title: "숫자 골프",
         roomKeywords: ["string", "클린코드", "클린 아키텍쳐"],
-        isClosed: true,
         developFeedback: developFeedbackData,
         socialFeedback: socialFeedbackData,
       },

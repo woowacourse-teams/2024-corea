@@ -12,7 +12,7 @@ export interface RoomInfo {
   recruitmentDeadline: string;
   reviewDeadline: string;
   isParticipated: boolean;
-  isClosed: boolean;
+  roomStatus: "OPEN" | "CLOSE" | "PROGRESS";
 }
 
 export interface RoomListInfo {

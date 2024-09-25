@@ -1,15 +1,15 @@
 import { InputHTMLAttributes } from "react";
 import useDropdown from "@/hooks/common/useDropdown";
-import * as S from "@/components/common/timeInput/TimeInput.style";
+import * as S from "@/components/common/timeDropdown/TimeDropdown.style";
 import { Time } from "@/@types/date";
 
-interface TimeInputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface TimeDropdownProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: boolean;
   onTimeChange: (time: Time) => void;
   selectedTime: { hour: number; minute: number };
 }
 
-interface TimeInputChangeProps {
+interface TimeDropdownChangeProps {
   newTime: Time;
   canCloseDropdown: boolean;
 }
@@ -19,7 +19,7 @@ const TimePicker = ({
   onTimeInputChange,
 }: {
   time: Time;
-  onTimeInputChange: (event: TimeInputChangeProps) => void;
+  onTimeInputChange: (event: TimeDropdownChangeProps) => void;
 }) => {
   return (
     <S.TimePickerWrapper>
@@ -54,23 +54,23 @@ const TimePicker = ({
   );
 };
 
-export const TimeInput = ({
+export const TimeDropdown = ({
   error = false,
   onTimeChange,
   selectedTime,
   ...rest
-}: TimeInputProps) => {
+}: TimeDropdownProps) => {
   const { isOpen, handleToggleDropdown, dropdownRef } = useDropdown();
 
-  const handleTimeChange = ({ newTime, canCloseDropdown }: TimeInputChangeProps) => {
+  const handleTimeChange = ({ newTime, canCloseDropdown }: TimeDropdownChangeProps) => {
     onTimeChange(newTime);
 
     if (canCloseDropdown) handleToggleDropdown();
   };
 
   return (
-    <S.TimeInputContainer ref={dropdownRef}>
-      <S.TimeInputToggle
+    <S.TimeDropdownContainer ref={dropdownRef}>
+      <S.TimeDropdownToggle
         type="text"
         value={`${selectedTime.hour < 10 ? `0${selectedTime.hour}` : selectedTime.hour} : ${selectedTime.minute < 10 ? `0${selectedTime.minute}` : selectedTime.minute}`}
         onClick={handleToggleDropdown}
@@ -80,6 +80,6 @@ export const TimeInput = ({
         {...rest}
       />
       {isOpen && <TimePicker time={selectedTime} onTimeInputChange={handleTimeChange} />}
-    </S.TimeInputContainer>
+    </S.TimeDropdownContainer>
   );
 };

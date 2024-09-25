@@ -3,7 +3,10 @@ import RoomCardModal from "@/components/shared/roomCardModal/RoomCardModal";
 import { RoomInfo } from "@/@types/roomInfo";
 import roomInfo from "@/mocks/mockResponse/roomInfo.json";
 
-const sampleRoomList: RoomInfo = roomInfo;
+const sampleRoomList = {
+  ...roomInfo,
+  roomStatus: roomInfo.roomStatus as "OPEN" | "CLOSE" | "PROGRESS",
+} satisfies RoomInfo;
 
 const meta: Meta<typeof RoomCardModal> = {
   title: "Shared/RoomCardModal",

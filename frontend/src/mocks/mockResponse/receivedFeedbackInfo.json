@@ -4,7 +4,6 @@
       "roomId": 0,
       "title": "숫자 골프",
       "roomKeywords": ["string", "클린코드", "클린 아키텍쳐"],
-      "isClosed": true,
       "developFeedback": [
         {
           "feedbackId": 0,
@@ -54,7 +53,6 @@
       "roomId": 1,
       "title": "복권 당첨",
       "roomKeywords": ["티디딕", "연금 복권"],
-      "isClosed": true,
       "developFeedback": [
         {
           "feedbackId": 3,
