@@ -95,6 +95,17 @@ public class MemberFixture {
         );
     }
 
+    public static Member MEMBER_PORORO_GITHUB() {
+        return new Member(
+                "jcoding-play",
+                "https://avatars.githubusercontent.com/u/98307410?v=4",
+                null,
+                "jcoding-play@gmail.com",
+                false,
+                "119468757"
+        );
+    }
+
     public static Member MEMBER_PORORO(Profile profile) {
         return new Member(
                 "pororo",

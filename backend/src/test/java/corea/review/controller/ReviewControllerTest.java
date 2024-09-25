@@ -12,11 +12,10 @@ import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
 import corea.participation.dto.ParticipationRequest;
 import corea.participation.service.ParticipationService;
-import corea.review.dto.ReviewRequest;
+import corea.review.service.ReviewService;
 import corea.room.domain.Room;
 import corea.room.repository.RoomRepository;
 import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -36,9 +35,6 @@ class ReviewControllerTest {
     private MemberRepository memberRepository;
 
     @Autowired
-    private TokenService tokenService;
-
-    @Autowired
     private RoomRepository roomRepository;
 
     @Autowired
@@ -53,6 +49,9 @@ class ReviewControllerTest {
     @Autowired
     private ParticipationService participationService;
 
+    @Autowired
+    private ReviewService reviewService;
+
     @BeforeEach
     void setUp() {
         RestAssured.port = port;
@@ -62,7 +61,7 @@ class ReviewControllerTest {
     @DisplayName("리뷰어가 리뷰를 작성했을 때, 해당 리뷰의 링크로 업데이트 한다.")
     void test() {
         Member manager = memberRepository.save(MemberFixture.MEMBER_MOVIN());
-        Member reviewer = memberRepository.save(MemberFixture.MEMBER_PORORO());
+        Member reviewer = memberRepository.save(MemberFixture.MEMBER_PORORO_GITHUB());
         Member reviewee = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
         Member participant = memberRepository.save(MemberFixture.MEMBER_DARR());
 
@@ -73,22 +72,13 @@ class ReviewControllerTest {
         participationService.participate(new ParticipationRequest(room.getId(), reviewee.getId()));
         participationService.participate(new ParticipationRequest(room.getId(), participant.getId()));
 
-        String accessToken = tokenService.createAccessToken(reviewer);
         PullRequestInfo prInfo = pullRequestProvider.getUntilDeadline(room.getRepositoryLink(), room.getRecruitmentDeadline());
         matchingService.match(room.getId(), prInfo);
 
         MatchResult matchResultBeforeReview = matchResultRepository.findByRoomIdAndReviewerIdAndRevieweeId(room.getId(), reviewer.getId(), reviewee.getId()).get();
         assertThat(matchResultBeforeReview.getReviewLink()).isEmpty();
 
-        ReviewRequest request1 = new ReviewRequest(room.getId(), reviewee.getId());
-        RestAssured.given().log().all()
-                .auth().oauth2(accessToken)
-                .contentType(ContentType.JSON)
-                .body(request1)
-                .when().post("/review/complete")
-                .then().log().all()
-                .statusCode(200)
-                .extract();
+        reviewService.review(room.getId(), reviewer.getId(), reviewee.getId());
 
         MatchResult matchResultAfterReview = matchResultRepository.findByRoomIdAndReviewerIdAndRevieweeId(room.getId(), reviewer.getId(), reviewee.getId()).get();
         assertThat(matchResultAfterReview.getReviewLink()).isEqualTo("https://github.com/youngsu5582/github-api-test/pull/5#pullrequestreview-2327172283");
