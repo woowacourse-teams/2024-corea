@@ -22,12 +22,12 @@ import java.util.concurrent.ScheduledFuture;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class StatusUpdateService {
+public class AutomaticUpdateService {
 
     private static final ZoneId ZONE_ID = ZoneId.of("Asia/Seoul");
 
     private final TaskScheduler taskScheduler;
-    private final StatusUpdateExecutor statusUpdateExecutor;
+    private final AutomaticUpdateExecutor automaticUpdateExecutor;
     private final AutomaticUpdateRepository automaticUpdateRepository;
 
     private final Map<Long, ScheduledFuture<?>> scheduledTasks = new ConcurrentHashMap<>();
@@ -46,7 +46,7 @@ public class StatusUpdateService {
 
     private void scheduleMatching(AutomaticUpdate automaticUpdate, long roomId, LocalDateTime updateStartTime) {
         ScheduledFuture<?> schedule = taskScheduler.schedule(
-                () -> statusUpdateExecutor.execute(automaticUpdate),
+                () -> automaticUpdateExecutor.execute(automaticUpdate),
                 toInstant(updateStartTime)
         );
 

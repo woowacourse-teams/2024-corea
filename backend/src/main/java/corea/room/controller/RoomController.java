@@ -12,7 +12,7 @@ import corea.room.dto.RoomResponse;
 import corea.room.dto.RoomResponses;
 import corea.room.service.RoomService;
 import corea.scheduler.service.AutomaticMatchingService;
-import corea.scheduler.service.StatusUpdateService;
+import corea.scheduler.service.AutomaticUpdateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +26,7 @@ public class RoomController implements RoomControllerSpecification {
 
     private final RoomService roomService;
     private final MatchResultService matchResultService;
-    private final StatusUpdateService statusUpdateService;
+    private final AutomaticUpdateService automaticUpdateService;
     private final AutomaticMatchingService automaticMatchingService;
 
     @PostMapping
@@ -34,7 +34,7 @@ public class RoomController implements RoomControllerSpecification {
         RoomResponse response = roomService.create(authInfo.getId(), request);
 
         automaticMatchingService.matchOnRecruitmentDeadline(response);
-        statusUpdateService.updateAtReviewDeadline(response);
+        automaticUpdateService.updateAtReviewDeadline(response);
 
         return ResponseEntity.created(URI.create(String.format("/rooms/%d", response.id())))
                 .body(response);

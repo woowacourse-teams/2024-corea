@@ -19,10 +19,10 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ServiceTest
-class StatusUpdateExecutorTest {
+class AutomaticUpdateExecutorTest {
 
     @Autowired
-    private StatusUpdateExecutor statusUpdateExecutor;
+    private AutomaticUpdateExecutor automaticUpdateExecutor;
 
     @Autowired
     private RoomRepository roomRepository;
@@ -40,7 +40,7 @@ class StatusUpdateExecutorTest {
         Room room = getRoom();
         AutomaticUpdate automaticUpdate = automaticUpdateRepository.save(new AutomaticUpdate(room.getId(), room.getReviewDeadline()));
 
-        statusUpdateExecutor.execute(automaticUpdate);
+        automaticUpdateExecutor.execute(automaticUpdate);
 
         assertThat(room.getStatus()).isEqualTo(RoomStatus.CLOSE);
     }

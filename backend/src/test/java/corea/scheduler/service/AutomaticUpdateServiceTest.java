@@ -25,10 +25,10 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 @ServiceTest
-class StatusUpdateServiceTest {
+class AutomaticUpdateServiceTest {
 
     @Autowired
-    private StatusUpdateService statusUpdateService;
+    private AutomaticUpdateService automaticUpdateService;
 
     @Autowired
     private AutomaticUpdateRepository automaticUpdateRepository;
@@ -40,7 +40,7 @@ class StatusUpdateServiceTest {
     private TaskScheduler taskScheduler;
 
     @MockBean
-    private StatusUpdateExecutor statusUpdateExecutor;
+    private AutomaticUpdateExecutor automaticUpdateExecutor;
 
     @Test
     @DisplayName("리뷰 마감 시간이 되면 자동으로 상태를 변경한다.")
@@ -53,7 +53,7 @@ class StatusUpdateServiceTest {
         RoomResponse response = roomService.create(anyLong(), any());
         automaticUpdateRepository.save(new AutomaticUpdate(response.id(), response.reviewDeadline()));
 
-        statusUpdateService.updateAtReviewDeadline(response);
+        automaticUpdateService.updateAtReviewDeadline(response);
 
         ArgumentCaptor<Runnable> runnableCaptor = ArgumentCaptor.forClass(Runnable.class);
         ArgumentCaptor<Instant> timeCaptor = ArgumentCaptor.forClass(Instant.class);
@@ -63,7 +63,7 @@ class StatusUpdateServiceTest {
         runnableCaptor.getValue().run();
 
         assertThat(reviewDeadline.atZone(ZoneId.of("Asia/Seoul")).toInstant()).isEqualTo(scheduledTime);
-        verify(statusUpdateExecutor).execute(any(AutomaticUpdate.class));
+        verify(automaticUpdateExecutor).execute(any(AutomaticUpdate.class));
     }
 
     private RoomResponse getRoomResponse(LocalDateTime reviewDeadline) {
