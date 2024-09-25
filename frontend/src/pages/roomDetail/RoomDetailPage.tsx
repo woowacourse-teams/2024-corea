@@ -2,6 +2,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import useMutateParticipateIn from "@/hooks/mutations/useMutateParticipateIn";
+import { useFetchParticipantList } from "@/hooks/queries/useFetchRooms";
 import ContentSection from "@/components/common/contentSection/ContentSection";
 import Icon from "@/components/common/icon/Icon";
 import MyReviewee from "@/components/roomDetailPage/myReviewee/MyReviewee";
@@ -11,39 +12,6 @@ import RoomInfoCard from "@/components/roomDetailPage/roomInfoCard/RoomInfoCard"
 import * as S from "@/pages/roomDetail/RoomDetailPage.style";
 import QUERY_KEYS from "@/apis/queryKeys";
 import { getRoomDetailInfo } from "@/apis/rooms.api";
-
-const participantListMockData = [
-  {
-    profileImage: "https://i.pinimg.com/474x/85/12/78/851278ae4cf117c9e95625a9a7113ba1.jpg",
-    nickname: "부럽이1",
-    prLink: "https://github.com/codingmaster/pull/123",
-  },
-  {
-    profileImage: "https://i.pinimg.com/474x/85/12/78/851278ae4cf117c9e95625a9a7113ba1.jpg",
-    nickname: "부럽이2",
-    prLink: "https://github.com/designqueen/pull/456",
-  },
-  {
-    profileImage: "https://i.pinimg.com/474x/85/12/78/851278ae4cf117c9e95625a9a7113ba1.jpg",
-    nickname: "부럽이3",
-    prLink: "https://github.com/algorithmking/pull/789",
-  },
-  {
-    profileImage: "https://i.pinimg.com/474x/85/12/78/851278ae4cf117c9e95625a9a7113ba1.jpg",
-    nickname: "부럽이4",
-    prLink: "https://github.com/frontendmaster/pull/101",
-  },
-  {
-    profileImage: "https://i.pinimg.com/474x/85/12/78/851278ae4cf117c9e95625a9a7113ba1.jpg",
-    nickname: "부럽이5",
-    prLink: "https://github.com/backendking/pull/202",
-  },
-  {
-    profileImage: "https://i.pinimg.com/474x/85/12/78/851278ae4cf117c9e95625a9a7113ba1.jpg",
-    nickname: "부럽이6",
-    prLink: "https://github.com/backendking/pull/202",
-  },
-];
 
 const RoomDetailPage = () => {
   const params = useParams();
@@ -57,6 +25,9 @@ const RoomDetailPage = () => {
     queryKey: [QUERY_KEYS.ROOM_DETAIL_INFO, roomId],
     queryFn: () => getRoomDetailInfo(roomId),
   });
+
+  const { data: participantListInfo, refetch: refetchParticipants } =
+    useFetchParticipantList(roomId);
 
   const toggleReviewerInfoExpand = () => {
     setIsReviewerInfoExpanded(!isReviewerInfoExpanded);
@@ -110,10 +81,15 @@ const RoomDetailPage = () => {
 
       <ContentSection title="함께 하는 참여자 살펴보기">
         <S.StyledDescription>
-          해당 방에 같이 참여중인 인원 중 5명을 랜덤으로 보여줍니다. 새로고침 버튼을 통해 새로운
+          해당 방에 같이 참여중인 인원 중 6명을 랜덤으로 보여줍니다. 새로고침 버튼을 통해 새로운
           리스트를 확인할 수 있습니다.
         </S.StyledDescription>
-        <ParticipantList participants={participantListMockData} />
+        {participantListInfo && (
+          <ParticipantList
+            participants={participantListInfo.participants}
+            onRefresh={refetchParticipants}
+          />
+        )}
       </ContentSection>
 
       <ContentSection title="피드백 프로세스 설명보기">

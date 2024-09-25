@@ -4,25 +4,25 @@ import Profile from "@/components/common/profile/Profile";
 import * as S from "@/components/roomDetailPage/participantList/ParticipantList.style";
 import { ParticipantListInfo } from "@/@types/participantList";
 
-const ParticipantList = ({ participants }: ParticipantListInfo) => {
-  const handleResetButton = () => {
-    console.log("ok");
-  };
+interface ParticipantListProps extends ParticipantListInfo {
+  onRefresh: () => void;
+}
 
+const ParticipantList = ({ participants, onRefresh }: ParticipantListProps) => {
   return (
     <S.TotalContainer>
       <S.RenewButtonWrapper>
-        <Button onClick={handleResetButton} size="icon">
+        <Button onClick={onRefresh} size="icon">
           {<Icon kind="arrowRenew" size={20} />}
         </Button>
       </S.RenewButtonWrapper>
 
       <S.ParticipantListContainer>
         {participants.map((participant) => (
-          <S.ParticipantInfo key={participant.nickname}>
+          <S.ParticipantInfo key={participant.githubId}>
             <S.ProfileWrapper>
-              <Profile imgSrc={participant.profileImage} size={80} />
-              <S.ProfileNickname>{participant.nickname}</S.ProfileNickname>
+              <Profile imgSrc={participant.thumbnailLink} size={80} />
+              <S.ProfileNickname>{participant.username}</S.ProfileNickname>
             </S.ProfileWrapper>
             <S.PRLink href={participant.prLink} target="_blank">
               <Icon kind="link" size="1.6rem" />
