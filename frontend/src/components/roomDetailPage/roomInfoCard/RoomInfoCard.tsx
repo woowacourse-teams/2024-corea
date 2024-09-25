@@ -28,7 +28,7 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
             {roomInfo.keywords.map((keyword) => (
               <Label
                 key={keyword}
-                type="keyword"
+                type="KEYWORD"
                 text={keyword}
                 size="small"
                 backgroundColor={theme.COLOR.primary1}

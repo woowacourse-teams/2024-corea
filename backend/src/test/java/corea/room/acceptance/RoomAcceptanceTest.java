@@ -1,10 +1,14 @@
 package corea.room.acceptance;
 
 import corea.auth.service.TokenService;
+import corea.fixture.RoomFixture;
 import corea.member.repository.MemberRepository;
+import corea.room.domain.ParticipationStatus;
+import corea.room.dto.RoomCreateRequest;
 import corea.room.dto.RoomResponse;
 import corea.room.dto.RoomResponses;
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -36,6 +40,28 @@ class RoomAcceptanceTest {
     }
 
     @Test
+    @DisplayName("방을 생성 및 삭제할 수 있다.")
+    void create() {
+        String accessToken = tokenService.createAccessToken(memberRepository.findByUsername("jcoding-play").get());
+        RoomCreateRequest request = RoomFixture.ROOM_CREATE_REQUEST();
+
+        RoomResponse response = RestAssured.given().log().all()
+                .auth().oauth2(accessToken)
+                .contentType(ContentType.JSON)
+                .body(request)
+                .when().post("/rooms")
+                .then().log().all()
+                .statusCode(201)
+                .extract().as(RoomResponse.class);
+
+        RestAssured.given().log().all()
+                .auth().oauth2(accessToken)
+                .when().delete("/rooms/" + response.id())
+                .then().log().all()
+                .statusCode(204);
+    }
+
+    @Test
     @DisplayName("로그인하지 않은 사용자가 방에 대한 정보를 조회할 수 있다.")
     void roomWithoutLogin() {
         RoomResponse response = RestAssured.given().log().all()
@@ -47,7 +73,9 @@ class RoomAcceptanceTest {
 
         assertSoftly(softly -> {
             softly.assertThat(response.manager()).isEqualTo("이상엽");
-            softly.assertThat(response.isParticipated()).isEqualTo(false);
+            softly.assertThat(response.participationStatus()).isEqualTo(
+                    ParticipationStatus.NOT_PARTICIPATED
+            );
         });
     }
 
@@ -65,7 +93,7 @@ class RoomAcceptanceTest {
 
         assertSoftly(softly -> {
             softly.assertThat(response.manager()).isEqualTo("이상엽");
-            softly.assertThat(response.isParticipated()).isEqualTo(true);
+            softly.assertThat(response.participationStatus()).isEqualTo(ParticipationStatus.PARTICIPATED);
         });
     }
 
@@ -93,11 +121,15 @@ class RoomAcceptanceTest {
 
         List<RoomResponse> rooms = response.rooms();
 
+        List<String> managers = rooms.stream()
+                .map(RoomResponse::manager)
+                .toList();
+
         assertSoftly(softly -> {
-            softly.assertThat(rooms).hasSize(3);
-            softly.assertThat(rooms.get(0).manager()).isEqualTo("강다빈");
-            softly.assertThat(rooms.get(1).manager()).isEqualTo("이상엽");
-            softly.assertThat(rooms.get(2).manager()).isEqualTo("최진실");
+            softly.assertThat(rooms)
+                    .hasSize(3);
+            softly.assertThat(managers)
+                    .containsExactlyInAnyOrder("강다빈", "이상엽", "최진실");
         });
     }
 

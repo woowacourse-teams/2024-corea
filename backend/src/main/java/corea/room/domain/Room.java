@@ -115,5 +115,9 @@ public class Room {
     public String getManagerName() {
         return manager.getName();
     }
+
+    public boolean isManagerId(long managerId) {
+        return manager.isMatchingId(managerId);
+    }
 }
 

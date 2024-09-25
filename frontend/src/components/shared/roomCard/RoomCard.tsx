@@ -40,11 +40,7 @@ const RoomCard = ({ roomInfo }: RoomCardProps) => {
           </S.KeywordsContainer>
 
           <S.EtcContainer>
-            {roomInfo.isClosed ? (
-              <Label type="close" text="마감됨" />
-            ) : (
-              <Label type="open" text="모집중" />
-            )}
+            <Label type={roomInfo.roomStatus} />
             <S.JoinMember>
               <Icon kind="person" size="1.6rem" color={theme.COLOR.grey4} />
               {roomInfo.currentParticipants}/{roomInfo.limitedParticipants}

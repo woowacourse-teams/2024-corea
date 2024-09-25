@@ -18,7 +18,7 @@ const Fallback = ({ message, resetError }: FallbackProps) => {
       {isMain && <BannerContainer />}
       <S.FallbackContainer>
         <S.ErrorMessage>{message}</S.ErrorMessage>
-        <S.Character src={errorCharacter} alt="로그인 중" />
+        <S.Character src={errorCharacter} alt="에러 발생" />
         <Button onClick={resetError} size="medium">
           다시 시도하기
         </Button>
