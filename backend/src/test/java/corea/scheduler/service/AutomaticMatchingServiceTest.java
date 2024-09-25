@@ -6,16 +6,18 @@ import corea.room.dto.RoomResponse;
 import corea.room.service.RoomService;
 import corea.scheduler.domain.AutomaticMatching;
 import corea.scheduler.repository.AutomaticMatchingRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.scheduling.TaskScheduler;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.ScheduledFuture;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -35,15 +37,58 @@ class AutomaticMatchingServiceTest {
     private RoomService roomService;
 
     @MockBean
+    private TaskScheduler taskScheduler;
+
+    @MockBean
     private AutomaticMatchingExecutor automaticMatchingExecutor;
 
-    @BeforeEach
-    void setUp() {
-        when(roomService.create(anyLong(), any()))
-                .thenReturn(getRoomResponse());
+    @Test
+    @DisplayName("모집 마감 기한이 되면 매칭을 자동으로 진행한다.")
+    void matchOnRecruitmentDeadline() {
+        // 현재 시간으로부터 10시간 후로 모집 마감 시간 설정
+        LocalDateTime recruitmentDeadline = LocalDateTime.now().plusHours(10);
+        when(roomService.create(anyLong(), any())).thenReturn(getRoomResponse(recruitmentDeadline));
+
+        when(taskScheduler.schedule(any(Runnable.class), any(Instant.class))).thenReturn(mock(ScheduledFuture.class));
+
+        RoomResponse response = roomService.create(anyLong(), any());
+        automaticMatchingRepository.save(new AutomaticMatching(response.id(), response.recruitmentDeadline()));
+
+        // taskScheduler를 사용하는 메소드 호출
+        automaticMatchingService.matchOnRecruitmentDeadline(response);
+
+        // taskScheduler.schedule 메소드에 전달된 인자를 캡처하기 위한 ArgumentCaptor 설정
+        ArgumentCaptor<Runnable> runnableCaptor = ArgumentCaptor.forClass(Runnable.class);
+        ArgumentCaptor<Instant> timeCaptor = ArgumentCaptor.forClass(Instant.class);
+        // taskScheduler.schedule 메소드가 호출되었는지 확인하고 전달된 인자 캡처
+        verify(taskScheduler).schedule(runnableCaptor.capture(), timeCaptor.capture());
+        Instant scheduledTime = timeCaptor.getValue();
+        runnableCaptor.getValue().run();
+
+        // 예약된 시간이 설정한 모집 마감 시간과 일치하는지 확인
+        assertThat(recruitmentDeadline.atZone(ZoneId.of("Asia/Seoul")).toInstant()).isEqualTo(scheduledTime);
+        // automaticMatchingExecutor.execute 메소드가 호출되었는지 확인
+        verify(automaticMatchingExecutor).execute(any(AutomaticMatching.class));
     }
 
-    private RoomResponse getRoomResponse() {
+    @Test
+    @DisplayName("예약된 자동 매칭을 삭제한다.")
+    void cancel() {
+        LocalDateTime recruitmentDeadline = LocalDateTime.now().plusHours(10);
+        when(roomService.create(anyLong(), any())).thenReturn(getRoomResponse(recruitmentDeadline));
+        ScheduledFuture scheduledFuture = mock(ScheduledFuture.class);
+        when(taskScheduler.schedule(any(Runnable.class), any(Instant.class))).thenReturn(scheduledFuture);
+
+        RoomResponse response = roomService.create(anyLong(), any());
+        automaticMatchingRepository.save(new AutomaticMatching(response.id(), response.recruitmentDeadline()));
+
+        automaticMatchingService.matchOnRecruitmentDeadline(response);
+        automaticMatchingService.cancel(response.id());
+
+        verify(scheduledFuture).cancel(true);
+    }
+
+    private RoomResponse getRoomResponse(LocalDateTime recruitmentDeadline) {
         return new RoomResponse(10,
                 "title",
                 "content",
@@ -54,60 +99,9 @@ class AutomaticMatchingServiceTest {
                 List.of(),
                 1,
                 10,
-                LocalDateTime.now().plusSeconds(5),
-                LocalDateTime.now().plusDays(2),
+                recruitmentDeadline,
+                LocalDateTime.now().plusDays(3),
                 ParticipationStatus.PARTICIPATED,
                 "OPEN");
-    }
-
-    @Test
-    @DisplayName("모집 마감 기한이 되면 매칭을 자동으로 진행한다.")
-    void matchOnRecruitmentDeadline() throws InterruptedException {
-        when(roomService.create(anyLong(), any())).thenReturn(getRoomResponse());
-        RoomResponse response = roomService.create(anyLong(), any());
-        automaticMatchingRepository.save(new AutomaticMatching(response.id(), response.recruitmentDeadline()));
-
-        // 비동기 작업을 동기화 시키기 위한 클래스
-        // 파라미터 인자에 비동기 작업의 개수를 입력해준다.
-        // 입력된 개수의 비동기 작업이 종료될 때 까지 스레드는 대기 한다.
-        CountDownLatch latch = new CountDownLatch(1);
-
-        // Mokito의 doAnswer()는 특정 메서드가 호출될 때 수행할 작업을 정의한다.
-        // automaticMatchingExecutor의 execute 메서드가 호출될 때, latch.countDown()을 호출하여 카운트를 감소시킨다.
-        // latch가 현재 1로 설정되어 있기 때문에 카운트가 감소되어 0개가 되면 대기하고 있던 스레드가 계속 작업을 진행할 수 있게 된다.
-        doAnswer(invocation -> {
-            latch.countDown();
-            return null;
-        }).when(automaticMatchingExecutor).execute(any());
-
-        // 5초후에 매칭이 되도록 설정된 automaticMatchingService의 matchOnRecruitmentDeadline 메서드를 호출한다.
-        automaticMatchingService.matchOnRecruitmentDeadline(response);
-
-        // latch의 카운트가 0이될 때까지 대기할 시간을 정의한다.
-        // CountDownLatch의 카운트가 5초 내에 0이 되었을 때 await() 메서드가 즉시 반환되고 true를 반환합니다.
-        assertThat(latch.await(6, TimeUnit.SECONDS)).isTrue();
-
-        // automaticMatchingExecutor의 execute() 메서드가 호출되었는지 검증한다.
-        verify(automaticMatchingExecutor).execute(any());
-    }
-
-    @Test
-    @DisplayName("예약된 자동 매칭을 삭제한다.")
-    void cancel() throws InterruptedException {
-        RoomResponse response = roomService.create(anyLong(), any());
-        automaticMatchingRepository.save(new AutomaticMatching(response.id(), response.recruitmentDeadline()));
-
-        CountDownLatch latch = new CountDownLatch(1);
-
-        doAnswer(invocation -> {
-            latch.countDown();
-            return null;
-        }).when(automaticMatchingExecutor).execute(any());
-
-        automaticMatchingService.matchOnRecruitmentDeadline(response);
-        automaticMatchingService.cancel(response.id());
-
-        assertThat(latch.await(6, TimeUnit.SECONDS)).isFalse();
-        verify(automaticMatchingExecutor, never()).execute(any());
     }
 }
