@@ -49,7 +49,7 @@ const RoomCard = ({ roomInfo }: RoomCardProps) => {
 
           <S.DeadLineText>
             {formatDeadlineString(roomInfo.recruitmentDeadline)}
-            {roomInfo.isParticipated ? (
+            {roomInfo.participationStatus !== "NOT_PARTICIPATED" ? (
               <S.StyledDday> {formatDday(roomInfo.reviewDeadline)}</S.StyledDday>
             ) : (
               <S.StyledDday> {formatDday(roomInfo.recruitmentDeadline)}</S.StyledDday>

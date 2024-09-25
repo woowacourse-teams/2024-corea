@@ -1,7 +1,7 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import useMutateParticipateIn from "@/hooks/mutations/useMutateParticipateIn";
+import useMutateRoom from "@/hooks/mutations/useMutateRoom";
 import ContentSection from "@/components/common/contentSection/ContentSection";
 import Icon from "@/components/common/icon/Icon";
 import MyReviewee from "@/components/roomDetailPage/myReviewee/MyReviewee";
@@ -16,7 +16,7 @@ const RoomDetailPage = () => {
   const roomId = params.id ? Number(params.id) : 0;
   const [isReviewerInfoExpanded, setIsReviewerInfoExpanded] = useState(false);
   const [isRevieweeInfoExpanded, setIsRevieweeInfoExpanded] = useState(false);
-  const { deleteParticipateInMutation } = useMutateParticipateIn();
+  const { deleteParticipateInMutation, deleteParticipatedRoomMutation } = useMutateRoom();
   const navigate = useNavigate();
 
   const { data: roomInfo } = useSuspenseQuery({
@@ -38,21 +38,38 @@ const RoomDetailPage = () => {
     });
   };
 
+  const handleDeleteRoomClick = () => {
+    deleteParticipatedRoomMutation.mutate(roomInfo.id, {
+      onSuccess: () => navigate("/"),
+    });
+  };
+
+  const buttonProps = () => {
+    if (roomInfo.roomStatus !== "OPEN") {
+      return undefined;
+    }
+
+    if (roomInfo.participationStatus === "MANAGER") {
+      return {
+        label: "방 삭제하기",
+        onClick: handleDeleteRoomClick,
+      };
+    }
+
+    if (roomInfo.participationStatus === "PARTICIPATED") {
+      return {
+        label: "방 참여 취소하기",
+        onClick: handleCancleParticipateInClick,
+      };
+    }
+  };
+
   return (
     <S.Layout>
-      <ContentSection
-        title="미션 정보"
-        button={
-          roomInfo.roomStatus === "OPEN"
-            ? {
-                label: "방 참여 취소하기",
-                onClick: handleCancleParticipateInClick,
-              }
-            : undefined
-        }
-      >
+      <ContentSection title="미션 정보" button={buttonProps()}>
         <RoomInfoCard roomInfo={roomInfo} />
       </ContentSection>
+
       <S.FeedbackContainer>
         <S.FeedbackSection>
           <ContentSection title="나의 리뷰어 - 나를 리뷰해주는 분">
