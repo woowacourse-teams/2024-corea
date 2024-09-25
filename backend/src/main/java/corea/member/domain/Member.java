@@ -52,4 +52,8 @@ public class Member {
     public boolean isNotMatchingId(long memberId) {
         return this.id != memberId;
     }
+
+    public boolean isMatchingId(long memberId) {
+        return this.id == memberId;
+    }
 }

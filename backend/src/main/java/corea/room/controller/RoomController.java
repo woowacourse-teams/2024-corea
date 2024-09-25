@@ -5,7 +5,9 @@ import corea.auth.annotation.LoginMember;
 import corea.auth.domain.AuthInfo;
 import corea.matching.dto.MatchResultResponses;
 import corea.matching.service.MatchResultService;
+import corea.room.domain.RoomStatus;
 import corea.room.dto.RoomCreateRequest;
+import corea.room.dto.RoomParticipantResponses;
 import corea.room.dto.RoomResponse;
 import corea.room.dto.RoomResponses;
 import corea.room.service.RoomService;
@@ -25,20 +27,24 @@ public class RoomController implements RoomControllerSpecification {
     private final MatchResultService matchResultService;
     private final AutomaticMatchingService automaticMatchingService;
 
-    @PostMapping("/{id}")
-    public ResponseEntity<RoomResponse> create(@PathVariable long id,
-                                               @LoginMember AuthInfo authInfo,
-                                               @RequestBody RoomCreateRequest request) {
-        RoomResponse roomResponse = roomService.create(authInfo.getId(), request);
-        automaticMatchingService.matchOnRecruitmentDeadline(roomResponse);
+    @PostMapping
+    public ResponseEntity<RoomResponse> create(@LoginMember AuthInfo authInfo, @RequestBody RoomCreateRequest request) {
+        RoomResponse response = roomService.create(authInfo.getId(), request);
+        automaticMatchingService.matchOnRecruitmentDeadline(response);
 
-        return ResponseEntity.created(URI.create(String.format("/rooms/%d", id)))
-                .body(roomResponse);
+        return ResponseEntity.created(URI.create(String.format("/rooms/%d", response.id())))
+                .body(response);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<RoomResponse> room(@PathVariable long id, @AccessedMember AuthInfo authInfo) {
         RoomResponse response = roomService.findOne(id, authInfo.getId());
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{id}/members")
+    public ResponseEntity<RoomParticipantResponses> participants(@PathVariable long id, @AccessedMember AuthInfo authInfo) {
+        RoomParticipantResponses response = roomService.findParticipants(id, authInfo.getId());
         return ResponseEntity.ok(response);
     }
 
@@ -62,30 +68,33 @@ public class RoomController implements RoomControllerSpecification {
 
     @GetMapping("/opened")
     public ResponseEntity<RoomResponses> openedRooms(@AccessedMember AuthInfo authInfo,
-                                                     @RequestParam(value = "classification", defaultValue = "all") String expression,
-                                                     @RequestParam(defaultValue = "0") int page) {
-        RoomResponses response = roomService.findOpenedRooms(authInfo.getId(), expression, page);
+                                                     @RequestParam(defaultValue = "0") int page,
+                                                     @RequestParam(value = "classification", defaultValue = "all") String expression) {
+        RoomResponses response = roomService.findRoomsWithRoomStatus(authInfo.getId(), page, expression, RoomStatus.OPEN);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/progress")
     public ResponseEntity<RoomResponses> progressRooms(@AccessedMember AuthInfo authInfo,
-                                                       @RequestParam(value = "classification", defaultValue = "all") String expression,
-                                                       @RequestParam(defaultValue = "0") int page) {
-        RoomResponses response = roomService.findProgressRooms(authInfo.getId(), expression, page);
+                                                       @RequestParam(defaultValue = "0") int page,
+                                                       @RequestParam(value = "classification", defaultValue = "all") String expression) {
+        RoomResponses response = roomService.findRoomsWithRoomStatus(authInfo.getId(), page, expression, RoomStatus.PROGRESS);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/closed")
-    public ResponseEntity<RoomResponses> closedRooms(@RequestParam(value = "classification", defaultValue = "all") String expression,
-                                                     @RequestParam(defaultValue = "0") int page) {
-        RoomResponses response = roomService.findClosedRooms(expression, page);
+    public ResponseEntity<RoomResponses> closedRooms(@AccessedMember AuthInfo authInfo,
+                                                     @RequestParam(defaultValue = "0") int page,
+                                                     @RequestParam(value = "classification", defaultValue = "all") String expression) {
+        RoomResponses response = roomService.findRoomsWithRoomStatus(authInfo.getId(), page, expression, RoomStatus.CLOSE);
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable long id, @LoginMember AuthInfo authInfo) {
         roomService.delete(id, authInfo.getId());
+        automaticMatchingService.cancel(id);
+
         return ResponseEntity.noContent()
                 .build();
     }
