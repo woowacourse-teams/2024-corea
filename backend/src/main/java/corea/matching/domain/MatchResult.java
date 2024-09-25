@@ -45,7 +45,7 @@ public class MatchResult {
     private boolean isRevieweeCompletedFeedback;
 
     public MatchResult(long roomId, Member reviewer, Member reviewee, String prLink) {
-        this(null, roomId, reviewer, reviewee, prLink, prLink, ReviewStatus.INCOMPLETE, false, false);
+        this(null, roomId, reviewer, reviewee, prLink, "", ReviewStatus.INCOMPLETE, false, false);
         log.info("매칭 결과 [방 번호 ({}) ,리뷰어({}) , 리뷰이({})]", roomId, reviewer.getUsername(), reviewee.getUsername());
     }
 
