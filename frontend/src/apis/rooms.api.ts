@@ -1,5 +1,6 @@
 import apiClient from "./apiClient";
 import { API_ENDPOINTS } from "./endpoints";
+import { ParticipantListInfo } from "@/@types/participantList";
 import { RoomInfo, RoomListInfo } from "@/@types/roomInfo";
 import MESSAGES from "@/constants/message";
 
@@ -76,4 +77,13 @@ export const deleteParticipatedRoom = async (roomId: number): Promise<void> => {
     endpoint: `${API_ENDPOINTS.ROOMS}/${roomId}`,
     errorMessage: MESSAGES.ERROR.DELETE_PARTICIPATED_ROOM,
   });
+};
+
+export const getParticipantList = async (roomId: number): Promise<ParticipantListInfo> => {
+  const res = await apiClient.get({
+    endpoint: API_ENDPOINTS.PARTICIPANT_LIST(roomId),
+    errorMessage: MESSAGES.ERROR.GET_PARTICIPANT_LIST,
+  });
+
+  return res;
 };

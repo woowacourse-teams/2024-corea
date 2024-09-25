@@ -6,6 +6,7 @@ import ContentSection from "@/components/common/contentSection/ContentSection";
 import Icon from "@/components/common/icon/Icon";
 import MyReviewee from "@/components/roomDetailPage/myReviewee/MyReviewee";
 import MyReviewer from "@/components/roomDetailPage/myReviewer/MyReviewer";
+import ParticipantList from "@/components/roomDetailPage/participantList/ParticipantList";
 import RoomInfoCard from "@/components/roomDetailPage/roomInfoCard/RoomInfoCard";
 import * as S from "@/pages/roomDetail/RoomDetailPage.style";
 import QUERY_KEYS from "@/apis/queryKeys";
@@ -89,6 +90,14 @@ const RoomDetailPage = () => {
           </ContentSection>
         </S.FeedbackSection>
       </S.FeedbackContainer>
+
+      <ContentSection title="함께 하는 참여자 살펴보기">
+        <S.StyledDescription>
+          해당 방에 같이 참여중인 인원 중 6명을 랜덤으로 보여줍니다. 새로고침 버튼을 통해 새로운
+          리스트를 확인할 수 있습니다.
+        </S.StyledDescription>
+        <ParticipantList roomId={roomInfo.id} />
+      </ContentSection>
 
       <ContentSection title="피드백 프로세스 설명보기">
         <S.ToggleWrapper>
