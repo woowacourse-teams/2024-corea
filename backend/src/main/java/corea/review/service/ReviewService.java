@@ -44,17 +44,17 @@ public class ReviewService {
         Member reviewer = memberRepository.findById(reviewerId)
                 .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND, String.format("%d에 해당하는 멤버가 없습니다.", reviewerId)));
         String userName = reviewer.getUsername();
-        String newReviewLink = findReviewLink(userName, matchResult.getReviewLink());
+        String newReviewLink = findReviewLink(userName, matchResult.getPrLink());
         matchResult.updateReviewLink(newReviewLink);
     }
 
-    private String findReviewLink(String userName, String reviewLink) {
-        GithubPullRequestReview[] githubPullRequestReviews = githubOAuthProvider.getPullRequestReview(reviewLink);
+    private String findReviewLink(String userName, String prLink) {
+        GithubPullRequestReview[] githubPullRequestReviews = githubOAuthProvider.getPullRequestReview(prLink);
         return Stream.of(githubPullRequestReviews)
                 .filter(review -> review.user().login().equals(userName))
                 .findFirst()
                 .map(GithubPullRequestReview::html_url)
-                .orElse(reviewLink);
+                .orElse(prLink);
     }
 
     private MatchResult getMatchResult(long roomId, long reviewerId, long revieweeId) {
