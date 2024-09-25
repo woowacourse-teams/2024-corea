@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { TimeInput } from "@/components/common/timeInput/TimeInput";
+import { TimeDropdown } from "@/components/common/timeDropdown/TimeDropdown";
 import { Time } from "@/@types/date";
 
 const RoomCreatePage = () => {
@@ -16,7 +16,7 @@ const RoomCreatePage = () => {
   return (
     <div>
       여긴 룸 생성 페이지
-      <TimeInput onTimeChange={handleTimeChange} selectedTime={selectedTime} />
+      <TimeDropdown onTimeChange={handleTimeChange} selectedTime={selectedTime} />
     </div>
   );
 };

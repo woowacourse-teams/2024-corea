@@ -1,11 +1,11 @@
-import { TimeInput } from "./TimeInput";
+import { TimeDropdown } from "./TimeDropdown";
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
 import { Time } from "@/@types/date";
 
 const meta = {
-  title: "Common/TimeInput",
-  component: TimeInput,
+  title: "Common/TimeDropdown",
+  component: TimeDropdown,
   argTypes: {
     error: {
       control: {
@@ -29,7 +29,7 @@ const meta = {
       action: "changed",
     },
   },
-} satisfies Meta<typeof TimeInput>;
+} satisfies Meta<typeof TimeDropdown>;
 
 export default meta;
 
@@ -48,7 +48,7 @@ export const Default: Story = {
   render: (args) => {
     const [time, setTime] = useState<Time>(args.selectedTime);
     return (
-      <TimeInput
+      <TimeDropdown
         error={args.error}
         selectedTime={time}
         onTimeChange={(newTime) => {
@@ -73,7 +73,7 @@ export const 에러일_때: Story = {
   render: (args) => {
     const [time, setTime] = useState<Time>(args.selectedTime);
     return (
-      <TimeInput
+      <TimeDropdown
         error={args.error}
         selectedTime={time}
         onTimeChange={(newTime) => {

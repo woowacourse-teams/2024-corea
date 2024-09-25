@@ -30,6 +30,7 @@ const OpenedRoomList = ({ selectedCategory, handleSelectedCategory }: OpenedRoom
       hasNextPage={hasNextOpenedPage}
       onLoadMore={fetchNextOpenedPage}
       isFetching={isFetching}
+      roomType="opened"
     />
   );
 };

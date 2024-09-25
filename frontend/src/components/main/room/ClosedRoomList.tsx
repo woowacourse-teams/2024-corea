@@ -30,6 +30,7 @@ const ClosedRoomList = ({ selectedCategory, handleSelectedCategory }: ClosedRoom
       hasNextPage={hasNextClosedPage}
       onLoadMore={fetchNextClosedPage}
       isFetching={isFetching}
+      roomType="closed"
     />
   );
 };

@@ -5,16 +5,20 @@ import RoomList from "@/components/shared/roomList/RoomList";
 const UserParticipatedRoom = () => {
   const { data: roomList, isFetching } = useFetchParticipatedRoomList();
 
-  const participatingRoomList = roomList.rooms.filter((room) => !room.isClosed);
-  const participatedRoomList = roomList.rooms.filter((room) => room.isClosed);
+  const participatingRoomList = roomList.rooms.filter((room) => room.roomStatus !== "CLOSE");
+  const participatedRoomList = roomList.rooms.filter((room) => room.roomStatus === "CLOSE");
 
   return (
     <>
       <ContentSection title="참여 중인 방 리스트">
-        <RoomList isFetching={isFetching} roomList={participatingRoomList} participated={true} />
+        <RoomList
+          isFetching={isFetching}
+          roomList={participatingRoomList}
+          roomType="participated"
+        />
       </ContentSection>
       <ContentSection title="참여 했던 방 리스트">
-        <RoomList isFetching={isFetching} roomList={participatedRoomList} participated={true} />
+        <RoomList isFetching={isFetching} roomList={participatedRoomList} roomType="participated" />
       </ContentSection>
     </>
   );

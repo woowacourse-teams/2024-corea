@@ -3,7 +3,10 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { RoomInfo } from "@/@types/roomInfo";
 import roomInfos from "@/mocks/mockResponse/roomInfos.json";
 
-const sampleRoomList: RoomInfo[] = roomInfos.rooms;
+const sampleRoomList = roomInfos.rooms.map((roomInfo) => ({
+  ...roomInfo,
+  roomStatus: roomInfo.roomStatus as "OPEN" | "CLOSE" | "PROGRESS",
+})) satisfies RoomInfo[];
 
 const meta = {
   title: "shared/RoomList",
@@ -28,6 +31,11 @@ const meta = {
       description: "더 보기 버튼 클릭 시 호출될 함수",
       action: "clicked",
     },
+    roomType: {
+      description: "방의 타입",
+      control: { type: "select" },
+      options: ["participated", "opened", "closed"],
+    },
   },
 } satisfies Meta<typeof RoomList>;
 
@@ -40,6 +48,7 @@ export const SmallViewport: Story = {
     roomList: sampleRoomList,
     hasNextPage: false,
     isFetching: false,
+    roomType: "participated",
   },
   parameters: {
     viewport: {
@@ -54,6 +63,7 @@ export const SmallViewport_With_NextPage: Story = {
     hasNextPage: true,
     onLoadMore: () => {},
     isFetching: false,
+    roomType: "opened",
   },
   parameters: {
     viewport: {
@@ -67,6 +77,7 @@ export const MediumViewport: Story = {
     roomList: sampleRoomList,
     hasNextPage: false,
     isFetching: false,
+    roomType: "closed",
   },
   parameters: {
     viewport: {
@@ -80,6 +91,7 @@ export const LargeViewport: Story = {
     roomList: sampleRoomList,
     hasNextPage: false,
     isFetching: false,
+    roomType: "closed",
   },
   parameters: {
     viewport: {
