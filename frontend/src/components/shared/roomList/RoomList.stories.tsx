@@ -6,6 +6,10 @@ import roomInfos from "@/mocks/mockResponse/roomInfos.json";
 const sampleRoomList = roomInfos.rooms.map((roomInfo) => ({
   ...roomInfo,
   roomStatus: roomInfo.roomStatus as "OPEN" | "CLOSE" | "PROGRESS",
+  participationStatus: roomInfo.participationStatus as
+    | "NOT_PARTICIPATED"
+    | "PARTICIPATED"
+    | "MANAGER",
 })) satisfies RoomInfo[];
 
 const meta = {
@@ -47,6 +51,7 @@ export const SmallViewport: Story = {
   args: {
     roomList: sampleRoomList,
     hasNextPage: false,
+    isFetching: false,
     roomType: "participated",
   },
   parameters: {
@@ -61,6 +66,7 @@ export const SmallViewport_With_NextPage: Story = {
     roomList: sampleRoomList,
     hasNextPage: true,
     onLoadMore: () => {},
+    isFetching: false,
     roomType: "opened",
   },
   parameters: {
@@ -74,6 +80,7 @@ export const MediumViewport: Story = {
   args: {
     roomList: sampleRoomList,
     hasNextPage: false,
+    isFetching: false,
     roomType: "closed",
   },
   parameters: {
@@ -87,6 +94,7 @@ export const LargeViewport: Story = {
   args: {
     roomList: sampleRoomList,
     hasNextPage: false,
+    isFetching: false,
     roomType: "closed",
   },
   parameters: {

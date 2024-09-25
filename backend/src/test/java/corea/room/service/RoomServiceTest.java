@@ -3,14 +3,20 @@ package corea.room.service;
 import corea.auth.domain.AuthInfo;
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
+import corea.fixture.MatchResultFixture;
 import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
+import corea.matching.repository.MatchResultRepository;
 import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
+import corea.participation.domain.Participation;
+import corea.participation.repository.ParticipationRepository;
+import corea.room.domain.Room;
 import corea.room.domain.ParticipationStatus;
 import corea.room.domain.RoomClassification;
 import corea.room.domain.RoomStatus;
 import corea.room.dto.RoomCreateRequest;
+import corea.room.dto.RoomParticipantResponses;
 import corea.room.dto.RoomResponse;
 import corea.room.dto.RoomResponses;
 import corea.room.repository.RoomRepository;
@@ -45,6 +51,12 @@ class RoomServiceTest {
     @Autowired
     private MemberRepository memberRepository;
 
+    @Autowired
+    private MatchResultRepository matchResultRepository;
+
+    @Autowired
+    private ParticipationRepository participationRepository;
+
     @ParameterizedTest
     @CsvSource({"2, PARTICIPATED", "4, NOT_PARTICIPATED"})
     @DisplayName("해당 방에 자신이 참여 중인지 아닌지를 판단할 수 있다.")
@@ -61,7 +73,7 @@ class RoomServiceTest {
     void findParticipatedRooms() {
         RoomResponses response = roomService.findParticipatedRooms(1);
         List<RoomResponse> rooms = response.rooms();
-      
+
         List<String> managers = rooms.stream()
                 .map(RoomResponse::manager)
                 .toList();
@@ -232,5 +244,22 @@ class RoomServiceTest {
                 .asInstanceOf(InstanceOfAssertFactories.type(CoreaException.class))
                 .extracting(CoreaException::getExceptionType)
                 .isEqualTo(ExceptionType.ROOM_DELETION_AUTHORIZATION_ERROR);
+    }
+
+    @Test
+    @DisplayName("본인을 제외하고 방에 참여한 사람의 정보를 최대 6명까지 가져온다.")
+    void findParticipants() {
+        Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
+        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
+
+        List<Member> members = memberRepository.saveAll(MemberFixture.SEVEN_MEMBERS());
+        participationRepository.save(new Participation(room, manager.getId()));
+        participationRepository.saveAll(members.stream().map(member -> new Participation(room, member.getId())).toList());
+        matchResultRepository.saveAll(members.stream().map(member -> MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), manager, member)).toList());
+        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), members.get(0), manager));
+
+        RoomParticipantResponses participants = roomService.findParticipants(room.getId(), manager.getId());
+
+        assertThat(participants.participants()).hasSize(6);
     }
 }

@@ -2,6 +2,7 @@ package corea.room.service;
 
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
+import corea.matching.repository.MatchResultRepository;
 import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
 import corea.participation.domain.Participation;
@@ -9,9 +10,7 @@ import corea.participation.repository.ParticipationRepository;
 import corea.room.domain.Room;
 import corea.room.domain.RoomClassification;
 import corea.room.domain.RoomStatus;
-import corea.room.dto.RoomCreateRequest;
-import corea.room.dto.RoomResponse;
-import corea.room.dto.RoomResponses;
+import corea.room.dto.*;
 import corea.room.repository.RoomRepository;
 import corea.scheduler.domain.AutomaticMatching;
 import corea.scheduler.repository.AutomaticMatchingRepository;
@@ -23,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 import static corea.room.domain.ParticipationStatus.*;
@@ -35,12 +35,14 @@ public class RoomService {
 
     private static final int PLUS_HOURS_TO_MINIMUM_RECRUITMENT_DEADLINE = 1;
     private static final int PLUS_DAYS_TO_MINIMUM_REVIEW_DEADLINE = 1;
-    private static final int PAGE_SIZE = 8;
+    private static final int PAGE_DISPLAY_SIZE = 8;
+    private static final int RANDOM_DISPLAY_PARTICIPANTS_SIZE = 6;
 
     private final RoomRepository roomRepository;
     private final MemberRepository memberRepository;
     private final ParticipationRepository participationRepository;
     private final AutomaticMatchingRepository automaticMatchingRepository;
+    private final MatchResultRepository matchResultRepository;
 
     @Transactional
     public RoomResponse create(long memberId, RoomCreateRequest request) {
@@ -98,7 +100,7 @@ public class RoomService {
     }
 
     private RoomResponses getRoomResponses(long memberId, int pageNumber, RoomClassification classification, RoomStatus status) {
-        PageRequest pageRequest = PageRequest.of(pageNumber, PAGE_SIZE);
+        PageRequest pageRequest = PageRequest.of(pageNumber, PAGE_DISPLAY_SIZE);
 
         if (classification.isAll()) {
             Page<Room> roomsWithPage = roomRepository.findAllByMemberAndStatus(memberId, status, pageRequest);
@@ -123,6 +125,27 @@ public class RoomService {
             log.warn("방 삭제 권한이 없습니다. 방 생성자만 방을 삭제할 수 있습니다. 방 생성자 id={}, 요청한 사용자 id={}", room.getManagerId(), memberId);
             throw new CoreaException(ExceptionType.ROOM_DELETION_AUTHORIZATION_ERROR);
         }
+    }
+
+    public RoomParticipantResponses findParticipants(long roomId, long memberId) {
+        List<Participation> participants = new java.util.ArrayList<>(
+                participationRepository.findAllByRoomId(roomId).stream()
+                .filter(participation -> participation.getMemberId() != memberId)
+                .toList());
+        Collections.shuffle(participants);
+
+        return new RoomParticipantResponses(participants.stream()
+                .limit(RANDOM_DISPLAY_PARTICIPANTS_SIZE)
+                .map(participation -> getRoomMemberResponse(roomId, participation))
+                .toList());
+    }
+
+    private RoomParticipantResponse getRoomMemberResponse(long roomId, Participation participant) {
+        return matchResultRepository.findAllByRevieweeIdAndRoomId(participant.getMemberId(), roomId).stream()
+                .findFirst()
+                .map(matchResult -> new RoomParticipantResponse(
+                        matchResult.getReviewee().getGithubUserId(), matchResult.getReviewee().getUsername(), matchResult.getPrLink(), matchResult.getReviewee().getThumbnailUrl()))
+                .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND));
     }
 
     public RoomResponse getRoomById(long roomId) {
