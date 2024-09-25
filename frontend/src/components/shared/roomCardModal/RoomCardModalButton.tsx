@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import useMutateParticipateIn from "@/hooks/mutations/useMutateParticipateIn";
+import useMutateRoom from "@/hooks/mutations/useMutateRoom";
 import Button from "@/components/common/button/Button";
 import { RoomInfo } from "@/@types/roomInfo";
 
@@ -9,7 +9,7 @@ interface RoomCardModalButtonProps {
 
 const RoomCardModalButton = ({ roomInfo }: RoomCardModalButtonProps) => {
   const navigate = useNavigate();
-  const { postParticipateInMutation } = useMutateParticipateIn();
+  const { postParticipateInMutation } = useMutateRoom();
 
   const handleParticipateRoomClick = () => {
     postParticipateInMutation.mutate(roomInfo.id, {

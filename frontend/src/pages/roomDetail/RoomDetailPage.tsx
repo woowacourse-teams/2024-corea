@@ -1,7 +1,6 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import useMutateParticipateIn from "@/hooks/mutations/useMutateParticipateIn";
 import useMutateRoom from "@/hooks/mutations/useMutateRoom";
 import ContentSection from "@/components/common/contentSection/ContentSection";
 import Icon from "@/components/common/icon/Icon";
@@ -17,8 +16,7 @@ const RoomDetailPage = () => {
   const roomId = params.id ? Number(params.id) : 0;
   const [isReviewerInfoExpanded, setIsReviewerInfoExpanded] = useState(false);
   const [isRevieweeInfoExpanded, setIsRevieweeInfoExpanded] = useState(false);
-  const { deleteParticipateInMutation } = useMutateParticipateIn();
-  const { deleteParticipatedRoomMutation } = useMutateRoom();
+  const { deleteParticipateInMutation, deleteParticipatedRoomMutation } = useMutateRoom();
   const navigate = useNavigate();
 
   const { data: roomInfo } = useSuspenseQuery({
