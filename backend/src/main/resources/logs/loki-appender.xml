@@ -5,7 +5,7 @@
         </http>
         <format>
             <label>
-                <pattern>app=Corea,host=${HOSTNAME},level=%level</pattern>
+                <pattern>app=Corea,host=${HOSTNAME},profile=${PROFILE},level=%level</pattern>
                 <readMarkers>true</readMarkers>
             </label>
             <message>
@@ -13,8 +13,10 @@
                     {
                     "level":"%level",
                     "class":"%logger{36}",
-                    "requestId":"%X{requestId},
-                    "message": "%replace(%replace(%message){"\\","\\\\"}){"\"","\\\""}"
+                    "requestId":"%X{requestId}",
+                    "time":"%date{yyyy-MM-dd'T'HH:mm:ss.SSSZ}",
+                    "thread":"%thread",
+                    "message": "%message"
                     }
                 </pattern>
             </message>
