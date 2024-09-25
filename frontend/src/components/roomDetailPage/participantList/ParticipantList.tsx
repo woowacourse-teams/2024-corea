@@ -13,7 +13,7 @@ const ParticipantList = ({ participants, onRefresh }: ParticipantListProps) => {
     <S.TotalContainer>
       <S.RenewButtonWrapper>
         <Button onClick={onRefresh} size="xSmall">
-          {<Icon kind="arrowRenew" size={20} />}
+          <Icon kind="arrowRenew" size={20} />
         </Button>
       </S.RenewButtonWrapper>
 
