@@ -1,7 +1,6 @@
 import { TimeDropdown } from "./TimeDropdown";
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
-import { Time } from "@/@types/date";
 
 const meta = {
   title: "Common/TimeDropdown",
@@ -39,14 +38,11 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     error: false,
-    selectedTime: {
-      hour: 10,
-      minute: 30,
-    },
+    selectedTime: new Date(),
     onTimeChange: () => {},
   },
   render: (args) => {
-    const [time, setTime] = useState<Time>(args.selectedTime);
+    const [time, setTime] = useState<Date>(args.selectedTime);
     return (
       <TimeDropdown
         error={args.error}
@@ -64,14 +60,11 @@ export const Default: Story = {
 export const 에러일_때: Story = {
   args: {
     error: true,
-    selectedTime: {
-      hour: 12,
-      minute: 45,
-    },
+    selectedTime: new Date(),
     onTimeChange: () => {},
   },
   render: (args) => {
-    const [time, setTime] = useState<Time>(args.selectedTime);
+    const [time, setTime] = useState<Date>(args.selectedTime);
     return (
       <TimeDropdown
         error={args.error}
