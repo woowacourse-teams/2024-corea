@@ -37,10 +37,10 @@ const router = sentryCreateBrowserRouter([
         path: `guide`,
         element: <GuidePage />,
       },
-      {
-        path: `ranking`,
-        element: <RankingPage />,
-      },
+      // {
+      //   path: `ranking`,
+      //   element: <RankingPage />,
+      // },
       {
         path: `feedback`,
         element: <FeedbackPage />,
