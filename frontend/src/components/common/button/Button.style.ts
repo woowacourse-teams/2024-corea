@@ -47,14 +47,13 @@ const variantStyles = {
 };
 
 const sizeStyles = {
-  icon: css`
-    padding: 1rem;
-    border-radius: 4px;
-  `,
   xSmall: css`
-    width: 90px;
+    width: fit-content;
+    max-width: 110px;
     padding: 1rem;
+
     font: ${({ theme }) => theme.TEXT.semiSmall};
+
     border-radius: 4px;
   `,
   small: css`
