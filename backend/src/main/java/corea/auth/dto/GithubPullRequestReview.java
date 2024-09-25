@@ -6,8 +6,10 @@ public record GithubPullRequestReview(
 
         @JsonProperty("id")
         String id,
+
         @JsonProperty("user")
         GithubUserInfo user,
+
         @JsonProperty("html_url")
         String html_url
 ){
