@@ -5,6 +5,7 @@ const QUERY_KEYS = {
   OPENED_ROOM_LIST: "openedRoomList",
   CLOSED_ROOM_LIST: "closedRoomList",
   ROOM_DETAIL_INFO: "roomDetailInfo",
+  PARTICIPANT_LIST: "participantList",
 
   // reviews
   REVIEWERS: "reviewers",

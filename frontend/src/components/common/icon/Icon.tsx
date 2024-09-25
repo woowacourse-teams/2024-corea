@@ -11,6 +11,7 @@ import {
   MdArrowBackIos,
   MdArrowDropDown,
   MdArrowForwardIos,
+  MdAutorenew,
   MdCalendarMonth,
   MdExpandMore,
   MdInfoOutline,
@@ -47,6 +48,7 @@ const ICON: { [key in IconKind]: IconType } = {
   arrowRight: MdArrowForwardIos,
   arrowDropDown: MdOutlineArrowDropDown,
   arrowDropUp: MdOutlineArrowDropUp,
+  arrowRenew: MdAutorenew,
 };
 
 interface IconProps {

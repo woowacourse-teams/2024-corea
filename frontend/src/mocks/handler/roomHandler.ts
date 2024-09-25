@@ -34,6 +34,9 @@ const roomHandler = [
   http.post(serverUrl + API_ENDPOINTS.REVIEW_COMPLETE, () => {
     return HttpResponse.json(null, { status: 200 });
   }),
+  http.delete(serverUrl + API_ENDPOINTS.ROOMS + "/:id", () => {
+    return HttpResponse.json(null, { status: 200 });
+  }),
 ];
 
 export default roomHandler;
