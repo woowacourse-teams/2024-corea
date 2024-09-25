@@ -1,7 +1,8 @@
 export interface ParticipantInfo {
-  profileImage: string;
-  nickname: string;
+  githubId: string;
+  username: string;
   prLink: string;
+  thumbnailLink: string;
 }
 
 export interface ParticipantListInfo {
