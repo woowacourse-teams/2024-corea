@@ -81,5 +81,6 @@
       "roomStatus": "PROGRESS"
     }
   ],
-  "isLastPage": false
+  "isLastPage": false,
+  "pageNumber": 0
 }

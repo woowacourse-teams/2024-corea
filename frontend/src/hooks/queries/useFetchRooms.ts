@@ -29,7 +29,7 @@ export const useInfiniteFetchRoomList = ({
     },
     getNextPageParam: (lastPage) => {
       if (lastPage.isLastPage) return undefined;
-      return lastPage.pageNumber;
+      return lastPage.pageNumber + 1;
     },
     initialPageParam: 0,
   });
