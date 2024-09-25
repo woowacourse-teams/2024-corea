@@ -23,13 +23,13 @@ public class AutomaticMatching {
     private LocalDateTime matchingStartTime;
 
     @Enumerated(EnumType.STRING)
-    private MatchingStatus status;
+    private ScheduleStatus status;
 
     public AutomaticMatching(long roomId, LocalDateTime matchingStartTime) {
-        this(null, roomId, matchingStartTime, MatchingStatus.PENDING);
+        this(null, roomId, matchingStartTime, ScheduleStatus.PENDING);
     }
 
     public void updateStatusToDone() {
-        this.status = MatchingStatus.DONE;
+        this.status = ScheduleStatus.DONE;
     }
 }

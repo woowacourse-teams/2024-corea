@@ -4,7 +4,7 @@ import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
 import corea.room.dto.RoomResponse;
 import corea.scheduler.domain.AutomaticMatching;
-import corea.scheduler.domain.MatchingStatus;
+import corea.scheduler.domain.ScheduleStatus;
 import corea.scheduler.repository.AutomaticMatchingRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +38,7 @@ public class AutomaticMatchingService {
 
     @EventListener(ApplicationReadyEvent.class)
     public void schedulePendingAutomaticMatching() {
-        List<AutomaticMatching> matchings = automaticMatchingRepository.findAllByStatus(MatchingStatus.PENDING);
+        List<AutomaticMatching> matchings = automaticMatchingRepository.findAllByStatus(ScheduleStatus.PENDING);
 
         log.info("{}개의 방에 대해 자동 매칭 재예약 시작", matchings.size());
 
