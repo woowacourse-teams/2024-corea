@@ -2,7 +2,7 @@ import CallbackPage from "./pages/callback/CallbackPage";
 import FeedbackPage from "./pages/feedback/FeedbackPage";
 import GuidePage from "./pages/guide/GuidePage";
 import ProfilePage from "./pages/profile/ProfilePage";
-import RankingPage from "./pages/ranking/RankingPage";
+// import RankingPage from "./pages/ranking/RankingPage";
 import RoomCreatePage from "./pages/roomCreate/RoomCreatePage";
 import { createBrowserRouter } from "react-router-dom";
 import Layout from "@/components/layout/Layout";
