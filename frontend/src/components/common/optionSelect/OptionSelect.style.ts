@@ -7,8 +7,9 @@ export const OptionSelectContainer = styled.div`
 `;
 
 export const Option = styled.button<{ $isSelected: boolean }>`
-  box-sizing: content-box;
-  padding: 0.4rem 1rem;
+  box-sizing: border-box;
+  width: 120px;
+  padding: 0.8rem;
 
   font: ${({ theme }) => theme.TEXT.medium_bold};
   color: ${({ $isSelected, theme }) => ($isSelected ? theme.COLOR.black : theme.COLOR.grey3)};
