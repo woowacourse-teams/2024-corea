@@ -141,11 +141,11 @@ public class RoomService {
 
         return new RoomParticipantResponses(participants.stream()
                 .limit(RANDOM_DISPLAY_PARTICIPANTS_SIZE)
-                .map(participation -> getRoomMemberResponse(roomId, participation))
-                .toList());
+                .map(participation -> getRoomParticipantResponse(roomId, participation))
+                .toList(), participants.size());
     }
 
-    private RoomParticipantResponse getRoomMemberResponse(long roomId, Participation participant) {
+    private RoomParticipantResponse getRoomParticipantResponse(long roomId, Participation participant) {
         return matchResultRepository.findAllByRevieweeIdAndRoomId(participant.getMemberId(), roomId).stream()
                 .findFirst()
                 .map(matchResult -> new RoomParticipantResponse(
