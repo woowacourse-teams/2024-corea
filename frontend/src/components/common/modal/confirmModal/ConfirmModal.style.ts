@@ -1,5 +1,15 @@
 import styled from "styled-components";
 
+export const ConfirmModalContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5rem;
+
+  padding: 3rem;
+
+  font: ${({ theme }) => theme.TEXT.medium_bold};
+`;
+
 export const ButtonWrapper = styled.div`
   display: flex;
   justify-content: space-evenly;
