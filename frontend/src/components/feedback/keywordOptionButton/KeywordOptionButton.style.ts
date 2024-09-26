@@ -18,9 +18,9 @@ export const ButtonWrapper = styled.button<OptionButtonBoxProps>`
   align-items: center;
   justify-content: center;
 
-  padding: 0.5rem 0.9rem;
+  padding: 0.8rem;
 
-  font: ${({ theme }) => theme.TEXT.small};
+  font: ${({ theme }) => theme.TEXT.semiSmall};
 
   background-color: ${({ theme }) => theme.COLOR.white};
   border-radius: 18px;

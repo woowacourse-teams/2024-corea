@@ -261,5 +261,6 @@ class RoomServiceTest {
         RoomParticipantResponses participants = roomService.findParticipants(room.getId(), manager.getId());
 
         assertThat(participants.participants()).hasSize(6);
+        assertThat(participants.size()).isEqualTo(6);
     }
 }

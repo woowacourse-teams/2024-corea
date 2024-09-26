@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class AutomaticMatching {
+public class AutomaticUpdate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,13 +20,13 @@ public class AutomaticMatching {
 
     private long roomId;
 
-    private LocalDateTime matchingStartTime;
+    private LocalDateTime updateStartTime;
 
     @Enumerated(EnumType.STRING)
     private ScheduleStatus status;
 
-    public AutomaticMatching(long roomId, LocalDateTime matchingStartTime) {
-        this(null, roomId, matchingStartTime, ScheduleStatus.PENDING);
+    public AutomaticUpdate(long roomId, LocalDateTime updateStartTime) {
+        this(null, roomId, updateStartTime, ScheduleStatus.PENDING);
     }
 
     public void updateStatusToDone() {

@@ -2,6 +2,7 @@ import * as S from "./FeedbackCard.style";
 import Profile from "@/components/common/profile/Profile";
 import EvaluationPointBar from "@/components/feedback/evaluationPointBar/EvaluationPointBar";
 import { FeedbackCardData } from "@/@types/feedback";
+import { HoverStyledLink } from "@/styles/common";
 import { theme } from "@/styles/theme";
 
 interface FeedbackCardProps {
@@ -13,10 +14,12 @@ const FeedbackCard = ({ feedbackCardData, feedbackType }: FeedbackCardProps) => 
   return (
     <S.FeedbackCardContainer $isTypeDevelop={feedbackType === "develop"}>
       <S.FeedbackHeader>
-        <S.FeedbackProfile>
-          <Profile imgSrc={feedbackCardData.profile} />
-          <S.FeedbackTitle>{feedbackCardData.username}</S.FeedbackTitle>
-        </S.FeedbackProfile>
+        <HoverStyledLink to={`/profile/${feedbackCardData.username}`}>
+          <S.FeedbackProfile>
+            <Profile imgSrc={feedbackCardData.profile} />
+            <S.FeedbackTitle>{feedbackCardData.username}</S.FeedbackTitle>
+          </S.FeedbackProfile>
+        </HoverStyledLink>
         <S.FeedbackType $isTypeDevelop={feedbackType === "develop"}>
           {feedbackType === "develop" ? (
             <>
