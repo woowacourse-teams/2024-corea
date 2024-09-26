@@ -140,11 +140,6 @@ const globalStyles = createGlobalStyle`
     quotes: none;
   }
 
-  a :hover {
-    text-decoration: underline;
-    color: ${theme.COLOR.primary2};
-  }
-
   blockquote::before,
   blockquote::after,
   q::before,

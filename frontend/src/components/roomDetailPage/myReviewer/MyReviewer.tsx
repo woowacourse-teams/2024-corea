@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import useModal from "@/hooks/common/useModal";
 import { useFetchReviewer } from "@/hooks/queries/useFetchReviewer";
 import Button from "@/components/common/button/Button";
@@ -9,6 +8,7 @@ import * as S from "@/components/roomDetailPage/myReviewer/MyReviewer.style";
 import { ReviewerInfo } from "@/@types/reviewer";
 import { RoomInfo } from "@/@types/roomInfo";
 import MESSAGES from "@/constants/message";
+import { HoverStyledLink } from "@/styles/common";
 import { FeedbackTypeResult, getFeedbackType } from "@/utils/feedbackUtils";
 
 interface MyReviewerProps {
@@ -76,9 +76,9 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
 
           return (
             <S.MyReviewerWrapper key={reviewer.userId}>
-              <Link to={`/profile/${reviewer.username}`}>
+              <HoverStyledLink to={`/profile/${reviewer.username}`}>
                 <S.MyReviewerContent>{reviewer.username}</S.MyReviewerContent>
-              </Link>
+              </HoverStyledLink>
               <S.MyReviewerContent>
                 <S.PRLink href={reviewer.link}>
                   <S.IconWrapper>
