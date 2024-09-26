@@ -1,13 +1,17 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import useModal from "@/hooks/common/useModal";
 import useMutateRoom from "@/hooks/mutations/useMutateRoom";
 import Button from "@/components/common/button/Button";
 import CalendarDropdown from "@/components/common/calendarDropdown/CalendarDropdown";
 import ContentSection from "@/components/common/contentSection/ContentSection";
 import { Input } from "@/components/common/input/Input";
+import ConfirmModal from "@/components/common/modal/confirmModal/ConfirmModal";
 import { Textarea } from "@/components/common/textarea/Textarea";
 import { TimeDropdown } from "@/components/common/timeDropdown/TimeDropdown";
 import * as S from "@/pages/roomCreate/RoomCreatePage.style";
 import { CreateRoomInfo } from "@/@types/roomInfo";
+import MESSAGES from "@/constants/message";
 import { formatCombinedDateTime } from "@/utils/dateFormatter";
 
 const initialFormState: CreateRoomInfo = {
@@ -24,14 +28,18 @@ const initialFormState: CreateRoomInfo = {
 };
 
 const RoomCreatePage = () => {
+  const navigate = useNavigate();
+
   const [isClickedButton, setIsClickedButton] = useState(false);
   const [formState, setFormState] = useState<CreateRoomInfo>(initialFormState);
-  const { postCreateRoomMutation } = useMutateRoom();
 
   const [recruitmentDate, setRecruitmentDate] = useState(new Date());
   const [reviewDate, setReviewDate] = useState(new Date());
   const [recruitmentTime, setRecruitmentTime] = useState(new Date());
   const [reviewTime, setReviewTime] = useState(new Date());
+
+  const { postCreateRoomMutation } = useMutateRoom();
+  const { isOpen, handleOpenModal, handleCloseModal } = useModal();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -58,7 +66,6 @@ const RoomCreatePage = () => {
       ...prev,
       [field]: formatCombinedDateTime(date, time),
     }));
-    console.log(formState);
   };
 
   const handleRecruitmentDateChange = (date: Date) => {
@@ -81,8 +88,25 @@ const RoomCreatePage = () => {
     updateFormStateWithDateTime("reviewDeadline", reviewDate, time);
   };
 
+  const handleConfirm = () => {
+    postCreateRoomMutation.mutate(formState, {
+      onSuccess: () => navigate("/"),
+    });
+    setIsClickedButton(true);
+    handleCloseModal();
+  };
+
   return (
     <ContentSection title="방 생성하기">
+      <ConfirmModal
+        isOpen={isOpen}
+        onClose={handleCloseModal}
+        onConfirm={handleConfirm}
+        onCancel={handleCloseModal}
+      >
+        {MESSAGES.GUIDANCE.CREATE_ROOM}
+      </ConfirmModal>
+
       <S.CreateSection>
         <S.RowContainer>
           <S.ContentLabel>
@@ -231,14 +255,7 @@ const RoomCreatePage = () => {
           </S.ContentInput>
         </S.RowContainer>
 
-        <Button
-          onClick={() => {
-            postCreateRoomMutation.mutate(formState);
-            setIsClickedButton(true);
-          }}
-        >
-          완료
-        </Button>
+        <Button onClick={handleOpenModal}>완료</Button>
       </S.CreateSection>
     </ContentSection>
   );

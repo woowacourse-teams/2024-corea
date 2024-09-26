@@ -1,11 +1,11 @@
-import Modal, { ModalProps } from "./Modal";
+import Modal, { ModalProps } from "../Modal";
 
 const FeedbackModalCustomStyle = {
   height: "70vh",
   maxHeight: "800px",
 };
 
-const FeedbackModal = ({ ...rest }: ModalProps) => {
+const FeedbackCustomModal = ({ ...rest }: ModalProps) => {
   return (
     <Modal style={FeedbackModalCustomStyle} {...rest}>
       {rest.children}
@@ -13,4 +13,4 @@ const FeedbackModal = ({ ...rest }: ModalProps) => {
   );
 };
 
-export default FeedbackModal;
+export default FeedbackCustomModal;

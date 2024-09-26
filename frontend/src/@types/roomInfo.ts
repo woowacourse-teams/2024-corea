@@ -1,8 +1,8 @@
-type Classification = "ALL" | "FRONTEND" | "BACKEND" | "ANDROID";
+export type Classification = "ALL" | "FRONTEND" | "BACKEND" | "ANDROID";
 
-type RoomStatus = "OPEN" | "CLOSE" | "PROGRESS";
+export type RoomStatus = "OPEN" | "CLOSE" | "PROGRESS";
 
-type ParticipationStatus = "NOT_PARTICIPATED" | "PARTICIPATED" | "MANAGER";
+export type ParticipationStatus = "NOT_PARTICIPATED" | "PARTICIPATED" | "MANAGER";
 
 interface BaseRoomInfo {
   title: string;
