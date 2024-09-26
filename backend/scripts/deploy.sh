@@ -5,6 +5,16 @@ APPLICATION_JAR_NAME=$(basename $BUILD_PATH)
 
 echo "> build 파일명: $APPLICATION_JAR_NAME"
 
+if [[ "$DEPLOYMENT_GROUP_NAME" == "2024-corea-backend-develop-group" ]]; then
+  SPRING_PROFILE="dev"
+elif [[ "$DEPLOYMENT_GROUP_NAME" == "2024-corea-backend-lb-group" ]]; then
+  SPRING_PROFILE="prod"
+else
+  SPRING_PROFILE="local"
+fi
+
+echo "> $APPLICATION_JAR_NAME 배포 중 - 프로파일: $SPRING_PROFILE"
+
 echo "> 현재 실행중인 애플리케이션 pid 확인"
 CURRENT_PID=$(pgrep -f $APPLICATION_JAR_NAME)
 
@@ -24,4 +34,4 @@ nohup java -Duser.timezone=Asia/Seoul \
     -Dfile.encoding=UTF-8 \
     -Xms1G \
     -Xmx1G \
-    -jar -Dspring.profiles.active=dev $APPLICATION_JAR > /dev/null 2> /dev/null < /dev/null &
+    -jar -Dspring.profiles.active=$SPRING_PROFILE $APPLICATION_JAR > /dev/null 2> /dev/null < /dev/null &
