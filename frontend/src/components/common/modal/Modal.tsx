@@ -1,4 +1,4 @@
-import React, { CSSProperties, MouseEvent, useEffect } from "react";
+import { CSSProperties, MouseEvent, ReactNode, useEffect } from "react";
 import { createPortal } from "react-dom";
 import * as S from "@/components/common/modal/Modal.style";
 
@@ -7,9 +7,11 @@ const portalElement = document.getElementById("modal") as HTMLElement;
 export interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onConfirm?: () => void;
+  onCancel?: () => void;
   hasCloseButton?: boolean;
   style?: CSSProperties;
-  children?: React.ReactNode;
+  children?: ReactNode;
 }
 
 const Modal = ({ isOpen, onClose, hasCloseButton = true, style, children }: ModalProps) => {
