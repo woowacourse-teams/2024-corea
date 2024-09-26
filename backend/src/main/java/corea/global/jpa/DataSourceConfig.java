@@ -2,6 +2,7 @@ package corea.global.jpa;
 
 import com.zaxxer.hikari.HikariDataSource;
 import jakarta.persistence.EntityManagerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.*;
@@ -37,7 +38,8 @@ public class DataSourceConfig {
     // 읽기 모드인지 여부로 DataSource를 분기 처리
     @Bean
     @DependsOn({"writeDataSource", "readDataSource"})
-    public DataSource routeDataSource(DataSource writeDataSource, DataSource readDataSource) {
+    public DataSource routeDataSource(@Qualifier("writeDataSource") DataSource writeDataSource,
+                                      @Qualifier("readDataSource") DataSource readDataSource) {
         DataSourceRouter dataSourceRouter = new DataSourceRouter();
         HashMap<Object, Object> dataSourceMap = new HashMap<>();
 
@@ -57,7 +59,6 @@ public class DataSourceConfig {
     }
 
     @Bean
-    @Primary
     public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
         return new JpaTransactionManager(entityManagerFactory);
     }
