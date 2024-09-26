@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import PlusButton from "@/components/common/plusButton/PlusButton";
-import WithSuspense from "@/components/common/withSuspense/WithSuspense";
 import RoomCard from "@/components/shared/roomCard/RoomCard";
 import * as RoomCardSkeleton from "@/components/shared/roomCard/RoomCard.skeleton";
 import * as S from "@/components/shared/roomList/RoomList.style";
@@ -58,4 +57,4 @@ const RoomList = ({ roomList, isFetching, hasNextPage, onLoadMore, roomType }: R
   );
 };
 
-export default WithSuspense(RoomList, null);
+export default RoomList;
