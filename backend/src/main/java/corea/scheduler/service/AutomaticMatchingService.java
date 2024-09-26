@@ -4,7 +4,7 @@ import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
 import corea.room.dto.RoomResponse;
 import corea.scheduler.domain.AutomaticMatching;
-import corea.scheduler.domain.MatchingStatus;
+import corea.scheduler.domain.ScheduleStatus;
 import corea.scheduler.repository.AutomaticMatchingRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +38,7 @@ public class AutomaticMatchingService {
 
     @EventListener(ApplicationReadyEvent.class)
     public void schedulePendingAutomaticMatching() {
-        List<AutomaticMatching> matchings = automaticMatchingRepository.findAllByStatus(MatchingStatus.PENDING);
+        List<AutomaticMatching> matchings = automaticMatchingRepository.findAllByStatus(ScheduleStatus.PENDING);
 
         log.info("{}개의 방에 대해 자동 매칭 재예약 시작", matchings.size());
 
@@ -78,10 +78,7 @@ public class AutomaticMatchingService {
             cancelScheduledMatching(roomId);
             return;
         }
-        throw new CoreaException(
-                ExceptionType.AUTOMATIC_MATCHING_NOT_FOUND,
-                String.format("해당 방 아이디에 예약된 자동 매칭이 존재하지 않아 예약을 취소할 수 없습니다. 요청 방 ID=%d", roomId)
-        );
+        log.info("해당 방 아이디에 예약된 자동 매칭이 존재하지 않아 예약을 취소할 수 없습니다. 요청 방 ID={}", roomId);
     }
 
     private void cancelScheduledMatching(long roomId) {

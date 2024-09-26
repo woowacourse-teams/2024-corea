@@ -1,4 +1,5 @@
 import { createGlobalStyle } from "styled-components";
+import { theme } from "@/styles/theme";
 
 const globalStyles = createGlobalStyle`
   scrollbar-width: none;

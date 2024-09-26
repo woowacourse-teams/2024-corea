@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+import styled from "styled-components";
 import { theme } from "@/styles/theme";
 
 export const SkeletonShimmer = `
@@ -13,5 +15,12 @@ export const SkeletonShimmer = `
     100% {
       background-position: 0% 0%;
     }
+  }
+`;
+
+export const HoverStyledLink = styled(Link)`
+  &:hover {
+    text-decoration: underline;
+    color: ${theme.COLOR.primary2};
   }
 `;

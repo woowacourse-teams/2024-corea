@@ -44,5 +44,7 @@ export const useFetchParticipantList = (roomId: number, isOpenStatus: boolean) =
       }
       return getParticipantList(roomId);
     },
+    staleTime: 5 * 60 * 1000,
+    gcTime: Infinity,
   });
 };

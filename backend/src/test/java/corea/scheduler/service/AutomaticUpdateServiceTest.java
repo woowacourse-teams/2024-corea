@@ -4,8 +4,8 @@ import config.ServiceTest;
 import corea.room.domain.ParticipationStatus;
 import corea.room.dto.RoomResponse;
 import corea.room.service.RoomService;
-import corea.scheduler.domain.AutomaticMatching;
-import corea.scheduler.repository.AutomaticMatchingRepository;
+import corea.scheduler.domain.AutomaticUpdate;
+import corea.scheduler.repository.AutomaticUpdateRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -25,13 +25,13 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 @ServiceTest
-class AutomaticMatchingServiceTest {
+class AutomaticUpdateServiceTest {
 
     @Autowired
-    private AutomaticMatchingService automaticMatchingService;
+    private AutomaticUpdateService automaticUpdateService;
 
     @Autowired
-    private AutomaticMatchingRepository automaticMatchingRepository;
+    private AutomaticUpdateRepository automaticUpdateRepository;
 
     @MockBean
     private RoomService roomService;
@@ -40,55 +40,50 @@ class AutomaticMatchingServiceTest {
     private TaskScheduler taskScheduler;
 
     @MockBean
-    private AutomaticMatchingExecutor automaticMatchingExecutor;
+    private AutomaticUpdateExecutor automaticUpdateExecutor;
 
     @Test
-    @DisplayName("모집 마감 기한이 되면 매칭을 자동으로 진행한다.")
-    void matchOnRecruitmentDeadline() {
-        // 현재 시간으로부터 10시간 후로 모집 마감 시간 설정
-        LocalDateTime recruitmentDeadline = LocalDateTime.now().plusHours(10);
-        when(roomService.create(anyLong(), any())).thenReturn(getRoomResponse(recruitmentDeadline));
+    @DisplayName("리뷰 마감 시간이 되면 자동으로 상태를 변경한다.")
+    void updateAtReviewDeadline() {
+        LocalDateTime reviewDeadline = LocalDateTime.now().plusDays(2);
+        when(roomService.create(anyLong(), any())).thenReturn(getRoomResponse(reviewDeadline));
 
         when(taskScheduler.schedule(any(Runnable.class), any(Instant.class))).thenReturn(mock(ScheduledFuture.class));
 
         RoomResponse response = roomService.create(anyLong(), any());
-        automaticMatchingRepository.save(new AutomaticMatching(response.id(), response.recruitmentDeadline()));
+        automaticUpdateRepository.save(new AutomaticUpdate(response.id(), response.reviewDeadline()));
 
-        // taskScheduler를 사용하는 메소드 호출
-        automaticMatchingService.matchOnRecruitmentDeadline(response);
+        automaticUpdateService.updateAtReviewDeadline(response);
 
-        // taskScheduler.schedule 메소드에 전달된 인자를 캡처하기 위한 ArgumentCaptor 설정
         ArgumentCaptor<Runnable> runnableCaptor = ArgumentCaptor.forClass(Runnable.class);
         ArgumentCaptor<Instant> timeCaptor = ArgumentCaptor.forClass(Instant.class);
-        // taskScheduler.schedule 메소드가 호출되었는지 확인하고 전달된 인자 캡처
+
         verify(taskScheduler).schedule(runnableCaptor.capture(), timeCaptor.capture());
         Instant scheduledTime = timeCaptor.getValue();
         runnableCaptor.getValue().run();
 
-        // 예약된 시간이 설정한 모집 마감 시간과 일치하는지 확인
-        assertThat(recruitmentDeadline.atZone(ZoneId.of("Asia/Seoul")).toInstant()).isEqualTo(scheduledTime);
-        // automaticMatchingExecutor.execute 메소드가 호출되었는지 확인
-        verify(automaticMatchingExecutor).execute(any(AutomaticMatching.class));
+        assertThat(reviewDeadline.atZone(ZoneId.of("Asia/Seoul")).toInstant()).isEqualTo(scheduledTime);
+        verify(automaticUpdateExecutor).execute(any(AutomaticUpdate.class));
     }
 
     @Test
-    @DisplayName("예약된 자동 매칭을 삭제한다.")
+    @DisplayName("예약된 자동 업데이트를 삭제한다.")
     void cancel() {
-        LocalDateTime recruitmentDeadline = LocalDateTime.now().plusHours(10);
-        when(roomService.create(anyLong(), any())).thenReturn(getRoomResponse(recruitmentDeadline));
+        LocalDateTime reviewDeadline = LocalDateTime.now().plusDays(2);
+        when(roomService.create(anyLong(), any())).thenReturn(getRoomResponse(reviewDeadline));
         ScheduledFuture scheduledFuture = mock(ScheduledFuture.class);
         when(taskScheduler.schedule(any(Runnable.class), any(Instant.class))).thenReturn(scheduledFuture);
 
         RoomResponse response = roomService.create(anyLong(), any());
-        automaticMatchingRepository.save(new AutomaticMatching(response.id(), response.recruitmentDeadline()));
+        automaticUpdateRepository.save(new AutomaticUpdate(response.id(), response.reviewDeadline()));
 
-        automaticMatchingService.matchOnRecruitmentDeadline(response);
-        automaticMatchingService.cancel(response.id());
+        automaticUpdateService.updateAtReviewDeadline(response);
+        automaticUpdateService.cancel(response.id());
 
         verify(scheduledFuture).cancel(true);
     }
 
-    private RoomResponse getRoomResponse(LocalDateTime recruitmentDeadline) {
+    private RoomResponse getRoomResponse(LocalDateTime reviewDeadline) {
         return new RoomResponse(10,
                 "title",
                 "content",
@@ -99,8 +94,8 @@ class AutomaticMatchingServiceTest {
                 List.of(),
                 1,
                 10,
-                recruitmentDeadline,
-                LocalDateTime.now().plusDays(3),
+                LocalDateTime.now().plusDays(1),
+                reviewDeadline,
                 ParticipationStatus.PARTICIPATED,
                 "OPEN");
     }

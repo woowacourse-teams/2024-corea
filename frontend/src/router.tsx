@@ -8,6 +8,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Layout from "@/components/layout/Layout";
 import MainPage from "@/pages/main/MainPage";
 import RoomDetailPage from "@/pages/roomDetail/RoomDetailPage";
+import UserProfile from "@/pages/userProfile/UserProfile";
 import { Sentry } from "@/Sentry";
 
 const sentryCreateBrowserRouter = Sentry.wrapCreateBrowserRouter(createBrowserRouter);
@@ -37,10 +38,10 @@ const router = sentryCreateBrowserRouter([
         path: `guide`,
         element: <GuidePage />,
       },
-      {
-        path: `ranking`,
-        element: <RankingPage />,
-      },
+      // {
+      //   path: `ranking`,
+      //   element: <RankingPage />,
+      // },
       {
         path: `feedback`,
         element: <FeedbackPage />,
@@ -48,6 +49,10 @@ const router = sentryCreateBrowserRouter([
       {
         path: `profile`,
         element: <ProfilePage />,
+      },
+      {
+        path: `profile/:username`,
+        element: <UserProfile />,
       },
     ],
   },

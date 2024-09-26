@@ -39,8 +39,8 @@ public class Participation {
         debug(room.getId(), memberId);
     }
 
-    public long getRoomsId() {
-        return room.getId();
+    public boolean isNotMatchingMemberId(long memberId) {
+        return this.memberId != memberId;
     }
 
     public void cancel(){
@@ -49,6 +49,10 @@ public class Participation {
 
     public void participate(){
         room.participate();
+    }
+
+    public long getRoomsId() {
+        return room.getId();
     }
 
     private static void debug(long roomId, long memberId) {

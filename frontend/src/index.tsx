@@ -15,7 +15,7 @@ const enableMocking = async () => {
     return;
   }
   const { worker } = await import("./mocks/browser");
-  // return worker.start();
+  return worker.start();
 };
 
 const queryClient = new QueryClient({

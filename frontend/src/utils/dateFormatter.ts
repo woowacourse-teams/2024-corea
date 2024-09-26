@@ -1,5 +1,5 @@
 // 공통 포맷팅 함수
-const formatDate = (
+const formatStringToDate = (
   dateString: string,
 ): { year: string; month: string; day: string; hours: string; minutes: string } => {
   const [datePart, timePart] = dateString.split("T");
@@ -11,13 +11,13 @@ const formatDate = (
 
 // 마감일 포맷 함수
 export const formatDeadlineString = (dateString: string): string => {
-  const { year, month, day, hours, minutes } = formatDate(dateString);
+  const { year, month, day, hours, minutes } = formatStringToDate(dateString);
   return `${year.slice(2)}-${month}-${day} ${hours}:${minutes}`;
 };
 
 // 일반 날짜 시간 포맷 함수
 export const formatDateTimeString = (dateString: string): string => {
-  const { year, month, day, hours, minutes } = formatDate(dateString);
+  const { year, month, day, hours, minutes } = formatStringToDate(dateString);
   return `${year.slice(2)}-${month}-${day} ${hours}:${minutes}`;
 };
 
@@ -39,4 +39,24 @@ export const formatDday = (dateString: string): string => {
     return "D-Day";
   }
   return "종료됨";
+};
+
+// 날짜 -> 문자열
+export const formatDate = (date: Date): string => {
+  const year = date.getFullYear().toString();
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  const day = date.getDate().toString().padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+
+// 시간 -> 문자열
+export const formatTime = (time: Date): string => {
+  const hour = time.getHours().toString().padStart(2, "0");
+  const minutes = time.getMinutes().toString().padStart(2, "0");
+  return `${hour}:${minutes}`;
+};
+
+// 날짜+시간
+export const formatCombinedDateTime = (date: Date, time: Date): string => {
+  return `${formatDate(date)} ${formatTime(time)}`;
 };

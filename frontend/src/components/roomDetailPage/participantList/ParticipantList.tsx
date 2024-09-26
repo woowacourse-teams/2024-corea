@@ -6,6 +6,7 @@ import * as S from "@/components/roomDetailPage/participantList/ParticipantList.
 import { RoomInfo } from "@/@types/roomInfo";
 import MESSAGES from "@/constants/message";
 import { STANDARD_PARTICIPANTS } from "@/constants/room";
+import { HoverStyledLink } from "@/styles/common";
 
 interface ParticipantListProps {
   roomInfo: RoomInfo;
@@ -43,10 +44,12 @@ const ParticipantList = ({ roomInfo }: ParticipantListProps) => {
       <S.ParticipantListContainer>
         {participants.map((participant) => (
           <S.ParticipantInfo key={participant.githubId}>
-            <S.ProfileWrapper>
-              <Profile imgSrc={participant.thumbnailLink} size={80} />
-              <S.ProfileNickname>{participant.username}</S.ProfileNickname>
-            </S.ProfileWrapper>
+            <HoverStyledLink to={`/profile/${participant.username}`}>
+              <S.ProfileWrapper>
+                <Profile imgSrc={participant.thumbnailLink} size={80} />
+                <S.ProfileNickname>{participant.username}</S.ProfileNickname>
+              </S.ProfileWrapper>
+            </HoverStyledLink>
             <S.PRLink href={participant.prLink} target="_blank">
               <Icon kind="link" size="1.6rem" />
               PR 링크
