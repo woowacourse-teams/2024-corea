@@ -4,6 +4,8 @@ import Icon from "@/components/common/icon/Icon";
 import Profile from "@/components/common/profile/Profile";
 import * as S from "@/components/roomDetailPage/participantList/ParticipantList.style";
 import { RoomInfo } from "@/@types/roomInfo";
+import MESSAGES from "@/constants/message";
+import { STANDARD_PARTICIPANTS } from "@/constants/room";
 
 interface ParticipantListProps {
   roomInfo: RoomInfo;
@@ -23,14 +25,14 @@ const ParticipantList = ({ roomInfo }: ParticipantListProps) => {
   if (isOpenStatus) {
     return (
       <S.TotalContainer>
-        <S.MessageWrapper>참여자 목록은 매칭이 시작된 이후 공개됩니다.</S.MessageWrapper>
+        <S.MessageWrapper>{MESSAGES.GUIDANCE.EMPTY_PARTICIPANTS}</S.MessageWrapper>
       </S.TotalContainer>
     );
   }
 
   return (
     <S.TotalContainer>
-      {participants.length > 6 && (
+      {participants.length > STANDARD_PARTICIPANTS && (
         <S.RenewButtonWrapper>
           <Button onClick={handleRefresh} size="xSmall">
             <Icon kind="arrowRenew" size={20} />
