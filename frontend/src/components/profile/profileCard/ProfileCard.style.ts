@@ -4,6 +4,7 @@ export const ProfileCardContainer = styled.div`
   width: 100%;
   border: 1px solid ${({ theme }) => theme.COLOR.grey1};
   border-radius: 20px;
+  padding: 1rem;
 `;
 
 export const ProfileTitle = styled.div`

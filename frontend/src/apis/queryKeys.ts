@@ -13,6 +13,7 @@ const QUERY_KEYS = {
 
   // profile
   PROFILE: "profile",
+  USER_PROFILE: "userProfile",
 
   // feedbacks
   REVIEWEE_FEEDBACK: "reviewee_feedback",

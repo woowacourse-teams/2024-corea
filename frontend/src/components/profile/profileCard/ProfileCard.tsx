@@ -11,26 +11,6 @@ interface UserInfo {
 }
 
 const ProfileCard = (profileData: ProfileData) => {
-  const userInfo: UserInfo[] = [
-    {
-      title: "리뷰한 개수",
-      value: profileData.givenReviewCount,
-    },
-    {
-      title: "리뷰 받은 개수",
-      value: profileData.receivedReviewCount,
-    },
-    {
-      title: "피드백 받은 개수",
-      value: profileData.feedbackCount,
-    },
-    {
-      title: "평균 평점",
-      value: profileData.averageRating,
-      iconKind: "star",
-    },
-  ];
-
   return (
     <S.ProfileCardContainer>
       <S.ProfileTitle>프로필</S.ProfileTitle>
@@ -58,7 +38,7 @@ const ProfileCard = (profileData: ProfileData) => {
             <dl>
               <dt>평균 평점</dt>
               <dd>
-                <Icon kind="star" size="1rem" /> 1.4
+                <Icon kind="star" size="1rem" /> {profileData.averageRating}
               </dd>
             </dl>
           </S.ProfileSummaryContainer>
@@ -74,12 +54,12 @@ const ProfileCard = (profileData: ProfileData) => {
         </S.KeywordContainer>
       </S.ProfileCardWrapper>
 
-      <S.AttitudeScoreWrapper>
+      {/* <S.AttitudeScoreWrapper>
         <S.AttitudeScoreText>
           매너잔디<span>{profileData.attitudeScore}점</span>
         </S.AttitudeScoreText>
         <AttitudeScore score={profileData.attitudeScore} />
-      </S.AttitudeScoreWrapper>
+      </S.AttitudeScoreWrapper> */}
     </S.ProfileCardContainer>
   );
 };

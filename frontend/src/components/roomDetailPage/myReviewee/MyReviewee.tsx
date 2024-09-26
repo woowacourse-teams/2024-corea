@@ -9,6 +9,7 @@ import * as S from "@/components/roomDetailPage/myReviewee/MyReviewee.style";
 import { ReviewerInfo } from "@/@types/reviewer";
 import { RoomInfo } from "@/@types/roomInfo";
 import MESSAGES from "@/constants/message";
+import { HoverStyledLink } from "@/styles/common";
 import { FeedbackTypeResult, getFeedbackType } from "@/utils/feedbackUtils";
 
 interface MyReviewerProps {
@@ -81,7 +82,9 @@ const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
 
           return (
             <S.MyRevieweeWrapper key={reviewee.userId}>
-              <S.MyRevieweeContent>{reviewee.username}</S.MyRevieweeContent>
+              <HoverStyledLink to={`/profile/${reviewee.username}`}>
+                <S.MyRevieweeContent>{reviewee.username}</S.MyRevieweeContent>
+              </HoverStyledLink>
 
               <S.MyRevieweeContent>
                 <S.PRLink href={reviewee.link}>
