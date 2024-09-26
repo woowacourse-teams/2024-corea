@@ -1,3 +1,7 @@
+type Classification = "ALL" | "FRONTEND" | "BACKEND" | "ANDROID";
+
+type RoomStatus = "OPEN" | "CLOSE" | "PROGRESS";
+
 interface BaseRoomInfo {
   title: string;
   content: string;
@@ -10,7 +14,7 @@ interface BaseRoomInfo {
   reviewDeadline: string;
 }
 export interface CreateRoomInfo extends BaseRoomInfo {
-  classification: "AN" | "FE" | "BE";
+  classification: Classification | "";
 }
 
 export interface RoomInfo extends BaseRoomInfo {
@@ -18,7 +22,7 @@ export interface RoomInfo extends BaseRoomInfo {
   manager: string;
   currentParticipants: number;
   isParticipated: boolean;
-  roomStatus: "OPEN" | "CLOSE" | "PROGRESS";
+  roomStatus: RoomStatus;
 }
 
 export interface RoomListInfo {
