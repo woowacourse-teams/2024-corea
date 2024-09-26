@@ -4,8 +4,6 @@ export { default as happyCharacter } from "@/assets/character/happy-character.we
 export { default as thingkingCharacter } from "@/assets/character/thinking-character.webp";
 
 export { default as spinner } from "@/assets/etc/spinner.svg";
-export { default as cloud } from "@/assets/etc/cloud.webp";
-export { default as profile } from "@/assets/etc/profile.webp";
 
 export { default as github_pr } from "@/assets/guide/GitHub PR 화면.webp";
 export { default as github_suggestion } from "@/assets/guide/GitHub Suggestion 기능.webp";
