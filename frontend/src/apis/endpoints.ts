@@ -20,6 +20,7 @@ export const API_ENDPOINTS = {
 
   // profile
   PROFILE: "/user/profile",
+  USER_PROFILE: (userName: string) => `/user/profile/by?username=${userName}`,
 
   // feedbacks
   // 리뷰어->리뷰이
