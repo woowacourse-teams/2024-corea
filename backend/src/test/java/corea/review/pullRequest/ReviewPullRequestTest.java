@@ -48,6 +48,7 @@ class ReviewPullRequestTest {
 
     @Autowired
     private ReviewService reviewService;
+
     @Autowired
     private MatchResultService matchResultService;
 
