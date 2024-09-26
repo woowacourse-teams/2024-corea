@@ -137,7 +137,7 @@ public class RoomService {
         return new RoomParticipantResponses(participants.stream()
                 .limit(RANDOM_DISPLAY_PARTICIPANTS_SIZE)
                 .map(participation -> getRoomParticipantResponse(roomId, participation))
-                .toList());
+                .toList(), participants.size());
     }
 
     private RoomParticipantResponse getRoomParticipantResponse(long roomId, Participation participant) {
