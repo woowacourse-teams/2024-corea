@@ -1,6 +1,7 @@
 import { InputHTMLAttributes } from "react";
 import useDropdown from "@/hooks/common/useDropdown";
 import * as S from "@/components/common/timeDropdown/TimeDropdown.style";
+import { formatTime } from "@/utils/dateFormatter";
 
 interface TimeDropdownProps extends InputHTMLAttributes<HTMLInputElement> {
   selectedTime: Date;
@@ -75,7 +76,7 @@ export const TimeDropdown = ({
     <S.TimeDropdownContainer ref={dropdownRef}>
       <S.TimeDropdownToggle
         type="text"
-        value={`${selectedTime.getHours() < 10 ? `0${selectedTime.getHours()}` : selectedTime.getHours()} : ${selectedTime.getMinutes() < 10 ? `0${selectedTime.getMinutes()}` : selectedTime.getMinutes()}`}
+        value={formatTime(selectedTime)}
         onClick={handleToggleDropdown}
         placeholder="시간을 선택하세요"
         readOnly
