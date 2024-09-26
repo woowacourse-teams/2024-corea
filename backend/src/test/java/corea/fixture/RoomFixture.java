@@ -84,7 +84,7 @@ public class RoomFixture {
         return new Room(
                 "Test Room",
                 "Test Content",
-                2,
+                3,
                 "https://github.com/youngsu5582/github-api-test",
                 "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=13301655&filePath=L2Rpc2sxL25ld2RhdGEvMjAyMS8yMS9DTFMxMDAwNC8xMzMwMTY1NV9XUlRfMjFfQ0xTMTAwMDRfMjAyMTEyMTNfMQ==&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004",
                 List.of("test1", "test2"),
