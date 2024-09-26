@@ -57,7 +57,7 @@ public class ReviewService {
                 .orElse(prLink);
     }
 
-    public MatchResult getMatchResult(long roomId, long reviewerId, long revieweeId) {
+    private MatchResult getMatchResult(long roomId, long reviewerId, long revieweeId) {
         return matchResultRepository.findByRoomIdAndReviewerIdAndRevieweeId(roomId, reviewerId, revieweeId)
                 .orElseThrow(() -> new CoreaException(ExceptionType.NOT_MATCHED_MEMBER,
                         String.format("%d와 %d는 방 %d에서 매칭된 멤버가 아닙니다.", reviewerId, revieweeId, roomId)));
