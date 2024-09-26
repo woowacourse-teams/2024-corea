@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import useModal from "@/hooks/common/useModal";
 import { useFetchReviewer } from "@/hooks/queries/useFetchReviewer";
 import Button from "@/components/common/button/Button";
@@ -9,6 +8,7 @@ import * as S from "@/components/roomDetailPage/myReviewer/MyReviewer.style";
 import { ReviewerInfo } from "@/@types/reviewer";
 import { RoomInfo } from "@/@types/roomInfo";
 import MESSAGES from "@/constants/message";
+import { HoverStyledLink } from "@/styles/common";
 import { FeedbackTypeResult, getFeedbackType } from "@/utils/feedbackUtils";
 
 interface MyReviewerProps {
@@ -63,7 +63,7 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
       <S.MyReviewerContainer>
         <S.MyReviewerWrapper>
           <S.MyReviewerTitle>아이디</S.MyReviewerTitle>
-          <S.MyReviewerTitle>PR 링크</S.MyReviewerTitle>
+          <S.MyReviewerTitle>Comment 링크</S.MyReviewerTitle>
           <S.MyReviewerTitle>피드백 여부</S.MyReviewerTitle>
         </S.MyReviewerWrapper>
 
@@ -75,18 +75,19 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
           });
 
           return (
-            <S.MyReviewerWrapper key={reviewer.userId}>
-              <Link to={`/profile/${reviewer.username}`}>
+              <HoverStyledLink to={`/profile/${reviewer.username}`}>
                 <S.MyReviewerContent>{reviewer.username}</S.MyReviewerContent>
-              </Link>
-              <S.MyReviewerContent>
-                <S.PRLink href={reviewer.link}>
-                  <S.IconWrapper>
-                    <Icon kind="link" size="1.6rem" />
-                  </S.IconWrapper>
-                  바로가기
-                </S.PRLink>
-              </S.MyReviewerContent>
+              </HoverStyledLink>
+              {reviewer.link.length !== 0 && (
+                <S.MyReviewerContent>
+                  <S.PRLink href={reviewer.link}>
+                    <S.IconWrapper>
+                      <Icon kind="link" size="1.6rem" />
+                    </S.IconWrapper>
+                    바로가기
+                  </S.PRLink>
+                </S.MyReviewerContent>
+              )}
 
               <S.MyReviewerContent>
                 {reviewer.isReviewed ? (
