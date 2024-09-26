@@ -37,7 +37,7 @@ export default (env, argv) => {
           use: ["ts-loader"],
         },
         {
-          test: /\.(png|svg|jpg|jpeg|gif)$/i,
+          test: /\.(svg|webp)$/i,
           type: "asset/resource",
         },
       ],
