@@ -3,17 +3,26 @@ import Button from "@/components/common/button/Button";
 import Icon from "@/components/common/icon/Icon";
 import Profile from "@/components/common/profile/Profile";
 import * as S from "@/components/roomDetailPage/participantList/ParticipantList.style";
+import { RoomInfo } from "@/@types/roomInfo";
 
 interface ParticipantListProps {
-  roomId: number;
+  roomInfo: RoomInfo;
 }
 
-const ParticipantList = ({ roomId }: ParticipantListProps) => {
-  const { data: participantListInfo, refetch } = useFetchParticipantList(roomId);
+const ParticipantList = ({ roomInfo }: ParticipantListProps) => {
+  const { data: participantListInfo, refetch } = useFetchParticipantList(roomInfo.id);
 
   const handleRefresh = () => {
     refetch();
   };
+
+  if (roomInfo.roomStatus === "OPEN") {
+    return (
+      <S.TotalContainer>
+        <S.MessageWrapper>참여자 목록은 매칭이 시작된 이후 공개됩니다.</S.MessageWrapper>
+      </S.TotalContainer>
+    );
+  }
 
   return (
     <S.TotalContainer>
