@@ -24,6 +24,7 @@ export const TimeDropdownToggle = styled.input<{ $error: boolean }>`
 //TimePicker
 export const TimePickerWrapper = styled.div`
   position: absolute;
+  z-index: 999;
 
   display: flex;
   gap: 1rem;
@@ -41,10 +42,11 @@ export const TimeSelector = styled.div`
   overflow: hidden auto;
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
   align-items: center;
 
   width: 100%;
-  height: 200px;
+  height: 300px;
 
   &::-webkit-scrollbar {
     display: none;
@@ -57,6 +59,7 @@ export const TimeButton = styled.button<{ isActive: boolean }>`
   width: 100%;
   padding: 5px;
 
+  font: ${({ theme }) => theme.TEXT.small};
   color: ${({ isActive, theme }) => (isActive ? theme.COLOR.white : theme.COLOR.black)};
 
   background-color: ${({ isActive, theme }) =>

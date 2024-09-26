@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
 import CalendarDropdown from "@/components/common/calendarDropdown/CalendarDropdown";
-import { CalendarDate } from "@/@types/date";
 
 const meta = {
   title: "common/CalendarDropdown",
