@@ -32,5 +32,4 @@ class GithubOAuthClientTest {
         assertThat(reviews3).hasSize(7);
         assertThat(reviews4).hasSize(1);
     }
-
 }

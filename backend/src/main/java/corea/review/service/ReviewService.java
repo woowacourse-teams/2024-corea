@@ -32,7 +32,7 @@ public class ReviewService {
     public void review(long roomId, long reviewerId, long revieweeId) {
         MatchResult matchResult = getMatchResult(roomId, reviewerId, revieweeId);
         matchResult.reviewComplete();
-        reviewLinkUpdate(matchResult, reviewerId);
+        updateReviewLink(matchResult, reviewerId);
 
         increaseReviewCount(reviewerId, ProfileCountType.DELIVER);
         increaseReviewCount(revieweeId, ProfileCountType.RECEIVE);
@@ -40,7 +40,7 @@ public class ReviewService {
         log.info("리뷰 완료[{매칭 ID({}), 리뷰어 ID({}, 리뷰이 ID({})", matchResult.getId(), reviewerId, revieweeId);
     }
 
-    private void reviewLinkUpdate(MatchResult matchResult, long reviewerId) {
+    private void updateReviewLink(MatchResult matchResult, long reviewerId) {
         Member reviewer = memberRepository.findById(reviewerId)
                 .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND, String.format("%d에 해당하는 멤버가 없습니다.", reviewerId)));
         String userName = reviewer.getUsername();
