@@ -10,13 +10,16 @@ interface ParticipantListProps {
 }
 
 const ParticipantList = ({ roomInfo }: ParticipantListProps) => {
-  const { data: participantListInfo, refetch } = useFetchParticipantList(roomInfo.id);
+  const isOpenStatus = roomInfo.roomStatus === "OPEN";
+  const { data: participantListInfo, refetch } = useFetchParticipantList(roomInfo.id, isOpenStatus);
 
   const handleRefresh = () => {
-    refetch();
+    if (!isOpenStatus) {
+      refetch();
+    }
   };
 
-  if (roomInfo.roomStatus === "OPEN") {
+  if (isOpenStatus) {
     return (
       <S.TotalContainer>
         <S.MessageWrapper>참여자 목록은 매칭이 시작된 이후 공개됩니다.</S.MessageWrapper>
