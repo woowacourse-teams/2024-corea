@@ -1,7 +1,5 @@
 package corea.scheduler.service;
 
-import corea.exception.CoreaException;
-import corea.exception.ExceptionType;
 import corea.room.dto.RoomResponse;
 import corea.scheduler.domain.AutomaticUpdate;
 import corea.scheduler.domain.ScheduleStatus;
@@ -42,26 +40,18 @@ public class AutomaticUpdateService {
 
         log.info("{}개의 방에 대해 자동 상태 업데이트 재예약 시작", updates.size());
 
-        updates.forEach(update -> scheduleUpdate(update, update.getRoomId(), update.getUpdateStartTime()));
+        updates.forEach(update -> scheduleUpdate(update.getRoomId(), update.getUpdateStartTime()));
 
         log.info("{}개의 방에 대해 자동 상태 업데이트 재예약 완료", updates.size());
     }
 
     public void updateAtReviewDeadline(RoomResponse response) {
-        long roomId = response.id();
-        AutomaticUpdate automaticUpdate = getAutomaticUpdateByRoomId(roomId);
-
-        scheduleUpdate(automaticUpdate, roomId, response.reviewDeadline());
+        scheduleUpdate(response.id(), response.reviewDeadline());
     }
 
-    private AutomaticUpdate getAutomaticUpdateByRoomId(long roomId) {
-        return automaticUpdateRepository.findByRoomId(roomId)
-                .orElseThrow(() -> new CoreaException(ExceptionType.AUTOMATIC_UPDATE_NOT_FOUND));
-    }
-
-    private void scheduleUpdate(AutomaticUpdate automaticUpdate, long roomId, LocalDateTime updateStartTime) {
+    private void scheduleUpdate(long roomId, LocalDateTime updateStartTime) {
         ScheduledFuture<?> schedule = taskScheduler.schedule(
-                () -> automaticUpdateExecutor.execute(automaticUpdate),
+                () -> automaticUpdateExecutor.execute(roomId),
                 toInstant(updateStartTime)
         );
 

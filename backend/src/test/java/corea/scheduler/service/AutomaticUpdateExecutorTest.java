@@ -40,7 +40,7 @@ class AutomaticUpdateExecutorTest {
         Room room = getRoom();
         AutomaticUpdate automaticUpdate = automaticUpdateRepository.save(new AutomaticUpdate(room.getId(), room.getReviewDeadline()));
 
-        automaticUpdateExecutor.execute(automaticUpdate);
+        automaticUpdateExecutor.execute(automaticUpdate.getRoomId());
 
         assertThat(room.getStatus()).isEqualTo(RoomStatus.CLOSE);
     }
