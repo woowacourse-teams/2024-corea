@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const CalendarDropdownContainer = styled.section`
   position: relative;
-  width: 100px;
+  width: 130px;
 `;
 
 export const CalendarDropdownToggle = styled.input<{ $error: boolean }>`
