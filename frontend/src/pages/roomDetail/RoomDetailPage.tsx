@@ -1,9 +1,11 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import useModal from "@/hooks/common/useModal";
 import useMutateRoom from "@/hooks/mutations/useMutateRoom";
 import ContentSection from "@/components/common/contentSection/ContentSection";
 import Icon from "@/components/common/icon/Icon";
+import ConfirmModal from "@/components/common/modal/confirmModal/ConfirmModal";
 import MyReviewee from "@/components/roomDetailPage/myReviewee/MyReviewee";
 import MyReviewer from "@/components/roomDetailPage/myReviewer/MyReviewer";
 import ParticipantList from "@/components/roomDetailPage/participantList/ParticipantList";
@@ -14,6 +16,7 @@ import { getRoomDetailInfo } from "@/apis/rooms.api";
 
 const RoomDetailPage = () => {
   const params = useParams();
+  const { isOpen, handleOpenModal, handleCloseModal } = useModal();
   const roomId = params.id ? Number(params.id) : 0;
   const [isReviewerInfoExpanded, setIsReviewerInfoExpanded] = useState(false);
   const [isRevieweeInfoExpanded, setIsRevieweeInfoExpanded] = useState(false);
@@ -33,7 +36,7 @@ const RoomDetailPage = () => {
     setIsRevieweeInfoExpanded(!isRevieweeInfoExpanded);
   };
 
-  const handleCancleParticipateInClick = () => {
+  const handleCancelParticipateInClick = () => {
     deleteParticipateInMutation.mutate(roomInfo.id, {
       onSuccess: () => navigate("/"),
     });
@@ -45,29 +48,38 @@ const RoomDetailPage = () => {
     });
   };
 
-  const buttonProps = () => {
-    if (roomInfo.roomStatus !== "OPEN") {
-      return undefined;
-    }
-
+  const handleConfirm = () => {
     if (roomInfo.participationStatus === "MANAGER") {
-      return {
-        label: "방 삭제하기",
-        onClick: handleDeleteRoomClick,
-      };
-    }
-
-    if (roomInfo.participationStatus === "PARTICIPATED") {
-      return {
-        label: "방 참여 취소하기",
-        onClick: handleCancleParticipateInClick,
-      };
+      handleDeleteRoomClick();
+    } else {
+      handleCancelParticipateInClick();
     }
   };
 
+  const buttonProps =
+    roomInfo.roomStatus === "OPEN"
+      ? {
+          button: {
+            label: roomInfo.participationStatus === "MANAGER" ? "방 삭제하기" : "방 나가기",
+            onClick: handleOpenModal,
+          },
+        }
+      : {};
+
   return (
     <S.Layout>
-      <ContentSection title="미션 정보" button={buttonProps()}>
+      <ConfirmModal
+        isOpen={isOpen}
+        onClose={handleCloseModal}
+        onConfirm={handleConfirm}
+        onCancel={handleCloseModal}
+      >
+        {roomInfo.participationStatus === "MANAGER"
+          ? "정말 방을 삭제하시겠습니까? 모집 마감 후엔 방을 삭제할 수 없습니다."
+          : "정말 방을 나가시겠습니까? 모집 마감 전까진 언제든지 다시 참여할 수 있습니다."}
+      </ConfirmModal>
+
+      <ContentSection title="미션 정보" {...buttonProps}>
         <RoomInfoCard roomInfo={roomInfo} />
       </ContentSection>
 
