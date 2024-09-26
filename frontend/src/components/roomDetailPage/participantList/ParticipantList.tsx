@@ -15,7 +15,6 @@ interface ParticipantListProps {
 const ParticipantList = ({ roomInfo }: ParticipantListProps) => {
   const isOpenStatus = roomInfo.roomStatus === "OPEN";
   const { data: participantListInfo, refetch } = useFetchParticipantList(roomInfo.id, isOpenStatus);
-  const participants = participantListInfo.participants;
 
   const handleRefresh = () => {
     if (!isOpenStatus) {
@@ -33,7 +32,7 @@ const ParticipantList = ({ roomInfo }: ParticipantListProps) => {
 
   return (
     <S.TotalContainer>
-      {participants.length > STANDARD_PARTICIPANTS && (
+      {participantListInfo.size > STANDARD_PARTICIPANTS && (
         <S.RenewButtonWrapper>
           <Button onClick={handleRefresh} size="xSmall">
             <Icon kind="arrowRenew" size={20} />
@@ -42,7 +41,7 @@ const ParticipantList = ({ roomInfo }: ParticipantListProps) => {
       )}
 
       <S.ParticipantListContainer>
-        {participants.map((participant) => (
+        {participantListInfo.participants.map((participant) => (
           <S.ParticipantInfo key={participant.githubId}>
             <HoverStyledLink to={`/profile/${participant.username}`}>
               <S.ProfileWrapper>

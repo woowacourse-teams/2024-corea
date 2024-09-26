@@ -40,7 +40,7 @@ export const useFetchParticipantList = (roomId: number, isOpenStatus: boolean) =
     queryKey: [QUERY_KEYS.PARTICIPANT_LIST, roomId],
     queryFn: async () => {
       if (isOpenStatus) {
-        return { participants: [] };
+        return { participants: [], size: 0 };
       }
       return getParticipantList(roomId);
     },
