@@ -109,7 +109,7 @@ const RoomDetailPage = () => {
           해당 방에 같이 참여중인 인원 중 6명을 랜덤으로 보여줍니다. 새로고침 버튼을 통해 새로운
           리스트를 확인할 수 있습니다.
         </S.StyledDescription>
-        <ParticipantList roomId={roomInfo.id} />
+        <ParticipantList roomInfo={roomInfo} />
       </ContentSection>
 
       <ContentSection title="피드백 프로세스 설명보기">

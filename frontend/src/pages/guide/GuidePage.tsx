@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import CodeBlock from "@/components/codeGuide/codeBlock/CodeBlock";
 import ContentSection from "@/components/common/contentSection/ContentSection";
 import Icon from "@/components/common/icon/Icon";
 import * as S from "@/pages/guide/GuidePage.style";
@@ -21,19 +22,13 @@ const guidePageOptions = [
   { title: "FRONTEND", link: "http://code-review-area.notion.site" },
 ];
 
-export const CodeBlock = ({ children }: { children: string }) => (
-  <S.StyledPre>
-    <S.StyledCode>{children}</S.StyledCode>
-  </S.StyledPre>
-);
-
 const GuidePage = () => {
   return (
     <S.GuidPageLayout>
       <ContentSection title="분야별 코드 작성 가이드 바로가기">
         <S.GuideContainer>
           {guidePageOptions.map((option) => (
-            <Link to={option.link} target="_blank">
+            <Link to={option.link} target="_blank" key={option.link}>
               <S.CardContainer>
                 <Icon kind="link" size="2rem" />
                 <span>{option.title}</span>
@@ -129,7 +124,7 @@ const GuidePage = () => {
           <ul>
             <li>
               코드 작성 가이드와&nbsp;
-              <a href="https://meetup.nhncloud.com/posts/106" target="_blank">
+              <a href="https://meetup.nhncloud.com/posts/106" target="_blank" rel="noreferrer">
                 커밋 가이드라인
               </a>
               을 준수하여 코드의 일관성을 유지하는 것을 목표로 해요.
@@ -166,7 +161,11 @@ const GuidePage = () => {
           </ul>
           <S.IconWrapper>
             <Icon kind="link" size="2rem" />
-            <a href="https://github.com/woowacourse/java-chess/pull/699" target="_blank">
+            <a
+              href="https://github.com/woowacourse/java-chess/pull/699"
+              target="_blank"
+              rel="noreferrer"
+            >
               참고 가능한 PR 링크
             </a>
           </S.IconWrapper>
@@ -180,6 +179,7 @@ const GuidePage = () => {
             <a
               href="https://google.github.io/eng-practices/review/reviewer/looking-for.html"
               target="_blank"
+              rel="noreferrer"
             >
               구글 코드 리뷰 가이드
             </a>
@@ -279,7 +279,7 @@ private double getDiscountRate(boolean isMember, boolean isHoliday) {
           <h1>💡 추가로 참고하면 좋은 자료</h1>
           <S.IconWrapper>
             <Icon kind="link" size="2rem" />
-            <a href="https://tech.kakao.com/posts/498" target="_blank">
+            <a href="https://tech.kakao.com/posts/498" target="_blank" rel="noreferrer">
               효과적인 코드리뷰를 위한 리뷰어의 자세(카카오)
             </a>
           </S.IconWrapper>
@@ -288,6 +288,7 @@ private double getDiscountRate(boolean isMember, boolean isHoliday) {
             <a
               href="https://github.com/meshkorea/front-end-engineering/blob/main/conventions/code-review/index.md"
               target="_blank"
+              rel="noreferrer"
             >
               메쉬코리아 팀의 코드 리뷰 규칙
             </a>

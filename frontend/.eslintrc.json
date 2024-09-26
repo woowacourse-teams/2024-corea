@@ -35,5 +35,8 @@
         "argsIgnorePattern": "^_"
       }
     ]
+  },
+  "globals": {
+    "process": "readonly"
   }
 }

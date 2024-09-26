@@ -79,6 +79,7 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
               <HoverStyledLink to={`/profile/${reviewer.username}`}>
                 <S.MyReviewerContent>{reviewer.username}</S.MyReviewerContent>
               </HoverStyledLink>
+
               {reviewer.link.length !== 0 && (
                 <S.MyReviewerContent>
                   <S.PRLink href={reviewer.link}>

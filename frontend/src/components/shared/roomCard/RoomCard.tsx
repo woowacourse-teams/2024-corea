@@ -1,3 +1,5 @@
+/* eslint-disable react/display-name */
+import React from "react";
 import useModal from "@/hooks/common/useModal";
 import Icon from "@/components/common/icon/Icon";
 import ImageWithFallback from "@/components/common/img/ImageWithFallback";
@@ -13,7 +15,7 @@ interface RoomCardProps {
   roomInfo: RoomInfo;
 }
 
-const RoomCard = ({ roomInfo }: RoomCardProps) => {
+const RoomCard = React.memo(({ roomInfo }: RoomCardProps) => {
   const { isOpen, handleOpenModal, handleCloseModal } = useModal();
 
   const displayedKeywords = roomInfo.keywords.slice(0, MAX_KEYWORDS);
@@ -59,6 +61,6 @@ const RoomCard = ({ roomInfo }: RoomCardProps) => {
       </S.RoomCardContainer>
     </>
   );
-};
+});
 
 export default RoomCard;

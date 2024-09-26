@@ -1,20 +1,18 @@
-export { default as defaultCharacter } from "@/assets/character/default-character.png";
-export { default as errorCharacter } from "@/assets/character/error-character.png";
-export { default as happyCharacter } from "@/assets/character/happy-character.png";
-export { default as thingkingCharacter } from "@/assets/character/thinking-character.png";
+export { default as defaultCharacter } from "@/assets/character/default-character.webp";
+export { default as errorCharacter } from "@/assets/character/error-character.webp";
+export { default as happyCharacter } from "@/assets/character/happy-character.webp";
+export { default as thingkingCharacter } from "@/assets/character/thinking-character.webp";
 
 export { default as spinner } from "@/assets/etc/spinner.svg";
-export { default as cloud } from "@/assets/etc/cloud.png";
-export { default as profile } from "@/assets/etc/profile.png";
 
-export { default as github_pr } from "@/assets/guide/GitHub PR 화면.png";
-export { default as github_suggestion } from "@/assets/guide/GitHub Suggestion 기능.png";
-export { default as github_comment } from "@/assets/guide/GitHub 코멘트 기능.png";
-export { default as github_comment_pending } from "@/assets/guide/Pending 상태의 코멘트.png";
-export { default as gihub_pr_ex } from "@/assets/guide/PR 메시지 예시.png";
-export { default as github_suggestion_ex } from "@/assets/guide/Suggestion 예시.png";
-export { default as code_reviewe_bad } from "@/assets/guide/나쁜 코드 리뷰 예시.png";
-export { default as code_reviewe_good } from "@/assets/guide/좋은 코드 리뷰 예시.png";
+export { default as github_pr } from "@/assets/guide/GitHub PR 화면.webp";
+export { default as github_suggestion } from "@/assets/guide/GitHub Suggestion 기능.webp";
+export { default as github_comment } from "@/assets/guide/GitHub 코멘트 기능.webp";
+export { default as github_comment_pending } from "@/assets/guide/Pending 상태의 코멘트.webp";
+export { default as gihub_pr_ex } from "@/assets/guide/PR 메시지 예시.webp";
+export { default as github_suggestion_ex } from "@/assets/guide/Suggestion 예시.webp";
+export { default as code_reviewe_bad } from "@/assets/guide/나쁜 코드 리뷰 예시.webp";
+export { default as code_reviewe_good } from "@/assets/guide/좋은 코드 리뷰 예시.webp";
 
 export { default as allLogo } from "@/assets/logo/all-logo.svg";
 export { default as androidLogo } from "@/assets/logo/android-logo.svg";
