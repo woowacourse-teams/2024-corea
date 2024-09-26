@@ -9,7 +9,7 @@ const UserProfile = () => {
   const navigate = useNavigate();
 
   if (!userName) {
-    navigate("/profile");
+    navigate(-1);
     return;
   }
 
