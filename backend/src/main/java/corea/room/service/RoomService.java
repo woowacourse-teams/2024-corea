@@ -135,7 +135,7 @@ public class RoomService {
     public RoomParticipantResponses findParticipants(long roomId, long memberId) {
         List<Participation> participants = new java.util.ArrayList<>(
                 participationRepository.findAllByRoomId(roomId).stream()
-                        .filter(participation -> participation.getMemberId() != memberId)
+                        .filter(participation -> participation.isNotMatchingMemberId(memberId))
                         .toList());
         Collections.shuffle(participants);
 

@@ -78,10 +78,7 @@ public class AutomaticUpdateService {
             cancelScheduledUpdate(roomId);
             return;
         }
-        throw new CoreaException(
-                ExceptionType.AUTOMATIC_UPDATE_NOT_FOUND,
-                String.format("해당 방 아이디에 예약된 자동 상태 업데이트가 존재하지 않아 예약을 취소할 수 없습니다. 요청 방 ID=%d", roomId)
-        );
+        log.info("해당 방 아이디에 예약된 자동 상태 업데이트가 존재하지 않아 예약을 취소할 수 없습니다. 요청 방 ID={}", roomId);
     }
 
     private void cancelScheduledUpdate(long roomId) {
