@@ -16,7 +16,7 @@ export default (env, argv) => {
     entry: "./src/index.tsx",
     output: {
       path: path.join(path.resolve(), "/dist"),
-      filename: "index.js",
+      filename: "index.[contenthash].js",
       publicPath: "/",
     },
     devServer: {
