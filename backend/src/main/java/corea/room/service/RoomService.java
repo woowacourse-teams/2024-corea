@@ -13,7 +13,9 @@ import corea.room.domain.RoomStatus;
 import corea.room.dto.*;
 import corea.room.repository.RoomRepository;
 import corea.scheduler.domain.AutomaticMatching;
+import corea.scheduler.domain.AutomaticUpdate;
 import corea.scheduler.repository.AutomaticMatchingRepository;
+import corea.scheduler.repository.AutomaticUpdateRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -40,9 +42,10 @@ public class RoomService {
 
     private final RoomRepository roomRepository;
     private final MemberRepository memberRepository;
+    private final MatchResultRepository matchResultRepository;
     private final ParticipationRepository participationRepository;
     private final AutomaticMatchingRepository automaticMatchingRepository;
-    private final MatchResultRepository matchResultRepository;
+    private final AutomaticUpdateRepository automaticUpdateRepository;
 
     @Transactional
     public RoomResponse create(long memberId, RoomCreateRequest request) {
@@ -54,7 +57,8 @@ public class RoomService {
 
         participationRepository.save(new Participation(room, memberId));
         automaticMatchingRepository.save(new AutomaticMatching(room.getId(), request.recruitmentDeadline()));
-      
+        automaticUpdateRepository.save(new AutomaticUpdate(room.getId(), request.reviewDeadline()));
+
         return RoomResponse.of(room, MANAGER);
     }
 
@@ -118,6 +122,7 @@ public class RoomService {
         roomRepository.delete(room);
         participationRepository.deleteAllByRoomId(roomId);
         automaticMatchingRepository.deleteByRoomId(roomId);
+        automaticUpdateRepository.deleteByRoomId(roomId);
     }
 
     private void validateDeletionAuthority(Room room, long memberId) {
@@ -130,8 +135,8 @@ public class RoomService {
     public RoomParticipantResponses findParticipants(long roomId, long memberId) {
         List<Participation> participants = new java.util.ArrayList<>(
                 participationRepository.findAllByRoomId(roomId).stream()
-                .filter(participation -> participation.getMemberId() != memberId)
-                .toList());
+                        .filter(participation -> participation.isNotMatchingMemberId(memberId))
+                        .toList());
         Collections.shuffle(participants);
 
         return new RoomParticipantResponses(participants.stream()
