@@ -62,7 +62,7 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
       <S.MyReviewerContainer>
         <S.MyReviewerWrapper>
           <S.MyReviewerTitle>아이디</S.MyReviewerTitle>
-          <S.MyReviewerTitle>PR 링크</S.MyReviewerTitle>
+          <S.MyReviewerTitle>Comment 링크</S.MyReviewerTitle>
           <S.MyReviewerTitle>피드백 여부</S.MyReviewerTitle>
         </S.MyReviewerWrapper>
 
@@ -76,14 +76,16 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
           return (
             <S.MyReviewerWrapper key={reviewer.userId}>
               <S.MyReviewerContent>{reviewer.username}</S.MyReviewerContent>
-              <S.MyReviewerContent>
-                <S.PRLink href={reviewer.link}>
-                  <S.IconWrapper>
-                    <Icon kind="link" size="1.6rem" />
-                  </S.IconWrapper>
-                  바로가기
-                </S.PRLink>
-              </S.MyReviewerContent>
+              {reviewer.link.length !== 0 && (
+                <S.MyReviewerContent>
+                  <S.PRLink href={reviewer.link}>
+                    <S.IconWrapper>
+                      <Icon kind="link" size="1.6rem" />
+                    </S.IconWrapper>
+                    바로가기
+                  </S.PRLink>
+                </S.MyReviewerContent>
+              )}
 
               <S.MyReviewerContent>
                 {reviewer.isReviewed ? (

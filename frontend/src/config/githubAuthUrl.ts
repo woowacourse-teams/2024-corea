@@ -7,8 +7,7 @@ const getClientId = () => {
   if (hostType === "release") {
     return "Ov23li3kzpRDuPpAZWRu";
   }
-  // return "Ov23liFoUtO89lG70w9I";
-  return "Ov23li3kzpRDuPpAZWRu";
+  return "Ov23liFoUtO89lG70w9I";
 };
 
 const clientId = getClientId();

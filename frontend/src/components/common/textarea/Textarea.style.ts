@@ -5,6 +5,7 @@ export const Textarea = styled.textarea<{ $error: boolean }>`
 
   overflow: hidden auto;
 
+  width: 100%;
   padding: 0.6rem 1.1rem;
 
   font: ${({ theme }) => theme.TEXT.semiSmall};
