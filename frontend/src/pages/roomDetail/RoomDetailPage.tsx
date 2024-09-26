@@ -52,9 +52,9 @@ const RoomDetailPage = () => {
   const handleConfirm = () => {
     if (roomInfo.participationStatus === "MANAGER") {
       handleDeleteRoomClick();
-    } else {
-      handleCancelParticipateInClick();
+      return;
     }
+    handleCancelParticipateInClick();
   };
 
   const buttonProps =
