@@ -41,16 +41,12 @@ public class GithubPullRequestUrlExchanger {
     }
 
     private static String prLinkToReviewApiLink(String prLink) {
-        StringBuilder builder = new StringBuilder();
-        builder.append(HTTP_SECURE_PREFIX);
-        builder.append(REVIEW_API_PREFIX);
         String[] splitPrLink = prLink.replaceFirst(HTTP_SECURE_PREFIX + GITHUB_PREFIX, "").split(URL_DELIMITER);
         List<String> apiUrlComponents = IntStream.range(0, splitPrLink.length)
                 .mapToObj(i -> filterPullUrlToApiUrl(splitPrLink, i))
                 .toList();
-        builder.append(String.join(URL_DELIMITER, apiUrlComponents));
-        builder.append(URL_DELIMITER + GITHUB_PULL_REQUEST_REVIEW_API_SUFFIX);
-        return builder.toString();
+        return HTTP_SECURE_PREFIX + REVIEW_API_PREFIX +
+                String.join(URL_DELIMITER, apiUrlComponents) + URL_DELIMITER + GITHUB_PULL_REQUEST_REVIEW_API_SUFFIX;
     }
 
     private static String filterPullUrlToApiUrl(String[] splitPrLink, int index) {
