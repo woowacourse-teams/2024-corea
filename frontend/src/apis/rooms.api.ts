@@ -60,7 +60,7 @@ export const getRoomDetailInfo = async (id: number): Promise<RoomInfo> => {
 export const postCreateRoom = async (roomData: CreateRoomInfo): Promise<void> => {
   return apiClient.post({
     endpoint: API_ENDPOINTS.ROOMS,
-    body: { roomData },
+    body: roomData,
     errorMessage: MESSAGES.ERROR.POST_CREATE_ROOM,
   });
 };
