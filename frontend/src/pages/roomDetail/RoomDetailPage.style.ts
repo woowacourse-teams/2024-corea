@@ -36,8 +36,9 @@ export const FeedbackSection = styled.div`
 `;
 
 export const StyledDescription = styled.p`
-  height: 32px;
+  height: fit-content;
   font: ${({ theme }) => theme.TEXT.small};
+  line-height: 2rem;
   color: ${({ theme }) => theme.COLOR.grey3};
 `;
 
