@@ -39,6 +39,7 @@ const socialFeedbackData = deliveredFeedbackInfo.feedbacks[0].socialFeedback.map
 
 export const Default: Story = {
   args: {
+    selectedFeedbackType: "받은 피드백",
     feedbackData: [
       {
         roomId: 0,

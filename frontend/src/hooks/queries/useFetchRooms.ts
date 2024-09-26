@@ -7,7 +7,6 @@ export const useFetchParticipatedRoomList = () => {
   return useSuspenseQuery({
     queryKey: [QUERY_KEYS.PARTICIPATED_ROOM_LIST],
     queryFn: getParticipatedRoomList,
-    staleTime: Infinity,
   });
 };
 
