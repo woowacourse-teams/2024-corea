@@ -13,8 +13,8 @@
       "limitedParticipants": 20,
       "recruitmentDeadline": "2024-07-30T15:00",
       "reviewDeadline": "2024-08-10T23:59",
-      "isParticipated": true,
-      "roomStatus": "OPEN"
+      "roomStatus": "OPEN",
+      "participationStatus": "PARTICIPATED"
     },
     {
       "id": 2,
@@ -29,8 +29,8 @@
       "limitedParticipants": 30,
       "recruitmentDeadline": "2024-07-30T15:00",
       "reviewDeadline": "2024-08-10T23:59",
-      "isParticipated": true,
-      "roomStatus": "CLOSE"
+      "roomStatus": "CLOSE",
+      "participationStatus": "PARTICIPATED"
     },
     {
       "id": 2,
@@ -45,8 +45,8 @@
       "limitedParticipants": 30,
       "recruitmentDeadline": "2024-07-30T15:00",
       "reviewDeadline": "2024-08-10T23:59",
-      "isParticipated": true,
-      "roomStatus": "CLOSE"
+      "roomStatus": "CLOSE",
+      "participationStatus": "PARTICIPATED"
     },
     {
       "id": 2,
@@ -61,8 +61,8 @@
       "limitedParticipants": 30,
       "recruitmentDeadline": "2024-07-30T15:00",
       "reviewDeadline": "2024-08-10T23:59",
-      "isParticipated": true,
-      "roomStatus": "CLOSE"
+      "roomStatus": "CLOSE",
+      "participationStatus": "PARTICIPATED"
     },
     {
       "id": 2,
@@ -77,9 +77,10 @@
       "limitedParticipants": 30,
       "recruitmentDeadline": "2024-07-30T15:00",
       "reviewDeadline": "2024-08-10T23:59",
-      "isParticipated": true,
-      "roomStatus": "PROGRESS"
+      "roomStatus": "PROGRESS",
+      "participationStatus": "PARTICIPATED"
     }
   ],
-  "isLastPage": false
+  "isLastPage": false,
+  "pageNumber": 0
 }

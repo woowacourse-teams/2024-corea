@@ -2,6 +2,8 @@ type Classification = "ALL" | "FRONTEND" | "BACKEND" | "ANDROID";
 
 type RoomStatus = "OPEN" | "CLOSE" | "PROGRESS";
 
+type ParticipationStatus = "NOT_PARTICIPATED" | "PARTICIPATED" | "MANAGER";
+
 interface BaseRoomInfo {
   title: string;
   content: string;
@@ -21,8 +23,8 @@ export interface RoomInfo extends BaseRoomInfo {
   id: number;
   manager: string;
   currentParticipants: number;
-  isParticipated: boolean;
   roomStatus: RoomStatus;
+  participationStatus: ParticipationStatus;
 }
 
 export interface RoomListInfo {

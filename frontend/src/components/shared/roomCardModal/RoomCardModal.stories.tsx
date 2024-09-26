@@ -6,6 +6,10 @@ import roomInfo from "@/mocks/mockResponse/roomInfo.json";
 const sampleRoomList = {
   ...roomInfo,
   roomStatus: roomInfo.roomStatus as "OPEN" | "CLOSE" | "PROGRESS",
+  participationStatus: roomInfo.participationStatus as
+    | "NOT_PARTICIPATED"
+    | "PARTICIPATED"
+    | "MANAGER",
 } satisfies RoomInfo;
 
 const meta: Meta<typeof RoomCardModal> = {

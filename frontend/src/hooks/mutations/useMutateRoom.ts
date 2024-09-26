@@ -3,7 +3,12 @@ import useMutateHandlers from "./useMutateHandlers";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CreateRoomInfo } from "@/@types/roomInfo";
 import QUERY_KEYS from "@/apis/queryKeys";
-import { deleteParticipateIn, postCreateRoom, postParticipateIn } from "@/apis/rooms.api";
+import {
+  deleteParticipateIn,
+  deleteParticipatedRoom,
+  postCreateRoom,
+  postParticipateIn,
+} from "@/apis/rooms.api";
 import MESSAGES from "@/constants/message";
 
 const useMutateRoom = () => {
@@ -36,7 +41,20 @@ const useMutateRoom = () => {
     onError: (error) => handleMutateError(error),
   });
 
-  return { postCreateRoomMutation, postParticipateInMutation, deleteParticipateInMutation };
+  const deleteParticipatedRoomMutation = useMutation({
+    mutationFn: (roomId: number) => deleteParticipatedRoom(roomId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.PARTICIPATED_ROOM_LIST] });
+    },
+    onError: (error) => handleMutateError(error),
+  });
+
+  return {
+    postCreateRoomMutation,
+    postParticipateInMutation,
+    deleteParticipateInMutation,
+    deleteParticipatedRoomMutation,
+  };
 };
 
 export default useMutateRoom;

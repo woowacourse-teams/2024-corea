@@ -6,6 +6,7 @@ import ContentSection from "@/components/common/contentSection/ContentSection";
 import Icon from "@/components/common/icon/Icon";
 import MyReviewee from "@/components/roomDetailPage/myReviewee/MyReviewee";
 import MyReviewer from "@/components/roomDetailPage/myReviewer/MyReviewer";
+import ParticipantList from "@/components/roomDetailPage/participantList/ParticipantList";
 import RoomInfoCard from "@/components/roomDetailPage/roomInfoCard/RoomInfoCard";
 import * as S from "@/pages/roomDetail/RoomDetailPage.style";
 import QUERY_KEYS from "@/apis/queryKeys";
@@ -16,7 +17,7 @@ const RoomDetailPage = () => {
   const roomId = params.id ? Number(params.id) : 0;
   const [isReviewerInfoExpanded, setIsReviewerInfoExpanded] = useState(false);
   const [isRevieweeInfoExpanded, setIsRevieweeInfoExpanded] = useState(false);
-  const { deleteParticipateInMutation } = useMutateRoom();
+  const { deleteParticipateInMutation, deleteParticipatedRoomMutation } = useMutateRoom();
   const navigate = useNavigate();
 
   const { data: roomInfo } = useSuspenseQuery({
@@ -38,21 +39,38 @@ const RoomDetailPage = () => {
     });
   };
 
+  const handleDeleteRoomClick = () => {
+    deleteParticipatedRoomMutation.mutate(roomInfo.id, {
+      onSuccess: () => navigate("/"),
+    });
+  };
+
+  const buttonProps = () => {
+    if (roomInfo.roomStatus !== "OPEN") {
+      return undefined;
+    }
+
+    if (roomInfo.participationStatus === "MANAGER") {
+      return {
+        label: "방 삭제하기",
+        onClick: handleDeleteRoomClick,
+      };
+    }
+
+    if (roomInfo.participationStatus === "PARTICIPATED") {
+      return {
+        label: "방 참여 취소하기",
+        onClick: handleCancleParticipateInClick,
+      };
+    }
+  };
+
   return (
     <S.Layout>
-      <ContentSection
-        title="미션 정보"
-        button={
-          roomInfo.roomStatus === "OPEN"
-            ? {
-                label: "방 참여 취소하기",
-                onClick: handleCancleParticipateInClick,
-              }
-            : undefined
-        }
-      >
+      <ContentSection title="미션 정보" button={buttonProps()}>
         <RoomInfoCard roomInfo={roomInfo} />
       </ContentSection>
+
       <S.FeedbackContainer>
         <S.FeedbackSection>
           <ContentSection title="나의 리뷰어 - 나를 리뷰해주는 분">
@@ -72,6 +90,14 @@ const RoomDetailPage = () => {
           </ContentSection>
         </S.FeedbackSection>
       </S.FeedbackContainer>
+
+      <ContentSection title="함께 하는 참여자 살펴보기">
+        <S.StyledDescription>
+          해당 방에 같이 참여중인 인원 중 6명을 랜덤으로 보여줍니다. 새로고침 버튼을 통해 새로운
+          리스트를 확인할 수 있습니다.
+        </S.StyledDescription>
+        <ParticipantList roomId={roomInfo.id} />
+      </ContentSection>
 
       <ContentSection title="피드백 프로세스 설명보기">
         <S.ToggleWrapper>

@@ -10,6 +10,7 @@
 
     <springProperty scope="context" name="APP_NAME" source="spring.application.name"/>
     <springProperty scope="context" name="LOKI_URL" source="loki.url"/>
+    <springProperty scope="context" name="PROFILE" source="spring.profiles.active"/>
 
     <springProfile name="local">
         <include resource="logs/console-appender.xml"/>

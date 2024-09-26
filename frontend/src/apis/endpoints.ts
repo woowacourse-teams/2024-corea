@@ -10,7 +10,8 @@ export const API_ENDPOINTS = {
   OPENED_ROOMS: "/rooms/opened",
   CLOSED_ROOMS: "/rooms/closed",
   PARTICIPATE_IN: (roomId: number) => `/participate/${roomId}`,
-  ROOMS: `/rooms`,
+  ROOMS: "/rooms",
+  PARTICIPANT_LIST: (roomId: number) => `/rooms/${roomId}/members`,
 
   // reviews
   REVIEWERS: (roomId: number) => `/rooms/${roomId}/reviewers`,
