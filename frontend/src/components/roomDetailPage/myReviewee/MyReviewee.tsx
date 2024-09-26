@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import useModal from "@/hooks/common/useModal";
 import useMutateReviewComplete from "@/hooks/mutations/useMutateReview";
 import { useFetchReviewee } from "@/hooks/queries/useFetchReviewee";
@@ -81,7 +82,9 @@ const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
 
           return (
             <S.MyRevieweeWrapper key={reviewee.userId}>
-              <S.MyRevieweeContent>{reviewee.username}</S.MyRevieweeContent>
+              <Link to={`/profile/${reviewee.username}`}>
+                <S.MyRevieweeContent>{reviewee.username}</S.MyRevieweeContent>
+              </Link>
 
               <S.MyRevieweeContent>
                 <S.PRLink href={reviewee.link}>

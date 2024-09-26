@@ -1,4 +1,5 @@
 import { createGlobalStyle } from "styled-components";
+import { theme } from "@/styles/theme";
 
 const globalStyles = createGlobalStyle`
   scrollbar-width: none;
@@ -137,6 +138,11 @@ const globalStyles = createGlobalStyle`
   blockquote,
   q {
     quotes: none;
+  }
+
+  a :hover {
+    text-decoration: underline;
+    color: ${theme.COLOR.primary2};
   }
 
   blockquote::before,

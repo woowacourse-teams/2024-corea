@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useFetchParticipantList } from "@/hooks/queries/useFetchRooms";
 import Button from "@/components/common/button/Button";
 import Icon from "@/components/common/icon/Icon";
@@ -26,10 +27,12 @@ const ParticipantList = ({ roomId }: ParticipantListProps) => {
       <S.ParticipantListContainer>
         {participantListInfo.participants.map((participant) => (
           <S.ParticipantInfo key={participant.githubId}>
-            <S.ProfileWrapper>
-              <Profile imgSrc={participant.thumbnailLink} size={80} />
-              <S.ProfileNickname>{participant.username}</S.ProfileNickname>
-            </S.ProfileWrapper>
+            <Link to={`/profile/${participant.username}`}>
+              <S.ProfileWrapper>
+                <Profile imgSrc={participant.thumbnailLink} size={80} />
+                <S.ProfileNickname>{participant.username}</S.ProfileNickname>
+              </S.ProfileWrapper>
+            </Link>
             <S.PRLink href={participant.prLink} target="_blank">
               <Icon kind="link" size="1.6rem" />
               PR 링크

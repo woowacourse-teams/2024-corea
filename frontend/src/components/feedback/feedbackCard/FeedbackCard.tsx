@@ -1,4 +1,5 @@
 import * as S from "./FeedbackCard.style";
+import { Link } from "react-router-dom";
 import Profile from "@/components/common/profile/Profile";
 import EvaluationPointBar from "@/components/feedback/evaluationPointBar/EvaluationPointBar";
 import { FeedbackCardData } from "@/@types/feedback";
@@ -13,10 +14,12 @@ const FeedbackCard = ({ feedbackCardData, feedbackType }: FeedbackCardProps) => 
   return (
     <S.FeedbackCardContainer $isTypeDevelop={feedbackType === "develop"}>
       <S.FeedbackHeader>
-        <S.FeedbackProfile>
-          <Profile imgSrc={feedbackCardData.profile} />
-          <S.FeedbackTitle>{feedbackCardData.username}</S.FeedbackTitle>
-        </S.FeedbackProfile>
+        <Link to={`/profile/${feedbackCardData.username}`}>
+          <S.FeedbackProfile>
+            <Profile imgSrc={feedbackCardData.profile} />
+            <S.FeedbackTitle>{feedbackCardData.username}</S.FeedbackTitle>
+          </S.FeedbackProfile>
+        </Link>
         <S.FeedbackType $isTypeDevelop={feedbackType === "develop"}>
           {feedbackType === "develop" ? (
             <>

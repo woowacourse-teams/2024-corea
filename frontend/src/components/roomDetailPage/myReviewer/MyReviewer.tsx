@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import useModal from "@/hooks/common/useModal";
 import { useFetchReviewer } from "@/hooks/queries/useFetchReviewer";
 import Button from "@/components/common/button/Button";
@@ -75,7 +76,9 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
 
           return (
             <S.MyReviewerWrapper key={reviewer.userId}>
-              <S.MyReviewerContent>{reviewer.username}</S.MyReviewerContent>
+              <Link to={`/profile/${reviewer.username}`}>
+                <S.MyReviewerContent>{reviewer.username}</S.MyReviewerContent>
+              </Link>
               <S.MyReviewerContent>
                 <S.PRLink href={reviewer.link}>
                   <S.IconWrapper>
