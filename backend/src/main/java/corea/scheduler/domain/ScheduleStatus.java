@@ -1,6 +1,6 @@
 package corea.scheduler.domain;
 
-public enum MatchingStatus {
+public enum ScheduleStatus {
 
     PENDING, DONE
 }

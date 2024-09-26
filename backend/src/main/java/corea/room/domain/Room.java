@@ -96,12 +96,20 @@ public class Room {
         }
     }
 
+    public void updateStatusToClose() {
+        status = RoomStatus.CLOSE;
+    }
+
     public boolean isClosed() {
         return status.isClosed();
     }
 
     public boolean isNotMatchingManager(long memberId) {
         return manager.isNotMatchingId(memberId);
+    }
+
+    public boolean isManagerId(long managerId) {
+        return manager.isMatchingId(managerId);
     }
 
     public long getManagerId() {
@@ -114,10 +122,6 @@ public class Room {
 
     public String getManagerName() {
         return manager.getName();
-    }
-
-    public boolean isManagerId(long managerId) {
-        return manager.isMatchingId(managerId);
     }
 }
 
