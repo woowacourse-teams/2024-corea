@@ -11,6 +11,7 @@ import { Textarea } from "@/components/common/textarea/Textarea";
 import { TimeDropdown } from "@/components/common/timeDropdown/TimeDropdown";
 import * as S from "@/pages/roomCreate/RoomCreatePage.style";
 import { CreateRoomInfo } from "@/@types/roomInfo";
+import MESSAGES from "@/constants/message";
 import { formatCombinedDateTime } from "@/utils/dateFormatter";
 
 const initialFormState: CreateRoomInfo = {
@@ -103,7 +104,7 @@ const RoomCreatePage = () => {
         onConfirm={handleConfirm}
         onCancel={handleCloseModal}
       >
-        방을 생성합니다. 한 번 생성된 방은 수정할 수 없습니다.
+        {MESSAGES.GUIDANCE.CREATE_ROOM}
       </ConfirmModal>
 
       <S.CreateSection>

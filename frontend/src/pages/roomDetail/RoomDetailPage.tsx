@@ -13,6 +13,7 @@ import RoomInfoCard from "@/components/roomDetailPage/roomInfoCard/RoomInfoCard"
 import * as S from "@/pages/roomDetail/RoomDetailPage.style";
 import QUERY_KEYS from "@/apis/queryKeys";
 import { getRoomDetailInfo } from "@/apis/rooms.api";
+import MESSAGES from "@/constants/message";
 
 const RoomDetailPage = () => {
   const params = useParams();
@@ -75,8 +76,8 @@ const RoomDetailPage = () => {
         onCancel={handleCloseModal}
       >
         {roomInfo.participationStatus === "MANAGER"
-          ? "정말 방을 삭제하시겠습니까? 모집 마감 후엔 방을 삭제할 수 없습니다."
-          : "정말 방을 나가시겠습니까? 모집 마감 전까진 언제든지 다시 참여할 수 있습니다."}
+          ? MESSAGES.GUIDANCE.DELETE_ROOM
+          : MESSAGES.GUIDANCE.EXIT_ROOM}
       </ConfirmModal>
 
       <ContentSection title="미션 정보" {...buttonProps}>
