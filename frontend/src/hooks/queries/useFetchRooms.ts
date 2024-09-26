@@ -39,5 +39,7 @@ export const useFetchParticipantList = (roomId: number) => {
   return useSuspenseQuery({
     queryKey: [QUERY_KEYS.PARTICIPANT_LIST, roomId],
     queryFn: () => getParticipantList(roomId),
+    staleTime: 5 * 60 * 1000,
+    gcTime: Infinity,
   });
 };
