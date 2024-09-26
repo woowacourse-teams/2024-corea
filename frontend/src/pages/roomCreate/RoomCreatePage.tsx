@@ -1,5 +1,6 @@
 import { useState } from "react";
 import useMutateRoom from "@/hooks/mutations/useMutateRoom";
+import Button from "@/components/common/button/Button";
 import CalendarDropdown from "@/components/common/calendarDropdown/CalendarDropdown";
 import ContentSection from "@/components/common/contentSection/ContentSection";
 import { Input } from "@/components/common/input/Input";
@@ -57,16 +58,7 @@ const RoomCreatePage = () => {
       ...prev,
       [field]: formatCombinedDateTime(date, time),
     }));
-  };
-
-  const handleRecruitmentTimeChange = (time: Date) => {
-    setRecruitmentTime(time);
-    updateFormStateWithDateTime("recruitmentDeadline", recruitmentDate, time);
-  };
-
-  const handleReviewTimeChange = (time: Date) => {
-    setReviewTime(time);
-    updateFormStateWithDateTime("reviewDeadline", reviewDate, time);
+    console.log(formState);
   };
 
   const handleRecruitmentDateChange = (date: Date) => {
@@ -74,22 +66,23 @@ const RoomCreatePage = () => {
     updateFormStateWithDateTime("recruitmentDeadline", date, recruitmentTime);
   };
 
+  const handleRecruitmentTimeChange = (time: Date) => {
+    setRecruitmentTime(time);
+    updateFormStateWithDateTime("recruitmentDeadline", recruitmentDate, time);
+  };
+
   const handleReviewDateChange = (date: Date) => {
     setReviewDate(date);
     updateFormStateWithDateTime("reviewDeadline", date, reviewTime);
   };
 
+  const handleReviewTimeChange = (time: Date) => {
+    setReviewTime(time);
+    updateFormStateWithDateTime("reviewDeadline", reviewDate, time);
+  };
+
   return (
-    <ContentSection
-      title="방 생성하기"
-      button={{
-        label: "완료",
-        onClick: () => {
-          postCreateRoomMutation.mutate(formState);
-          setIsClickedButton(true);
-        },
-      }}
-    >
+    <ContentSection title="방 생성하기">
       <S.CreateSection>
         <S.RowContainer>
           <S.ContentLabel>
@@ -237,6 +230,15 @@ const RoomCreatePage = () => {
             />
           </S.ContentInput>
         </S.RowContainer>
+
+        <Button
+          onClick={() => {
+            postCreateRoomMutation.mutate(formState);
+            setIsClickedButton(true);
+          }}
+        >
+          완료
+        </Button>
       </S.CreateSection>
     </ContentSection>
   );

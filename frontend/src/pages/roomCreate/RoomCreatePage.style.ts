@@ -3,8 +3,11 @@ import styled from "styled-components";
 export const CreateSection = styled.section`
   display: flex;
   flex-direction: column;
+  gap: 4rem;
+  align-items: center;
 
   width: 100%;
+  padding: 4rem;
 
   border: 1px solid ${({ theme }) => theme.COLOR.grey1};
   border-radius: 8px;
@@ -15,9 +18,7 @@ export const RowContainer = styled.p`
   display: flex;
   gap: 2rem;
   align-items: center;
-
   width: 100%;
-  padding: 2rem;
 `;
 
 export const ContentLabel = styled.div`
