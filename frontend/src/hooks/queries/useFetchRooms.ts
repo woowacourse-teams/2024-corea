@@ -35,10 +35,15 @@ export const useInfiniteFetchRoomList = ({
   });
 };
 
-export const useFetchParticipantList = (roomId: number) => {
+export const useFetchParticipantList = (roomId: number, isOpenStatus: boolean) => {
   return useSuspenseQuery({
     queryKey: [QUERY_KEYS.PARTICIPANT_LIST, roomId],
-    queryFn: () => getParticipantList(roomId),
+    queryFn: async () => {
+      if (isOpenStatus) {
+        return { participants: [], size: 0 };
+      }
+      return getParticipantList(roomId);
+    },
     staleTime: 5 * 60 * 1000,
     gcTime: Infinity,
   });

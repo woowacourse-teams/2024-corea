@@ -14,6 +14,12 @@ export const TotalContainer = styled.div`
   border-radius: 12px;
 `;
 
+export const MessageWrapper = styled.span`
+  padding: 2rem 0;
+  font: ${({ theme }) => theme.TEXT.small};
+  text-align: center;
+`;
+
 export const RenewButtonWrapper = styled.div`
   display: flex;
   justify-content: flex-end;

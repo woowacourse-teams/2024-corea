@@ -1,9 +1,11 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import useModal from "@/hooks/common/useModal";
 import useMutateRoom from "@/hooks/mutations/useMutateRoom";
 import ContentSection from "@/components/common/contentSection/ContentSection";
 import Icon from "@/components/common/icon/Icon";
+import ConfirmModal from "@/components/common/modal/confirmModal/ConfirmModal";
 import MyReviewee from "@/components/roomDetailPage/myReviewee/MyReviewee";
 import MyReviewer from "@/components/roomDetailPage/myReviewer/MyReviewer";
 import ParticipantList from "@/components/roomDetailPage/participantList/ParticipantList";
@@ -11,9 +13,11 @@ import RoomInfoCard from "@/components/roomDetailPage/roomInfoCard/RoomInfoCard"
 import * as S from "@/pages/roomDetail/RoomDetailPage.style";
 import QUERY_KEYS from "@/apis/queryKeys";
 import { getRoomDetailInfo } from "@/apis/rooms.api";
+import MESSAGES from "@/constants/message";
 
 const RoomDetailPage = () => {
   const params = useParams();
+  const { isOpen, handleOpenModal, handleCloseModal } = useModal();
   const roomId = params.id ? Number(params.id) : 0;
   const [isReviewerInfoExpanded, setIsReviewerInfoExpanded] = useState(false);
   const [isRevieweeInfoExpanded, setIsRevieweeInfoExpanded] = useState(false);
@@ -33,7 +37,7 @@ const RoomDetailPage = () => {
     setIsRevieweeInfoExpanded(!isRevieweeInfoExpanded);
   };
 
-  const handleCancleParticipateInClick = () => {
+  const handleCancelParticipateInClick = () => {
     deleteParticipateInMutation.mutate(roomInfo.id, {
       onSuccess: () => navigate("/"),
     });
@@ -45,29 +49,38 @@ const RoomDetailPage = () => {
     });
   };
 
-  const buttonProps = () => {
-    if (roomInfo.roomStatus !== "OPEN") {
-      return undefined;
-    }
-
+  const handleConfirm = () => {
     if (roomInfo.participationStatus === "MANAGER") {
-      return {
-        label: "방 삭제하기",
-        onClick: handleDeleteRoomClick,
-      };
+      handleDeleteRoomClick();
+      return;
     }
-
-    if (roomInfo.participationStatus === "PARTICIPATED") {
-      return {
-        label: "방 참여 취소하기",
-        onClick: handleCancleParticipateInClick,
-      };
-    }
+    handleCancelParticipateInClick();
   };
+
+  const buttonProps =
+    roomInfo.roomStatus === "OPEN"
+      ? {
+          button: {
+            label: roomInfo.participationStatus === "MANAGER" ? "방 삭제하기" : "방 나가기",
+            onClick: handleOpenModal,
+          },
+        }
+      : {};
 
   return (
     <S.Layout>
-      <ContentSection title="미션 정보" button={buttonProps()}>
+      <ConfirmModal
+        isOpen={isOpen}
+        onClose={handleCloseModal}
+        onConfirm={handleConfirm}
+        onCancel={handleCloseModal}
+      >
+        {roomInfo.participationStatus === "MANAGER"
+          ? MESSAGES.GUIDANCE.DELETE_ROOM
+          : MESSAGES.GUIDANCE.EXIT_ROOM}
+      </ConfirmModal>
+
+      <ContentSection title="미션 정보" {...buttonProps}>
         <RoomInfoCard roomInfo={roomInfo} />
       </ContentSection>
 
@@ -96,7 +109,7 @@ const RoomDetailPage = () => {
           해당 방에 같이 참여중인 인원 중 6명을 랜덤으로 보여줍니다. 새로고침 버튼을 통해 새로운
           리스트를 확인할 수 있습니다.
         </S.StyledDescription>
-        <ParticipantList roomId={roomInfo.id} />
+        <ParticipantList roomInfo={roomInfo} />
       </ContentSection>
 
       <ContentSection title="피드백 프로세스 설명보기">

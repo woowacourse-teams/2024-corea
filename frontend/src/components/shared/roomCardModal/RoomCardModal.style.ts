@@ -75,6 +75,18 @@ export const ProfileContainer = styled.div`
   }
 `;
 
+export const IconWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 24px;
+  height: 24px;
+
+  background-color: ${({ theme }) => theme.COLOR.grey0};
+  border-radius: 50%;
+`;
+
 // 방 이름, 저장소 링크
 export const TitleContainer = styled.div`
   display: flex;

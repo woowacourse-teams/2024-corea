@@ -7,4 +7,5 @@ export interface ParticipantInfo {
 
 export interface ParticipantListInfo {
   participants: ParticipantInfo[];
+  size: number;
 }

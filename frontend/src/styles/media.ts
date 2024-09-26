@@ -4,7 +4,7 @@ export type Breakpoints = "small" | "medium" | "large";
 
 export const breakpoints: Record<Breakpoints, string> = {
   small: "@media (max-width: 639px)",
-  medium: "@media (min-width: 640px) and (max-width: 1047px)",
+  medium: "@media (min-width: 639px) and (max-width: 1048px)",
   large: "@media (min-width: 1048px)",
 };
 

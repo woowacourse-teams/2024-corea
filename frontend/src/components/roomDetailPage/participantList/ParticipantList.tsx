@@ -3,26 +3,42 @@ import Button from "@/components/common/button/Button";
 import Icon from "@/components/common/icon/Icon";
 import Profile from "@/components/common/profile/Profile";
 import * as S from "@/components/roomDetailPage/participantList/ParticipantList.style";
+import { RoomInfo } from "@/@types/roomInfo";
+import MESSAGES from "@/constants/message";
+import { STANDARD_PARTICIPANTS } from "@/constants/room";
 import { HoverStyledLink } from "@/styles/common";
 
 interface ParticipantListProps {
-  roomId: number;
+  roomInfo: RoomInfo;
 }
 
-const ParticipantList = ({ roomId }: ParticipantListProps) => {
-  const { data: participantListInfo, refetch } = useFetchParticipantList(roomId);
+const ParticipantList = ({ roomInfo }: ParticipantListProps) => {
+  const isOpenStatus = roomInfo.roomStatus === "OPEN";
+  const { data: participantListInfo, refetch } = useFetchParticipantList(roomInfo.id, isOpenStatus);
 
   const handleRefresh = () => {
-    refetch();
+    if (!isOpenStatus) {
+      refetch();
+    }
   };
+
+  if (isOpenStatus) {
+    return (
+      <S.TotalContainer>
+        <S.MessageWrapper>{MESSAGES.GUIDANCE.EMPTY_PARTICIPANTS}</S.MessageWrapper>
+      </S.TotalContainer>
+    );
+  }
 
   return (
     <S.TotalContainer>
-      <S.RenewButtonWrapper>
-        <Button onClick={handleRefresh} size="xSmall">
-          <Icon kind="arrowRenew" size={20} />
-        </Button>
-      </S.RenewButtonWrapper>
+      {participantListInfo.size > STANDARD_PARTICIPANTS && (
+        <S.RenewButtonWrapper>
+          <Button onClick={handleRefresh} size="xSmall">
+            <Icon kind="arrowRenew" size={20} />
+          </Button>
+        </S.RenewButtonWrapper>
+      )}
 
       <S.ParticipantListContainer>
         {participantListInfo.participants.map((participant) => (

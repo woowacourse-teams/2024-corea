@@ -2,6 +2,10 @@ const GUIDANCE_MESSAGES = {
   EMPTY_REVIEWER: "아직 리뷰어가 매칭되지 않았습니다!",
   EMPTY_REVIEWEE: "아직 리뷰이가 매칭되지 않았습니다!",
   SUB_DESCRIPTION: "조금만 기다려주세요🤗",
+  DELETE_ROOM: "정말 방을 삭제하시겠습니까? 모집 마감 후엔 방을 삭제할 수 없습니다.",
+  EXIT_ROOM: "정말 방을 나가시겠습니까? 모집 마감 전까진 언제든지 다시 참여할 수 있습니다.",
+  CREATE_ROOM: "방을 생성합니다. 한 번 생성된 방은 수정할 수 없습니다.",
+  EMPTY_PARTICIPANTS: "참여자 목록은 매칭이 시작된 이후 공개됩니다.",
 };
 
 const ERROR_MESSAGES = {

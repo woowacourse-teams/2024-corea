@@ -45,7 +45,7 @@ export const HeaderLogo = styled.button<{ $isMain: boolean }>`
 `;
 
 // 네비게이션
-export const HeaderNavBarContainer = styled.div`
+export const HeaderNavBarContainer = styled.ul`
   display: flex;
   gap: 1rem;
   align-items: center;
