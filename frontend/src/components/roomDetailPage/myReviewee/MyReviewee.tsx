@@ -17,7 +17,7 @@ interface MyReviewerProps {
 
 const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
   const { isOpen, handleOpenModal, handleCloseModal } = useModal();
-  const { postReviewCompleteMutation } = useMutateReviewComplete();
+  const { postReviewCompleteMutation } = useMutateReviewComplete(roomInfo.id);
   const [selectedReviewee, setSelectedReviewee] = useState<ReviewerInfo | null>(null);
   const [feedbackTypeResult, setFeedbackTypeResult] = useState<FeedbackTypeResult | null>(null);
 
@@ -26,7 +26,7 @@ const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
   if (revieweeData.length === 0) {
     return (
       <S.ErrorWrapper>
-        <p>{MESSAGES.GUIDANCE.EMPTY_REVIEWER}</p>
+        <p>{MESSAGES.GUIDANCE.EMPTY_REVIEWEE}</p>
         <p>{MESSAGES.GUIDANCE.SUB_DESCRIPTION}</p>
       </S.ErrorWrapper>
     );
