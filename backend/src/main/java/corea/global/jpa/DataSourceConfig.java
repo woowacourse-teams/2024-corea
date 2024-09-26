@@ -1,36 +1,37 @@
 package corea.global.jpa;
 
 import com.zaxxer.hikari.HikariDataSource;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import jakarta.persistence.EntityManagerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.*;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
 
-@Slf4j
 @Configuration
-@RequiredArgsConstructor
 @Profile("prod")
-@EnableJpaRepositories(basePackages = "corea")
 public class DataSourceConfig {
 
     // Write replica 정보로 만든 DataSource
     @Bean
     @ConfigurationProperties(prefix = "spring.datasource.write")
     public DataSource writeDataSource() {
-        return DataSourceBuilder.create().type(HikariDataSource.class).build();
+        return DataSourceBuilder.create()
+                .type(HikariDataSource.class)
+                .build();
     }
 
     // Read replica 정보로 만든 DataSource
     @Bean
     @ConfigurationProperties(prefix = "spring.datasource.read")
     public DataSource readDataSource() {
-        return DataSourceBuilder.create().type(HikariDataSource.class).build();
+        return DataSourceBuilder.create()
+                .type(HikariDataSource.class)
+                .build();
     }
 
     // 읽기 모드인지 여부로 DataSource를 분기 처리
@@ -40,9 +41,6 @@ public class DataSourceConfig {
         DataSourceRouter dataSourceRouter = new DataSourceRouter();
         HashMap<Object, Object> dataSourceMap = new HashMap<>();
 
-        log.info("Write Database : {}",writeDataSource);
-        log.info("Read Database : {}",readDataSource);
-
         dataSourceMap.put(DataSourceConstant.WRITE, writeDataSource);
         dataSourceMap.put(DataSourceConstant.READ, readDataSource);
 
@@ -51,10 +49,16 @@ public class DataSourceConfig {
         return dataSourceRouter;
     }
 
-    @Bean
-    @Primary
     @DependsOn({"routeDataSource"})
+    @Primary
+    @Bean
     public DataSource dataSource(DataSource routeDataSource) {
         return new LazyConnectionDataSourceProxy(routeDataSource);
+    }
+
+    @Bean
+    @Primary
+    public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
+        return new JpaTransactionManager(entityManagerFactory);
     }
 }
