@@ -12,6 +12,7 @@ interface ParticipantListProps {
 const ParticipantList = ({ roomInfo }: ParticipantListProps) => {
   const isOpenStatus = roomInfo.roomStatus === "OPEN";
   const { data: participantListInfo, refetch } = useFetchParticipantList(roomInfo.id, isOpenStatus);
+  const participants = participantListInfo.participants;
 
   const handleRefresh = () => {
     if (!isOpenStatus) {
@@ -29,14 +30,16 @@ const ParticipantList = ({ roomInfo }: ParticipantListProps) => {
 
   return (
     <S.TotalContainer>
-      <S.RenewButtonWrapper>
-        <Button onClick={handleRefresh} size="xSmall">
-          <Icon kind="arrowRenew" size={20} />
-        </Button>
-      </S.RenewButtonWrapper>
+      {participants.length > 6 && (
+        <S.RenewButtonWrapper>
+          <Button onClick={handleRefresh} size="xSmall">
+            <Icon kind="arrowRenew" size={20} />
+          </Button>
+        </S.RenewButtonWrapper>
+      )}
 
       <S.ParticipantListContainer>
-        {participantListInfo.participants.map((participant) => (
+        {participants.map((participant) => (
           <S.ParticipantInfo key={participant.githubId}>
             <S.ProfileWrapper>
               <Profile imgSrc={participant.thumbnailLink} size={80} />
