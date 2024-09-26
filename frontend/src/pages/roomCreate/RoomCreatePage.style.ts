@@ -7,6 +7,7 @@ export const CreateSection = styled.section`
   align-items: center;
 
   width: 100%;
+  margin-bottom: 20rem;
   padding: 4rem;
 
   border: 1px solid ${({ theme }) => theme.COLOR.grey1};

@@ -1,8 +1,13 @@
 import styled from "styled-components";
 
 export const CalendarContainer = styled.section`
+  position: absolute;
+  z-index: 999;
+
   width: 400px;
   padding: 2rem;
+
+  background-color: ${({ theme }) => theme.COLOR.white};
   border-radius: 10px;
   box-shadow: ${({ theme }) => theme.BOX_SHADOW.regular};
 `;
