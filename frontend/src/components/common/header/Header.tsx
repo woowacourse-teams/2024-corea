@@ -9,10 +9,10 @@ const headerItems = [
     name: "코드리뷰가이드",
     path: "/guide",
   },
-  {
-    name: "랭킹",
-    path: "/ranking",
-  },
+  // {
+  //   name: "랭킹",
+  //   path: "/ranking",
+  // },
 ];
 
 const Header = () => {
