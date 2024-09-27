@@ -10,6 +10,7 @@ interface RoomCardModalButtonProps {
 const RoomCardModalButton = ({ roomInfo }: RoomCardModalButtonProps) => {
   const navigate = useNavigate();
   const { postParticipateInMutation } = useMutateRoom();
+  const isLoggedIn = !!localStorage.getItem("accessToken");
 
   const handleParticipateRoomClick = () => {
     postParticipateInMutation.mutate(roomInfo.id, {
@@ -17,19 +18,30 @@ const RoomCardModalButton = ({ roomInfo }: RoomCardModalButtonProps) => {
     });
   };
 
+  if (!isLoggedIn) {
+    return (
+      <Button variant="disable" size="medium" disabled>
+        로그인 후 참여 가능
+      </Button>
+    );
+  }
+
   if (roomInfo.participationStatus !== "NOT_PARTICIPATED") {
     return (
       <Button variant="disable" size="small" disabled>
         참여중
       </Button>
     );
-  } else if (roomInfo.roomStatus === "CLOSE") {
+  }
+
+  if (roomInfo.roomStatus !== "OPEN") {
     return (
       <Button variant="disable" size="small" disabled>
         모집 완료
       </Button>
     );
   }
+
   return (
     <Button variant="primary" size="small" onClick={handleParticipateRoomClick}>
       참여하기
