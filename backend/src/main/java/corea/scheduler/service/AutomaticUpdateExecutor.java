@@ -2,6 +2,11 @@ package corea.scheduler.service;
 
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
+import corea.matching.domain.MatchResult;
+import corea.matching.domain.ReviewStatus;
+import corea.matching.repository.MatchResultRepository;
+import corea.member.domain.Member;
+import corea.member.domain.MemberRole;
 import corea.room.domain.Room;
 import corea.room.repository.RoomRepository;
 import corea.scheduler.domain.AutomaticUpdate;
@@ -18,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AutomaticUpdateExecutor {
 
     private final RoomRepository roomRepository;
+    private final MatchResultRepository matchResultRepository;
     private final AutomaticUpdateRepository automaticUpdateRepository;
 
     @Async
@@ -26,8 +32,19 @@ public class AutomaticUpdateExecutor {
         Room room = getRoom(roomId);
         room.updateStatusToClose();
 
+        matchResultRepository.findAllByRoomIdAndReviewStatus(roomId, ReviewStatus.COMPLETE)
+                .forEach(this::increaseMembersReviewCountIn);
+
         AutomaticUpdate automaticUpdate = getAutomaticUpdateByRoomId(roomId);
         automaticUpdate.updateStatusToDone();
+    }
+
+    private void increaseMembersReviewCountIn(MatchResult matchResult) {
+        Member reviewer = matchResult.getReviewer();
+        reviewer.increaseReviewCount(MemberRole.REVIEWER);
+
+        Member reviewee = matchResult.getReviewee();
+        reviewee.increaseReviewCount(MemberRole.REVIEWEE);
     }
 
     private Room getRoom(long roomId) {

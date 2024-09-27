@@ -39,8 +39,8 @@ public class Profile {
         this(null, feedbackCount, receiveCount, deliverCount, new AverageRating(averageRating), attitude);
     }
 
-    public void increaseCount(ProfileCountType profileCountType) {
-        if (profileCountType.isDeliver()) {
+    public void increaseReviewCount(MemberRole memberRole) {
+        if (memberRole.isReviwer()) {
             deliverCount++;
             return;
         }
