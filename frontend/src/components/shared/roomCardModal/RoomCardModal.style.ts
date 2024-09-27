@@ -173,6 +173,8 @@ export const KeywordText = styled.span`
 
 export const ContentContainer = styled.p`
   font: ${({ theme }) => theme.TEXT.small};
+  line-height: 2rem;
+  white-space: pre-line;
 `;
 
 // 버튼
