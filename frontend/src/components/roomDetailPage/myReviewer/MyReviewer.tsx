@@ -80,7 +80,7 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
                 <S.MyReviewerContent>{reviewer.username}</S.MyReviewerContent>
               </HoverStyledLink>
 
-              {reviewer.link.length !== 0 && (
+              {reviewer.link.length !== 0 ? (
                 <S.MyReviewerContent>
                   <S.PRLink href={reviewer.link}>
                     <S.IconWrapper>
@@ -89,6 +89,8 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
                     바로가기
                   </S.PRLink>
                 </S.MyReviewerContent>
+              ) : (
+                "-"
               )}
 
               <S.MyReviewerContent>
