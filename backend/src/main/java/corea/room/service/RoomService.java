@@ -116,6 +116,7 @@ public class RoomService {
 
     @Transactional
     public void delete(long roomId, long memberId) {
+        log.info("RoomService delete 메서드 실행 시작- roomId={}, memberId={}", roomId, memberId);
         Room room = getRoom(roomId);
         validateDeletionAuthority(room, memberId);
 
