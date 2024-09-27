@@ -32,18 +32,18 @@ public record RoomCreateRequest(@Schema(description = "방 제목", example = "M
                                 int matchingSize,
 
                                 @Schema(description = "중심으로 리뷰하면 좋은 키워드", example = "[\"TDD\", \"클린코드\"]")
-                                List<String> keyword,
+                                List<String> keywords,
 
                                 @Schema(description = "제한 참여 인원", example = "200")
                                 @NotNull
                                 int limitedParticipants,
 
-                                @Schema(description = "모집 마감일", example = "2024-07-30T15:00")
+                                @Schema(description = "모집 마감일", example = "2024-07-30 15:00")
                                 @NotNull
                                 @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
                                 LocalDateTime recruitmentDeadline,
 
-                                @Schema(description = "리뷰 마감일", example = "2024-08-10T23:59")
+                                @Schema(description = "리뷰 마감일", example = "2024-08-10 23:59")
                                 @NotNull
                                 @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
                                 LocalDateTime reviewDeadline,
@@ -60,7 +60,7 @@ public record RoomCreateRequest(@Schema(description = "방 제목", example = "M
         return new Room(
                 title, content,
                 matchingSize, repositoryLink,
-                thumbnailLink, keyword,
+                thumbnailLink, keywords,
                 INITIAL_PARTICIPANTS_SIZE, limitedParticipants,
                 manager, recruitmentDeadline,
                 reviewDeadline, classification,
