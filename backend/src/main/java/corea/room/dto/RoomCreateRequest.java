@@ -1,5 +1,6 @@
 package corea.room.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import corea.member.domain.Member;
 import corea.room.domain.Room;
 import corea.room.domain.RoomClassification;
@@ -39,10 +40,12 @@ public record RoomCreateRequest(@Schema(description = "방 제목", example = "M
 
                                 @Schema(description = "모집 마감일", example = "2024-07-30T15:00")
                                 @NotNull
+                                @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
                                 LocalDateTime recruitmentDeadline,
 
                                 @Schema(description = "리뷰 마감일", example = "2024-08-10T23:59")
                                 @NotNull
+                                @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
                                 LocalDateTime reviewDeadline,
 
                                 @Schema(description = "방이 속하는 분야", example = "BE")
