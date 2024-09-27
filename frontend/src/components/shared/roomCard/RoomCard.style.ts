@@ -57,12 +57,15 @@ export const RoomInformation = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+
+  width: 100%;
   padding: 1rem;
 `;
 
 export const RoomTitle = styled.h2`
   overflow: hidden;
 
+  width: 100%;
   padding: 1rem 0;
 
   font: ${({ theme }) => theme.TEXT.medium_bold};

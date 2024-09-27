@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import media from "@/styles/media";
 
 export const EmptyContainer = styled.div`
   display: flex;
@@ -26,10 +27,18 @@ export const RoomListSection = styled.div`
 
 export const RoomListContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 3rem;
-  justify-content: space-between;
+  gap: 2rem;
+  justify-content: center;
 
   width: 100%;
+  ${media.small`
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  `};
+  ${media.medium`
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  `};
+  ${media.large`
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  `};
   padding-bottom: 1rem;
 `;
