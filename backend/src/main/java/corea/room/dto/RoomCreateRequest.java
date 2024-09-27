@@ -36,7 +36,7 @@ public record RoomCreateRequest(@Schema(description = "방 제목", example = "M
 
                                 @Schema(description = "제한 참여 인원", example = "200")
                                 @NotNull
-                                int limitedParticipantsSize,
+                                int limitedParticipants,
 
                                 @Schema(description = "모집 마감일", example = "2024-07-30T15:00")
                                 @NotNull
@@ -61,7 +61,7 @@ public record RoomCreateRequest(@Schema(description = "방 제목", example = "M
                 title, content,
                 matchingSize, repositoryLink,
                 thumbnailLink, keyword,
-                INITIAL_PARTICIPANTS_SIZE, limitedParticipantsSize,
+                INITIAL_PARTICIPANTS_SIZE, limitedParticipants,
                 manager, recruitmentDeadline,
                 reviewDeadline, classification,
                 INITIAL_ROOM_STATUS
