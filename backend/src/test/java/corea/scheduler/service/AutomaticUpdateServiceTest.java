@@ -63,7 +63,7 @@ class AutomaticUpdateServiceTest {
         runnableCaptor.getValue().run();
 
         assertThat(reviewDeadline.atZone(ZoneId.of("Asia/Seoul")).toInstant()).isEqualTo(scheduledTime);
-        verify(automaticUpdateExecutor).execute(any(AutomaticUpdate.class));
+        verify(automaticUpdateExecutor).execute(response.id());
     }
 
     @Test

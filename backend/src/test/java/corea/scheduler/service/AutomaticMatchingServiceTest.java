@@ -68,7 +68,7 @@ class AutomaticMatchingServiceTest {
         // 예약된 시간이 설정한 모집 마감 시간과 일치하는지 확인
         assertThat(recruitmentDeadline.atZone(ZoneId.of("Asia/Seoul")).toInstant()).isEqualTo(scheduledTime);
         // automaticMatchingExecutor.execute 메소드가 호출되었는지 확인
-        verify(automaticMatchingExecutor).execute(any(AutomaticMatching.class));
+        verify(automaticMatchingExecutor).execute(response.id());
     }
 
     @Test

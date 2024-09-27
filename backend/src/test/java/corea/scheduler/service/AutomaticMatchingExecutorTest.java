@@ -104,7 +104,7 @@ class AutomaticMatchingExecutorTest {
     void execute() {
         AutomaticMatching automaticMatching = automaticMatchingRepository.save(new AutomaticMatching(room.getId(), room.getRecruitmentDeadline()));
 
-        automaticMatchingExecutor.execute(automaticMatching);
+        automaticMatchingExecutor.execute(automaticMatching.getRoomId());
 
         List<MatchResult> matchResults = matchResultRepository.findAll();
         assertThat(matchResults).isNotEmpty();
