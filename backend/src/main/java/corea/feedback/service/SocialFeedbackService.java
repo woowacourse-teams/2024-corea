@@ -8,7 +8,6 @@ import corea.feedback.dto.SocialFeedbackResponse;
 import corea.feedback.repository.SocialFeedbackRepository;
 import corea.matching.domain.MatchResult;
 import corea.matching.repository.MatchResultRepository;
-import corea.member.domain.Profile;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,9 +34,6 @@ public class SocialFeedbackService {
         matchResult.revieweeCompleteFeedback();
 
         SocialFeedback feedback = saveSocialFeedback(roomId, request, matchResult);
-        Profile profile = feedback.getReceiverProfile();
-        profile.updateProfile(request.evaluationPoint());
-
         return SocialFeedbackResponse.from(feedback);
     }
 
@@ -64,11 +60,11 @@ public class SocialFeedbackService {
     }
 
     private void updateFeedback(SocialFeedback feedback, SocialFeedbackRequest request) {
-        int preEvaluatePoint = feedback.getEvaluatePoint();
-        feedback.update(request);
-
-        Profile profile = feedback.getReceiverProfile();
-        profile.updateProfile(preEvaluatePoint, request.evaluationPoint());
+        feedback.update(
+                request.evaluationPoint(),
+                request.feedbackKeywords(),
+                request.feedbackText()
+        );
     }
 
     public SocialFeedbackResponse findSocialFeedback(long roomId, long deliverId, String username) {

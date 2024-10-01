@@ -54,8 +54,6 @@ class DevelopFeedbackServiceTest {
         assertThatCode(() -> developFeedbackService.create(room.getId(), deliver.getId(), createRequest(receiver.getId())))
                 .doesNotThrowAnyException();
         assertThat(matchResult.isReviewerCompletedFeedback()).isTrue();
-        assertThat(receiver.getProfile().getFeedbackCount()).isEqualTo(1);
-        assertThat(receiver.getProfile().getAverageRatingValue()).isEqualTo(4);
     }
 
     @Test

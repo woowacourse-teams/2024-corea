@@ -54,11 +54,6 @@ public class Profile {
         this.averageRating = averageRating.calculateAverageRating(totalEvaluatePoint, feedbackCount);
     }
 
-    public void updateProfile(int preEvaluatePoint, int evaluatePoint) {
-        float totalEvaluatePoint = averageRating.calculateTotalEvaluatePoint(feedbackCount, preEvaluatePoint, evaluatePoint);
-        this.averageRating = averageRating.calculateAverageRating(totalEvaluatePoint, feedbackCount);
-    }
-
     public float getAverageRatingValue() {
         return averageRating.getValue();
     }

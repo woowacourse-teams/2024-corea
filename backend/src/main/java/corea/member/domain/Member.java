@@ -56,4 +56,8 @@ public class Member {
     public boolean isNotMatchingId(long memberId) {
         return !isMatchingId(memberId);
     }
+
+    public void updateProfile(int evaluatePoint) {
+        profile.updateProfile(evaluatePoint);
+    }
 }

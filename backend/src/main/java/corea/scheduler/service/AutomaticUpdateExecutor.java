@@ -2,6 +2,10 @@ package corea.scheduler.service;
 
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
+import corea.feedback.domain.DevelopFeedback;
+import corea.feedback.domain.SocialFeedback;
+import corea.feedback.repository.DevelopFeedbackRepository;
+import corea.feedback.repository.SocialFeedbackRepository;
 import corea.matching.domain.MatchResult;
 import corea.matching.domain.ReviewStatus;
 import corea.matching.repository.MatchResultRepository;
@@ -24,6 +28,8 @@ public class AutomaticUpdateExecutor {
 
     private final RoomRepository roomRepository;
     private final MatchResultRepository matchResultRepository;
+    private final SocialFeedbackRepository socialFeedbackRepository;
+    private final DevelopFeedbackRepository developFeedbackRepository;
     private final AutomaticUpdateRepository automaticUpdateRepository;
 
     @Async
@@ -32,11 +38,16 @@ public class AutomaticUpdateExecutor {
         Room room = getRoom(roomId);
         room.updateStatusToClose();
 
-        matchResultRepository.findAllByRoomIdAndReviewStatus(roomId, ReviewStatus.COMPLETE)
-                .forEach(this::increaseMembersReviewCountIn);
+        updateReviewCount(roomId);
+        updateFeedbackPoint(roomId);
 
         AutomaticUpdate automaticUpdate = getAutomaticUpdateByRoomId(roomId);
         automaticUpdate.updateStatusToDone();
+    }
+
+    private void updateReviewCount(long roomId) {
+        matchResultRepository.findAllByRoomIdAndReviewStatus(roomId, ReviewStatus.COMPLETE)
+                .forEach(this::increaseMembersReviewCountIn);
     }
 
     private void increaseMembersReviewCountIn(MatchResult matchResult) {
@@ -45,6 +56,24 @@ public class AutomaticUpdateExecutor {
 
         Member reviewee = matchResult.getReviewee();
         reviewee.increaseReviewCount(MemberRole.REVIEWEE);
+    }
+
+    private void updateFeedbackPoint(long roomId) {
+        socialFeedbackRepository.findAllByRoomId(roomId)
+                .forEach(this::updateSocialFeedbackPoint);
+
+        developFeedbackRepository.findAllByRoomId(roomId)
+                .forEach(this::updateDevelopFeedbackPoint);
+    }
+
+    private void updateSocialFeedbackPoint(SocialFeedback socialFeedback) {
+        Member receiver = socialFeedback.getReceiver();
+        receiver.updateProfile(socialFeedback.getEvaluatePoint());
+    }
+
+    private void updateDevelopFeedbackPoint(DevelopFeedback developFeedback) {
+        Member receiver = developFeedback.getReceiver();
+        receiver.updateProfile(developFeedback.getEvaluatePoint());
     }
 
     private Room getRoom(long roomId) {
