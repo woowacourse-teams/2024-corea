@@ -2,6 +2,7 @@ package corea.participation.service;
 
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
+import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
 import corea.participation.domain.Participation;
 import corea.participation.dto.ParticipationRequest;
@@ -29,7 +30,9 @@ public class ParticipationService {
     }
 
     private Participation saveParticipation(ParticipationRequest request) {
-        Participation participation = new Participation(getRoom(request.roomId()), request.memberId());
+        Member member = memberRepository.findById(request.memberId())
+                .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND));
+        Participation participation = new Participation(getRoom(request.roomId()), member.getId(), member.getGithubUserId());
         participation.participate();
         return participationRepository.save(participation);
     }

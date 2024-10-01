@@ -2,6 +2,7 @@ package corea.auth.infrastructure;
 
 import corea.auth.dto.GithubAuthRequest;
 import corea.auth.dto.GithubAuthResponse;
+import corea.auth.dto.GithubPullRequestReview;
 import corea.auth.dto.GithubUserInfo;
 import corea.exception.CoreaException;
 import lombok.RequiredArgsConstructor;
@@ -57,5 +58,14 @@ public class GithubOAuthClient {
                 .header(AUTHORIZATION_HEADER, TOKEN_TYPE.concat(accessToken))
                 .retrieve()
                 .body(GithubUserInfo.class);
+    }
+
+    public GithubPullRequestReview[] getReviewLink(String prLink) {
+        String url = GithubPullRequestUrlExchanger.pullRequestUrlToReview(prLink);
+        return restClient.get()
+                .uri(url)
+                .accept(APPLICATION_JSON)
+                .retrieve()
+                .body(GithubPullRequestReview[].class);
     }
 }

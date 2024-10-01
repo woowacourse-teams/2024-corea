@@ -21,7 +21,7 @@ public record MatchResultResponse(@Schema(description = "사용자 아이디", e
                                   boolean isWrited) {
 
     public static MatchResultResponse ofReviewee(MatchResult matchResult, Member member) {
-        return new MatchResultResponse(member.getId(), member.getUsername(), matchResult.getPrLink(), matchResult.isReviewed(), matchResult.isRevieweeCompletedFeedback());
+        return new MatchResultResponse(member.getId(), member.getUsername(), matchResult.getReviewLink(), matchResult.isReviewed(), matchResult.isRevieweeCompletedFeedback());
     }
 
     public static MatchResultResponse ofReviewer(MatchResult matchResult, Member member) {

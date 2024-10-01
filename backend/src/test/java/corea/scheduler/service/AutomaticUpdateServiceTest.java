@@ -1,6 +1,8 @@
 package corea.scheduler.service;
 
 import config.ServiceTest;
+import corea.auth.dto.GithubPullRequestReview;
+import corea.auth.service.GithubOAuthProvider;
 import corea.feedback.domain.DevelopFeedback;
 import corea.feedback.domain.FeedbackKeyword;
 import corea.feedback.domain.SocialFeedback;
@@ -61,6 +63,9 @@ class AutomaticUpdateServiceTest {
     @MockBean
     private TaskScheduler taskScheduler;
 
+    @MockBean
+    private GithubOAuthProvider githubOAuthProvider;
+
     @Test
     @DisplayName("리뷰 마감 시간이 되면 자동으로 상태를 변경한다.")
     void updateAtReviewDeadline() {
@@ -109,6 +114,7 @@ class AutomaticUpdateServiceTest {
         LocalDateTime reviewDeadline = LocalDateTime.now().plusDays(2);
         RoomResponse response = roomService.create(manager.getId(), RoomFixture.ROOM_CREATE_REQUEST_WITH_REVIEW_DEADLINE(reviewDeadline));
 
+        when(githubOAuthProvider.getPullRequestReview(anyString())).thenReturn(new GithubPullRequestReview[0]);
         when(taskScheduler.schedule(any(Runnable.class), any(Instant.class))).thenReturn(mock(ScheduledFuture.class));
 
         Member reviewer = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
@@ -137,6 +143,7 @@ class AutomaticUpdateServiceTest {
         LocalDateTime reviewDeadline = LocalDateTime.now().plusDays(2);
         RoomResponse response = roomService.create(manager.getId(), RoomFixture.ROOM_CREATE_REQUEST_WITH_REVIEW_DEADLINE(reviewDeadline));
 
+        when(githubOAuthProvider.getPullRequestReview(anyString())).thenReturn(new GithubPullRequestReview[0]);
         when(taskScheduler.schedule(any(Runnable.class), any(Instant.class))).thenReturn(mock(ScheduledFuture.class));
 
         Member reviewer = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
@@ -168,6 +175,7 @@ class AutomaticUpdateServiceTest {
         LocalDateTime reviewDeadline = LocalDateTime.now().plusDays(2);
         RoomResponse response = roomService.create(manager.getId(), RoomFixture.ROOM_CREATE_REQUEST_WITH_REVIEW_DEADLINE(reviewDeadline));
 
+        when(githubOAuthProvider.getPullRequestReview(anyString())).thenReturn(new GithubPullRequestReview[0]);
         when(taskScheduler.schedule(any(Runnable.class), any(Instant.class))).thenReturn(mock(ScheduledFuture.class));
 
         Member reviewer = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());

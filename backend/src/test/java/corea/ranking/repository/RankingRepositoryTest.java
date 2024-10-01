@@ -35,12 +35,12 @@ class RankingRepositoryTest {
         Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member youngsu = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
         Member ash = memberRepository.save(MemberFixture.MEMBER_ASH());
-        Member mubin = memberRepository.save(MemberFixture.MEMBER_MUBIN());
+        Member movin = memberRepository.save(MemberFixture.MEMBER_MOVIN());
 
         rankingRepository.save(new Ranking(pororo, 1, 5.0f, date, classification));
         rankingRepository.save(new Ranking(youngsu, 2, 4.0f, date, classification));
         rankingRepository.save(new Ranking(ash, 3, 3.0f, date, classification));
-        rankingRepository.save(new Ranking(mubin, 4, 2.0f, date, classification));
+        rankingRepository.save(new Ranking(movin, 4, 2.0f, date, classification));
 
         List<Ranking> rankings = rankingRepository.findTopRankingsByClassificationAndDate(classification, date, PageRequest.of(0, 3));
 
