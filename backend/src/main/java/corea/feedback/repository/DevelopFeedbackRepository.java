@@ -20,4 +20,6 @@ public interface DevelopFeedbackRepository extends JpaRepository<DevelopFeedback
     List<DevelopFeedback> findByDeliverId(long deliverId);
 
     List<DevelopFeedback> findByReceiverId(long receiverId);
+
+    List<DevelopFeedback> findAllByRoomId(long roomId);
 }

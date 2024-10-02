@@ -66,6 +66,10 @@ public class RoomFixture {
     }
 
     public static RoomCreateRequest ROOM_CREATE_REQUEST() {
+        return ROOM_CREATE_REQUEST_WITH_REVIEW_DEADLINE(LocalDateTime.now().plusDays(2));
+    }
+
+    public static RoomCreateRequest ROOM_CREATE_REQUEST_WITH_REVIEW_DEADLINE(LocalDateTime reviewDeadline) {
         return new RoomCreateRequest(
                 "자바 레이싱 카 - MVC",
                 "MVC 패턴을 아시나요?",
@@ -75,7 +79,7 @@ public class RoomFixture {
                 List.of("TDD, 클린코드,자바"),
                 10,
                 LocalDateTime.now().plusHours(2),
-                LocalDateTime.now().plusDays(2),
+                reviewDeadline,
                 RoomClassification.ALL
         );
     }

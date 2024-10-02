@@ -79,7 +79,7 @@ class ReviewPullRequestTest {
         MatchResultResponse matchResultResponseBeforeReview = matchResultResponsesBeforeReview.matchResultResponses().stream().filter(response -> response.userId() == reviewer.getId()).findAny().get();
         assertThat(matchResultResponseBeforeReview.link()).isEmpty();
 
-        reviewService.review(room.getId(), reviewer.getId(), reviewee.getId());
+        reviewService.completeReview(room.getId(), reviewer.getId(), reviewee.getId());
 
         MatchResultResponses matchResultResponsesAfterReview = matchResultService.findReviewers(reviewee.getId(), room.getId());
         MatchResultResponse matchResultResponseAfterReview = matchResultResponsesAfterReview.matchResultResponses().stream().filter(response -> response.userId() == reviewer.getId()).findAny().get();

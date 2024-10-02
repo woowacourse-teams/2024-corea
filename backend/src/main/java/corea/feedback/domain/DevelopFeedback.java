@@ -1,9 +1,7 @@
 package corea.feedback.domain;
 
-import corea.feedback.dto.DevelopFeedbackRequest;
 import corea.feedback.util.FeedbackKeywordConverter;
 import corea.member.domain.Member;
-import corea.member.domain.Profile;
 import corea.util.FeedbackKeywordToStringConverter;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -50,15 +48,11 @@ public class DevelopFeedback {
         this(null, roomId, deliver, receiver, evaluatePoint, keywords, feedBackText, recommendationPoint);
     }
 
-    public void update(DevelopFeedbackRequest request) {
-        this.evaluatePoint = request.evaluationPoint();
-        this.keywords = FeedbackKeywordConverter.convertToKeywords(request.feedbackKeywords());
-        this.feedBackText = request.feedbackText();
-        this.recommendationPoint = request.recommendationPoint();
-    }
-
-    public Profile getReceiverProfile() {
-        return receiver.getProfile();
+    public void update(int evaluationPoint, List<String> feedbackKeywords, String feedbackText, int recommendationPoint) {
+        this.evaluatePoint = evaluationPoint;
+        this.keywords = FeedbackKeywordConverter.convertToKeywords(feedbackKeywords);
+        this.feedBackText = feedbackText;
+        this.recommendationPoint = recommendationPoint;
     }
 }
 

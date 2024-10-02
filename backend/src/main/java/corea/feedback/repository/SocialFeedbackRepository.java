@@ -20,4 +20,6 @@ public interface SocialFeedbackRepository extends JpaRepository<SocialFeedback, 
     List<SocialFeedback> findByDeliverId(long deliverId);
 
     List<SocialFeedback> findByReceiverId(long receiverId);
+
+    List<SocialFeedback> findAllByRoomId(long roomId);
 }
