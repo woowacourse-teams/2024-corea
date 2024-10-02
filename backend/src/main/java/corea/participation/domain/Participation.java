@@ -1,5 +1,6 @@
 package corea.participation.domain;
 
+import corea.global.BaseTimeEntity;
 import corea.room.domain.Room;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -13,7 +14,7 @@ import org.apache.logging.log4j.Logger;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Participation {
+public class Participation extends BaseTimeEntity {
 
     private static final Logger log = LogManager.getLogger(Participation.class);
 

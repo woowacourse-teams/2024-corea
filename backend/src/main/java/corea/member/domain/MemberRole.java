@@ -4,7 +4,7 @@ public enum MemberRole {
 
     REVIEWER, REVIEWEE;
 
-    public boolean isReviwer() {
+    public boolean isReviewer() {
         return this == REVIEWER;
     }
 }
