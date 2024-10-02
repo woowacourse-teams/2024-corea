@@ -1,5 +1,6 @@
 package corea.member.domain;
 
+import corea.global.BaseTimeEntity;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,7 +13,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Entity
 @AllArgsConstructor
 @Getter
-public class Profile {
+public class Profile extends BaseTimeEntity {
 
     private static final int DEFAULT_FEEDBACK_COUNT = 0;
 
