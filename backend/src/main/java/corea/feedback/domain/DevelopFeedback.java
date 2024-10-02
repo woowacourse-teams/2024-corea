@@ -1,6 +1,7 @@
 package corea.feedback.domain;
 
 import corea.feedback.util.FeedbackKeywordConverter;
+import corea.global.BaseTimeEntity;
 import corea.member.domain.Member;
 import corea.util.FeedbackKeywordToStringConverter;
 import jakarta.persistence.*;
@@ -18,7 +19,7 @@ import static lombok.AccessLevel.PROTECTED;
 @AllArgsConstructor
 @NoArgsConstructor(access = PROTECTED)
 @Getter
-public class DevelopFeedback {
+public class DevelopFeedback extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)

@@ -1,5 +1,6 @@
 package corea.matching.domain;
 
+import corea.global.BaseTimeEntity;
 import corea.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -15,7 +16,7 @@ import static lombok.AccessLevel.PROTECTED;
 @AllArgsConstructor
 @NoArgsConstructor(access = PROTECTED)
 @Getter
-public class MatchResult {
+public class MatchResult extends BaseTimeEntity {
 
     private static final Logger log = LoggerFactory.getLogger(MatchResult.class);
 
