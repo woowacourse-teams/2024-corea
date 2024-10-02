@@ -17,8 +17,10 @@ public class ParticipationController implements ParticipationControllerSpecifica
 
     @Override
     @PostMapping("/{id}")
-    public ResponseEntity<Void> participate(@PathVariable long id, @LoginMember AuthInfo authInfo) {
-        participationService.participate(new ParticipationRequest(id, authInfo.getId()));
+    public ResponseEntity<Void> participate(@PathVariable long id,
+                                            @LoginMember AuthInfo authInfo,
+                                            @RequestParam(value = "role", defaultValue = "both") String role) {
+        participationService.participate(new ParticipationRequest(id, authInfo.getId(), role));
         return ResponseEntity.ok()
                 .build();
     }

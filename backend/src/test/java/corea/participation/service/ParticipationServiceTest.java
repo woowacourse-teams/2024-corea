@@ -13,6 +13,8 @@ import corea.room.domain.Room;
 import corea.room.repository.RoomRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.assertj.core.api.Assertions.*;
@@ -32,13 +34,14 @@ class ParticipationServiceTest {
     @Autowired
     private ParticipationRepository participationRepository;
 
-    @Test
+    @ParameterizedTest
+    @CsvSource({"both", "reviewer"})
     @DisplayName("멤버가 방에 참여한다.")
-    void participate() {
+    void participate(String role) {
         Member member = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(member));
 
-        assertThatCode(() -> participationService.participate(new ParticipationRequest(room.getId(), member.getId())))
+        assertThatCode(() -> participationService.participate(new ParticipationRequest(room.getId(), member.getId(), role)))
                 .doesNotThrowAnyException();
     }
 
@@ -47,7 +50,7 @@ class ParticipationServiceTest {
     void participate_throw_exception_when_roomId_not_exist() {
         Member member = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
 
-        assertThatCode(() -> participationService.participate(new ParticipationRequest(-1, member.getId())))
+        assertThatCode(() -> participationService.participate(new ParticipationRequest(-1, member.getId(), "both")))
                 .isInstanceOf(CoreaException.class);
     }
 
@@ -56,7 +59,16 @@ class ParticipationServiceTest {
     void participate_throw_exception_when_memberId_not_exist() {
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(null));
 
-        assertThatCode(() -> participationService.participate(new ParticipationRequest(room.getId(), -1)))
+        assertThatCode(() -> participationService.participate(new ParticipationRequest(room.getId(), -1, "both")))
+                .isInstanceOf(CoreaException.class);
+    }
+
+    @Test
+    @DisplayName("role과 일치하는 역할이 없으면 예외를 발생한다.")
+    void participate_throw_exception_when_memberRole_not_supported() {
+        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(null));
+
+        assertThatCode(() -> participationService.participate(new ParticipationRequest(room.getId(), -1, "thief")))
                 .isInstanceOf(CoreaException.class);
     }
 
@@ -66,9 +78,9 @@ class ParticipationServiceTest {
         Member member = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(member));
 
-        participationService.participate(new ParticipationRequest(room.getId(), member.getId()));
+        participationService.participate(new ParticipationRequest(room.getId(), member.getId(), "both"));
 
-        assertThatCode(() -> participationService.participate(new ParticipationRequest(room.getId(), member.getId())))
+        assertThatCode(() -> participationService.participate(new ParticipationRequest(room.getId(), member.getId(), "both")))
                 .isInstanceOf(CoreaException.class);
     }
 
