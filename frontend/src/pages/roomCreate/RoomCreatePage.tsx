@@ -116,6 +116,7 @@ const RoomCreatePage = () => {
             <Input
               name="title"
               value={formState.title}
+              maxLength={10}
               onChange={handleInputChange}
               error={isClickedButton && formState.title === ""}
               required
@@ -146,6 +147,8 @@ const RoomCreatePage = () => {
               value={formState.content}
               onChange={handleInputChange}
               rows={5}
+              showCharCount={true}
+              maxLength={1000}
             />
           </S.ContentInput>
         </S.RowContainer>
