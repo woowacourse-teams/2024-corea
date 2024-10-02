@@ -1,5 +1,49 @@
-import styled from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import media from "@/styles/media";
+
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+`;
+
+const fadeOut = keyframes`
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -30px);
+  }
+`;
+
+const fadeInMobile = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(70px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const fadeOutMobile = keyframes`
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(70px);
+  }
+`;
 
 export const BackDrop = styled.div`
   position: fixed;
@@ -13,11 +57,37 @@ export const BackDrop = styled.div`
   background-color: ${({ theme }) => theme.COLOR.black};
 `;
 
-export const ModalContent = styled.div`
+export const ModalContent = styled.div<{ $isVisible: boolean; $isClosing: boolean }>`
   position: relative;
   overflow: hidden auto;
   padding: 2rem;
   background-color: ${({ theme }) => theme.COLOR.white};
+
+  @media screen and (width >= 640px) {
+    ${({ $isVisible }) =>
+      $isVisible &&
+      css`
+        animation: ${fadeIn} 0.5s ease backwards;
+      `}
+    ${({ $isClosing }) =>
+      $isClosing &&
+      css`
+        animation: ${fadeOut} 0.5s ease backwards;
+      `}
+  }
+
+  @media screen and (width < 640px) {
+    ${({ $isVisible }) =>
+      $isVisible &&
+      css`
+        animation: ${fadeInMobile} 0.5s ease backwards;
+      `}
+    ${({ $isClosing }) =>
+      $isClosing &&
+      css`
+        animation: ${fadeOutMobile} 0.5s ease backwards;
+      `}
+  }
 
   ${media.small`
     position: fixed;
