@@ -58,7 +58,7 @@ public class Member extends BaseTimeEntity {
         return !isMatchingId(memberId);
     }
 
-    public void updateProfile(int evaluatePoint) {
-        profile.updateProfile(evaluatePoint);
+    public void updateAverageRating(int evaluatePoint) {
+        profile.updateAverageRating(evaluatePoint);
     }
 }

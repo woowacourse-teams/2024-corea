@@ -41,14 +41,14 @@ public class Profile extends BaseTimeEntity {
     }
 
     public void increaseReviewCount(MemberRole memberRole) {
-        if (memberRole.isReviwer()) {
+        if (memberRole.isReviewer()) {
             deliverCount++;
             return;
         }
         receiveCount++;
     }
 
-    public void updateProfile(int evaluatePoint) {
+    public void updateAverageRating(int evaluatePoint) {
         float totalEvaluatePoint = averageRating.calculateTotalEvaluatePoint(feedbackCount, evaluatePoint);
         feedbackCount++;
 
