@@ -32,9 +32,9 @@ class RoomRepositoryTest {
     @DisplayName("자신이 참여하지 않고, 계속 모집 중인 방들을 모집 마감일이 임박한 순으로 조회할 수 있다.")
     void findAllByMemberAndClassificationAndStatus() {
         Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
-        Member joysun = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
+        Member joyson = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
         roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo, LocalDateTime.now().plusDays(2)));
-        roomRepository.save(RoomFixture.ROOM_DOMAIN(joysun, LocalDateTime.now().plusDays(3)));
+        roomRepository.save(RoomFixture.ROOM_DOMAIN(joyson, LocalDateTime.now().plusDays(3)));
 
         Member movin = memberRepository.save(MemberFixture.MEMBER_MOVIN());
         Page<Room> roomPage = roomRepository.findAllByMemberAndClassificationAndStatus(movin.getId(), RoomClassification.BACKEND, RoomStatus.OPEN, PageRequest.of(0, 8));
@@ -47,9 +47,9 @@ class RoomRepositoryTest {
     @DisplayName("분야와 상관 없이 자신이 참여하지 않고, 계속 모집 중인 방들을 모집 마감일이 임박한 순으로 조회할 수 있다.")
     void findAllByMemberAndStatus() {
         Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
-        Member joysun = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
+        Member joyson = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
         roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo, LocalDateTime.now().plusDays(2)));
-        roomRepository.save(RoomFixture.ROOM_DOMAIN(joysun, LocalDateTime.now().plusDays(3)));
+        roomRepository.save(RoomFixture.ROOM_DOMAIN(joyson, LocalDateTime.now().plusDays(3)));
 
         Member movin = memberRepository.save(MemberFixture.MEMBER_MOVIN());
         Page<Room> roomPage = roomRepository.findAllByMemberAndStatus(movin.getId(), RoomStatus.OPEN, PageRequest.of(0, 8));
@@ -62,11 +62,11 @@ class RoomRepositoryTest {
     @DisplayName("리뷰 마감일이 임박한 순으로 방 리스트를 반환한다.")
     void findAllByIdInOrderByReviewDeadlineAsc() {
         Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
-        Member joysun = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
+        Member joyson = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
         Room pororoRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo, LocalDateTime.now().plusDays(2)));
-        Room joysunRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN(joysun, LocalDateTime.now().plusDays(3)));
+        Room joysonRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN(joyson, LocalDateTime.now().plusDays(3)));
 
-        List<Room> rooms = roomRepository.findAllByIdInOrderByReviewDeadlineAsc(List.of(pororoRoom.getId(), joysunRoom.getId()));
+        List<Room> rooms = roomRepository.findAllByIdInOrderByReviewDeadlineAsc(List.of(pororoRoom.getId(), joysonRoom.getId()));
 
         List<String> managerNames = getManagerNames(rooms);
         assertThat(managerNames).containsExactly("조경찬", "이영수");

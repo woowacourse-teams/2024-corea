@@ -115,10 +115,10 @@ class RoomServiceTest {
     @Test
     @DisplayName("방을 조회할 때 자신의 참여 상태를 알 수 있다.")
     void findOne_not_participated() {
-        Member member = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
 
+        Member member = memberRepository.save(MemberFixture.MEMBER_PORORO());
         RoomResponse response = roomService.findOne(room.getId(), member.getId());
 
         assertThat(response.participationStatus()).isEqualTo(ParticipationStatus.NOT_PARTICIPATED);
@@ -153,12 +153,12 @@ class RoomServiceTest {
         Room pororoRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo, LocalDateTime.now().plusDays(2)));
         Room ashRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN(ash, LocalDateTime.now().plusDays(3)));
 
-        Member joysun = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
-        long joysunId = joysun.getId();
-        participationRepository.save(new Participation(pororoRoom, joysunId));
-        participationRepository.save(new Participation(ashRoom, joysunId));
+        Member joyson = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
+        long joysonId = joyson.getId();
+        participationRepository.save(new Participation(pororoRoom, joysonId));
+        participationRepository.save(new Participation(ashRoom, joysonId));
 
-        RoomResponses response = roomService.findParticipatedRooms(joysunId);
+        RoomResponses response = roomService.findParticipatedRooms(joysonId);
         List<String> managerNames = getManagerNames(response);
 
         assertThat(managerNames).containsExactly("조경찬", "박민아");
