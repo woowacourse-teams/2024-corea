@@ -51,9 +51,9 @@ public class RoomService {
     public RoomResponse create(long memberId, RoomCreateRequest request) {
         validateDeadLine(request.recruitmentDeadline(), request.reviewDeadline());
 
-        Member member = memberRepository.findById(memberId)
+        Member manager = memberRepository.findById(memberId)
                 .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND));
-        Room room = roomRepository.save(request.toEntity(member));
+        Room room = roomRepository.save(request.toEntity(manager));
 
         participationRepository.save(new Participation(room, memberId));
         automaticMatchingRepository.save(new AutomaticMatching(room.getId(), request.recruitmentDeadline()));
@@ -79,13 +79,25 @@ public class RoomService {
 
     public RoomResponse findOne(long roomId, long memberId) {
         Room room = getRoom(roomId);
-        if (room.isManagerId(memberId)) {
+
+        boolean isManager = room.isManagerId(memberId);
+        boolean isParticipant = participationRepository.existsByRoomIdAndMemberId(roomId, memberId);
+        boolean isMatched = matchResultRepository.existsByRoomIdAndMemberId(roomId, memberId);
+
+        if (pullRequestNotSubmitted(room, isParticipant, isMatched)) {
+            return RoomResponse.of(room, HAS_TO_BE_CANCELED);
+        }
+        if (isManager) {
             return RoomResponse.of(room, MANAGER);
         }
-        if (participationRepository.existsByRoomIdAndMemberId(roomId, memberId)) {
+        if (isParticipant) {
             return RoomResponse.of(room, PARTICIPATED);
         }
         return RoomResponse.of(room, NOT_PARTICIPATED);
+    }
+
+    private boolean pullRequestNotSubmitted(Room room, boolean isParticipant, boolean isMatched) {
+        return room.isNotOpened() && isParticipant && !isMatched;
     }
 
     public RoomResponses findParticipatedRooms(long memberId) {

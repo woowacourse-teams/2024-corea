@@ -100,6 +100,10 @@ public class Room {
         status = RoomStatus.CLOSE;
     }
 
+    public boolean isNotOpened() {
+        return status.isNotOpened();
+    }
+
     public boolean isClosed() {
         return status.isClosed();
     }
