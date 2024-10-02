@@ -24,6 +24,9 @@ import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -164,111 +167,53 @@ class RoomServiceTest {
         assertThat(managerNames).containsExactly("조경찬", "박민아");
     }
 
-    @Test
-    @DisplayName("로그인하지 않은 사용자가 현재 모집 중인 방들을 모집 마감일이 임박한 순으로 조회할 수 있다.")
-    void findOpenedRoomsWithoutMember() {
+    @ParameterizedTest
+    @EnumSource(RoomStatus.class)
+    @DisplayName("로그인한 사용자가 자신이 참여하지 않은 방을 상태별로 마감일 임박순으로 조회할 수 있다.")
+    void findRoomsWithRoomStatus(RoomStatus roomStatus) {
         Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member ash = memberRepository.save(MemberFixture.MEMBER_ASH());
 
-        roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo, LocalDateTime.now().plusDays(2)));
-        roomRepository.save(RoomFixture.ROOM_DOMAIN(ash, LocalDateTime.now().plusDays(3)));
+        roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo, LocalDateTime.now().plusDays(2), roomStatus));
+        roomRepository.save(RoomFixture.ROOM_DOMAIN(ash, LocalDateTime.now().plusDays(3), roomStatus));
 
-        AuthInfo anonymous = AuthInfo.getAnonymous();
-
-        RoomResponses response = roomService.findRoomsWithRoomStatus(anonymous.getId(), 0, "all", RoomStatus.OPEN);
-        List<String> managerNames = getManagerNames(response);
-
-        assertThat(managerNames).containsExactly("조경찬", "박민아");
-    }
-
-    @Test
-    @DisplayName("로그인한 사용자가 자신이 참여하지 않고, 현재 모집 중인 방들을 모집 마감일이 임박한 순으로 조회할 수 있다.")
-    void findOpenedRoomsWithMember() {
-        Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
-        Member ash = memberRepository.save(MemberFixture.MEMBER_ASH());
-
-        roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo, LocalDateTime.now().plusDays(2)));
-        roomRepository.save(RoomFixture.ROOM_DOMAIN(ash, LocalDateTime.now().plusDays(3)));
-
-        RoomResponses response = roomService.findRoomsWithRoomStatus(pororo.getId(), 0, "all", RoomStatus.OPEN);
+        RoomResponses response = roomService.findRoomsWithRoomStatus(pororo.getId(), 0, "all", roomStatus);
         List<String> managerNames = getManagerNames(response);
 
         assertThat(managerNames).containsExactly("박민아");
     }
 
-    @Test
-    @DisplayName("로그인하지 않은 사용자가 현재 모집 완료된 방들을 모집 마감일이 임박한 순으로 조회할 수 있다.")
-    void findProgressRoomsWithoutMember() {
+    @ParameterizedTest
+    @EnumSource(RoomStatus.class)
+    @DisplayName("비로그인 사용자가 방을 상태별로 마감일 임박순으로 조회할 수 있다.")
+    void findRoomsWithRoomStatus_(RoomStatus roomStatus) {
         Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member ash = memberRepository.save(MemberFixture.MEMBER_ASH());
 
-        roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo, LocalDateTime.now().plusDays(2), RoomStatus.PROGRESS));
-        roomRepository.save(RoomFixture.ROOM_DOMAIN(ash, LocalDateTime.now().plusDays(3), RoomStatus.PROGRESS));
+        roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo, LocalDateTime.now().plusDays(2), roomStatus));
+        roomRepository.save(RoomFixture.ROOM_DOMAIN(ash, LocalDateTime.now().plusDays(3), roomStatus));
 
         AuthInfo anonymous = AuthInfo.getAnonymous();
 
-        RoomResponses response = roomService.findRoomsWithRoomStatus(anonymous.getId(), 0, "all", RoomStatus.PROGRESS);
+        RoomResponses response = roomService.findRoomsWithRoomStatus(anonymous.getId(), 0, "all", roomStatus);
         List<String> managerNames = getManagerNames(response);
 
         assertThat(managerNames).containsExactly("조경찬", "박민아");
     }
 
-    @Test
-    @DisplayName("로그인한 사용자가 자신이 참여하지 않고 현재 모집 완료된 방들을 모집 마감일이 임박한 순으로 조회할 수 있다.")
-    void findProgressRoomsWithMember() {
-        Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
-        Member ash = memberRepository.save(MemberFixture.MEMBER_ASH());
-
-        roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo, LocalDateTime.now().plusDays(2), RoomStatus.PROGRESS));
-        roomRepository.save(RoomFixture.ROOM_DOMAIN(ash, LocalDateTime.now().plusDays(3), RoomStatus.PROGRESS));
-
-        RoomResponses response = roomService.findRoomsWithRoomStatus(pororo.getId(), 0, "all", RoomStatus.PROGRESS);
-        List<String> managerNames = getManagerNames(response);
-
-        assertThat(managerNames).containsExactly("박민아");
-    }
-
-    @Test
-    @DisplayName("현재 종료된 방들을 조회할 수 있다.")
-    void findClosedRooms() {
-        Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
-        Member ash = memberRepository.save(MemberFixture.MEMBER_ASH());
-
-        roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_CLOSED(pororo));
-        roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_CLOSED(ash));
-
-        AuthInfo anonymous = AuthInfo.getAnonymous();
-
-        RoomResponses response = roomService.findRoomsWithRoomStatus(anonymous.getId(), 0, "all", RoomStatus.CLOSE);
-        List<String> managerNames = getManagerNames(response);
-
-        assertThat(managerNames).containsExactly("조경찬", "박민아");
-    }
-
-    @Test
-    @DisplayName("방을 조회할 때 전달받은 페이지가 마지막 페이지인지 여부를 판별할 수 있다.")
-    void isLastPage_true() {
-        Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
-        roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo));
-
-        AuthInfo anonymous = AuthInfo.getAnonymous();
-        RoomResponses response = roomService.findRoomsWithRoomStatus(anonymous.getId(), 0, "all", RoomStatus.OPEN);
-
-        assertThat(response.isLastPage()).isTrue();
-    }
-
-    @Test
-    @DisplayName("방을 조회할 때 전달받은 페이지가 마지막 페이지인지 여부를 판별할 수 있다.")
-    void isLastPage_false() {
+    @ParameterizedTest
+    @CsvSource(value = {"0, false", "1, true"})
+    @DisplayName("방을 조회할 때 전달받은 페이지가 마지막 페이지인지 판별할 수 있다.")
+    void isLastPage(int pageNumber, boolean expected) {
         Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
         for (int i = 0; i < 9; i++) {
             roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo));
         }
 
         AuthInfo anonymous = AuthInfo.getAnonymous();
-        RoomResponses response = roomService.findRoomsWithRoomStatus(anonymous.getId(), 0, "all", RoomStatus.OPEN);
+        RoomResponses response = roomService.findRoomsWithRoomStatus(anonymous.getId(), pageNumber, "all", RoomStatus.OPEN);
 
-        assertThat(response.isLastPage()).isFalse();
+        assertThat(response.isLastPage()).isEqualTo(expected);
     }
 
     @Test
