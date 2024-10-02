@@ -1,6 +1,7 @@
 package corea.ranking.domain;
 
 import corea.evaluation.domain.EvaluateClassification;
+import corea.global.BaseTimeEntity;
 import corea.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -16,7 +17,7 @@ import static lombok.AccessLevel.PROTECTED;
 @AllArgsConstructor
 @NoArgsConstructor(access = PROTECTED)
 @Getter
-public class Ranking {
+public class Ranking extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)

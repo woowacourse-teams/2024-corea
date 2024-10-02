@@ -68,12 +68,12 @@ public class AutomaticUpdateExecutor {
 
     private void updateSocialFeedbackPoint(SocialFeedback socialFeedback) {
         Member receiver = socialFeedback.getReceiver();
-        receiver.updateProfile(socialFeedback.getEvaluatePoint());
+        receiver.updateAverageRating(socialFeedback.getEvaluatePoint());
     }
 
     private void updateDevelopFeedbackPoint(DevelopFeedback developFeedback) {
         Member receiver = developFeedback.getReceiver();
-        receiver.updateProfile(developFeedback.getEvaluatePoint());
+        receiver.updateAverageRating(developFeedback.getEvaluatePoint());
     }
 
     private Room getRoom(long roomId) {

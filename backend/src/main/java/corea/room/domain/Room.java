@@ -2,6 +2,7 @@ package corea.room.domain;
 
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
+import corea.global.BaseTimeEntity;
 import corea.member.domain.Member;
 import corea.util.StringToListConverter;
 import jakarta.persistence.*;
@@ -19,7 +20,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Room {
+public class Room extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)

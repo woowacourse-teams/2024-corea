@@ -1,5 +1,6 @@
 package corea.member.domain;
 
+import corea.global.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -12,7 +13,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Member {
+public class Member extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -57,7 +58,7 @@ public class Member {
         return !isMatchingId(memberId);
     }
 
-    public void updateProfile(int evaluatePoint) {
-        profile.updateProfile(evaluatePoint);
+    public void updateAverageRating(int evaluatePoint) {
+        profile.updateAverageRating(evaluatePoint);
     }
 }
