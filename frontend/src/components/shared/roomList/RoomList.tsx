@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import DelaySuspense from "@/components/common/delaySuspense/DelaySuspense";
 import PlusButton from "@/components/common/plusButton/PlusButton";
 import RoomCard from "@/components/shared/roomCard/RoomCard";
 import * as RoomCardSkeleton from "@/components/shared/roomCard/RoomCard.skeleton";
@@ -49,8 +50,13 @@ const RoomList = ({ roomList, isFetching, hasNextPage, onLoadMore, roomType }: R
             <RoomCard roomInfo={roomInfo} key={roomInfo.id} />
           ),
         )}
-        {isFetching &&
-          Array.from({ length: 8 }).map((_, idx) => <RoomCardSkeleton.Wrapper key={idx} />)}
+        {isFetching && (
+          <DelaySuspense>
+            {Array.from({ length: 8 }).map((_, idx) => (
+              <RoomCardSkeleton.Wrapper key={idx} />
+            ))}
+          </DelaySuspense>
+        )}
       </S.RoomListContainer>
       {hasNextPage && onLoadMore && <PlusButton onClick={handleClickLoadMore} />}
     </S.RoomListSection>
