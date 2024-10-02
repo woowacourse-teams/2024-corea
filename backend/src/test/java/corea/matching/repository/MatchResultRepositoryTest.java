@@ -46,7 +46,6 @@ class MatchResultRepositoryTest {
         matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(roomId, member, manager));
         matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(roomId, reviewer, manager));
         matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(roomId, member, reviewee));
-
     }
 
     @Test

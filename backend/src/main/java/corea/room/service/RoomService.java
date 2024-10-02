@@ -80,12 +80,12 @@ public class RoomService {
     public RoomResponse findOne(long roomId, long memberId) {
         Room room = getRoom(roomId);
 
-        boolean isManager = room.isManagerId(memberId);
+        boolean isManager = room.isMatchingManager(memberId);
         boolean isParticipant = participationRepository.existsByRoomIdAndMemberId(roomId, memberId);
         boolean isMatched = matchResultRepository.existsByRoomIdAndMemberId(roomId, memberId);
 
         if (pullRequestNotSubmitted(room, isParticipant, isMatched)) {
-            return RoomResponse.of(room, HAS_TO_BE_CANCELED);
+            return RoomResponse.of(room, PULL_REQUEST_NOT_SUBMITTED);
         }
         if (isManager) {
             return RoomResponse.of(room, MANAGER);

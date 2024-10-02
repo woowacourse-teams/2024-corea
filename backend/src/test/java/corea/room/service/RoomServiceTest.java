@@ -78,7 +78,7 @@ class RoomServiceTest {
 
         ParticipationStatus status = response.participationStatus();
 
-        assertThat(status).isEqualTo(ParticipationStatus.HAS_TO_BE_CANCELED);
+        assertThat(status).isEqualTo(ParticipationStatus.PULL_REQUEST_NOT_SUBMITTED);
     }
 
     @Test

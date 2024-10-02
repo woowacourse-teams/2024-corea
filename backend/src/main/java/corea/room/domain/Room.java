@@ -112,7 +112,7 @@ public class Room {
         return manager.isNotMatchingId(memberId);
     }
 
-    public boolean isManagerId(long managerId) {
+    public boolean isMatchingManager(long managerId) {
         return manager.isMatchingId(managerId);
     }
 

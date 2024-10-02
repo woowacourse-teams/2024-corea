@@ -10,9 +10,11 @@ import java.util.Optional;
 public interface MatchResultRepository extends JpaRepository<MatchResult, Long> {
 
     @Query("""
-            SELECT COUNT(m) > 0
-            FROM MatchResult m
-            WHERE m.roomId = :roomId AND (m.reviewer.id = :memberId OR m.reviewee.id = :memberId)
+            SELECT EXISTS(
+                SELECT 1
+                FROM MatchResult m
+                WHERE m.roomId = :roomId AND (m.reviewer.id = :memberId OR m.reviewee.id = :memberId)
+            )
             """)
     boolean existsByRoomIdAndMemberId(long roomId, long memberId);
 
