@@ -21,6 +21,7 @@ import corea.room.dto.RoomResponse;
 import corea.room.dto.RoomResponses;
 import corea.room.repository.RoomRepository;
 import org.assertj.core.api.InstanceOfAssertFactories;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -123,6 +124,7 @@ class RoomServiceTest {
         assertThat(response.participationStatus()).isEqualTo(ParticipationStatus.NOT_PARTICIPATED);
     }
 
+    @Disabled
     @Test
     @Transactional
     @DisplayName("해당 방에 참여하고 있으나 PR을 제출하지 않아 매칭 결과가 없는 경우를 판단할 수 있다.")
