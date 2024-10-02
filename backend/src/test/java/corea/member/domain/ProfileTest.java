@@ -20,19 +20,4 @@ class ProfileTest {
         assertThat(averageRating).isEqualTo(3);
         assertThat(feedbackCount).isEqualTo(2);
     }
-
-    @Test
-    @DisplayName("평균 점수를 계산할 수 있다.")
-    void UpdateProfile() {
-        Profile profile = new Profile();
-        profile.updateProfile(4);
-        profile.updateProfile(2);
-        profile.updateProfile(2, 4);
-
-        float averageRating = profile.getAverageRatingValue();
-        float feedbackCount = profile.getFeedbackCount();
-
-        assertThat(averageRating).isEqualTo(4);
-        assertThat(feedbackCount).isEqualTo(2);
-    }
 }

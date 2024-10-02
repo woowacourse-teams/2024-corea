@@ -45,15 +45,19 @@ public class Member {
         this(null, username, thumbnailUrl, name, email, isEmailAccepted, "", githubUserId, profile);
     }
 
-    public void increaseCount(ProfileCountType profileCountType) {
-        profile.increaseCount(profileCountType);
-    }
-
-    public boolean isNotMatchingId(long memberId) {
-        return this.id != memberId;
+    public void increaseReviewCount(MemberRole memberRole) {
+        profile.increaseReviewCount(memberRole);
     }
 
     public boolean isMatchingId(long memberId) {
         return this.id == memberId;
+    }
+
+    public boolean isNotMatchingId(long memberId) {
+        return !isMatchingId(memberId);
+    }
+
+    public void updateProfile(int evaluatePoint) {
+        profile.updateProfile(evaluatePoint);
     }
 }

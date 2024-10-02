@@ -100,7 +100,9 @@ export const RoomContentSmall = styled.span`
   align-items: center;
 
   font: ${({ theme }) => theme.TEXT.small_bold};
+  line-height: 2rem;
   color: ${({ theme }) => theme.COLOR.black};
+  white-space: pre-line;
 
   span {
     font: ${({ theme }) => theme.TEXT.small};

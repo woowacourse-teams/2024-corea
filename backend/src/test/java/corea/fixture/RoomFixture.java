@@ -66,6 +66,10 @@ public class RoomFixture {
     }
 
     public static RoomCreateRequest ROOM_CREATE_REQUEST() {
+        return ROOM_CREATE_REQUEST_WITH_REVIEW_DEADLINE(LocalDateTime.now().plusDays(2));
+    }
+
+    public static RoomCreateRequest ROOM_CREATE_REQUEST_WITH_REVIEW_DEADLINE(LocalDateTime reviewDeadline) {
         return new RoomCreateRequest(
                 "자바 레이싱 카 - MVC",
                 "MVC 패턴을 아시나요?",
@@ -75,8 +79,25 @@ public class RoomFixture {
                 List.of("TDD, 클린코드,자바"),
                 10,
                 LocalDateTime.now().plusHours(2),
-                LocalDateTime.now().plusDays(2),
+                reviewDeadline,
                 RoomClassification.ALL
         );
+    }
+
+    public static Room ROOM_PULL_REQUEST(Member member) {
+        return new Room(
+                "Test Room",
+                "Test Content",
+                3,
+                "https://github.com/youngsu5582/github-api-test",
+                "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=13301655&filePath=L2Rpc2sxL25ld2RhdGEvMjAyMS8yMS9DTFMxMDAwNC8xMzMwMTY1NV9XUlRfMjFfQ0xTMTAwMDRfMjAyMTEyMTNfMQ==&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004",
+                List.of("test1", "test2"),
+                0,
+                100,
+                member,
+                LocalDateTime.now().plusSeconds(100),
+                LocalDateTime.now().plusDays(1),
+                RoomClassification.BACKEND,
+                RoomStatus.OPEN);
     }
 }

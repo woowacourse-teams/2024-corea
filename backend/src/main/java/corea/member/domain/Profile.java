@@ -39,8 +39,8 @@ public class Profile {
         this(null, feedbackCount, receiveCount, deliverCount, new AverageRating(averageRating), attitude);
     }
 
-    public void increaseCount(ProfileCountType profileCountType) {
-        if (profileCountType.isDeliver()) {
+    public void increaseReviewCount(MemberRole memberRole) {
+        if (memberRole.isReviwer()) {
             deliverCount++;
             return;
         }
@@ -51,11 +51,6 @@ public class Profile {
         float totalEvaluatePoint = averageRating.calculateTotalEvaluatePoint(feedbackCount, evaluatePoint);
         feedbackCount++;
 
-        this.averageRating = averageRating.calculateAverageRating(totalEvaluatePoint, feedbackCount);
-    }
-
-    public void updateProfile(int preEvaluatePoint, int evaluatePoint) {
-        float totalEvaluatePoint = averageRating.calculateTotalEvaluatePoint(feedbackCount, preEvaluatePoint, evaluatePoint);
         this.averageRating = averageRating.calculateAverageRating(totalEvaluatePoint, feedbackCount);
     }
 

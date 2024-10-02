@@ -40,7 +40,7 @@ public class MemberFixture {
         );
     }
 
-    public static Member MEMBER_MUBIN() {
+    public static Member MEMBER_MOVIN() {
         return new Member(
                 "hjk0761",
                 "https://avatars.githubusercontent.com/u/98307410?v=4",
@@ -84,6 +84,28 @@ public class MemberFixture {
         );
     }
 
+    public static Member MEMBER_DARR() {
+        return new Member(
+                "darr",
+                "https://avatars.githubusercontent.com/u/98307410?v=4",
+                null,
+                "darr@gmail.com",
+                false,
+                "71641127"
+        );
+    }
+
+    public static Member MEMBER_PORORO_GITHUB() {
+        return new Member(
+                "jcoding-play",
+                "https://avatars.githubusercontent.com/u/98307410?v=4",
+                null,
+                "jcoding-play@gmail.com",
+                false,
+                "119468757"
+        );
+    }
+
     public static Member MEMBER_PORORO(Profile profile) {
         return new Member(
                 "pororo",
@@ -97,6 +119,6 @@ public class MemberFixture {
     }
 
     public static List<Member> SEVEN_MEMBERS() {
-        return List.of(MEMBER_PORORO(), MEMBER_ASH(), MEMBER_YOUNGSU(), MEMBER_CHOCO(), MEMBER_MUBIN(), MEMBER_TENTEN());
+        return List.of(MEMBER_PORORO(), MEMBER_ASH(), MEMBER_YOUNGSU(), MEMBER_CHOCO(), MEMBER_MOVIN(), MEMBER_TENTEN());
     }
 }

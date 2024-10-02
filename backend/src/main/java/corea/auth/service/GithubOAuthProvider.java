@@ -1,5 +1,6 @@
 package corea.auth.service;
 
+import corea.auth.dto.GithubPullRequestReview;
 import corea.auth.dto.GithubUserInfo;
 import corea.auth.infrastructure.GithubOAuthClient;
 import lombok.RequiredArgsConstructor;
@@ -14,5 +15,9 @@ public class GithubOAuthProvider {
     public GithubUserInfo getUserInfo(String code) {
         String accessToken = githubOAuthClient.getAccessToken(code);
         return githubOAuthClient.getUserInfo(accessToken);
+    }
+
+    public GithubPullRequestReview[] getPullRequestReview(String prLink) {
+        return githubOAuthClient.getReviewLink(prLink);
     }
 }

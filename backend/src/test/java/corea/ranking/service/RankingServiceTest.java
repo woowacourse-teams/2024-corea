@@ -38,27 +38,27 @@ class RankingServiceTest {
         Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member youngsu = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
         Member ash = memberRepository.save(MemberFixture.MEMBER_ASH());
-        Member mubin = memberRepository.save(MemberFixture.MEMBER_MUBIN());
+        Member movin = memberRepository.save(MemberFixture.MEMBER_MOVIN());
 
         rankingRepository.save(new Ranking(pororo, 3, 3.0f, date, EvaluateClassification.ANDROID));
         rankingRepository.save(new Ranking(youngsu, 4, 2.0f, date, EvaluateClassification.ANDROID));
         rankingRepository.save(new Ranking(ash, 1, 5.0f, date, EvaluateClassification.ANDROID));
-        rankingRepository.save(new Ranking(mubin, 2, 4.0f, date, EvaluateClassification.ANDROID));
+        rankingRepository.save(new Ranking(movin, 2, 4.0f, date, EvaluateClassification.ANDROID));
 
         rankingRepository.save(new Ranking(pororo, 1, 5.0f, date, EvaluateClassification.BACKEND));
         rankingRepository.save(new Ranking(youngsu, 2, 4.0f, date, EvaluateClassification.BACKEND));
         rankingRepository.save(new Ranking(ash, 3, 3.0f, date, EvaluateClassification.BACKEND));
-        rankingRepository.save(new Ranking(mubin, 4, 2.0f, date, EvaluateClassification.BACKEND));
+        rankingRepository.save(new Ranking(movin, 4, 2.0f, date, EvaluateClassification.BACKEND));
 
         rankingRepository.save(new Ranking(pororo, 2, 4.0f, date, EvaluateClassification.FRONTEND));
         rankingRepository.save(new Ranking(youngsu, 3, 3.0f, date, EvaluateClassification.FRONTEND));
         rankingRepository.save(new Ranking(ash, 4, 2.0f, date, EvaluateClassification.FRONTEND));
-        rankingRepository.save(new Ranking(mubin, 1, 5.0f, date, EvaluateClassification.FRONTEND));
+        rankingRepository.save(new Ranking(movin, 1, 5.0f, date, EvaluateClassification.FRONTEND));
 
         rankingRepository.save(new Ranking(pororo, 4, 2.0f, date, EvaluateClassification.REVIEW));
         rankingRepository.save(new Ranking(youngsu, 1, 5.0f, date, EvaluateClassification.REVIEW));
         rankingRepository.save(new Ranking(ash, 2, 4.0f, date, EvaluateClassification.REVIEW));
-        rankingRepository.save(new Ranking(mubin, 3, 3.0f, date, EvaluateClassification.REVIEW));
+        rankingRepository.save(new Ranking(movin, 3, 3.0f, date, EvaluateClassification.REVIEW));
 
         RankingResponses topRankings = rankingService.findTopRankings();
         Map<String, List<RankingResponse>> responses = topRankings.responses();

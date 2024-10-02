@@ -62,7 +62,7 @@ class AutomaticMatchingExecutorTest {
         Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member ash = memberRepository.save(MemberFixture.MEMBER_ASH());
         Member joysun = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
-        Member movin = memberRepository.save(MemberFixture.MEMBER_MUBIN());
+        Member movin = memberRepository.save(MemberFixture.MEMBER_MOVIN());
         Member ten = memberRepository.save(MemberFixture.MEMBER_TENTEN());
         Member cho = memberRepository.save(MemberFixture.MEMBER_CHOCO());
 
@@ -104,7 +104,7 @@ class AutomaticMatchingExecutorTest {
     void execute() {
         AutomaticMatching automaticMatching = automaticMatchingRepository.save(new AutomaticMatching(room.getId(), room.getRecruitmentDeadline()));
 
-        automaticMatchingExecutor.execute(automaticMatching);
+        automaticMatchingExecutor.execute(automaticMatching.getRoomId());
 
         List<MatchResult> matchResults = matchResultRepository.findAll();
         assertThat(matchResults).isNotEmpty();

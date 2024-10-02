@@ -35,6 +35,8 @@ public class MatchResult {
 
     private String prLink;
 
+    private String reviewLink;
+
     @Enumerated(EnumType.STRING)
     private ReviewStatus reviewStatus;
 
@@ -43,8 +45,12 @@ public class MatchResult {
     private boolean isRevieweeCompletedFeedback;
 
     public MatchResult(long roomId, Member reviewer, Member reviewee, String prLink) {
-        this(null, roomId, reviewer, reviewee, prLink, ReviewStatus.INCOMPLETE, false, false);
+        this(null, roomId, reviewer, reviewee, prLink, "", ReviewStatus.INCOMPLETE, false, false);
         log.info("매칭 결과 [방 번호 ({}) ,리뷰어({}) , 리뷰이({})]", roomId, reviewer.getUsername(), reviewee.getUsername());
+    }
+
+    public MatchResult(long roomId, Member reviewer, Member reviewee, String prLink, boolean isReviewerCompletedFeedback, boolean isRevieweeCompletedFeedback) {
+        this(null, roomId, reviewer, reviewee, prLink, "", ReviewStatus.INCOMPLETE, isReviewerCompletedFeedback, isRevieweeCompletedFeedback);
     }
 
     public static MatchResult of(long roomId, Pair pair, String prLink) {
@@ -65,5 +71,9 @@ public class MatchResult {
 
     public boolean isReviewed() {
         return reviewStatus.isComplete();
+    }
+
+    public void updateReviewLink(String reviewLink) {
+        this.reviewLink = reviewLink;
     }
 }
