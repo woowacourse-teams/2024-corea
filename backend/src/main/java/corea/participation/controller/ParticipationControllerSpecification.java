@@ -28,7 +28,10 @@ public interface ParticipationControllerSpecification {
             AuthInfo authInfo,
 
             @Parameter(description = "참여자 역할", example = "reviewer")
-            String role);
+            String role,
+
+            @Parameter(description = "참여자가 원하는 매칭 인원 수")
+            int matchingSize);
 
     @Operation(summary = "방 참여를 취소합니다.",
             description = "참여 취소를 원하는 방 상세 페이지에 위치한 취소 버튼을 누르면 참여를 취소할 수 있습니다. <br>" +

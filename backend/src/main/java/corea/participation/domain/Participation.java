@@ -34,13 +34,24 @@ public class Participation extends BaseTimeEntity {
     @Enumerated(value = EnumType.STRING)
     private MemberRole memberRole;
 
+    private int matchingSize;
+
     public Participation(Room room, long memberId, String memberGithubId, MemberRole role) {
-        this(null, room, memberId, memberGithubId, role);
+        this(null, room, memberId, memberGithubId, role, 2);
+    }
+
+
+    public Participation(Room room, long memberId, String memberGithubId, int matchingSize) {
+        this(null, room, memberId, memberGithubId, MemberRole.BOTH, matchingSize);
+    }
+
+    public Participation(Room room, long memberId, String memberGithubId) {
+        this(null, room, memberId, memberGithubId, MemberRole.BOTH, 2);
         debug(room.getId(), memberId);
     }
 
     public Participation(Room room, long memberId) {
-        this(null, room, memberId, "", MemberRole.REVIEWER);
+        this(null, room, memberId, "", MemberRole.REVIEWER, 2);
         debug(room.getId(), memberId);
     }
 
