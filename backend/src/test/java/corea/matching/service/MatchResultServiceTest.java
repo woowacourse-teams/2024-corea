@@ -4,8 +4,8 @@ import config.ServiceTest;
 import corea.exception.CoreaException;
 import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
+import corea.matching.domain.DynamicSizeMatchingStrategy;
 import corea.matching.domain.MatchResult;
-import corea.matching.domain.MatchingStrategy;
 import corea.matching.dto.MatchResultResponses;
 import corea.matching.repository.MatchResultRepository;
 import corea.member.domain.Member;
@@ -42,9 +42,9 @@ class MatchResultServiceTest {
     private MatchResultRepository matchResultRepository;
 
     @Autowired
-    private MatchingStrategy matchingStrategy;
+    private DynamicSizeMatchingStrategy matchingStrategy;
 
-    private List<Participation> participations = new ArrayList<>();
+    private final List<Participation> participations = new ArrayList<>();
     private long findMemberId;
     private Room room;
     private int matchingSize = 3;
@@ -54,12 +54,12 @@ class MatchResultServiceTest {
         room = roomRepository.save(RoomFixture.ROOM_DOMAIN(createMember(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON())));
 
         findMemberId = createMember(MemberFixture.MEMBER_YOUNGSU()).getId();
-        participations.add(new Participation(room, findMemberId));
-        participations.add(new Participation(room, createMember(MemberFixture.MEMBER_ASH()).getId()));
-        participations.add(new Participation(room, createMember(MemberFixture.MEMBER_PORORO()).getId()));
-        participations.add(new Participation(room, createMember(MemberFixture.MEMBER_TENTEN()).getId()));
-        participations.add(new Participation(room, createMember(MemberFixture.MEMBER_CHOCO()).getId()));
-        matchResultRepository.saveAll(matchingStrategy.matchPairs(participations, matchingSize)
+        participations.add(new Participation(room, findMemberId, MemberFixture.MEMBER_YOUNGSU().getGithubUserId(), matchingSize));
+        participations.add(new Participation(room, createMember(MemberFixture.MEMBER_ASH()).getId(), MemberFixture.MEMBER_ASH().getGithubUserId(), matchingSize));
+        participations.add(new Participation(room, createMember(MemberFixture.MEMBER_PORORO()).getId(), MemberFixture.MEMBER_PORORO().getGithubUserId(), matchingSize));
+        participations.add(new Participation(room, createMember(MemberFixture.MEMBER_TENTEN()).getId(), MemberFixture.MEMBER_TENTEN().getGithubUserId(), matchingSize));
+        participations.add(new Participation(room, createMember(MemberFixture.MEMBER_CHOCO()).getId(), MemberFixture.MEMBER_CHOCO().getGithubUserId(), matchingSize));
+        matchResultRepository.saveAll(matchingStrategy.matchPairs(participations)
                 .stream()
                 .map(pair -> MatchResult.of(room.getId(), pair, ""))
                 .toList()
