@@ -11,8 +11,8 @@ import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
 import corea.participation.domain.Participation;
 import corea.participation.repository.ParticipationRepository;
-import corea.room.domain.Room;
 import corea.room.domain.ParticipationStatus;
+import corea.room.domain.Room;
 import corea.room.domain.RoomClassification;
 import corea.room.domain.RoomStatus;
 import corea.room.dto.RoomCreateRequest;
@@ -58,14 +58,27 @@ class RoomServiceTest {
     private ParticipationRepository participationRepository;
 
     @ParameterizedTest
-    @CsvSource({"2, PARTICIPATED", "4, NOT_PARTICIPATED"})
-    @DisplayName("해당 방에 자신이 참여 중인지 아닌지를 판단할 수 있다.")
+    @CsvSource({"1, MANAGER", "2, PARTICIPATED", "4, NOT_PARTICIPATED"})
+    @DisplayName("해당 방에 자신이 어떤 상태로 참여 중인지, 혹은 미참여 중인지를 판단할 수 있다.")
     void findOne(long memberId, ParticipationStatus participationStatus) {
         RoomResponse response = roomService.findOne(1, memberId);
 
         ParticipationStatus status = response.participationStatus();
 
         assertThat(status).isEqualTo(participationStatus);
+    }
+
+    @Test
+    @DisplayName("PR을 제출하지 않아 매칭에 실패하면 참여 상태를 변경한다")
+    void findOne_withPullRequestSubmission() {
+        long progressingRoomId = 13;
+        long notMatchedMemberId = 1;
+
+        RoomResponse response = roomService.findOne(progressingRoomId, notMatchedMemberId);
+
+        ParticipationStatus status = response.participationStatus();
+
+        assertThat(status).isEqualTo(ParticipationStatus.PULL_REQUEST_NOT_SUBMITTED);
     }
 
     @Test
