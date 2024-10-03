@@ -34,7 +34,7 @@ class MatchResultRepositoryTest {
     long roomId;
 
     @BeforeEach
-    void set_up() {
+    void setUp() {
         manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
         member = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
         reviewer = memberRepository.save(MemberFixture.MEMBER_ASH());

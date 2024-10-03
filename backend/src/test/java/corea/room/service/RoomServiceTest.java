@@ -69,7 +69,7 @@ class RoomServiceTest {
     }
 
     @Test
-    @DisplayName("해당 방에 참여하고 있으나 PR을 제출하지 않아 매칭 결과가 없는 경우를 판단할 수 있다.")
+    @DisplayName("PR을 제출하지 않아 매칭에 실패하면 참여 상태를 변경한다")
     void findOne_withPullRequestSubmission() {
         long progressingRoomId = 13;
         long notMatchedMemberId = 1;

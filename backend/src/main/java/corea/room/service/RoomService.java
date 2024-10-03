@@ -80,7 +80,7 @@ public class RoomService {
     public RoomResponse findOne(long roomId, long memberId) {
         Room room = getRoom(roomId);
 
-        boolean isManager = room.isMatchingManager(memberId);
+        boolean isManager = room.isManagedBy(memberId);
         boolean isParticipant = participationRepository.existsByRoomIdAndMemberId(roomId, memberId);
         boolean isMatched = matchResultRepository.existsByRoomIdAndMemberId(roomId, memberId);
 
