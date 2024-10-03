@@ -2,58 +2,45 @@ package corea.member.repository;
 
 import corea.fixture.MemberFixture;
 import corea.member.domain.Member;
-import corea.member.domain.Profile;
-import jakarta.persistence.EntityManager;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
+@DataJpaTest
 class MemberRepositoryTest {
 
     @Autowired
     private MemberRepository memberRepository;
 
     @Autowired
-    private EntityManager entityManager;
+    private ProfileRepository profileRepository;
 
-    @Transactional
+    private Member member;
+
+    @BeforeEach
+    void setUp() {
+        member = MemberFixture.MEMBER_PORORO();
+        memberRepository.save(member);
+    }
+
     @Test
     @DisplayName("Member 엔티티를 저장하면 Profile 엔티티도 저장된다.")
     void cascadeSave() {
-        Member member = MemberFixture.MEMBER_PORORO();
-        Member savedMember = memberRepository.save(member);
+        long profileId = member.getProfile().getId();
 
-        entityManager.flush();
-        entityManager.clear();
-
-        Member findMember = entityManager.find(Member.class, savedMember.getId());
-        assertThat(findMember).isNotNull();
-        assertThat(findMember.getProfile().getId()).isNotNull();
-
-        Profile findProfile = entityManager.find(Profile.class, findMember.getProfile().getId());
-        assertThat(findProfile).isNotNull();
+        assertThat(profileRepository.findById(profileId)).isNotEmpty();
     }
 
-    @Transactional
     @Test
     @DisplayName("Member 엔티티를 삭제하면 Profile 엔티티도 삭제된다.")
     void cascadeDelete() {
-        Member member = MemberFixture.MEMBER_PORORO();
-        Member savedMember = memberRepository.save(member);
+        memberRepository.delete(member);
 
-        memberRepository.delete(savedMember);
-        entityManager.flush();
-        entityManager.clear();
-
-        Member findMember = entityManager.find(Member.class, savedMember.getId());
-        assertThat(findMember).isNull();
-
-        Profile findProfile = entityManager.find(Profile.class, savedMember.getProfile().getId());
-        assertThat(findProfile).isNull();
+        long profileId = member.getProfile().getId();
+        assertThat(profileRepository.findById(profileId)).isEmpty();
     }
 }
