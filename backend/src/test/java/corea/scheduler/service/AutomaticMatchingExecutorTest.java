@@ -10,6 +10,7 @@ import corea.matching.infrastructure.dto.PullRequestResponse;
 import corea.matching.repository.MatchResultRepository;
 import corea.matching.service.PullRequestProvider;
 import corea.member.domain.Member;
+import corea.member.domain.MemberRole;
 import corea.member.repository.MemberRepository;
 import corea.participation.domain.Participation;
 import corea.participation.repository.ParticipationRepository;
@@ -68,12 +69,12 @@ class AutomaticMatchingExecutorTest {
 
         room = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_DEADLINE(pororo, LocalDateTime.now().plusSeconds(3)));
 
-        participationRepository.save(new Participation(room, pororo.getId(), pororo.getGithubUserId()));
-        participationRepository.save(new Participation(room, ash.getId(), ash.getGithubUserId()));
-        participationRepository.save(new Participation(room, joysun.getId(), joysun.getGithubUserId()));
-        participationRepository.save(new Participation(room, movin.getId(), movin.getGithubUserId()));
-        participationRepository.save(new Participation(room, ten.getId(), ten.getGithubUserId()));
-        participationRepository.save(new Participation(room, cho.getId(), cho.getGithubUserId()));
+        participationRepository.save(new Participation(room, pororo.getId(), pororo.getGithubUserId(), MemberRole.BOTH));
+        participationRepository.save(new Participation(room, ash.getId(), ash.getGithubUserId(), MemberRole.BOTH));
+        participationRepository.save(new Participation(room, joysun.getId(), joysun.getGithubUserId(), MemberRole.BOTH));
+        participationRepository.save(new Participation(room, movin.getId(), movin.getGithubUserId(), MemberRole.BOTH));
+        participationRepository.save(new Participation(room, ten.getId(), ten.getGithubUserId(), MemberRole.BOTH));
+        participationRepository.save(new Participation(room, cho.getId(), cho.getGithubUserId(), MemberRole.BOTH));
 
         Mockito.when(pullRequestProvider.getUntilDeadline(any(), any()))
                 .thenReturn(new PullRequestInfo(Map.of(

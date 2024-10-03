@@ -1,6 +1,7 @@
 package corea.participation.domain;
 
 import corea.global.BaseTimeEntity;
+import corea.member.domain.MemberRole;
 import corea.room.domain.Room;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -30,13 +31,16 @@ public class Participation extends BaseTimeEntity {
 
     private String memberGithubId;
 
-    public Participation(Room room, long memberId, String memberGithubId) {
-        this(null, room, memberId, memberGithubId);
+    @Enumerated(value = EnumType.STRING)
+    private MemberRole memberRole;
+
+    public Participation(Room room, long memberId, String memberGithubId, MemberRole role) {
+        this(null, room, memberId, memberGithubId, role);
         debug(room.getId(), memberId);
     }
 
     public Participation(Room room, long memberId) {
-        this(null, room, memberId, "");
+        this(null, room, memberId, "", MemberRole.REVIEWER);
         debug(room.getId(), memberId);
     }
 
@@ -44,11 +48,11 @@ public class Participation extends BaseTimeEntity {
         return this.memberId != memberId;
     }
 
-    public void cancel(){
+    public void cancel() {
         room.cancelParticipation();
     }
 
-    public void participate(){
+    public void participate() {
         room.participate();
     }
 
