@@ -4,8 +4,8 @@ import corea.feedback.domain.DevelopFeedback;
 import corea.feedback.domain.SocialFeedback;
 import corea.feedback.repository.DevelopFeedbackRepository;
 import corea.feedback.repository.SocialFeedbackRepository;
+import corea.matching.domain.DynamicSizeMatchingStrategy;
 import corea.matching.domain.MatchResult;
-import corea.matching.domain.MatchingStrategy;
 import corea.matching.repository.MatchResultRepository;
 import corea.member.domain.Member;
 import corea.member.domain.MemberRole;
@@ -41,7 +41,7 @@ public class ContextInitializer implements ApplicationRunner {
     private final MatchResultRepository matchResultRepository;
     private final DevelopFeedbackRepository developFeedbackRepository;
     private final SocialFeedbackRepository socialFeedbackRepository;
-    private final MatchingStrategy matchingStrategy;
+    private final DynamicSizeMatchingStrategy matchingStrategy;
     private final JdbcTemplate jdbcTemplate;
 
     @Override
@@ -179,12 +179,12 @@ public class ContextInitializer implements ApplicationRunner {
 
     private List<Participation> participateRoom(Room room, List<Member> members) {
         return participationRepository.saveAll(members.stream()
-                .map(member -> new Participation(room, member.getId(), member.getGithubUserId(), MemberRole.BOTH))
+                .map(member -> new Participation(room, member.getId(), member.getGithubUserId(), MemberRole.BOTH, room.getMatchingSize()))
                 .toList());
     }
 
     private void matchingAndReview(List<Participation> participations, Room room) {
-        List<MatchResult> matchResults = matchingStrategy.matchPairs(participations, room.getMatchingSize())
+        List<MatchResult> matchResults = matchingStrategy.matchPairs(participations)
                 .stream()
                 .map(pair -> MatchResult.of(room.getId(), pair, ""))
                 .toList();
@@ -193,7 +193,7 @@ public class ContextInitializer implements ApplicationRunner {
     }
 
     private void matchingAndReviewComplete(List<Participation> participations, Room room) {
-        List<MatchResult> matchResults = matchingStrategy.matchPairs(participations, room.getMatchingSize())
+        List<MatchResult> matchResults = matchingStrategy.matchPairs(participations)
                 .stream()
                 .map(pair -> MatchResult.of(room.getId(), pair, ""))
                 .toList();
