@@ -22,7 +22,7 @@ class MemberRoleTest {
     }
 
     @Test
-    @DisplayName("MemberRole에 해당하지 않는 역할의 요청이 들어오면 MEMBER_NOT_FOUND 에러를 반환한다.")
+    @DisplayName("MemberRole에 해당하지 않는 역할의 요청이 들어오면 NOT_FOUND_ERROR 에러를 반환한다.")
     void from_notSupportedMemberRole() {
         assertThatThrownBy(() -> MemberRole.from("error"))
                 .isInstanceOf(CoreaException.class)
