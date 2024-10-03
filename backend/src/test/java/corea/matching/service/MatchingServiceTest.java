@@ -58,7 +58,7 @@ class MatchingServiceTest {
     }
 
     private PullRequestInfo initialize() {
-        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_DEADLINE(memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON()),
+        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON()),
                 LocalDateTime.of(2024, 10, 12, 17, 00)));
         roomId = room.getId();
         Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
