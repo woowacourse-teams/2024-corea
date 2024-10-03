@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -22,7 +23,7 @@ public class DynamicSizeMatchingStrategy {
         Map<Long, Member> memberCache = participations.stream()
                 .map(participation -> memberRepository.findById(participation.getMemberId())
                         .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND)))
-                .collect(Collectors.toMap(Member::getId, member -> member));
+                .collect(Collectors.toMap(Member::getId, Function.identity()));
 
         List<Pair> pairs = new ArrayList<>();
         generatePairs(participations, pairs, memberCache);
@@ -32,9 +33,9 @@ public class DynamicSizeMatchingStrategy {
 
     private void generatePairs(List<Participation> participations, List<Pair> pairs, Map<Long, Member> memberCache) {
         Map<Participation, Integer> reviewerCount = participations.stream()
-                .collect(Collectors.toMap(participation -> participation, participation -> participation.getMatchingSize()));
+                .collect(Collectors.toMap(Function.identity(), Participation::getMatchingSize));
         Map<Participation, Integer> revieweeCount = participations.stream()
-                .collect(Collectors.toMap(participation -> participation, this::getRevieweeMatchingCount));
+                .collect(Collectors.toMap(Function.identity(), this::getRevieweeMatchingCount));
 
         Set<Participation> needToMatch = new HashSet<>(participations);
 
