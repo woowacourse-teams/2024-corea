@@ -116,7 +116,6 @@ const RoomCreatePage = () => {
             <Input
               name="title"
               value={formState.title}
-              showCharCount={true}
               onChange={handleInputChange}
               error={isClickedButton && formState.title === ""}
               required
