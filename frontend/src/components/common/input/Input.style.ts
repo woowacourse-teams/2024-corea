@@ -21,6 +21,6 @@ export const CharCount = styled.div`
   right: 10px;
   bottom: -20px;
 
-  font-size: 12px;
-  color: #888;
+  font: ${({ theme }) => theme.TEXT.xSmall};
+  color: ${({ theme }) => theme.COLOR.grey2};
 `;
