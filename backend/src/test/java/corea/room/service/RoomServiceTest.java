@@ -21,14 +21,12 @@ import corea.room.dto.RoomResponse;
 import corea.room.dto.RoomResponses;
 import corea.room.repository.RoomRepository;
 import org.assertj.core.api.InstanceOfAssertFactories;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -127,9 +125,7 @@ class RoomServiceTest {
         assertThat(response.participationStatus()).isEqualTo(ParticipationStatus.NOT_PARTICIPATED);
     }
 
-    @Disabled
     @Test
-    @Transactional
     @DisplayName("해당 방에 참여하고 있으나 PR을 제출하지 않아 매칭 결과가 없는 경우를 판단할 수 있다.")
     void findOne_withPullRequestSubmission() {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
@@ -144,7 +140,7 @@ class RoomServiceTest {
 
         RoomResponse response = roomService.findOne(room.getId(), pororo.getId());
 
-        assertThat(response.participationStatus()).isEqualTo(ParticipationStatus.HAS_TO_BE_CANCELED);
+        assertThat(response.participationStatus()).isEqualTo(ParticipationStatus.PULL_REQUEST_NOT_SUBMITTED);
     }
 
     @Test
@@ -170,7 +166,7 @@ class RoomServiceTest {
     @ParameterizedTest
     @EnumSource(RoomStatus.class)
     @DisplayName("로그인한 사용자가 자신이 참여하지 않은 방을 상태별로 마감일 임박순으로 조회할 수 있다.")
-    void findRoomsWithRoomStatus(RoomStatus roomStatus) {
+    void findRoomsWithRoomStatus_login_member(RoomStatus roomStatus) {
         Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member ash = memberRepository.save(MemberFixture.MEMBER_ASH());
 
@@ -186,7 +182,7 @@ class RoomServiceTest {
     @ParameterizedTest
     @EnumSource(RoomStatus.class)
     @DisplayName("비로그인 사용자가 방을 상태별로 마감일 임박순으로 조회할 수 있다.")
-    void findRoomsWithRoomStatus_(RoomStatus roomStatus) {
+    void findRoomsWithRoomStatus_non_login_member(RoomStatus roomStatus) {
         Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member ash = memberRepository.save(MemberFixture.MEMBER_ASH());
 

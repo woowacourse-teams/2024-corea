@@ -8,6 +8,7 @@ import corea.matching.domain.MatchResult;
 import corea.matching.domain.MatchingStrategy;
 import corea.matching.repository.MatchResultRepository;
 import corea.member.domain.Member;
+import corea.member.domain.MemberRole;
 import corea.member.repository.MemberRepository;
 import corea.participation.domain.Participation;
 import corea.participation.repository.ParticipationRepository;
@@ -28,7 +29,7 @@ import java.util.List;
 
 import static corea.feedback.domain.FeedbackKeyword.*;
 
-@Profile({"dev","local"})
+@Profile({"dev", "local"})
 @Component
 @Transactional
 @RequiredArgsConstructor
@@ -178,7 +179,7 @@ public class ContextInitializer implements ApplicationRunner {
 
     private List<Participation> participateRoom(Room room, List<Member> members) {
         return participationRepository.saveAll(members.stream()
-                .map(member -> new Participation(room, member.getId(), member.getGithubUserId()))
+                .map(member -> new Participation(room, member.getId(), member.getGithubUserId(), MemberRole.BOTH))
                 .toList());
     }
 

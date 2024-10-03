@@ -101,6 +101,10 @@ public class Room extends BaseTimeEntity {
         status = RoomStatus.CLOSE;
     }
 
+    public boolean isNotOpened() {
+        return status.isNotOpened();
+    }
+
     public boolean isClosed() {
         return status.isClosed();
     }
@@ -109,7 +113,7 @@ public class Room extends BaseTimeEntity {
         return manager.isNotMatchingId(memberId);
     }
 
-    public boolean isManagerId(long managerId) {
+    public boolean isManagedBy(long managerId) {
         return manager.isMatchingId(managerId);
     }
 
@@ -125,4 +129,3 @@ public class Room extends BaseTimeEntity {
         return manager.getName();
     }
 }
-

@@ -67,10 +67,10 @@ class ReviewPullRequestTest {
 
         Room room = roomRepository.save(RoomFixture.ROOM_PULL_REQUEST(manager));
 
-        participationService.participate(new ParticipationRequest(room.getId(), manager.getId()));
-        participationService.participate(new ParticipationRequest(room.getId(), reviewer.getId()));
-        participationService.participate(new ParticipationRequest(room.getId(), reviewee.getId()));
-        participationService.participate(new ParticipationRequest(room.getId(), participant.getId()));
+        participationService.participate(new ParticipationRequest(room.getId(), manager.getId(), "both"));
+        participationService.participate(new ParticipationRequest(room.getId(), reviewer.getId(), "both"));
+        participationService.participate(new ParticipationRequest(room.getId(), reviewee.getId(), "both"));
+        participationService.participate(new ParticipationRequest(room.getId(), participant.getId(), "both"));
 
         PullRequestInfo prInfo = pullRequestProvider.getUntilDeadline(room.getRepositoryLink(), room.getRecruitmentDeadline());
         matchingService.match(room.getId(), prInfo);
