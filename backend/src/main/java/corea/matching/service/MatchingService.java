@@ -2,8 +2,8 @@ package corea.matching.service;
 
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
+import corea.matching.domain.DynamicSizeMatchingStrategy;
 import corea.matching.domain.MatchResult;
-import corea.matching.domain.MatchingStrategy;
 import corea.matching.domain.PullRequestInfo;
 import corea.matching.repository.MatchResultRepository;
 import corea.participation.domain.Participation;
@@ -25,7 +25,7 @@ public class MatchingService {
 
     private static final Logger log = LoggerFactory.getLogger(MatchingService.class);
 
-    private final MatchingStrategy matchingStrategy;
+    private final DynamicSizeMatchingStrategy matchingStrategy;
     private final MatchResultRepository matchResultRepository;
 
     private final ParticipationRepository participationRepository;
@@ -43,7 +43,7 @@ public class MatchingService {
 
         room.toProgress();
 
-        return matchResultRepository.saveAll(matchingStrategy.matchPairs(participations, room.getMatchingSize())
+        return matchResultRepository.saveAll(matchingStrategy.matchPairs(participations)
                 .stream()
                 .map(pair -> MatchResult.of(roomId, pair, pullRequestInfo.getPullrequestLinkWithGithubMemberId(pair.getReceiverGithubId())))
                 .toList());
