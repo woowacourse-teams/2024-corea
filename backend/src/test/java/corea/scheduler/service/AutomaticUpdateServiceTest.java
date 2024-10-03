@@ -19,9 +19,11 @@ import corea.review.service.ReviewService;
 import corea.room.domain.PullRequestReviews;
 import corea.room.dto.RoomResponse;
 import corea.room.service.RoomService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.scheduling.TaskScheduler;
@@ -66,6 +68,14 @@ class AutomaticUpdateServiceTest {
 
     @MockBean
     private GithubOAuthProvider githubOAuthProvider;
+
+    @BeforeEach
+    void setup(){
+        PullRequestReviews pullRequestReviews = Mockito.mock(PullRequestReviews.class);
+        when(pullRequestReviews.getReviewUrl(anyString())).thenReturn("");
+
+        when(githubOAuthProvider.getPullRequestReview(anyString())).thenReturn(pullRequestReviews);
+    }
 
     @Test
     @DisplayName("리뷰 마감 시간이 되면 자동으로 상태를 변경한다.")
@@ -120,7 +130,6 @@ class AutomaticUpdateServiceTest {
                 .plusDays(2);
         RoomResponse response = roomService.create(manager.getId(), RoomFixture.ROOM_CREATE_REQUEST_WITH_REVIEW_DEADLINE(reviewDeadline));
 
-        when(githubOAuthProvider.getPullRequestReview(anyString())).thenReturn(new PullRequestReviews(new GithubPullRequestReview[]{}));
         when(taskScheduler.schedule(any(Runnable.class), any(Instant.class))).thenReturn(mock(ScheduledFuture.class));
 
         Member reviewer = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
@@ -153,7 +162,6 @@ class AutomaticUpdateServiceTest {
                 .plusDays(2);
         RoomResponse response = roomService.create(manager.getId(), RoomFixture.ROOM_CREATE_REQUEST_WITH_REVIEW_DEADLINE(reviewDeadline));
 
-        when(githubOAuthProvider.getPullRequestReview(anyString())).thenReturn(new PullRequestReviews(new GithubPullRequestReview[]{}));
         when(taskScheduler.schedule(any(Runnable.class), any(Instant.class))).thenReturn(mock(ScheduledFuture.class));
 
         Member reviewer = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
@@ -187,7 +195,6 @@ class AutomaticUpdateServiceTest {
                 .plusDays(2);
         RoomResponse response = roomService.create(manager.getId(), RoomFixture.ROOM_CREATE_REQUEST_WITH_REVIEW_DEADLINE(reviewDeadline));
 
-        when(githubOAuthProvider.getPullRequestReview(anyString())).thenReturn(new PullRequestReviews(new GithubPullRequestReview[]{}));
         when(taskScheduler.schedule(any(Runnable.class), any(Instant.class))).thenReturn(mock(ScheduledFuture.class));
 
         Member reviewer = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());

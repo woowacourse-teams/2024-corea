@@ -1,6 +1,7 @@
 package corea.review.service;
 
 import config.ServiceTest;
+import corea.auth.service.GithubOAuthProvider;
 import corea.exception.CoreaException;
 import corea.fixture.MatchResultFixture;
 import corea.fixture.MemberFixture;
@@ -10,15 +11,21 @@ import corea.matching.domain.ReviewStatus;
 import corea.matching.repository.MatchResultRepository;
 import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
+import corea.room.domain.PullRequestReviews;
 import corea.room.domain.Room;
 import corea.room.repository.RoomRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 
 @ServiceTest
 class ReviewServiceTest {
@@ -34,6 +41,17 @@ class ReviewServiceTest {
 
     @Autowired
     private MatchResultRepository matchResultRepository;
+
+    @MockBean
+    private GithubOAuthProvider githubOAuthProvider;
+
+    @BeforeEach
+    void setup(){
+        PullRequestReviews pullRequestReviews = Mockito.mock(PullRequestReviews.class);
+        when(pullRequestReviews.getReviewUrl(anyString())).thenReturn("");
+
+        when(githubOAuthProvider.getPullRequestReview(anyString())).thenReturn(pullRequestReviews);
+    }
 
     @Test
     @Transactional
