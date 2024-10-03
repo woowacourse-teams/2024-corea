@@ -11,7 +11,7 @@ public class MemberFixture {
         return new Member(
                 "youngsu5582",
                 "https://avatars.githubusercontent.com/u/98307410?v=4",
-                null,
+                "이영수",
                 "youngsu5582@gmail.com",
                 false,
                 "98307410"
@@ -22,7 +22,7 @@ public class MemberFixture {
         return new Member(
                 "pororo",
                 "https://avatars.githubusercontent.com/u/98307410?v=4",
-                null,
+                "조경찬",
                 "jcoding-play@gmail.com",
                 false,
                 "119468757"
@@ -33,7 +33,7 @@ public class MemberFixture {
         return new Member(
                 "ashsty",
                 "https://avatars.githubusercontent.com/u/98307410?v=4",
-                null,
+                "박민아",
                 "ashsty@gmail.com",
                 false,
                 "77227961"
@@ -44,7 +44,7 @@ public class MemberFixture {
         return new Member(
                 "hjk0761",
                 "https://avatars.githubusercontent.com/u/98307410?v=4",
-                null,
+                "김현중",
                 "hjk0761@gmail.com",
                 false,
                 "80106238"
@@ -55,7 +55,7 @@ public class MemberFixture {
         return new Member(
                 "joyson5582",
                 "https://avatars.githubusercontent.com/u/98307410?v=4",
-                null,
+                "조이썬",
                 "joyson5582@gmail.com",
                 false,
                 "99112400"
@@ -66,7 +66,7 @@ public class MemberFixture {
         return new Member(
                 "chlwlstlf",
                 "https://avatars.githubusercontent.com/u/98307410?v=4",
-                null,
+                "최진실",
                 "tenten@gmail.com",
                 false,
                 "63334368"
@@ -77,7 +77,7 @@ public class MemberFixture {
         return new Member(
                 "choco",
                 "https://avatars.githubusercontent.com/u/98307410?v=4",
-                null,
+                "강다빈",
                 "choco@gmail.com",
                 false,
                 "70834044"
@@ -88,7 +88,7 @@ public class MemberFixture {
         return new Member(
                 "darr",
                 "https://avatars.githubusercontent.com/u/98307410?v=4",
-                null,
+                "이상엽",
                 "darr@gmail.com",
                 false,
                 "71641127"
