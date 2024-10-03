@@ -31,28 +31,38 @@ public class DynamicSizeMatchingStrategy {
     }
 
     private void generatePairs(List<Participation> participations, List<Pair> pairs, Map<Long, Member> memberCache) {
-        Map<Participation, Integer> matchCount = participations.stream()
-                .collect(Collectors.toMap(participation -> participation, participation -> participation.getMatchingSize() * 2));
+        Map<Participation, Integer> reviewerCount = participations.stream()
+                .collect(Collectors.toMap(participation -> participation, participation -> participation.getMatchingSize()));
+        Map<Participation, Integer> revieweeCount = participations.stream()
+                .collect(Collectors.toMap(participation -> participation, this::getRevieweeMatchingCount));
 
         Set<Participation> needToMatch = new HashSet<>(participations);
 
         while (needToMatch.size() > 1) {
-            pairs.addAll(generateRandomPairs(matchCount, needToMatch, memberCache));
-            removeMatchedParticipation(matchCount, needToMatch);
+            pairs.addAll(generateRandomPairs(reviewerCount, revieweeCount, needToMatch, memberCache));
+            removeMatchedParticipation(reviewerCount, revieweeCount, needToMatch);
         }
     }
 
-    private List<Pair> generateRandomPairs(Map<Participation, Integer> matchCount, Set<Participation> needToMatch, Map<Long, Member> memberCache) {
-        List<Participation> shuffledFirst = new ArrayList<>(needToMatch);
-        List<Participation> shuffledSecond = new ArrayList<>(needToMatch);
+    private int getRevieweeMatchingCount(Participation participation) {
+        if (participation.getMemberRole().isReviewer()) {
+            return 0;
+        }
+        return participation.getMatchingSize();
+    }
 
-        Collections.shuffle(shuffledFirst);
+    private List<Pair> generateRandomPairs(Map<Participation, Integer> reviewerCount, Map<Participation, Integer> revieweeCount, Set<Participation> needToMatch, Map<Long, Member> memberCache) {
+        List<Participation> shuffledReviewer = new ArrayList<>(needToMatch);
+        List<Participation> shuffledReviewee = new ArrayList<>(needToMatch);
+
+        Collections.shuffle(shuffledReviewer);
         do {
-            Collections.shuffle(shuffledSecond);
-        } while (hasSameValue(shuffledFirst, shuffledSecond));
+            Collections.shuffle(shuffledReviewee);
+        } while (hasSameValue(shuffledReviewer, shuffledReviewee));
 
         return IntStream.range(0, needToMatch.size())
-                .mapToObj(i -> makePair(shuffledFirst.get(i), shuffledSecond.get(i), matchCount, memberCache))
+                .filter(i -> !shuffledReviewee.get(i).getMemberRole().isReviewer())
+                .mapToObj(i -> makePair(shuffledReviewer.get(i), shuffledReviewee.get(i), reviewerCount, revieweeCount, memberCache))
                 .toList();
     }
 
@@ -61,15 +71,18 @@ public class DynamicSizeMatchingStrategy {
                 .anyMatch(i -> shuffledFirst.get(i).equals(shuffledSecond.get(i)));
     }
 
-    private Pair makePair(Participation reviewer, Participation reviewee, Map<Participation, Integer> matchCount, Map<Long, Member> memberCache) {
-        matchCount.put(reviewer, matchCount.get(reviewer) - 1);
-        matchCount.put(reviewee, matchCount.get(reviewee) - 1);
+    private Pair makePair(Participation reviewer, Participation reviewee, Map<Participation, Integer> reviewerCount, Map<Participation, Integer> revieweeCount, Map<Long, Member> memberCache) {
+        reviewerCount.put(reviewer, reviewerCount.get(reviewer) - 1);
+        revieweeCount.put(reviewee, revieweeCount.get(reviewee) - 1);
         return new Pair(memberCache.get(reviewer.getMemberId()), memberCache.get(reviewee.getMemberId()));
     }
 
-    private void removeMatchedParticipation(Map<Participation, Integer> matchCount, Set<Participation> needToMatch) {
-        matchCount.entrySet().stream()
+    private void removeMatchedParticipation(Map<Participation, Integer> reviewerCount, Map<Participation, Integer> revieeweeCount, Set<Participation> needToMatch) {
+        reviewerCount.entrySet().stream()
                 .filter(entry -> entry.getValue() == 0)
+                .forEach(entry -> needToMatch.remove(entry.getKey()));
+        revieeweeCount.entrySet().stream()
+                .filter(entry -> entry.getValue() == 0 && !entry.getKey().getMemberRole().isReviewer())
                 .forEach(entry -> needToMatch.remove(entry.getKey()));
     }
 }
