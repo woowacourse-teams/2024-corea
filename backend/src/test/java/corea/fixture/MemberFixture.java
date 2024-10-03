@@ -118,7 +118,11 @@ public class MemberFixture {
         );
     }
 
-    public static List<Member> SEVEN_MEMBERS() {
+    public static List<Member> SIX_MEMBERS() {
         return List.of(MEMBER_PORORO(), MEMBER_ASH(), MEMBER_YOUNGSU(), MEMBER_CHOCO(), MEMBER_MOVIN(), MEMBER_TENTEN());
+    }
+
+    public static List<Member> SEVEN_MEMBERS() {
+        return List.of(MEMBER_PORORO(), MEMBER_ASH(), MEMBER_YOUNGSU(), MEMBER_CHOCO(), MEMBER_MOVIN(), MEMBER_TENTEN(), MEMBER_DARR());
     }
 }
