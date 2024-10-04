@@ -16,7 +16,6 @@ export const BannerContainer = styled.div`
   font-family: "Do Hyeon", sans-serif;
 
   background: linear-gradient(to bottom, #ff7e5f, #feb47b, ${({ theme }) => theme.COLOR.white});
-  transition: background-color 0.3s;
 
   ${media.small`
     display:none;
