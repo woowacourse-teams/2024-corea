@@ -1,5 +1,6 @@
 package corea.ranking.repository;
 
+import config.RepositoryTest;
 import corea.evaluation.domain.EvaluateClassification;
 import corea.fixture.MemberFixture;
 import corea.member.domain.Member;
@@ -8,7 +9,6 @@ import corea.ranking.domain.Ranking;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.PageRequest;
 
 import java.time.LocalDate;
@@ -16,7 +16,7 @@ import java.util.List;
 
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
-@DataJpaTest
+@RepositoryTest
 class RankingRepositoryTest {
 
     @Autowired

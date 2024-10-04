@@ -1,16 +1,16 @@
 package corea.member.repository;
 
+import config.RepositoryTest;
 import corea.fixture.MemberFixture;
 import corea.member.domain.Member;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataJpaTest
+@RepositoryTest
 class MemberRepositoryTest {
 
     @Autowired
