@@ -9,7 +9,7 @@ import { defaultCharacter } from "@/assets";
 
 interface RoomListProps {
   roomList: RoomInfo[];
-  isFetching: boolean;
+  isFetchingNextPage: boolean;
   hasNextPage?: boolean;
   onLoadMore?: () => void;
   roomType: "participated" | "progress" | "opened" | "closed";
@@ -22,9 +22,15 @@ const RoomEmptyText = {
   closed: "모집 마감된 방이 없습니다.",
 };
 
-const RoomList = ({ roomList, isFetching, hasNextPage, onLoadMore, roomType }: RoomListProps) => {
+const RoomList = ({
+  roomList,
+  isFetchingNextPage,
+  hasNextPage,
+  onLoadMore,
+  roomType,
+}: RoomListProps) => {
   const handleClickLoadMore = () => {
-    if (isFetching) return;
+    if (isFetchingNextPage) return;
 
     onLoadMore?.();
   };
@@ -50,7 +56,7 @@ const RoomList = ({ roomList, isFetching, hasNextPage, onLoadMore, roomType }: R
             <RoomCard roomInfo={roomInfo} key={roomInfo.id} />
           ),
         )}
-        {isFetching && (
+        {isFetchingNextPage && (
           <DelaySuspense>
             {Array.from({ length: 8 }).map((_, idx) => (
               <RoomCardSkeleton.Wrapper key={idx} />

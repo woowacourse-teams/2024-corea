@@ -12,13 +12,17 @@ const UserParticipatedRoom = () => {
     <>
       <ContentSection title="참여 중인 방 리스트">
         <RoomList
-          isFetching={isFetching}
+          isFetchingNextPage={isFetching}
           roomList={participatingRoomList}
           roomType="participated"
         />
       </ContentSection>
       <ContentSection title="참여 했던 방 리스트">
-        <RoomList isFetching={isFetching} roomList={participatedRoomList} roomType="participated" />
+        <RoomList
+          isFetchingNextPage={isFetching}
+          roomList={participatedRoomList}
+          roomType="participated"
+        />
       </ContentSection>
     </>
   );
