@@ -1,6 +1,6 @@
 package corea.room.dto;
 
-import corea.room.domain.ParticipationStatus;
+import corea.participation.domain.ParticipationStatus;
 import corea.room.domain.Room;
 import io.swagger.v3.oas.annotations.media.Schema;
 

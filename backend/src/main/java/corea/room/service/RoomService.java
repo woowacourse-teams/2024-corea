@@ -27,7 +27,7 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
-import static corea.room.domain.ParticipationStatus.*;
+import static corea.participation.domain.ParticipationStatus.*;
 
 @Slf4j
 @Service
