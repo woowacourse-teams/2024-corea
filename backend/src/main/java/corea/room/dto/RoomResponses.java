@@ -1,5 +1,6 @@
 package corea.room.dto;
 
+import corea.member.domain.MemberRole;
 import corea.room.domain.ParticipationStatus;
 import corea.room.domain.Room;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -21,13 +22,13 @@ public record RoomResponses(@Schema(description = "방 정보들")
                             int pageNumber
 ) {
 
-    public static RoomResponses of(List<Room> rooms, ParticipationStatus participationStatus, boolean isLastPage, int pageNumber) {
+    public static RoomResponses of(List<Room> rooms, MemberRole role, ParticipationStatus participationStatus, boolean isLastPage, int pageNumber) {
         return rooms.stream()
-                .map(room -> RoomResponse.of(room, participationStatus))
+                .map(room -> RoomResponse.of(room, role, participationStatus))
                 .collect(collectingAndThen(toList(), responses -> new RoomResponses(responses, isLastPage, pageNumber)));
     }
 
-    public static RoomResponses of(Page<Room> roomsWithPage, ParticipationStatus participationStatus, int pageNumber) {
-        return of(roomsWithPage.getContent(), participationStatus, roomsWithPage.isLast(), pageNumber);
+    public static RoomResponses of(Page<Room> roomsWithPage, MemberRole role, ParticipationStatus participationStatus, int pageNumber) {
+        return of(roomsWithPage.getContent(), role, participationStatus, roomsWithPage.isLast(), pageNumber);
     }
 }
