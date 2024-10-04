@@ -64,7 +64,8 @@ const ReviewerFeedbackForm = ({ formState, onChange, modalType }: ReviewerFeedba
           <S.StyledTextarea>{formState.feedbackText}</S.StyledTextarea>
         ) : (
           <Textarea
-            rows={5}
+            rows={10}
+            showCharCount={true}
             maxLength={512}
             placeholder="상대 리뷰어의 소프트 스킬 역량 향상을 위해 피드백을 남겨주세요."
             value={formState.feedbackText}
