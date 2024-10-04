@@ -63,59 +63,59 @@ export const ModalContent = styled.div<{ $isVisible: boolean; $isClosing: boolea
   padding: 2rem;
   background-color: ${({ theme }) => theme.COLOR.white};
 
-  @media screen and (width >= 640px) {
-    ${({ $isVisible }) =>
-      $isVisible &&
-      css`
-        animation: ${fadeIn} 0.5s ease backwards;
-      `}
-    ${({ $isClosing }) =>
-      $isClosing &&
-      css`
-        animation: ${fadeOut} 0.5s ease backwards;
-      `}
-  }
+  ${({ $isVisible, $isClosing }) => css`
+    ${$isVisible &&
+    css`
+      animation: ${fadeIn} 0.5s ease backwards;
+    `}
 
-  @media screen and (width < 640px) {
-    ${({ $isVisible }) =>
-      $isVisible &&
-      css`
-        animation: ${fadeInMobile} 0.5s ease backwards;
-      `}
-    ${({ $isClosing }) =>
+    ${$isClosing &&
+    css`
+      animation: ${fadeOut} 0.5s ease backwards;
+    `}
+
+    ${media.small`
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      height: 70vh;
+      width: 100%;
+      border-radius: 8px 8px 0px 0px;      
+
+      ${
+        $isVisible &&
+        css`
+          animation: ${fadeInMobile} 0.5s ease backwards;
+        `
+      }
+
+    ${
       $isClosing &&
       css`
         animation: ${fadeOutMobile} 0.5s ease backwards;
-      `}
-  }
+      `
+    }
+    `}
 
-  ${media.small`
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    height: 70vh;
-    width:100%;
-    border-radius: 8px 8px 0px 0px;
-  `}
+    ${media.medium`
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 8px;
+      width: 480px;
+      height: 400px;
+    `}
 
-  ${media.medium`
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 8px;
-    width: 480px;
-    height: 400px;
-  `}
-
-  ${media.large`
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 8px;
-    width: 600px;
-    height: 480px;
+    ${media.large`
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 8px;
+      width: 600px;
+      height: 480px;
+    `}
   `}
 `;
 
