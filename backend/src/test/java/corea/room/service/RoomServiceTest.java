@@ -92,9 +92,10 @@ class RoomServiceTest {
     @DisplayName("방을 만든 사람이 방을 조회할 때 자신의 참여 상태가 방장이란 것을 알 수 있다.")
     void findOne_manager() {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
-        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
+        RoomCreateRequest request = RoomFixture.ROOM_CREATE_REQUEST();
+        RoomResponse response = roomService.create(manager.getId(), request);
 
-        RoomResponse response = roomService.findOne(room.getId(), manager.getId());
+        response = roomService.findOne(response.id(), manager.getId());
 
         assertThat(response.participationStatus()).isEqualTo(ParticipationStatus.MANAGER);
     }
