@@ -25,7 +25,7 @@ export const LoadingContainer = styled.div`
   }
 
   path[data-idx="1"] {
-    animation: ${moveUpDown} 3s ease-in-out infinite;
+    animation: ${moveUpDown} 1.5s ease-in-out infinite;
   }
 `;
 
