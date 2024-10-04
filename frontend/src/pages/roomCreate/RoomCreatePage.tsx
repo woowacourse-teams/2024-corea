@@ -146,6 +146,8 @@ const RoomCreatePage = () => {
               value={formState.content}
               onChange={handleInputChange}
               rows={5}
+              showCharCount={true}
+              maxLength={1000}
             />
           </S.ContentInput>
         </S.RowContainer>
