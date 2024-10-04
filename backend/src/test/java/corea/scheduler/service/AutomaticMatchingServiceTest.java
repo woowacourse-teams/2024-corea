@@ -1,6 +1,7 @@
 package corea.scheduler.service;
 
 import config.ServiceTest;
+import corea.member.domain.MemberRole;
 import corea.room.domain.ParticipationStatus;
 import corea.room.dto.RoomResponse;
 import corea.room.service.RoomService;
@@ -102,6 +103,7 @@ class AutomaticMatchingServiceTest {
                 recruitmentDeadline,
                 LocalDateTime.now().plusDays(3),
                 ParticipationStatus.PARTICIPATED,
+                MemberRole.NONE,
                 "OPEN");
     }
 }
