@@ -10,7 +10,7 @@ export const MyRevieweeContainer = styled.div`
 export const MyRevieweeWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  align-items: center;
+  place-items: center center;
   padding: 0.7rem 1rem;
 
   &:not(:last-child) {

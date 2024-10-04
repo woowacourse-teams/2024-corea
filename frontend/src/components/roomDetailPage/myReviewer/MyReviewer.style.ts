@@ -11,7 +11,7 @@ export const MyReviewerContainer = styled.div`
 export const MyReviewerWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  align-items: center;
+  place-items: center center;
   padding: 0.7rem 1rem;
 
   &:not(:last-child) {
