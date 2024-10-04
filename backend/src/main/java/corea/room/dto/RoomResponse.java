@@ -48,7 +48,7 @@ public record RoomResponse(@Schema(description = "방 아이디", example = "1")
                            @Schema(description = "조회한 유저가 방에 참여하고 있는 상태", example = "PARTICIPATED")
                            ParticipationStatus participationStatus,
 
-                           @Schema(description = "조회한 유저가 방에 참여한 역할", example = "BOTH")
+                           @Schema(description = "조회한 유저가 방에 참여한 역할", example = "BOTH, REVIEWER, REVIEWEE, NONE")
                            MemberRole memberRole,
 
                            @Schema(description = "방 상태", example = "OPEN")
