@@ -4,6 +4,8 @@ export type RoomStatus = "OPEN" | "CLOSE" | "PROGRESS";
 
 export type ParticipationStatus = "NOT_PARTICIPATED" | "PARTICIPATED" | "MANAGER";
 
+export type Role = "BOTH" | "REVIEWER" | "REVIEWEE";
+
 interface BaseRoomInfo {
   title: string;
   content: string;
