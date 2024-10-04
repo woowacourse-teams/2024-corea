@@ -12,6 +12,7 @@ import corea.member.domain.Member;
 import corea.member.domain.MemberRole;
 import corea.member.repository.MemberRepository;
 import corea.participation.domain.Participation;
+import corea.participation.domain.ParticipationStatus;
 import corea.participation.repository.ParticipationRepository;
 import corea.room.domain.Room;
 import corea.room.repository.RoomRepository;
@@ -95,6 +96,18 @@ class MatchingServiceTest {
                                 LocalDateTime.of(2024, 10, 12, 18, 01)
                         )
                 ));
+    }
+
+    @Test
+    @DisplayName("PR을 제출하지 않아 매칭에 실패하면 참여 상태를 PULL_REQUEST_NOT_SUBMITTED로 변경한다")
+    void findOne_withPullRequestSubmission() {
+        PullRequestInfo pullRequestInfo = initialize();
+        matchingService.match(roomId, pullRequestInfo);
+
+        Participation participation = participationRepository.findByRoomIdAndMemberId(roomId, noPullRequestMember.getId()).get();
+        ParticipationStatus status = participation.getStatus();
+
+        assertThat(status).isEqualTo(ParticipationStatus.PULL_REQUEST_NOT_SUBMITTED);
     }
 
     @Test

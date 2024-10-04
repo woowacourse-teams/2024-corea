@@ -32,10 +32,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @Transactional
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
@@ -58,7 +60,7 @@ class RoomServiceTest {
     private ParticipationRepository participationRepository;
 
     @ParameterizedTest
-    @CsvSource({"1, MANAGER", "2, PARTICIPATED", "4, NOT_PARTICIPATED"})
+    @CsvSource({"2, PARTICIPATED", "4, NOT_PARTICIPATED"})
     @DisplayName("해당 방에 자신이 어떤 상태로 참여 중인지, 혹은 미참여 중인지를 판단할 수 있다.")
     void findOne(long memberId, ParticipationStatus participationStatus) {
         RoomResponse response = roomService.findOne(1, memberId);
@@ -66,19 +68,6 @@ class RoomServiceTest {
         ParticipationStatus status = response.participationStatus();
 
         assertThat(status).isEqualTo(participationStatus);
-    }
-
-    @Test
-    @DisplayName("PR을 제출하지 않아 매칭에 실패하면 참여 상태를 변경한다")
-    void findOne_withPullRequestSubmission() {
-        long progressingRoomId = 13;
-        long notMatchedMemberId = 1;
-
-        RoomResponse response = roomService.findOne(progressingRoomId, notMatchedMemberId);
-
-        ParticipationStatus status = response.participationStatus();
-
-        assertThat(status).isEqualTo(ParticipationStatus.PULL_REQUEST_NOT_SUBMITTED);
     }
 
     @Test
@@ -232,13 +221,29 @@ class RoomServiceTest {
     }
 
     @Test
+    @DisplayName("방을 생성한 방장의 참여 상태는 MANAGER다.")
+    void create() {
+        Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
+        RoomCreateRequest request = RoomFixture.ROOM_CREATE_REQUEST();
+        RoomResponse response = roomService.create(manager.getId(), request);
+
+        Optional<Participation> participation = participationRepository.findByRoomIdAndMemberId(response.id(), manager.getId());
+
+        assertAll(
+                () -> assertThat(response.manager()).isEqualTo(manager.getName()),
+                () -> assertThat(participation.isPresent()).isTrue(),
+                () -> assertThat(participation.get().getStatus()).isEqualTo(ParticipationStatus.MANAGER)
+        );
+    }
+
+    @Test
     @DisplayName("방을 삭제할 수 있다.")
     void delete() {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
         RoomCreateRequest request = RoomFixture.ROOM_CREATE_REQUEST();
-        RoomResponse roomResponse = roomService.create(manager.getId(), request);
+        RoomResponse response = roomService.create(manager.getId(), request);
 
-        long roomId = roomResponse.id();
+        long roomId = response.id();
         roomService.delete(roomId, manager.getId());
 
         assertThat(roomRepository.findById(roomId)).isEmpty();

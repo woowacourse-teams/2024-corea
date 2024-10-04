@@ -1,6 +1,7 @@
 package corea;
 
 import corea.member.domain.Member;
+import corea.member.domain.MemberRole;
 import corea.member.repository.MemberRepository;
 import corea.participation.domain.Participation;
 import corea.participation.repository.ParticipationRepository;
@@ -182,27 +183,27 @@ public class DataInitializer implements ApplicationRunner {
                         LocalDateTime.of(2024, 12, 30, 12, 20),
                         RoomClassification.ANDROID, RoomStatus.PROGRESS));
 
-        participationRepository.save(new Participation(room1, member2.getId()));
-        participationRepository.save(new Participation(room1, member3.getId()));
+        participationRepository.save(new Participation(room1, member2.getId(), member2.getGithubUserId(), MemberRole.BOTH));
+        participationRepository.save(new Participation(room1, member3.getId(), member3.getGithubUserId(), MemberRole.BOTH));
 
-        participationRepository.save(new Participation(room2, member3.getId()));
-        participationRepository.save(new Participation(room2, member4.getId()));
+        participationRepository.save(new Participation(room2, member3.getId(), member3.getGithubUserId(), MemberRole.BOTH));
+        participationRepository.save(new Participation(room2, member4.getId(), member4.getGithubUserId(), MemberRole.BOTH));
 
-        participationRepository.save(new Participation(room3, member4.getId()));
-        participationRepository.save(new Participation(room3, member5.getId()));
+        participationRepository.save(new Participation(room3, member4.getId(), member4.getGithubUserId(), MemberRole.BOTH));
+        participationRepository.save(new Participation(room3, member5.getId(), member5.getGithubUserId(), MemberRole.BOTH));
 
-        participationRepository.save(new Participation(room4, member5.getId()));
-        participationRepository.save(new Participation(room4, member6.getId()));
+        participationRepository.save(new Participation(room4, member5.getId(), member5.getGithubUserId(), MemberRole.BOTH));
+        participationRepository.save(new Participation(room4, member6.getId(), member6.getGithubUserId(), MemberRole.BOTH));
 
-        participationRepository.save(new Participation(room5, member6.getId()));
-        participationRepository.save(new Participation(room5, member7.getId()));
+        participationRepository.save(new Participation(room5, member6.getId(), member6.getGithubUserId(), MemberRole.BOTH));
+        participationRepository.save(new Participation(room5, member7.getId(), member7.getGithubUserId(), MemberRole.BOTH));
 
-        participationRepository.save(new Participation(room6, member1.getId()));
-        participationRepository.save(new Participation(room6, member7.getId()));
+        participationRepository.save(new Participation(room6, member1.getId(), member1.getGithubUserId(), MemberRole.BOTH));
+        participationRepository.save(new Participation(room6, member7.getId(), member7.getGithubUserId(), MemberRole.BOTH));
 
-        participationRepository.save(new Participation(room7, member1.getId()));
-        participationRepository.save(new Participation(room7, member2.getId()));
+        participationRepository.save(new Participation(room7, member1.getId(), member1.getGithubUserId(), MemberRole.BOTH));
+        participationRepository.save(new Participation(room7, member2.getId(), member2.getGithubUserId(), MemberRole.BOTH));
 
-        participationRepository.save(new Participation(roomProgress, member1.getId()));
+        participationRepository.save(new Participation(roomProgress, member1.getId(), member1.getGithubUserId(), MemberRole.BOTH));
     }
 }

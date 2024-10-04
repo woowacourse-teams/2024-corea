@@ -79,25 +79,9 @@ public class RoomService {
 
     public RoomResponse findOne(long roomId, long memberId) {
         Room room = getRoom(roomId);
-
-        boolean isManager = room.isManagedBy(memberId);
-        boolean isParticipant = participationRepository.existsByRoomIdAndMemberId(roomId, memberId);
-        boolean isMatched = matchResultRepository.existsByRoomIdAndMemberId(roomId, memberId);
-
-        if (pullRequestNotSubmitted(room, isParticipant, isMatched)) {
-            return RoomResponse.of(room, PULL_REQUEST_NOT_SUBMITTED);
-        }
-        if (isManager) {
-            return RoomResponse.of(room, MANAGER);
-        }
-        if (isParticipant) {
-            return RoomResponse.of(room, PARTICIPATED);
-        }
-        return RoomResponse.of(room, NOT_PARTICIPATED);
-    }
-
-    private boolean pullRequestNotSubmitted(Room room, boolean isParticipant, boolean isMatched) {
-        return room.isNotOpened() && isParticipant && !isMatched;
+        return participationRepository.findByRoomIdAndMemberId(roomId, memberId)
+                .map(participation -> RoomResponse.of(room, participation.getStatus()))
+                .orElse(RoomResponse.of(room, NOT_PARTICIPATED));
     }
 
     public RoomResponses findParticipatedRooms(long memberId) {
