@@ -4,7 +4,7 @@ export type RoomStatus = "OPEN" | "CLOSE" | "PROGRESS";
 
 export type ParticipationStatus = "NOT_PARTICIPATED" | "PARTICIPATED" | "MANAGER";
 
-export type Role = "BOTH" | "REVIEWER" | "REVIEWEE";
+export type Role = "BOTH" | "REVIEWER" | "REVIEWEE" | "NONE";
 
 interface BaseRoomInfo {
   title: string;
@@ -27,6 +27,7 @@ export interface RoomInfo extends BaseRoomInfo {
   currentParticipants: number;
   roomStatus: RoomStatus;
   participationStatus: ParticipationStatus;
+  memberRole: Role;
 }
 
 export interface RoomListInfo {
