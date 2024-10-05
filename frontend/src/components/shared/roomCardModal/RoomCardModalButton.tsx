@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useMutateRoom from "@/hooks/mutations/useMutateRoom";
 import Button from "@/components/common/button/Button";
+import Checkbox from "@/components/common/checkbox/Checkbox";
+import * as S from "@/components/shared/roomCardModal/RoomCardModal.style";
 import { Role, RoomInfo } from "@/@types/roomInfo";
 
 interface RoomCardModalButtonProps {
@@ -27,11 +29,7 @@ const RoomCardModalButton = ({ roomInfo }: RoomCardModalButtonProps) => {
   };
 
   const handleRoleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.checked) {
-      setUserRole("REVIEWER");
-    } else {
-      setUserRole("BOTH");
-    }
+    event.target.checked ? setUserRole("REVIEWER") : setUserRole("BOTH");
   };
 
   if (!isLoggedIn) {
@@ -59,13 +57,17 @@ const RoomCardModalButton = ({ roomInfo }: RoomCardModalButtonProps) => {
   }
 
   return (
-    <div>
-      <input type="checkbox" id="reviewer-checkbox" onChange={handleRoleChange} />
-      <label htmlFor="reviewer-checkbox">리뷰어로 참여하기</label>
+    <S.ButtonContainer>
+      <Checkbox
+        id="reviewer-checkbox"
+        label="리뷰어로 참여하기"
+        checked={userRole === "REVIEWER"}
+        onChange={handleRoleChange}
+      />
       <Button variant="primary" size="small" onClick={handleParticipateRoomClick}>
         참여하기
       </Button>
-    </div>
+    </S.ButtonContainer>
   );
 };
 
