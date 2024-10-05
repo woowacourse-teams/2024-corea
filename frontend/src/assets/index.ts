@@ -1,7 +1,7 @@
 export { default as defaultCharacter } from "@/assets/character/default-character.webp";
 export { default as errorCharacter } from "@/assets/character/error-character.webp";
 export { default as happyCharacter } from "@/assets/character/happy-character.webp";
-export { default as thingkingCharacter } from "@/assets/character/thinking-character.webp";
+export { default as thinkingCharacter } from "@/assets/character/thinking-character.webp";
 
 export { default as spinner } from "@/assets/etc/spinner.svg";
 export { default as checkIcon } from "@/assets/etc/checkIcon.svg";
