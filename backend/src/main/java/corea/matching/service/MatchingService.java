@@ -43,7 +43,7 @@ public class MatchingService {
 
         room.toProgress();
 
-        return matchResultRepository.saveAll(matchingStrategy.matchPairs(participations)
+        return matchResultRepository.saveAll(matchingStrategy.matchPairs(participations, room.getMatchingSize())
                 .stream()
                 .map(pair -> MatchResult.of(roomId, pair, pullRequestInfo.getPullrequestLinkWithGithubMemberId(pair.getReceiverGithubId())))
                 .toList());

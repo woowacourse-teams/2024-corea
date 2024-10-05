@@ -184,7 +184,7 @@ public class ContextInitializer implements ApplicationRunner {
     }
 
     private void matchingAndReview(List<Participation> participations, Room room) {
-        List<MatchResult> matchResults = matchingStrategy.matchPairs(participations)
+        List<MatchResult> matchResults = matchingStrategy.matchPairs(participations, room.getMatchingSize())
                 .stream()
                 .map(pair -> MatchResult.of(room.getId(), pair, ""))
                 .toList();
@@ -193,7 +193,7 @@ public class ContextInitializer implements ApplicationRunner {
     }
 
     private void matchingAndReviewComplete(List<Participation> participations, Room room) {
-        List<MatchResult> matchResults = matchingStrategy.matchPairs(participations)
+        List<MatchResult> matchResults = matchingStrategy.matchPairs(participations, room.getMatchingSize())
                 .stream()
                 .map(pair -> MatchResult.of(room.getId(), pair, ""))
                 .toList();

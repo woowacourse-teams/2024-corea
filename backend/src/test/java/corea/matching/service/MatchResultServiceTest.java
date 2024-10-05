@@ -59,7 +59,7 @@ class MatchResultServiceTest {
         participations.add(new Participation(room, createMember(MemberFixture.MEMBER_PORORO()).getId(), MemberFixture.MEMBER_PORORO().getGithubUserId(), matchingSize));
         participations.add(new Participation(room, createMember(MemberFixture.MEMBER_TENTEN()).getId(), MemberFixture.MEMBER_TENTEN().getGithubUserId(), matchingSize));
         participations.add(new Participation(room, createMember(MemberFixture.MEMBER_CHOCO()).getId(), MemberFixture.MEMBER_CHOCO().getGithubUserId(), matchingSize));
-        matchResultRepository.saveAll(matchingStrategy.matchPairs(participations)
+        matchResultRepository.saveAll(matchingStrategy.matchPairs(participations, room.getMatchingSize())
                 .stream()
                 .map(pair -> MatchResult.of(room.getId(), pair, ""))
                 .toList()
