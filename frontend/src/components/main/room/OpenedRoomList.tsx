@@ -14,14 +14,14 @@ const OpenedRoomList = ({ selectedCategory, handleSelectedCategory }: OpenedRoom
     data: openedRoomList,
     fetchNextPage: fetchNextOpenedPage,
     hasNextPage: hasNextOpenedPage,
-    isFetching,
+    isFetchingNextPage,
   } = useInfiniteFetchRoomList({
     queryKey: [QUERY_KEYS.OPENED_ROOM_LIST, selectedCategory],
     getRoomList: getOpenedRoomList,
     classification: selectedCategory,
   });
 
-  const openedRooms = openedRoomList?.pages.flatMap((page) => page.rooms) || [];
+  const openedRooms = openedRoomList.pages.flatMap((page) => page.rooms) || [];
 
   return (
     <RoomListWithDropdown
@@ -30,7 +30,7 @@ const OpenedRoomList = ({ selectedCategory, handleSelectedCategory }: OpenedRoom
       roomList={openedRooms}
       hasNextPage={hasNextOpenedPage}
       onLoadMore={fetchNextOpenedPage}
-      isFetching={isFetching}
+      isFetchingNextPage={isFetchingNextPage}
       roomType="opened"
     />
   );

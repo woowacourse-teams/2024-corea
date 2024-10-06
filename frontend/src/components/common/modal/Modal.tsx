@@ -1,4 +1,4 @@
-import { CSSProperties, MouseEvent, ReactNode, useEffect } from "react";
+import { CSSProperties, MouseEvent, ReactNode, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import * as S from "@/components/common/modal/Modal.style";
 
@@ -15,6 +15,7 @@ export interface ModalProps {
 }
 
 const Modal = ({ isOpen, onClose, hasCloseButton = true, style, children }: ModalProps) => {
+  const [isClosing, setIsClosing] = useState(false);
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -33,11 +34,24 @@ const Modal = ({ isOpen, onClose, hasCloseButton = true, style, children }: Moda
     event.stopPropagation();
   };
 
+  const handleModalClose = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      onClose();
+      setIsClosing(false);
+    }, 500);
+  };
+
   return createPortal(
     <>
-      <S.BackDrop onClick={onClose} />
-      <S.ModalContent onClick={handleModalContainerClick} style={style}>
-        {hasCloseButton && <S.CloseButton onClick={onClose}>&times;</S.CloseButton>}
+      <S.BackDrop onClick={handleModalClose} />
+      <S.ModalContent
+        $isVisible={isOpen}
+        $isClosing={isClosing}
+        onClick={handleModalContainerClick}
+        style={style}
+      >
+        {hasCloseButton && <S.CloseButton onClick={handleModalClose}>&times;</S.CloseButton>}
         {children}
       </S.ModalContent>
     </>,

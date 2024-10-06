@@ -14,7 +14,7 @@ const ClosedRoomList = ({ selectedCategory, handleSelectedCategory }: ClosedRoom
     data: closedRoomList,
     fetchNextPage: fetchNextClosedPage,
     hasNextPage: hasNextClosedPage,
-    isFetching,
+    isFetchingNextPage,
   } = useInfiniteFetchRoomList({
     queryKey: [QUERY_KEYS.CLOSED_ROOM_LIST, selectedCategory],
     getRoomList: getClosedRoomList,
@@ -30,7 +30,7 @@ const ClosedRoomList = ({ selectedCategory, handleSelectedCategory }: ClosedRoom
       roomList={closedRooms}
       hasNextPage={hasNextClosedPage}
       onLoadMore={fetchNextClosedPage}
-      isFetching={isFetching}
+      isFetchingNextPage={isFetchingNextPage}
       roomType="closed"
     />
   );

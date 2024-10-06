@@ -4,12 +4,12 @@ import WithSuspense from "@/components/common/withSuspense/WithSuspense";
 import RoomList from "@/components/shared/roomList/RoomList";
 
 const ParticipatedRoomList = () => {
-  const { data: participatedRoomList, isFetching } = useFetchParticipatedRoomList();
+  const { data: participatedRoomList } = useFetchParticipatedRoomList();
 
   return (
     <ContentSection title="">
       <RoomList
-        isFetching={isFetching}
+        isFetchingNextPage={false}
         roomList={participatedRoomList.rooms}
         roomType="participated"
       />

@@ -3,7 +3,6 @@ import media from "@/styles/media";
 
 export const HeaderContainer = styled.header<{ $isMain: boolean }>`
   position: relative;
-  z-index: 999;
 
   display: flex;
   align-items: center;
