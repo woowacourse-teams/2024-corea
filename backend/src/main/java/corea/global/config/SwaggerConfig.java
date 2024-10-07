@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 @OpenAPIDefinition(
         info = @Info(
                 title = "CoReA OpenAPI 문서",
-                description = "기존 명세와 코드 기반으로 API 목록을 문서화한 페이지입니다. <br><br> 최종 수정일 : 2024-08-08",
+                description = "기존 명세와 코드 기반으로 API 목록을 문서화한 페이지입니다. <br><br> 최종 수정일 : 2024-10-04",
                 version = "v2"
         )
 )

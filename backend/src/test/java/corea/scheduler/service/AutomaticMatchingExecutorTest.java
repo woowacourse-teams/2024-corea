@@ -67,7 +67,7 @@ class AutomaticMatchingExecutorTest {
         Member ten = memberRepository.save(MemberFixture.MEMBER_TENTEN());
         Member cho = memberRepository.save(MemberFixture.MEMBER_CHOCO());
 
-        room = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_DEADLINE(pororo, LocalDateTime.now().plusSeconds(3)));
+        room = roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo, LocalDateTime.now().plusSeconds(3)));
 
         participationRepository.save(new Participation(room, pororo, MemberRole.BOTH));
         participationRepository.save(new Participation(room, ash, MemberRole.BOTH));
