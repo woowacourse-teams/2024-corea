@@ -39,13 +39,13 @@ public class DynamicSizeMatchingStrategy {
         participations = optimizeParticipation(participations, roomMatchingSize);
         participationsWithoutReviewer = optimizeParticipation(participationsWithoutReviewer, roomMatchingSize);
 
-        int count = roomMatchingSize + 1;
+        int currentMatchingSize = roomMatchingSize + 1;
 
-        while (count <= max && !participationsWithoutReviewer.isEmpty()) {
+        while (currentMatchingSize <= max && !participationsWithoutReviewer.isEmpty()) {
             additionalMatchingCycle(participations, participationsWithoutReviewer, pairs, memberCache);
-            participations = optimizeParticipation(participations, count);
-            participationsWithoutReviewer = optimizeParticipation(participationsWithoutReviewer, count);
-            count += 1;
+            participations = optimizeParticipation(participations, currentMatchingSize);
+            participationsWithoutReviewer = optimizeParticipation(participationsWithoutReviewer, currentMatchingSize);
+            currentMatchingSize += 1;
         }
     }
 
@@ -61,15 +61,15 @@ public class DynamicSizeMatchingStrategy {
             long reviewerId = reviewerShuffledIds.pollFirst();
             long revieweeId = revieweeShuffledIds.pollFirst();
 
-            int count = 0;
+            int reviewerSearchCount = 0;
             int originSize = reviewerShuffledIds.size();
 
-            while (count++ < originSize && !possiblePair(reviewerId, revieweeId, pairs)) {
+            while (reviewerSearchCount++ < originSize && !possiblePair(reviewerId, revieweeId, pairs)) {
                 reviewerShuffledIds.add(reviewerId);
                 reviewerId = reviewerShuffledIds.pollFirst();
             }
 
-            if (count <= originSize) {
+            if (reviewerSearchCount <= originSize) {
                 pairs.add(new Pair(memberCache.get(reviewerId), memberCache.get(revieweeId)));
             }
         }
