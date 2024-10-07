@@ -16,13 +16,13 @@ interface RoomCardProps {
 }
 
 const RoomCard = React.memo(({ roomInfo }: RoomCardProps) => {
-  const { isOpen, handleOpenModal, handleCloseModal } = useModal();
+  const { isModalOpen, handleOpenModal, handleCloseModal } = useModal();
 
   const displayedKeywords = roomInfo.keywords.slice(0, MAX_KEYWORDS);
 
   return (
     <>
-      <RoomCardModal isOpen={isOpen} onClose={handleCloseModal} roomInfo={roomInfo} />
+      <RoomCardModal isOpen={isModalOpen} onClose={handleCloseModal} roomInfo={roomInfo} />
 
       <S.RoomCardContainer onClick={handleOpenModal}>
         <S.RoomInfoThumbnail

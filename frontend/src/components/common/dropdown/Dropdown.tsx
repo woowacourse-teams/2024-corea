@@ -14,7 +14,7 @@ interface DropdownProps {
 }
 
 const Dropdown = ({ dropdownItems, onSelectCategory, selectedCategory }: DropdownProps) => {
-  const { isOpen, handleToggleDropdown, dropdownRef } = useDropdown();
+  const { isDropdownOpen, handleToggleDropdown, dropdownRef } = useDropdown();
 
   const handleDropdownItemClick = (category: string) => {
     onSelectCategory(category);
@@ -28,9 +28,9 @@ const Dropdown = ({ dropdownItems, onSelectCategory, selectedCategory }: Dropdow
     <S.DropdownContainer ref={dropdownRef}>
       <S.DropdownToggle onClick={handleToggleDropdown}>
         {selectedItem.text}
-        {isOpen ? <Icon kind="arrowDropUp" /> : <Icon kind="arrowDropDown" />}
+        {isDropdownOpen ? <Icon kind="arrowDropUp" /> : <Icon kind="arrowDropDown" />}
       </S.DropdownToggle>
-      <S.DropdownMenu show={isOpen}>
+      <S.DropdownMenu show={isDropdownOpen}>
         <S.DropdownItemWrapper>
           {dropdownItems.map((item) => (
             <S.DropdownItem key={item.text} onClick={() => handleDropdownItemClick(item.value)}>

@@ -16,7 +16,7 @@ interface MyReviewerProps {
 }
 
 const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
-  const { isOpen, handleOpenModal, handleCloseModal } = useModal();
+  const { isModalOpen, handleOpenModal, handleCloseModal } = useModal();
   const [selectedReviewer, setSelectedReviewer] = useState<ReviewerInfo | null>(null);
   const [feedbackTypeResult, setFeedbackTypeResult] = useState<FeedbackTypeResult | null>(null);
 
@@ -47,7 +47,7 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
       {selectedReviewer && feedbackTypeResult && (
         <ReviewerFeedbackModal
           key={selectedReviewer.username}
-          isOpen={isOpen}
+          isOpen={isModalOpen}
           onClose={() => {
             handleCloseModal();
             setSelectedReviewer(null);

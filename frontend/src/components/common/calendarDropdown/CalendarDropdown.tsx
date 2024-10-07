@@ -16,7 +16,7 @@ const CalendarDropdown = ({
   error = false,
   ...rest
 }: CalendarDropdownProps) => {
-  const { isOpen, handleToggleDropdown, dropdownRef } = useDropdown();
+  const { isDropdownOpen, handleToggleDropdown, dropdownRef } = useDropdown();
 
   const handleDateChange = (newSelectedDate: Date) => {
     handleSelectedDate(newSelectedDate);
@@ -35,7 +35,7 @@ const CalendarDropdown = ({
         $error={error}
         {...rest}
       />
-      {isOpen && (
+      {isDropdownOpen && (
         <Calendar
           selectedDate={selectedDate}
           handleSelectedDate={handleDateChange}
