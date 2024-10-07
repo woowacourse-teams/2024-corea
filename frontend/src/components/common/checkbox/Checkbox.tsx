@@ -1,3 +1,4 @@
+import Icon from "../icon/Icon";
 import React from "react";
 import * as S from "@/components/common/checkbox/Checkbox.style";
 
@@ -10,10 +11,13 @@ interface CheckboxProps {
 
 const Checkbox = ({ id, label, checked, onChange }: CheckboxProps) => {
   return (
-    <S.CheckboxWrapper>
-      <S.CheckboxStyle type="checkbox" id={id} name={id} checked={checked} onChange={onChange} />
-      <S.StyledLabel htmlFor={id}>{label}</S.StyledLabel>
-    </S.CheckboxWrapper>
+    <S.CheckboxLabel htmlFor={id}>
+      <S.CheckboxStyle checked={checked}>
+        <S.HiddenCheckbox type="checkbox" id={id} name={id} checked={checked} onChange={onChange} />
+        <S.CustomCheckbox>{checked && <Icon kind="check" size={16} />}</S.CustomCheckbox>
+      </S.CheckboxStyle>
+      <S.CheckboxText>{label}</S.CheckboxText>
+    </S.CheckboxLabel>
   );
 };
 
