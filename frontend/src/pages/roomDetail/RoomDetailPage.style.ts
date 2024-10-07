@@ -11,6 +11,22 @@ export const Layout = styled.div`
   `}
 `;
 
+export const ParticipatedSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+
+  img {
+    width: 50%;
+    max-width: 200px;
+  }
+
+  p {
+    font: ${({ theme }) => theme.TEXT.medium_bold};
+  }
+`;
+
 export const FeedbackContainer = styled.div`
   display: flex;
   gap: 2rem;

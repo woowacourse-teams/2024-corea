@@ -13,6 +13,7 @@ import RoomInfoCard from "@/components/roomDetailPage/roomInfoCard/RoomInfoCard"
 import * as S from "@/pages/roomDetail/RoomDetailPage.style";
 import QUERY_KEYS from "@/apis/queryKeys";
 import { getRoomDetailInfo } from "@/apis/rooms.api";
+import { defaultCharacter } from "@/assets";
 import MESSAGES from "@/constants/message";
 
 const RoomDetailPage = () => {
@@ -66,6 +67,21 @@ const RoomDetailPage = () => {
           },
         }
       : {};
+
+  if (roomInfo.participationStatus === "NOT_PARTICIPATED") {
+    return (
+      <S.Layout>
+        <ContentSection title="미션 정보" {...buttonProps}>
+          <RoomInfoCard roomInfo={roomInfo} />
+        </ContentSection>
+
+        <S.ParticipatedSection>
+          <img src={defaultCharacter} alt="참여 중인 방이 아닙니다." />
+          <p>참여 중인 방이 아닙니다.</p>
+        </S.ParticipatedSection>
+      </S.Layout>
+    );
+  }
 
   return (
     <S.Layout>
