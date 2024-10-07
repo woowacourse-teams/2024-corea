@@ -4,6 +4,8 @@ export const Layout = styled.div`
   scroll-behavior: smooth;
   scroll-snap-type: y mandatory;
 
+  position: relative;
+
   overflow-y: scroll;
   display: flex;
   flex-direction: column;
@@ -16,6 +18,8 @@ export const Layout = styled.div`
 
 export const ContentLayout = styled.div`
   scroll-snap-align: start;
+
+  position: relative;
 
   display: flex;
   align-items: center;
