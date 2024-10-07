@@ -28,51 +28,51 @@ public class DynamicSizeMatchingStrategy {
         return pairs;
     }
 
-    private void additionalMatching(List<Participation> participations, List<Participation> participationWithoutReviewer, List<Pair> pairs, int roomMatchingSize) {
+    private void additionalMatching(List<Participation> participations, List<Participation> participationsWithoutReviewer, List<Pair> pairs, int roomMatchingSize) {
         Map<Long, Member> memberCache = participations.stream()
                 .map(participation -> memberRepository.findById(participation.getMemberId())
                         .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND)))
                 .collect(Collectors.toMap(Member::getId, Function.identity()));
 
-        ArrayDeque<Long> reviewerIds = getReviewerMemberId(participations, roomMatchingSize);
+        int max = participations.stream().map(Participation::getMatchingSize).mapToInt(x -> x).max().orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND));
 
-        List<Long> revieweeIds = new ArrayList<>(participationWithoutReviewer.stream().map(Participation::getMemberId).toList());
+        participations = optimizeParticipation(participations, roomMatchingSize);
+        participationsWithoutReviewer = optimizeParticipation(participationsWithoutReviewer, roomMatchingSize);
 
-        Collections.shuffle(revieweeIds);
-        int index = 0;
-        int revieweeSize = revieweeIds.size();
+        int count = roomMatchingSize + 1;
 
-        while (!reviewerIds.isEmpty()) {
-            long reviewerId = reviewerIds.pollFirst();
-
-            do {
-                index = (index + 1) % revieweeSize;
-            } while (!possiblePair(reviewerId, revieweeIds.get(index), pairs));
-
-            pairs.add(new Pair(memberCache.get(reviewerId), memberCache.get(revieweeIds.get(index))));
+        while (count <= max && !participationsWithoutReviewer.isEmpty()) {
+            additionalMatchingCycle(participations, participationsWithoutReviewer, pairs, memberCache);
+            participations = optimizeParticipation(participations, count);
+            participationsWithoutReviewer = optimizeParticipation(participationsWithoutReviewer, count);
+            count += 1;
         }
     }
 
-    private ArrayDeque<Long> getReviewerMemberId(List<Participation> participations, int roomMatchingSize) {
-        ArrayDeque<Long> reviewerIds = new ArrayDeque<>();
+    private void additionalMatchingCycle(List<Participation> participations, List<Participation> participationWithoutReviewer, List<Pair> pairs, Map<Long, Member> memberCache) {
+        List<Long> reviewerIds = new ArrayList<>(participations.stream().map(Participation::getMemberId).toList());
+        Collections.shuffle(reviewerIds);
+        ArrayDeque<Long> reviewerShuffledIds = new ArrayDeque<>(reviewerIds);
+        List<Long> revieweeIds = new ArrayList<>(participationWithoutReviewer.stream().map(Participation::getMemberId).toList());
+        Collections.shuffle(revieweeIds);
+        ArrayDeque<Long> revieweeShuffledIds = new ArrayDeque<>(revieweeIds);
 
-        int maxSize = Math.max(participations.stream()
-                .map(Participation::getMatchingSize)
-                .max(Integer::compareTo).orElse(0), roomMatchingSize);
+        while (!revieweeShuffledIds.isEmpty()) {
+            long reviewerId = reviewerShuffledIds.pollFirst();
+            long revieweeId = revieweeShuffledIds.pollFirst();
 
-        for (int i = 0; i < maxSize; i++) {
-            for (Participation participation : participations) {
-                // 리뷰어
-                if (!participation.getMemberRole().isReviewer() && i < roomMatchingSize) {
-                    continue;
-                }
-                if (participation.getMatchingSize() > i) {
-                    reviewerIds.add(participation.getMemberId());
-                }
+            int count = 0;
+            int originSize = reviewerShuffledIds.size();
+
+            while (count++ < originSize && !possiblePair(reviewerId, revieweeId, pairs)) {
+                reviewerShuffledIds.add(reviewerId);
+                reviewerId = reviewerShuffledIds.pollFirst();
+            }
+
+            if (count <= originSize) {
+                pairs.add(new Pair(memberCache.get(reviewerId), memberCache.get(revieweeId)));
             }
         }
-
-        return reviewerIds;
     }
 
     private boolean possiblePair(long reviewerId, long revieweeId, List<Pair> pairs) {
@@ -83,5 +83,11 @@ public class DynamicSizeMatchingStrategy {
         return pairs.stream().noneMatch(
                 pair -> pair.getDeliver().getId().equals(reviewerId) &&
                         pair.getReceiver().getId().equals(revieweeId));
+    }
+
+    private List<Participation> optimizeParticipation(List<Participation> participations, int count) {
+        return participations.stream()
+                .filter(participation -> participation.getMatchingSize() > count)
+                .toList();
     }
 }
