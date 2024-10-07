@@ -1,6 +1,11 @@
 import styled from "styled-components";
 
-export const Textarea = styled.textarea<{ $error: boolean }>`
+export const TextareaWrapper = styled.div`
+  position: relative;
+  width: 100%;
+`;
+
+export const StyledTextarea = styled.textarea<{ $error: boolean }>`
   resize: none;
 
   overflow: hidden auto;
@@ -26,4 +31,13 @@ export const Textarea = styled.textarea<{ $error: boolean }>`
   &::-webkit-scrollbar-track {
     background: rgb(92 92 92 / 10%);
   }
+`;
+
+export const CharCount = styled.div`
+  position: absolute;
+  right: 10px;
+  bottom: -20px;
+
+  font: ${({ theme }) => theme.TEXT.xSmall};
+  color: ${({ theme }) => theme.COLOR.grey2};
 `;
