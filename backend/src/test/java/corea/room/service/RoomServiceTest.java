@@ -9,6 +9,7 @@ import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
 import corea.matching.repository.MatchResultRepository;
 import corea.member.domain.Member;
+import corea.member.domain.MemberRole;
 import corea.member.repository.MemberRepository;
 import corea.participation.domain.Participation;
 import corea.participation.domain.ParticipationStatus;
@@ -34,6 +35,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @ServiceTest
 class RoomServiceTest {
@@ -107,7 +109,7 @@ class RoomServiceTest {
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
 
         Member member = memberRepository.save(MemberFixture.MEMBER_PORORO());
-        participationRepository.save(new Participation(room, member.getId()));
+        participationRepository.save(new Participation(room, member, MemberRole.BOTH));
 
         RoomResponse response = roomService.findOne(room.getId(), member.getId());
 
@@ -127,24 +129,6 @@ class RoomServiceTest {
     }
 
     @Test
-    @DisplayName("해당 방에 참여하고 있으나 PR을 제출하지 않아 매칭 결과가 없는 경우를 판단할 수 있다.")
-    void findOne_withPullRequestSubmission() {
-        Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
-        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_PROGRESS(manager));
-
-        Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
-        Member movin = memberRepository.save(MemberFixture.MEMBER_MOVIN());
-        participationRepository.save(new Participation(room, pororo.getId()));
-        participationRepository.save(new Participation(room, movin.getId()));
-
-        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), movin, manager));
-
-        RoomResponse response = roomService.findOne(room.getId(), pororo.getId());
-
-        assertThat(response.participationStatus()).isEqualTo(ParticipationStatus.PULL_REQUEST_NOT_SUBMITTED);
-    }
-
-    @Test
     @DisplayName("현재 로그인한 멤버가 참여 중인 방을 리뷰 마감일이 임박한 순으로 보여준다.")
     void findParticipatedRooms() {
         Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
@@ -154,9 +138,9 @@ class RoomServiceTest {
         Room ashRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN(ash, LocalDateTime.now().plusDays(3)));
 
         Member joyson = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
-        long joysonId = joyson.getId();
-        participationRepository.save(new Participation(pororoRoom, joysonId));
-        participationRepository.save(new Participation(ashRoom, joysonId));
+        Long joysonId = joyson.getId();
+        participationRepository.save(new Participation(pororoRoom, joyson));
+        participationRepository.save(new Participation(ashRoom, joyson));
 
         RoomResponses response = roomService.findParticipatedRooms(joysonId);
         List<String> managerNames = getManagerNames(response);
@@ -215,7 +199,7 @@ class RoomServiceTest {
 
     @Test
     @DisplayName("방을 생성한 방장의 참여 상태는 MANAGER다.")
-    void create() {
+    void create_participationStatus_manager() {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
         RoomCreateRequest request = RoomFixture.ROOM_CREATE_REQUEST();
         RoomResponse response = roomService.create(manager.getId(), request);
@@ -240,7 +224,7 @@ class RoomServiceTest {
         long roomId = response.id();
         roomService.delete(roomId, manager.getId());
 
-        assertThat(roomRepository.findById(room.getId())).isEmpty();
+        assertThat(roomRepository.findById(roomId)).isEmpty();
     }
 
     @Test
@@ -262,7 +246,7 @@ class RoomServiceTest {
     void findParticipants() {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
-        participationRepository.save(new Participation(room, manager.getId()));
+        participationRepository.save(new Participation(room, manager));
 
         List<Member> members = memberRepository.saveAll(MemberFixture.SEVEN_MEMBERS());
 

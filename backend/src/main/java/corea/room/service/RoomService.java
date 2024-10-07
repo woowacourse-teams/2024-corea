@@ -27,7 +27,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import static corea.participation.domain.ParticipationStatus.*;
 
@@ -56,10 +55,9 @@ public class RoomService {
         Member manager = memberRepository.findById(memberId)
                 .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND));
         Room room = roomRepository.save(request.toEntity(manager));
-        Participation participation = new Participation(room, memberId);
+        Participation participation = new Participation(room, manager);
 
-        participationRepository.save(new Participation(room, manager));
-
+        participationRepository.save(participation);
         automaticMatchingRepository.save(new AutomaticMatching(room.getId(), request.recruitmentDeadline()));
         automaticUpdateRepository.save(new AutomaticUpdate(room.getId(), request.reviewDeadline()));
 
@@ -85,9 +83,8 @@ public class RoomService {
         Room room = getRoom(roomId);
 
         return participationRepository.findByRoomIdAndMemberId(roomId, memberId)
-                .map(participation -> RoomResponse.of(room, participation.getStatus()))
-                .orElse(RoomResponse.of(room, NOT_PARTICIPATED));
-
+                .map(participation -> RoomResponse.of(room, participation.getMemberRole(), participation.getStatus()))
+                .orElse(RoomResponse.of(room, MemberRole.NONE, NOT_PARTICIPATED));
     }
 
     public RoomResponses findParticipatedRooms(long memberId) {
