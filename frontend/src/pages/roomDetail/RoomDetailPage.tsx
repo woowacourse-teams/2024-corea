@@ -58,7 +58,7 @@ const RoomDetailPage = () => {
   };
 
   const buttonProps =
-    roomInfo.roomStatus === "OPEN"
+    roomInfo.roomStatus === "OPEN" && roomInfo.participationStatus !== "NOT_PARTICIPATED"
       ? {
           button: {
             label: roomInfo.participationStatus === "MANAGER" ? "방 삭제하기" : "방 나가기",
