@@ -31,6 +31,13 @@ const meta = {
       },
       description: "textarea의 value",
     },
+    showCharCount: {
+      control: {
+        type: "boolean",
+      },
+      description: "글자수 보여주기 여부",
+      defaultValue: false,
+    },
   },
 } satisfies Meta<typeof Textarea>;
 
@@ -58,4 +65,20 @@ export const Textarea_Row_변경: Story = {
     rows: 10,
   },
   render: (args) => <Textarea error={args.error} rows={args.rows} value={`${args.rows}줄짜리`} />,
+};
+
+export const 글자수_보여주기: Story = {
+  args: {
+    showCharCount: true,
+  },
+};
+
+export const 최대_글자수_보여주기: Story = {
+  args: {
+    showCharCount: true,
+    maxLength: 10,
+  },
+  render: (args) => (
+    <Textarea maxLength={args.maxLength} value={`최대 ${args.maxLength}자 입력할 수 있습니다.`} />
+  ),
 };

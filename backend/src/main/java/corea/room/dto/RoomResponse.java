@@ -1,5 +1,6 @@
 package corea.room.dto;
 
+import corea.member.domain.MemberRole;
 import corea.room.domain.ParticipationStatus;
 import corea.room.domain.Room;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -47,15 +48,19 @@ public record RoomResponse(@Schema(description = "방 아이디", example = "1")
                            @Schema(description = "조회한 유저가 방에 참여하고 있는 상태", example = "PARTICIPATED")
                            ParticipationStatus participationStatus,
 
+                           @Schema(description = "조회한 유저가 방에 참여한 역할", example = "BOTH, REVIEWER, REVIEWEE, NONE")
+                           MemberRole memberRole,
+
                            @Schema(description = "방 상태", example = "OPEN")
                            String roomStatus
 ) {
 
     public static RoomResponse from(Room room) {
-        return RoomResponse.of(room, ParticipationStatus.NOT_PARTICIPATED);
+        return RoomResponse.of(room, MemberRole.BOTH, ParticipationStatus.NOT_PARTICIPATED);
     }
 
-    public static RoomResponse of(Room room, ParticipationStatus participationStatus) {
+    //TODO: Participation 리팩터링 이후에 다시 바뀔 로직 같아서 메서드 이름이나 파라미터 관련 수정은 나중에 제가 할게요~ -애쉬-
+    public static RoomResponse of(Room room, MemberRole role, ParticipationStatus participationStatus) {
         return new RoomResponse(
                 room.getId(),
                 room.getTitle(),
@@ -70,6 +75,7 @@ public record RoomResponse(@Schema(description = "방 아이디", example = "1")
                 room.getRecruitmentDeadline(),
                 room.getReviewDeadline(),
                 participationStatus,
+                role,
                 room.getRoomStatus()
         );
     }

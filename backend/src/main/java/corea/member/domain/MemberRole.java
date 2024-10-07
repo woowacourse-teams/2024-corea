@@ -8,6 +8,7 @@ public enum MemberRole {
     REVIEWER,
     REVIEWEE,
     BOTH,
+    NONE,
     ;
 
     public static MemberRole from(String role) {
