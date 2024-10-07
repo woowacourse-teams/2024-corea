@@ -55,7 +55,7 @@ public class RoomService {
                 .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND));
         Room room = roomRepository.save(request.toEntity(manager));
 
-        participationRepository.save(new Participation(room, memberId));
+        participationRepository.save(new Participation(room, manager));
         automaticMatchingRepository.save(new AutomaticMatching(room.getId(), request.recruitmentDeadline()));
         automaticUpdateRepository.save(new AutomaticUpdate(room.getId(), request.reviewDeadline()));
 
@@ -142,7 +142,7 @@ public class RoomService {
     }
 
     private RoomParticipantResponse getRoomParticipantResponse(long roomId, Participation participant) {
-        return matchResultRepository.findAllByRevieweeIdAndRoomId(participant.getMemberId(), roomId).stream()
+        return matchResultRepository.findAllByRevieweeIdAndRoomId(participant.getMembersId(), roomId).stream()
                 .findFirst()
                 .map(matchResult -> new RoomParticipantResponse(
                         matchResult.getReviewee().getGithubUserId(), matchResult.getReviewee().getUsername(), matchResult.getPrLink(), matchResult.getReviewee().getThumbnailUrl()))

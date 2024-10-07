@@ -25,7 +25,7 @@ public class PlainRandomMatching implements MatchingStrategy {
         validateParticipationSize(participations, matchingSize);
 
         List<Member> members = participations.stream()
-                .map(participation -> memberRepository.findById(participation.getMemberId()))
+                .map(participation -> memberRepository.findById(participation.getMembersId()))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .collect(Collectors.toList());

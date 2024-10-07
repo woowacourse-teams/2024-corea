@@ -1,6 +1,7 @@
 package corea.participation.domain;
 
 import corea.global.BaseTimeEntity;
+import corea.member.domain.Member;
 import corea.member.domain.MemberRole;
 import corea.room.domain.Room;
 import jakarta.persistence.*;
@@ -27,9 +28,9 @@ public class Participation extends BaseTimeEntity {
     @JoinColumn(name = "room_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Room room;
 
-    private long memberId;
-
-    private String memberGithubId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    private Member member;
 
     @Enumerated(value = EnumType.STRING)
     private MemberRole memberRole;
@@ -37,18 +38,18 @@ public class Participation extends BaseTimeEntity {
     @Enumerated(value = EnumType.STRING)
     private ParticipationStatus status;
 
-    public Participation(Room room, long memberId, String memberGithubId, MemberRole role) {
-        this(null, room, memberId, memberGithubId, role, ParticipationStatus.PARTICIPATED);
-        debug(room.getId(), memberId);
+    public Participation(Room room, Member member, MemberRole role) {
+        this(null, room, member, role, ParticipationStatus.PARTICIPATED);
+        debug(room.getId(), member.getId());
     }
 
-    public Participation(Room room, long memberId) {
-        this(null, room, memberId, "", MemberRole.REVIEWER, ParticipationStatus.MANAGER);
-        debug(room.getId(), memberId);
+    public Participation(Room room, Member member) {
+        this(null, room, member, MemberRole.REVIEWER, ParticipationStatus.MANAGER);
+        debug(room.getId(), member.getId());
     }
 
     public boolean isNotMatchingMemberId(long memberId) {
-        return this.memberId != memberId;
+        return this.member.getId() != memberId;
     }
 
     public void cancel() {
@@ -65,6 +66,14 @@ public class Participation extends BaseTimeEntity {
 
     public long getRoomsId() {
         return room.getId();
+    }
+
+    public long getMembersId() {
+        return member.getId();
+    }
+
+    public String getMemberGithubId() {
+        return member.getGithubUserId();
     }
 
     private static void debug(long roomId, long memberId) {
