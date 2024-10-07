@@ -179,7 +179,7 @@ public class ContextInitializer implements ApplicationRunner {
 
     private List<Participation> participateRoom(Room room, List<Member> members) {
         return participationRepository.saveAll(members.stream()
-                .map(member -> new Participation(room, member.getId(), member.getGithubUserId(), MemberRole.BOTH))
+                .map(member -> new Participation(room, member, MemberRole.BOTH))
                 .toList());
     }
 

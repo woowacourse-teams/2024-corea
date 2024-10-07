@@ -52,13 +52,14 @@ class MatchResultServiceTest {
     @BeforeEach
     void setUp() {
         room = roomRepository.save(RoomFixture.ROOM_DOMAIN(createMember(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON())));
+        Member findMember = createMember(MemberFixture.MEMBER_YOUNGSU());
 
-        findMemberId = createMember(MemberFixture.MEMBER_YOUNGSU()).getId();
-        participations.add(new Participation(room, findMemberId));
-        participations.add(new Participation(room, createMember(MemberFixture.MEMBER_ASH()).getId()));
-        participations.add(new Participation(room, createMember(MemberFixture.MEMBER_PORORO()).getId()));
-        participations.add(new Participation(room, createMember(MemberFixture.MEMBER_TENTEN()).getId()));
-        participations.add(new Participation(room, createMember(MemberFixture.MEMBER_CHOCO()).getId()));
+        findMemberId = findMember.getId();
+        participations.add(new Participation(room, findMember));
+        participations.add(new Participation(room, createMember(MemberFixture.MEMBER_ASH())));
+        participations.add(new Participation(room, createMember(MemberFixture.MEMBER_PORORO())));
+        participations.add(new Participation(room, createMember(MemberFixture.MEMBER_TENTEN())));
+        participations.add(new Participation(room, createMember(MemberFixture.MEMBER_CHOCO())));
         matchResultRepository.saveAll(matchingStrategy.matchPairs(participations, matchingSize)
                 .stream()
                 .map(pair -> MatchResult.of(room.getId(), pair, ""))

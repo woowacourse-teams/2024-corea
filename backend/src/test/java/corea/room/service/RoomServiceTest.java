@@ -271,8 +271,8 @@ class RoomServiceTest {
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
 
         List<Member> members = memberRepository.saveAll(MemberFixture.SEVEN_MEMBERS());
-        participationRepository.save(new Participation(room, manager.getId()));
-        participationRepository.saveAll(members.stream().map(member -> new Participation(room, member.getId())).toList());
+        participationRepository.save(new Participation(room, manager));
+        participationRepository.saveAll(members.stream().map(member -> new Participation(room, member)).toList());
         matchResultRepository.saveAll(members.stream().map(member -> MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), manager, member)).toList());
         matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), members.get(0), manager));
 
