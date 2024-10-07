@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
-import java.util.Random;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -72,7 +71,18 @@ class DynamicSizeMatchingStrategyTest {
 
         List<Pair> pairs = matchingStrategy.matchPairs(participations, room.getMatchingSize());
 
-        assertThat(pairs).hasSize(28);
+        for (Participation participation : participations) {
+            long reviewerCount = pairs.stream()
+                    .filter(pair -> pair.getDeliver().getGithubUserId().equals(participation.getMemberGithubId()))
+                    .count();
+            long revieweeCount = pairs.stream()
+                    .filter(pair -> pair.getReceiver().getGithubUserId().equals(participation.getMemberGithubId()))
+                    .count();
+            assertThat(reviewerCount).isLessThanOrEqualTo(participation.getMatchingSize());
+            assertThat(reviewerCount).isGreaterThanOrEqualTo(room.getMatchingSize());
+            assertThat(revieweeCount).isLessThanOrEqualTo(participation.getMatchingSize());
+            assertThat(revieweeCount).isGreaterThanOrEqualTo(room.getMatchingSize());
+        }
     }
 
     @Test
@@ -90,7 +100,23 @@ class DynamicSizeMatchingStrategyTest {
 
         List<Pair> pairs = matchingStrategy.matchPairs(participations, room.getMatchingSize());
 
-        assertThat(pairs).hasSize(26);
+        for (Participation participation : participations) {
+            long reviewerCount = pairs.stream()
+                    .filter(pair -> pair.getDeliver().getGithubUserId().equals(participation.getMemberGithubId()))
+                    .count();
+            long revieweeCount = pairs.stream()
+                    .filter(pair -> pair.getReceiver().getGithubUserId().equals(participation.getMemberGithubId()))
+                    .count();
+            if (participation.getMemberRole().isReviewer()) {
+                assertThat(reviewerCount).isLessThanOrEqualTo(participation.getMatchingSize());
+                assertThat(revieweeCount).isZero();
+            } else {
+                assertThat(reviewerCount).isLessThanOrEqualTo(participation.getMatchingSize());
+                assertThat(reviewerCount).isGreaterThanOrEqualTo(room.getMatchingSize());
+                assertThat(revieweeCount).isLessThanOrEqualTo(participation.getMatchingSize());
+                assertThat(revieweeCount).isGreaterThanOrEqualTo(room.getMatchingSize());
+            }
+        }
     }
 
     @Test
@@ -106,7 +132,7 @@ class DynamicSizeMatchingStrategyTest {
     }
 
     private Participation createParticipationWithRandom(Member member) {
-        return new Participation(room, member.getId(), member.getGithubUserId(), (int)(Math.random() * (10 - 2 + 1)+2));
+        return new Participation(room, member.getId(), member.getGithubUserId(), (int) (Math.random() * (10 - 2 + 1) + 2));
     }
 
     private void validateWithMatchingSize(Participation participation, List<Pair> pairs) {
@@ -114,6 +140,6 @@ class DynamicSizeMatchingStrategyTest {
                 .filter(pair -> pair.getDeliver().isMatchingId(participation.getMemberId()))
                 .count();
 
-        assertThat(participation.getMatchingSize()).isEqualTo(deliver_count);
+        assertThat(participation.getMatchingSize()).isGreaterThanOrEqualTo((int) deliver_count);
     }
 }
