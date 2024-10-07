@@ -6,6 +6,7 @@ import RoomCreatePage from "./pages/roomCreate/RoomCreatePage";
 import { lazy } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import Layout from "@/components/layout/Layout";
+import IntroPage from "@/pages/intro/IntroPage";
 import MainPage from "@/pages/main/MainPage";
 import RoomDetailPage from "@/pages/roomDetail/RoomDetailPage";
 import UserProfile from "@/pages/userProfile/UserProfile";
@@ -24,6 +25,7 @@ const router = sentryCreateBrowserRouter([
         index: true,
         element: <MainPage />,
       },
+      { path: `intro`, element: <IntroPage /> },
       {
         path: `callback`,
         element: <CallbackPage />,
