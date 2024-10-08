@@ -43,7 +43,6 @@ class DynamicSizeMatchingStrategyTest {
     private Member choco;
     private Room room;
 
-
     @BeforeEach
     void setUp() {
         joyson = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
@@ -120,7 +119,8 @@ class DynamicSizeMatchingStrategyTest {
     }
 
     @Test
-    void some() {
+    @DisplayName("다수의 매칭에 대해서 matchingSize 보다 작거나 같은 수의 매칭을 보장한다.")
+    void matchPairsWith100Members() {
         List<Member> members = memberRepository.saveAll(MemberFixture.CREATE_MEMBERS(100));
 
         List<Participation> participations = participationRepository.saveAll(

@@ -123,7 +123,7 @@ public class MemberFixture {
         return List.of(MEMBER_PORORO(), MEMBER_ASH(), MEMBER_YOUNGSU(), MEMBER_CHOCO(), MEMBER_MOVIN(), MEMBER_TENTEN());
     }
 
-    public static List<Member> CREATE_MEMBERS(int index){
+    public static List<Member> CREATE_MEMBERS(int index) {
         return IntStream.range(0,index).mapToObj(idx->new Member(
                 "name : "+(idx+10),
                 "https://avatars.githubusercontent.com/u/98307410?v=4",
