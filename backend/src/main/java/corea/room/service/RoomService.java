@@ -84,7 +84,7 @@ public class RoomService {
 
         return participationRepository.findByRoomIdAndMemberId(roomId, memberId)
                 .map(participation -> RoomResponse.of(room, participation.getMemberRole(), participation.getStatus()))
-                .orElse(RoomResponse.of(room, MemberRole.NONE, NOT_PARTICIPATED));
+                .orElseGet(() -> RoomResponse.of(room, MemberRole.NONE, NOT_PARTICIPATED));
     }
 
     public RoomResponses findParticipatedRooms(long memberId) {
