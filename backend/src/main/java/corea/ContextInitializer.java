@@ -29,8 +29,8 @@ import java.util.List;
 
 import static corea.feedback.domain.FeedbackKeyword.*;
 
-//@Profile({"dev", "local"})
-//@Component
+@Profile({"dev", "local"})
+@Component
 @Transactional
 @RequiredArgsConstructor
 public class ContextInitializer implements ApplicationRunner {
