@@ -22,3 +22,6 @@ export { default as frontendLogo } from "@/assets/logo/javascript-logo.svg";
 export { default as rank1 } from "@/assets/ranking/rank-1.svg";
 export { default as rank2 } from "@/assets/ranking/rank-2.svg";
 export { default as rank3 } from "@/assets/ranking/rank-3.svg";
+
+export { default as question } from "@/assets/intro/question.svg";
+export { default as puzzle_with_people_color } from "@/assets/intro/puzzle_with_people_color.svg";
