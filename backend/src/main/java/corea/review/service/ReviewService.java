@@ -50,7 +50,7 @@ public class ReviewService {
                 .filter(review -> review.user().login().equals(userName))
                 .findFirst()
                 .map(GithubPullRequestReview::html_url)
-                .orElseThrow(()-> new CoreaException(ExceptionType.NOT_COMPLETE_GITHUB_REVIEW));
+                .orElse(prLink);
     }
 
     private MatchResult getMatchResult(long roomId, long reviewerId, long revieweeId) {

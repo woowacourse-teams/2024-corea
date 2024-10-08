@@ -220,7 +220,7 @@ public class ContextInitializer implements ApplicationRunner {
                         pororo,
                         LocalDateTime.of(2024, 10, 3, 18, 0),
                         LocalDateTime.of(2024, 10, 6, 20, 0),
-                        RoomClassification.BACKEND, RoomStatus.OPEN));
+                        RoomClassification.BACKEND, RoomStatus.CLOSE));
         List<Participation> r8Participations = List.of(
                 new Participation(r8, pororo.getId(), pororo.getGithubUserId(), MemberRole.BOTH),
                 new Participation(r8, joysun.getId(), joysun.getGithubUserId(), MemberRole.BOTH),
