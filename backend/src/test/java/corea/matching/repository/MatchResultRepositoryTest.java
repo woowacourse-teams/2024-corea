@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
 @RepositoryTest
 class MatchResultRepositoryTest {
@@ -46,22 +45,6 @@ class MatchResultRepositoryTest {
         matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(roomId, member, manager));
         matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(roomId, reviewer, manager));
         matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(roomId, member, reviewee));
-    }
-
-    @Test
-    @DisplayName("방 아이디와 멤버 아이디로 해당 멤버의 매칭 결과가 존재하는지 조회할 수 있다.")
-    void existsByRoomIdAndMemberId() {
-        Member notMatched = memberRepository.save(MemberFixture.MEMBER_CHOCO());
-
-        boolean isNotMatched = matchResultRepository.existsByRoomIdAndMemberId(roomId, notMatched.getId());
-        boolean isReviewer = matchResultRepository.existsByRoomIdAndMemberId(roomId, reviewer.getId());
-        boolean isReviewee = matchResultRepository.existsByRoomIdAndMemberId(roomId, reviewee.getId());
-
-        assertAll(
-                () -> assertThat(isNotMatched).isFalse(),
-                () -> assertThat(isReviewer).isTrue(),
-                () -> assertThat(isReviewee).isTrue()
-        );
     }
 
     @Test

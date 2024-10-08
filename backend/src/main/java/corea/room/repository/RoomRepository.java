@@ -16,7 +16,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     @Query("""
             SELECT r FROM Room r 
             LEFT JOIN Participation p 
-            ON r = p.room AND p.memberId = :memberId 
+            ON r = p.room AND p.member.id = :memberId 
             WHERE p.id IS NULL AND r.status = :status AND r.manager.id <> :memberId
             ORDER BY r.recruitmentDeadline ASC
             """)
@@ -25,7 +25,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     @Query("""
             SELECT r FROM Room r 
             LEFT JOIN Participation p 
-            ON r = p.room AND p.memberId = :memberId 
+            ON r = p.room AND p.member.id = :memberId 
             WHERE p.id IS NULL AND r.classification = :classification AND r.status = :status AND r.manager.id <> :memberId
             ORDER BY r.recruitmentDeadline ASC
             """)

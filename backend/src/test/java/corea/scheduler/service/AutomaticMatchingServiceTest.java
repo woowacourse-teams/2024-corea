@@ -1,8 +1,11 @@
 package corea.scheduler.service;
 
 import config.ServiceTest;
+
+import corea.participation.domain.ParticipationStatus;
+
 import corea.member.domain.MemberRole;
-import corea.room.domain.ParticipationStatus;
+
 import corea.room.dto.RoomResponse;
 import corea.room.service.RoomService;
 import corea.scheduler.domain.AutomaticMatching;
