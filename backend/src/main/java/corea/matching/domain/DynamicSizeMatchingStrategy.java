@@ -44,28 +44,24 @@ public class DynamicSizeMatchingStrategy {
     }
 
     private void additionalMatchingCycle(List<Participation> participations, List<Participation> participationWithoutReviewer, List<Pair> pairs) {
-        List<Member> reviewers = new ArrayList<>(participations.stream()
+        ArrayDeque<Member> reviewers = new ArrayDeque<>(participations.stream()
                 .map(Participation::getMember)
                 .toList());
-        Collections.shuffle(reviewers);
-        ArrayDeque<Member> shuffledReviewers = new ArrayDeque<>(reviewers);
 
-        List<Member> reviewees = new ArrayList<>(participationWithoutReviewer.stream()
+        ArrayDeque<Member> reviewees = new ArrayDeque<>(participationWithoutReviewer.stream()
                 .map(Participation::getMember)
                 .toList());
-        Collections.shuffle(reviewees);
-        ArrayDeque<Member> shuffledReviewees = new ArrayDeque<>(reviewees);
 
-        while (!shuffledReviewees.isEmpty()) {
-            Member reviewer = shuffledReviewers.pollFirst();
-            Member reviewee = shuffledReviewees.pollFirst();
+        while (!reviewees.isEmpty()) {
+            Member reviewer = reviewers.pollFirst();
+            Member reviewee = reviewees.pollFirst();
 
             int reviewerSearchCount = 0;
-            int originSize = shuffledReviewers.size();
+            int originSize = reviewers.size();
 
             while (reviewerSearchCount++ < originSize && !possiblePair(reviewer, reviewee, pairs)) {
-                shuffledReviewers.add(reviewer);
-                reviewer = shuffledReviewers.pollFirst();
+                reviewers.add(reviewer);
+                reviewer = reviewers.pollFirst();
             }
 
             if (reviewerSearchCount <= originSize) {
