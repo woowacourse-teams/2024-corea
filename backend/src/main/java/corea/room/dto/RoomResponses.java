@@ -1,8 +1,7 @@
 package corea.room.dto;
 
-import corea.participation.domain.ParticipationStatus;
 import corea.member.domain.MemberRole;
-
+import corea.participation.domain.ParticipationStatus;
 import corea.room.domain.Room;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.data.domain.Page;
