@@ -30,16 +30,13 @@ public class DynamicSizeMatchingStrategy {
                 .max()
                 .orElseThrow(() -> new CoreaException(ExceptionType.PARTICIPANT_SIZE_LACK));
 
-        participations = filterUnderMatchedParticipants(participations, roomMatchingSize);
-        participationsWithoutReviewer = filterUnderMatchedParticipants(participationsWithoutReviewer, roomMatchingSize);
-
-        int currentMatchingSize = roomMatchingSize + 1;
-
-        while (currentMatchingSize <= max && !participationsWithoutReviewer.isEmpty()) {
-            additionalMatchingCycle(participations, participationsWithoutReviewer, pairs);
+        for (int currentMatchingSize = roomMatchingSize; currentMatchingSize <= max; currentMatchingSize++) {
             participations = filterUnderMatchedParticipants(participations, currentMatchingSize);
             participationsWithoutReviewer = filterUnderMatchedParticipants(participationsWithoutReviewer, currentMatchingSize);
-            currentMatchingSize += 1;
+            additionalMatchingCycle(participations, participationsWithoutReviewer, pairs);
+            if (participationsWithoutReviewer.isEmpty()) {
+                break;
+            }
         }
     }
 
