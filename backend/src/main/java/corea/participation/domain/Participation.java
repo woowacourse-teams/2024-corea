@@ -36,6 +36,10 @@ public class Participation extends BaseTimeEntity {
 
     private int matchingSize;
 
+    public Participation(Room room, long memberId, String memberGithubId, MemberRole role, int matchingSize) {
+        this(null, room, memberId, memberGithubId, role, matchingSize);
+    }
+
     public Participation(Room room, long memberId, String memberGithubId, MemberRole role) {
         this(null, room, memberId, memberGithubId, role, 2);
     }
