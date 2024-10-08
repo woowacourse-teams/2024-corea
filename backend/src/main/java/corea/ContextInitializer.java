@@ -75,8 +75,8 @@ public class ContextInitializer implements ApplicationRunner {
                         "https://raw.githubusercontent.com/develup-mission/docs/main/image/java-order.webp",
                         List.of("JAVA", "객체지향", "클린코드"), 4, 10,
                         pororo,
-                        LocalDateTime.now().plusDays(2),
-                        LocalDateTime.now().plusDays(5),
+                        LocalDateTime.of(2024, 10, 10, 18, 0),
+                        LocalDateTime.of(2024, 10, 13, 18, 0),
                         RoomClassification.BACKEND, RoomStatus.OPEN));
         List<Participation> r1Participations = List.of(
                 new Participation(r1, pororo.getId(), pororo.getGithubUserId(), MemberRole.BOTH),
@@ -92,8 +92,8 @@ public class ContextInitializer implements ApplicationRunner {
                         "https://raw.githubusercontent.com/develup-mission/docs/main/image/java-guessing-number.webp",
                         List.of("JAVA", "TDD", "클린코드"), 3, 15,
                         ash,
-                        LocalDateTime.now().plusDays(3),
-                        LocalDateTime.now().plusDays(6),
+                        LocalDateTime.of(2024, 10, 11, 20, 0),
+                        LocalDateTime.of(2024, 10, 14, 23, 0),
                         RoomClassification.BACKEND, RoomStatus.OPEN));
         List<Participation> r2Participations = List.of(
                 new Participation(r2, pororo.getId(), pororo.getGithubUserId(), MemberRole.BOTH),
@@ -108,8 +108,8 @@ public class ContextInitializer implements ApplicationRunner {
                         "https://raw.githubusercontent.com/develup-mission/docs/main/image/java-maze.webp",
                         List.of("MVC", "자바", "디자인패턴"), 5, 10,
                         joysun,
-                        LocalDateTime.now().plusDays(1),
-                        LocalDateTime.now().plusDays(3),
+                        LocalDateTime.of(2024, 10, 9, 21, 0),
+                        LocalDateTime.of(2024, 10, 11, 21, 0),
                         RoomClassification.BACKEND, RoomStatus.OPEN));
         List<Participation> r3Participations = List.of(
                 new Participation(r3, pororo.getId(), pororo.getGithubUserId(), MemberRole.BOTH),
@@ -126,8 +126,8 @@ public class ContextInitializer implements ApplicationRunner {
                         "https://raw.githubusercontent.com/develup-mission/docs/main/image/java-elevator.webp",
                         List.of("TDD", "클린코드", "자바"), 6, 20,
                         movin,
-                        LocalDateTime.now().plusDays(4),
-                        LocalDateTime.now().plusDays(7),
+                        LocalDateTime.of(2024, 10, 12, 18, 0),
+                        LocalDateTime.of(2024, 10, 16, 18, 0),
                         RoomClassification.BACKEND, RoomStatus.OPEN));
         List<Participation> r4Participations = List.of(
                 new Participation(r4, pororo.getId(), pororo.getGithubUserId(), MemberRole.BOTH),
@@ -145,8 +145,8 @@ public class ContextInitializer implements ApplicationRunner {
                         "https://raw.githubusercontent.com/develup-mission/docs/main/image/java-word-puzzle.webp",
                         List.of("JAVA", "객체지향", "클린코드"), 6, 25,
                         cho,
-                        LocalDateTime.now().minusDays(2),
-                        LocalDateTime.now().plusDays(2),
+                        LocalDateTime.of(2024, 10, 6, 18, 0),
+                        LocalDateTime.of(2024, 10, 10, 18, 0),
                         RoomClassification.BACKEND, RoomStatus.PROGRESS));
         List<Participation> r5Participations = List.of(
                 new Participation(r5, pororo.getId(), pororo.getGithubUserId(), MemberRole.BOTH),
@@ -168,8 +168,8 @@ public class ContextInitializer implements ApplicationRunner {
                         "https://raw.githubusercontent.com/develup-mission/docs/main/image/react-auth-form.webp",
                         List.of("TYPESCRIPT", "REACT"), 7, 15,
                         ten,
-                        LocalDateTime.now().minusDays(1),
-                        LocalDateTime.now().plusDays(3),
+                        LocalDateTime.of(2024, 10, 7, 23, 0),
+                        LocalDateTime.of(2024, 10, 11, 20, 0),
                         RoomClassification.FRONTEND, RoomStatus.PROGRESS));
         List<Participation> r6Participations = List.of(
                 new Participation(r6, pororo.getId(), pororo.getGithubUserId(), MemberRole.BOTH),
@@ -192,8 +192,8 @@ public class ContextInitializer implements ApplicationRunner {
                         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtiY6mms9QRp80a1IGY1oqnTMmVYe7VmUasA&s",
                         List.of("코틀린"), 7, 30,
                         dar,
-                        LocalDateTime.now().minusDays(7),
-                        LocalDateTime.now().minusDays(1),
+                        LocalDateTime.of(2024, 10, 1, 20, 0),
+                        LocalDateTime.of(2024, 10, 7, 20, 0),
                         RoomClassification.ANDROID, RoomStatus.CLOSE));
         List<Participation> r7Participations = List.of(
                 new Participation(r7, pororo.getId(), pororo.getGithubUserId(), MemberRole.BOTH),
@@ -218,8 +218,8 @@ public class ContextInitializer implements ApplicationRunner {
                         "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Christmas_Tree_and_Presents.jpg/1200px-Christmas_Tree_and_Presents.jpg",
                         List.of("클린코드", "자바", "TDD"), 6, 10,
                         pororo,
-                        LocalDateTime.now().minusHours(1),
-                        LocalDateTime.now().plusDays(14),
+                        LocalDateTime.of(2024, 10, 3, 18, 0),
+                        LocalDateTime.of(2024, 10, 6, 20, 0),
                         RoomClassification.BACKEND, RoomStatus.OPEN));
         List<Participation> r8Participations = List.of(
                 new Participation(r8, pororo.getId(), pororo.getGithubUserId(), MemberRole.BOTH),
