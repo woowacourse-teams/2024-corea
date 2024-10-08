@@ -1,7 +1,7 @@
 import apiClient from "./apiClient";
 import { API_ENDPOINTS } from "./endpoints";
 import { ParticipantListInfo } from "@/@types/participantList";
-import { CreateRoomInfo, RoomInfo, RoomListInfo } from "@/@types/roomInfo";
+import { CreateRoomInfo, Role, RoomInfo, RoomListInfo } from "@/@types/roomInfo";
 import MESSAGES from "@/constants/message";
 
 export const getParticipatedRoomList = async (): Promise<RoomListInfo> => {
@@ -66,9 +66,9 @@ export const postCreateRoom = async (roomData: CreateRoomInfo): Promise<void> =>
   });
 };
 
-export const postParticipateIn = async (roomId: number): Promise<void> => {
+export const postParticipateIn = async (roomId: number, role: Role): Promise<void> => {
   return apiClient.post({
-    endpoint: API_ENDPOINTS.PARTICIPATE_IN(roomId),
+    endpoint: `${API_ENDPOINTS.PARTICIPATE_IN(roomId)}?role=${role}`,
     errorMessage: MESSAGES.ERROR.POST_PARTICIPATE_IN,
   });
 };

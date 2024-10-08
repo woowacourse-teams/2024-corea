@@ -14,7 +14,8 @@
       "recruitmentDeadline": "2024-07-30T15:00",
       "reviewDeadline": "2024-08-10T23:59",
       "roomStatus": "OPEN",
-      "participationStatus": "PARTICIPATED"
+      "participationStatus": "PARTICIPATED",
+      "memberRole": "BOTH"
     },
     {
       "id": 2,
@@ -30,7 +31,8 @@
       "recruitmentDeadline": "2024-07-30T15:00",
       "reviewDeadline": "2024-08-10T23:59",
       "roomStatus": "CLOSE",
-      "participationStatus": "PARTICIPATED"
+      "participationStatus": "PARTICIPATED",
+      "memberRole": "BOTH"
     },
     {
       "id": 2,
@@ -46,7 +48,8 @@
       "recruitmentDeadline": "2024-07-30T15:00",
       "reviewDeadline": "2024-08-10T23:59",
       "roomStatus": "CLOSE",
-      "participationStatus": "PARTICIPATED"
+      "participationStatus": "PARTICIPATED",
+      "memberRole": "REVIEWER"
     },
     {
       "id": 2,
@@ -62,7 +65,8 @@
       "recruitmentDeadline": "2024-07-30T15:00",
       "reviewDeadline": "2024-08-10T23:59",
       "roomStatus": "CLOSE",
-      "participationStatus": "PARTICIPATED"
+      "participationStatus": "PARTICIPATED",
+      "memberRole": "BOTH"
     },
     {
       "id": 2,
@@ -78,7 +82,8 @@
       "recruitmentDeadline": "2024-07-30T15:00",
       "reviewDeadline": "2024-08-10T23:59",
       "roomStatus": "PROGRESS",
-      "participationStatus": "PARTICIPATED"
+      "participationStatus": "PARTICIPATED",
+      "memberRole": "BOTH"
     }
   ],
   "isLastPage": false,
