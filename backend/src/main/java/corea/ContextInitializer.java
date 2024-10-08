@@ -237,46 +237,6 @@ public class ContextInitializer implements ApplicationRunner {
 
         r8MatchResults.forEach(this::reviewSocialAndDevelopFeedback);
 
-        roomRepository.save(
-                new Room("주문", "배달 주문을 받아보자", 2,
-                        "https://github.com/develup-mission/java-order",
-                        "https://raw.githubusercontent.com/develup-mission/docs/main/image/java-order.webp",
-                        List.of("JAVA", "객체지향", "클린코드"), 4, 10,
-                        pororo,
-                        LocalDateTime.now().plusDays(2),
-                        LocalDateTime.now().plusDays(5),
-                        RoomClassification.BACKEND, RoomStatus.OPEN));
-
-        roomRepository.save(
-                new Room("주문", "배달 주문을 받아보자", 2,
-                        "https://github.com/develup-mission/java-order",
-                        "https://raw.githubusercontent.com/develup-mission/docs/main/image/java-order.webp",
-                        List.of("JAVA", "객체지향", "클린코드"), 4, 10,
-                        pororo,
-                        LocalDateTime.now().plusDays(2),
-                        LocalDateTime.now().plusDays(5),
-                        RoomClassification.BACKEND, RoomStatus.OPEN));
-
-        roomRepository.save(
-                new Room("주문", "배달 주문을 받아보자", 2,
-                        "https://github.com/develup-mission/java-order",
-                        "https://raw.githubusercontent.com/develup-mission/docs/main/image/java-order.webp",
-                        List.of("JAVA", "객체지향", "클린코드"), 4, 10,
-                        pororo,
-                        LocalDateTime.now().plusDays(2),
-                        LocalDateTime.now().plusDays(5),
-                        RoomClassification.BACKEND, RoomStatus.OPEN));
-
-        roomRepository.save(
-                new Room("주문", "배달 주문을 받아보자", 2,
-                        "https://github.com/develup-mission/java-order",
-                        "https://raw.githubusercontent.com/develup-mission/docs/main/image/java-order.webp",
-                        List.of("JAVA", "객체지향", "클린코드"), 4, 10,
-                        pororo,
-                        LocalDateTime.now().plusDays(2),
-                        LocalDateTime.now().plusDays(5),
-                        RoomClassification.BACKEND, RoomStatus.OPEN));
-
 //        // 이미 모집 완료되어 매칭까지 진행된 방
 //        Room room1 = roomRepository.save(
 //                new Room("자바 레이싱 카 - MVC", "MVC 패턴을 아시나요?", 2,
