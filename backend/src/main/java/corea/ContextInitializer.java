@@ -46,7 +46,7 @@ public class ContextInitializer implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-//        initialize();
+        initialize();
         Member pororo = memberRepository.save(
                 new Member("jcoding-play", "https://avatars.githubusercontent.com/u/119468757?v=4", "조경찬",
                         "pororo@email.com", true, "119468757"));
@@ -625,15 +625,15 @@ public class ContextInitializer implements ApplicationRunner {
                         RoomClassification.FRONTEND, RoomStatus.CLOSE));
     }
 
-//    private void initialize() {
-//        jdbcTemplate.execute("DELETE FROM login_info;");
-//        jdbcTemplate.execute("DELETE FROM match_result;");
-//        jdbcTemplate.execute("DELETE FROM member;");
-//        jdbcTemplate.execute("DELETE FROM ranking;");
-//        jdbcTemplate.execute("DELETE FROM room;");
-//        jdbcTemplate.execute("DELETE FROM profile;");
-//        jdbcTemplate.execute("DELETE FROM participation;");
-//        jdbcTemplate.execute("DELETE FROM develop_feedback;");
-//        jdbcTemplate.execute("DELETE FROM social_feedback;");
-//    }
+    private void initialize() {
+        jdbcTemplate.execute("DELETE FROM login_info;");
+        jdbcTemplate.execute("DELETE FROM match_result;");
+        jdbcTemplate.execute("DELETE FROM member;");
+        jdbcTemplate.execute("DELETE FROM ranking;");
+        jdbcTemplate.execute("DELETE FROM room;");
+        jdbcTemplate.execute("DELETE FROM profile;");
+        jdbcTemplate.execute("DELETE FROM participation;");
+        jdbcTemplate.execute("DELETE FROM develop_feedback;");
+        jdbcTemplate.execute("DELETE FROM social_feedback;");
+    }
 }
