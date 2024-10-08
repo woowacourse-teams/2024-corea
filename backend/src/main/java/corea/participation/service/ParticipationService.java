@@ -35,7 +35,7 @@ public class ParticipationService {
                 .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND));
         MemberRole memberRole = MemberRole.from(request.role());
 
-        Participation participation = new Participation(getRoom(request.roomId()), member.getId(), member.getGithubUserId(), memberRole, request.matchingSize());
+        Participation participation = new Participation(getRoom(request.roomId()), member, memberRole, request.matchingSize());
         participation.participate();
         return participationRepository.save(participation);
     }

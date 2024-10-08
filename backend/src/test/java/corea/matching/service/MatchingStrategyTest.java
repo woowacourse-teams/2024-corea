@@ -3,13 +3,14 @@ package corea.matching.service;
 import config.ServiceTest;
 import corea.exception.CoreaException;
 import corea.fixture.MemberFixture;
-import corea.fixture.ParticipationFixture;
 import corea.fixture.RoomFixture;
 import corea.matching.domain.MatchingStrategy;
+import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
 import corea.participation.domain.Participation;
 import corea.room.domain.Room;
 import corea.room.repository.RoomRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,18 +33,32 @@ class MatchingStrategyTest {
     @Autowired
     private MemberRepository memberRepository;
 
+    private Room room;
+    private Member manager;
+    private Member joyson;
+    private Member pororo;
+
+    private List<Participation> participations;
+
+    @BeforeEach
+    void setUp() {
+        manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
+        joyson = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
+        pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
+
+        room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
+        participations = new ArrayList<>();
+
+        for (int i = 0; i < 4; i++) {
+            participations.add(new Participation(room, joyson));
+            participations.add(new Participation(room, pororo));
+        }
+    }
+
     @Test
     @DisplayName("인원 수가 매칭 사이즈보다 큰 경우 매칭을 수행한다.")
     void matchMaking() {
-        List<Participation> participations = new ArrayList<>();
         int matchingSize = 3;
-        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(
-                memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON())));
-
-        for (int i = 0; i < 4; i++) {
-            participations.add(new Participation(room, 1L));
-            participations.add(new Participation(room, 2L));
-        }
 
         assertThatCode(() -> matchingStrategy.matchPairs(participations, matchingSize))
                 .doesNotThrowAnyException();
@@ -52,9 +67,6 @@ class MatchingStrategyTest {
     @Test
     @DisplayName("매칭을 수행할 때에, 인원 수가 매칭 사이즈보다 작거나 같으면 예외를 발생한다.")
     void matchMakingLackOfParticipationException() {
-        List<Participation> participations = ParticipationFixture.PARTICIPATIONS_EIGHT(
-                roomRepository.save(RoomFixture.ROOM_DOMAIN(
-                        memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON()))));
         int matchingSize = 9;
 
         assertThatThrownBy(() -> matchingStrategy.matchPairs(participations, matchingSize))

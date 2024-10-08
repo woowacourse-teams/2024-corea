@@ -1,4 +1,4 @@
-package corea.room.domain;
+package corea.participation.domain;
 
 public enum ParticipationStatus {
 

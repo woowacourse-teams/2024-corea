@@ -29,11 +29,6 @@ public class DynamicSizeMatchingStrategy {
     }
 
     private void additionalMatching(List<Participation> participations, List<Participation> participationsWithoutReviewer, List<Pair> pairs, int roomMatchingSize) {
-        Map<Long, Member> memberCache = participations.stream()
-                .map(participation -> memberRepository.findById(participation.getMemberId())
-                        .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND)))
-                .collect(Collectors.toMap(Member::getId, Function.identity()));
-
         int max = participations.stream().map(Participation::getMatchingSize).mapToInt(x -> x).max().orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND));
 
         participations = optimizeParticipation(participations, roomMatchingSize);
@@ -42,47 +37,47 @@ public class DynamicSizeMatchingStrategy {
         int currentMatchingSize = roomMatchingSize + 1;
 
         while (currentMatchingSize <= max && !participationsWithoutReviewer.isEmpty()) {
-            additionalMatchingCycle(participations, participationsWithoutReviewer, pairs, memberCache);
+            additionalMatchingCycle(participations, participationsWithoutReviewer, pairs);
             participations = optimizeParticipation(participations, currentMatchingSize);
             participationsWithoutReviewer = optimizeParticipation(participationsWithoutReviewer, currentMatchingSize);
             currentMatchingSize += 1;
         }
     }
 
-    private void additionalMatchingCycle(List<Participation> participations, List<Participation> participationWithoutReviewer, List<Pair> pairs, Map<Long, Member> memberCache) {
-        List<Long> reviewerIds = new ArrayList<>(participations.stream().map(Participation::getMemberId).toList());
-        Collections.shuffle(reviewerIds);
-        ArrayDeque<Long> reviewerShuffledIds = new ArrayDeque<>(reviewerIds);
-        List<Long> revieweeIds = new ArrayList<>(participationWithoutReviewer.stream().map(Participation::getMemberId).toList());
-        Collections.shuffle(revieweeIds);
-        ArrayDeque<Long> revieweeShuffledIds = new ArrayDeque<>(revieweeIds);
+    private void additionalMatchingCycle(List<Participation> participations, List<Participation> participationWithoutReviewer, List<Pair> pairs) {
+        List<Member> reviewers = new ArrayList<>(participations.stream().map(Participation::getMember).toList());
+        Collections.shuffle(reviewers);
+        ArrayDeque<Member> shuffledReviewers = new ArrayDeque<>(reviewers);
+        List<Member> reviewees = new ArrayList<>(participationWithoutReviewer.stream().map(Participation::getMember).toList());
+        Collections.shuffle(reviewees);
+        ArrayDeque<Member> revieweeShuffledIds = new ArrayDeque<>(reviewees);
 
         while (!revieweeShuffledIds.isEmpty()) {
-            long reviewerId = reviewerShuffledIds.pollFirst();
-            long revieweeId = revieweeShuffledIds.pollFirst();
+            Member reviewer = shuffledReviewers.pollFirst();
+            Member reviewee = revieweeShuffledIds.pollFirst();
 
             int reviewerSearchCount = 0;
-            int originSize = reviewerShuffledIds.size();
+            int originSize = shuffledReviewers.size();
 
-            while (reviewerSearchCount++ < originSize && !possiblePair(reviewerId, revieweeId, pairs)) {
-                reviewerShuffledIds.add(reviewerId);
-                reviewerId = reviewerShuffledIds.pollFirst();
+            while (reviewerSearchCount++ < originSize && !possiblePair(reviewer, reviewee, pairs)) {
+                shuffledReviewers.add(reviewer);
+                reviewer = shuffledReviewers.pollFirst();
             }
 
             if (reviewerSearchCount <= originSize) {
-                pairs.add(new Pair(memberCache.get(reviewerId), memberCache.get(revieweeId)));
+                pairs.add(new Pair(reviewer, reviewee));
             }
         }
     }
 
-    private boolean possiblePair(long reviewerId, long revieweeId, List<Pair> pairs) {
+    private boolean possiblePair(Member reviewerId, Member revieweeId, List<Pair> pairs) {
         if (reviewerId == revieweeId) {
             return false;
         }
 
         return pairs.stream().noneMatch(
-                pair -> pair.getDeliver().getId().equals(reviewerId) &&
-                        pair.getReceiver().getId().equals(revieweeId));
+                pair -> pair.getDeliver().equals(reviewerId) &&
+                        pair.getReceiver().equals(revieweeId));
     }
 
     private List<Participation> optimizeParticipation(List<Participation> participations, int count) {

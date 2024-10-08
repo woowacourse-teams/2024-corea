@@ -27,9 +27,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
-import static corea.room.domain.ParticipationStatus.*;
+import static corea.participation.domain.ParticipationStatus.*;
 
 @Slf4j
 @Service
@@ -56,7 +55,7 @@ public class RoomService {
         Member manager = memberRepository.findById(memberId)
                 .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND));
         Room room = roomRepository.save(request.toEntity(manager));
-        Participation participation = new Participation(room, memberId);
+        Participation participation = new Participation(room, manager);
 
         participationRepository.save(participation);
         automaticMatchingRepository.save(new AutomaticMatching(room.getId(), request.recruitmentDeadline()));
@@ -83,26 +82,9 @@ public class RoomService {
     public RoomResponse findOne(long roomId, long memberId) {
         Room room = getRoom(roomId);
 
-        boolean isManager = room.isManagedBy(memberId);
-        boolean isParticipant = participationRepository.existsByRoomIdAndMemberId(roomId, memberId);
-        boolean isMatched = matchResultRepository.existsByRoomIdAndMemberId(roomId, memberId);
-
-        Optional<Participation> participation = participationRepository.findByRoomIdAndMemberId(roomId, memberId);
-
-        if (pullRequestNotSubmitted(room, isParticipant, isMatched)) {
-            return RoomResponse.of(room, participation.get().getMemberRole(), PULL_REQUEST_NOT_SUBMITTED);
-        }
-        if (isManager) {
-            return RoomResponse.of(room, participation.get().getMemberRole(), MANAGER);
-        }
-        if (isParticipant) {
-            return RoomResponse.of(room, participation.get().getMemberRole(), PARTICIPATED);
-        }
-        return RoomResponse.of(room, MemberRole.NONE, NOT_PARTICIPATED);
-    }
-
-    private boolean pullRequestNotSubmitted(Room room, boolean isParticipant, boolean isMatched) {
-        return room.isNotOpened() && isParticipant && !isMatched;
+        return participationRepository.findByRoomIdAndMemberId(roomId, memberId)
+                .map(participation -> RoomResponse.of(room, participation.getMemberRole(), participation.getStatus()))
+                .orElseGet(() -> RoomResponse.of(room, MemberRole.NONE, NOT_PARTICIPATED));
     }
 
     public RoomResponses findParticipatedRooms(long memberId) {
@@ -163,7 +145,7 @@ public class RoomService {
     }
 
     private RoomParticipantResponse getRoomParticipantResponse(long roomId, Participation participant) {
-        return matchResultRepository.findAllByRevieweeIdAndRoomId(participant.getMemberId(), roomId).stream()
+        return matchResultRepository.findAllByRevieweeIdAndRoomId(participant.getMembersId(), roomId).stream()
                 .findFirst()
                 .map(matchResult -> new RoomParticipantResponse(
                         matchResult.getReviewee().getGithubUserId(), matchResult.getReviewee().getUsername(), matchResult.getPrLink(), matchResult.getReviewee().getThumbnailUrl()))

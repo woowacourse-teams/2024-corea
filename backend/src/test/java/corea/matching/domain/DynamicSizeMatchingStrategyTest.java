@@ -60,13 +60,13 @@ class DynamicSizeMatchingStrategyTest {
     @DisplayName("다양한 matchingSize 에 맞게 매칭 결과를 생성한다.")
     void matchPairs() {
         List<Participation> participations = participationRepository.saveAll(List.of(
-                new Participation(room, joyson.getId(), joyson.getGithubUserId(), 5),
-                new Participation(room, movin.getId(), movin.getGithubUserId(), 2),
-                new Participation(room, pororo.getId(), pororo.getGithubUserId(), 6),
-                new Participation(room, ash.getId(), ash.getGithubUserId(), 4),
-                new Participation(room, tenten.getId(), tenten.getGithubUserId(), 6),
-                new Participation(room, darr.getId(), darr.getGithubUserId(), 2),
-                new Participation(room, choco.getId(), choco.getGithubUserId(), 3)
+                new Participation(room, joyson, MemberRole.BOTH, 5),
+                new Participation(room, movin, MemberRole.BOTH, 2),
+                new Participation(room, pororo, MemberRole.BOTH, 6),
+                new Participation(room, ash, MemberRole.BOTH, 4),
+                new Participation(room, tenten, MemberRole.BOTH, 6),
+                new Participation(room, darr, MemberRole.BOTH, 2),
+                new Participation(room, choco, MemberRole.BOTH, 3)
         ));
 
         List<Pair> pairs = matchingStrategy.matchPairs(participations, room.getMatchingSize());
@@ -89,13 +89,13 @@ class DynamicSizeMatchingStrategyTest {
     @DisplayName("리뷰어가 포함된 다양한 matchingSize 에 맞게 매칭 결과를 생성한다.")
     void matchPairsWithReviewer() {
         List<Participation> participations = participationRepository.saveAll(List.of(
-                new Participation(room, joyson.getId(), joyson.getGithubUserId(), 5),
-                new Participation(room, movin.getId(), movin.getGithubUserId(), 2),
-                new Participation(room, pororo.getId(), pororo.getGithubUserId(), 5),
-                new Participation(room, ash.getId(), ash.getGithubUserId(), 4),
-                new Participation(room, tenten.getId(), tenten.getGithubUserId(), 5),
-                new Participation(room, darr.getId(), darr.getGithubUserId(), 2),
-                new Participation(room, choco.getId(), choco.getGithubUserId(), MemberRole.REVIEWER, 3)
+                new Participation(room, joyson, MemberRole.BOTH, 5),
+                new Participation(room, movin, MemberRole.BOTH, 2),
+                new Participation(room, pororo, MemberRole.BOTH, 5),
+                new Participation(room, ash, MemberRole.BOTH, 4),
+                new Participation(room, tenten, MemberRole.BOTH, 5),
+                new Participation(room, darr, MemberRole.BOTH, 2),
+                new Participation(room, choco, MemberRole.REVIEWER, 3)
         ));
 
         List<Pair> pairs = matchingStrategy.matchPairs(participations, room.getMatchingSize());
@@ -132,12 +132,12 @@ class DynamicSizeMatchingStrategyTest {
     }
 
     private Participation createParticipationWithRandom(Member member) {
-        return new Participation(room, member.getId(), member.getGithubUserId(), (int) (Math.random() * (10 - 2 + 1) + 2));
+        return new Participation(room, member, MemberRole.BOTH, (int) (Math.random() * (10 - 2 + 1) + 2));
     }
 
     private void validateWithMatchingSize(Participation participation, List<Pair> pairs) {
         long deliver_count = pairs.stream()
-                .filter(pair -> pair.getDeliver().isMatchingId(participation.getMemberId()))
+                .filter(pair -> pair.getDeliver().isMatchingId(participation.getMember().getId()))
                 .count();
 
         assertThat(participation.getMatchingSize()).isGreaterThanOrEqualTo((int) deliver_count);

@@ -52,6 +52,11 @@ public class MatchingService {
     private List<Participation> getParticipationsWithPullrequestSubmitted(PullRequestInfo pullRequestInfo, long roomId) {
         return participationRepository.findAllByRoomId(roomId)
                 .stream()
+                .peek(participation -> {
+                    if (!pullRequestInfo.containsGithubMemberId(participation.getMemberGithubId())) {
+                        participation.invalidate();
+                    }
+                })
                 .filter(participation -> pullRequestInfo.containsGithubMemberId(participation.getMemberGithubId()))
                 .toList();
     }

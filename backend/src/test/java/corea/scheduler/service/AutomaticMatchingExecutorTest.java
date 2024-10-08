@@ -69,12 +69,12 @@ class AutomaticMatchingExecutorTest {
 
         room = roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo, LocalDateTime.now().plusSeconds(3)));
 
-        participationRepository.save(new Participation(room, pororo.getId(), pororo.getGithubUserId(), MemberRole.BOTH));
-        participationRepository.save(new Participation(room, ash.getId(), ash.getGithubUserId(), MemberRole.BOTH));
-        participationRepository.save(new Participation(room, joysun.getId(), joysun.getGithubUserId(), MemberRole.BOTH));
-        participationRepository.save(new Participation(room, movin.getId(), movin.getGithubUserId(), MemberRole.BOTH));
-        participationRepository.save(new Participation(room, ten.getId(), ten.getGithubUserId(), MemberRole.BOTH));
-        participationRepository.save(new Participation(room, cho.getId(), cho.getGithubUserId(), MemberRole.BOTH));
+        participationRepository.save(new Participation(room, pororo, MemberRole.BOTH, room.getMatchingSize()));
+        participationRepository.save(new Participation(room, ash, MemberRole.BOTH, room.getMatchingSize()));
+        participationRepository.save(new Participation(room, joysun, MemberRole.BOTH, room.getMatchingSize()));
+        participationRepository.save(new Participation(room, movin, MemberRole.BOTH, room.getMatchingSize()));
+        participationRepository.save(new Participation(room, ten, MemberRole.BOTH, room.getMatchingSize()));
+        participationRepository.save(new Participation(room, cho, MemberRole.BOTH, room.getMatchingSize()));
 
         Mockito.when(pullRequestProvider.getUntilDeadline(any(), any()))
                 .thenReturn(new PullRequestInfo(Map.of(

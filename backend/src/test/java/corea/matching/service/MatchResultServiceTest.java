@@ -4,8 +4,8 @@ import config.ServiceTest;
 import corea.exception.CoreaException;
 import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
-import corea.matching.domain.DynamicSizeMatchingStrategy;
 import corea.matching.domain.MatchResult;
+import corea.matching.domain.MatchingStrategy;
 import corea.matching.dto.MatchResultResponses;
 import corea.matching.repository.MatchResultRepository;
 import corea.member.domain.Member;
@@ -42,10 +42,10 @@ class MatchResultServiceTest {
     private MatchResultRepository matchResultRepository;
 
     @Autowired
-    private DynamicSizeMatchingStrategy matchingStrategy;
+    private MatchingStrategy matchingStrategy;
 
-    private final List<Participation> participations = new ArrayList<>();
-    private long findMemberId;
+    private List<Participation> participations = new ArrayList<>();
+    private Member findMember;
     private Room room;
     private int matchingSize = 3;
 
@@ -53,13 +53,13 @@ class MatchResultServiceTest {
     void setUp() {
         room = roomRepository.save(RoomFixture.ROOM_DOMAIN(createMember(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON())));
 
-        findMemberId = createMember(MemberFixture.MEMBER_YOUNGSU()).getId();
-        participations.add(new Participation(room, findMemberId, MemberFixture.MEMBER_YOUNGSU().getGithubUserId(), matchingSize));
-        participations.add(new Participation(room, createMember(MemberFixture.MEMBER_ASH()).getId(), MemberFixture.MEMBER_ASH().getGithubUserId(), matchingSize));
-        participations.add(new Participation(room, createMember(MemberFixture.MEMBER_PORORO()).getId(), MemberFixture.MEMBER_PORORO().getGithubUserId(), matchingSize));
-        participations.add(new Participation(room, createMember(MemberFixture.MEMBER_TENTEN()).getId(), MemberFixture.MEMBER_TENTEN().getGithubUserId(), matchingSize));
-        participations.add(new Participation(room, createMember(MemberFixture.MEMBER_CHOCO()).getId(), MemberFixture.MEMBER_CHOCO().getGithubUserId(), matchingSize));
-        matchResultRepository.saveAll(matchingStrategy.matchPairs(participations, room.getMatchingSize())
+        findMember = createMember(MemberFixture.MEMBER_YOUNGSU());
+        participations.add(new Participation(room, findMember));
+        participations.add(new Participation(room, createMember(MemberFixture.MEMBER_ASH())));
+        participations.add(new Participation(room, createMember(MemberFixture.MEMBER_PORORO())));
+        participations.add(new Participation(room, createMember(MemberFixture.MEMBER_TENTEN())));
+        participations.add(new Participation(room, createMember(MemberFixture.MEMBER_CHOCO())));
+        matchResultRepository.saveAll(matchingStrategy.matchPairs(participations, matchingSize)
                 .stream()
                 .map(pair -> MatchResult.of(room.getId(), pair, ""))
                 .toList()
@@ -69,14 +69,14 @@ class MatchResultServiceTest {
     @Test
     @DisplayName("사용자가 특정 방에서 매칭된 리뷰어 결과를 가져온다.")
     void findReviewers() {
-        MatchResultResponses reviewers = matchResultService.findReviewers(findMemberId, room.getId());
-        assertThat(reviewers.matchResultResponses()).hasSizeLessThanOrEqualTo(matchingSize);
+        MatchResultResponses reviewers = matchResultService.findReviewers(findMember.getId(), room.getId());
+        assertThat(reviewers.matchResultResponses()).hasSize(matchingSize);
     }
 
     @Test
     @DisplayName("리뷰어 결과를 가져올 때 존재하지 않는 방이나 사용자의 정보를 요청하는 경우 예외를 발생한다.")
     void findReviewersInvalidException() {
-        assertThatThrownBy(() -> matchResultService.findReviewers(findMemberId, 0))
+        assertThatThrownBy(() -> matchResultService.findReviewers(findMember.getId(), 0))
                 .isInstanceOf(CoreaException.class)
                 .satisfies(exception -> {
                     CoreaException coreaException = (CoreaException) exception;
