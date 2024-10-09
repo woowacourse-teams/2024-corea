@@ -69,7 +69,7 @@ public class DynamicSizeMatchingStrategy implements MatchingStrategy{
         for (int reviewerIndex = 0; reviewerIndex < reviewers.size(); reviewerIndex++) {
             Member reviewer = reviewers.pollFirst();
 
-            if (isPairingPossible(reviewer, reviewee)) {
+            if (isPossiblePair(reviewer, reviewee)) {
                 pairs.add(new Pair(reviewer, reviewee));
                 return;
             }
@@ -78,7 +78,7 @@ public class DynamicSizeMatchingStrategy implements MatchingStrategy{
         }
     }
 
-    private boolean isPairingPossible(Member reviewer, Member reviewee) {
+    private boolean isPossiblePair(Member reviewer, Member reviewee) {
         if (reviewer.equals(reviewee)) {
             return false;
         }
@@ -90,8 +90,14 @@ public class DynamicSizeMatchingStrategy implements MatchingStrategy{
 
     private List<Participation> filterUnderMatchedParticipants(List<Participation> participations, int count, int roomMatchingSize) {
         return participations.stream()
-                .filter(participation -> (participation.getMatchingSize() > count && !participation.getMemberRole().isReviewer()) ||
-                        (participation.getMatchingSize() + roomMatchingSize > count && participation.getMemberRole().isReviewer()))
+                .filter(participation -> isUnderMatchedParticipants(participation, count, roomMatchingSize))
                 .toList();
+    }
+
+    private static boolean isUnderMatchedParticipants(Participation participation, int count, int roomMatchingSize) {
+        if (participation.getMemberRole().isReviewer()) {
+            return participation.getMatchingSize() + roomMatchingSize > count;
+        }
+        return participation.getMatchingSize() > count;
     }
 }
