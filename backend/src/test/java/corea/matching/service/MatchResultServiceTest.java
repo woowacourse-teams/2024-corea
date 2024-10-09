@@ -9,6 +9,7 @@ import corea.matching.domain.MatchingStrategy;
 import corea.matching.dto.MatchResultResponses;
 import corea.matching.repository.MatchResultRepository;
 import corea.member.domain.Member;
+import corea.member.domain.MemberRole;
 import corea.member.repository.MemberRepository;
 import corea.participation.domain.Participation;
 import corea.room.domain.Room;
@@ -54,11 +55,11 @@ class MatchResultServiceTest {
         room = roomRepository.save(RoomFixture.ROOM_DOMAIN(createMember(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON())));
 
         findMember = createMember(MemberFixture.MEMBER_YOUNGSU());
-        participations.add(new Participation(room, findMember));
-        participations.add(new Participation(room, createMember(MemberFixture.MEMBER_ASH())));
-        participations.add(new Participation(room, createMember(MemberFixture.MEMBER_PORORO())));
-        participations.add(new Participation(room, createMember(MemberFixture.MEMBER_TENTEN())));
-        participations.add(new Participation(room, createMember(MemberFixture.MEMBER_CHOCO())));
+        participations.add(new Participation(room, findMember, MemberRole.BOTH, room.getMatchingSize()));
+        participations.add(new Participation(room, createMember(MemberFixture.MEMBER_ASH()), MemberRole.BOTH, room.getMatchingSize()));
+        participations.add(new Participation(room, createMember(MemberFixture.MEMBER_PORORO()), MemberRole.BOTH, room.getMatchingSize()));
+        participations.add(new Participation(room, createMember(MemberFixture.MEMBER_TENTEN()), MemberRole.BOTH, room.getMatchingSize()));
+        participations.add(new Participation(room, createMember(MemberFixture.MEMBER_CHOCO()), MemberRole.BOTH, room.getMatchingSize()));
         matchResultRepository.saveAll(matchingStrategy.matchPairs(participations, matchingSize)
                 .stream()
                 .map(pair -> MatchResult.of(room.getId(), pair, ""))

@@ -4,6 +4,7 @@ import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
 import corea.matching.domain.DynamicSizeMatchingStrategy;
 import corea.matching.domain.MatchResult;
+import corea.matching.domain.MatchingStrategy;
 import corea.matching.domain.PullRequestInfo;
 import corea.matching.repository.MatchResultRepository;
 import corea.participation.domain.Participation;
@@ -25,7 +26,7 @@ public class MatchingService {
 
     private static final Logger log = LoggerFactory.getLogger(MatchingService.class);
 
-    private final DynamicSizeMatchingStrategy matchingStrategy;
+    private final MatchingStrategy matchingStrategy;
     private final MatchResultRepository matchResultRepository;
 
     private final ParticipationRepository participationRepository;

@@ -5,26 +5,30 @@ import corea.exception.ExceptionType;
 import corea.member.domain.Member;
 import corea.participation.domain.Participation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
 
 @Component
+@Primary
 @RequiredArgsConstructor
-public class DynamicSizeMatchingStrategy {
+public class DynamicSizeMatchingStrategy implements MatchingStrategy{
 
-    private final MatchingStrategy strategy;
+    private final PlainRandomMatching strategy;
+
+    private List<Pair> pairs;
 
     public List<Pair> matchPairs(List<Participation> participations, int roomMatchingSize) {
         List<Participation> participationWithoutReviewer = participations.stream()
                 .filter(participation -> !participation.getMemberRole().isReviewer())
                 .toList();
-        List<Pair> pairs = strategy.matchPairs(participationWithoutReviewer, roomMatchingSize);
-        additionalMatching(participations, participationWithoutReviewer, pairs, roomMatchingSize);
+        pairs = strategy.matchPairs(participationWithoutReviewer, roomMatchingSize);
+        additionalMatching(participations, participationWithoutReviewer, roomMatchingSize);
         return pairs;
     }
 
-    private void additionalMatching(List<Participation> participations, List<Participation> participationsWithoutReviewer, List<Pair> pairs, int roomMatchingSize) {
+    private void additionalMatching(List<Participation> participations, List<Participation> participationsWithoutReviewer, int roomMatchingSize) {
         int max = participations.stream()
                 .mapToInt(Participation::getMatchingSize)
                 .max()
@@ -33,14 +37,14 @@ public class DynamicSizeMatchingStrategy {
         for (int currentMatchingSize = roomMatchingSize; currentMatchingSize <= max; currentMatchingSize++) {
             participations = filterUnderMatchedParticipants(participations, currentMatchingSize);
             participationsWithoutReviewer = filterUnderMatchedParticipants(participationsWithoutReviewer, currentMatchingSize);
-            additionalMatchingCycle(participations, participationsWithoutReviewer, pairs);
+            additionalMatchingCycle(participations, participationsWithoutReviewer);
             if (participationsWithoutReviewer.isEmpty()) {
                 break;
             }
         }
     }
 
-    private void additionalMatchingCycle(List<Participation> participations, List<Participation> participationWithoutReviewer, List<Pair> pairs) {
+    private void additionalMatchingCycle(List<Participation> participations, List<Participation> participationWithoutReviewer) {
         ArrayDeque<Member> reviewers = new ArrayDeque<>(participations.stream()
                 .map(Participation::getMember)
                 .toList());
@@ -55,7 +59,7 @@ public class DynamicSizeMatchingStrategy {
             for (int reviewerIndex = 0; reviewerIndex < reviewers.size(); reviewerIndex++) {
                 Member reviewer = reviewers.pollFirst();
 
-                if (possiblePair(reviewer, reviewee, pairs)) {
+                if (possiblePair(reviewer, reviewee)) {
                     pairs.add(new Pair(reviewer, reviewee));
                     continue;
                 }
@@ -65,7 +69,7 @@ public class DynamicSizeMatchingStrategy {
         }
     }
 
-    private boolean possiblePair(Member reviewer, Member reviewee, List<Pair> pairs) {
+    private boolean possiblePair(Member reviewer, Member reviewee) {
         if (reviewer == reviewee) {
             return false;
         }
