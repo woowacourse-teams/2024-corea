@@ -31,6 +31,24 @@ const fadeInOut = keyframes`
   }
 `;
 
+export const EmptyContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+
+  margin-top: 4rem;
+
+  p {
+    font: ${({ theme }) => theme.TEXT.medium_bold};
+  }
+`;
+
+export const Character = styled.img`
+  width: 70%;
+  max-width: 270px;
+`;
+
 export const FeedbackCardContainer = styled.div`
   display: flex;
   flex-direction: column;
