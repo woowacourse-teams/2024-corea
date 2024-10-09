@@ -13,5 +13,6 @@
   "reviewDeadline": "2024-08-10T23:59",
   "roomStatus": "OPEN",
   "participationStatus": "PARTICIPATED",
-  "isClosed": false
+  "isClosed": false,
+  "memberRole": "BOTH"
 }

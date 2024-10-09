@@ -7,6 +7,7 @@ import ReviewerFeedbackModal from "@/components/feedback/reviewerFeedbackModal/R
 import * as S from "@/components/roomDetailPage/myReviewer/MyReviewer.style";
 import { ReviewerInfo } from "@/@types/reviewer";
 import { RoomInfo } from "@/@types/roomInfo";
+import { thinkingCharacter } from "@/assets";
 import MESSAGES from "@/constants/message";
 import { HoverStyledLink } from "@/styles/common";
 import { FeedbackTypeResult, getFeedbackType } from "@/utils/feedbackUtils";
@@ -22,12 +23,21 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
 
   const { data: reviewerData } = useFetchReviewer(roomInfo);
 
+  if (roomInfo.memberRole === "REVIEWER") {
+    return (
+      <S.GuidanceWrapper>
+        <S.Character src={thinkingCharacter} alt="생각 중인 캐릭터" />
+        <p className="process-paused">{MESSAGES.GUIDANCE.ONLY_REVIEWER}</p>
+      </S.GuidanceWrapper>
+    );
+  }
+
   if (reviewerData.length === 0) {
     return (
-      <S.ErrorWrapper>
-        <p>{MESSAGES.GUIDANCE.EMPTY_REVIEWER}</p>
-        <p>{MESSAGES.GUIDANCE.SUB_DESCRIPTION}</p>
-      </S.ErrorWrapper>
+      <S.GuidanceWrapper>
+        <p className="process-waiting">{MESSAGES.GUIDANCE.EMPTY_REVIEWER}</p>
+        <p className="process-waiting">{MESSAGES.GUIDANCE.SUB_DESCRIPTION}</p>
+      </S.GuidanceWrapper>
     );
   }
 

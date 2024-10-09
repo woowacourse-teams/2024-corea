@@ -26,10 +26,10 @@ const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
 
   if (revieweeData.length === 0) {
     return (
-      <S.ErrorWrapper>
-        <p>{MESSAGES.GUIDANCE.EMPTY_REVIEWEE}</p>
-        <p>{MESSAGES.GUIDANCE.SUB_DESCRIPTION}</p>
-      </S.ErrorWrapper>
+      <S.GuidanceWrapper>
+        <p className="process-waiting">{MESSAGES.GUIDANCE.EMPTY_REVIEWEE}</p>
+        <p className="process-waiting">{MESSAGES.GUIDANCE.SUB_DESCRIPTION}</p>
+      </S.GuidanceWrapper>
     );
   }
 
