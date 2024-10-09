@@ -50,23 +50,18 @@ public class DynamicSizeMatchingStrategy {
                 .toList());
 
         while (!reviewees.isEmpty()) {
-            Member reviewer = reviewers.pollFirst();
             Member reviewee = reviewees.pollFirst();
 
-            int reviewerSearchCount = 0;
-            int originSize = reviewers.size();
+            for (int reviewerIndex = 0; reviewerIndex < reviewers.size(); reviewerIndex++) {
+                Member reviewer = reviewers.pollFirst();
 
-            while (reviewerSearchCount++ < originSize && !possiblePair(reviewer, reviewee, pairs)) {
+                if (possiblePair(reviewer, reviewee, pairs)) {
+                    pairs.add(new Pair(reviewer, reviewee));
+                    continue;
+                }
+
                 reviewers.add(reviewer);
-                reviewer = reviewers.pollFirst();
             }
-
-            if (reviewerSearchCount <= originSize) {
-                pairs.add(new Pair(reviewer, reviewee));
-                continue;
-            }
-
-            reviewers.add(reviewer);
         }
     }
 
