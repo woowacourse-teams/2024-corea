@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import media from "@/styles/media";
 
 export const Layout = styled.div`
   scroll-behavior: smooth;
@@ -28,6 +29,10 @@ export const ContentLayout = styled.div`
   width: 1400px;
   min-height: 100vh;
   padding: 10rem 0;
+
+  ${media.small`
+    width: 370px;
+  `}
 `;
 
 export const ImgWrapper = styled.img`
@@ -35,13 +40,14 @@ export const ImgWrapper = styled.img`
   width: 30rem;
 `;
 
-export const TextContainer = styled.p`
+export const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
   text-align: center;
 
   .main {
+    margin-bottom: 1rem;
     font-family: "Do Hyeon", sans-serif;
     font-size: 4.8rem;
   }
@@ -49,6 +55,36 @@ export const TextContainer = styled.p`
   .sub {
     font-size: 2.4rem;
   }
+
+  .mobile-break {
+    display: none;
+  }
+
+  .desktop-only {
+    font-size: 2.4rem;
+    font-weight: bold;
+  }
+
+  ${media.small`
+    gap: 1rem;
+
+    .main {
+      font-size: 3rem;
+    }
+
+    .sub {
+      font: ${({ theme }) => theme.TEXT.medium}
+    }
+
+    .mobile-break {
+      display: block;
+      font-weight: bold;
+    }
+
+    .desktop-only {
+      display: none;
+    }
+  `}
 `;
 
 export const ContentSection = styled.div`
@@ -59,6 +95,10 @@ export const ContentSection = styled.div`
 
   width: 100%;
   height: 700px;
+
+  ${media.small`
+    flex-direction: column;
+  `}
 `;
 
 export const ContentSectionColumn = styled(ContentSection)`
@@ -101,11 +141,25 @@ export const ChatBubble = styled.div`
   &.four {
     transform: translateX(-25%);
   }
+
+  ${media.small`
+    padding: 1.2rem 2rem;
+
+    font: ${({ theme }) => theme.TEXT.semiSmall};
+
+    &.one, &.two, &.three, &.four  {
+      transform: translateX(0%);
+    }
+  `}
 `;
 
 export const ButtonWrapper = styled.div`
   width: 300px;
   margin-top: 8rem;
+
+  ${media.small`
+    margin-top: 0rem;
+  `}
 `;
 
 export const ImgSection = styled.div`
@@ -114,10 +168,15 @@ export const ImgSection = styled.div`
   justify-content: center;
 
   width: 60%;
-  height: 100%;
+  height: 500px;
 
   object-fit: contain;
   background-color: gray;
+
+  ${media.small`
+    width: 90%;
+    height: 400px;
+  `}
 `;
 
 export const TextSection = styled.div`
@@ -135,10 +194,6 @@ export const TextSection = styled.div`
     color: ${({ theme }) => theme.COLOR.primary2};
   }
 
-  p.step:not(:first-child) {
-    margin-top: 4rem;
-  }
-
   p.main {
     width: 100%;
     margin-bottom: 2rem;
@@ -149,9 +204,39 @@ export const TextSection = styled.div`
   p.sub {
     width: 100%;
     font: ${({ theme }) => theme.TEXT.xLarge};
+    line-height: 2.4rem;
   }
+
+  ${media.small`
+    width: 90%;
+    height: 300px;
+
+    p.step {
+      width: 100%;
+      font-size: 3rem;
+      font-weight: bold;
+      color: ${({ theme }) => theme.COLOR.primary2};
+    }
+
+    p.main {
+      width: 100%;
+      margin-bottom: 2rem;
+      font: ${({ theme }) => theme.TEXT.xLarge_bold};
+    }
+
+    p.sub {
+      width: 100%;    
+      font: ${({ theme }) => theme.TEXT.medium};
+      line-height: 2.4rem;
+    }
+  `}
 `;
 
 export const TextSectionRight = styled(TextSection)`
   text-align: right;
+
+  ${media.small`
+    text-align: left;
+    order: 2;
+  `}
 `;

@@ -43,7 +43,11 @@ const IntroPage = () => {
         <S.TextContainer>
           <p className="main">CoReA</p>
           <p className="sub">코드 리뷰 매칭 플랫폼</p>
-          <p className="sub">CoReA로 완성하는 개발 성장의 퍼즐: 코드, 리뷰, 그리고 당신</p>
+          <p className="sub">
+            CoReA로 완성하는 개발 성장의 퍼즐:
+            <span className="desktop-only"> 코드, 리뷰, 그리고 당신</span>
+          </p>
+          <p className="sub mobile-break">코드, 리뷰, 그리고 당신</p>
         </S.TextContainer>
 
         <S.ButtonWrapper>
@@ -117,7 +121,7 @@ const IntroPage = () => {
             <p className="sub">상대방이 나에게 작성해준 피드백도 확인할 수 있어요.</p>
           </S.TextSection>
         </S.ContentSection>
-        <S.ButtonWrapper>
+        <S.ButtonWrapper style={{ position: "absolute", bottom: "10%" }}>
           <Button onClick={() => navigate("/")} size="large">
             CoReA 서비스 바로가기
           </Button>

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import media from "@/styles/media";
 
 export const NavContainer = styled.div`
   position: fixed;
@@ -10,6 +11,10 @@ export const NavContainer = styled.div`
   flex-direction: column;
   gap: 10px;
   align-items: center;
+
+  ${media.small`
+    display: none;
+  `}
 `;
 
 interface NavDotProps {
