@@ -39,7 +39,7 @@ const RoomCreatePage = () => {
   const [reviewTime, setReviewTime] = useState(new Date());
 
   const { postCreateRoomMutation } = useMutateRoom();
-  const { isOpen, handleOpenModal, handleCloseModal } = useModal();
+  const { isModalOpen, handleOpenModal, handleCloseModal } = useModal();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -99,7 +99,7 @@ const RoomCreatePage = () => {
   return (
     <ContentSection title="방 생성하기">
       <ConfirmModal
-        isOpen={isOpen}
+        isOpen={isModalOpen}
         onClose={handleCloseModal}
         onConfirm={handleConfirm}
         onCancel={handleCloseModal}
