@@ -79,7 +79,7 @@ public class DynamicSizeMatchingStrategy implements MatchingStrategy{
     }
 
     private boolean isPairingPossible(Member reviewer, Member reviewee) {
-        if (reviewer == reviewee) {
+        if (reviewer.equals(reviewee)) {
             return false;
         }
 
