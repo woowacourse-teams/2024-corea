@@ -32,8 +32,8 @@ public class DynamicSizeMatchingStrategy implements MatchingStrategy{
         int max = getMaxMatchingSize(participations);
 
         for (int currentMatchingSize = roomMatchingSize; currentMatchingSize <= max; currentMatchingSize++) {
-            participations = filterUnderMatchedParticipants(participations, currentMatchingSize);
-            participationsWithoutReviewer = filterUnderMatchedParticipants(participationsWithoutReviewer, currentMatchingSize);
+            participations = filterUnderMatchedParticipants(participations, currentMatchingSize, roomMatchingSize);
+            participationsWithoutReviewer = filterUnderMatchedParticipants(participationsWithoutReviewer, currentMatchingSize, roomMatchingSize);
 
             performAdditionalMatching(participations, participationsWithoutReviewer);
             if (participationsWithoutReviewer.isEmpty()) {
@@ -88,9 +88,10 @@ public class DynamicSizeMatchingStrategy implements MatchingStrategy{
                         pair.getReceiver().equals(reviewee));
     }
 
-    private List<Participation> filterUnderMatchedParticipants(List<Participation> participations, int count) {
+    private List<Participation> filterUnderMatchedParticipants(List<Participation> participations, int count, int roomMatchingSize) {
         return participations.stream()
-                .filter(participation -> participation.getMatchingSize() > count)
+                .filter(participation -> (participation.getMatchingSize() > count && !participation.getMemberRole().isReviewer()) ||
+                        (participation.getMatchingSize() + roomMatchingSize > count && participation.getMemberRole().isReviewer()))
                 .toList();
     }
 }
