@@ -63,7 +63,10 @@ public class DynamicSizeMatchingStrategy {
 
             if (reviewerSearchCount <= originSize) {
                 pairs.add(new Pair(reviewer, reviewee));
+                continue;
             }
+
+            reviewers.add(reviewer);
         }
     }
 
