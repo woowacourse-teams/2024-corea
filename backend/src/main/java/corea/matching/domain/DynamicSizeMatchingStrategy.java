@@ -24,52 +24,61 @@ public class DynamicSizeMatchingStrategy implements MatchingStrategy{
                 .filter(participation -> !participation.getMemberRole().isReviewer())
                 .toList();
         pairs = strategy.matchPairs(participationWithoutReviewer, roomMatchingSize);
-        additionalMatching(participations, participationWithoutReviewer, roomMatchingSize);
+        handleAdditionalMatching(participations, participationWithoutReviewer, roomMatchingSize);
         return pairs;
     }
 
-    private void additionalMatching(List<Participation> participations, List<Participation> participationsWithoutReviewer, int roomMatchingSize) {
-        int max = participations.stream()
-                .mapToInt(Participation::getMatchingSize)
-                .max()
-                .orElseThrow(() -> new CoreaException(ExceptionType.PARTICIPANT_SIZE_LACK));
+    private void handleAdditionalMatching(List<Participation> participations, List<Participation> participationsWithoutReviewer, int roomMatchingSize) {
+        int max = getMaxMatchingSize(participations);
 
         for (int currentMatchingSize = roomMatchingSize; currentMatchingSize <= max; currentMatchingSize++) {
             participations = filterUnderMatchedParticipants(participations, currentMatchingSize);
             participationsWithoutReviewer = filterUnderMatchedParticipants(participationsWithoutReviewer, currentMatchingSize);
-            additionalMatchingCycle(participations, participationsWithoutReviewer);
+
+            performAdditionalMatching(participations, participationsWithoutReviewer);
             if (participationsWithoutReviewer.isEmpty()) {
                 break;
             }
         }
     }
 
-    private void additionalMatchingCycle(List<Participation> participations, List<Participation> participationWithoutReviewer) {
-        ArrayDeque<Member> reviewers = new ArrayDeque<>(participations.stream()
-                .map(Participation::getMember)
-                .toList());
+    private int getMaxMatchingSize(List<Participation> participations) {
+        return participations.stream()
+                .mapToInt(Participation::getMatchingSize)
+                .max()
+                .orElseThrow(() -> new CoreaException(ExceptionType.PARTICIPANT_SIZE_LACK));
+    }
 
-        ArrayDeque<Member> reviewees = new ArrayDeque<>(participationWithoutReviewer.stream()
-                .map(Participation::getMember)
-                .toList());
+    private void performAdditionalMatching(List<Participation> participations, List<Participation> participationWithoutReviewer) {
+        ArrayDeque<Member> reviewers = extractMember(participations);
+        ArrayDeque<Member> reviewees = extractMember(participationWithoutReviewer);
 
         while (!reviewees.isEmpty()) {
             Member reviewee = reviewees.pollFirst();
-
-            for (int reviewerIndex = 0; reviewerIndex < reviewers.size(); reviewerIndex++) {
-                Member reviewer = reviewers.pollFirst();
-
-                if (possiblePair(reviewer, reviewee)) {
-                    pairs.add(new Pair(reviewer, reviewee));
-                    continue;
-                }
-
-                reviewers.add(reviewer);
-            }
+            tryToMatch(reviewers, reviewee);
         }
     }
 
-    private boolean possiblePair(Member reviewer, Member reviewee) {
+    private ArrayDeque<Member> extractMember(List<Participation> participations) {
+        return new ArrayDeque<>(participations.stream()
+                .map(Participation::getMember)
+                .toList());
+    }
+
+    private void tryToMatch(ArrayDeque<Member> reviewers, Member reviewee) {
+        for (int reviewerIndex = 0; reviewerIndex < reviewers.size(); reviewerIndex++) {
+            Member reviewer = reviewers.pollFirst();
+
+            if (isPairingPossible(reviewer, reviewee)) {
+                pairs.add(new Pair(reviewer, reviewee));
+                return;
+            }
+
+            reviewers.add(reviewer);
+        }
+    }
+
+    private boolean isPairingPossible(Member reviewer, Member reviewee) {
         if (reviewer == reviewee) {
             return false;
         }
