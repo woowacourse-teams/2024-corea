@@ -4,6 +4,8 @@ export const DropdownContainer = styled.div`
   position: relative;
   width: 160px;
   height: 40px;
+
+  cursor: pointer;
 `;
 
 export const DropdownToggle = styled.div`
