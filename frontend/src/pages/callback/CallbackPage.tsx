@@ -13,11 +13,11 @@ const CallbackPage = () => {
     const code = params.get("code");
 
     if (code) {
-      // postLoginMutation.mutate(code);
+      postLoginMutation.mutate(code);
     }
 
     const timer = setTimeout(() => {
-      // navigate("/");
+      navigate("/");
     }, 2000);
 
     return () => clearTimeout(timer);
