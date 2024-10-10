@@ -63,7 +63,8 @@ public class DynamicSizeMatchingStrategy implements MatchingStrategy {
     }
 
     private void tryToMatch(ArrayDeque<Member> reviewers, Member reviewee, List<Pair> pairs) {
-        for (int reviewerIndex = 0; reviewerIndex < reviewers.size(); reviewerIndex++) {
+        int reviewerSize = reviewers.size();
+        for (int reviewerIndex = 0; reviewerIndex < reviewerSize; reviewerIndex++) {
             Member reviewer = reviewers.pollFirst();
 
             if (isPossiblePair(reviewer, reviewee, pairs)) {
