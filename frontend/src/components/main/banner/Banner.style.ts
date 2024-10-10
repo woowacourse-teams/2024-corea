@@ -2,29 +2,54 @@ import styled from "styled-components";
 import media from "@/styles/media";
 
 export const BannerContainer = styled.div`
-  position: relative;
-  z-index: -1;
-
   display: flex;
+  gap: 10rem;
   align-items: center;
   justify-content: center;
 
   width: 100vw;
   height: 400px;
-  margin: -113px calc(-50vw + 50%) 0;
+  margin: -113px calc(-50vw + 50%) 2rem;
 
   font-family: "Do Hyeon", sans-serif;
 
-  background: linear-gradient(to bottom, #ff7e5f, #feb47b, ${({ theme }) => theme.COLOR.white});
+  background: linear-gradient(to right, rgb(255 250 245 / 100%), rgb(230 230 255 / 100%));
 
   ${media.small`
     display:none;
   `}
+  ${media.medium`
+    gap: 1rem;
+  `};
 `;
 
-export const BannerTextContainer = styled.p`
+export const ImageWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 100%;
+  margin-top: 65px;
+
+  img {
+    width: 20rem;
+  }
+
+  ${media.medium`
+    img {
+      width: 18rem;
+    }
+  `}
+`;
+
+export const BannerTextContainer = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  height: 100%;
+  margin-top: 65px;
 `;
 
 export const BannerText = styled.p`
@@ -37,90 +62,16 @@ export const BannerText = styled.p`
 
   color: ${({ theme }) => theme.COLOR.white};
   text-shadow:
-    2px 2px 5px rgb(0 0 0 / 30%),
-    4px 4px 10px rgb(0 0 0 / 10%);
+    2px 2px 5px rgb(0 0 0 / 40%),
+    4px 4px 10px rgb(0 0 0 / 20%);
 
   span {
-    font: ${({ theme }) => theme.TEXT.large_bold};
-  }
-`;
-
-export const BannerSubText = styled.p`
-  margin: 0 auto;
-  font: ${({ theme }) => theme.TEXT.large_bold};
-  color: ${({ theme }) => theme.COLOR.grey0};
-  text-align: center;
-
-  span {
-    font: ${({ theme }) => theme.TEXT.large_bold};
-  }
-`;
-
-export const Sunlight = styled.div`
-  position: absolute;
-  background: rgb(255 255 255 / 20%);
-  border-radius: 50%;
-
-  &.sun {
-    top: -70px;
-    right: -30px;
-
-    width: 150px;
-    height: 150px;
-
-    background: rgb(255 255 255 / 50%);
-    filter: blur(10px);
-    box-shadow: 0 0 60px 40px rgb(255 255 255 / 20%);
+    font: ${({ theme }) => theme.TEXT.xLarge_bold};
   }
 
-  &.sunlight-1 {
-    top: -110px;
-    right: -70px;
-
-    width: 250px;
-    height: 250px;
-
-    background: rgb(255 255 255 / 20%);
-    filter: blur(10px);
-  }
-
-  &.sunlight-2 {
-    top: 75px;
-    right: 85px;
-
-    width: 40px;
-    height: 40px;
-
-    filter: blur(3px);
-  }
-
-  &.sunlight-3 {
-    top: 135px;
-    right: 135px;
-
-    width: 20px;
-    height: 20px;
-
-    filter: blur(2px);
-  }
-
-  &.sunlight-4 {
-    top: 170px;
-    right: 160px;
-
-    width: 60px;
-    height: 60px;
-
-    filter: blur(3px);
-  }
-
-  &.sunlight-5 {
-    top: 190px;
-    right: 170px;
-
-    width: 100px;
-    height: 100px;
-
-    filter: blur(5px);
-  }
+  ${media.medium`
+    span {
+      font: ${({ theme }) => theme.TEXT.large_bold};
+    }
+  `}
 `;
