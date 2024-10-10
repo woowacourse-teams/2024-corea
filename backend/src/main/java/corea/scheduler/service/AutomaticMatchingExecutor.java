@@ -32,6 +32,7 @@ public class AutomaticMatchingExecutor {
             startMatching(roomId);
         } catch (CoreaException e) {
             log.warn("매칭 실행 중 에러 발생: {}", e.getMessage(), e);
+            throw e;
         }
     }
 

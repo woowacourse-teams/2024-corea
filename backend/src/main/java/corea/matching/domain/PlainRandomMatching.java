@@ -1,7 +1,5 @@
 package corea.matching.domain;
 
-import corea.exception.CoreaException;
-import corea.exception.ExceptionType;
 import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
 import corea.participation.domain.Participation;
@@ -22,8 +20,6 @@ public class PlainRandomMatching implements MatchingStrategy {
 
     @Override
     public List<Pair> matchPairs(List<Participation> participations, int matchingSize) {
-        validateParticipationSize(participations, matchingSize);
-
         List<Member> members = participations.stream()
                 .map(participation -> memberRepository.findById(participation.getMembersId()))
                 .filter(Optional::isPresent)
@@ -43,11 +39,5 @@ public class PlainRandomMatching implements MatchingStrategy {
             }
         }
         return reviewerResult;
-    }
-
-    private void validateParticipationSize(List<Participation> participations, int matchingSize) {
-        if (participations.size() <= matchingSize) {
-            throw new CoreaException(ExceptionType.PARTICIPANT_SIZE_LACK);
-        }
     }
 }

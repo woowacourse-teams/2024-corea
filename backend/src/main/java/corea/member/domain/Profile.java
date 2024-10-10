@@ -32,7 +32,7 @@ public class Profile extends BaseTimeEntity {
 
     private float attitude;
 
-    protected Profile() {
+    public Profile() {
         this(DEFAULT_FEEDBACK_COUNT, 0, 0, 0, 36.5f);
     }
 
