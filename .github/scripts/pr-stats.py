@@ -169,7 +169,7 @@ def generate_report(pr_stats):
     title = pr['title']
     file_count = pr['fileCount']
     changed_line_count = pr['changedLineCount']
-    conversation_count = pr['changedLineCount']
+    conversation_count = pr['conversationCount']
 
     # 시간 포맷팅
     response_time = format_duration(pr['averageResponseTime'])
