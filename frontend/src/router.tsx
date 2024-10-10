@@ -1,3 +1,4 @@
+import PrivateRoute from "./components/routes/PrivateRoute";
 import CallbackPage from "./pages/callback/CallbackPage";
 import FeedbackPage from "./pages/feedback/FeedbackPage";
 import ProfilePage from "./pages/profile/ProfilePage";
@@ -29,32 +30,37 @@ const router = sentryCreateBrowserRouter([
         element: <CallbackPage />,
       },
       {
-        path: `rooms/:id`,
-        element: <RoomDetailPage />,
-      },
-      {
-        path: `rooms/create`,
-        element: <RoomCreatePage />,
-      },
-      {
         path: `guide`,
         element: <GuidePage />,
+      },
+      {
+        path: `profile/:username`,
+        element: <UserProfile />,
       },
       // {
       //   path: `ranking`,
       //   element: <RankingPage />,
       // },
       {
-        path: `feedback`,
-        element: <FeedbackPage />,
-      },
-      {
-        path: `profile`,
-        element: <ProfilePage />,
-      },
-      {
-        path: `profile/:username`,
-        element: <UserProfile />,
+        element: <PrivateRoute />,
+        children: [
+          {
+            path: `rooms/:id`,
+            element: <RoomDetailPage />,
+          },
+          {
+            path: `rooms/create`,
+            element: <RoomCreatePage />,
+          },
+          {
+            path: `feedback`,
+            element: <FeedbackPage />,
+          },
+          {
+            path: `profile`,
+            element: <ProfilePage />,
+          },
+        ],
       },
     ],
   },
