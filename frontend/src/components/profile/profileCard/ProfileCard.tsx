@@ -47,12 +47,19 @@ const ProfileCard = (profileData: ProfileData) => {
         </S.ProfileInfoWrapper>
 
         <S.KeywordContainer>
-          {profileData.feedbackKeywords.map((keyword) => (
-            <S.KeywordWrapper key={keyword}>
+          {profileData.feedbackKeywords.length !== 0 ? (
+            profileData.feedbackKeywords.map((keyword) => (
+              <S.KeywordWrapper key={keyword}>
+                <Icon kind="people" />
+                <S.Keyword>{keyword}</S.Keyword>
+              </S.KeywordWrapper>
+            ))
+          ) : (
+            <S.KeywordWrapper>
               <Icon kind="people" />
-              <S.Keyword>{keyword}</S.Keyword>
+              <S.Keyword>받은 피드백을 기반으로 키워드가 선정됩니다</S.Keyword>
             </S.KeywordWrapper>
-          ))}
+          )}
         </S.KeywordContainer>
       </S.ProfileCardWrapper>
 
