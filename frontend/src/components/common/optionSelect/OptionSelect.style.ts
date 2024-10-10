@@ -32,8 +32,8 @@ export const Indicator = styled.div<{ $position: number; $optionCount: number }>
 
   transition: transform 0.3s ease-in-out;
 
-  @media screen and (max-width: 480px) {
+  @media screen and (max-width: 520px) {
     width: ${({ $optionCount }) => `calc(100% / ${$optionCount})`};
-    transform: ${({ $position, $optionCount }) => `translateX(calc(100% * ${$position}))`};
+    transform: ${({ $position }) => `translateX(calc(100% * ${$position}))`};
   }
 `;
