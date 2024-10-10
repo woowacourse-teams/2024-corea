@@ -30,6 +30,7 @@ const ERROR_MESSAGES = {
   GET_PARTICIPANT_LIST: "방 참여자 목록을 불러오는 도중 에러가 발생하였습니다.",
 
   // reviews
+  POST_REVIEW_COMPLETE: "코드리뷰 완료 요청에 실패했습니다.",
   GET_MY_REVIEWERS: "리뷰어 목록을 불러오는 도중 에러가 발생하였습니다.",
   GET_MY_REVIEWEES: "리뷰이 목록을 불러오는 도중 에러가 발생하였습니다.",
 
