@@ -1,4 +1,5 @@
 import styled, { css, keyframes } from "styled-components";
+import media from "@/styles/media";
 
 const fadeIn = keyframes`
   0% {
@@ -54,6 +55,10 @@ export const FeedbackCardContainer = styled.div`
   flex-direction: column;
   gap: 1rem;
   padding-top: 1rem;
+
+  ${media.small`
+    gap: 2rem;
+  `}
 `;
 
 export const FeedbackMissionWrapper = styled.button<{ $isSelected: boolean }>`
