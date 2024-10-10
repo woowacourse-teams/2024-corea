@@ -29,7 +29,7 @@ jobs:
         uses: "naver/pr-stats@v1.0.0"
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          count: 5
+          count: 15
 
       - name: Analyze PR Stats and Notify
         run: |
@@ -38,3 +38,4 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           PR_HTML_URL: ${{ github.event.pull_request.html_url }}
           ASSIGNEE: ${{ github.event.pull_request.assignee.login }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}

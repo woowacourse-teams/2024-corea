@@ -11,6 +11,7 @@ KST = timezone(timedelta(hours=9))
 slack_webhook_url = os.getenv("SLACK_WEBHOOK_URL")
 pr_html_url = os.getenv("PR_HTML_URL")
 assignee = os.getenv("ASSIGNEE")
+pr_number = os.getenv("PR_NUMBER")
 
 users = {
     "youngsu5582" : "조휘선",
@@ -153,11 +154,15 @@ def analyze_csv(file_path):
 
 # 주요 통계 정보 추출
 def extract_important_info(pr_data):
-    return pr_data[0]
+    return next((pr for pr in pr_data if pr['number'] == pr_number), None)
 
 # 통계 분석 및 보고서 작성
 def generate_report(pr_stats):
     pr = extract_important_info(pr_stats)
+
+    if pr is None:
+        print("No PR found with the specified PR number. Exiting...")
+        return
 
     print(pr)
     created_at_timestamp = pr['createdAt']
