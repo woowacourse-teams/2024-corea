@@ -109,7 +109,7 @@ class RoomServiceTest {
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
 
         Member member = memberRepository.save(MemberFixture.MEMBER_PORORO());
-        participationRepository.save(new Participation(room, member, MemberRole.BOTH));
+        participationRepository.save(new Participation(room, member, MemberRole.BOTH, room.getMatchingSize()));
 
         RoomResponse response = roomService.findOne(room.getId(), member.getId());
 
@@ -139,8 +139,8 @@ class RoomServiceTest {
 
         Member joyson = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
         Long joysonId = joyson.getId();
-        participationRepository.save(new Participation(pororoRoom, joyson));
-        participationRepository.save(new Participation(ashRoom, joyson));
+        participationRepository.save(new Participation(pororoRoom, joyson, MemberRole.BOTH, pororoRoom.getMatchingSize()));
+        participationRepository.save(new Participation(ashRoom, joyson, MemberRole.BOTH, ashRoom.getMatchingSize()));
 
         RoomResponses response = roomService.findParticipatedRooms(joysonId);
         List<String> managerNames = getManagerNames(response);

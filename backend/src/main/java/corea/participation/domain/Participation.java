@@ -38,13 +38,15 @@ public class Participation extends BaseTimeEntity {
     @Enumerated(value = EnumType.STRING)
     private ParticipationStatus status;
 
-    public Participation(Room room, Member member, MemberRole role) {
-        this(null, room, member, role, ParticipationStatus.PARTICIPATED);
+    private int matchingSize;
+
+    public Participation(Room room, Member member, MemberRole role, int matchingSize) {
+        this(null, room, member, role, ParticipationStatus.PARTICIPATED, matchingSize);
         debug(room.getId(), member.getId());
     }
 
     public Participation(Room room, Member member) {
-        this(null, room, member, MemberRole.REVIEWER, ParticipationStatus.MANAGER);
+        this(null, room, member, MemberRole.REVIEWER, ParticipationStatus.MANAGER, room.getMatchingSize());
         debug(room.getId(), member.getId());
     }
 
@@ -74,6 +76,10 @@ public class Participation extends BaseTimeEntity {
 
     public String getMemberGithubId() {
         return member.getGithubUserId();
+    }
+
+    public boolean isReviewer() {
+        return memberRole.isReviewer();
     }
 
     private static void debug(long roomId, long memberId) {
