@@ -4,6 +4,7 @@ import corea.feedback.domain.DevelopFeedback;
 import corea.feedback.domain.SocialFeedback;
 import corea.feedback.repository.DevelopFeedbackRepository;
 import corea.feedback.repository.SocialFeedbackRepository;
+import corea.matching.domain.DynamicSizeMatchingStrategy;
 import corea.matching.domain.MatchResult;
 import corea.matching.domain.MatchingStrategy;
 import corea.matching.repository.MatchResultRepository;
@@ -41,7 +42,7 @@ public class ContextInitializer implements ApplicationRunner {
     private final MatchResultRepository matchResultRepository;
     private final DevelopFeedbackRepository developFeedbackRepository;
     private final SocialFeedbackRepository socialFeedbackRepository;
-    private final MatchingStrategy matchingStrategy;
+    private final DynamicSizeMatchingStrategy matchingStrategy;
     private final JdbcTemplate jdbcTemplate;
 
     @Override
@@ -79,10 +80,10 @@ public class ContextInitializer implements ApplicationRunner {
                         LocalDateTime.now().plusDays(5),
                         RoomClassification.BACKEND, RoomStatus.OPEN));
         List<Participation> r1Participations = List.of(
-                new Participation(r1, pororo, MemberRole.BOTH),
-                new Participation(r1, joysun, MemberRole.BOTH),
-                new Participation(r1, movin, MemberRole.BOTH),
-                new Participation(r1, ash, MemberRole.BOTH)
+                new Participation(r1, pororo, MemberRole.BOTH, r1.getMatchingSize()),
+                new Participation(r1, joysun, MemberRole.BOTH, r1.getMatchingSize()),
+                new Participation(r1, movin, MemberRole.BOTH, r1.getMatchingSize()),
+                new Participation(r1, ash, MemberRole.BOTH, r1.getMatchingSize())
         );
         participationRepository.saveAll(r1Participations);
 
@@ -96,9 +97,9 @@ public class ContextInitializer implements ApplicationRunner {
                         LocalDateTime.now().plusDays(6),
                         RoomClassification.BACKEND, RoomStatus.OPEN));
         List<Participation> r2Participations = List.of(
-                new Participation(r2, pororo, MemberRole.BOTH),
-                new Participation(r2, joysun, MemberRole.BOTH),
-                new Participation(r2, ash, MemberRole.BOTH)
+                new Participation(r2, pororo, MemberRole.BOTH, r2.getMatchingSize()),
+                new Participation(r2, joysun, MemberRole.BOTH, r2.getMatchingSize()),
+                new Participation(r2, ash, MemberRole.BOTH, r2.getMatchingSize())
         );
         participationRepository.saveAll(r2Participations);
 
@@ -112,11 +113,11 @@ public class ContextInitializer implements ApplicationRunner {
                         LocalDateTime.now().plusDays(3),
                         RoomClassification.BACKEND, RoomStatus.OPEN));
         List<Participation> r3Participations = List.of(
-                new Participation(r3, pororo, MemberRole.BOTH),
-                new Participation(r3, joysun, MemberRole.BOTH),
-                new Participation(r3, movin, MemberRole.BOTH),
-                new Participation(r3, ash, MemberRole.BOTH),
-                new Participation(r3, cho, MemberRole.BOTH)
+                new Participation(r3, pororo, MemberRole.BOTH, r3.getMatchingSize()),
+                new Participation(r3, joysun, MemberRole.BOTH, r3.getMatchingSize()),
+                new Participation(r3, movin, MemberRole.BOTH, r3.getMatchingSize()),
+                new Participation(r3, ash, MemberRole.BOTH, r3.getMatchingSize()),
+                new Participation(r3, cho, MemberRole.BOTH, r3.getMatchingSize())
         );
         participationRepository.saveAll(r3Participations);
 
@@ -130,12 +131,12 @@ public class ContextInitializer implements ApplicationRunner {
                         LocalDateTime.now().plusDays(7),
                         RoomClassification.BACKEND, RoomStatus.OPEN));
         List<Participation> r4Participations = List.of(
-                new Participation(r4, pororo, MemberRole.BOTH),
-                new Participation(r4, joysun, MemberRole.BOTH),
-                new Participation(r4, movin, MemberRole.BOTH),
-                new Participation(r4, ash, MemberRole.BOTH),
-                new Participation(r4, cho, MemberRole.BOTH),
-                new Participation(r4, ten, MemberRole.BOTH)
+                new Participation(r4, pororo, MemberRole.BOTH, r4.getMatchingSize()),
+                new Participation(r4, joysun, MemberRole.BOTH, r4.getMatchingSize()),
+                new Participation(r4, movin, MemberRole.BOTH, r4.getMatchingSize()),
+                new Participation(r4, ash, MemberRole.BOTH, r4.getMatchingSize()),
+                new Participation(r4, cho, MemberRole.BOTH, r4.getMatchingSize()),
+                new Participation(r4, ten, MemberRole.BOTH, r4.getMatchingSize())
         );
         participationRepository.saveAll(r4Participations);
 
@@ -149,12 +150,12 @@ public class ContextInitializer implements ApplicationRunner {
                         LocalDateTime.now().plusDays(2),
                         RoomClassification.BACKEND, RoomStatus.PROGRESS));
         List<Participation> r5Participations = List.of(
-                new Participation(r5, pororo, MemberRole.BOTH),
-                new Participation(r5, joysun, MemberRole.BOTH),
-                new Participation(r5, movin, MemberRole.BOTH),
-                new Participation(r5, ash, MemberRole.BOTH),
-                new Participation(r5, cho, MemberRole.BOTH),
-                new Participation(r5, ten, MemberRole.BOTH)
+                new Participation(r5, pororo, MemberRole.BOTH, r5.getMatchingSize()),
+                new Participation(r5, joysun, MemberRole.BOTH, r5.getMatchingSize()),
+                new Participation(r5, movin, MemberRole.BOTH, r5.getMatchingSize()),
+                new Participation(r5, ash, MemberRole.BOTH, r5.getMatchingSize()),
+                new Participation(r5, cho, MemberRole.BOTH, r5.getMatchingSize()),
+                new Participation(r5, ten, MemberRole.BOTH, r5.getMatchingSize())
         );
         participationRepository.saveAll(r5Participations);
         matchingStrategy.matchPairs(r5Participations, 2)
@@ -172,13 +173,13 @@ public class ContextInitializer implements ApplicationRunner {
                         LocalDateTime.now().plusDays(3),
                         RoomClassification.FRONTEND, RoomStatus.PROGRESS));
         List<Participation> r6Participations = List.of(
-                new Participation(r6, pororo, MemberRole.BOTH),
-                new Participation(r6, joysun, MemberRole.BOTH),
-                new Participation(r6, movin, MemberRole.BOTH),
-                new Participation(r6, ash, MemberRole.BOTH),
-                new Participation(r6, cho, MemberRole.BOTH),
-                new Participation(r6, ten, MemberRole.BOTH),
-                new Participation(r6, dar, MemberRole.BOTH)
+                new Participation(r6, pororo, MemberRole.BOTH, r6.getMatchingSize()),
+                new Participation(r6, joysun, MemberRole.BOTH, r6.getMatchingSize()),
+                new Participation(r6, movin, MemberRole.BOTH, r6.getMatchingSize()),
+                new Participation(r6, ash, MemberRole.BOTH, r6.getMatchingSize()),
+                new Participation(r6, cho, MemberRole.BOTH, r6.getMatchingSize()),
+                new Participation(r6, ten, MemberRole.BOTH, r6.getMatchingSize()),
+                new Participation(r6, dar, MemberRole.BOTH, r6.getMatchingSize())
         );
         participationRepository.saveAll(r6Participations);
         matchingStrategy.matchPairs(r6Participations, 2)
@@ -196,13 +197,13 @@ public class ContextInitializer implements ApplicationRunner {
                         LocalDateTime.now().minusDays(1),
                         RoomClassification.ANDROID, RoomStatus.CLOSE));
         List<Participation> r7Participations = List.of(
-                new Participation(r7, pororo, MemberRole.BOTH),
-                new Participation(r7, joysun, MemberRole.BOTH),
-                new Participation(r7, movin, MemberRole.BOTH),
-                new Participation(r7, ash, MemberRole.BOTH),
-                new Participation(r7, cho, MemberRole.BOTH),
-                new Participation(r7, ten, MemberRole.BOTH),
-                new Participation(r7, dar, MemberRole.BOTH)
+                new Participation(r7, pororo, MemberRole.BOTH, r7.getMatchingSize()),
+                new Participation(r7, joysun, MemberRole.BOTH, r7.getMatchingSize()),
+                new Participation(r7, movin, MemberRole.BOTH, r7.getMatchingSize()),
+                new Participation(r7, ash, MemberRole.BOTH, r7.getMatchingSize()),
+                new Participation(r7, cho, MemberRole.BOTH, r7.getMatchingSize()),
+                new Participation(r7, ten, MemberRole.BOTH, r7.getMatchingSize()),
+                new Participation(r7, dar, MemberRole.BOTH, r7.getMatchingSize())
         );
         participationRepository.saveAll(r7Participations);
         List<MatchResult> r7MatchResults = matchingStrategy.matchPairs(r7Participations, 2)
@@ -222,12 +223,12 @@ public class ContextInitializer implements ApplicationRunner {
                         LocalDateTime.now().plusDays(14),
                         RoomClassification.BACKEND, RoomStatus.OPEN));
         List<Participation> r8Participations = List.of(
-                new Participation(r8, pororo, MemberRole.BOTH),
-                new Participation(r8, joysun, MemberRole.BOTH),
-                new Participation(r8, movin, MemberRole.BOTH),
-                new Participation(r8, ash, MemberRole.BOTH),
-                new Participation(r8, cho, MemberRole.BOTH),
-                new Participation(r8, ten, MemberRole.BOTH)
+                new Participation(r8, pororo, MemberRole.BOTH, r8.getMatchingSize()),
+                new Participation(r8, joysun, MemberRole.BOTH, r8.getMatchingSize()),
+                new Participation(r8, movin, MemberRole.BOTH, r8.getMatchingSize()),
+                new Participation(r8, ash, MemberRole.BOTH, r8.getMatchingSize()),
+                new Participation(r8, cho, MemberRole.BOTH, r8.getMatchingSize()),
+                new Participation(r8, ten, MemberRole.BOTH, r8.getMatchingSize())
         );
         participationRepository.saveAll(r8Participations);
         List<MatchResult> r8MatchResults = matchingStrategy.matchPairs(r8Participations, 2)
@@ -387,7 +388,7 @@ public class ContextInitializer implements ApplicationRunner {
 
     private List<Participation> participateRoom(Room room, List<Member> members) {
         return participationRepository.saveAll(members.stream()
-                .map(member -> new Participation(room, member, MemberRole.BOTH))
+                .map(member -> new Participation(room, member, MemberRole.BOTH, room.getMatchingSize()))
                 .toList());
     }
 

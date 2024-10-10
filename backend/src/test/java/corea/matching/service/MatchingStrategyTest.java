@@ -6,6 +6,7 @@ import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
 import corea.matching.domain.MatchingStrategy;
 import corea.member.domain.Member;
+import corea.member.domain.MemberRole;
 import corea.member.repository.MemberRepository;
 import corea.participation.domain.Participation;
 import corea.room.domain.Room;
@@ -50,8 +51,8 @@ class MatchingStrategyTest {
         participations = new ArrayList<>();
 
         for (int i = 0; i < 4; i++) {
-            participations.add(new Participation(room, joyson));
-            participations.add(new Participation(room, pororo));
+            participations.add(new Participation(room, joyson, MemberRole.BOTH, room.getMatchingSize()));
+            participations.add(new Participation(room, pororo, MemberRole.BOTH, room.getMatchingSize()));
         }
     }
 

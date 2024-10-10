@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -60,5 +62,18 @@ public class Member extends BaseTimeEntity {
 
     public void updateAverageRating(int evaluatePoint) {
         profile.updateAverageRating(evaluatePoint);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Member member = (Member) o;
+        return Objects.equals(id, member.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

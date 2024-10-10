@@ -2,6 +2,7 @@ package corea.matching.service;
 
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
+import corea.matching.domain.DynamicSizeMatchingStrategy;
 import corea.matching.domain.MatchResult;
 import corea.matching.domain.MatchingStrategy;
 import corea.matching.domain.PullRequestInfo;
