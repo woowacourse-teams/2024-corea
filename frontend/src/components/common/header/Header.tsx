@@ -42,8 +42,8 @@ const Header = () => {
 
   return (
     <S.HeaderContainer $isMain={isMain}>
-      <S.HeaderLogo $isMain={isMain} onClick={() => handlePage("/", "")}>
-        CoReA
+      <S.HeaderLogo onClick={() => handlePage("/", "")}>
+        <span>CoReA</span>
       </S.HeaderLogo>
       <S.HeaderNavBarContainer>
         {headerItems.map((item) => (
