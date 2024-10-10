@@ -19,8 +19,8 @@ export const LoadingContainer = styled.div`
 
   svg {
     position: absolute;
-    left: 50%;
     top: 50%;
+    left: 50%;
     transform: translate(-50%, -50%);
   }
 
@@ -36,6 +36,7 @@ export const BackDrop = styled.div`
 
   width: 100vw;
   height: 100vh;
+
   opacity: 0.4;
   background-color: ${({ theme }) => theme.COLOR.black};
 `;
