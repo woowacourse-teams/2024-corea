@@ -19,7 +19,7 @@ export const Option = styled.button<{ $isSelected: boolean }>`
   outline: none;
 `;
 
-export const Indicator = styled.div<{ $position: number }>`
+export const Indicator = styled.div<{ $position: number; $optionCount: number }>`
   position: absolute;
   bottom: -2px;
   left: 0;
@@ -31,4 +31,9 @@ export const Indicator = styled.div<{ $position: number }>`
   background-color: ${({ theme }) => theme.COLOR.primary2};
 
   transition: transform 0.3s ease-in-out;
+
+  @media screen and (max-width: 480px) {
+    width: ${({ $optionCount }) => `calc(100% / ${$optionCount})`};
+    transform: ${({ $position, $optionCount }) => `translateX(calc(100% * ${$position}))`};
+  }
 `;
