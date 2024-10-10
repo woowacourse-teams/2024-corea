@@ -1,6 +1,7 @@
 package corea.scheduler.service;
 
 import config.ServiceTest;
+import config.TestAsyncConfig;
 import corea.auth.dto.GithubPullRequestReview;
 import corea.auth.service.GithubOAuthProvider;
 import corea.feedback.domain.DevelopFeedback;
@@ -23,6 +24,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +39,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ServiceTest
+@Import(TestAsyncConfig.class)
 class AutomaticUpdateServiceTest {
 
     @Autowired
