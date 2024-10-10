@@ -11,8 +11,8 @@
       "keywords": ["TDD", "클린코드", "자바"],
       "currentParticipants": 15,
       "limitedParticipants": 20,
-      "recruitmentDeadline": "2024-07-30T15:00",
-      "reviewDeadline": "2024-08-10T23:59",
+      "recruitmentDeadline": "2024-10-10T23:00",
+      "reviewDeadline": "2024-10-10T23:59",
       "roomStatus": "OPEN",
       "participationStatus": "PARTICIPATED",
       "memberRole": "BOTH"
@@ -29,7 +29,7 @@
       "currentParticipants": 17,
       "limitedParticipants": 30,
       "recruitmentDeadline": "2024-07-30T15:00",
-      "reviewDeadline": "2024-08-10T23:59",
+      "reviewDeadline": "2024-10-11T23:59",
       "roomStatus": "CLOSE",
       "participationStatus": "PARTICIPATED",
       "memberRole": "BOTH"
