@@ -26,7 +26,7 @@ public class LoginService {
 
     @Transactional
     public TokenInfo login(GithubUserInfo userInfo) {
-        Member member = memberRepository.findByUsername(userInfo.login())
+        Member member = memberRepository.findByGithubUserId(userInfo.id())
                 .orElseGet(() -> register(userInfo));
 
         String accessToken = tokenService.createAccessToken(member);

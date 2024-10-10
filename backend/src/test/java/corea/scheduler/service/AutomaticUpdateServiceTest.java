@@ -1,6 +1,7 @@
 package corea.scheduler.service;
 
 import config.ServiceTest;
+import config.TestAsyncConfig;
 import corea.auth.dto.GithubPullRequestReview;
 import corea.auth.service.GithubOAuthProvider;
 import corea.feedback.domain.DevelopFeedback;
@@ -23,6 +24,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +39,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ServiceTest
+@Import(TestAsyncConfig.class)
 class AutomaticUpdateServiceTest {
 
     @Autowired
@@ -44,9 +47,6 @@ class AutomaticUpdateServiceTest {
 
     @Autowired
     private RoomService roomService;
-
-    @Autowired
-    private ReviewService reviewService;
 
     @Autowired
     private MemberRepository memberRepository;
@@ -59,6 +59,9 @@ class AutomaticUpdateServiceTest {
 
     @Autowired
     private SocialFeedbackRepository socialFeedbackRepository;
+
+    @MockBean
+    private ReviewService reviewService;
 
     @MockBean
     private TaskScheduler taskScheduler;
@@ -119,8 +122,12 @@ class AutomaticUpdateServiceTest {
 
         Member reviewer = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
         Member reviewee = memberRepository.save(MemberFixture.MEMBER_PORORO());
-        matchResultRepository.save(new MatchResult(response.id(), reviewer, reviewee, "prLink"));
+        MatchResult matchResult = matchResultRepository.save(new MatchResult(response.id(), reviewer, reviewee, "prLink"));
 
+        doAnswer(invocation -> {
+            matchResult.reviewComplete();
+            return null;
+        }).when(reviewService).completeReview(response.id(), reviewer.getId(), reviewee.getId());
         reviewService.completeReview(response.id(), reviewer.getId(), reviewee.getId());
         automaticUpdateService.updateAtReviewDeadline(response);
 

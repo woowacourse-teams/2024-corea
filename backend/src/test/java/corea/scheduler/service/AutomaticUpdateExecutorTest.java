@@ -1,6 +1,7 @@
 package corea.scheduler.service;
 
 import config.ServiceTest;
+import config.TestAsyncConfig;
 import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
 import corea.member.domain.Member;
@@ -14,11 +15,13 @@ import corea.scheduler.repository.AutomaticUpdateRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ServiceTest
+@Import(TestAsyncConfig.class)
 class AutomaticUpdateExecutorTest {
 
     @Autowired
