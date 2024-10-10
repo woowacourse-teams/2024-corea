@@ -25,6 +25,7 @@ export const MyReviewerTitle = styled.span`
   font: ${({ theme }) => theme.TEXT.small_bold};
   color: ${({ theme }) => theme.COLOR.grey3};
   text-align: center;
+  word-break: keep-all;
 `;
 
 export const MyReviewerContent = styled.span`
