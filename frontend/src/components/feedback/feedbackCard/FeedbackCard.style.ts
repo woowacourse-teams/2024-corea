@@ -8,7 +8,6 @@ export const FeedbackCardContainer = styled.div<{ $isTypeDevelop: boolean }>`
   gap: 3rem;
 
   width: 40%;
-  min-width: 370px;
   height: 600px;
   padding: 1rem;
 
@@ -16,6 +15,10 @@ export const FeedbackCardContainer = styled.div<{ $isTypeDevelop: boolean }>`
     ${({ theme, $isTypeDevelop }) =>
       $isTypeDevelop ? theme.COLOR.primary2 : theme.COLOR.secondary};
   border-radius: 10px;
+
+  ${media.medium`
+    width: 100%;
+  `}
 
   ${media.small`
     width: 100%;

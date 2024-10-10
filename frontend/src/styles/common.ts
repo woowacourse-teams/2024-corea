@@ -19,7 +19,7 @@ export const SkeletonShimmer = `
 `;
 
 export const HoverStyledLink = styled(Link)`
-  &:hover {
+  & :hover {
     color: ${theme.COLOR.primary2};
     text-decoration: underline;
   }

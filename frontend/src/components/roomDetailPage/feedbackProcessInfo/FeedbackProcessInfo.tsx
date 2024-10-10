@@ -8,7 +8,7 @@ interface ExpandableSectionProps {
 }
 
 const FeedbackProcessInfo = ({ title, children }: ExpandableSectionProps) => {
-  const { isDropdownOpen, handleToggleDropdown, dropdownRef } = useDropdown();
+  const { isDropdownOpen, handleToggleDropdown } = useDropdown();
 
   const handleProcessInfoClick = (event: React.MouseEvent) => {
     event.preventDefault();
@@ -16,7 +16,7 @@ const FeedbackProcessInfo = ({ title, children }: ExpandableSectionProps) => {
   };
 
   return (
-    <S.ExpandableSection ref={dropdownRef}>
+    <S.ExpandableSection>
       <S.StyledTitle onClick={handleProcessInfoClick}>
         {title}
         <Icon kind={isDropdownOpen ? "arrowDropUp" : "arrowDropDown"} size="2rem" />

@@ -17,9 +17,13 @@ export const Option = styled.button<{ $isSelected: boolean }>`
 
   background: transparent;
   outline: none;
+
+  @media screen and (max-width: 520px) {
+    flex: 1%;
+  }
 `;
 
-export const Indicator = styled.div<{ $position: number }>`
+export const Indicator = styled.div<{ $position: number; $optionCount: number }>`
   position: absolute;
   bottom: -2px;
   left: 0;
@@ -31,4 +35,9 @@ export const Indicator = styled.div<{ $position: number }>`
   background-color: ${({ theme }) => theme.COLOR.primary2};
 
   transition: transform 0.3s ease-in-out;
+
+  @media screen and (max-width: 520px) {
+    width: ${({ $optionCount }) => `calc(100% / ${$optionCount})`};
+    transform: ${({ $position }) => `translateX(calc(100% * ${$position}))`};
+  }
 `;

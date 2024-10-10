@@ -88,7 +88,7 @@ export const KeywordWrapper = styled.div`
 `;
 
 export const KeywordText = styled.span`
-  font: ${({ theme }) => theme.TEXT.small};
+  font: ${({ theme }) => theme.TEXT.semiSmall};
   color: ${({ theme }) => theme.COLOR.grey3};
 `;
 
@@ -120,6 +120,6 @@ export const DeadLineText = styled.span`
 export const StyledDday = styled.span`
   display: flex;
   align-items: center;
-  font: ${({ theme }) => theme.TEXT.small_bold};
+  font: ${({ theme }) => theme.TEXT.semiSmall};
   color: ${({ theme }) => theme.COLOR.error};
 `;

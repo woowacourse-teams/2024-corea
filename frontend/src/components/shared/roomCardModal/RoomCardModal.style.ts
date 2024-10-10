@@ -131,12 +131,20 @@ export const EtcContainer = styled.div`
 export const InfoRow = styled.div`
   display: flex;
   align-items: center;
+
+  ${media.small`
+    justify-content: space-between;
+  `}
 `;
 
 export const InfoTitle = styled.span`
   width: 200px;
   font: ${({ theme }) => theme.TEXT.small};
   color: ${({ theme }) => theme.COLOR.grey3};
+
+  ${media.small`
+    width: auto;
+  `}
 `;
 
 export const InfoContent = styled.span`

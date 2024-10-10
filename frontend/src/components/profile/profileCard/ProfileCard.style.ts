@@ -1,3 +1,4 @@
+import { decorators } from "./../../../../.storybook/preview";
 import styled from "styled-components";
 
 export const ProfileCardContainer = styled.div`
@@ -32,6 +33,11 @@ export const ProfileNickname = styled.div`
   font: ${({ theme }) => theme.TEXT.medium_bold};
   color: ${({ theme }) => theme.COLOR.grey3};
   text-align: center;
+  text-decoration: underline;
+
+  &:hover {
+    color: ${({ theme }) => theme.COLOR.primary2};
+  }
 `;
 
 export const ProfileInfoWrapper = styled.div`

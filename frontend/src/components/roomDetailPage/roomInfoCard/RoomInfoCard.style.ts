@@ -121,6 +121,12 @@ export const RoomContentSmall = styled.span`
   `}
 `;
 
+export const ContentLineBreak = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+`;
+
 export const DateTimeText = styled.p`
   font: ${({ theme }) => theme.TEXT.small_bold};
   color: ${({ theme }) => theme.COLOR.black};
