@@ -91,7 +91,6 @@ public class Room extends BaseTimeEntity {
     }
 
     public void updateStatusToProgress() {
-        validateOpened();
         status = RoomStatus.PROGRESS;
     }
 
