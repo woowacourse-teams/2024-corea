@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import media from "@/styles/media";
 
 export const CyclingContainer = styled.div`
   overflow: hidden;
@@ -12,12 +13,12 @@ export const CyclingList = styled.ul`
   flex-direction: column;
   align-items: flex-end;
 
-  width: 140px;
-  height: 48px;
+  width: 160px;
+  height: 52px;
   padding: 0.2rem;
 
   font-family: "Do Hyeon", sans-serif;
-  font-size: 7.2rem;
+  font-size: 8rem;
 
   li {
     position: absolute;
@@ -39,4 +40,10 @@ export const CyclingList = styled.ul`
     opacity: 1;
     transition: all 1.3s;
   }
+
+  ${media.medium`
+    width: 120px;
+    height: 40px;
+    font-size: 6.4rem;
+  `}
 `;
