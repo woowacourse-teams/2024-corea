@@ -1,19 +1,18 @@
 package corea.matching.domain;
 
-import corea.exception.CoreaException;
-import corea.exception.ExceptionType;
 import corea.member.domain.Member;
 import corea.participation.domain.Participation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.List;
 
 @Component
 @Primary
 @RequiredArgsConstructor
-public class DynamicSizeMatchingStrategy implements MatchingStrategy{
+public class DynamicSizeMatchingStrategy implements MatchingStrategy {
 
     private final PlainRandomMatching strategy;
 
@@ -27,9 +26,9 @@ public class DynamicSizeMatchingStrategy implements MatchingStrategy{
     }
 
     private void handleAdditionalMatching(List<Participation> participations, List<Participation> participationsWithoutReviewer, int roomMatchingSize, List<Pair> pairs) {
-        int max = getMaxMatchingSize(participations);
+        int max = getMaxMatchingSize(participations, roomMatchingSize);
 
-        for (int currentMatchingSize = roomMatchingSize; currentMatchingSize <= max; currentMatchingSize++) {
+        for (int currentMatchingSize = roomMatchingSize + 1; currentMatchingSize <= max; currentMatchingSize++) {
             participations = filterUnderMatchedParticipants(participations, currentMatchingSize, roomMatchingSize);
             participationsWithoutReviewer = filterUnderMatchedParticipants(participationsWithoutReviewer, currentMatchingSize, roomMatchingSize);
 
@@ -40,11 +39,11 @@ public class DynamicSizeMatchingStrategy implements MatchingStrategy{
         }
     }
 
-    private int getMaxMatchingSize(List<Participation> participations) {
+    private int getMaxMatchingSize(List<Participation> participations, int roomMatchingSize) {
         return participations.stream()
                 .mapToInt(Participation::getMatchingSize)
                 .max()
-                .orElseThrow(() -> new CoreaException(ExceptionType.PARTICIPANT_SIZE_LACK));
+                .orElse(roomMatchingSize);
     }
 
     private void performAdditionalMatching(List<Participation> participations, List<Participation> participationWithoutReviewer, List<Pair> pairs) {
@@ -94,8 +93,8 @@ public class DynamicSizeMatchingStrategy implements MatchingStrategy{
 
     private boolean isUnderMatchedParticipants(Participation participation, int count, int roomMatchingSize) {
         if (participation.getMemberRole().isReviewer()) {
-            return participation.getMatchingSize() + roomMatchingSize > count;
+            return participation.getMatchingSize() + roomMatchingSize >= count;
         }
-        return participation.getMatchingSize() > count;
+        return participation.getMatchingSize() >= count;
     }
 }
