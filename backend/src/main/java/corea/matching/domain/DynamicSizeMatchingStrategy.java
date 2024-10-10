@@ -94,7 +94,7 @@ public class DynamicSizeMatchingStrategy implements MatchingStrategy{
                 .toList();
     }
 
-    private static boolean isUnderMatchedParticipants(Participation participation, int count, int roomMatchingSize) {
+    private boolean isUnderMatchedParticipants(Participation participation, int count, int roomMatchingSize) {
         if (participation.getMemberRole().isReviewer()) {
             return participation.getMatchingSize() + roomMatchingSize > count;
         }
