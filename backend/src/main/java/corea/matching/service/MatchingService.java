@@ -2,7 +2,6 @@ package corea.matching.service;
 
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
-import corea.matching.domain.DynamicSizeMatchingStrategy;
 import corea.matching.domain.MatchResult;
 import corea.matching.domain.MatchingStrategy;
 import corea.matching.domain.PullRequestInfo;
@@ -42,7 +41,7 @@ public class MatchingService {
 
         log.info("매칭 시작 [방 번호 ({}), 매칭하는 인원 ({}), 총 인원({})]", roomId, room.getMatchingSize(), participations.size());
 
-        room.toProgress();
+        room.updateStatusToProgress();
 
         return matchResultRepository.saveAll(matchingStrategy.matchPairs(participations, room.getMatchingSize())
                 .stream()
