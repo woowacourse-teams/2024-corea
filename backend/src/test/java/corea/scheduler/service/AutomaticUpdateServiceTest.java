@@ -49,9 +49,6 @@ class AutomaticUpdateServiceTest {
     private RoomService roomService;
 
     @Autowired
-    private ReviewService reviewService;
-
-    @Autowired
     private MemberRepository memberRepository;
 
     @Autowired
@@ -62,6 +59,9 @@ class AutomaticUpdateServiceTest {
 
     @Autowired
     private SocialFeedbackRepository socialFeedbackRepository;
+
+    @MockBean
+    private ReviewService reviewService;
 
     @MockBean
     private TaskScheduler taskScheduler;
@@ -122,8 +122,12 @@ class AutomaticUpdateServiceTest {
 
         Member reviewer = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
         Member reviewee = memberRepository.save(MemberFixture.MEMBER_PORORO());
-        matchResultRepository.save(new MatchResult(response.id(), reviewer, reviewee, "prLink"));
+        MatchResult matchResult = matchResultRepository.save(new MatchResult(response.id(), reviewer, reviewee, "prLink"));
 
+        doAnswer(invocation -> {
+            matchResult.reviewComplete();
+            return null;
+        }).when(reviewService).completeReview(response.id(), reviewer.getId(), reviewee.getId());
         reviewService.completeReview(response.id(), reviewer.getId(), reviewee.getId());
         automaticUpdateService.updateAtReviewDeadline(response);
 

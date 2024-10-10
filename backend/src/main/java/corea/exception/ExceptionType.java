@@ -19,6 +19,7 @@ public enum ExceptionType {
     INVALID_RECRUITMENT_DEADLINE(HttpStatus.BAD_REQUEST, "올바르지 않은 모집 마감 시간입니다."),
     INVALID_REVIEW_DEADLINE(HttpStatus.BAD_REQUEST, "올바르지 않은 리뷰 마감 시간입니다."),
     INVALID_PULL_REQUEST_URL(HttpStatus.BAD_REQUEST, "올바르지 않은 풀 리퀘스트 주소입니다."),
+    NOT_COMPLETE_GITHUB_REVIEW(HttpStatus.BAD_REQUEST, "깃허브 리뷰를 완료하지 않았습니다."),
 
     TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "토큰이 만료되었습니다."),
     INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "토큰이 올바르지 않습니다."),
