@@ -8,6 +8,7 @@ import corea.matching.domain.MatchResult;
 import corea.matching.repository.MatchResultRepository;
 import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
+import corea.room.domain.PullRequestReviews;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -39,18 +40,14 @@ public class ReviewService {
     private void updateReviewLink(MatchResult matchResult, long reviewerId) {
         Member reviewer = memberRepository.findById(reviewerId)
                 .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND, String.format("%d에 해당하는 멤버가 없습니다.", reviewerId)));
-        String userName = reviewer.getUsername();
-        String newReviewLink = findReviewLink(userName, matchResult.getPrLink());
+        String githubUserId = reviewer.getGithubUserId();
+        String newReviewLink = findReviewLink(githubUserId, matchResult.getPrLink());
         matchResult.updateReviewLink(newReviewLink);
     }
 
-    private String findReviewLink(String userName, String prLink) {
-        GithubPullRequestReview[] githubPullRequestReviews = githubOAuthProvider.getPullRequestReview(prLink);
-        return Stream.of(githubPullRequestReviews)
-                .filter(review -> review.user().login().equals(userName))
-                .findFirst()
-                .map(GithubPullRequestReview::html_url)
-                .orElse(prLink);
+    private String findReviewLink(String githubUserId, String prLink) {
+        PullRequestReviews pullRequestReviews = githubOAuthProvider.getPullRequestReview(prLink);
+        return pullRequestReviews.getReviewUrl(githubUserId);
     }
 
     private MatchResult getMatchResult(long roomId, long reviewerId, long revieweeId) {

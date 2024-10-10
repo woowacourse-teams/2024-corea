@@ -1,8 +1,8 @@
 package corea.auth.service;
 
-import corea.auth.dto.GithubPullRequestReview;
 import corea.auth.dto.GithubUserInfo;
 import corea.auth.infrastructure.GithubOAuthClient;
+import corea.room.domain.PullRequestReviews;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +17,7 @@ public class GithubOAuthProvider {
         return githubOAuthClient.getUserInfo(accessToken);
     }
 
-    public GithubPullRequestReview[] getPullRequestReview(String prLink) {
-        return githubOAuthClient.getReviewLink(prLink);
+    public PullRequestReviews getPullRequestReview(String prLink) {
+        return new PullRequestReviews(githubOAuthClient.getReviewLink(prLink));
     }
 }

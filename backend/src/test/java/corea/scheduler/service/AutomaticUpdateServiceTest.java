@@ -16,11 +16,14 @@ import corea.member.domain.Member;
 import corea.member.domain.Profile;
 import corea.member.repository.MemberRepository;
 import corea.review.service.ReviewService;
+import corea.room.domain.PullRequestReviews;
 import corea.room.dto.RoomResponse;
 import corea.room.service.RoomService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.scheduling.TaskScheduler;
@@ -66,12 +69,21 @@ class AutomaticUpdateServiceTest {
     @MockBean
     private GithubOAuthProvider githubOAuthProvider;
 
+    @BeforeEach
+    void setup(){
+        PullRequestReviews pullRequestReviews = Mockito.mock(PullRequestReviews.class);
+        when(pullRequestReviews.getReviewUrl(anyString())).thenReturn("");
+
+        when(githubOAuthProvider.getPullRequestReview(anyString())).thenReturn(pullRequestReviews);
+    }
+
     @Test
     @DisplayName("리뷰 마감 시간이 되면 자동으로 상태를 변경한다.")
     void updateAtReviewDeadline() {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
 
-        LocalDateTime reviewDeadline = LocalDateTime.now().plusDays(2);
+        LocalDateTime reviewDeadline = LocalDateTime.now()
+                .plusDays(2);
         RoomResponse response = roomService.create(manager.getId(), RoomFixture.ROOM_CREATE_REQUEST_WITH_REVIEW_DEADLINE(reviewDeadline));
 
         when(taskScheduler.schedule(any(Runnable.class), any(Instant.class))).thenReturn(mock(ScheduledFuture.class));
@@ -83,9 +95,11 @@ class AutomaticUpdateServiceTest {
 
         verify(taskScheduler).schedule(runnableCaptor.capture(), timeCaptor.capture());
         Instant scheduledTime = timeCaptor.getValue();
-        runnableCaptor.getValue().run();
+        runnableCaptor.getValue()
+                .run();
 
-        assertThat(reviewDeadline.atZone(ZoneId.of("Asia/Seoul")).toInstant()).isEqualTo(scheduledTime);
+        assertThat(reviewDeadline.atZone(ZoneId.of("Asia/Seoul"))
+                .toInstant()).isEqualTo(scheduledTime);
     }
 
     @Test
@@ -93,7 +107,8 @@ class AutomaticUpdateServiceTest {
     void cancel() {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
 
-        LocalDateTime reviewDeadline = LocalDateTime.now().plusDays(2);
+        LocalDateTime reviewDeadline = LocalDateTime.now()
+                .plusDays(2);
         RoomResponse response = roomService.create(manager.getId(), RoomFixture.ROOM_CREATE_REQUEST_WITH_REVIEW_DEADLINE(reviewDeadline));
 
         ScheduledFuture scheduledFuture = mock(ScheduledFuture.class);
@@ -111,10 +126,10 @@ class AutomaticUpdateServiceTest {
     void increaseReviewCount() {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
 
-        LocalDateTime reviewDeadline = LocalDateTime.now().plusDays(2);
+        LocalDateTime reviewDeadline = LocalDateTime.now()
+                .plusDays(2);
         RoomResponse response = roomService.create(manager.getId(), RoomFixture.ROOM_CREATE_REQUEST_WITH_REVIEW_DEADLINE(reviewDeadline));
 
-        when(githubOAuthProvider.getPullRequestReview(anyString())).thenReturn(new GithubPullRequestReview[0]);
         when(taskScheduler.schedule(any(Runnable.class), any(Instant.class))).thenReturn(mock(ScheduledFuture.class));
 
         Member reviewer = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
@@ -128,10 +143,13 @@ class AutomaticUpdateServiceTest {
         ArgumentCaptor<Instant> timeCaptor = ArgumentCaptor.forClass(Instant.class);
 
         verify(taskScheduler).schedule(runnableCaptor.capture(), timeCaptor.capture());
-        runnableCaptor.getValue().run();
+        runnableCaptor.getValue()
+                .run();
 
-        assertThat(reviewer.getProfile().getDeliverCount()).isEqualTo(1);
-        assertThat(reviewee.getProfile().getReceiveCount()).isEqualTo(1);
+        assertThat(reviewer.getProfile()
+                .getDeliverCount()).isEqualTo(1);
+        assertThat(reviewee.getProfile()
+                .getReceiveCount()).isEqualTo(1);
     }
 
     @Test
@@ -140,10 +158,10 @@ class AutomaticUpdateServiceTest {
     void updateDevelopFeedbackPoint() {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
 
-        LocalDateTime reviewDeadline = LocalDateTime.now().plusDays(2);
+        LocalDateTime reviewDeadline = LocalDateTime.now()
+                .plusDays(2);
         RoomResponse response = roomService.create(manager.getId(), RoomFixture.ROOM_CREATE_REQUEST_WITH_REVIEW_DEADLINE(reviewDeadline));
 
-        when(githubOAuthProvider.getPullRequestReview(anyString())).thenReturn(new GithubPullRequestReview[0]);
         when(taskScheduler.schedule(any(Runnable.class), any(Instant.class))).thenReturn(mock(ScheduledFuture.class));
 
         Member reviewer = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
@@ -159,7 +177,8 @@ class AutomaticUpdateServiceTest {
         ArgumentCaptor<Instant> timeCaptor = ArgumentCaptor.forClass(Instant.class);
 
         verify(taskScheduler).schedule(runnableCaptor.capture(), timeCaptor.capture());
-        runnableCaptor.getValue().run();
+        runnableCaptor.getValue()
+                .run();
 
         Profile profile = reviewee.getProfile();
         assertThat(profile.getFeedbackCount()).isEqualTo(1);
@@ -172,10 +191,10 @@ class AutomaticUpdateServiceTest {
     void updateSocialFeedbackPoint() {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
 
-        LocalDateTime reviewDeadline = LocalDateTime.now().plusDays(2);
+        LocalDateTime reviewDeadline = LocalDateTime.now()
+                .plusDays(2);
         RoomResponse response = roomService.create(manager.getId(), RoomFixture.ROOM_CREATE_REQUEST_WITH_REVIEW_DEADLINE(reviewDeadline));
 
-        when(githubOAuthProvider.getPullRequestReview(anyString())).thenReturn(new GithubPullRequestReview[0]);
         when(taskScheduler.schedule(any(Runnable.class), any(Instant.class))).thenReturn(mock(ScheduledFuture.class));
 
         Member reviewer = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
@@ -191,7 +210,8 @@ class AutomaticUpdateServiceTest {
         ArgumentCaptor<Instant> timeCaptor = ArgumentCaptor.forClass(Instant.class);
 
         verify(taskScheduler).schedule(runnableCaptor.capture(), timeCaptor.capture());
-        runnableCaptor.getValue().run();
+        runnableCaptor.getValue()
+                .run();
 
         Profile profile = reviewer.getProfile();
         assertThat(profile.getFeedbackCount()).isEqualTo(1);

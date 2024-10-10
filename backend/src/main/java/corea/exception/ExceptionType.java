@@ -17,6 +17,8 @@ public enum ExceptionType {
     INVALID_CALCULATION_FORMULA(HttpStatus.BAD_REQUEST, "잘못된 계산식입니다."),
     INVALID_VALUE(HttpStatus.BAD_REQUEST, "올바르지 않은 값입니다."),
     INVALID_RECRUITMENT_DEADLINE(HttpStatus.BAD_REQUEST, "올바르지 않은 모집 마감 시간입니다."),
+    NOT_EXIST_GITHUB_REVIEW(HttpStatus.BAD_REQUEST, "깃허브 리뷰가 존재하지 않습니다."),
+
     INVALID_REVIEW_DEADLINE(HttpStatus.BAD_REQUEST, "올바르지 않은 리뷰 마감 시간입니다."),
     INVALID_PULL_REQUEST_URL(HttpStatus.BAD_REQUEST, "올바르지 않은 풀 리퀘스트 주소입니다."),
 

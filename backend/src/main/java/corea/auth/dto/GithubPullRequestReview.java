@@ -12,5 +12,8 @@ public record GithubPullRequestReview(
 
         @JsonProperty("html_url")
         String html_url
-){
+) {
+    public boolean isEqualGithubUserId(String githubUserId) {
+        return user.id().equals(githubUserId);
+    }
 }
