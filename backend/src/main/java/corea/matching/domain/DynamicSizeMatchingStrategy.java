@@ -18,7 +18,7 @@ public class DynamicSizeMatchingStrategy implements MatchingStrategy {
 
     public List<Pair> matchPairs(List<Participation> participations, int roomMatchingSize) {
         List<Participation> participationWithoutReviewer = participations.stream()
-                .filter(participation -> !participation.getMemberRole().isReviewer())
+                .filter(participation -> !participation.isReviewer())
                 .toList();
         // MemberRole.REVIEWER 인 사람을 제외하고 기존 로직으로 roomMatchingSize 만큼 선 매칭
         List<Pair> pairs = strategy.matchPairs(participationWithoutReviewer, roomMatchingSize);
@@ -99,8 +99,8 @@ public class DynamicSizeMatchingStrategy implements MatchingStrategy {
 
         // reviewer 와 reviewee 가 매칭된 기록이 있는 경우 false 반환, 없으면 true 반환
         return pairs.stream().noneMatch(
-                pair -> pair.getDeliver().equals(reviewer) &&
-                        pair.getReceiver().equals(reviewee));
+                pair -> pair.hasReviewer(reviewer) &&
+                        pair.hasReviewee(reviewee));
     }
 
     // currentMatchingSize 미만의 matchingSize 를 가지는 참여자를 제외
@@ -112,7 +112,7 @@ public class DynamicSizeMatchingStrategy implements MatchingStrategy {
 
     private boolean isUnderMatchedParticipants(Participation participation, int currentMatchingSize, int roomMatchingSize) {
         // MemberRole.REVIEWER 인 경우 currentMatchingSize 가 roomMatchingSize 부터 증가하고, REVIEWER 는 0 회 부터 매칭을 시도하므로 roomMatchingSize 만큼 추가적인 기회 필요
-        if (participation.getMemberRole().isReviewer()) {
+        if (participation.isReviewer()) {
             return participation.getMatchingSize() + roomMatchingSize >= currentMatchingSize;
         }
         // MemberRole.BOTH 인 경우 matchingSize 와 currentMatchingSize 를 비교

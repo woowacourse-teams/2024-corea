@@ -78,6 +78,10 @@ public class Participation extends BaseTimeEntity {
         return member.getGithubUserId();
     }
 
+    public boolean isReviewer() {
+        return memberRole.isReviewer();
+    }
+
     private static void debug(long roomId, long memberId) {
         log.debug("참가자 생성[방 ID={}, 멤버 ID={}", roomId, memberId);
     }
