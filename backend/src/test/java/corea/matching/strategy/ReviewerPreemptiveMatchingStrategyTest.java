@@ -1,5 +1,6 @@
 package corea.matching.strategy;
 
+import corea.exception.CoreaException;
 import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
 import corea.matching.domain.Pair;
@@ -19,6 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 class ReviewerPreemptiveMatchingStrategyTest {
@@ -60,11 +62,11 @@ class ReviewerPreemptiveMatchingStrategyTest {
     @DisplayName("다양한 matchingSize 에 맞게 매칭 결과를 생성한다.")
     void matchPairs() {
         List<Participation> participations = participationRepository.saveAll(List.of(
-                new Participation(room, joyson, MemberRole.BOTH, 5),
+                new Participation(room, joyson, MemberRole.BOTH, 2),
                 new Participation(room, movin, MemberRole.BOTH, 2),
-                new Participation(room, pororo, MemberRole.BOTH, 6),
-                new Participation(room, ash, MemberRole.BOTH, 4),
-                new Participation(room, tenten, MemberRole.BOTH, 6),
+                new Participation(room, pororo, MemberRole.BOTH, 2),
+                new Participation(room, ash, MemberRole.BOTH, 2),
+                new Participation(room, tenten, MemberRole.BOTH, 2),
                 new Participation(room, darr, MemberRole.BOTH, 2),
                 new Participation(room, choco, MemberRole.BOTH, 3)
         ));
@@ -145,5 +147,22 @@ class ReviewerPreemptiveMatchingStrategyTest {
                 .count();
 
         assertThat(participation.getMatchingSize()).isGreaterThanOrEqualTo((int) deliver_count);
+    }
+
+    @Test
+    @DisplayName("리뷰어가 아닌 참여자들을 매칭할 때에 방의 참여 인원 수 이하인 경우 예외를 발생한다.")
+    void validateSize() {
+        List<Participation> participations = participationRepository.saveAll(List.of(
+                new Participation(room, joyson, MemberRole.BOTH, 2),
+                new Participation(room, movin, MemberRole.BOTH, 2),
+                new Participation(room, pororo, MemberRole.REVIEWER, 2),
+                new Participation(room, ash, MemberRole.REVIEWER, 2),
+                new Participation(room, tenten, MemberRole.REVIEWER, 2),
+                new Participation(room, darr, MemberRole.REVIEWER, 2),
+                new Participation(room, choco, MemberRole.REVIEWER, 3)
+        ));
+
+        assertThatThrownBy(() -> matchingStrategy.matchPairs(participations, room.getMatchingSize()))
+                .isInstanceOf(CoreaException.class);
     }
 }

@@ -1,5 +1,7 @@
 package corea.matching.strategy;
 
+import corea.exception.CoreaException;
+import corea.exception.ExceptionType;
 import corea.matching.domain.Pair;
 import corea.member.domain.Member;
 import corea.participation.domain.Participation;
@@ -26,6 +28,7 @@ public class ReviewerPreemptiveMatchingStrategy implements MatchingStrategy {
                 .sorted(Comparator.comparing(Participation::getMatchingSize))
                 .toList();
 
+        validateSize(nonReviewers, matchingSize);
         List<Pair> pairs = strategy.matchPairs(nonReviewers, matchingSize);
 
         matchAmongReviewees(nonReviewers, matchingSize, pairs);
@@ -33,6 +36,12 @@ public class ReviewerPreemptiveMatchingStrategy implements MatchingStrategy {
             matchReviewers(reviewers, nonReviewers, pairs);
         }
         return pairs;
+    }
+
+    private void validateSize(List<Participation> participations, int matchingSize) {
+        if (participations.size() <= matchingSize) {
+            throw new CoreaException(ExceptionType.PARTICIPANT_SIZE_LACK);
+        }
     }
 
     private void matchAmongReviewees(List<Participation> nonReviewers, int roomMatchingSize, List<Pair> pairs) {
