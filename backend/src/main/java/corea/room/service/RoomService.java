@@ -133,8 +133,9 @@ public class RoomService {
 
     public RoomParticipantResponses findParticipants(long roomId, long memberId) {
         List<Participation> participants = new java.util.ArrayList<>(
-                participationRepository.findAllByRoomId(roomId).stream()
-                        .filter(participation -> participation.isNotMatchingMemberId(memberId))
+                participationRepository.findAllByRoomId(roomId)
+                        .stream()
+                        .filter(participation -> participation.isNotMatchingMemberId(memberId) && participation.isNotReviewer())
                         .toList());
         Collections.shuffle(participants);
 
@@ -145,10 +146,14 @@ public class RoomService {
     }
 
     private RoomParticipantResponse getRoomParticipantResponse(long roomId, Participation participant) {
-        return matchResultRepository.findAllByRevieweeIdAndRoomId(participant.getMembersId(), roomId).stream()
+        return matchResultRepository.findAllByRevieweeIdAndRoomId(participant.getMembersId(), roomId)
+                .stream()
                 .findFirst()
                 .map(matchResult -> new RoomParticipantResponse(
-                        matchResult.getReviewee().getGithubUserId(), matchResult.getReviewee().getUsername(), matchResult.getPrLink(), matchResult.getReviewee().getThumbnailUrl()))
+                        matchResult.getReviewee()
+                                .getGithubUserId(), matchResult.getReviewee()
+                        .getUsername(), matchResult.getPrLink(), matchResult.getReviewee()
+                        .getThumbnailUrl()))
                 .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND));
     }
 

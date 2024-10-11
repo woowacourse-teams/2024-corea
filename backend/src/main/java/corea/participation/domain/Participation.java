@@ -82,6 +82,10 @@ public class Participation extends BaseTimeEntity {
         return memberRole.isReviewer();
     }
 
+    public boolean isNotReviewer() {
+        return !isReviewer();
+    }
+
     private static void debug(long roomId, long memberId) {
         log.debug("참가자 생성[방 ID={}, 멤버 ID={}", roomId, memberId);
     }
