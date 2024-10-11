@@ -11,7 +11,7 @@ export const Layout = styled.div`
   `}
 `;
 
-export const ParticipatedSection = styled.div`
+export const ImgWithError = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;

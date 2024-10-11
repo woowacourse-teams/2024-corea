@@ -1,7 +1,7 @@
 import * as S from "@/components/common/label/Label.style";
 import { ThemeType } from "@/styles/theme";
 
-export type LabelType = "KEYWORD" | "OPEN" | "CLOSE" | "PROGRESS";
+export type LabelType = "KEYWORD" | "OPEN" | "CLOSE" | "PROGRESS" | "FAIL";
 export type LabelSize = keyof ThemeType["TEXT"];
 
 interface LabelProps {
@@ -18,6 +18,7 @@ const Label = ({ text, type, size = "semiSmall", backgroundColor }: LabelProps) 
       {type === "OPEN" && "모집 중"}
       {type === "CLOSE" && "종료"}
       {type === "PROGRESS" && "진행 중"}
+      {type === "FAIL" && "매칭 실패"}
     </S.LabelWrapper>
   );
 };
