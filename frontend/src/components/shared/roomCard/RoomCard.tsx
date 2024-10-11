@@ -52,20 +52,22 @@ const RoomCard = React.memo(({ roomInfo }: RoomCardProps) => {
           <S.DeadLineText>
             {roomInfo.roomStatus === "OPEN" ? (
               <>
-                {formatDday(roomInfo.reviewDeadline) !== "종료됨" && "모집 마감"}
+                {formatDday(roomInfo.recruitmentDeadline) !== "종료됨" && "모집 마감"}
                 <S.StyledDday>
-                  {formatDday(roomInfo.recruitmentDeadline) !== "D-Day"
-                    ? formatDday(roomInfo.recruitmentDeadline)
-                    : formatLeftTime(roomInfo.recruitmentDeadline)}
+                  {formatDday(roomInfo.recruitmentDeadline) === "D-Day" &&
+                  formatDday(roomInfo.recruitmentDeadline) !== "종료됨"
+                    ? formatLeftTime(roomInfo.recruitmentDeadline)
+                    : formatDday(roomInfo.recruitmentDeadline)}
                 </S.StyledDday>
               </>
             ) : (
               <>
                 {formatDday(roomInfo.reviewDeadline) !== "종료됨" && "리뷰 마감"}
                 <S.StyledDday>
-                  {formatDday(roomInfo.reviewDeadline) !== "D-Day"
-                    ? formatDday(roomInfo.reviewDeadline)
-                    : formatLeftTime(roomInfo.reviewDeadline)}
+                  {formatDday(roomInfo.reviewDeadline) === "D-Day" &&
+                  formatDday(roomInfo.reviewDeadline) !== "종료됨"
+                    ? formatLeftTime(roomInfo.reviewDeadline)
+                    : formatDday(roomInfo.reviewDeadline)}
                 </S.StyledDday>
               </>
             )}
