@@ -3,14 +3,12 @@ package corea.matching.domain;
 import corea.member.domain.Member;
 import corea.participation.domain.Participation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayDeque;
 import java.util.List;
 
 @Component
-@Primary
 @RequiredArgsConstructor
 public class DynamicSizeMatchingStrategy implements MatchingStrategy {
 
