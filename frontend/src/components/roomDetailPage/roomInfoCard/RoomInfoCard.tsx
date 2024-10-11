@@ -51,7 +51,7 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
           </S.RoomContentSmall>
           <S.RoomContentSmall>
             <Icon kind="person" size="1.4rem" color={theme.COLOR.grey4} />
-            <span>상호 리뷰 인원 : </span>
+            <span>최소 상호 리뷰 인원 : </span>
             {roomInfo.matchingSize}명
           </S.RoomContentSmall>
           <S.RoomContentSmall>

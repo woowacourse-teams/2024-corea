@@ -14,6 +14,7 @@ const MAX_MATCHING_SIZE = 5;
 
 const RoomCardModalButton = ({ roomInfo }: RoomCardModalButtonProps) => {
   const navigate = useNavigate();
+  const [isFormOpened, setIsFormOpened] = useState(false);
   const [userRole, setUserRole] = useState<Role>("BOTH");
   const [matchingSize, setMatchingSize] = useState(roomInfo.matchingSize);
   const { postParticipateInMutation } = useMutateRoom();
@@ -62,37 +63,58 @@ const RoomCardModalButton = ({ roomInfo }: RoomCardModalButtonProps) => {
 
   return (
     <S.ButtonContainer>
-      <S.MatchingSizeContainer>
-        <p>상호 리뷰 인원 선택</p>
-        <Button
-          variant={matchingSize === roomInfo.matchingSize ? "disable" : "primary"}
-          size="xSmall"
-          disabled={matchingSize === roomInfo.matchingSize}
-          onClick={() => setMatchingSize(Math.max(matchingSize - 1, roomInfo.matchingSize))}
-        >
-          -
-        </Button>
-        <span>{matchingSize}</span>
-        <Button
-          variant={matchingSize === MAX_MATCHING_SIZE ? "disable" : "primary"}
-          size="xSmall"
-          disabled={matchingSize === MAX_MATCHING_SIZE}
-          onClick={() => setMatchingSize(Math.min(matchingSize + 1, MAX_MATCHING_SIZE))}
-        >
-          +
-        </Button>
-      </S.MatchingSizeContainer>
+      <S.FormContainer
+        onClick={() => {
+          setIsFormOpened(!isFormOpened);
+        }}
+      >
+        <h2>참여 옵션 설정</h2>
+        {isFormOpened && (
+          <S.FormWrapper onClick={(e) => e.stopPropagation()}>
+            <S.MatchingSizeContainer>
+              <p>
+                {userRole === "REVIEWER"
+                  ? "선호하는 리뷰이 인원 선택:"
+                  : "선호하는 상호 리뷰 인원 선택:"}
+              </p>
+              <Button
+                variant={matchingSize === roomInfo.matchingSize ? "disable" : "primary"}
+                size="xSmall"
+                disabled={matchingSize === roomInfo.matchingSize}
+                onClick={(event) => {
+                  setMatchingSize(Math.max(matchingSize - 1, roomInfo.matchingSize));
+                  event.stopPropagation();
+                }}
+              >
+                -
+              </Button>
+              <span>{matchingSize}</span>
+              <Button
+                variant={matchingSize === MAX_MATCHING_SIZE ? "disable" : "primary"}
+                size="xSmall"
+                disabled={matchingSize === MAX_MATCHING_SIZE}
+                onClick={(event) => {
+                  setMatchingSize(Math.min(matchingSize + 1, MAX_MATCHING_SIZE));
+                  event.stopPropagation();
+                }}
+              >
+                +
+              </Button>
+            </S.MatchingSizeContainer>
+
+            <Checkbox
+              id="reviewer-checkbox"
+              label="리뷰어로만 참여하기"
+              checked={userRole === "REVIEWER"}
+              onChange={handleRoleChange}
+            />
+          </S.FormWrapper>
+        )}
+      </S.FormContainer>
 
       <Button variant="primary" size="small" onClick={handleParticipateRoomClick}>
         참여하기
       </Button>
-
-      <Checkbox
-        id="reviewer-checkbox"
-        label="리뷰어로만 참여하기"
-        checked={userRole === "REVIEWER"}
-        onChange={handleRoleChange}
-      />
     </S.ButtonContainer>
   );
 };
