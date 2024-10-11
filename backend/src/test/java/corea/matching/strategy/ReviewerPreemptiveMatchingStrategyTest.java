@@ -151,7 +151,7 @@ class ReviewerPreemptiveMatchingStrategyTest {
 
     @Test
     @DisplayName("리뷰어가 아닌 참여자들을 매칭할 때에 방의 참여 인원 수 이하인 경우 예외를 발생한다.")
-    void validateSize() {
+    void validateBothSize() {
         List<Participation> participations = participationRepository.saveAll(List.of(
                 new Participation(room, joyson, MemberRole.BOTH, 2),
                 new Participation(room, movin, MemberRole.BOTH, 2),
@@ -164,5 +164,33 @@ class ReviewerPreemptiveMatchingStrategyTest {
 
         assertThatThrownBy(() -> matchingStrategy.matchPairs(participations, room.getMatchingSize()))
                 .isInstanceOf(CoreaException.class);
+    }
+
+    @Test
+    @DisplayName("리뷰어 수가 MemberRole.BOTH 보다 많은 경우 최대한 공평하게 분배한다.")
+    void lessReviewee() {
+        List<Participation> participations = participationRepository.saveAll(List.of(
+                new Participation(room, joyson, MemberRole.BOTH, 2),
+                new Participation(room, movin, MemberRole.BOTH, 2),
+                new Participation(room, pororo, MemberRole.BOTH, 2),
+                new Participation(room, ash, MemberRole.REVIEWER, 2),
+                new Participation(room, tenten, MemberRole.REVIEWER, 2),
+                new Participation(room, darr, MemberRole.REVIEWER, 2),
+                new Participation(room, choco, MemberRole.REVIEWER, 3)
+        ));
+
+        List<Pair> pairs = matchingStrategy.matchPairs(participations, room.getMatchingSize());
+
+        List<Member> reviewers = participations.stream()
+                .filter(Participation::isReviewer)
+                .map(Participation::getMember)
+                .toList();
+
+        List<Member> reviewerPairs = pairs.stream()
+                .map(Pair::getDeliver)
+                .filter(reviewers::contains)
+                .toList();
+
+        assertThat(reviewerPairs).hasSize(participations.size() - reviewers.size());
     }
 }

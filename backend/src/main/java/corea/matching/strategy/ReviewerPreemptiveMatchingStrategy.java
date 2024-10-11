@@ -123,12 +123,27 @@ public class ReviewerPreemptiveMatchingStrategy implements MatchingStrategy {
     private void matchReviewers(List<Participation> reviewers, List<Participation> reviewees, List<Pair> pairs) {
         int revieweesPerReviewer = reviewees.size() / reviewers.size();
 
+        if (revieweesPerReviewer == 0) {
+            matchRevieweeByReviewer(reviewers, reviewees, pairs);
+            return;
+        }
+
         for (int index = 0; index < reviewers.size(); index++) {
             Member reviewer = reviewers.get(index).getMember();
             matchRevieweesToReviewer(reviewer, reviewees, pairs, index, revieweesPerReviewer);
 
             if (index == reviewers.size() - 1) {
                 matchRemainingReviewees(reviewer, reviewees, pairs, (index + 1) * revieweesPerReviewer);
+            }
+        }
+    }
+
+    private void matchRevieweeByReviewer(List<Participation> reviewers, List<Participation> reviewees, List<Pair> pairs) {
+        for (int index = 0; index < reviewees.size(); index++) {
+            Member reviewer = reviewers.get(index).getMember();
+            Member reviewee = reviewees.get(index).getMember();
+            if (isPossiblePair(reviewer, reviewee, pairs)) {
+                pairs.add(new Pair(reviewer, reviewee));
             }
         }
     }
