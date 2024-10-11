@@ -84,13 +84,14 @@ public class Room extends BaseTimeEntity {
         currentParticipantsSize += 1;
     }
 
-    public void validateOpened() {
+    private void validateOpened() {
         if (status.isNotOpened()) {
             throw new CoreaException(ExceptionType.ROOM_STATUS_INVALID);
         }
     }
 
     public void updateStatusToProgress() {
+        validateOpened();
         status = RoomStatus.PROGRESS;
     }
 

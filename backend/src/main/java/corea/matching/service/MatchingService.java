@@ -35,18 +35,10 @@ public class MatchingService {
     @Transactional
     public List<MatchResult> match(long roomId, PullRequestInfo pullRequestInfo) {
         Room room = getRoom(roomId);
-        validateRoomStatus(room);
+        room.updateStatusToProgress();
 
         List<MatchResult> matchResults = matchPairs(room, pullRequestInfo);
-
-        room.updateStatusToProgress();
         return matchResultRepository.saveAll(matchResults);
-    }
-
-    private void validateRoomStatus(Room room) {
-        if (room.isNotOpened()) {
-            throw new CoreaException(ExceptionType.ROOM_STATUS_INVALID);
-        }
     }
 
     private List<MatchResult> matchPairs(Room room, PullRequestInfo pullRequestInfo) {
