@@ -2,12 +2,18 @@ package corea.matching.domain;
 
 import corea.member.domain.Member;
 import corea.participation.domain.Participation;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
 
 @Component
+@Primary
+@RequiredArgsConstructor
 public class ReviewerPreemptiveMatchingStrategy implements MatchingStrategy {
+
+    private final PlainRandomMatching strategy;
 
     @Override
     public List<Pair> matchPairs(List<Participation> participations, int matchingSize) {
@@ -19,7 +25,7 @@ public class ReviewerPreemptiveMatchingStrategy implements MatchingStrategy {
                 .sorted(Comparator.comparing(Participation::getMatchingSize))
                 .toList();
 
-        List<Pair> pairs = new ArrayList<>();
+        List<Pair> pairs = strategy.matchPairs(nonReviewers, matchingSize);
 
         matchAmongReviewees(nonReviewers, matchingSize, pairs);
         if (!reviewers.isEmpty()) {
@@ -31,7 +37,7 @@ public class ReviewerPreemptiveMatchingStrategy implements MatchingStrategy {
     private void matchAmongReviewees(List<Participation> participations, int roomMatchingSize, List<Pair> pairs) {
         int max = getMaxMatchingSize(participations, roomMatchingSize);
 
-        for (int currentMatchingSize = 1; currentMatchingSize <= max; currentMatchingSize++) {
+        for (int currentMatchingSize = roomMatchingSize + 1; currentMatchingSize <= max; currentMatchingSize++) {
             participations = filterUnderMatchedParticipants(participations, currentMatchingSize);
 
             if (participations.isEmpty()) {
