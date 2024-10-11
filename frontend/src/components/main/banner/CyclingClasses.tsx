@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import * as S from "@/components/main/banner/CyclingClasses.style";
 
-const CyclingClasses = ({ items, speed }: { items: string[]; speed: number }) => {
+interface CyclingClassesProps {
+  items: string[];
+  speed: number;
+}
+
+const CyclingClasses = ({ items, speed }: CyclingClassesProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
@@ -25,7 +30,7 @@ const CyclingClasses = ({ items, speed }: { items: string[]; speed: number }) =>
 
           return (
             <li key={index} className={className}>
-              "{item}"
+              {`"${item}"`}
             </li>
           );
         })}
