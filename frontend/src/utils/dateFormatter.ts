@@ -98,9 +98,10 @@ const calculateTimeDifference = (
 
   const diffHours = Math.floor(diffMinutes / 60);
   const remainingMinutes = diffMinutes % 60;
+  const remainingMinutesNonZero = remainingMinutes === 0 ? 1 : remainingMinutes;
 
   return {
     hours: diffHours,
-    minutes: remainingMinutes,
+    minutes: remainingMinutesNonZero,
   };
 };
