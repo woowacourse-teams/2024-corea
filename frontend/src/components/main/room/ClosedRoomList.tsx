@@ -1,4 +1,5 @@
 import { useInfiniteFetchRoomList } from "@/hooks/queries/useFetchRooms";
+import Loading from "@/components/common/loading/Loading";
 import WithSuspense from "@/components/common/withSuspense/WithSuspense";
 import RoomListWithDropdown from "@/components/main/room/RoomListWithDropdown";
 import QUERY_KEYS from "@/apis/queryKeys";
@@ -36,4 +37,4 @@ const ClosedRoomList = ({ selectedCategory, handleSelectedCategory }: ClosedRoom
   );
 };
 
-export default WithSuspense(ClosedRoomList, null);
+export default WithSuspense(ClosedRoomList, <Loading />);

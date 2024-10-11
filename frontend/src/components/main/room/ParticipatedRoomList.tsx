@@ -1,5 +1,6 @@
 import { useFetchParticipatedRoomList } from "@/hooks/queries/useFetchRooms";
 import ContentSection from "@/components/common/contentSection/ContentSection";
+import Loading from "@/components/common/loading/Loading";
 import WithSuspense from "@/components/common/withSuspense/WithSuspense";
 import RoomList from "@/components/shared/roomList/RoomList";
 
@@ -17,4 +18,4 @@ const ParticipatedRoomList = () => {
   );
 };
 
-export default WithSuspense(ParticipatedRoomList, null);
+export default WithSuspense(ParticipatedRoomList, <Loading />);
