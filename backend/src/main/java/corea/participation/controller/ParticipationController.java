@@ -2,6 +2,7 @@ package corea.participation.controller;
 
 import corea.auth.annotation.LoginMember;
 import corea.auth.domain.AuthInfo;
+import corea.participation.dto.ParticipationHttpRequest;
 import corea.participation.dto.ParticipationRequest;
 import corea.participation.service.ParticipationService;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +21,8 @@ public class ParticipationController implements ParticipationControllerSpecifica
     public ResponseEntity<Void> participate(@PathVariable long id,
                                             @LoginMember AuthInfo authInfo,
                                             @RequestParam(value = "role", defaultValue = "both") String role,
-                                            @RequestBody int matchingSize) {
-        participationService.participate(new ParticipationRequest(id, authInfo.getId(), role, matchingSize));
+                                            @RequestBody ParticipationHttpRequest participationHttpRequest) {
+        participationService.participate(new ParticipationRequest(id, authInfo.getId(), role, participationHttpRequest.matchingSize()));
         return ResponseEntity.ok()
                 .build();
     }
