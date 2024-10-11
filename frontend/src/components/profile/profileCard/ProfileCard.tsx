@@ -1,14 +1,6 @@
 import Icon from "@/components/common/icon/Icon";
 import Profile from "@/components/common/profile/Profile";
-import AttitudeScore from "@/components/profile/attitudeScore/AttitudeScore";
 import * as S from "@/components/profile/profileCard/ProfileCard.style";
-import IconKind from "@/@types/icon";
-
-interface UserInfo {
-  title: string;
-  value: number;
-  iconKind?: IconKind;
-}
 
 const ProfileCard = (profileData: ProfileData) => {
   return (
@@ -16,10 +8,12 @@ const ProfileCard = (profileData: ProfileData) => {
       <S.ProfileTitle>프로필</S.ProfileTitle>
 
       <S.ProfileCardWrapper>
-        <S.ProfileWrapper>
-          <Profile imgSrc={profileData.profileImage} size={110} />
-          <S.ProfileNickname>{profileData.nickname}</S.ProfileNickname>
-        </S.ProfileWrapper>
+        <a href={"https://github.com/" + profileData.nickname} target="_blank">
+          <S.ProfileWrapper>
+            <Profile imgSrc={profileData.profileImage} size={110} />
+            <S.ProfileNickname>{profileData.nickname}</S.ProfileNickname>
+          </S.ProfileWrapper>
+        </a>
 
         <S.ProfileInfoWrapper>
           <S.ProfileSummaryContainer>
@@ -45,12 +39,19 @@ const ProfileCard = (profileData: ProfileData) => {
         </S.ProfileInfoWrapper>
 
         <S.KeywordContainer>
-          {profileData.feedbackKeywords.map((keyword) => (
-            <S.KeywordWrapper key={keyword}>
+          {profileData.feedbackKeywords.length !== 0 ? (
+            profileData.feedbackKeywords.map((keyword) => (
+              <S.KeywordWrapper key={keyword}>
+                <Icon kind="people" />
+                <S.Keyword>{keyword}</S.Keyword>
+              </S.KeywordWrapper>
+            ))
+          ) : (
+            <S.KeywordWrapper>
               <Icon kind="people" />
-              <S.Keyword>{keyword}</S.Keyword>
+              <S.Keyword>받은 피드백을 기반으로 키워드가 선정됩니다</S.Keyword>
             </S.KeywordWrapper>
-          ))}
+          )}
         </S.KeywordContainer>
       </S.ProfileCardWrapper>
 

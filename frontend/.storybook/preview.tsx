@@ -2,7 +2,7 @@ import handlers from "../src/mocks/handlers";
 import { ToastProvider } from "../src/providers/ToastProvider";
 import GlobalStyles from "../src/styles/globalStyles";
 import { theme } from "../src/styles/theme";
-import type { Preview } from "@storybook/react";
+import type { Preview, StoryFn } from "@storybook/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { initialize, mswLoader } from "msw-storybook-addon";
 import React from "react";
@@ -29,7 +29,7 @@ const preview: Preview = {
 const queryClient = new QueryClient();
 
 export const decorators = [
-  (Story) => (
+  (Story: StoryFn) => (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <ThemeProvider theme={theme}>

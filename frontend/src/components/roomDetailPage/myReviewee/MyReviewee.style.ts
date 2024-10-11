@@ -12,6 +12,8 @@ export const MyRevieweeWrapper = styled.div`
   grid-template-columns: 1fr 1fr 1fr;
   place-items: center center;
   padding: 0.7rem 1rem;
+  height: 40px;
+  box-sizing: content-box;
 
   &:not(:last-child) {
     border-bottom: 1px solid ${({ theme }) => theme.COLOR.grey1};
@@ -28,6 +30,7 @@ export const MyRevieweeContent = styled.span`
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 40px;
 
   font: ${({ theme }) => theme.TEXT.semiSmall};
   text-align: center;
