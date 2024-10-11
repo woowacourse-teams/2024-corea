@@ -118,7 +118,6 @@ class AutomaticMatchingExecutorTest {
         assertThat(matchResults).isNotEmpty();
     }
 
-
     @Transactional
     @Test
     @DisplayName("매칭 시도 중 예외가 발생했다면 방 상태를 FAIL로 변경한다.")
