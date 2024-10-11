@@ -1,9 +1,8 @@
-package corea.matching.service;
+package corea.matching.strategy;
 
 import config.ServiceTest;
 import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
-import corea.matching.domain.MatchingStrategy;
 import corea.member.domain.Member;
 import corea.member.domain.MemberRole;
 import corea.member.repository.MemberRepository;

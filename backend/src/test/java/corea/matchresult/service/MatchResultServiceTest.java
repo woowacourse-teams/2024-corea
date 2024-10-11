@@ -1,13 +1,13 @@
-package corea.matching.service;
+package corea.matchresult.service;
 
 import config.ServiceTest;
 import corea.exception.CoreaException;
 import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
-import corea.matching.domain.MatchResult;
-import corea.matching.domain.MatchingStrategy;
-import corea.matching.dto.MatchResultResponses;
-import corea.matching.repository.MatchResultRepository;
+import corea.matchresult.domain.MatchResult;
+import corea.matching.strategy.MatchingStrategy;
+import corea.matchresult.dto.MatchResultResponses;
+import corea.matchresult.repository.MatchResultRepository;
 import corea.member.domain.Member;
 import corea.member.domain.MemberRole;
 import corea.member.repository.MemberRepository;

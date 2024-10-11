@@ -10,11 +10,11 @@ import java.util.Arrays;
 import java.util.Objects;
 
 @Component
-@Profile({"local","dev"})
+@Profile({"local", "dev"})
 public class QueryInspector implements StatementInspector {
 
-    private final transient QueryInfo queryInfo;
     private static final String FLAG_PROFILE = "inspect";
+    private final transient QueryInfo queryInfo;
     private final boolean flag;
 
     public QueryInspector(final QueryInfo apiQueryCounter, final Environment environment) {

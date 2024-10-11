@@ -1,4 +1,4 @@
-package corea.matching.dto;
+package corea.matchresult.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
