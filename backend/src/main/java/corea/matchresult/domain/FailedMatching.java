@@ -1,5 +1,6 @@
 package corea.matchresult.domain;
 
+import corea.exception.ExceptionType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -21,7 +22,11 @@ public class FailedMatching {
     @Enumerated(EnumType.STRING)
     private MatchingFailedReason reason;
 
-    public FailedMatching(long roomId, MatchingFailedReason reason) {
-        this(null, roomId, reason);
+    public FailedMatching(long roomId, ExceptionType exceptionType) {
+        this(null, roomId, MatchingFailedReason.from(exceptionType));
+    }
+
+    public String getMatchingFailedReason() {
+        return reason.getMessage();
     }
 }

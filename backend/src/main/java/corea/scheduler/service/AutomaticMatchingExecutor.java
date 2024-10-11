@@ -6,7 +6,6 @@ import corea.matching.domain.PullRequestInfo;
 import corea.matching.service.MatchingService;
 import corea.matching.service.PullRequestProvider;
 import corea.matchresult.domain.FailedMatching;
-import corea.matchresult.domain.MatchingFailedReason;
 import corea.matchresult.repository.FailedMatchingRepository;
 import corea.room.domain.Room;
 import corea.room.repository.RoomRepository;
@@ -73,7 +72,7 @@ public class AutomaticMatchingExecutor {
     }
 
     private void saveFailedMatching(long roomId, ExceptionType exceptionType) {
-        FailedMatching failedMatching = new FailedMatching(roomId, MatchingFailedReason.from(exceptionType));
+        FailedMatching failedMatching = new FailedMatching(roomId, exceptionType);
         failedMatchingRepository.save(failedMatching);
     }
 
