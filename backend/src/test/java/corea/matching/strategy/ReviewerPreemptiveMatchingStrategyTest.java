@@ -18,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -134,14 +136,14 @@ class ReviewerPreemptiveMatchingStrategyTest {
                         .map(this::createParticipationWithRandom).toList());
         List<Pair> pairs = matchingStrategy.matchPairs(participations, room.getMatchingSize());
 
-        participations.forEach(participation -> validateWithMatchingSize(participation, pairs));
+        participations.forEach(participation -> validateDeliverCountWithMatchingSize(participation, pairs));
     }
 
     private Participation createParticipationWithRandom(Member member) {
         return new Participation(room, member, MemberRole.BOTH, (int) (Math.random() * (10 - 2 + 1) + 2));
     }
 
-    private void validateWithMatchingSize(Participation participation, List<Pair> pairs) {
+    private void validateDeliverCountWithMatchingSize(Participation participation, List<Pair> pairs) {
         long deliver_count = pairs.stream()
                 .filter(pair -> pair.getDeliver().isMatchingId(participation.getMember().getId()))
                 .count();
@@ -192,5 +194,62 @@ class ReviewerPreemptiveMatchingStrategyTest {
                 .toList();
 
         assertThat(reviewerPairs).hasSize(participations.size() - reviewers.size());
+    }
+
+    @Test
+    @DisplayName("10명의 참여자와 5명의 리뷰어를 매칭하는 상황에서 각자의 matchingSize 에 맞게 매칭된다.")
+    void test() {
+        Member member1 = memberRepository.save(MemberFixture.MEMBER_MOVIN());
+        Member member2 = memberRepository.save(MemberFixture.MEMBER_MOVIN());
+        Member member3 = memberRepository.save(MemberFixture.MEMBER_MOVIN());
+        Member member4 = memberRepository.save(MemberFixture.MEMBER_MOVIN());
+        Member member5 = memberRepository.save(MemberFixture.MEMBER_MOVIN());
+        Member member6 = memberRepository.save(MemberFixture.MEMBER_MOVIN());
+        Member member7 = memberRepository.save(MemberFixture.MEMBER_MOVIN());
+        Member member8 = memberRepository.save(MemberFixture.MEMBER_MOVIN());
+
+        List<Participation> participations = participationRepository.saveAll(List.of(
+                new Participation(room, joyson, MemberRole.BOTH, 2),
+                new Participation(room, movin, MemberRole.BOTH, 3),
+                new Participation(room, pororo, MemberRole.BOTH, 4),
+                new Participation(room, ash, MemberRole.BOTH, 5),
+                new Participation(room, tenten, MemberRole.BOTH, 2),
+                new Participation(room, darr, MemberRole.BOTH, 3),
+                new Participation(room, choco, MemberRole.BOTH, 4),
+                new Participation(room, member1, MemberRole.BOTH, 5),
+                new Participation(room, member2, MemberRole.BOTH, 4),
+                new Participation(room, member3, MemberRole.BOTH, 3),
+                new Participation(room, member4, MemberRole.REVIEWER, 2),
+                new Participation(room, member5, MemberRole.REVIEWER, 3),
+                new Participation(room, member6, MemberRole.REVIEWER, 4),
+                new Participation(room, member7, MemberRole.REVIEWER, 5),
+                new Participation(room, member8, MemberRole.REVIEWER, 6)
+        ));
+
+        List<Pair> pairs = matchingStrategy.matchPairs(participations, room.getMatchingSize());
+
+        List<Member> reviewers = participations.stream()
+                .filter(Participation::isReviewer)
+                .map(Participation::getMember)
+                .toList();
+
+        long count = pairs.stream()
+                .filter(pair -> reviewers.contains(pair.getDeliver()))
+                .count();
+
+        assertThat(count).isEqualTo(10L);
+
+        participations.forEach(participation -> validateDeliverCountWithMatchingSize(participation, pairs));
+        participations.stream()
+                .filter(participation -> !participation.isReviewer())
+                .forEach(participation -> validateReceiverCountWithMatchingSize(participation, pairs));
+    }
+
+    private void validateReceiverCountWithMatchingSize(Participation participation, List<Pair> pairs) {
+        long receiver_count = pairs.stream()
+                .filter(pair -> pair.getReceiver().isMatchingId(participation.getMember().getId()))
+                .count();
+
+        assertThat(participation.getMatchingSize()).isLessThanOrEqualTo((int) receiver_count);
     }
 }
