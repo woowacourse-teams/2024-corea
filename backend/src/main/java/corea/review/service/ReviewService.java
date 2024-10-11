@@ -38,7 +38,7 @@ public class ReviewService {
 
     private void updateReviewLink(MatchResult matchResult, long reviewerId) {
         Member reviewer = memberRepository.findById(reviewerId)
-                .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND, String.format("%d에 해당하는 멤버가 없습니다.", reviewerId)));
+                .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND));
         String userName = reviewer.getUsername();
         String newReviewLink = findReviewLink(userName, matchResult.getPrLink());
         matchResult.updateReviewLink(newReviewLink);
@@ -50,7 +50,7 @@ public class ReviewService {
                 .filter(review -> review.user().login().equals(userName))
                 .findFirst()
                 .map(GithubPullRequestReview::html_url)
-                .orElse(prLink);
+                .orElseThrow(() -> new CoreaException(ExceptionType.NOT_COMPLETE_GITHUB_REVIEW));
     }
 
     private MatchResult getMatchResult(long roomId, long reviewerId, long revieweeId) {
