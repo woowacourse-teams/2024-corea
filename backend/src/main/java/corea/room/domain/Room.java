@@ -99,6 +99,10 @@ public class Room extends BaseTimeEntity {
         status = RoomStatus.CLOSE;
     }
 
+    public void updateStatusToFail() {
+        status = RoomStatus.FAIL;
+    }
+
     public boolean isNotOpened() {
         return status.isNotOpened();
     }
