@@ -190,4 +190,47 @@ export const ButtonContainer = styled.div`
   justify-content: center;
 
   width: 100%;
+
+  h2 {
+    font: ${({ theme }) => theme.TEXT.small_bold};
+  }
+`;
+
+export const FormContainer = styled.div`
+  cursor: pointer;
+
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+  justify-content: center;
+
+  width: 270px;
+  padding: 1rem;
+
+  border: 1px solid ${({ theme }) => theme.COLOR.grey2};
+  border-radius: 10px;
+`;
+
+export const FormWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const MatchingSizeContainer = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+
+  p {
+    font: ${({ theme }) => theme.TEXT.semiSmall};
+  }
+
+  button {
+    padding: 0.2rem 0.6rem;
+  }
 `;
