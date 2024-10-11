@@ -35,7 +35,8 @@ public class ReviewerPreemptiveMatchingStrategy implements MatchingStrategy {
         return pairs;
     }
 
-    private void matchAmongReviewees(List<Participation> participations, int roomMatchingSize, List<Pair> pairs) {
+    private void matchAmongReviewees(List<Participation> nonReviewers, int roomMatchingSize, List<Pair> pairs) {
+        List<Participation> participations = nonReviewers.stream().toList();
         int max = getMaxMatchingSize(participations, roomMatchingSize);
 
         for (int currentMatchingSize = roomMatchingSize + 1; currentMatchingSize <= max; currentMatchingSize++) {
