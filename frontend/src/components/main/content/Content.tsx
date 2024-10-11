@@ -33,7 +33,7 @@ const Content = () => {
             handleSelectedCategory={handleSelectedCategory}
           />
         );
-      case "모집마감":
+      case "종료됨":
         return (
           <ClosedRoomList
             selectedCategory={selectedCategory}

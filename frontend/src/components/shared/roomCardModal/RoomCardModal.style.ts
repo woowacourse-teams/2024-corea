@@ -6,10 +6,6 @@ export const RoomCardModalContainer = styled.div`
   flex-wrap: wrap;
   gap: 2rem;
   justify-content: space-between;
-
-  :last-child {
-    gap: 0;
-  }
 `;
 
 // 썸네일
@@ -135,12 +131,20 @@ export const EtcContainer = styled.div`
 export const InfoRow = styled.div`
   display: flex;
   align-items: center;
+
+  ${media.small`
+    justify-content: space-between;
+  `}
 `;
 
 export const InfoTitle = styled.span`
   width: 200px;
   font: ${({ theme }) => theme.TEXT.small};
   color: ${({ theme }) => theme.COLOR.grey3};
+
+  ${media.small`
+    width: auto;
+  `}
 `;
 
 export const InfoContent = styled.span`
@@ -180,7 +184,10 @@ export const ContentContainer = styled.p`
 // 버튼
 export const ButtonContainer = styled.div`
   display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
   align-items: center;
   justify-content: center;
+
   width: 100%;
 `;

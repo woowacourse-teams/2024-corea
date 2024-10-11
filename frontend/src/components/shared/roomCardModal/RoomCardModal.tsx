@@ -75,9 +75,7 @@ const RoomCardModal = ({ isOpen, onClose, roomInfo }: RoomCardModalProps) => {
           <S.ContentContainer>{roomInfo.content}</S.ContentContainer>
         </S.DescriptionContainer>
 
-        <S.ButtonContainer>
-          <RoomCardModalButton roomInfo={roomInfo} />
-        </S.ButtonContainer>
+        <RoomCardModalButton roomInfo={roomInfo} />
       </S.RoomCardModalContainer>
     </Modal>
   );

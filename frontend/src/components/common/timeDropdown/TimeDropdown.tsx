@@ -64,7 +64,7 @@ export const TimeDropdown = ({
   error = false,
   ...rest
 }: TimeDropdownProps) => {
-  const { isOpen, handleToggleDropdown, dropdownRef } = useDropdown();
+  const { isDropdownOpen, handleToggleDropdown, dropdownRef } = useDropdown();
 
   const handleTimeChange = ({ newTime, canCloseDropdown }: TimeDropdownChangeProps) => {
     onTimeChange(newTime);
@@ -83,7 +83,7 @@ export const TimeDropdown = ({
         $error={error}
         {...rest}
       />
-      {isOpen && <TimePicker time={selectedTime} onTimeInputChange={handleTimeChange} />}
+      {isDropdownOpen && <TimePicker time={selectedTime} onTimeInputChange={handleTimeChange} />}
     </S.TimeDropdownContainer>
   );
 };

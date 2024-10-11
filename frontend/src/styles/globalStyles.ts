@@ -12,6 +12,11 @@ const globalStyles = createGlobalStyle`
   }
 
   html,
+  body{
+    scrollbar-gutter: stable;
+  }
+
+  html,
   body,
   div,
   span,
