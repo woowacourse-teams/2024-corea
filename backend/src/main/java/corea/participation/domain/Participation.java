@@ -50,6 +50,10 @@ public class Participation extends BaseTimeEntity {
         debug(room.getId(), member.getId());
     }
 
+    private static void debug(long roomId, long memberId) {
+        log.debug("참가자 생성[방 ID={}, 멤버 ID={}", roomId, memberId);
+    }
+
     public boolean isNotMatchingMemberId(long memberId) {
         return this.member.getId() != memberId;
     }
@@ -80,9 +84,5 @@ public class Participation extends BaseTimeEntity {
 
     public boolean isReviewer() {
         return memberRole.isReviewer();
-    }
-
-    private static void debug(long roomId, long memberId) {
-        log.debug("참가자 생성[방 ID={}, 멤버 ID={}", roomId, memberId);
     }
 }

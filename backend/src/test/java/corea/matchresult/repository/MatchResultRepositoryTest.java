@@ -1,10 +1,10 @@
-package corea.matching.repository;
+package corea.matchresult.repository;
 
 import config.RepositoryTest;
 import corea.fixture.MatchResultFixture;
 import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
-import corea.matching.domain.MatchResult;
+import corea.matchresult.domain.MatchResult;
 import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
 import corea.room.repository.RoomRepository;
