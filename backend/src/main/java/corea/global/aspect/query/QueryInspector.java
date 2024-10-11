@@ -19,8 +19,8 @@ public class QueryInspector implements StatementInspector {
 
     public QueryInspector(final QueryInfo apiQueryCounter, final Environment environment) {
         this.queryInfo = apiQueryCounter;
-        this.flag = Arrays.stream(environment.getActiveProfiles())
-                .anyMatch(profile -> profile.equals(FLAG_PROFILE));
+        this.flag = Arrays.asList(environment.getActiveProfiles())
+                .contains(FLAG_PROFILE);
     }
 
     @Override

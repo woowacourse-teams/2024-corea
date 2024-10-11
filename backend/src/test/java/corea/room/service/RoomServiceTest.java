@@ -65,6 +65,7 @@ class RoomServiceTest {
         assertThat(roomRepository.findAll()).hasSize(1);
     }
 
+    @Test
     @DisplayName("방을 생성할 때 모집 마감 시간은 현재 시간보다 1시간 이후가 아니라면 예외가 발생한다.")
     void invalidRecruitmentDeadline() {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
