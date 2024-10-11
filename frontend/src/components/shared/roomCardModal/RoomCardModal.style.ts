@@ -51,8 +51,10 @@ export const MainContainer = styled.div`
 
 export const ManagerContainer = styled.div`
   display: flex;
-  gap: 0.5rem;
+  flex-wrap: wrap;
+  gap: 0.8rem;
   align-items: center;
+
   font: ${({ theme }) => theme.TEXT.small};
 `;
 
