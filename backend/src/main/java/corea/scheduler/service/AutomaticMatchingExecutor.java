@@ -29,6 +29,7 @@ public class AutomaticMatchingExecutor {
 
     @Async
     public void execute(long roomId) {
+        //TODO: 트랜잭션 분리
         TransactionTemplate template = new TransactionTemplate(transactionManager);
 
         try {
@@ -53,6 +54,7 @@ public class AutomaticMatchingExecutor {
     }
 
     private void updateRoomStatusToFail(long roomId) {
+        //TODO: 위와 동일
         TransactionTemplate template = new TransactionTemplate(transactionManager);
         template.execute(status -> {
             Room room = getRoom(roomId);
