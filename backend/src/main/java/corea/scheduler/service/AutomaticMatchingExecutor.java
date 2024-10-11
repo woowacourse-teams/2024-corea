@@ -13,26 +13,32 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.support.TransactionTemplate;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class AutomaticMatchingExecutor {
 
+    private final PlatformTransactionManager transactionManager;
     private final MatchingService matchingService;
     private final PullRequestProvider pullRequestProvider;
     private final RoomRepository roomRepository;
     private final AutomaticMatchingRepository automaticMatchingRepository;
 
     @Async
-    @Transactional
     public void execute(long roomId) {
+        TransactionTemplate template = new TransactionTemplate(transactionManager);
+
         try {
-            startMatching(roomId);
+            template.execute(status -> {
+                startMatching(roomId);
+                return null;
+            });
         } catch (CoreaException e) {
             log.warn("매칭 실행 중 에러 발생: {}", e.getMessage(), e);
-            throw e;
+            updateRoomStatusToFail(roomId);
         }
     }
 
@@ -44,6 +50,15 @@ public class AutomaticMatchingExecutor {
 
         AutomaticMatching automaticMatching = getAutomaticMatchingByRoomId(roomId);
         automaticMatching.updateStatusToDone();
+    }
+
+    private void updateRoomStatusToFail(long roomId) {
+        TransactionTemplate template = new TransactionTemplate(transactionManager);
+        template.execute(status -> {
+            Room room = getRoom(roomId);
+            room.updateStatusToFail();
+            return null;
+        });
     }
 
     private Room getRoom(long roomId) {

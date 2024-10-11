@@ -16,6 +16,7 @@ import corea.member.repository.MemberRepository;
 import corea.participation.domain.Participation;
 import corea.participation.repository.ParticipationRepository;
 import corea.room.domain.Room;
+import corea.room.domain.RoomStatus;
 import corea.room.repository.RoomRepository;
 import corea.scheduler.domain.AutomaticMatching;
 import corea.scheduler.repository.AutomaticMatchingRepository;
@@ -26,6 +27,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -60,6 +62,7 @@ class AutomaticMatchingExecutorTest {
     private PullRequestProvider pullRequestProvider;
 
     private Room room;
+    private Room emptyParticipantRoom;
 
     @BeforeEach
     void setUp() {
@@ -71,6 +74,7 @@ class AutomaticMatchingExecutorTest {
         Member cho = memberRepository.save(MemberFixture.MEMBER_CHOCO());
 
         room = roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo, LocalDateTime.now().plusSeconds(3)));
+        emptyParticipantRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN(ash, LocalDateTime.now().plusSeconds(3)));
 
         participationRepository.save(new Participation(room, pororo, MemberRole.BOTH, room.getMatchingSize()));
         participationRepository.save(new Participation(room, ash, MemberRole.BOTH, room.getMatchingSize()));
@@ -112,5 +116,17 @@ class AutomaticMatchingExecutorTest {
 
         List<MatchResult> matchResults = matchResultRepository.findAll();
         assertThat(matchResults).isNotEmpty();
+    }
+
+
+    @Transactional
+    @Test
+    @DisplayName("매칭 시도 중 예외가 발생했다면 방 상태를 FAIL로 변경한다.")
+    void matchFail() {
+        AutomaticMatching automaticMatching = automaticMatchingRepository.save(new AutomaticMatching(emptyParticipantRoom.getId(), emptyParticipantRoom.getRecruitmentDeadline()));
+
+        automaticMatchingExecutor.execute(automaticMatching.getRoomId());
+
+        assertThat(emptyParticipantRoom.getStatus()).isEqualTo(RoomStatus.FAIL);
     }
 }
