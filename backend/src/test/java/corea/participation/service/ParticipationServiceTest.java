@@ -42,7 +42,7 @@ class ParticipationServiceTest {
         Member member = memberRepository.save(MEMBER_YOUNGSU());
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(member));
 
-        assertThatCode(() -> participationService.participate(new ParticipationRequest(room.getId(), member.getId(), role)))
+        assertThatCode(() -> participationService.participate(new ParticipationRequest(room.getId(), member.getId(), role, 2)))
                 .doesNotThrowAnyException();
     }
 
@@ -51,7 +51,7 @@ class ParticipationServiceTest {
     void participate_throw_exception_when_roomId_not_exist() {
         Member member = memberRepository.save(MEMBER_YOUNGSU());
 
-        assertThatCode(() -> participationService.participate(new ParticipationRequest(-1, member.getId(), "both")))
+        assertThatCode(() -> participationService.participate(new ParticipationRequest(-1, member.getId(), "both", 2)))
                 .isInstanceOf(CoreaException.class);
     }
 
@@ -60,7 +60,7 @@ class ParticipationServiceTest {
     void participate_throw_exception_when_memberId_not_exist() {
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(null));
 
-        assertThatCode(() -> participationService.participate(new ParticipationRequest(room.getId(), -1, "both")))
+        assertThatCode(() -> participationService.participate(new ParticipationRequest(room.getId(), -1, "both", 2)))
                 .isInstanceOf(CoreaException.class);
     }
 
@@ -70,7 +70,7 @@ class ParticipationServiceTest {
         Member member = memberRepository.save(MEMBER_YOUNGSU());
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(member));
 
-        assertThatCode(() -> participationService.participate(new ParticipationRequest(room.getId(), member.getId(), "thief")))
+        assertThatCode(() -> participationService.participate(new ParticipationRequest(room.getId(), member.getId(), "thief", 2)))
                 .isInstanceOf(CoreaException.class);
     }
 
@@ -80,9 +80,9 @@ class ParticipationServiceTest {
         Member member = memberRepository.save(MEMBER_YOUNGSU());
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(member));
 
-        participationService.participate(new ParticipationRequest(room.getId(), member.getId(), "both"));
+        participationService.participate(new ParticipationRequest(room.getId(), member.getId(), "both", 2));
 
-        assertThatCode(() -> participationService.participate(new ParticipationRequest(room.getId(), member.getId(), "both")))
+        assertThatCode(() -> participationService.participate(new ParticipationRequest(room.getId(), member.getId(), "both", 2)))
                 .isInstanceOf(CoreaException.class);
     }
 

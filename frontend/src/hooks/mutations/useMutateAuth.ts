@@ -36,7 +36,7 @@ const useMutateAuth = () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.OPENED_ROOM_LIST] });
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.CLOSED_ROOM_LIST] });
       localStorage.clear();
-      navigate("/");
+      window.location.replace("/");
     },
     onError: (error) => handleMutateError(error),
   });

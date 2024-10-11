@@ -21,8 +21,6 @@ interface QueueItem {
   reject: (reason?: Error) => void;
 }
 
-const refreshToken = localStorage.getItem("refreshToken");
-
 let isRefreshing = false;
 let failedQueue: QueueItem[] = [];
 
@@ -39,6 +37,8 @@ const processQueue = (error: Error | null = null, token: string | null = null) =
 };
 
 const refreshAccessToken = async (): Promise<string | undefined> => {
+  const refreshToken = localStorage.getItem("refreshToken");
+
   const response = await fetch(`${serverUrl}${API_ENDPOINTS.REFRESH}`, {
     method: "POST",
     headers: {
@@ -47,18 +47,21 @@ const refreshAccessToken = async (): Promise<string | undefined> => {
     body: JSON.stringify({ refreshToken }),
   });
 
+  const text = await response.text();
+  const data = text ? JSON.parse(text) : null;
+
   const newAccessToken = response.headers.get("Authorization");
 
   if (!response.ok) {
     if (response.status === 401) {
-      const error = new AuthorizationError(MESSAGES.ERROR.POST_REFRESH);
+      const error = new AuthorizationError(data.message || MESSAGES.ERROR.POST_REFRESH);
       processQueue(error, null);
       isRefreshing = false;
       alert("토큰이 만료되었습니다. 다시 로그인 해주세요!");
       localStorage.clear();
       window.location.href = "/";
     } else {
-      throw new HTTPError(MESSAGES.ERROR.POST_REFRESH);
+      throw new HTTPError(data.message || MESSAGES.ERROR.POST_REFRESH);
     }
   } else if (newAccessToken) {
     localStorage.setItem("accessToken", newAccessToken);
@@ -113,7 +116,7 @@ const fetchWithToken = async (
         response = await fetch(`${serverUrl}${endpoint}`, requestInit);
 
         if (!response.ok && response.status !== 401) {
-          throw new HTTPError(MESSAGES.ERROR.POST_REFRESH);
+          throw new HTTPError(data.message || MESSAGES.ERROR.POST_REFRESH);
         }
       });
     }
@@ -131,12 +134,12 @@ const fetchWithToken = async (
     data = text ? JSON.parse(text) : null;
 
     if (!response.ok && response.status !== 401) {
-      throw new HTTPError(MESSAGES.ERROR.POST_REFRESH);
+      throw new HTTPError(data.message || MESSAGES.ERROR.POST_REFRESH);
     }
   }
 
   if (!response.ok && response.status !== 401) {
-    throw new HTTPError(errorMessage || `Error: ${response.status} ${response.statusText}`);
+    throw new HTTPError(data.message || errorMessage);
   }
 
   return text ? data : response;
