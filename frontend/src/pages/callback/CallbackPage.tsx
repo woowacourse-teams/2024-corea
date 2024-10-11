@@ -17,7 +17,7 @@ const CallbackPage = () => {
     }
 
     const timer = setTimeout(() => {
-      navigate("/");
+      navigate("/", { replace: true });
     }, 2000);
 
     return () => clearTimeout(timer);
@@ -27,7 +27,7 @@ const CallbackPage = () => {
     <S.CallbackPageContainer>
       <S.Character src={thinkingCharacter} alt="로그인 중" />
       <S.LoadingContainer>
-        로그인 중 ...
+        <p>로그인 중...</p>
         <S.LoadingBar />
       </S.LoadingContainer>
     </S.CallbackPageContainer>
