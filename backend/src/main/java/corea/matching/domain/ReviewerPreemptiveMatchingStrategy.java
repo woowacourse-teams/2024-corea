@@ -22,8 +22,9 @@ public class ReviewerPreemptiveMatchingStrategy implements MatchingStrategy {
         List<Pair> pairs = new ArrayList<>();
 
         matchAmongReviewees(nonReviewers, matchingSize, pairs);
-        matchReviewers(reviewers, nonReviewers, pairs);
-
+        if (!reviewers.isEmpty()) {
+            matchReviewers(reviewers, nonReviewers, pairs);
+        }
         return pairs;
     }
 
