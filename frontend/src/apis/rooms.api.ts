@@ -66,9 +66,14 @@ export const postCreateRoom = async (roomData: CreateRoomInfo): Promise<void> =>
   });
 };
 
-export const postParticipateIn = async (roomId: number, role: Role): Promise<void> => {
+export const postParticipateIn = async (
+  roomId: number,
+  role: Role,
+  matchingSize: number,
+): Promise<void> => {
   return apiClient.post({
     endpoint: `${API_ENDPOINTS.PARTICIPATE_IN(roomId)}?role=${role}`,
+    body: { matchingSize },
     errorMessage: MESSAGES.ERROR.POST_PARTICIPATE_IN,
   });
 };
