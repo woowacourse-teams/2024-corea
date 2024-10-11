@@ -1,6 +1,8 @@
 package corea.room.dto;
 
+import corea.matchresult.domain.FailedMatching;
 import corea.member.domain.MemberRole;
+import corea.participation.domain.Participation;
 import corea.participation.domain.ParticipationStatus;
 import corea.room.domain.Room;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -52,8 +54,13 @@ public record RoomResponse(@Schema(description = "방 아이디", example = "1")
                            MemberRole memberRole,
 
                            @Schema(description = "방 상태", example = "OPEN")
-                           String roomStatus
+                           String roomStatus,
+
+                           @Schema(description = "매칭 실패 원인 메세지 제공", example = "참여 인원이 부족하여 매칭을 진행할 수 없습니다.")
+                           String message
 ) {
+
+    private static final String DEFAULT_MESSAGE = "";
 
     public static RoomResponse from(Room room) {
         return RoomResponse.of(room, MemberRole.BOTH, ParticipationStatus.NOT_PARTICIPATED);
@@ -76,7 +83,50 @@ public record RoomResponse(@Schema(description = "방 아이디", example = "1")
                 room.getReviewDeadline(),
                 participationStatus,
                 role,
-                room.getRoomStatus()
+                room.getRoomStatus(),
+                DEFAULT_MESSAGE
+        );
+    }
+
+    public static RoomResponse of(Room room, Participation participation) {
+        return new RoomResponse(
+                room.getId(),
+                room.getTitle(),
+                room.getContent(),
+                room.getManagerName(),
+                room.getRepositoryLink(),
+                room.getThumbnailLink(),
+                room.getMatchingSize(),
+                room.getKeyword(),
+                room.getCurrentParticipantsSize(),
+                room.getLimitedParticipantsSize(),
+                room.getRecruitmentDeadline(),
+                room.getReviewDeadline(),
+                participation.getStatus(),
+                participation.getMemberRole(),
+                room.getRoomStatus(),
+                DEFAULT_MESSAGE
+        );
+    }
+
+    public static RoomResponse of(Room room, Participation participation, FailedMatching failedMatching) {
+        return new RoomResponse(
+                room.getId(),
+                room.getTitle(),
+                room.getContent(),
+                room.getManagerName(),
+                room.getRepositoryLink(),
+                room.getThumbnailLink(),
+                room.getMatchingSize(),
+                room.getKeyword(),
+                room.getCurrentParticipantsSize(),
+                room.getLimitedParticipantsSize(),
+                room.getRecruitmentDeadline(),
+                room.getReviewDeadline(),
+                participation.getStatus(),
+                participation.getMemberRole(),
+                room.getRoomStatus(),
+                failedMatching.getMatchingFailedReason()
         );
     }
 }

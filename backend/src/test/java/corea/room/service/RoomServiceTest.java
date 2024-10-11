@@ -7,6 +7,8 @@ import corea.exception.ExceptionType;
 import corea.fixture.MatchResultFixture;
 import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
+import corea.matchresult.domain.FailedMatching;
+import corea.matchresult.repository.FailedMatchingRepository;
 import corea.matchresult.repository.MatchResultRepository;
 import corea.member.domain.Member;
 import corea.member.domain.MemberRole;
@@ -54,6 +56,9 @@ class RoomServiceTest {
 
     @Autowired
     private ParticipationRepository participationRepository;
+
+    @Autowired
+    private FailedMatchingRepository failedMatchingRepository;
 
     @Test
     @DisplayName("방을 생성할 수 있다.")
@@ -127,6 +132,21 @@ class RoomServiceTest {
         RoomResponse response = roomService.findOne(room.getId(), member.getId());
 
         assertThat(response.participationStatus()).isEqualTo(ParticipationStatus.NOT_PARTICIPATED);
+    }
+
+    @Test
+    @DisplayName("매칭을 실패한 방을 조회할 때 실패한 원인에 대해 알 수 있다.")
+    void findOne_with_matching_fail() {
+        Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
+        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
+
+        Member member = memberRepository.save(MemberFixture.MEMBER_PORORO());
+        participationRepository.save(new Participation(room, member, MemberRole.BOTH, room.getMatchingSize()));
+
+        failedMatchingRepository.save(new FailedMatching(room.getId(), ExceptionType.PARTICIPANT_SIZE_LACK));
+        RoomResponse response = roomService.findOne(room.getId(), member.getId());
+
+        assertThat(response.message()).isEqualTo("방의 최소 참여 인원보다 참가자가 부족하여 매칭을 시작할 수 없습니다. 더 많은 참가자가 필요합니다.");
     }
 
     @Test

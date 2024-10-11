@@ -2,6 +2,7 @@ package corea.matchresult.domain;
 
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
+import corea.matchresult.view.MatchingFailedMessageClassifier;
 
 import java.util.Arrays;
 
@@ -31,5 +32,9 @@ public enum MatchingFailedReason {
 
     private boolean isTypeMatching(ExceptionType exceptionType) {
         return this.exceptionType == exceptionType;
+    }
+
+    public String getMessage() {
+        return MatchingFailedMessageClassifier.classifyFailureMessage(exceptionType);
     }
 }

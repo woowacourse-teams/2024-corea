@@ -2,11 +2,13 @@ package corea.room.service;
 
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
+import corea.matchresult.repository.FailedMatchingRepository;
 import corea.matchresult.repository.MatchResultRepository;
 import corea.member.domain.Member;
 import corea.member.domain.MemberRole;
 import corea.member.repository.MemberRepository;
 import corea.participation.domain.Participation;
+import corea.participation.domain.ParticipationStatus;
 import corea.participation.repository.ParticipationRepository;
 import corea.room.domain.Room;
 import corea.room.domain.RoomClassification;
@@ -28,8 +30,6 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
-import static corea.participation.domain.ParticipationStatus.*;
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -45,6 +45,7 @@ public class RoomService {
     private final MemberRepository memberRepository;
     private final MatchResultRepository matchResultRepository;
     private final ParticipationRepository participationRepository;
+    private final FailedMatchingRepository failedMatchingRepository;
     private final AutomaticMatchingRepository automaticMatchingRepository;
     private final AutomaticUpdateRepository automaticUpdateRepository;
 
@@ -61,7 +62,7 @@ public class RoomService {
         automaticMatchingRepository.save(new AutomaticMatching(room.getId(), request.recruitmentDeadline()));
         automaticUpdateRepository.save(new AutomaticUpdate(room.getId(), request.reviewDeadline()));
 
-        return RoomResponse.of(room, participation.getMemberRole(), MANAGER);
+        return RoomResponse.of(room, participation.getMemberRole(), ParticipationStatus.MANAGER);
     }
 
     private void validateDeadLine(LocalDateTime recruitmentDeadline, LocalDateTime reviewDeadline) {
@@ -83,8 +84,14 @@ public class RoomService {
         Room room = getRoom(roomId);
 
         return participationRepository.findByRoomIdAndMemberId(roomId, memberId)
-                .map(participation -> RoomResponse.of(room, participation.getMemberRole(), participation.getStatus()))
-                .orElseGet(() -> RoomResponse.of(room, MemberRole.NONE, NOT_PARTICIPATED));
+                .map(participation -> createRoomResponseWithParticipation(room, participation))
+                .orElseGet(() -> RoomResponse.of(room, MemberRole.NONE, ParticipationStatus.NOT_PARTICIPATED));
+    }
+
+    private RoomResponse createRoomResponseWithParticipation(Room room, Participation participation) {
+        return failedMatchingRepository.findByRoomId(room.getId())
+                .map(failedMatching -> RoomResponse.of(room, participation, failedMatching))
+                .orElseGet(() -> RoomResponse.of(room, participation));
     }
 
     public RoomResponses findParticipatedRooms(long memberId) {
@@ -94,7 +101,7 @@ public class RoomService {
                 .toList();
 
         List<Room> rooms = roomRepository.findAllByIdInOrderByReviewDeadlineAsc(roomIds);
-        return RoomResponses.of(rooms, MemberRole.NONE, PARTICIPATED, true, 0);
+        return RoomResponses.of(rooms, MemberRole.NONE, ParticipationStatus.PARTICIPATED, true, 0);
     }
 
     public RoomResponses findRoomsWithRoomStatus(long memberId, int pageNumber, String expression, RoomStatus roomStatus) {
@@ -107,10 +114,10 @@ public class RoomService {
 
         if (classification.isAll()) {
             Page<Room> roomsWithPage = roomRepository.findAllByMemberAndStatus(memberId, status, pageRequest);
-            return RoomResponses.of(roomsWithPage, MemberRole.NONE, NOT_PARTICIPATED, pageNumber);
+            return RoomResponses.of(roomsWithPage, MemberRole.NONE, ParticipationStatus.NOT_PARTICIPATED, pageNumber);
         }
         Page<Room> roomsWithPage = roomRepository.findAllByMemberAndClassificationAndStatus(memberId, classification, status, pageRequest);
-        return RoomResponses.of(roomsWithPage, MemberRole.NONE, NOT_PARTICIPATED, pageNumber);
+        return RoomResponses.of(roomsWithPage, MemberRole.NONE, ParticipationStatus.NOT_PARTICIPATED, pageNumber);
     }
 
     @Transactional
