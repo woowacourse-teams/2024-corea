@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
-export const ProfilePageContainer = styled.div`
+export const UserParticipatedRoomContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 5rem;
+  gap: 7rem;
 `;

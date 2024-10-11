@@ -25,7 +25,7 @@ const OptionSelect = <T extends NonEmptyArray<string>>({
           {option}
         </S.Option>
       ))}
-      <S.Indicator $position={selectedIndex} />
+      <S.Indicator $position={selectedIndex} $optionCount={options.length} />
     </S.OptionSelectContainer>
   );
 };

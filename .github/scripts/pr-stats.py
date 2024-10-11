@@ -133,7 +133,7 @@ def format_duration(ms):
     if ms == 'NaN':
         return "N/A"
 
-    total_seconds = int(ms) / 1000
+    total_seconds = int(round(float(ms))) / 1000
     days, remainder = divmod(total_seconds, 86400)  # 86400초 = 1일
     hours, remainder = divmod(remainder, 3600)  # 3600초 = 1시간
     minutes, _ = divmod(remainder, 60)

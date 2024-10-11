@@ -32,6 +32,10 @@ export const FeedbackContainer = styled.div`
   gap: 2rem;
   justify-content: space-between;
 
+  @media screen and (width < 810px) {
+    flex-direction: column;
+  }
+
   ${media.small`
     display: flex;
     gap: 4rem;  
@@ -41,14 +45,6 @@ export const FeedbackContainer = styled.div`
 
 export const FeedbackSection = styled.div`
   width: 100%;
-
-  ${media.medium`
-    width: calc(50% - 1rem); 
-  `}
-
-  ${media.large`
-    width: calc(50% - 1rem); 
-  `}
 `;
 
 export const StyledDescription = styled.p`
