@@ -7,6 +7,7 @@ import RoomCreatePage from "./pages/roomCreate/RoomCreatePage";
 import { lazy } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import Layout from "@/components/layout/Layout";
+import NotFoundRoute from "@/components/routes/NotFoundRoute";
 import MainPage from "@/pages/main/MainPage";
 import RoomDetailPage from "@/pages/roomDetail/RoomDetailPage";
 import UserProfile from "@/pages/userProfile/UserProfile";
@@ -61,6 +62,10 @@ const router = sentryCreateBrowserRouter([
             element: <ProfilePage />,
           },
         ],
+      },
+      {
+        path: "*",
+        element: <NotFoundRoute />,
       },
     ],
   },
