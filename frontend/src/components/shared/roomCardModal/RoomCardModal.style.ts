@@ -183,3 +183,23 @@ export const ButtonContainer = styled.div`
 
   width: 100%;
 `;
+
+export const MatchingSizeContainer = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+
+  padding: 1rem;
+
+  border: 1px solid ${({ theme }) => theme.COLOR.grey2};
+  border-radius: 10px;
+
+  p {
+    font: ${({ theme }) => theme.TEXT.semiSmall};
+  }
+
+  button {
+    padding: 0.2rem 0.6rem;
+  }
+`;
