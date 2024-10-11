@@ -10,13 +10,13 @@ import org.junit.jupiter.params.provider.CsvSource;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-class FailedReasonTest {
+class MatchingFailedReasonTest {
 
     @ParameterizedTest
     @CsvSource(value = {"ROOM_NOT_FOUND, ROOM_NOT_FOUND", "AUTOMATIC_MATCHING_NOT_FOUND, AUTOMATIC_MATCHING_NOT_FOUND"})
     @DisplayName("ExceptionType을 통해 매칭이 실패한 이유를 찾을 수 있다.")
-    void from(ExceptionType exceptionType, FailedReason expected) {
-        FailedReason actual = FailedReason.from(exceptionType);
+    void from(ExceptionType exceptionType, MatchingFailedReason expected) {
+        MatchingFailedReason actual = MatchingFailedReason.from(exceptionType);
 
         assertThat(actual).isEqualTo(expected);
     }
@@ -24,7 +24,7 @@ class FailedReasonTest {
     @Test
     @DisplayName("ExceptionType을 통해 매칭 실패 이유를 찾을 수 없다면 예외가 발생한다.")
     void notFound() {
-        assertThatThrownBy(() -> FailedReason.from(ExceptionType.ALREADY_COMPLETED_FEEDBACK))
+        assertThatThrownBy(() -> MatchingFailedReason.from(ExceptionType.ALREADY_COMPLETED_FEEDBACK))
                 .isInstanceOf(CoreaException.class);
     }
 }

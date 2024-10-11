@@ -5,7 +5,7 @@ import corea.exception.ExceptionType;
 
 import java.util.Arrays;
 
-public enum FailedReason {
+public enum MatchingFailedReason {
 
     ROOM_NOT_FOUND(ExceptionType.ROOM_NOT_FOUND),
     ROOM_STATUS_INVALID(ExceptionType.ROOM_STATUS_INVALID),
@@ -18,13 +18,13 @@ public enum FailedReason {
 
     private final ExceptionType exceptionType;
 
-    FailedReason(ExceptionType exceptionType) {
+    MatchingFailedReason(ExceptionType exceptionType) {
         this.exceptionType = exceptionType;
     }
 
-    public static FailedReason from(ExceptionType exceptionType) {
+    public static MatchingFailedReason from(ExceptionType exceptionType) {
         return Arrays.stream(values())
-                .filter(failedReason -> failedReason.isTypeMatching(exceptionType))
+                .filter(reason -> reason.isTypeMatching(exceptionType))
                 .findAny()
                 .orElseThrow(() -> new CoreaException(ExceptionType.NOT_FOUND_ERROR));
     }

@@ -19,9 +19,9 @@ public class FailedMatching {
     private long roomId;
 
     @Enumerated(EnumType.STRING)
-    private FailedReason reason;
+    private MatchingFailedReason reason;
 
-    public FailedMatching(long roomId, FailedReason reason) {
+    public FailedMatching(long roomId, MatchingFailedReason reason) {
         this(null, roomId, reason);
     }
 }
