@@ -34,7 +34,7 @@ class GithubPullRequestUrlExchangerTest {
     @NullAndEmptySource
     @DisplayName("빈 주소에 대해 예외를 발생한다.")
     void validate2(String test) {
-                assertThatThrownBy(() -> GithubPullRequestUrlExchanger.pullRequestUrlToReview(test))
+        assertThatThrownBy(() -> GithubPullRequestUrlExchanger.pullRequestUrlToReview(test))
                 .isInstanceOf(CoreaException.class);
     }
 

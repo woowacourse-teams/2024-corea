@@ -1,7 +1,8 @@
-package corea.matching.domain;
+package corea.matching.strategy;
 
 import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
+import corea.matching.domain.Pair;
 import corea.member.domain.Member;
 import corea.member.domain.MemberRole;
 import corea.member.repository.MemberRepository;
@@ -20,7 +21,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-class DynamicSizeMatchingStrategyTest {
+class ReviewerPreemptiveMatchingStrategyTest {
 
     @Autowired
     private MemberRepository memberRepository;
@@ -32,7 +33,7 @@ class DynamicSizeMatchingStrategyTest {
     private ParticipationRepository participationRepository;
 
     @Autowired
-    private DynamicSizeMatchingStrategy matchingStrategy;
+    private ReviewerPreemptiveMatchingStrategy matchingStrategy;
 
     private Member joyson;
     private Member movin;
@@ -98,6 +99,9 @@ class DynamicSizeMatchingStrategyTest {
         ));
 
         List<Pair> pairs = matchingStrategy.matchPairs(participations, room.getMatchingSize());
+        long totalRevieweeCount = participations.stream()
+                .filter(participation -> !participation.isReviewer())
+                .count();
 
         for (Participation participation : participations) {
             long reviewerCount = pairs.stream()
@@ -107,12 +111,12 @@ class DynamicSizeMatchingStrategyTest {
                     .filter(pair -> pair.getReceiver().getGithubUserId().equals(participation.getMemberGithubId()))
                     .count();
             if (participation.getMemberRole().isReviewer()) {
-                assertThat(reviewerCount).isLessThanOrEqualTo(participation.getMatchingSize());
+                assertThat(reviewerCount).isEqualTo(totalRevieweeCount);
                 assertThat(revieweeCount).isZero();
             } else {
                 assertThat(reviewerCount).isLessThanOrEqualTo(participation.getMatchingSize());
                 assertThat(reviewerCount).isGreaterThanOrEqualTo(room.getMatchingSize());
-                assertThat(revieweeCount).isLessThanOrEqualTo(participation.getMatchingSize());
+                assertThat(revieweeCount).isLessThanOrEqualTo(participation.getMatchingSize() + reviewerCount);
                 assertThat(revieweeCount).isGreaterThanOrEqualTo(room.getMatchingSize());
             }
         }

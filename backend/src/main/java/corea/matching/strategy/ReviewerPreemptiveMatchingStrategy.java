@@ -1,5 +1,6 @@
-package corea.matching.domain;
+package corea.matching.strategy;
 
+import corea.matching.domain.Pair;
 import corea.member.domain.Member;
 import corea.participation.domain.Participation;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,7 @@ import java.util.*;
 @RequiredArgsConstructor
 public class ReviewerPreemptiveMatchingStrategy implements MatchingStrategy {
 
-    private final PlainRandomMatching strategy;
+    private final PlainRandomMatchingStrategy strategy;
 
     @Override
     public List<Pair> matchPairs(List<Participation> participations, int matchingSize) {

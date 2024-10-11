@@ -1,6 +1,5 @@
-package corea.matching.service;
+package corea.matching.infrastructure;
 
-import corea.matching.infrastructure.GithubPullRequestClient;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

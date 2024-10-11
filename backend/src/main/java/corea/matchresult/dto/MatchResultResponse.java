@@ -1,6 +1,6 @@
-package corea.matching.dto;
+package corea.matchresult.dto;
 
-import corea.matching.domain.MatchResult;
+import corea.matchresult.domain.MatchResult;
 import corea.member.domain.Member;
 import io.swagger.v3.oas.annotations.media.Schema;
 
