@@ -17,7 +17,7 @@ const CallbackPage = () => {
     }
 
     const timer = setTimeout(() => {
-      navigate("/");
+      navigate("/", { replace: true });
     }, 2000);
 
     return () => clearTimeout(timer);
