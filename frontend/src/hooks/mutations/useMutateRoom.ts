@@ -23,8 +23,15 @@ const useMutateRoom = () => {
   });
 
   const postParticipateInMutation = useMutation({
-    mutationFn: ({ roomId, role }: { roomId: number; role: Role }) =>
-      postParticipateIn(roomId, role),
+    mutationFn: ({
+      roomId,
+      role,
+      matchingSize,
+    }: {
+      roomId: number;
+      role: Role;
+      matchingSize: number;
+    }) => postParticipateIn(roomId, role, matchingSize),
 
     onError: (error) => handleMutateError(error),
   });

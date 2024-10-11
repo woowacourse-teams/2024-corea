@@ -24,6 +24,7 @@ const RoomCardModalButton = ({ roomInfo }: RoomCardModalButtonProps) => {
       {
         roomId: roomInfo.id,
         role: userRole as Role,
+        matchingSize,
       },
       {
         onSuccess: () => navigate(`/rooms/${roomInfo.id}`),
