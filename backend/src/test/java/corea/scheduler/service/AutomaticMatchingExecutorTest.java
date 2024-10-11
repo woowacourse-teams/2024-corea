@@ -1,6 +1,7 @@
 package corea.scheduler.service;
 
 import config.ServiceTest;
+import config.TestAsyncConfig;
 import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
 import corea.matching.domain.MatchResult;
@@ -10,6 +11,7 @@ import corea.matching.infrastructure.dto.PullRequestResponse;
 import corea.matching.repository.MatchResultRepository;
 import corea.matching.service.PullRequestProvider;
 import corea.member.domain.Member;
+import corea.member.domain.MemberRole;
 import corea.member.repository.MemberRepository;
 import corea.participation.domain.Participation;
 import corea.participation.repository.ParticipationRepository;
@@ -23,6 +25,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -32,6 +35,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 
 @ServiceTest
+@Import(TestAsyncConfig.class)
 class AutomaticMatchingExecutorTest {
 
     @Autowired
@@ -66,14 +70,14 @@ class AutomaticMatchingExecutorTest {
         Member ten = memberRepository.save(MemberFixture.MEMBER_TENTEN());
         Member cho = memberRepository.save(MemberFixture.MEMBER_CHOCO());
 
-        room = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_DEADLINE(pororo, LocalDateTime.now().plusSeconds(3)));
+        room = roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo, LocalDateTime.now().plusSeconds(3)));
 
-        participationRepository.save(new Participation(room, pororo.getId(), pororo.getGithubUserId()));
-        participationRepository.save(new Participation(room, ash.getId(), ash.getGithubUserId()));
-        participationRepository.save(new Participation(room, joysun.getId(), joysun.getGithubUserId()));
-        participationRepository.save(new Participation(room, movin.getId(), movin.getGithubUserId()));
-        participationRepository.save(new Participation(room, ten.getId(), ten.getGithubUserId()));
-        participationRepository.save(new Participation(room, cho.getId(), cho.getGithubUserId()));
+        participationRepository.save(new Participation(room, pororo, MemberRole.BOTH, room.getMatchingSize()));
+        participationRepository.save(new Participation(room, ash, MemberRole.BOTH, room.getMatchingSize()));
+        participationRepository.save(new Participation(room, joysun, MemberRole.BOTH, room.getMatchingSize()));
+        participationRepository.save(new Participation(room, movin, MemberRole.BOTH, room.getMatchingSize()));
+        participationRepository.save(new Participation(room, ten, MemberRole.BOTH, room.getMatchingSize()));
+        participationRepository.save(new Participation(room, cho, MemberRole.BOTH, room.getMatchingSize()));
 
         Mockito.when(pullRequestProvider.getUntilDeadline(any(), any()))
                 .thenReturn(new PullRequestInfo(Map.of(

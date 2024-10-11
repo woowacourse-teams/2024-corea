@@ -17,7 +17,7 @@ interface MyReviewerProps {
 }
 
 const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
-  const { isOpen, handleOpenModal, handleCloseModal } = useModal();
+  const { isModalOpen, handleOpenModal, handleCloseModal } = useModal();
   const { postReviewCompleteMutation } = useMutateReviewComplete(roomInfo.id);
   const [selectedReviewee, setSelectedReviewee] = useState<ReviewerInfo | null>(null);
   const [feedbackTypeResult, setFeedbackTypeResult] = useState<FeedbackTypeResult | null>(null);
@@ -26,10 +26,10 @@ const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
 
   if (revieweeData.length === 0) {
     return (
-      <S.ErrorWrapper>
-        <p>{MESSAGES.GUIDANCE.EMPTY_REVIEWEE}</p>
-        <p>{MESSAGES.GUIDANCE.SUB_DESCRIPTION}</p>
-      </S.ErrorWrapper>
+      <S.GuidanceWrapper>
+        <p className="process-waiting">{MESSAGES.GUIDANCE.EMPTY_REVIEWEE}</p>
+        <p className="process-waiting">{MESSAGES.GUIDANCE.SUB_DESCRIPTION}</p>
+      </S.GuidanceWrapper>
     );
   }
 
@@ -53,7 +53,7 @@ const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
       {selectedReviewee && feedbackTypeResult && (
         <RevieweeFeedbackModal
           key={selectedReviewee.username}
-          isOpen={isOpen}
+          isOpen={isModalOpen}
           onClose={() => {
             handleCloseModal();
             setSelectedReviewee(null);

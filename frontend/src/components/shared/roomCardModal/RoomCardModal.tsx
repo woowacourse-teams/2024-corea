@@ -53,7 +53,7 @@ const RoomCardModal = ({ isOpen, onClose, roomInfo }: RoomCardModalProps) => {
             <S.InfoContent>{formatDateTimeString(roomInfo.reviewDeadline)}</S.InfoContent>
           </S.InfoRow>
           <S.InfoRow>
-            <S.InfoTitle>상호 리뷰 인원</S.InfoTitle>
+            <S.InfoTitle>최소 상호 리뷰 인원</S.InfoTitle>
             <S.InfoContent>{roomInfo.matchingSize}명</S.InfoContent>
           </S.InfoRow>
           <S.InfoRow>
@@ -75,9 +75,7 @@ const RoomCardModal = ({ isOpen, onClose, roomInfo }: RoomCardModalProps) => {
           <S.ContentContainer>{roomInfo.content}</S.ContentContainer>
         </S.DescriptionContainer>
 
-        <S.ButtonContainer>
-          <RoomCardModalButton roomInfo={roomInfo} />
-        </S.ButtonContainer>
+        <RoomCardModalButton roomInfo={roomInfo} />
       </S.RoomCardModalContainer>
     </Modal>
   );

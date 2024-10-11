@@ -4,7 +4,7 @@ import Label from "@/components/common/label/Label";
 import * as S from "@/components/roomDetailPage/roomInfoCard/RoomInfoCard.style";
 import { RoomInfo } from "@/@types/roomInfo";
 import { theme } from "@/styles/theme";
-import { formatDateTimeString, formatDday } from "@/utils/dateFormatter";
+import { formatDateTimeString, formatDday, formatLeftTime } from "@/utils/dateFormatter";
 
 const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
   return (
@@ -51,24 +51,42 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
           </S.RoomContentSmall>
           <S.RoomContentSmall>
             <Icon kind="person" size="1.4rem" color={theme.COLOR.grey4} />
-            <span>상호 리뷰 인원 : </span>
+            <span>최소 상호 리뷰 인원 : </span>
             {roomInfo.matchingSize}명
           </S.RoomContentSmall>
           <S.RoomContentSmall>
-            <Icon kind="calendar" size="1.4rem" color={theme.COLOR.grey4} />
-            <div>
-              <span>모집 마감일: </span>
-              <S.DateTimeText>{formatDateTimeString(roomInfo.recruitmentDeadline)}</S.DateTimeText>
-              <S.StyledDday> {formatDday(roomInfo.recruitmentDeadline)}</S.StyledDday>
-            </div>
+            <S.ContentLineBreak>
+              <S.RoomContentSmall>
+                <Icon kind="calendar" size="1.4rem" color={theme.COLOR.grey4} />
+                <span>모집 마감일: </span>
+              </S.RoomContentSmall>
+              <div>
+                <S.DateTimeText>
+                  {formatDateTimeString(roomInfo.recruitmentDeadline)}
+                </S.DateTimeText>
+                <S.StyledDday>
+                  {formatDday(roomInfo.recruitmentDeadline) !== "D-Day"
+                    ? formatDday(roomInfo.recruitmentDeadline)
+                    : formatLeftTime(roomInfo.recruitmentDeadline)}
+                </S.StyledDday>
+              </div>
+            </S.ContentLineBreak>
           </S.RoomContentSmall>
           <S.RoomContentSmall>
-            <Icon kind="calendar" size="1.4rem" color={theme.COLOR.grey4} />
-            <div>
-              <span>리뷰 및 피드백 마감일: </span>
-              <S.DateTimeText>{formatDateTimeString(roomInfo.reviewDeadline)}</S.DateTimeText>
-              <S.StyledDday> {formatDday(roomInfo.reviewDeadline)}</S.StyledDday>
-            </div>
+            <S.ContentLineBreak>
+              <S.RoomContentSmall>
+                <Icon kind="calendar" size="1.4rem" color={theme.COLOR.grey4} />
+                <span>리뷰 및 피드백 마감일: </span>
+              </S.RoomContentSmall>
+              <div>
+                <S.DateTimeText>{formatDateTimeString(roomInfo.reviewDeadline)}</S.DateTimeText>
+                <S.StyledDday>
+                  {formatDday(roomInfo.reviewDeadline) !== "D-Day"
+                    ? formatDday(roomInfo.reviewDeadline)
+                    : formatLeftTime(roomInfo.reviewDeadline)}
+                </S.StyledDday>
+              </div>
+            </S.ContentLineBreak>
           </S.RoomContentSmall>
         </S.RoomContentBox>
       </S.RoomInfoCardContent>

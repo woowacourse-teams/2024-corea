@@ -7,5 +7,11 @@ public record ParticipationRequest(@Schema(description = "방 아이디", exampl
                                    long roomId,
 
                                    @Schema(description = "참여자 아이디", example = "2")
-                                   long memberId) {
+                                   long memberId,
+
+                                   @Schema(description = "참여자 역할", example = "reviewer")
+                                   String role,
+
+                                   @Schema(description = "참여자가 원하는 매칭 인원 수", example = "3")
+                                   int matchingSize) {
 }

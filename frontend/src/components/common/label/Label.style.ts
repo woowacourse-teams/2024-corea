@@ -46,6 +46,12 @@ export const LabelWrapper = styled.div<LabelWrapperProps>`
           background-color: ${theme.COLOR.secondary};
           border: 1px solid ${theme.COLOR.secondary};
         `;
+      case "FAIL":
+        return css`
+          color: ${theme.COLOR.white};
+          background-color: ${theme.COLOR.error};
+          border: 1px solid ${theme.COLOR.error};
+        `;
     }
   }}
 `;

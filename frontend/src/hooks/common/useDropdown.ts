@@ -1,16 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 
 const useDropdown = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const handleToggleDropdown = () => {
-    setIsOpen(!isOpen);
+    setIsDropdownOpen(!isDropdownOpen);
   };
 
   const handleClickOutside = (event: MouseEvent) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-      setIsOpen(false);
+      setIsDropdownOpen(false);
     }
   };
 
@@ -21,7 +21,7 @@ const useDropdown = () => {
     };
   }, []);
 
-  return { isOpen, handleToggleDropdown, dropdownRef };
+  return { isDropdownOpen, handleToggleDropdown, dropdownRef };
 };
 
 export default useDropdown;

@@ -6,6 +6,7 @@ const GUIDANCE_MESSAGES = {
   EXIT_ROOM: "정말 방을 나가시겠습니까? 모집 마감 전까진 언제든지 다시 참여할 수 있습니다.",
   CREATE_ROOM: "방을 생성합니다. 한 번 생성된 방은 수정할 수 없습니다.",
   EMPTY_PARTICIPANTS: "참여자 목록은 매칭이 시작된 이후 공개됩니다.",
+  ONLY_REVIEWER: "리뷰어로만 참여 중입니다!",
 };
 
 const ERROR_MESSAGES = {
@@ -29,6 +30,7 @@ const ERROR_MESSAGES = {
   GET_PARTICIPANT_LIST: "방 참여자 목록을 불러오는 도중 에러가 발생하였습니다.",
 
   // reviews
+  POST_REVIEW_COMPLETE: "코드리뷰 완료 요청에 실패했습니다.",
   GET_MY_REVIEWERS: "리뷰어 목록을 불러오는 도중 에러가 발생하였습니다.",
   GET_MY_REVIEWEES: "리뷰이 목록을 불러오는 도중 에러가 발생하였습니다.",
 

@@ -19,6 +19,7 @@ type IconKind =
   | "arrowRight"
   | "arrowDropDown"
   | "arrowDropUp"
-  | "arrowRenew";
+  | "arrowRenew"
+  | "check";
 
 export default IconKind;

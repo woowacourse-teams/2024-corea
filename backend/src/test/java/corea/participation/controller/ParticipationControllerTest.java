@@ -35,6 +35,7 @@ class ParticipationControllerTest {
         String token = tokenService.createAccessToken(member);
 
         RestAssured.given().auth().oauth2(token)
+                .body(2)
                 .contentType(ContentType.JSON)
                 .when().post("/participate/" + room.getId())
                 .then().log().all()

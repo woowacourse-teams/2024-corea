@@ -9,20 +9,20 @@ import RoomCardModal from "@/components/shared/roomCardModal/RoomCardModal";
 import { RoomInfo } from "@/@types/roomInfo";
 import { MAX_KEYWORDS } from "@/constants/room";
 import { theme } from "@/styles/theme";
-import { formatDday, formatDeadlineString } from "@/utils/dateFormatter";
+import { formatDday, formatLeftTime } from "@/utils/dateFormatter";
 
 interface RoomCardProps {
   roomInfo: RoomInfo;
 }
 
 const RoomCard = React.memo(({ roomInfo }: RoomCardProps) => {
-  const { isOpen, handleOpenModal, handleCloseModal } = useModal();
+  const { isModalOpen, handleOpenModal, handleCloseModal } = useModal();
 
   const displayedKeywords = roomInfo.keywords.slice(0, MAX_KEYWORDS);
 
   return (
     <>
-      <RoomCardModal isOpen={isOpen} onClose={handleCloseModal} roomInfo={roomInfo} />
+      <RoomCardModal isOpen={isModalOpen} onClose={handleCloseModal} roomInfo={roomInfo} />
 
       <S.RoomCardContainer onClick={handleOpenModal}>
         <S.RoomInfoThumbnail
@@ -50,11 +50,24 @@ const RoomCard = React.memo(({ roomInfo }: RoomCardProps) => {
           </S.EtcContainer>
 
           <S.DeadLineText>
-            {formatDeadlineString(roomInfo.recruitmentDeadline)}
-            {roomInfo.participationStatus !== "NOT_PARTICIPATED" ? (
-              <S.StyledDday> {formatDday(roomInfo.reviewDeadline)}</S.StyledDday>
+            {roomInfo.roomStatus === "OPEN" ? (
+              <>
+                {formatDday(roomInfo.reviewDeadline) !== "종료됨" && "모집 마감"}
+                <S.StyledDday>
+                  {formatDday(roomInfo.recruitmentDeadline) !== "D-Day"
+                    ? formatDday(roomInfo.recruitmentDeadline)
+                    : formatLeftTime(roomInfo.recruitmentDeadline)}
+                </S.StyledDday>
+              </>
             ) : (
-              <S.StyledDday> {formatDday(roomInfo.recruitmentDeadline)}</S.StyledDday>
+              <>
+                {formatDday(roomInfo.reviewDeadline) !== "종료됨" && "리뷰 마감"}
+                <S.StyledDday>
+                  {formatDday(roomInfo.reviewDeadline) !== "D-Day"
+                    ? formatDday(roomInfo.reviewDeadline)
+                    : formatLeftTime(roomInfo.reviewDeadline)}
+                </S.StyledDday>
+              </>
             )}
           </S.DeadLineText>
         </S.RoomInformation>

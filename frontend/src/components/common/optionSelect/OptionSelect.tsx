@@ -12,6 +12,8 @@ const OptionSelect = <T extends NonEmptyArray<string>>({
   options,
   handleSelectedOption,
 }: OptionSelect<T>) => {
+  const selectedIndex = options.indexOf(selected);
+
   return (
     <S.OptionSelectContainer>
       {options.map((option) => (
@@ -23,6 +25,7 @@ const OptionSelect = <T extends NonEmptyArray<string>>({
           {option}
         </S.Option>
       ))}
+      <S.Indicator $position={selectedIndex} $optionCount={options.length} />
     </S.OptionSelectContainer>
   );
 };

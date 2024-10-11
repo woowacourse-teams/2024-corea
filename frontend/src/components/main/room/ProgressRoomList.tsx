@@ -1,4 +1,5 @@
 import { useInfiniteFetchRoomList } from "@/hooks/queries/useFetchRooms";
+import Loading from "@/components/common/loading/Loading";
 import WithSuspense from "@/components/common/withSuspense/WithSuspense";
 import RoomListWithDropdown from "@/components/main/room/RoomListWithDropdown";
 import QUERY_KEYS from "@/apis/queryKeys";
@@ -14,7 +15,7 @@ const ProgressRoomList = ({ selectedCategory, handleSelectedCategory }: Progress
     data: progressRoomList,
     fetchNextPage: fetchNextProgressPage,
     hasNextPage: hasNextProgressPage,
-    isFetching,
+    isFetchingNextPage,
   } = useInfiniteFetchRoomList({
     queryKey: [QUERY_KEYS.PROGRESS_ROOM_LIST, selectedCategory],
     getRoomList: getProgressRoomList,
@@ -25,7 +26,7 @@ const ProgressRoomList = ({ selectedCategory, handleSelectedCategory }: Progress
 
   return (
     <RoomListWithDropdown
-      isFetching={isFetching}
+      isFetchingNextPage={isFetchingNextPage}
       selectedCategory={selectedCategory}
       handleSelectedCategory={handleSelectedCategory}
       roomList={progressRooms}
@@ -36,4 +37,4 @@ const ProgressRoomList = ({ selectedCategory, handleSelectedCategory }: Progress
   );
 };
 
-export default WithSuspense(ProgressRoomList, null);
+export default WithSuspense(ProgressRoomList, <Loading />);

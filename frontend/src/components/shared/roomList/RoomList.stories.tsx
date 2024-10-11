@@ -10,6 +10,8 @@ const sampleRoomList = roomInfos.rooms.map((roomInfo) => ({
     | "NOT_PARTICIPATED"
     | "PARTICIPATED"
     | "MANAGER",
+
+  memberRole: roomInfo.memberRole as "BOTH" | "REVIEWER" | "REVIEWEE" | "NONE",
 })) satisfies RoomInfo[];
 
 const meta = {
@@ -51,7 +53,7 @@ export const SmallViewport: Story = {
   args: {
     roomList: sampleRoomList,
     hasNextPage: false,
-    isFetching: false,
+    isFetchingNextPage: false,
     roomType: "participated",
   },
   parameters: {
@@ -66,7 +68,7 @@ export const SmallViewport_With_NextPage: Story = {
     roomList: sampleRoomList,
     hasNextPage: true,
     onLoadMore: () => {},
-    isFetching: false,
+    isFetchingNextPage: false,
     roomType: "opened",
   },
   parameters: {
@@ -80,7 +82,7 @@ export const MediumViewport: Story = {
   args: {
     roomList: sampleRoomList,
     hasNextPage: false,
-    isFetching: false,
+    isFetchingNextPage: false,
     roomType: "closed",
   },
   parameters: {
@@ -94,7 +96,7 @@ export const LargeViewport: Story = {
   args: {
     roomList: sampleRoomList,
     hasNextPage: false,
-    isFetching: false,
+    isFetchingNextPage: false,
     roomType: "closed",
   },
   parameters: {

@@ -1,7 +1,12 @@
 package corea.scheduler.service;
 
 import config.ServiceTest;
-import corea.room.domain.ParticipationStatus;
+
+import config.TestAsyncConfig;
+import corea.participation.domain.ParticipationStatus;
+
+import corea.member.domain.MemberRole;
+
 import corea.room.dto.RoomResponse;
 import corea.room.service.RoomService;
 import corea.scheduler.domain.AutomaticMatching;
@@ -11,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.TaskScheduler;
 
 import java.time.Instant;
@@ -25,6 +31,7 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 @ServiceTest
+@Import(TestAsyncConfig.class)
 class AutomaticMatchingServiceTest {
 
     @Autowired
@@ -102,6 +109,7 @@ class AutomaticMatchingServiceTest {
                 recruitmentDeadline,
                 LocalDateTime.now().plusDays(3),
                 ParticipationStatus.PARTICIPATED,
+                MemberRole.NONE,
                 "OPEN");
     }
 }
