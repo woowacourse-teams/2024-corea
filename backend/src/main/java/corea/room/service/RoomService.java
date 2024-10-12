@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -132,16 +133,23 @@ public class RoomService {
     }
 
     public RoomParticipantResponses findParticipants(long roomId, long memberId) {
-        List<Participation> participants = new java.util.ArrayList<>(
-                participationRepository.findAllByRoomId(roomId).stream()
-                        .filter(participation -> participation.isNotMatchingMemberId(memberId))
-                        .toList());
+        List<Participation> participants = new ArrayList<>(participationRepository.findAllByRoomId(roomId)
+                .stream()
+                .filter(participation -> isValidParticipant(participation, memberId))
+                .toList());
+
         Collections.shuffle(participants);
 
         return new RoomParticipantResponses(participants.stream()
                 .limit(RANDOM_DISPLAY_PARTICIPANTS_SIZE)
                 .map(participation -> getRoomParticipantResponse(roomId, participation))
                 .toList(), participants.size());
+    }
+
+    private boolean isValidParticipant(Participation participation, long memberId) {
+        return participation.isNotMatchingMemberId(memberId)
+                && !participation.isReviewer()
+                && !participation.isPullRequestNotSubmitted();
     }
 
     private RoomParticipantResponse getRoomParticipantResponse(long roomId, Participation participant) {
