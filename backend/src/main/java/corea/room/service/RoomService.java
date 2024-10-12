@@ -153,10 +153,14 @@ public class RoomService {
     }
 
     private RoomParticipantResponse getRoomParticipantResponse(long roomId, Participation participant) {
-        return matchResultRepository.findAllByRevieweeIdAndRoomId(participant.getMembersId(), roomId).stream()
+        return matchResultRepository.findAllByRevieweeIdAndRoomId(participant.getMembersId(), roomId)
+                .stream()
                 .findFirst()
                 .map(matchResult -> new RoomParticipantResponse(
-                        matchResult.getReviewee().getGithubUserId(), matchResult.getReviewee().getUsername(), matchResult.getPrLink(), matchResult.getReviewee().getThumbnailUrl()))
+                        matchResult.getReviewee()
+                                .getGithubUserId(), matchResult.getReviewee()
+                        .getUsername(), matchResult.getPrLink(), matchResult.getReviewee()
+                        .getThumbnailUrl()))
                 .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND));
     }
 
