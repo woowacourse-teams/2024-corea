@@ -100,7 +100,9 @@ export const RoomContentSmall = styled.span`
   align-items: center;
 
   font: ${({ theme }) => theme.TEXT.small_bold};
+  line-height: 2rem;
   color: ${({ theme }) => theme.COLOR.black};
+  white-space: pre-line;
 
   span {
     font: ${({ theme }) => theme.TEXT.small};
@@ -117,6 +119,12 @@ export const RoomContentSmall = styled.span`
   ${media.small`
     gap: 0.4rem;
   `}
+`;
+
+export const ContentLineBreak = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 `;
 
 export const DateTimeText = styled.p`

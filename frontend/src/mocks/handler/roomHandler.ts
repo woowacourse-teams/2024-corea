@@ -1,4 +1,4 @@
-import { HttpResponse, http } from "msw";
+import { HttpResponse, delay, http } from "msw";
 import { API_ENDPOINTS } from "@/apis/endpoints";
 import { serverUrl } from "@/config/serverUrl";
 import reviewInfo from "@/mocks/mockResponse/reviewInfo.json";
@@ -9,7 +9,11 @@ const roomHandler = [
   http.get(serverUrl + API_ENDPOINTS.PARTICIPATED_ROOMS, () => {
     return HttpResponse.json(roomInfos, { status: 200 });
   }),
-  http.get(serverUrl + API_ENDPOINTS.OPENED_ROOMS, () => {
+  http.get(serverUrl + API_ENDPOINTS.PROGRESS_ROOMS, () => {
+    return HttpResponse.json(roomInfos, { status: 200 });
+  }),
+  http.get(serverUrl + API_ENDPOINTS.OPENED_ROOMS, async () => {
+    await delay(3000);
     return HttpResponse.json(roomInfos, { status: 200 });
   }),
   http.get(serverUrl + API_ENDPOINTS.CLOSED_ROOMS, () => {
@@ -28,6 +32,9 @@ const roomHandler = [
     return HttpResponse.json(reviewInfo, { status: 200 });
   }),
   http.post(serverUrl + API_ENDPOINTS.REVIEW_COMPLETE, () => {
+    return HttpResponse.json(null, { status: 200 });
+  }),
+  http.delete(serverUrl + API_ENDPOINTS.ROOMS + "/:id", () => {
     return HttpResponse.json(null, { status: 200 });
   }),
 ];

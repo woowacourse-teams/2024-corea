@@ -1,3 +1,5 @@
+/* eslint-disable react/display-name */
+import React from "react";
 import useModal from "@/hooks/common/useModal";
 import Icon from "@/components/common/icon/Icon";
 import ImageWithFallback from "@/components/common/img/ImageWithFallback";
@@ -7,20 +9,48 @@ import RoomCardModal from "@/components/shared/roomCardModal/RoomCardModal";
 import { RoomInfo } from "@/@types/roomInfo";
 import { MAX_KEYWORDS } from "@/constants/room";
 import { theme } from "@/styles/theme";
-import { formatDday, formatDeadlineString } from "@/utils/dateFormatter";
+import { formatDday, formatLeftTime } from "@/utils/dateFormatter";
+
+const DisplayLeftTime = (roomInfo: RoomInfo) => {
+  if (roomInfo.roomStatus === "OPEN") {
+    const dDay = formatDday(roomInfo.recruitmentDeadline);
+    const leftTime = formatLeftTime(roomInfo.recruitmentDeadline);
+
+    return (
+      <>
+        {dDay !== "종료됨" && "모집 마감"}
+        <S.StyledDday>{dDay === "D-Day" ? leftTime : dDay}</S.StyledDday>
+      </>
+    );
+  }
+
+  if (roomInfo.roomStatus === "PROGRESS") {
+    const dDay = formatDday(roomInfo.reviewDeadline);
+    const leftTime = formatLeftTime(roomInfo.reviewDeadline);
+
+    return (
+      <>
+        {dDay !== "종료됨" && "리뷰 마감"}
+        <S.StyledDday>{dDay ? leftTime : dDay}</S.StyledDday>
+      </>
+    );
+  }
+
+  return <>종료됨</>;
+};
 
 interface RoomCardProps {
   roomInfo: RoomInfo;
 }
 
-const RoomCard = ({ roomInfo }: RoomCardProps) => {
-  const { isOpen, handleOpenModal, handleCloseModal } = useModal();
+const RoomCard = React.memo(({ roomInfo }: RoomCardProps) => {
+  const { isModalOpen, handleOpenModal, handleCloseModal } = useModal();
 
   const displayedKeywords = roomInfo.keywords.slice(0, MAX_KEYWORDS);
 
   return (
     <>
-      <RoomCardModal isOpen={isOpen} onClose={handleCloseModal} roomInfo={roomInfo} />
+      <RoomCardModal isOpen={isModalOpen} onClose={handleCloseModal} roomInfo={roomInfo} />
 
       <S.RoomCardContainer onClick={handleOpenModal}>
         <S.RoomInfoThumbnail
@@ -40,29 +70,18 @@ const RoomCard = ({ roomInfo }: RoomCardProps) => {
           </S.KeywordsContainer>
 
           <S.EtcContainer>
-            {roomInfo.isClosed ? (
-              <Label type="close" text="마감됨" />
-            ) : (
-              <Label type="open" text="모집중" />
-            )}
+            <Label type={roomInfo.roomStatus} />
             <S.JoinMember>
               <Icon kind="person" size="1.6rem" color={theme.COLOR.grey4} />
               {roomInfo.currentParticipants}/{roomInfo.limitedParticipants}
             </S.JoinMember>
           </S.EtcContainer>
 
-          <S.DeadLineText>
-            {formatDeadlineString(roomInfo.recruitmentDeadline)}
-            {roomInfo.isParticipated ? (
-              <S.StyledDday> {formatDday(roomInfo.reviewDeadline)}</S.StyledDday>
-            ) : (
-              <S.StyledDday> {formatDday(roomInfo.recruitmentDeadline)}</S.StyledDday>
-            )}
-          </S.DeadLineText>
+          <S.DeadLineText>{DisplayLeftTime(roomInfo)}</S.DeadLineText>
         </S.RoomInformation>
       </S.RoomCardContainer>
     </>
   );
-};
+});
 
 export default RoomCard;

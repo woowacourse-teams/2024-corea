@@ -1,18 +1,33 @@
-export interface RoomInfo {
-  id: number;
+export type Classification = "ALL" | "FRONTEND" | "BACKEND" | "ANDROID";
+
+export type RoomStatus = "OPEN" | "CLOSE" | "PROGRESS" | "FAIL";
+
+export type ParticipationStatus = "NOT_PARTICIPATED" | "PARTICIPATED" | "MANAGER";
+
+export type Role = "BOTH" | "REVIEWER" | "REVIEWEE" | "NONE";
+
+interface BaseRoomInfo {
   title: string;
   content: string;
-  manager: string;
   repositoryLink: string;
   thumbnailLink: string;
   matchingSize: number;
   keywords: string[];
-  currentParticipants: number;
   limitedParticipants: number;
   recruitmentDeadline: string;
   reviewDeadline: string;
-  isParticipated: boolean;
-  isClosed: boolean;
+}
+export interface CreateRoomInfo extends BaseRoomInfo {
+  classification: Classification | "";
+}
+
+export interface RoomInfo extends BaseRoomInfo {
+  id: number;
+  manager: string;
+  currentParticipants: number;
+  roomStatus: RoomStatus;
+  participationStatus: ParticipationStatus;
+  memberRole: Role;
 }
 
 export interface RoomListInfo {

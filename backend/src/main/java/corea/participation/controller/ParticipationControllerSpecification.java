@@ -4,6 +4,7 @@ import corea.auth.domain.AuthInfo;
 import corea.exception.ExceptionType;
 import corea.exception.ExceptionTypeGroup;
 import corea.global.annotation.ApiErrorResponses;
+import corea.participation.dto.ParticipationHttpRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -14,6 +15,7 @@ public interface ParticipationControllerSpecification {
 
     @Operation(summary = "원하는 방에 참여합니다.",
             description = "원하는 방 상세 페이지에 위치한 참여 버튼을 누르면 참여할 수 있습니다. <br>" +
+                    "참여하는 시점에서 리뷰어로만 참여할지 / 리뷰어 & 리뷰이로 참여할지를 결정할 수 있습니다. <br>" +
                     "요청 시 `Authorization Header`에 `Bearer JWT token`을 포함시켜야 합니다. " +
                     "이 토큰을 기반으로 `AuthInfo` 객체가 생성되며 사용자의 정보가 자동으로 주입됩니다. <br>" +
                     "JWT 토큰에서 추출된 사용자 정보는 피드백 작성에 필요한 인증된 사용자 정보를 제공합니다. " +
@@ -24,7 +26,13 @@ public interface ParticipationControllerSpecification {
     ResponseEntity<Void> participate(
             @Parameter(description = "방 아이디", example = "1")
             long id,
-            AuthInfo authInfo);
+            AuthInfo authInfo,
+
+            @Parameter(description = "참여자 역할", example = "reviewer")
+            String role,
+
+            @Parameter(description = "참여자가 원하는 매칭 인원 수")
+            ParticipationHttpRequest matchingSize);
 
     @Operation(summary = "방 참여를 취소합니다.",
             description = "참여 취소를 원하는 방 상세 페이지에 위치한 취소 버튼을 누르면 참여를 취소할 수 있습니다. <br>" +
@@ -40,4 +48,3 @@ public interface ParticipationControllerSpecification {
             long id,
             AuthInfo authInfo);
 }
-

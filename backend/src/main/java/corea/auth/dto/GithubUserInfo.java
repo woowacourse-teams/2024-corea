@@ -18,7 +18,7 @@ public record GithubUserInfo(@Schema(description = "아이디", example = "young
                              String email,
 
                              @Schema(description = "깃허브 ID", example = "98307410")
-                             String githubUserId) {
+                             String id) {
 
     public GithubUserInfo {
         if (email == null) {

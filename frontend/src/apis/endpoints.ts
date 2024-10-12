@@ -6,10 +6,12 @@ export const API_ENDPOINTS = {
 
   // rooms
   PARTICIPATED_ROOMS: "/rooms/participated",
+  PROGRESS_ROOMS: "/rooms/progress",
   OPENED_ROOMS: "/rooms/opened",
   CLOSED_ROOMS: "/rooms/closed",
   PARTICIPATE_IN: (roomId: number) => `/participate/${roomId}`,
-  ROOMS: `/rooms`,
+  ROOMS: "/rooms",
+  PARTICIPANT_LIST: (roomId: number) => `/rooms/${roomId}/participants`,
 
   // reviews
   REVIEWERS: (roomId: number) => `/rooms/${roomId}/reviewers`,
@@ -18,6 +20,7 @@ export const API_ENDPOINTS = {
 
   // profile
   PROFILE: "/user/profile",
+  USER_PROFILE: (userName: string) => `/user/profile/by?username=${userName}`,
 
   // feedbacks
   // 리뷰어->리뷰이

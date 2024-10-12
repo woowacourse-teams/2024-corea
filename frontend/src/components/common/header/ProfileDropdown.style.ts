@@ -1,4 +1,15 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const dropdown = keyframes`
+  0% {
+    transform: translateY(-10%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+`;
 
 export const ProfileContainer = styled.div`
   position: relative;
@@ -14,6 +25,7 @@ export const DropdownMenu = styled.div<{ show: boolean }>`
 
   min-width: 200px;
   padding: 1rem;
+  animation: ${dropdown} 0.4s ease;
 
   background-color: white;
   border-radius: 12px;

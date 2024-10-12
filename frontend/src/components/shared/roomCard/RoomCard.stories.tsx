@@ -3,7 +3,15 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { RoomInfo } from "@/@types/roomInfo";
 import roomInfo from "@/mocks/mockResponse/roomInfo.json";
 
-const sampleRoomList: RoomInfo = roomInfo;
+const sampleRoomList = {
+  ...roomInfo,
+  roomStatus: roomInfo.roomStatus as "OPEN" | "CLOSE" | "PROGRESS",
+  participationStatus: roomInfo.participationStatus as
+    | "NOT_PARTICIPATED"
+    | "PARTICIPATED"
+    | "MANAGER",
+  memberRole: roomInfo.memberRole as "BOTH" | "REVIEWER" | "REVIEWEE" | "NONE",
+} satisfies RoomInfo;
 
 const meta = {
   title: "shared/RoomCard",
@@ -29,7 +37,7 @@ export const OpenedRoom: Story = {
   args: {
     roomInfo: {
       ...sampleRoomList,
-      isClosed: false,
+      roomStatus: "OPEN",
     },
   },
 };
@@ -38,7 +46,7 @@ export const ClosedRoom: Story = {
   args: {
     roomInfo: {
       ...sampleRoomList,
-      isClosed: true,
+      roomStatus: "CLOSE",
     },
   },
 };

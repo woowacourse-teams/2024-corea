@@ -57,12 +57,15 @@ export const RoomInformation = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+
+  width: 100%;
   padding: 1rem;
 `;
 
 export const RoomTitle = styled.h2`
   overflow: hidden;
 
+  width: 100%;
   padding: 1rem 0;
 
   font: ${({ theme }) => theme.TEXT.medium_bold};
@@ -85,7 +88,7 @@ export const KeywordWrapper = styled.div`
 `;
 
 export const KeywordText = styled.span`
-  font: ${({ theme }) => theme.TEXT.small};
+  font: ${({ theme }) => theme.TEXT.semiSmall};
   color: ${({ theme }) => theme.COLOR.grey3};
 `;
 
@@ -111,12 +114,12 @@ export const DeadLineText = styled.span`
 
   padding-bottom: 0.4rem;
 
-  font: ${({ theme }) => theme.TEXT.small_bold};
+  font: ${({ theme }) => theme.TEXT.small};
 `;
 
 export const StyledDday = styled.span`
   display: flex;
   align-items: center;
-  font: ${({ theme }) => theme.TEXT.small_bold};
+  font: ${({ theme }) => theme.TEXT.semiSmall_bold};
   color: ${({ theme }) => theme.COLOR.error};
 `;

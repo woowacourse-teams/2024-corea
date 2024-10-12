@@ -9,10 +9,10 @@ const headerItems = [
     name: "코드리뷰가이드",
     path: "/guide",
   },
-  {
-    name: "랭킹",
-    path: "/ranking",
-  },
+  // {
+  //   name: "랭킹",
+  //   path: "/ranking",
+  // },
 ];
 
 const Header = () => {
@@ -42,8 +42,8 @@ const Header = () => {
 
   return (
     <S.HeaderContainer $isMain={isMain}>
-      <S.HeaderLogo $isMain={isMain} onClick={() => handlePage("/", "")}>
-        CoReA
+      <S.HeaderLogo onClick={() => handlePage("/", "")}>
+        <span>CoReA</span>
       </S.HeaderLogo>
       <S.HeaderNavBarContainer>
         {headerItems.map((item) => (

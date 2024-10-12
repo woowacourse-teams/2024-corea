@@ -23,22 +23,34 @@ export const LabelWrapper = styled.div<LabelWrapperProps>`
 
   ${({ $backgroundColor, type, theme }) => {
     switch (type) {
-      case "keyword":
+      case "KEYWORD":
         return css`
           background-color: ${$backgroundColor || theme.COLOR.white};
           border: 1px solid ${theme.COLOR.grey0};
         `;
-      case "open":
+      case "OPEN":
         return css`
           color: ${theme.COLOR.black};
           background-color: ${theme.COLOR.primary1};
           border: 1px solid ${theme.COLOR.primary1};
         `;
-      case "close":
+      case "CLOSE":
         return css`
           color: ${theme.COLOR.white};
           background-color: ${theme.COLOR.primary2};
           border: 1px solid ${theme.COLOR.primary2};
+        `;
+      case "PROGRESS":
+        return css`
+          color: ${theme.COLOR.white};
+          background-color: ${theme.COLOR.secondary};
+          border: 1px solid ${theme.COLOR.secondary};
+        `;
+      case "FAIL":
+        return css`
+          color: ${theme.COLOR.white};
+          background-color: ${theme.COLOR.error};
+          border: 1px solid ${theme.COLOR.error};
         `;
     }
   }}

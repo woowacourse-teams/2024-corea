@@ -34,7 +34,7 @@ public class PullRequestProvider {
                 .takeWhile(data -> !(data.isLastPage() || data.isAfterPage(utcDeadline)))
                 .flatMap(PullRequestData::responseToStream)
                 .filter(pullRequestResponse -> pullRequestResponse.isBefore(utcDeadline))
-                .collect(Collectors.toMap(PullRequestResponse::getUserId, Function.identity())));
+                .collect(Collectors.toMap(PullRequestResponse::getUserId, Function.identity(), (k1, k2) -> k2)));
     }
 
     /**

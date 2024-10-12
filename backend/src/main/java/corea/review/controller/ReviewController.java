@@ -20,7 +20,7 @@ public class ReviewController implements ReviewControllerSpecification {
 
     @PostMapping("/complete")
     public ResponseEntity<Void> complete(@LoginMember AuthInfo authInfo, @RequestBody ReviewRequest request) {
-        reviewService.review(request.roomId(), authInfo.getId(), request.revieweeId());
+        reviewService.completeReview(request.roomId(), authInfo.getId(), request.revieweeId());
         return ResponseEntity.ok()
                 .build();
     }

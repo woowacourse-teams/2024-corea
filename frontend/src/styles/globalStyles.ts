@@ -12,6 +12,11 @@ const globalStyles = createGlobalStyle`
   }
 
   html,
+  body{
+    scrollbar-gutter: stable;
+  }
+
+  html,
   body,
   div,
   span,
@@ -92,7 +97,8 @@ const globalStyles = createGlobalStyle`
   mark,
   audio,
   video,
-  input {
+  input,
+  textarea {
     box-sizing: border-box;
     margin: 0;
     padding: 0;

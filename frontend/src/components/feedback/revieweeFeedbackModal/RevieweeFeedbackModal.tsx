@@ -1,8 +1,8 @@
 import { useRevieweeFeedbackForm } from "@/hooks/feedback/useRevieweeFeedbackForm";
 import Button from "@/components/common/button/Button";
 import Label from "@/components/common/label/Label";
-import FeedbackModal from "@/components/common/modal/FeedbackModal";
 import { ModalProps } from "@/components/common/modal/Modal";
+import FeedbackCustomModal from "@/components/common/modal/feedbackCustomModal/FeedbackCustomModal";
 import RevieweeFeedbackForm from "@/components/feedback/feedbackForm/RevieweeFeedbackForm";
 import * as S from "@/components/feedback/revieweeFeedbackModal/RevieweeFeedbackModal.style";
 import { ReviewerInfo } from "@/@types/reviewer";
@@ -11,7 +11,7 @@ import { theme } from "@/styles/theme";
 import { FeedbackModalType } from "@/utils/feedbackUtils";
 
 interface RevieweeFeedbackModalProps extends ModalProps {
-  roomInfo: Pick<RoomInfo, "id" | "title" | "keywords" | "isClosed">;
+  roomInfo: Pick<RoomInfo, "id" | "title" | "keywords">;
   reviewee: ReviewerInfo;
   modalType: FeedbackModalType;
   buttonText: string;
@@ -29,7 +29,7 @@ const RevieweeFeedbackModal = ({
     useRevieweeFeedbackForm(roomInfo.id, reviewee.username, reviewee.userId, modalType, onClose);
 
   return (
-    <FeedbackModal isOpen={isOpen} onClose={handleClose}>
+    <FeedbackCustomModal isOpen={isOpen} onClose={handleClose}>
       <S.FeedbackContainer>
         <S.ModalType>
           {modalType === "create" && "리뷰이 피드백 작성하기"}
@@ -41,7 +41,7 @@ const RevieweeFeedbackModal = ({
           {roomInfo.keywords.map((keyword) => (
             <Label
               key={keyword}
-              type="keyword"
+              type="KEYWORD"
               text={keyword}
               size="semiSmall"
               backgroundColor={theme.COLOR.grey0}
@@ -59,7 +59,7 @@ const RevieweeFeedbackModal = ({
           </S.ButtonWrapper>
         )}
       </S.FeedbackContainer>
-    </FeedbackModal>
+    </FeedbackCustomModal>
   );
 };
 

@@ -3,13 +3,15 @@ import media from "@/styles/media";
 
 export const RoomCardModalContainer = styled.div`
   display: flex;
+  flex-direction: column;
+  gap: 2rem;
+`;
+
+export const HeaderContainer = styled.div`
+  display: flex;
   flex-wrap: wrap;
   gap: 2rem;
   justify-content: space-between;
-
-  :last-child {
-    gap: 0;
-  }
 `;
 
 // 썸네일
@@ -55,8 +57,10 @@ export const MainContainer = styled.div`
 
 export const ManagerContainer = styled.div`
   display: flex;
-  gap: 0.5rem;
+  flex-wrap: wrap;
+  gap: 0.8rem;
   align-items: center;
+
   font: ${({ theme }) => theme.TEXT.small};
 `;
 
@@ -71,8 +75,23 @@ export const ProfileContainer = styled.div`
   }
 
   span {
+    width: 168px;
     font: ${({ theme }) => theme.TEXT.small};
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
+`;
+
+export const IconWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 24px;
+  height: 24px;
+
+  background-color: ${({ theme }) => theme.COLOR.grey0};
+  border-radius: 50%;
 `;
 
 // 방 이름, 저장소 링크
@@ -123,12 +142,20 @@ export const EtcContainer = styled.div`
 export const InfoRow = styled.div`
   display: flex;
   align-items: center;
+
+  ${media.small`
+    justify-content: space-between;
+  `}
 `;
 
 export const InfoTitle = styled.span`
   width: 200px;
   font: ${({ theme }) => theme.TEXT.small};
   color: ${({ theme }) => theme.COLOR.grey3};
+
+  ${media.small`
+    width: auto;
+  `}
 `;
 
 export const InfoContent = styled.span`
@@ -139,7 +166,8 @@ export const InfoContent = styled.span`
 export const DescriptionContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 1rem;
+  width: 100%;
 `;
 
 export const KeywordsContainer = styled.div`
@@ -161,12 +189,66 @@ export const KeywordText = styled.span`
 
 export const ContentContainer = styled.p`
   font: ${({ theme }) => theme.TEXT.small};
+  line-height: 2rem;
+  white-space: pre-line;
 `;
 
 // 버튼
 export const ButtonContainer = styled.div`
   display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
   align-items: center;
   justify-content: center;
+
   width: 100%;
+
+  h2 {
+    font: ${({ theme }) => theme.TEXT.small_bold};
+  }
+`;
+
+export const FormContainer = styled.div`
+  cursor: pointer;
+
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+  justify-content: center;
+
+  width: 270px;
+  padding: 1rem;
+
+  border: 1px solid ${({ theme }) => theme.COLOR.grey2};
+  border-radius: 10px;
+`;
+
+export const FormWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const MatchingSizeContainer = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+
+  p {
+    font: ${({ theme }) => theme.TEXT.semiSmall};
+  }
+
+  button {
+    padding: 0.2rem 0.6rem;
+  }
+`;
+
+export const ButtonWRapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;

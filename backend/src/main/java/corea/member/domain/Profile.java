@@ -1,5 +1,6 @@
 package corea.member.domain;
 
+import corea.global.BaseTimeEntity;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,7 +13,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Entity
 @AllArgsConstructor
 @Getter
-public class Profile {
+public class Profile extends BaseTimeEntity {
 
     private static final int DEFAULT_FEEDBACK_COUNT = 0;
 
@@ -31,7 +32,7 @@ public class Profile {
 
     private float attitude;
 
-    protected Profile() {
+    public Profile() {
         this(DEFAULT_FEEDBACK_COUNT, 0, 0, 0, 36.5f);
     }
 
@@ -39,23 +40,18 @@ public class Profile {
         this(null, feedbackCount, receiveCount, deliverCount, new AverageRating(averageRating), attitude);
     }
 
-    public void increaseCount(ProfileCountType profileCountType) {
-        if (profileCountType.isDeliver()) {
+    public void increaseReviewCount(MemberRole memberRole) {
+        if (memberRole.isReviewer()) {
             deliverCount++;
             return;
         }
         receiveCount++;
     }
 
-    public void updateProfile(int evaluatePoint) {
+    public void updateAverageRating(int evaluatePoint) {
         float totalEvaluatePoint = averageRating.calculateTotalEvaluatePoint(feedbackCount, evaluatePoint);
         feedbackCount++;
 
-        this.averageRating = averageRating.calculateAverageRating(totalEvaluatePoint, feedbackCount);
-    }
-
-    public void updateProfile(int preEvaluatePoint, int evaluatePoint) {
-        float totalEvaluatePoint = averageRating.calculateTotalEvaluatePoint(feedbackCount, preEvaluatePoint, evaluatePoint);
         this.averageRating = averageRating.calculateAverageRating(totalEvaluatePoint, feedbackCount);
     }
 

@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
+import { FeedbackType } from "@/hooks/feedback/useSelectedFeedbackData";
 import Carousel from "@/components/common/carousel/Carousel";
 import Label from "@/components/common/label/Label";
 import FeedbackCard from "@/components/feedback/feedbackCard/FeedbackCard";
 import * as S from "@/components/feedback/feedbackCardList/FeedbackCardList.style";
 import { FeedbackCardDataList } from "@/@types/feedback";
+import { defaultCharacter } from "@/assets";
 import { theme } from "@/styles/theme";
 
 interface FeedbackCardListProps {
+  selectedFeedbackType: FeedbackType;
   feedbackData: FeedbackCardDataList[];
 }
 
-const FeedbackCardList = ({ feedbackData }: FeedbackCardListProps) => {
+const FeedbackCardList = ({ selectedFeedbackType, feedbackData }: FeedbackCardListProps) => {
   const [selectedFeedback, setSelectedFeedback] = useState<number>();
 
   const handleSelectedFeedback = (roomId: number) => {
@@ -29,6 +32,15 @@ const FeedbackCardList = ({ feedbackData }: FeedbackCardListProps) => {
     [feedbackData],
   );
 
+  if (feedbackData.length === 0) {
+    return (
+      <S.EmptyContainer>
+        <S.Character src={defaultCharacter} alt="기본 캐릭터" />
+        <p>{selectedFeedbackType}이 없습니다.</p>
+      </S.EmptyContainer>
+    );
+  }
+
   return (
     <S.FeedbackCardContainer>
       {feedbackData.map((feedback) => (
@@ -39,11 +51,14 @@ const FeedbackCardList = ({ feedbackData }: FeedbackCardListProps) => {
           >
             <S.FeedbackMissionTitle>
               <S.FeedbackMissionInfo>{feedback.title}</S.FeedbackMissionInfo>
+              <S.FeedbackCount>
+                ({feedback.developFeedback.length + feedback.socialFeedback.length})
+              </S.FeedbackCount>
               <S.FeedbackKeywordContainer>
                 {feedback.roomKeywords.map((keyword) => (
                   <Label
                     key={keyword}
-                    type="keyword"
+                    type="KEYWORD"
                     text={keyword}
                     size="semiSmall"
                     backgroundColor={theme.COLOR.white}
@@ -61,6 +76,7 @@ const FeedbackCardList = ({ feedbackData }: FeedbackCardListProps) => {
                 {feedback.developFeedback.map((developFeedback) => (
                   <FeedbackCard
                     key={developFeedback.feedbackId}
+                    selectedFeedbackType={selectedFeedbackType}
                     feedbackCardData={developFeedback}
                     feedbackType="develop"
                   />
@@ -68,6 +84,7 @@ const FeedbackCardList = ({ feedbackData }: FeedbackCardListProps) => {
                 {feedback.socialFeedback.map((socialFeedback) => (
                   <FeedbackCard
                     key={socialFeedback.feedbackId}
+                    selectedFeedbackType={selectedFeedbackType}
                     feedbackCardData={socialFeedback}
                     feedbackType="social"
                   />

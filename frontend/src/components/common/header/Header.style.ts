@@ -3,7 +3,6 @@ import media from "@/styles/media";
 
 export const HeaderContainer = styled.header<{ $isMain: boolean }>`
   position: relative;
-  z-index: 999;
 
   display: flex;
   align-items: center;
@@ -31,21 +30,22 @@ export const HeaderContainer = styled.header<{ $isMain: boolean }>`
 `;
 
 // 서비스 로고
-export const HeaderLogo = styled.button<{ $isMain: boolean }>`
-  font-family: "Moirai One", system-ui;
-  font-size: 3rem;
-  font-weight: 900;
-  color: ${({ theme, $isMain }) => ($isMain ? theme.COLOR.white : theme.COLOR.grey3)};
-
+export const HeaderLogo = styled.button`
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
   background: transparent;
 
-  ${media.small`
-    color: ${({ theme }) => theme.COLOR.black};
-  `}
+  span {
+    font-family: "Moirai One", system-ui;
+    font-size: 3rem;
+    font-weight: 900;
+    color: ${({ theme }) => theme.COLOR.grey4};
+  }
 `;
 
 // 네비게이션
-export const HeaderNavBarContainer = styled.div`
+export const HeaderNavBarContainer = styled.ul`
   display: flex;
   gap: 1rem;
   align-items: center;
@@ -59,11 +59,8 @@ export const HeaderItem = styled.li<{ $isMain: boolean }>`
 
   font: ${({ theme }) => theme.TEXT.large};
   font-family: "Do Hyeon", sans-serif;
-  color: ${({ theme, $isMain }) => ($isMain ? theme.COLOR.white : theme.COLOR.grey3)};
+  color: ${({ theme }) => theme.COLOR.grey3};
 
-  ${media.small`
-    color: ${({ theme }) => theme.COLOR.black};
-  `}
   transition: 0.3s;
 
   &:hover,

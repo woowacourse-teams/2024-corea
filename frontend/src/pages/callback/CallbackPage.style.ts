@@ -1,18 +1,18 @@
 import styled, { keyframes } from "styled-components";
-import { theme } from "@/styles/theme";
 
 export const CallbackPageContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 2rem;
   align-items: center;
   justify-content: center;
 
-  height: 100%;
+  margin-top: 20%;
 `;
 
 export const Character = styled.img`
-  width: 300px;
+  width: 50%;
+  max-width: 250px;
 `;
 
 // LoadingBar
@@ -36,12 +36,15 @@ export const LoadingContainer = styled.div`
   width: 200px;
   height: 30px;
 
-  font: ${({ theme }) => theme.TEXT.medium};
-  color: ${({ theme }) => theme.COLOR.grey4};
-
   background-color: ${({ theme }) => theme.COLOR.white};
   border: 2px solid ${({ theme }) => theme.COLOR.primary2};
   border-radius: 25px;
+
+  p {
+    z-index: 999;
+    font: ${({ theme }) => theme.TEXT.medium_bold};
+    color: ${({ theme }) => theme.COLOR.grey4};
+  }
 `;
 
 export const LoadingBar = styled.div`

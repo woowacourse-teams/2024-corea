@@ -4,7 +4,6 @@
       "roomId": 0,
       "title": "숫자 골프",
       "roomKeywords": ["string"],
-      "isClosed": true,
       "developFeedback": [
         {
           "feedbackId": 0,

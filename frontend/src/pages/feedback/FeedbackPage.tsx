@@ -17,7 +17,10 @@ const FeedbackPage = () => {
         options={options}
         handleSelectedOption={(option) => setSelectedFeedbackType(option)}
       />
-      <FeedbackCardList feedbackData={selectedFeedbackData} />
+      <FeedbackCardList
+        selectedFeedbackType={selectedFeedbackType}
+        feedbackData={selectedFeedbackData}
+      />
     </>
   );
 };

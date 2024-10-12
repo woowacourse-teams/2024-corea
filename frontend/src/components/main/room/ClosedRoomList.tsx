@@ -1,4 +1,6 @@
 import { useInfiniteFetchRoomList } from "@/hooks/queries/useFetchRooms";
+import Loading from "@/components/common/loading/Loading";
+import WithSuspense from "@/components/common/withSuspense/WithSuspense";
 import RoomListWithDropdown from "@/components/main/room/RoomListWithDropdown";
 import QUERY_KEYS from "@/apis/queryKeys";
 import { getClosedRoomList } from "@/apis/rooms.api";
@@ -13,6 +15,7 @@ const ClosedRoomList = ({ selectedCategory, handleSelectedCategory }: ClosedRoom
     data: closedRoomList,
     fetchNextPage: fetchNextClosedPage,
     hasNextPage: hasNextClosedPage,
+    isFetchingNextPage,
   } = useInfiniteFetchRoomList({
     queryKey: [QUERY_KEYS.CLOSED_ROOM_LIST, selectedCategory],
     getRoomList: getClosedRoomList,
@@ -28,8 +31,10 @@ const ClosedRoomList = ({ selectedCategory, handleSelectedCategory }: ClosedRoom
       roomList={closedRooms}
       hasNextPage={hasNextClosedPage}
       onLoadMore={fetchNextClosedPage}
+      isFetchingNextPage={isFetchingNextPage}
+      roomType="closed"
     />
   );
 };
 
-export default ClosedRoomList;
+export default WithSuspense(ClosedRoomList, <Loading />);

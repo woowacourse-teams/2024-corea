@@ -18,7 +18,7 @@ const dropdownItems = [
 const ProfileDropdown = () => {
   const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
   const navigate = useNavigate();
-  const { isOpen, handleToggleDropdown, dropdownRef } = useDropdown();
+  const { isDropdownOpen, handleToggleDropdown, dropdownRef } = useDropdown();
   const { postLogoutMutation } = useMutateAuth();
 
   const handleProfileClick = (event: React.MouseEvent) => {
@@ -40,7 +40,7 @@ const ProfileDropdown = () => {
     <S.ProfileContainer ref={dropdownRef}>
       <Profile imgSrc={userInfo.avatar_url} onClick={handleProfileClick} />
 
-      <S.DropdownMenu show={isOpen}>
+      <S.DropdownMenu show={isDropdownOpen}>
         <S.ProfileWrapper>
           <Profile imgSrc={userInfo.avatar_url} />
           <S.ProfileInfo>

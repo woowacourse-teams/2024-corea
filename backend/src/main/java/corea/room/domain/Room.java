@@ -2,6 +2,7 @@ package corea.room.domain;
 
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
+import corea.global.BaseTimeEntity;
 import corea.member.domain.Member;
 import corea.util.StringToListConverter;
 import jakarta.persistence.*;
@@ -13,15 +14,13 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static corea.exception.ExceptionType.ROOM_PARTICIPANT_EXCEED;
-import static corea.exception.ExceptionType.ROOM_STATUS_INVALID;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Room {
+public class Room extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -73,35 +72,55 @@ public class Room {
     }
 
     public void cancelParticipation() {
-        if (status.isNotOpened()) {
-            throw new CoreaException(ExceptionType.ROOM_STATUS_INVALID);
-        }
+        validateOpened();
         currentParticipantsSize = Math.max(0, currentParticipantsSize - 1);
     }
 
     public void participate() {
         validateOpened();
         if (currentParticipantsSize >= limitedParticipantsSize) {
-            throw new CoreaException(ROOM_PARTICIPANT_EXCEED);
+            throw new CoreaException(ExceptionType.ROOM_PARTICIPANT_EXCEED);
         }
         currentParticipantsSize += 1;
+    }
+
+    private void validateOpened() {
+        if (status.isNotOpened()) {
+            throw new CoreaException(ExceptionType.ROOM_STATUS_INVALID);
+        }
+    }
+
+    public void updateStatusToProgress() {
+        validateOpened();
+        status = RoomStatus.PROGRESS;
+    }
+
+    public void updateStatusToClose() {
+        status = RoomStatus.CLOSE;
+    }
+
+    public void updateStatusToFail() {
+        status = RoomStatus.FAIL;
+    }
+
+    public boolean isNotOpened() {
+        return status.isNotOpened();
     }
 
     public boolean isClosed() {
         return status.isClosed();
     }
 
-    public void toProgress() {
-        if (status.isNotOpened()) {
-            throw new CoreaException(ROOM_STATUS_INVALID);
-        }
-        status = RoomStatus.PROGRESS;
+    public boolean isNotMatchingManager(long memberId) {
+        return manager.isNotMatchingId(memberId);
     }
 
-    public void validateOpened() {
-        if (status.isNotOpened()) {
-            throw new CoreaException(ExceptionType.ROOM_STATUS_INVALID);
-        }
+    public boolean isManagedBy(long managerId) {
+        return manager.isMatchingId(managerId);
+    }
+
+    public long getManagerId() {
+        return manager.getId();
     }
 
     public String getRoomStatus() {
@@ -112,4 +131,3 @@ public class Room {
         return manager.getName();
     }
 }
-

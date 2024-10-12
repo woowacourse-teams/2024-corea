@@ -39,12 +39,12 @@ const socialFeedbackData = deliveredFeedbackInfo.feedbacks[0].socialFeedback.map
 
 export const Default: Story = {
   args: {
+    selectedFeedbackType: "받은 피드백",
     feedbackData: [
       {
         roomId: 0,
         title: "숫자 골프",
         roomKeywords: ["string", "클린코드", "클린 아키텍쳐"],
-        isClosed: true,
         developFeedback: developFeedbackData,
         socialFeedback: socialFeedbackData,
       },

@@ -6,6 +6,7 @@ import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
 import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
+import corea.participation.dto.ParticipationHttpRequest;
 import corea.room.domain.Room;
 import corea.room.repository.RoomRepository;
 import io.restassured.RestAssured;
@@ -35,6 +36,7 @@ class ParticipationControllerTest {
         String token = tokenService.createAccessToken(member);
 
         RestAssured.given().auth().oauth2(token)
+                .body(new ParticipationHttpRequest(2))
                 .contentType(ContentType.JSON)
                 .when().post("/participate/" + room.getId())
                 .then().log().all()

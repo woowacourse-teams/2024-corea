@@ -4,13 +4,15 @@ import config.ServiceTest;
 import corea.exception.CoreaException;
 import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
-import corea.matching.domain.MatchResult;
 import corea.matching.domain.PullRequestInfo;
 import corea.matching.infrastructure.dto.GithubUserResponse;
 import corea.matching.infrastructure.dto.PullRequestResponse;
+import corea.matchresult.domain.MatchResult;
 import corea.member.domain.Member;
+import corea.member.domain.MemberRole;
 import corea.member.repository.MemberRepository;
 import corea.participation.domain.Participation;
+import corea.participation.domain.ParticipationStatus;
 import corea.participation.repository.ParticipationRepository;
 import corea.room.domain.Room;
 import corea.room.repository.RoomRepository;
@@ -57,23 +59,23 @@ class MatchingServiceTest {
     }
 
     private PullRequestInfo initialize() {
-        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_DEADLINE(memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON()),
+        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON()),
                 LocalDateTime.of(2024, 10, 12, 17, 00)));
         roomId = room.getId();
         Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member ash = memberRepository.save(MemberFixture.MEMBER_ASH());
         Member joysun = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
-        Member movin = memberRepository.save(MemberFixture.MEMBER_MUBIN());
+        Member movin = memberRepository.save(MemberFixture.MEMBER_MOVIN());
         Member ten = memberRepository.save(MemberFixture.MEMBER_TENTEN());
         Member cho = memberRepository.save(MemberFixture.MEMBER_CHOCO());
         noPullRequestMember = cho;
 
-        participationRepository.save(new Participation(room, pororo.getId(), pororo.getGithubUserId()));
-        participationRepository.save(new Participation(room, ash.getId(), ash.getGithubUserId()));
-        participationRepository.save(new Participation(room, joysun.getId(), joysun.getGithubUserId()));
-        participationRepository.save(new Participation(room, movin.getId(), movin.getGithubUserId()));
-        participationRepository.save(new Participation(room, ten.getId(), ten.getGithubUserId()));
-        participationRepository.save(new Participation(room, cho.getId(), cho.getGithubUserId()));
+        participationRepository.save(new Participation(room, pororo, MemberRole.BOTH, room.getMatchingSize()));
+        participationRepository.save(new Participation(room, ash, MemberRole.BOTH, room.getMatchingSize()));
+        participationRepository.save(new Participation(room, joysun, MemberRole.BOTH, room.getMatchingSize()));
+        participationRepository.save(new Participation(room, movin, MemberRole.BOTH, room.getMatchingSize()));
+        participationRepository.save(new Participation(room, ten, MemberRole.BOTH, room.getMatchingSize()));
+        participationRepository.save(new Participation(room, cho, MemberRole.BOTH, room.getMatchingSize()));
 
         return new PullRequestInfo(
                 Map.of(
@@ -94,6 +96,18 @@ class MatchingServiceTest {
                                 LocalDateTime.of(2024, 10, 12, 18, 01)
                         )
                 ));
+    }
+
+    @Test
+    @DisplayName("PR을 제출하지 않아 매칭에 실패하면 참여 상태를 PULL_REQUEST_NOT_SUBMITTED로 변경한다")
+    void findOne_withPullRequestSubmission() {
+        PullRequestInfo pullRequestInfo = initialize();
+        matchingService.match(roomId, pullRequestInfo);
+
+        Participation participation = participationRepository.findByRoomIdAndMemberId(roomId, noPullRequestMember.getId()).get();
+        ParticipationStatus status = participation.getStatus();
+
+        assertThat(status).isEqualTo(ParticipationStatus.PULL_REQUEST_NOT_SUBMITTED);
     }
 
     @Test

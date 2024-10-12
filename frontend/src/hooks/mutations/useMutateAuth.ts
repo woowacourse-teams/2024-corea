@@ -1,8 +1,9 @@
 import useMutateHandlers from "./useMutateHandlers";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { UserInfo } from "@/@types/userInfo";
 import { postLogin, postLogout } from "@/apis/auth.api";
+import QUERY_KEYS from "@/apis/queryKeys";
 
 interface UserInfoResponse {
   accessToken: string;
@@ -12,6 +13,7 @@ interface UserInfoResponse {
 const useMutateAuth = () => {
   const navigate = useNavigate();
   const { handleMutateError } = useMutateHandlers();
+  const queryClient = useQueryClient();
 
   const postLoginMutation = useMutation({
     mutationFn: (code: string) => postLogin(code),
@@ -29,8 +31,12 @@ const useMutateAuth = () => {
   const postLogoutMutation = useMutation({
     mutationFn: () => postLogout(),
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.PARTICIPATED_ROOM_LIST] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.PROGRESS_ROOM_LIST] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.OPENED_ROOM_LIST] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.CLOSED_ROOM_LIST] });
       localStorage.clear();
-      navigate("/");
+      window.location.replace("/");
     },
     onError: (error) => handleMutateError(error),
   });

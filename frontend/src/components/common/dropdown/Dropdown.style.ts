@@ -1,9 +1,22 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const dropdown = keyframes`
+  0% {
+    transform: translateY(-10%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+`;
 
 export const DropdownContainer = styled.div`
   position: relative;
   width: 160px;
   height: 40px;
+
+  cursor: pointer;
 `;
 
 export const DropdownToggle = styled.div`
@@ -35,6 +48,7 @@ export const DropdownMenu = styled.div<{ show: boolean }>`
   background-color: white;
   border: 1px solid ${({ theme }) => theme.COLOR.grey1};
   border-radius: 4px;
+  animation: ${dropdown} 0.4s ease;
 `;
 
 export const DropdownItemWrapper = styled.ul`

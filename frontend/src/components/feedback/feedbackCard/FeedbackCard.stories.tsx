@@ -27,6 +27,7 @@ type Story = StoryObj<typeof meta>;
 
 export const 기술적_피드백: Story = {
   args: {
+    selectedFeedbackType: "받은 피드백",
     feedbackCardData: {
       feedbackId: 1,
       profile: "https://avatars.githubusercontent.com/u/63334368?v=4",
@@ -46,6 +47,7 @@ export const 기술적_피드백: Story = {
 
 export const 소프트스킬_피드백: Story = {
   args: {
+    selectedFeedbackType: "받은 피드백",
     feedbackCardData: 기술적_피드백.args.feedbackCardData,
     feedbackType: "social",
   },

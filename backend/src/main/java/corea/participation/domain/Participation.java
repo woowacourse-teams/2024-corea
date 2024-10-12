@@ -1,5 +1,8 @@
 package corea.participation.domain;
 
+import corea.global.BaseTimeEntity;
+import corea.member.domain.Member;
+import corea.member.domain.MemberRole;
 import corea.room.domain.Room;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -13,7 +16,7 @@ import org.apache.logging.log4j.Logger;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Participation {
+public class Participation extends BaseTimeEntity {
 
     private static final Logger log = LogManager.getLogger(Participation.class);
 
@@ -25,33 +28,61 @@ public class Participation {
     @JoinColumn(name = "room_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Room room;
 
-    private long memberId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    private Member member;
 
-    private String memberGithubId;
+    @Enumerated(value = EnumType.STRING)
+    private MemberRole memberRole;
 
-    public Participation(Room room, long memberId, String memberGithubId) {
-        this(null, room, memberId, memberGithubId);
-        debug(room.getId(), memberId);
+    @Enumerated(value = EnumType.STRING)
+    private ParticipationStatus status;
+
+    private int matchingSize;
+
+    public Participation(Room room, Member member, MemberRole role, int matchingSize) {
+        this(null, room, member, role, ParticipationStatus.PARTICIPATED, matchingSize);
+        debug(room.getId(), member.getId());
     }
 
-    public Participation(Room room, long memberId) {
-        this(null, room, memberId, "");
-        debug(room.getId(), memberId);
+    public Participation(Room room, Member member) {
+        this(null, room, member, MemberRole.REVIEWER, ParticipationStatus.MANAGER, room.getMatchingSize());
+        debug(room.getId(), member.getId());
+    }
+
+    private static void debug(long roomId, long memberId) {
+        log.debug("참가자 생성[방 ID={}, 멤버 ID={}", roomId, memberId);
+    }
+
+    public boolean isNotMatchingMemberId(long memberId) {
+        return this.member.getId() != memberId;
+    }
+
+    public void cancel() {
+        room.cancelParticipation();
+    }
+
+    public void invalidate() {
+        status = ParticipationStatus.PULL_REQUEST_NOT_SUBMITTED;
+    }
+
+    public void participate() {
+        room.participate();
     }
 
     public long getRoomsId() {
         return room.getId();
     }
 
-    public void cancel(){
-        room.cancelParticipation();
+    public long getMembersId() {
+        return member.getId();
     }
 
-    public void participate(){
-        room.participate();
+    public String getMemberGithubId() {
+        return member.getGithubUserId();
     }
 
-    private static void debug(long roomId, long memberId) {
-        log.debug("참가자 생성[방 ID={}, 멤버 ID={}", roomId, memberId);
+    public boolean isReviewer() {
+        return memberRole.isReviewer();
     }
 }

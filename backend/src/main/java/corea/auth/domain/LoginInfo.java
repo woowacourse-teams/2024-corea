@@ -1,5 +1,6 @@
 package corea.auth.domain;
 
+import corea.global.BaseTimeEntity;
 import corea.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -13,7 +14,7 @@ import static lombok.AccessLevel.PROTECTED;
 @AllArgsConstructor
 @NoArgsConstructor(access = PROTECTED)
 @Getter
-public class LoginInfo {
+public class LoginInfo extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
