@@ -1,5 +1,7 @@
 package corea.matching.strategy;
 
+import corea.exception.CoreaException;
+import corea.exception.ExceptionType;
 import corea.matching.domain.Pair;
 import corea.member.domain.Member;
 import corea.participation.domain.Participation;
@@ -26,6 +28,7 @@ public class ReviewerPreemptiveMatchingStrategy implements MatchingStrategy {
                 .sorted(Comparator.comparing(Participation::getMatchingSize))
                 .toList();
 
+        validateSize(nonReviewers, matchingSize);
         List<Pair> pairs = strategy.matchPairs(nonReviewers, matchingSize);
 
         matchAmongReviewees(nonReviewers, matchingSize, pairs);
@@ -35,7 +38,14 @@ public class ReviewerPreemptiveMatchingStrategy implements MatchingStrategy {
         return pairs;
     }
 
-    private void matchAmongReviewees(List<Participation> participations, int roomMatchingSize, List<Pair> pairs) {
+    private void validateSize(List<Participation> participations, int matchingSize) {
+        if (participations.size() <= matchingSize) {
+            throw new CoreaException(ExceptionType.PARTICIPANT_SIZE_LACK);
+        }
+    }
+
+    private void matchAmongReviewees(List<Participation> nonReviewers, int roomMatchingSize, List<Pair> pairs) {
+        List<Participation> participations = nonReviewers.stream().toList();
         int max = getMaxMatchingSize(participations, roomMatchingSize);
 
         for (int currentMatchingSize = roomMatchingSize + 1; currentMatchingSize <= max; currentMatchingSize++) {
@@ -113,6 +123,11 @@ public class ReviewerPreemptiveMatchingStrategy implements MatchingStrategy {
     private void matchReviewers(List<Participation> reviewers, List<Participation> reviewees, List<Pair> pairs) {
         int revieweesPerReviewer = reviewees.size() / reviewers.size();
 
+        if (revieweesPerReviewer == 0) {
+            matchRevieweeByReviewer(reviewers, reviewees, pairs);
+            return;
+        }
+
         for (int index = 0; index < reviewers.size(); index++) {
             Member reviewer = reviewers.get(index).getMember();
             matchRevieweesToReviewer(reviewer, reviewees, pairs, index, revieweesPerReviewer);
@@ -123,16 +138,31 @@ public class ReviewerPreemptiveMatchingStrategy implements MatchingStrategy {
         }
     }
 
+    private void matchRevieweeByReviewer(List<Participation> reviewers, List<Participation> reviewees, List<Pair> pairs) {
+        for (int index = 0; index < reviewees.size(); index++) {
+            Member reviewer = reviewers.get(index).getMember();
+            Member reviewee = reviewees.get(index).getMember();
+            if (isPossiblePair(reviewer, reviewee, pairs)) {
+                pairs.add(new Pair(reviewer, reviewee));
+            }
+        }
+    }
+
     private void matchRevieweesToReviewer(Member reviewer, List<Participation> reviewees, List<Pair> pairs, int reviewerIndex, int revieweesPerReviewer) {
         for (int index = 0; index < revieweesPerReviewer; index++) {
             Member reviewee = reviewees.get(reviewerIndex * revieweesPerReviewer + index).getMember();
-            pairs.add(new Pair(reviewer, reviewee));
+            if (isPossiblePair(reviewer, reviewee, pairs)) {
+                pairs.add(new Pair(reviewer, reviewee));
+            }
         }
     }
 
     private void matchRemainingReviewees(Member reviewer, List<Participation> reviewees, List<Pair> pairs, int startIndex) {
         for (int index = startIndex; index < reviewees.size(); index++) {
-            pairs.add(new Pair(reviewer, reviewees.get(index).getMember()));
+            Member reviewee = reviewees.get(index).getMember();
+            if (isPossiblePair(reviewer, reviewee, pairs)) {
+                pairs.add(new Pair(reviewer, reviewee));
+            }
         }
     }
 }

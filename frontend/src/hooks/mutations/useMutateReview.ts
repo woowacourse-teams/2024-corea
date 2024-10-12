@@ -1,10 +1,14 @@
 import useMutateHandlers from "./useMutateHandlers";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import useToast from "@/hooks/common/useToast";
 import QUERY_KEYS from "@/apis/queryKeys";
 import { postReviewComplete } from "@/apis/reviews.api";
+import MESSAGES from "@/constants/message";
 
 const useMutateReviewComplete = (roomId: number) => {
   const { handleMutateError } = useMutateHandlers();
+  const { openToast } = useToast("success");
+
   const queryClient = useQueryClient();
 
   const postReviewCompleteMutation = useMutation({
@@ -12,6 +16,7 @@ const useMutateReviewComplete = (roomId: number) => {
       postReviewComplete(roomId, revieweeId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.REVIEWEES, roomId] });
+      openToast(MESSAGES.SUCCESS.POST_REVIEW_COMPLETE);
     },
     onError: (error) => handleMutateError(error),
   });
