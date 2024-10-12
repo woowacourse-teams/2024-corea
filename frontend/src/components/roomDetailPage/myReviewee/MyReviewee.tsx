@@ -49,7 +49,7 @@ const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
     });
 
     if (roomInfo.roomStatus === "CLOSE" && !reviewee.isReviewed) {
-      return <p>종료</p>;
+      return <p>코드리뷰를 하지 않았어요</p>;
     }
 
     return reviewee.isReviewed ? (
