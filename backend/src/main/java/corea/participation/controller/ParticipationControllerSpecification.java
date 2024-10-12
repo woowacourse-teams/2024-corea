@@ -4,6 +4,7 @@ import corea.auth.domain.AuthInfo;
 import corea.exception.ExceptionType;
 import corea.exception.ExceptionTypeGroup;
 import corea.global.annotation.ApiErrorResponses;
+import corea.participation.dto.ParticipationHttpRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -31,7 +32,7 @@ public interface ParticipationControllerSpecification {
             String role,
 
             @Parameter(description = "참여자가 원하는 매칭 인원 수")
-            int matchingSize);
+            ParticipationHttpRequest matchingSize);
 
     @Operation(summary = "방 참여를 취소합니다.",
             description = "참여 취소를 원하는 방 상세 페이지에 위치한 취소 버튼을 누르면 참여를 취소할 수 있습니다. <br>" +
