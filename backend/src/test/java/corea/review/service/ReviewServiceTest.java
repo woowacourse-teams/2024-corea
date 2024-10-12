@@ -52,7 +52,7 @@ class ReviewServiceTest {
     void completeReview() {
         Member reviewer = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
         Member reviewee = memberRepository.save(MemberFixture.MEMBER_PORORO());
-        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON())));
+        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_PROGRESS(memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON())));
         MatchResult matchResult = matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), reviewer, reviewee));
 
         when(githubOAuthProvider.getPullRequestReview(anyString()))
@@ -77,7 +77,7 @@ class ReviewServiceTest {
     void notCompleteReview() {
         Member reviewer = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
         Member reviewee = memberRepository.save(MemberFixture.MEMBER_PORORO());
-        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON())));
+        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_PROGRESS(memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON())));
         matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), reviewer, reviewee));
 
         when(githubOAuthProvider.getPullRequestReview(anyString())).thenReturn(new GithubPullRequestReview[]{});

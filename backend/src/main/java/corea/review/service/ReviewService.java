@@ -48,7 +48,7 @@ public class ReviewService {
     }
 
     private void validateRoomStatus(Room room) {
-        if (room.isClosed()) {
+        if (room.isNotProgress()) {
             throw new CoreaException(ExceptionType.ROOM_STATUS_INVALID);
         }
     }
