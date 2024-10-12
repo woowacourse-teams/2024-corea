@@ -115,6 +115,10 @@ public class Room extends BaseTimeEntity {
         return !isClosed();
     }
 
+    public boolean isNotProgress() {
+        return status.isNotProgress();
+    }
+
     public boolean isNotMatchingManager(long memberId) {
         return manager.isNotMatchingId(memberId);
     }
