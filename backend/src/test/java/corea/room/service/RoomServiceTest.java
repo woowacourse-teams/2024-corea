@@ -146,7 +146,7 @@ class RoomServiceTest {
         failedMatchingRepository.save(new FailedMatching(room.getId(), ExceptionType.PARTICIPANT_SIZE_LACK));
         RoomResponse response = roomService.findOne(room.getId(), member.getId());
 
-        assertThat(response.message()).isEqualTo("방의 최소 참여 인원보다 참가자가 부족하여 매칭을 시작할 수 없습니다. 더 많은 참가자가 필요합니다.");
+        assertThat(response.message()).isEqualTo("방의 최소 참여 인원보다 참가자가 부족하여 매칭이 진행되지 않았습니다.");
     }
 
     @Test

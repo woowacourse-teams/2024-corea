@@ -1,6 +1,5 @@
 package corea.matchresult.domain;
 
-import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,9 +21,10 @@ class MatchingFailedReasonTest {
     }
 
     @Test
-    @DisplayName("ExceptionType을 통해 매칭 실패 이유를 찾을 수 없다면 예외가 발생한다.")
-    void notFound() {
-        assertThatThrownBy(() -> MatchingFailedReason.from(ExceptionType.ALREADY_COMPLETED_FEEDBACK))
-                .isInstanceOf(CoreaException.class);
+    @DisplayName("ExceptionType을 통해 매칭 실패 이유를 찾을 수 없다면 UNKNOWN 반환한다.")
+    void unknownReason() {
+        MatchingFailedReason reason = MatchingFailedReason.from(ExceptionType.ALREADY_COMPLETED_FEEDBACK);
+
+        assertThat(reason).isEqualTo(MatchingFailedReason.UNKNOWN);
     }
 }
