@@ -75,7 +75,10 @@ export const ProfileContainer = styled.div`
   }
 
   span {
+    width: 168px;
     font: ${({ theme }) => theme.TEXT.small};
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 `;
 
