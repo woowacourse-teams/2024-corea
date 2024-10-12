@@ -55,7 +55,9 @@ public class MatchingService {
     }
 
     private List<Participation> findPRSubmittedParticipation(Room room, PullRequestInfo pullRequestInfo) {
-        List<Participation> participations = participationRepository.findAllByRoom(room);
+        List<Participation> participations = participationRepository.findAllByRoom(room)
+                .stream()
+                .toList();
 
         ParticipationFilter participationFilter = new ParticipationFilter(participations, room.getMatchingSize());
         return participationFilter.filterPRSubmittedParticipation(pullRequestInfo);

@@ -10,6 +10,7 @@ const GUIDANCE_MESSAGES = {
   EMPTY_PARTICIPANTS: "참여자 목록은 매칭이 시작된 이후 공개됩니다.",
   ZERO_PARTICIPANTS: "이 방의 참여자가 없습니다.",
   ONLY_REVIEWER: "리뷰어로만 참여 중입니다!",
+  PULL_REQUEST_NOT_SUBMITTED: "PR을 제출하지 않아 매칭되지 않았습니다.",
 };
 
 const ERROR_MESSAGES = {

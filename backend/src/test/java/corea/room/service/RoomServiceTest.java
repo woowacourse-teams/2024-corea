@@ -23,11 +23,13 @@ import corea.room.dto.RoomResponses;
 import corea.room.repository.RoomRepository;
 import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -36,6 +38,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 @ServiceTest
 class RoomServiceTest {
@@ -252,7 +255,7 @@ class RoomServiceTest {
         List<Member> members = memberRepository.saveAll(MemberFixture.SEVEN_MEMBERS());
 
         participationRepository.save(new Participation(room, manager));
-        participationRepository.saveAll(members.stream().map(member -> new Participation(room, member)).toList());
+        participationRepository.saveAll(members.stream().map(member -> new Participation(room, member, MemberRole.BOTH, 2)).toList());
 
         matchResultRepository.saveAll(members.stream().map(member -> MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), manager, member)).toList());
         matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), members.get(0), manager));
@@ -261,6 +264,34 @@ class RoomServiceTest {
 
         assertThat(participants.participants()).hasSize(6);
         assertThat(participants.size()).isEqualTo(6);
+    }
+
+    @Transactional
+    @RepeatedTest(10)
+    @DisplayName("Pull Request를 제출하지 않은 사람은 방 참여 목록 인원에 포함하지 않는다.")
+    void findParticipants_withNoPullRequestParticipants() {
+        Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
+        Member pullRequestNotSubmittedMember = memberRepository.save(MemberFixture.MEMBER_ASH());
+        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
+
+        participationRepository.save(new Participation(room, manager));
+        Participation participation = participationRepository.save(new Participation(room, pullRequestNotSubmittedMember, MemberRole.BOTH, 2));
+        participation.invalidate();
+
+        List<Member> members = memberRepository.saveAll(MemberFixture.SEVEN_MEMBERS());
+
+        participationRepository.saveAll(members.stream().map(member -> new Participation(room, member, MemberRole.BOTH, 2)).toList());
+
+        matchResultRepository.saveAll(members.stream().map(member -> MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), manager, member)).toList());
+        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), members.get(0), manager));
+
+
+        RoomParticipantResponses participants = assertDoesNotThrow(() -> roomService.findParticipants(room.getId(), manager.getId()));
+
+        assertAll(
+                () -> assertThat(participants.participants()).hasSize(6),
+                () -> assertThat(participants.size()).isEqualTo(6)
+        );
     }
 
     private List<String> getManagerNames(RoomResponses response) {
