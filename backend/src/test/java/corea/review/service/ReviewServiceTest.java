@@ -89,6 +89,20 @@ class ReviewServiceTest {
     }
 
     @Test
+    @DisplayName("방이 종료되고 코드 리뷰 완료 버튼을 누르면 예외가 발생한다.")
+    void completeReviewAfterRoomClosed() {
+        Member reviewer = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
+        Member reviewee = memberRepository.save(MemberFixture.MEMBER_PORORO());
+        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_CLOSED(memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON())));
+        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), reviewer, reviewee));
+
+        assertThatThrownBy(() -> reviewService.completeReview(room.getId(), reviewer.getId(), reviewee.getId()))
+                .asInstanceOf(InstanceOfAssertFactories.type(CoreaException.class))
+                .extracting(CoreaException::getExceptionType)
+                .isEqualTo(ExceptionType.ROOM_STATUS_INVALID);
+    }
+
+    @Test
     @DisplayName("방과 멤버들에 해당하는 매칭결과가 없으면 예외를 발생한다.")
     void completeReview_throw_exception_when_not_exist_room_and_members() {
         assertThatThrownBy(() -> reviewService.completeReview(-1, -1, -1))
