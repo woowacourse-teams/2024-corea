@@ -87,7 +87,11 @@ const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
   if (roomInfo.roomStatus === "CLOSE" && revieweeData.length === 0) {
     return (
       <S.GuidanceWrapper>
-        <p className="process-paused">{MESSAGES.GUIDANCE.FAIL_MATCHED}</p>
+        <p className="process-paused">
+          {roomInfo.memberRole === "REVIEWER"
+            ? MESSAGES.GUIDANCE.REVIEWEE_FAIL_MATCHED
+            : MESSAGES.GUIDANCE.FAIL_MATCHED}
+        </p>
       </S.GuidanceWrapper>
     );
   }
