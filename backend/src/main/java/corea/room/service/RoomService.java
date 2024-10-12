@@ -88,13 +88,16 @@ public class RoomService {
     }
 
     public RoomResponses findParticipatedRooms(long memberId) {
-        List<Participation> participations = participationRepository.findAllByMemberId(memberId);
-        List<Long> roomIds = participations.stream()
-                .map(Participation::getRoomsId)
-                .toList();
-
-        List<Room> rooms = roomRepository.findAllByIdInOrderByReviewDeadlineAsc(roomIds);
+        List<Room> rooms = findNonClosedParticipatedRooms(memberId);
         return RoomResponses.of(rooms, MemberRole.NONE, PARTICIPATED, true, 0);
+    }
+
+    private List<Room> findNonClosedParticipatedRooms(long memberId) {
+        return participationRepository.findAllByMemberId(memberId)
+                .stream()
+                .map(Participation::getRoom)
+                .filter(Room::isNotClosed)
+                .toList();
     }
 
     public RoomResponses findRoomsWithRoomStatus(long memberId, int pageNumber, String expression, RoomStatus roomStatus) {

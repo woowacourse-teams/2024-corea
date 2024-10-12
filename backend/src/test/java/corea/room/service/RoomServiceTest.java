@@ -130,7 +130,7 @@ class RoomServiceTest {
     }
 
     @Test
-    @DisplayName("현재 로그인한 멤버가 참여 중인 방을 리뷰 마감일이 임박한 순으로 보여준다.")
+    @DisplayName("현재 로그인한 멤버가 참여 중인 방을 리뷰 마감일이 임박한 순으로 볼 수 있다.")
     void findParticipatedRooms() {
         Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member ash = memberRepository.save(MemberFixture.MEMBER_ASH());
@@ -142,6 +142,29 @@ class RoomServiceTest {
         Long joysonId = joyson.getId();
         participationRepository.save(new Participation(pororoRoom, joyson, MemberRole.BOTH, pororoRoom.getMatchingSize()));
         participationRepository.save(new Participation(ashRoom, joyson, MemberRole.BOTH, ashRoom.getMatchingSize()));
+
+        RoomResponses response = roomService.findParticipatedRooms(joysonId);
+        List<String> managerNames = getManagerNames(response);
+
+        assertThat(managerNames).containsExactly("조경찬", "박민아");
+    }
+
+    @Test
+    @DisplayName("현재 로그인한 멤버가 참여 중인 방을 볼 때, 종료된 방은 포함되지 않는다.")
+    void findNonClosedParticipatedRooms() {
+        Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
+        Member ash = memberRepository.save(MemberFixture.MEMBER_ASH());
+        Member movin = memberRepository.save(MemberFixture.MEMBER_MOVIN());
+
+        Room pororoRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo, LocalDateTime.now().plusDays(2)));
+        Room ashRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN(ash, LocalDateTime.now().plusDays(3)));
+        Room movinRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_CLOSED(movin));
+
+        Member joyson = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
+        Long joysonId = joyson.getId();
+        participationRepository.save(new Participation(pororoRoom, joyson, MemberRole.BOTH, pororoRoom.getMatchingSize()));
+        participationRepository.save(new Participation(ashRoom, joyson, MemberRole.BOTH, ashRoom.getMatchingSize()));
+        participationRepository.save(new Participation(movinRoom, joyson, MemberRole.BOTH, ashRoom.getMatchingSize()));
 
         RoomResponses response = roomService.findParticipatedRooms(joysonId);
         List<String> managerNames = getManagerNames(response);

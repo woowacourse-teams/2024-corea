@@ -70,6 +70,10 @@ public class Participation extends BaseTimeEntity {
         room.participate();
     }
 
+    public boolean isReviewer() {
+        return memberRole.isReviewer();
+    }
+
     public long getRoomsId() {
         return room.getId();
     }
@@ -80,9 +84,5 @@ public class Participation extends BaseTimeEntity {
 
     public String getMemberGithubId() {
         return member.getGithubUserId();
-    }
-
-    public boolean isReviewer() {
-        return memberRole.isReviewer();
     }
 }
