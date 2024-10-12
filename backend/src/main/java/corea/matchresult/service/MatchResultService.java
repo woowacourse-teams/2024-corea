@@ -1,11 +1,11 @@
-package corea.matching.service;
+package corea.matchresult.service;
 
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
-import corea.matching.domain.MatchResult;
-import corea.matching.dto.MatchResultResponse;
-import corea.matching.dto.MatchResultResponses;
-import corea.matching.repository.MatchResultRepository;
+import corea.matchresult.domain.MatchResult;
+import corea.matchresult.dto.MatchResultResponse;
+import corea.matchresult.dto.MatchResultResponses;
+import corea.matchresult.repository.MatchResultRepository;
 import corea.member.repository.MemberRepository;
 import corea.room.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;

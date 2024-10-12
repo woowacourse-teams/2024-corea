@@ -30,7 +30,6 @@ class RoomRepositoryTest {
 
     @Test
     @DisplayName("자신이 참여하지 않고, 계속 모집 중인 방들을 모집 마감일이 임박한 순으로 조회할 수 있다.")
-
     void findAllByMemberAndClassificationAndStatus() {
         Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member joyson = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
@@ -51,7 +50,7 @@ class RoomRepositoryTest {
         Member joyson = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
         roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo, LocalDateTime.now().plusDays(2)));
         roomRepository.save(RoomFixture.ROOM_DOMAIN(joyson, LocalDateTime.now().plusDays(3)));
-      
+
         Member movin = memberRepository.save(MemberFixture.MEMBER_MOVIN());
         Page<Room> roomPage = roomRepository.findAllByMemberAndStatus(movin.getId(), RoomStatus.OPEN, PageRequest.of(0, 8));
 

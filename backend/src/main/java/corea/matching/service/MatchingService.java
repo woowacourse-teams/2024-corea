@@ -2,11 +2,11 @@ package corea.matching.service;
 
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
-import corea.matching.domain.MatchResult;
-import corea.matching.domain.MatchingStrategy;
 import corea.matching.domain.ParticipationFilter;
 import corea.matching.domain.PullRequestInfo;
-import corea.matching.repository.MatchResultRepository;
+import corea.matching.strategy.MatchingStrategy;
+import corea.matchresult.domain.MatchResult;
+import corea.matchresult.repository.MatchResultRepository;
 import corea.participation.domain.Participation;
 import corea.participation.repository.ParticipationRepository;
 import corea.room.domain.Room;

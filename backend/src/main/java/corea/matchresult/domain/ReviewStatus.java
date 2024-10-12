@@ -1,4 +1,4 @@
-package corea.matching.domain;
+package corea.matchresult.domain;
 
 public enum ReviewStatus {
 

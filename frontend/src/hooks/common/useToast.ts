@@ -1,7 +1,8 @@
 import { useCallback, useContext, useEffect, useRef } from "react";
+import { ToastType } from "@/@types/toast";
 import { ToastContext, ToastDispatchContext } from "@/providers/ToastProvider";
 
-const useToast = (type: "error" | "success" = "error") => {
+const useToast = (type: ToastType = "error") => {
   const isOpenToast = useContext(ToastContext);
   const setIsOpenToast = useContext(ToastDispatchContext);
   const timerRef = useRef<NodeJS.Timeout | null>(null);

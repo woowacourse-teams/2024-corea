@@ -1,5 +1,6 @@
-package corea.matching.domain;
+package corea.matching.strategy;
 
+import corea.matching.domain.Pair;
 import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
 import corea.participation.domain.Participation;
@@ -14,7 +15,7 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class PlainRandomMatching implements MatchingStrategy {
+public class PlainRandomMatchingStrategy implements MatchingStrategy {
 
     private final MemberRepository memberRepository;
 

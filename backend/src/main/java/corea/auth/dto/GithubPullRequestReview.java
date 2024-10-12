@@ -12,5 +12,5 @@ public record GithubPullRequestReview(
 
         @JsonProperty("html_url")
         String html_url
-){
+) {
 }

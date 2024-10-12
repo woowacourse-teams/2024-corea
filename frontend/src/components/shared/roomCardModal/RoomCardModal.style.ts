@@ -3,6 +3,12 @@ import media from "@/styles/media";
 
 export const RoomCardModalContainer = styled.div`
   display: flex;
+  flex-direction: column;
+  gap: 2rem;
+`;
+
+export const HeaderContainer = styled.div`
+  display: flex;
   flex-wrap: wrap;
   gap: 2rem;
   justify-content: space-between;
@@ -51,8 +57,10 @@ export const MainContainer = styled.div`
 
 export const ManagerContainer = styled.div`
   display: flex;
-  gap: 0.5rem;
+  flex-wrap: wrap;
+  gap: 0.8rem;
   align-items: center;
+
   font: ${({ theme }) => theme.TEXT.small};
 `;
 
@@ -67,7 +75,10 @@ export const ProfileContainer = styled.div`
   }
 
   span {
+    width: 168px;
     font: ${({ theme }) => theme.TEXT.small};
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 `;
 
@@ -155,7 +166,8 @@ export const InfoContent = styled.span`
 export const DescriptionContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 1rem;
+  width: 100%;
 `;
 
 export const KeywordsContainer = styled.div`
@@ -233,4 +245,10 @@ export const MatchingSizeContainer = styled.div`
   button {
     padding: 0.2rem 0.6rem;
   }
+`;
+
+export const ButtonWRapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;

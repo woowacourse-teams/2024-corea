@@ -1,6 +1,7 @@
-package corea.matching.domain;
+package corea.matchresult.domain;
 
 import corea.global.BaseTimeEntity;
+import corea.matching.domain.Pair;
 import corea.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

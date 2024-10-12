@@ -13,14 +13,15 @@ import org.springframework.stereotype.Component;
 @Aspect
 @RequiredArgsConstructor
 @Component
-@Profile({"local","dev"})
+@Profile({"local", "dev"})
 public class QueryLoggingAspect {
 
     private static final Logger log = LogManager.getLogger(QueryLoggingAspect.class);
     private final QueryInfo queryInfo;
 
     @Pointcut("execution(* corea..*Controller.*(..))")
-    public void controllerMethods() {}
+    public void controllerMethods() {
+    }
 
     @Around("controllerMethods()")
     public Object logSqlStatements(ProceedingJoinPoint joinPoint) throws Throwable {

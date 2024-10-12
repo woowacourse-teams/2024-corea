@@ -1,6 +1,6 @@
 package corea.fixture;
 
-import corea.matching.domain.MatchResult;
+import corea.matchresult.domain.MatchResult;
 import corea.member.domain.Member;
 
 public class MatchResultFixture {

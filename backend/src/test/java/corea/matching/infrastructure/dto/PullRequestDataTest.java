@@ -1,8 +1,5 @@
-package corea.matching.dto;
+package corea.matching.infrastructure.dto;
 
-import corea.matching.infrastructure.dto.GithubUserResponse;
-import corea.matching.infrastructure.dto.PullRequestData;
-import corea.matching.infrastructure.dto.PullRequestResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

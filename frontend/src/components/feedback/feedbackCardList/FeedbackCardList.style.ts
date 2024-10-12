@@ -97,6 +97,7 @@ export const FeedbackMissionTitle = styled.div`
   display: flex;
   flex-flow: row wrap;
   align-items: center;
+  gap: 1rem;
 `;
 
 export const FeedbackMissionPrompt = styled.span<{ $isSelected: boolean }>`
@@ -111,6 +112,12 @@ export const FeedbackMissionInfo = styled.div`
   align-items: center;
   margin-right: 1rem;
   font: ${({ theme }) => theme.TEXT.medium_bold};
+`;
+
+export const FeedbackCount = styled.div`
+  border-radius: 6px;
+  font: ${({ theme }) => theme.TEXT.small_bold};
+  color: ${({ theme }) => theme.COLOR.primary2};
 `;
 
 export const FeedbackKeywordContainer = styled.div`

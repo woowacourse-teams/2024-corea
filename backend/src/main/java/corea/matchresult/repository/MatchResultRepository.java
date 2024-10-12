@@ -1,7 +1,7 @@
-package corea.matching.repository;
+package corea.matchresult.repository;
 
-import corea.matching.domain.MatchResult;
-import corea.matching.domain.ReviewStatus;
+import corea.matchresult.domain.MatchResult;
+import corea.matchresult.domain.ReviewStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

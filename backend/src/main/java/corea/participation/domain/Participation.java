@@ -82,8 +82,12 @@ public class Participation extends BaseTimeEntity {
         return memberRole.isReviewer();
     }
 
+
     public boolean isNotReviewer() {
         return !isReviewer();
+
+    public boolean isPullRequestNotSubmitted() {
+        return status.isPullRequestNotSubmitted();
     }
 
     private static void debug(long roomId, long memberId) {
