@@ -20,8 +20,8 @@ export const toastSlideOut = keyframes`
 
 export const Wrapper = styled.div<{ $closeAnimation: boolean; $type: ToastType }>`
   position: fixed;
-  right: 50px;
   top: 80px;
+  right: 50px;
 
   display: flex;
   align-items: center;
@@ -43,7 +43,7 @@ export const Wrapper = styled.div<{ $closeAnimation: boolean; $type: ToastType }
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
-    `}
+  `}
 
   animation: ${({ $closeAnimation }) => ($closeAnimation ? toastSlideOut : toastSlideIn)} 0.4s
     ease-in-out forwards;
