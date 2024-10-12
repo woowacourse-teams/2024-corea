@@ -73,7 +73,7 @@ export const formatLeftTime = (time: string) => {
     targetMinutes,
   );
 
-  return `${hours}시간 ${minutes}분 전`;
+  return hours !== 0 ? `${hours}시간 ${minutes}분 전` : `${minutes}분 전`;
 };
 
 const calculateTimeDifference = (
@@ -104,4 +104,9 @@ const calculateTimeDifference = (
     hours: diffHours,
     minutes: remainingMinutesNonZero,
   };
+};
+
+export const displayLeftTime = (time: string) => {
+  const Dday = formatDday(time);
+  return Dday === "D-Day" ? formatLeftTime(time) : Dday;
 };
