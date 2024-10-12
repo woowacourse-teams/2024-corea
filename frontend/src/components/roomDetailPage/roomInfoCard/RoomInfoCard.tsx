@@ -4,7 +4,7 @@ import Label from "@/components/common/label/Label";
 import * as S from "@/components/roomDetailPage/roomInfoCard/RoomInfoCard.style";
 import { RoomInfo } from "@/@types/roomInfo";
 import { theme } from "@/styles/theme";
-import { formatDateTimeString, formatDday, formatLeftTime } from "@/utils/dateFormatter";
+import { displayLeftTime, formatDateTimeString, formatDday } from "@/utils/dateFormatter";
 
 const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
   return (
@@ -65,9 +65,9 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
                   {formatDateTimeString(roomInfo.recruitmentDeadline)}
                 </S.DateTimeText>
                 <S.StyledDday>
-                  {formatDday(roomInfo.recruitmentDeadline) !== "D-Day"
-                    ? formatDday(roomInfo.recruitmentDeadline)
-                    : formatLeftTime(roomInfo.recruitmentDeadline)}
+                  {roomInfo.roomStatus === "OPEN" &&
+                    formatDday(roomInfo.recruitmentDeadline) !== "종료됨" &&
+                    displayLeftTime(roomInfo.recruitmentDeadline)}
                 </S.StyledDday>
               </div>
             </S.ContentLineBreak>
@@ -81,9 +81,8 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
               <div>
                 <S.DateTimeText>{formatDateTimeString(roomInfo.reviewDeadline)}</S.DateTimeText>
                 <S.StyledDday>
-                  {formatDday(roomInfo.reviewDeadline) !== "D-Day"
-                    ? formatDday(roomInfo.reviewDeadline)
-                    : formatLeftTime(roomInfo.reviewDeadline)}
+                  {formatDday(roomInfo.reviewDeadline) !== "종료됨" &&
+                    displayLeftTime(roomInfo.reviewDeadline)}
                 </S.StyledDday>
               </div>
             </S.ContentLineBreak>
