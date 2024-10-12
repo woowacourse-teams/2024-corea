@@ -17,30 +17,12 @@ interface MyReviewerProps {
 }
 
 const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
+  const { data: reviewerData } = useFetchReviewer(roomInfo);
   const { isModalOpen, handleOpenModal, handleCloseModal } = useModal();
   const [selectedReviewer, setSelectedReviewer] = useState<ReviewerInfo | null>(null);
   const [feedbackTypeResult, setFeedbackTypeResult] = useState<FeedbackTypeResult | null>(null);
 
-  const { data: reviewerData } = useFetchReviewer(roomInfo);
-
-  if (roomInfo.memberRole === "REVIEWER") {
-    return (
-      <S.GuidanceWrapper>
-        <S.Character src={thinkingCharacter} alt="생각 중인 캐릭터" />
-        <p className="process-paused">{MESSAGES.GUIDANCE.ONLY_REVIEWER}</p>
-      </S.GuidanceWrapper>
-    );
-  }
-
-  if (reviewerData.length === 0) {
-    return (
-      <S.GuidanceWrapper>
-        <p className="process-waiting">{MESSAGES.GUIDANCE.EMPTY_REVIEWER}</p>
-        <p className="process-waiting">{MESSAGES.GUIDANCE.SUB_DESCRIPTION}</p>
-      </S.GuidanceWrapper>
-    );
-  }
-
+  // 피드백 모달 여는 함수
   const handleOpenFeedbackModal = (reviewer: ReviewerInfo) => {
     const feedbackType = getFeedbackType({
       isReviewed: reviewer.isReviewed,
@@ -52,6 +34,62 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
     handleOpenModal();
   };
 
+  // 피드백 여부 버튼 렌더링 함수
+  const renderReviewerButton = (reviewer: ReviewerInfo) => {
+    const { buttonText } = getFeedbackType({
+      isReviewed: reviewer.isReviewed,
+      isWrited: reviewer.isWrited,
+      isClosed: roomInfo.roomStatus === "CLOSE",
+    });
+
+    if (roomInfo.roomStatus === "CLOSE" && !reviewer.isReviewed) {
+      return <p>리뷰어가 리뷰를 안했어요</p>;
+    }
+
+    return reviewer.isReviewed ? (
+      <Button
+        size="xSmall"
+        onClick={() => handleOpenFeedbackModal(reviewer)}
+        variant={reviewer.isReviewed ? "secondary" : "disable"}
+        disabled={!reviewer.isReviewed}
+      >
+        {buttonText}
+      </Button>
+    ) : (
+      <p>리뷰어가 리뷰 중이에요!</p>
+    );
+  };
+
+  // 리뷰어로만 참여하는 사람에게 보여줄 화면
+  if (roomInfo.memberRole === "REVIEWER") {
+    return (
+      <S.GuidanceWrapper>
+        <S.Character src={thinkingCharacter} alt="생각 중인 캐릭터" />
+        <p className="process-paused">{MESSAGES.GUIDANCE.ONLY_REVIEWER}</p>
+      </S.GuidanceWrapper>
+    );
+  }
+
+  // 매칭 전 보여줄 화면
+  if (roomInfo.roomStatus === "OPEN" && reviewerData.length === 0) {
+    return (
+      <S.GuidanceWrapper>
+        <p className="process-waiting">{MESSAGES.GUIDANCE.EMPTY_REVIEWEE}</p>
+        <p className="process-waiting">{MESSAGES.GUIDANCE.SUB_DESCRIPTION}</p>
+      </S.GuidanceWrapper>
+    );
+  }
+
+  // 방 종료 후 실패했을 때 보여줄 화면
+  if (roomInfo.roomStatus === "CLOSE" && reviewerData.length === 0) {
+    return (
+      <S.GuidanceWrapper>
+        <p className="process-paused">{MESSAGES.GUIDANCE.FAIL_MATCHED}</p>
+      </S.GuidanceWrapper>
+    );
+  }
+
+  // 매칭 후 성공했을 때 보여줄 화면
   return (
     <>
       {selectedReviewer && feedbackTypeResult && (
@@ -78,12 +116,6 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
         </S.MyReviewerWrapper>
 
         {reviewerData.map((reviewer) => {
-          const { buttonText } = getFeedbackType({
-            isReviewed: reviewer.isReviewed,
-            isWrited: reviewer.isWrited,
-            isClosed: roomInfo.roomStatus === "CLOSE",
-          });
-
           return (
             <S.MyReviewerWrapper key={reviewer.userId}>
               <HoverStyledLink to={`/profile/${reviewer.username}`}>
@@ -103,20 +135,7 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
                 "-"
               )}
 
-              <S.MyReviewerContent>
-                {reviewer.isReviewed ? (
-                  <Button
-                    size="xSmall"
-                    onClick={() => handleOpenFeedbackModal(reviewer)}
-                    variant={reviewer.isReviewed ? "secondary" : "disable"}
-                    disabled={!reviewer.isReviewed}
-                  >
-                    {buttonText}
-                  </Button>
-                ) : (
-                  <p>리뷰어가 리뷰 중이에요!</p>
-                )}
-              </S.MyReviewerContent>
+              <S.MyReviewerContent>{renderReviewerButton(reviewer)}</S.MyReviewerContent>
             </S.MyReviewerWrapper>
           );
         })}
