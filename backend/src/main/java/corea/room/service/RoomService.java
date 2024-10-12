@@ -51,7 +51,7 @@ public class RoomService {
 
     @Transactional
     public RoomResponse create(long memberId, RoomCreateRequest request) {
-        validateDeadLine(request.recruitmentDeadline(), request.reviewDeadline());
+//        validateDeadLine(request.recruitmentDeadline(), request.reviewDeadline());
 
         Member manager = memberRepository.findById(memberId)
                 .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND));
