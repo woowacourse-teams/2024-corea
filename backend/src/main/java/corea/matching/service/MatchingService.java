@@ -57,7 +57,6 @@ public class MatchingService {
     private List<Participation> findPRSubmittedParticipation(Room room, PullRequestInfo pullRequestInfo) {
         List<Participation> participations = participationRepository.findAllByRoom(room)
                 .stream()
-                .filter(Participation::isNotReviewer)
                 .toList();
 
         ParticipationFilter participationFilter = new ParticipationFilter(participations, room.getMatchingSize());
