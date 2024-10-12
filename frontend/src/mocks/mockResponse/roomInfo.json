@@ -9,9 +9,9 @@
   "keywords": ["TDD", "클린코드", "자바"],
   "currentParticipants": 15,
   "limitedParticipants": 20,
-  "recruitmentDeadline": "2024-07-30T15:00",
-  "reviewDeadline": "2024-08-10T23:59",
-  "roomStatus": "FAIL",
+  "recruitmentDeadline": "2024-10-13T16:00",
+  "reviewDeadline": "2024-10-14T23:59",
+  "roomStatus": "OPEN",
   "participationStatus": "PARTICIPATED",
   "isClosed": false,
   "memberRole": "BOTH"

@@ -30,6 +30,7 @@ const TEXT = {
   small_bold: "600 1.6rem/1.6rem Noto Sans KR",
   //14px
   semiSmall: "1.4rem/1.4rem Noto Sans KR",
+  semiSmall_bold: "600 1.4rem/1.4rem Noto Sans KR",
   //12px
   xSmall: "1.2rem/1.2rem Noto Sans KR",
 };
