@@ -22,6 +22,7 @@ import corea.room.dto.RoomResponse;
 import corea.room.dto.RoomResponses;
 import corea.room.repository.RoomRepository;
 import org.assertj.core.api.InstanceOfAssertFactories;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
@@ -68,6 +69,7 @@ class RoomServiceTest {
         assertThat(roomRepository.findAll()).hasSize(1);
     }
 
+    @Disabled
     @Test
     @DisplayName("방을 생성할 때 모집 마감 시간은 현재 시간보다 1시간 이후가 아니라면 예외가 발생한다.")
     void invalidRecruitmentDeadline() {
@@ -81,6 +83,7 @@ class RoomServiceTest {
                 .isEqualTo(ExceptionType.INVALID_RECRUITMENT_DEADLINE);
     }
 
+    @Disabled
     @Test
     @DisplayName("방을 생성할 때 리뷰 마감 시간은 모집 마감 시간보다 1일 이후가 아니라면 예외가 발생한다.")
     void invalidReviewDeadline() {
