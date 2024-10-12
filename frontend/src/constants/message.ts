@@ -59,12 +59,13 @@ const ERROR_MESSAGES = {
 };
 
 const SUCCESS_MESSAGES = {
-  POST_REVIEW_FEEDBACK: "피드백을 작성하였습니다.",
+  POST_REVIEW_COMPLETE: "정상적으로 코드리뷰를 완료했습니다.",
+  POST_REVIEW_FEEDBACK: "정상적으로 피드백을 작성하였습니다.",
   POST_CREATE_ROOM: "정상적으로 방을 생성하였습니다.",
   POST_PARTICIPATE_IN: "정상적으로 방에 참여하였습니다.",
   DELETE_PARTICIPATE_IN: "정상적으로 방 참여를 취소하였습니다.",
   DELETE_PARTICIPATED_ROOM: "정상적으로 방을 삭제하였습니다.",
-  PUT_REVIEW_FEEDBACK: "피드백을 수정하였습니다.",
+  PUT_REVIEW_FEEDBACK: "정상적으로 피드백을 수정하였습니다.",
 };
 
 const MESSAGES = {
