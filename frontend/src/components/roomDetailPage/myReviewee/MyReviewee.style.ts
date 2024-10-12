@@ -36,6 +36,11 @@ export const MyRevieweeContent = styled.span`
 
   font: ${({ theme }) => theme.TEXT.semiSmall};
   text-align: center;
+
+  p {
+    font: ${({ theme }) => theme.TEXT.semiSmall};
+    text-align: center;
+  }
 `;
 
 export const PRLink = styled.a`
@@ -53,12 +58,6 @@ export const PRLink = styled.a`
     color: ${({ theme }) => theme.COLOR.primary2};
     text-decoration: underline;
   }
-`;
-
-export const ButtonContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
 `;
 
 export const IconWrapper = styled.span`

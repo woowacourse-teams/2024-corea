@@ -83,15 +83,20 @@ const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
     );
   }
 
+  // 리뷰어일 때 매칭된 리뷰이 없으면 보여줄 화면
+  if (roomInfo.memberRole === "REVIEWER" && revieweeData.length === 0) {
+    return (
+      <S.GuidanceWrapper>
+        <p className="process-paused">{MESSAGES.GUIDANCE.REVIEWEE_FAIL_MATCHED}</p>
+      </S.GuidanceWrapper>
+    );
+  }
+
   // 방 종료 후 실패했을 때 보여줄 화면
   if (roomInfo.roomStatus === "CLOSE" && revieweeData.length === 0) {
     return (
       <S.GuidanceWrapper>
-        <p className="process-paused">
-          {roomInfo.memberRole === "REVIEWER"
-            ? MESSAGES.GUIDANCE.REVIEWEE_FAIL_MATCHED
-            : MESSAGES.GUIDANCE.FAIL_MATCHED}
-        </p>
+        <p className="process-paused">{MESSAGES.GUIDANCE.FAIL_MATCHED}</p>
       </S.GuidanceWrapper>
     );
   }
@@ -137,9 +142,7 @@ const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
               </S.PRLink>
             </S.MyRevieweeContent>
 
-            <S.MyRevieweeContent>
-              <S.ButtonContainer>{renderRevieweeButton(reviewee)}</S.ButtonContainer>
-            </S.MyRevieweeContent>
+            <S.MyRevieweeContent>{renderRevieweeButton(reviewee)}</S.MyRevieweeContent>
           </S.MyRevieweeWrapper>
         ))}
       </S.MyRevieweeContainer>
