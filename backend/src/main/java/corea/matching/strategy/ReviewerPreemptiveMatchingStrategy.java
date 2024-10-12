@@ -98,7 +98,7 @@ public class ReviewerPreemptiveMatchingStrategy implements MatchingStrategy {
     }
 
     private boolean isPossiblePair(Member reviewer, Member reviewee, List<Pair> pairs) {
-        if (reviewer.equals(reviewee)) {
+        if (reviewer == reviewee) {
             return false;
         }
 
