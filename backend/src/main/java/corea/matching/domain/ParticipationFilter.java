@@ -4,6 +4,7 @@ import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
 import corea.participation.domain.Participation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ParticipationFilter {
@@ -31,10 +32,21 @@ public class ParticipationFilter {
     }
 
     private List<Participation> findPRSubmittedParticipation(PullRequestInfo pullRequestInfo) {
-        return participations.stream()
-                .peek(participation -> invalidateIfNotSubmitPR(pullRequestInfo, participation))
-                .filter(participation -> hasSubmittedPR(pullRequestInfo, participation))
-                .toList();
+        List<Participation> result = new ArrayList<>();
+
+        for (Participation participation : participations) {
+            if (participation.getMemberRole().isReviewer()) {
+                result.add(participation);
+                continue;
+            }
+
+            invalidateIfNotSubmitPR(pullRequestInfo, participation);
+
+            if (hasSubmittedPR(pullRequestInfo, participation)) {
+                result.add(participation);
+            }
+        }
+        return result;
     }
 
     private void invalidateIfNotSubmitPR(PullRequestInfo pullRequestInfo, Participation participation) {
