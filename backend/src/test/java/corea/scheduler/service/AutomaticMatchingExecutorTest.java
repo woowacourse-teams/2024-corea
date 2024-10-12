@@ -9,6 +9,7 @@ import corea.matching.infrastructure.dto.GithubUserResponse;
 import corea.matching.infrastructure.dto.PullRequestResponse;
 import corea.matching.service.PullRequestProvider;
 import corea.matchresult.domain.MatchResult;
+import corea.matchresult.repository.FailedMatchingRepository;
 import corea.matchresult.repository.MatchResultRepository;
 import corea.member.domain.Member;
 import corea.member.domain.MemberRole;
@@ -57,6 +58,9 @@ class AutomaticMatchingExecutorTest {
 
     @Autowired
     private ParticipationRepository participationRepository;
+
+    @Autowired
+    private FailedMatchingRepository failedMatchingRepository;
 
     @MockBean
     private PullRequestProvider pullRequestProvider;
@@ -121,11 +125,21 @@ class AutomaticMatchingExecutorTest {
     @Transactional
     @Test
     @DisplayName("매칭 시도 중 예외가 발생했다면 방 상태를 FAIL로 변경한다.")
-    void matchFail() {
+    void updateRoomStatusToFail() {
         AutomaticMatching automaticMatching = automaticMatchingRepository.save(new AutomaticMatching(emptyParticipantRoom.getId(), emptyParticipantRoom.getRecruitmentDeadline()));
 
         automaticMatchingExecutor.execute(automaticMatching.getRoomId());
 
         assertThat(emptyParticipantRoom.getStatus()).isEqualTo(RoomStatus.FAIL);
+    }
+
+    @Test
+    @DisplayName("매칭 시도 중 예외가 발생했다면 매칭을 실패한 방을 저장한다.")
+    void saveFailedMatching() {
+        AutomaticMatching automaticMatching = automaticMatchingRepository.save(new AutomaticMatching(emptyParticipantRoom.getId(), emptyParticipantRoom.getRecruitmentDeadline()));
+
+        automaticMatchingExecutor.execute(automaticMatching.getRoomId());
+
+        assertThat(failedMatchingRepository.findByRoomId(emptyParticipantRoom.getId())).isNotEmpty();
     }
 }

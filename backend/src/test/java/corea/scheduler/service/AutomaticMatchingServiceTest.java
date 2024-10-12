@@ -107,6 +107,7 @@ class AutomaticMatchingServiceTest {
                 LocalDateTime.now().plusDays(3),
                 ParticipationStatus.PARTICIPATED,
                 MemberRole.NONE,
-                "OPEN");
+                "OPEN",
+                "");
     }
 }
