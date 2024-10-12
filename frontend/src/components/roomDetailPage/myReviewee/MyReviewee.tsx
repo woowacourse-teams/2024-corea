@@ -52,6 +52,10 @@ const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
       return <p>코드리뷰를 하지 않았어요</p>;
     }
 
+    if (roomInfo.roomStatus === "CLOSE" && !reviewee.isWrited) {
+      return <p>피드백을 작성하지 않았어요</p>;
+    }
+
     return reviewee.isReviewed ? (
       <Button
         size="xSmall"
