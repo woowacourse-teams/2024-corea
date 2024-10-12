@@ -73,6 +73,8 @@ export const formatLeftTime = (time: string) => {
     targetMinutes,
   );
 
+  if (hours === 0 && minutes === 0) return "곧 종료";
+
   return hours !== 0 ? `${hours}시간 ${minutes}분 전` : `${minutes}분 전`;
 };
 
@@ -98,11 +100,10 @@ const calculateTimeDifference = (
 
   const diffHours = Math.floor(diffMinutes / 60);
   const remainingMinutes = diffMinutes % 60;
-  const remainingMinutesNonZero = remainingMinutes === 0 ? 1 : remainingMinutes;
 
   return {
     hours: diffHours,
-    minutes: remainingMinutesNonZero,
+    minutes: remainingMinutes,
   };
 };
 
