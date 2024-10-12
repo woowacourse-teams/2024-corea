@@ -111,6 +111,10 @@ public class Room extends BaseTimeEntity {
         return status.isClosed();
     }
 
+    public boolean isNotClosed() {
+        return !isClosed();
+    }
+
     public boolean isNotProgress() {
         return status.isNotProgress();
     }

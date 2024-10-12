@@ -66,18 +66,6 @@ public class Participation extends BaseTimeEntity {
         room.participate();
     }
 
-    public long getRoomsId() {
-        return room.getId();
-    }
-
-    public long getMembersId() {
-        return member.getId();
-    }
-
-    public String getMemberGithubId() {
-        return member.getGithubUserId();
-    }
-
     public boolean isReviewer() {
         return memberRole.isReviewer();
     }
@@ -88,6 +76,18 @@ public class Participation extends BaseTimeEntity {
 
     public boolean isPullRequestNotSubmitted() {
         return status.isPullRequestNotSubmitted();
+    }
+
+    public long getRoomsId() {
+        return room.getId();
+    }
+
+    public long getMembersId() {
+        return member.getId();
+    }
+
+    public String getMemberGithubId() {
+        return member.getGithubUserId();
     }
 
     private static void debug(long roomId, long memberId) {
