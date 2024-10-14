@@ -1,13 +1,9 @@
 package corea.scheduler.service;
 
-import corea.room.dto.RoomResponse;
+import corea.room.domain.Room;
 import corea.scheduler.domain.AutomaticUpdate;
-import corea.scheduler.domain.ScheduleStatus;
-import corea.scheduler.repository.AutomaticUpdateRepository;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,14 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledFuture;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class AutomaticUpdateService {
 
@@ -30,23 +24,32 @@ public class AutomaticUpdateService {
 
     private final TaskScheduler taskScheduler;
     private final AutomaticUpdateExecutor automaticUpdateExecutor;
-    private final AutomaticUpdateRepository automaticUpdateRepository;
+    private final Map<Long, ScheduledFuture<?>> scheduledTasks;
 
-    private final Map<Long, ScheduledFuture<?>> scheduledTasks = new ConcurrentHashMap<>();
-
-    @EventListener(ApplicationReadyEvent.class)
-    public void schedulePendingAutomaticUpdate() {
-        List<AutomaticUpdate> updates = automaticUpdateRepository.findAllByStatus(ScheduleStatus.PENDING);
-
-        log.info("{}개의 방에 대해 자동 상태 업데이트 재예약 시작", updates.size());
-
-        updates.forEach(update -> scheduleUpdate(update.getRoomId(), update.getUpdateStartTime()));
-
-        log.info("{}개의 방에 대해 자동 상태 업데이트 재예약 완료", updates.size());
+    @Autowired
+    public AutomaticUpdateService(TaskScheduler taskScheduler, AutomaticUpdateExecutor automaticUpdateExecutor) {
+        this.taskScheduler = taskScheduler;
+        this.automaticUpdateExecutor = automaticUpdateExecutor;
+        this.scheduledTasks = new ConcurrentHashMap<>();
     }
 
-    public void updateAtReviewDeadline(RoomResponse response) {
-        scheduleUpdate(response.id(), response.reviewDeadline());
+    public AutomaticUpdateService(TaskScheduler taskScheduler, AutomaticUpdateExecutor automaticUpdateExecutor, Map<Long, ScheduledFuture<?>> scheduledTasks) {
+        this.taskScheduler = taskScheduler;
+        this.automaticUpdateExecutor = automaticUpdateExecutor;
+        this.scheduledTasks = scheduledTasks;
+    }
+
+    public void updateAtReviewDeadline(Room room) {
+        scheduleUpdate(room.getId(), room.getReviewDeadline());
+    }
+
+    public void updateAtReviewDeadline(AutomaticUpdate automaticUpdate) {
+        scheduleUpdate(automaticUpdate.getRoomId(), automaticUpdate.getUpdateStartTime());
+    }
+
+    public void modifyTask(Room room) {
+        cancelScheduledUpdate(room.getId());
+        scheduleUpdate(room.getId(), room.getReviewDeadline());
     }
 
     private void scheduleUpdate(long roomId, LocalDateTime updateStartTime) {
@@ -54,13 +57,13 @@ public class AutomaticUpdateService {
                 () -> automaticUpdateExecutor.execute(roomId),
                 toInstant(updateStartTime)
         );
-
         log.info("{}번 방 자동 상태 업데이트 예약 - 예약 시간: {}", roomId, updateStartTime);
         scheduledTasks.put(roomId, schedule);
     }
 
     private Instant toInstant(LocalDateTime updateStartTime) {
-        return updateStartTime.atZone(ZONE_ID).toInstant();
+        return updateStartTime.atZone(ZONE_ID)
+                .toInstant();
     }
 
     public void cancel(long roomId) {
@@ -74,7 +77,6 @@ public class AutomaticUpdateService {
     private void cancelScheduledUpdate(long roomId) {
         ScheduledFuture<?> scheduledUpdate = scheduledTasks.remove(roomId);
         scheduledUpdate.cancel(true);
-
         log.info("{}번 방 기존 자동 상태 업데이트 예약 취소", roomId);
     }
 }

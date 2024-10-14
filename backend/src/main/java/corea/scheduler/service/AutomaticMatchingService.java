@@ -1,13 +1,9 @@
 package corea.scheduler.service;
 
-import corea.room.dto.RoomResponse;
+import corea.room.domain.Room;
 import corea.scheduler.domain.AutomaticMatching;
-import corea.scheduler.domain.ScheduleStatus;
-import corea.scheduler.repository.AutomaticMatchingRepository;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,14 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledFuture;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class AutomaticMatchingService {
 
@@ -30,23 +24,32 @@ public class AutomaticMatchingService {
 
     private final TaskScheduler taskScheduler;
     private final AutomaticMatchingExecutor automaticMatchingExecutor;
-    private final AutomaticMatchingRepository automaticMatchingRepository;
+    private Map<Long, ScheduledFuture<?>> scheduledTasks;
 
-    private final Map<Long, ScheduledFuture<?>> scheduledTasks = new ConcurrentHashMap<>();
-
-    @EventListener(ApplicationReadyEvent.class)
-    public void schedulePendingAutomaticMatching() {
-        List<AutomaticMatching> matchings = automaticMatchingRepository.findAllByStatus(ScheduleStatus.PENDING);
-
-        log.info("{}개의 방에 대해 자동 매칭 재예약 시작", matchings.size());
-
-        matchings.forEach(matching -> scheduleMatching(matching.getRoomId(), matching.getMatchingStartTime()));
-
-        log.info("{}개의 방에 대해 자동 매칭 재예약 완료", matchings.size());
+    @Autowired
+    public AutomaticMatchingService(TaskScheduler taskScheduler, AutomaticMatchingExecutor automaticMatchingExecutor) {
+        this.taskScheduler = taskScheduler;
+        this.automaticMatchingExecutor = automaticMatchingExecutor;
+        this.scheduledTasks = new ConcurrentHashMap<>();
     }
 
-    public void matchOnRecruitmentDeadline(RoomResponse response) {
-        scheduleMatching(response.id(), response.recruitmentDeadline());
+    public AutomaticMatchingService(TaskScheduler taskScheduler, AutomaticMatchingExecutor automaticMatchingExecutor, Map<Long, ScheduledFuture<?>> scheduledTasks) {
+        this.taskScheduler = taskScheduler;
+        this.automaticMatchingExecutor = automaticMatchingExecutor;
+        this.scheduledTasks = scheduledTasks;
+    }
+
+    public void modifyTask(Room room) {
+        cancelScheduledMatching(room.getId());
+        scheduleMatching(room.getId(), room.getRecruitmentDeadline());
+    }
+
+    public void matchOnRecruitmentDeadline(Room room) {
+        scheduleMatching(room.getId(), room.getRecruitmentDeadline());
+    }
+
+    public void matchOnRecruitmentDeadline(AutomaticMatching automaticMatching) {
+        scheduleMatching(automaticMatching.getRoomId(), automaticMatching.getMatchingStartTime());
     }
 
     private void scheduleMatching(long roomId, LocalDateTime matchingStartTime) {
@@ -60,7 +63,8 @@ public class AutomaticMatchingService {
     }
 
     private Instant toInstant(LocalDateTime matchingStartTime) {
-        return matchingStartTime.atZone(ZONE_ID).toInstant();
+        return matchingStartTime.atZone(ZONE_ID)
+                .toInstant();
     }
 
     public void cancel(long roomId) {
