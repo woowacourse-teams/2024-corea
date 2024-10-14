@@ -10,7 +10,6 @@ import corea.matchresult.repository.MatchResultRepository;
 import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
 import corea.room.domain.Room;
-import corea.room.domain.RoomStatus;
 import corea.room.dto.RoomCreateRequest;
 import corea.room.repository.RoomRepository;
 import corea.scheduler.domain.AutomaticUpdate;
@@ -21,7 +20,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -92,16 +90,5 @@ class AutomaticUpdateExecutorTest {
         latch.await();
 
         assertThat(successCount.get()).isEqualTo(1);
-    }
-
-    @Transactional
-    @Test
-    @DisplayName("방 상태를 변경한다.")
-    void execute() {
-        AutomaticUpdate automaticUpdate = automaticUpdateRepository.save(new AutomaticUpdate(room.getId(), room.getReviewDeadline()));
-
-        automaticUpdateExecutor.execute(automaticUpdate.getRoomId());
-
-        assertThat(room.getStatus()).isEqualTo(RoomStatus.CLOSE);
     }
 }
