@@ -43,7 +43,7 @@ describe("날짜 포메팅 유틸 함수 테스트", () => {
       expect(dDay).toBe("D-1");
     });
 
-    it("날짜가 1일 남았고, 시간상으로 24시간 이하로 남은 경우 'D-0'이 반환", () => {
+    it("날짜가 1일 남았고, 시간상으로 24시간 이하로 남은 경우 'D-Day'가 반환", () => {
       const dateString = "2024-10-03T10:29:00+09:00";
       const dDay = formatDday(dateString);
 

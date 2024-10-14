@@ -33,20 +33,6 @@ describe("RoomCard 컴포넌트 테스트", () => {
     });
   });
 
-  it("'모집'중인 방에 2일 이상 남으면 '모집마감 D-N'이 보인다", async () => {
-    render(
-      <ThemeProvider theme={theme}>
-        <RoomCard roomInfo={mockBaseRoomInfo} />
-      </ThemeProvider>,
-    );
-
-    const text = await screen.findByText("모집 마감");
-    const leftDay = await screen.findByText("D-3");
-
-    expect(text).toBeInTheDocument();
-    expect(leftDay).toBeInTheDocument();
-  });
-
   it("'모집'중인 방이 2일 이상 남으면 '모집마감 D-N'이 보인다", async () => {
     render(
       <ThemeProvider theme={theme}>
