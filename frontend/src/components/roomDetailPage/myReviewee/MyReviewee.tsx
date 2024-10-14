@@ -143,7 +143,7 @@ const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
         {revieweeData?.map((reviewee) => (
           <S.MyRevieweeWrapper key={reviewee.userId}>
             <HoverStyledLink to={`/profile/${reviewee.username}`}>
-              <S.MyRevieweeContent>{reviewee.username}</S.MyRevieweeContent>
+              <S.MyRevieweeId>{reviewee.username}</S.MyRevieweeId>
             </HoverStyledLink>
 
             <S.MyRevieweeContent>

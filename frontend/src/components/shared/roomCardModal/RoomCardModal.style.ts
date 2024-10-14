@@ -75,7 +75,10 @@ export const ProfileContainer = styled.div`
   }
 
   span {
+    overflow: hidden;
+
     max-width: 168px;
+
     font: ${({ theme }) => theme.TEXT.small};
     text-overflow: ellipsis;
     white-space: nowrap;

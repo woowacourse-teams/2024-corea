@@ -132,7 +132,7 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
           return (
             <S.MyReviewerWrapper key={reviewer.userId}>
               <HoverStyledLink to={`/profile/${reviewer.username}`}>
-                <S.MyReviewerContent>{reviewer.username}</S.MyReviewerContent>
+                <S.MyReviewerId>{reviewer.username}</S.MyReviewerId>
               </HoverStyledLink>
 
               {reviewer.link.length !== 0 ? (

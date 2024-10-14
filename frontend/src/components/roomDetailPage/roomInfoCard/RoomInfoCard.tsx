@@ -42,7 +42,7 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
           <S.RoomContentSmall>
             <Icon kind="person" size="1.4rem" color={theme.COLOR.grey4} />
             <span>방 생성자 : </span>
-            {roomInfo.manager}
+            <span id="githubid"> {roomInfo.manager}</span>
           </S.RoomContentSmall>
           <S.RoomContentSmall>
             <Icon kind="person" size="1.4rem" color={theme.COLOR.grey4} />
