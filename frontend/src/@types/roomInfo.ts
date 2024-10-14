@@ -2,7 +2,11 @@ export type Classification = "ALL" | "FRONTEND" | "BACKEND" | "ANDROID";
 
 export type RoomStatus = "OPEN" | "CLOSE" | "PROGRESS" | "FAIL";
 
-export type ParticipationStatus = "NOT_PARTICIPATED" | "PARTICIPATED" | "MANAGER";
+export type ParticipationStatus =
+  | "NOT_PARTICIPATED"
+  | "PARTICIPATED"
+  | "MANAGER"
+  | "PULL_REQUEST_NOT_SUBMITTED";
 
 export type Role = "BOTH" | "REVIEWER" | "REVIEWEE" | "NONE";
 

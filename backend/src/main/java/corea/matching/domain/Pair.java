@@ -16,10 +16,10 @@ public class Pair {
     }
 
     public boolean hasReviewer(Member reviewer) {
-        return deliver.equals(reviewer);
+        return deliver == reviewer;
     }
 
     public boolean hasReviewee(Member reviewee) {
-        return receiver.equals(reviewee);
+        return receiver == reviewee;
     }
 }

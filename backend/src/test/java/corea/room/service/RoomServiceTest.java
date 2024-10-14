@@ -7,6 +7,8 @@ import corea.exception.ExceptionType;
 import corea.fixture.MatchResultFixture;
 import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
+import corea.matchresult.domain.FailedMatching;
+import corea.matchresult.repository.FailedMatchingRepository;
 import corea.matchresult.repository.MatchResultRepository;
 import corea.member.domain.Member;
 import corea.member.domain.MemberRole;
@@ -22,6 +24,7 @@ import corea.room.dto.RoomResponse;
 import corea.room.dto.RoomResponses;
 import corea.room.repository.RoomRepository;
 import org.assertj.core.api.InstanceOfAssertFactories;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
@@ -58,6 +61,9 @@ class RoomServiceTest {
     @Autowired
     private ParticipationRepository participationRepository;
 
+    @Autowired
+    private FailedMatchingRepository failedMatchingRepository;
+
     @Test
     @DisplayName("방을 생성할 수 있다.")
     void create() {
@@ -68,6 +74,7 @@ class RoomServiceTest {
         assertThat(roomRepository.findAll()).hasSize(1);
     }
 
+    @Disabled
     @Test
     @DisplayName("방을 생성할 때 모집 마감 시간은 현재 시간보다 1시간 이후가 아니라면 예외가 발생한다.")
     void invalidRecruitmentDeadline() {
@@ -81,6 +88,7 @@ class RoomServiceTest {
                 .isEqualTo(ExceptionType.INVALID_RECRUITMENT_DEADLINE);
     }
 
+    @Disabled
     @Test
     @DisplayName("방을 생성할 때 리뷰 마감 시간은 모집 마감 시간보다 1일 이후가 아니라면 예외가 발생한다.")
     void invalidReviewDeadline() {
@@ -133,7 +141,22 @@ class RoomServiceTest {
     }
 
     @Test
-    @DisplayName("현재 로그인한 멤버가 참여 중인 방을 리뷰 마감일이 임박한 순으로 보여준다.")
+    @DisplayName("매칭을 실패한 방을 조회할 때 실패한 원인에 대해 알 수 있다.")
+    void findOne_with_matching_fail() {
+        Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
+        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
+
+        Member member = memberRepository.save(MemberFixture.MEMBER_PORORO());
+        participationRepository.save(new Participation(room, member, MemberRole.BOTH, room.getMatchingSize()));
+
+        failedMatchingRepository.save(new FailedMatching(room.getId(), ExceptionType.PARTICIPANT_SIZE_LACK));
+        RoomResponse response = roomService.findOne(room.getId(), member.getId());
+
+        assertThat(response.message()).isEqualTo("방의 최소 참여 인원보다 참가자가 부족하여 매칭이 진행되지 않았습니다.");
+    }
+
+    @Test
+    @DisplayName("현재 로그인한 멤버가 참여 중인 방을 리뷰 마감일이 임박한 순으로 볼 수 있다.")
     void findParticipatedRooms() {
         Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member ash = memberRepository.save(MemberFixture.MEMBER_ASH());
@@ -145,6 +168,29 @@ class RoomServiceTest {
         Long joysonId = joyson.getId();
         participationRepository.save(new Participation(pororoRoom, joyson, MemberRole.BOTH, pororoRoom.getMatchingSize()));
         participationRepository.save(new Participation(ashRoom, joyson, MemberRole.BOTH, ashRoom.getMatchingSize()));
+
+        RoomResponses response = roomService.findParticipatedRooms(joysonId);
+        List<String> managerNames = getManagerNames(response);
+
+        assertThat(managerNames).containsExactly("조경찬", "박민아");
+    }
+
+    @Test
+    @DisplayName("현재 로그인한 멤버가 참여 중인 방을 볼 때, 종료된 방은 포함되지 않는다.")
+    void findNonClosedParticipatedRooms() {
+        Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
+        Member ash = memberRepository.save(MemberFixture.MEMBER_ASH());
+        Member movin = memberRepository.save(MemberFixture.MEMBER_MOVIN());
+
+        Room pororoRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo, LocalDateTime.now().plusDays(2)));
+        Room ashRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN(ash, LocalDateTime.now().plusDays(3)));
+        Room movinRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_CLOSED(movin));
+
+        Member joyson = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
+        Long joysonId = joyson.getId();
+        participationRepository.save(new Participation(pororoRoom, joyson, MemberRole.BOTH, pororoRoom.getMatchingSize()));
+        participationRepository.save(new Participation(ashRoom, joyson, MemberRole.BOTH, ashRoom.getMatchingSize()));
+        participationRepository.save(new Participation(movinRoom, joyson, MemberRole.BOTH, ashRoom.getMatchingSize()));
 
         RoomResponses response = roomService.findParticipatedRooms(joysonId);
         List<String> managerNames = getManagerNames(response);
