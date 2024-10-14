@@ -88,6 +88,22 @@ public class RoomFixture {
                 RoomStatus.OPEN
         );
     }
+    public static RoomUpdateRequest ROOM_UPDATE_REQUEST(long roomId){
+        return new RoomUpdateRequest(
+                roomId,
+                "Test Room",
+                "Test Content",
+                "https://github.com/youngsu5582/github-api-test",
+                "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=13301655&filePath=L2Rpc2sxL25ld2RhdGEvMjAyMS8yMS9DTFMxMDAwNC8xMzMwMTY1NV9XUlRfMjFfQ0xTMTAwMDRfMjAyMTEyMTNfMQ==&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004",
+                2,
+                List.of("TDD, 클린코드, 자바"),
+                10,
+                LocalDateTime.now(),
+                LocalDateTime.now()
+                        .plusDays(14),
+                RoomClassification.BACKEND
+        );
+    }
 
     public static RoomCreateRequest ROOM_CREATE_REQUEST() {
         return ROOM_CREATE_REQUEST(LocalDateTime.now()

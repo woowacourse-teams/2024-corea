@@ -57,6 +57,23 @@ public class RoomService {
         return RoomResponse.of(room, participation.getMemberRole(), ParticipationStatus.MANAGER);
     }
 
+    @Transactional
+    public RoomResponse update(long memberId, RoomUpdateRequest request) {
+        Room room = getRoom(request.roomId());
+        if (room.isNotMatchingManager(memberId)) {
+            throw new CoreaException(ExceptionType.MEMBER_IS_NOT_MANAGER);
+        }
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND));
+
+        Room updateRoom = roomRepository.save(request.toEntity(member));
+        Participation participation = participationRepository.findByRoomIdAndMemberId(updateRoom.getId(), memberId)
+                .orElseThrow(() -> new CoreaException(ExceptionType.NOT_ALREADY_APPLY));
+
+        roomAutomaticService.updateTime(updateRoom);
+        return RoomResponse.of(updateRoom, participation.getMemberRole(), ParticipationStatus.MANAGER);
+    }
+
     private void validateDeadLine(LocalDateTime recruitmentDeadline, LocalDateTime reviewDeadline) {
         LocalDateTime currentDateTime = LocalDateTime.now();
 
