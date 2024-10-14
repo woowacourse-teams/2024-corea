@@ -24,18 +24,17 @@ export const formatDateTimeString = (dateString: string): string => {
 // 디데이 포맷 함수
 export const formatDday = (dateString: string): string => {
   const targetDate = new Date(dateString);
-  const today = new Date();
+  const now = new Date();
 
-  today.setHours(0, 0, 0, 0);
-  targetDate.setHours(0, 0, 0, 0);
+  const timeDiff = targetDate.getTime() - now.getTime();
+  const dayDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
 
-  const timeDiff = targetDate.getTime() - today.getTime();
-  const dayDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+  const hoursDiff = timeDiff / (1000 * 3600);
 
-  if (dayDiff > 0) {
+  if (dayDiff > 0 && hoursDiff >= 24) {
     return `D-${dayDiff}`;
   }
-  if (dayDiff === 0) {
+  if (dayDiff >= 0 && hoursDiff < 24) {
     return "D-Day";
   }
   return "종료됨";
