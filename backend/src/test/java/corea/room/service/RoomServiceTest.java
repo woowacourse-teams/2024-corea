@@ -1,7 +1,6 @@
 package corea.room.service;
 
 import config.ServiceTest;
-import corea.auth.domain.AuthInfo;
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
 import corea.fixture.MatchResultFixture;
@@ -17,7 +16,6 @@ import corea.participation.domain.Participation;
 import corea.participation.domain.ParticipationStatus;
 import corea.participation.repository.ParticipationRepository;
 import corea.room.domain.Room;
-import corea.room.domain.RoomStatus;
 import corea.room.dto.RoomCreateRequest;
 import corea.room.dto.RoomParticipantResponses;
 import corea.room.dto.RoomResponse;
@@ -28,9 +26,6 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.EnumSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -169,15 +164,15 @@ class RoomServiceTest {
         participationRepository.save(new Participation(pororoRoom, joyson, MemberRole.BOTH, pororoRoom.getMatchingSize()));
         participationRepository.save(new Participation(ashRoom, joyson, MemberRole.BOTH, ashRoom.getMatchingSize()));
 
-        RoomResponses response = roomService.findParticipatedRooms(joysonId);
+        RoomResponses response = roomService.findParticipatedRooms(joysonId, false);
         List<String> managerNames = getManagerNames(response);
 
         assertThat(managerNames).containsExactly("조경찬", "박민아");
     }
 
     @Test
-    @DisplayName("현재 로그인한 멤버가 참여 중인 방을 볼 때, 종료된 방은 포함되지 않는다.")
-    void findNonClosedParticipatedRooms() {
+    @DisplayName("현재 로그인한 멤버가 참여 중인 방을 볼 때, 종료된 방을 포함하지 않을 수 있다.")
+    void findParticipatedRoomsWithoutClosed() {
         Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member ash = memberRepository.save(MemberFixture.MEMBER_ASH());
         Member movin = memberRepository.save(MemberFixture.MEMBER_MOVIN());
@@ -192,10 +187,33 @@ class RoomServiceTest {
         participationRepository.save(new Participation(ashRoom, joyson, MemberRole.BOTH, ashRoom.getMatchingSize()));
         participationRepository.save(new Participation(movinRoom, joyson, MemberRole.BOTH, ashRoom.getMatchingSize()));
 
-        RoomResponses response = roomService.findParticipatedRooms(joysonId);
+        RoomResponses response = roomService.findParticipatedRooms(joysonId, false);
         List<String> managerNames = getManagerNames(response);
 
         assertThat(managerNames).containsExactly("조경찬", "박민아");
+    }
+
+    @Test
+    @DisplayName("현재 로그인한 멤버가 참여 중인 방을 볼 때, 종료된 방을 포함할 수 있다.")
+    void findParticipatedRoomsWithClosed() {
+        Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
+        Member ash = memberRepository.save(MemberFixture.MEMBER_ASH());
+        Member movin = memberRepository.save(MemberFixture.MEMBER_MOVIN());
+
+        Room pororoRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo, LocalDateTime.now().plusDays(2)));
+        Room ashRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN(ash, LocalDateTime.now().plusDays(3)));
+        Room movinRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_CLOSED(movin));
+
+        Member joyson = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
+        Long joysonId = joyson.getId();
+        participationRepository.save(new Participation(pororoRoom, joyson, MemberRole.BOTH, pororoRoom.getMatchingSize()));
+        participationRepository.save(new Participation(ashRoom, joyson, MemberRole.BOTH, ashRoom.getMatchingSize()));
+        participationRepository.save(new Participation(movinRoom, joyson, MemberRole.BOTH, ashRoom.getMatchingSize()));
+
+        RoomResponses response = roomService.findParticipatedRooms(joysonId, true);
+        List<String> managerNames = getManagerNames(response);
+
+        assertThat(managerNames).containsExactly("조경찬", "박민아", "김현중");
     }
 
     @Test

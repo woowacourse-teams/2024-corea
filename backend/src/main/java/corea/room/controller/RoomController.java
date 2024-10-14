@@ -49,8 +49,9 @@ public class RoomController implements RoomControllerSpecification {
     }
 
     @GetMapping("/participated")
-    public ResponseEntity<RoomResponses> participatedRooms(@LoginMember AuthInfo authInfo) {
-        RoomResponses response = roomService.findParticipatedRooms(authInfo.getId());
+    public ResponseEntity<RoomResponses> participatedRooms(@LoginMember AuthInfo authInfo,
+                                                           @RequestParam(defaultValue = "false") boolean includeClosed) {
+        RoomResponses response = roomService.findParticipatedRooms(authInfo.getId(), includeClosed);
         return ResponseEntity.ok(response);
     }
 

@@ -3,7 +3,6 @@ package corea.room.controller;
 import corea.auth.domain.AuthInfo;
 import corea.exception.ExceptionType;
 import corea.global.annotation.ApiErrorResponses;
-import corea.matchresult.dto.MatchResultResponses;
 import corea.room.dto.RoomCreateRequest;
 import corea.room.dto.RoomParticipantResponses;
 import corea.room.dto.RoomResponse;
@@ -57,7 +56,9 @@ public interface RoomControllerSpecification {
                     "JWT 토큰에서 추출된 사용자 정보는 피드백 작성에 필요한 인증된 사용자 정보를 제공합니다. " +
                     "<br><br>**참고:** 이 API를 사용하기 위해서는 유효한 JWT 토큰이 필요하며, " +
                     "토큰이 없거나 유효하지 않은 경우 인증 오류가 발생합니다.")
-    ResponseEntity<RoomResponses> participatedRooms(AuthInfo authInfo);
+    ResponseEntity<RoomResponses> participatedRooms(AuthInfo authInfo,
+                                                    @Parameter(description = "종료된 방 포함 여부", example = "false")
+                                                    boolean includeClosed);
 
     @Operation(summary = "방을 삭제합니다.",
             description = "이미 생성되어 있는 방을 삭제합니다. <br>" +

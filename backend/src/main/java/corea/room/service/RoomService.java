@@ -11,8 +11,6 @@ import corea.participation.domain.Participation;
 import corea.participation.domain.ParticipationStatus;
 import corea.participation.repository.ParticipationRepository;
 import corea.room.domain.Room;
-import corea.room.domain.RoomClassification;
-import corea.room.domain.RoomStatus;
 import corea.room.dto.*;
 import corea.room.repository.RoomRepository;
 import corea.scheduler.domain.AutomaticMatching;
@@ -21,8 +19,6 @@ import corea.scheduler.repository.AutomaticMatchingRepository;
 import corea.scheduler.repository.AutomaticUpdateRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -94,15 +90,29 @@ public class RoomService {
                 .orElseGet(() -> RoomResponse.of(room, participation));
     }
 
-    public RoomResponses findParticipatedRooms(long memberId) {
-        List<Room> rooms = findNonClosedParticipatedRooms(memberId);
+    public RoomResponses findParticipatedRooms(long memberId, boolean includeClosed) {
+        List<Room> rooms = findFilteredParticipatedRooms(memberId, includeClosed);
         return RoomResponses.of(rooms, MemberRole.NONE, ParticipationStatus.PARTICIPATED, true, 0);
     }
 
-    private List<Room> findNonClosedParticipatedRooms(long memberId) {
+    private List<Room> findFilteredParticipatedRooms(long memberId, boolean includeClosed) {
+        List<Room> rooms = findAllParticipatedRooms(memberId);
+
+        if (includeClosed) {
+            return rooms;
+        }
+        return filterOutClosedRooms(rooms);
+    }
+
+    private List<Room> findAllParticipatedRooms(long memberId) {
         return participationRepository.findAllByMemberId(memberId)
                 .stream()
                 .map(Participation::getRoom)
+                .toList();
+    }
+
+    private List<Room> filterOutClosedRooms(List<Room> rooms) {
+        return rooms.stream()
                 .filter(Room::isNotClosed)
                 .toList();
     }
