@@ -64,7 +64,6 @@ class RoomServiceTest {
     @Autowired
     private FailedMatchingRepository failedMatchingRepository;
 
-
     @Test
     @DisplayName("방을 생성할 수 있다.")
     void create() {

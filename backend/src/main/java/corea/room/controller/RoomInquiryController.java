@@ -42,5 +42,4 @@ public class RoomInquiryController implements RoomInquiryControllerSpecification
         RoomResponses response = roomInquiryService.findRoomsWithRoomStatus(authInfo.getId(), page, expression, RoomStatus.CLOSE);
         return ResponseEntity.ok(response);
     }
-
 }

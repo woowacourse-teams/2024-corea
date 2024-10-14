@@ -49,7 +49,6 @@ public class RoomInquiryServiceTest {
         assertThat(managerNames).containsExactly("박민아");
     }
 
-
     @ParameterizedTest
     @EnumSource(RoomStatus.class)
     @DisplayName("비로그인 사용자가 방을 상태별로 마감일 임박순으로 조회할 수 있다.")
@@ -67,7 +66,6 @@ public class RoomInquiryServiceTest {
 
         assertThat(managerNames).containsExactly("조경찬", "박민아");
     }
-
 
     @ParameterizedTest
     @CsvSource(value = {"0, false", "1, true"})
