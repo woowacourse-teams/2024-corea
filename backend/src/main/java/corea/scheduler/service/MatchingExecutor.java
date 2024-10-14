@@ -26,7 +26,6 @@ public class MatchingExecutor {
     private final RoomRepository roomRepository;
 
     @Async
-    @Transactional
     public void match(long roomId) {
         //TODO: 트랜잭션 분리
         TransactionTemplate template = new TransactionTemplate(transactionManager);
