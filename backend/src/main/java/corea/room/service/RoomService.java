@@ -31,7 +31,6 @@ public class RoomService {
 
     private static final int PLUS_HOURS_TO_MINIMUM_RECRUITMENT_DEADLINE = 1;
     private static final int PLUS_DAYS_TO_MINIMUM_REVIEW_DEADLINE = 1;
-    private static final int PAGE_DISPLAY_SIZE = 8;
     private static final int RANDOM_DISPLAY_PARTICIPANTS_SIZE = 6;
 
     private final RoomRepository roomRepository;
@@ -114,22 +113,6 @@ public class RoomService {
                 .map(Participation::getRoom)
                 .filter(Room::isNotClosed)
                 .toList();
-    }
-
-    public RoomResponses findRoomsWithRoomStatus(long memberId, int pageNumber, String expression, RoomStatus roomStatus) {
-        RoomClassification classification = RoomClassification.from(expression);
-        return getRoomResponses(memberId, pageNumber, classification, roomStatus);
-    }
-
-    private RoomResponses getRoomResponses(long memberId, int pageNumber, RoomClassification classification, RoomStatus status) {
-        PageRequest pageRequest = PageRequest.of(pageNumber, PAGE_DISPLAY_SIZE);
-
-        if (classification.isAll()) {
-            Page<Room> roomsWithPage = roomRepository.findAllByMemberAndStatus(memberId, status, pageRequest);
-            return RoomResponses.of(roomsWithPage, MemberRole.NONE, ParticipationStatus.NOT_PARTICIPATED, pageNumber);
-        }
-        Page<Room> roomsWithPage = roomRepository.findAllByMemberAndClassificationAndStatus(memberId, classification, status, pageRequest);
-        return RoomResponses.of(roomsWithPage, MemberRole.NONE, ParticipationStatus.NOT_PARTICIPATED, pageNumber);
     }
 
     @Transactional
