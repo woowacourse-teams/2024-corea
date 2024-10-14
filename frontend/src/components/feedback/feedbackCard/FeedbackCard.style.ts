@@ -101,9 +101,7 @@ export const FeedbackDetailContainer = styled.div`
 `;
 
 export const FeedbackDetail = styled.p`
-  overflow: hidden;
-
-  height: 120px;
+  overflow: hidden auto;
 
   font: ${({ theme }) => theme.TEXT.small};
   line-height: 2rem;
