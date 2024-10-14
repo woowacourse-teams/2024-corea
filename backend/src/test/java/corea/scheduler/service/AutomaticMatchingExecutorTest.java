@@ -23,7 +23,6 @@ import corea.scheduler.repository.AutomaticMatchingRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
@@ -32,9 +31,14 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 @ServiceTest
 @Import(TestAsyncConfig.class)
@@ -63,15 +67,21 @@ class AutomaticMatchingExecutorTest {
 
     private Room room;
     private Room emptyParticipantRoom;
+    private Member pororo;
+    private Member ash;
+    private Member joysun;
+    private Member movin;
+    private Member ten;
+    private Member cho;
 
     @BeforeEach
     void setUp() {
-        Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
-        Member ash = memberRepository.save(MemberFixture.MEMBER_ASH());
-        Member joysun = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
-        Member movin = memberRepository.save(MemberFixture.MEMBER_MOVIN());
-        Member ten = memberRepository.save(MemberFixture.MEMBER_TENTEN());
-        Member cho = memberRepository.save(MemberFixture.MEMBER_CHOCO());
+        pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
+        ash = memberRepository.save(MemberFixture.MEMBER_ASH());
+        joysun = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
+        movin = memberRepository.save(MemberFixture.MEMBER_MOVIN());
+        ten = memberRepository.save(MemberFixture.MEMBER_TENTEN());
+        cho = memberRepository.save(MemberFixture.MEMBER_CHOCO());
 
         room = roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo, LocalDateTime.now().plusSeconds(3)));
         emptyParticipantRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN(ash, LocalDateTime.now().plusSeconds(3)));
@@ -83,28 +93,32 @@ class AutomaticMatchingExecutorTest {
         participationRepository.save(new Participation(room, ten, MemberRole.BOTH, room.getMatchingSize()));
         participationRepository.save(new Participation(room, cho, MemberRole.BOTH, room.getMatchingSize()));
 
-        Mockito.when(pullRequestProvider.getUntilDeadline(any(), any()))
-                .thenReturn(new PullRequestInfo(Map.of(
-                        pororo.getGithubUserId(),
-                        new PullRequestResponse("link", new GithubUserResponse(pororo.getGithubUserId()),
-                                LocalDateTime.of(2024, 10, 12, 18, 00)),
-                        ash.getGithubUserId(),
-                        new PullRequestResponse("link", new GithubUserResponse(ash.getGithubUserId()),
-                                LocalDateTime.of(2024, 10, 12, 18, 20)),
-                        joysun.getGithubUserId(),
-                        new PullRequestResponse("link", new GithubUserResponse(joysun.getGithubUserId()),
-                                LocalDateTime.of(2024, 10, 12, 18, 30)),
-                        movin.getGithubUserId(),
-                        new PullRequestResponse("link", new GithubUserResponse(movin.getGithubUserId()),
-                                LocalDateTime.of(2024, 10, 12, 18, 10)),
-                        ten.getGithubUserId(),
-                        new PullRequestResponse("link", new GithubUserResponse(ten.getGithubUserId()),
-                                LocalDateTime.of(2024, 10, 12, 18, 01)),
-                        cho.getGithubUserId(),
-                        new PullRequestResponse("link", new GithubUserResponse(cho.getGithubUserId()),
-                                LocalDateTime.of(2024, 10, 12, 18, 01)
-                        )
-                )));
+        when(pullRequestProvider.getUntilDeadline(any(), any()))
+                .thenReturn(getPullRequestInfo(pororo, ash, joysun, movin, ten, cho));
+    }
+
+    private PullRequestInfo getPullRequestInfo(Member pororo, Member ash, Member joysun, Member movin, Member ten, Member cho) {
+        return new PullRequestInfo(Map.of(
+                pororo.getGithubUserId(),
+                new PullRequestResponse("link", new GithubUserResponse(pororo.getGithubUserId()),
+                        LocalDateTime.of(2024, 10, 12, 18, 00)),
+                ash.getGithubUserId(),
+                new PullRequestResponse("link", new GithubUserResponse(ash.getGithubUserId()),
+                        LocalDateTime.of(2024, 10, 12, 18, 20)),
+                joysun.getGithubUserId(),
+                new PullRequestResponse("link", new GithubUserResponse(joysun.getGithubUserId()),
+                        LocalDateTime.of(2024, 10, 12, 18, 30)),
+                movin.getGithubUserId(),
+                new PullRequestResponse("link", new GithubUserResponse(movin.getGithubUserId()),
+                        LocalDateTime.of(2024, 10, 12, 18, 10)),
+                ten.getGithubUserId(),
+                new PullRequestResponse("link", new GithubUserResponse(ten.getGithubUserId()),
+                        LocalDateTime.of(2024, 10, 12, 18, 01)),
+                cho.getGithubUserId(),
+                new PullRequestResponse("link", new GithubUserResponse(cho.getGithubUserId()),
+                        LocalDateTime.of(2024, 10, 12, 18, 01)
+                )
+        ));
     }
 
     @Test
@@ -116,6 +130,36 @@ class AutomaticMatchingExecutorTest {
 
         List<MatchResult> matchResults = matchResultRepository.findAll();
         assertThat(matchResults).isNotEmpty();
+    }
+
+    @Test
+    @DisplayName("동시에 10개의 자동 매칭을 실행해도 PESSIMISTIC_WRITE 락을 통해 동시성을 제어할 수 있다.")
+    void startMatchingWithLock() throws InterruptedException {
+        AutomaticMatching automaticMatching = automaticMatchingRepository.save(new AutomaticMatching(room.getId(), LocalDateTime.now().plusDays(1)));
+
+        int threadCount = 10;
+        ExecutorService executorService = Executors.newFixedThreadPool(threadCount);
+        CountDownLatch latch = new CountDownLatch(threadCount);
+        AtomicInteger successCount = new AtomicInteger(0);
+
+        when(pullRequestProvider.getUntilDeadline(any(), any())).thenAnswer(ignore -> {
+            successCount.incrementAndGet();
+            return getPullRequestInfo(pororo, ash, joysun, movin, ten, cho);
+        });
+
+        for (int i = 0; i < threadCount; i++) {
+            executorService.execute(() -> {
+                try {
+                    automaticMatchingExecutor.execute(automaticMatching.getRoomId());
+                } finally {
+                    latch.countDown();
+                }
+            });
+        }
+
+        latch.await();
+
+        assertThat(successCount.get()).isEqualTo(1);
     }
 
     @Transactional

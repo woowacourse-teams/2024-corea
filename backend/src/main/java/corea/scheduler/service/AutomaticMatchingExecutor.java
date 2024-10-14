@@ -7,7 +7,7 @@ import corea.matching.service.MatchingService;
 import corea.matching.service.PullRequestProvider;
 import corea.room.domain.Room;
 import corea.room.repository.RoomRepository;
-import corea.scheduler.domain.AutomaticMatching;
+import corea.scheduler.domain.ScheduleStatus;
 import corea.scheduler.repository.AutomaticMatchingRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,13 +44,14 @@ public class AutomaticMatchingExecutor {
     }
 
     private void startMatching(long roomId) {
-        Room room = getRoom(roomId);
+        automaticMatchingRepository.findByRoomIdAndStatusForUpdate(roomId, ScheduleStatus.PENDING)
+                .ifPresent(automaticMatching -> {
+                    Room room = getRoom(roomId);
+                    PullRequestInfo pullRequestInfo = pullRequestProvider.getUntilDeadline(room.getRepositoryLink(), room.getRecruitmentDeadline());
+                    matchingService.match(roomId, pullRequestInfo);
 
-        PullRequestInfo pullRequestInfo = pullRequestProvider.getUntilDeadline(room.getRepositoryLink(), room.getRecruitmentDeadline());
-        matchingService.match(roomId, pullRequestInfo);
-
-        AutomaticMatching automaticMatching = getAutomaticMatchingByRoomId(roomId);
-        automaticMatching.updateStatusToDone();
+                    automaticMatching.updateStatusToDone();
+                });
     }
 
     private void updateRoomStatusToFail(long roomId) {
@@ -66,10 +67,5 @@ public class AutomaticMatchingExecutor {
     private Room getRoom(long roomId) {
         return roomRepository.findById(roomId)
                 .orElseThrow(() -> new CoreaException(ExceptionType.ROOM_NOT_FOUND));
-    }
-
-    private AutomaticMatching getAutomaticMatchingByRoomId(long roomId) {
-        return automaticMatchingRepository.findByRoomId(roomId)
-                .orElseThrow(() -> new CoreaException(ExceptionType.AUTOMATIC_MATCHING_NOT_FOUND));
     }
 }
