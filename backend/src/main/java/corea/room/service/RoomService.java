@@ -11,18 +11,10 @@ import corea.participation.domain.Participation;
 import corea.participation.domain.ParticipationStatus;
 import corea.participation.repository.ParticipationRepository;
 import corea.room.domain.Room;
-import corea.room.domain.RoomClassification;
-import corea.room.domain.RoomStatus;
 import corea.room.dto.*;
 import corea.room.repository.RoomRepository;
-import corea.scheduler.domain.AutomaticMatching;
-import corea.scheduler.domain.AutomaticUpdate;
-import corea.scheduler.repository.AutomaticMatchingRepository;
-import corea.scheduler.repository.AutomaticUpdateRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,8 +39,8 @@ public class RoomService {
     private final MatchResultRepository matchResultRepository;
     private final ParticipationRepository participationRepository;
     private final FailedMatchingRepository failedMatchingRepository;
-    private final AutomaticMatchingRepository automaticMatchingRepository;
-    private final AutomaticUpdateRepository automaticUpdateRepository;
+    private final RoomAutomaticService roomAutomaticService;
+
 
     @Transactional
     public RoomResponse create(long memberId, RoomCreateRequest request) {
@@ -60,8 +52,7 @@ public class RoomService {
         Participation participation = new Participation(room, manager);
 
         participationRepository.save(participation);
-        automaticMatchingRepository.save(new AutomaticMatching(room.getId(), request.recruitmentDeadline()));
-        automaticUpdateRepository.save(new AutomaticUpdate(room.getId(), request.reviewDeadline()));
+        roomAutomaticService.createAutomatic(room);
 
         return RoomResponse.of(room, participation.getMemberRole(), ParticipationStatus.MANAGER);
     }
@@ -131,8 +122,7 @@ public class RoomService {
 
         roomRepository.delete(room);
         participationRepository.deleteAllByRoomId(roomId);
-        automaticMatchingRepository.deleteByRoomId(roomId);
-        automaticUpdateRepository.deleteByRoomId(roomId);
+        roomAutomaticService.deleteAutomatic(room);
     }
 
     private void validateDeletionAuthority(Room room, long memberId) {
