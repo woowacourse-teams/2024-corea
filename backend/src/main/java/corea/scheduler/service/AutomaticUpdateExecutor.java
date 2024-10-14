@@ -13,7 +13,7 @@ import corea.member.domain.Member;
 import corea.member.domain.MemberRole;
 import corea.room.domain.Room;
 import corea.room.repository.RoomRepository;
-import corea.scheduler.domain.AutomaticUpdate;
+import corea.scheduler.domain.ScheduleStatus;
 import corea.scheduler.repository.AutomaticUpdateRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,14 +35,16 @@ public class AutomaticUpdateExecutor {
     @Async
     @Transactional
     public void execute(long roomId) {
-        Room room = getRoom(roomId);
-        room.updateStatusToClose();
+        automaticUpdateRepository.findByRoomIdAndStatusForUpdate(roomId, ScheduleStatus.PENDING)
+                .ifPresent(automaticUpdate -> {
+                    Room room = getRoom(roomId);
+                    room.updateStatusToClose();
 
-        updateReviewCount(roomId);
-        updateFeedbackPoint(roomId);
+                    updateReviewCount(roomId);
+                    updateFeedbackPoint(roomId);
 
-        AutomaticUpdate automaticUpdate = getAutomaticUpdateByRoomId(roomId);
-        automaticUpdate.updateStatusToDone();
+                    automaticUpdate.updateStatusToDone();
+                });
     }
 
     private void updateReviewCount(long roomId) {
@@ -79,10 +81,5 @@ public class AutomaticUpdateExecutor {
     private Room getRoom(long roomId) {
         return roomRepository.findById(roomId)
                 .orElseThrow(() -> new CoreaException(ExceptionType.ROOM_NOT_FOUND));
-    }
-
-    private AutomaticUpdate getAutomaticUpdateByRoomId(long roomId) {
-        return automaticUpdateRepository.findByRoomId(roomId)
-                .orElseThrow(() -> new CoreaException(ExceptionType.AUTOMATIC_UPDATE_NOT_FOUND));
     }
 }
