@@ -25,15 +25,19 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
 
         <S.RoomContentBox>
           <S.RoomTagBox>
-            {roomInfo.keywords.map((keyword) => (
-              <Label
-                key={keyword}
-                type="KEYWORD"
-                text={keyword}
-                size="small"
-                backgroundColor={theme.COLOR.primary1}
-              />
-            ))}
+            {roomInfo.keywords.length === 1 ? (
+              <S.NoKeywordText>지정된 키워드 없음</S.NoKeywordText>
+            ) : (
+              roomInfo.keywords.map((keyword) => (
+                <Label
+                  key={keyword}
+                  type="KEYWORD"
+                  text={keyword}
+                  size="small"
+                  backgroundColor={theme.COLOR.primary1}
+                />
+              ))
+            )}
           </S.RoomTagBox>
           <S.RoomContentSmall>{roomInfo.content}</S.RoomContentSmall>
         </S.RoomContentBox>

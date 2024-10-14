@@ -94,6 +94,11 @@ export const RoomTagBox = styled.div`
   gap: 1rem;
 `;
 
+export const NoKeywordText = styled.span`
+  font: ${({ theme }) => theme.TEXT.semiSmall};
+  color: ${({ theme }) => theme.COLOR.grey2};
+`;
+
 export const RoomContentSmall = styled.span`
   display: flex;
   gap: 1rem;

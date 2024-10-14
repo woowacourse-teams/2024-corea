@@ -1,4 +1,4 @@
-export type Classification = "ALL" | "FRONTEND" | "BACKEND" | "ANDROID";
+export type Classification = "FRONTEND" | "BACKEND" | "ANDROID";
 
 export type RoomStatus = "OPEN" | "CLOSE" | "PROGRESS" | "FAIL";
 
