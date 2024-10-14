@@ -25,11 +25,12 @@ export const DropdownMenu = styled.div<{ show: boolean }>`
 
   min-width: 200px;
   padding: 1rem;
-  animation: ${dropdown} 0.4s ease;
 
   background-color: white;
   border-radius: 12px;
   box-shadow: 0 0 7px 1px ${({ theme }) => theme.COLOR.primary2};
+
+  animation: ${dropdown} 0.4s ease;
 `;
 
 export const ProfileWrapper = styled.div`
@@ -42,6 +43,7 @@ export const ProfileInfo = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
+  width: fit-content;
 
   strong {
     font: ${({ theme }) => theme.TEXT.medium_bold};
