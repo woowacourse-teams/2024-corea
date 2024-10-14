@@ -19,7 +19,9 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class RoomInquiryService {
+
     private static final int PAGE_DISPLAY_SIZE = 8;
+
     private final RoomRepository roomRepository;
 
     public RoomResponses findRoomsWithRoomStatus(long memberId, int pageNumber, String expression, RoomStatus roomStatus) {
@@ -29,12 +31,15 @@ public class RoomInquiryService {
 
     private RoomResponses getRoomResponses(long memberId, int pageNumber, RoomClassification classification, RoomStatus status) {
         PageRequest pageRequest = PageRequest.of(pageNumber, PAGE_DISPLAY_SIZE);
+        Page<Room> roomsWithPage = getPaginatedRooms(memberId, classification, status, pageRequest);
 
-        if (classification.isAll()) {
-            Page<Room> roomsWithPage = roomRepository.findAllByMemberAndStatus(memberId, status, pageRequest);
-            return RoomResponses.of(roomsWithPage, MemberRole.NONE, ParticipationStatus.NOT_PARTICIPATED, pageNumber);
-        }
-        Page<Room> roomsWithPage = roomRepository.findAllByMemberAndClassificationAndStatus(memberId, classification, status, pageRequest);
         return RoomResponses.of(roomsWithPage, MemberRole.NONE, ParticipationStatus.NOT_PARTICIPATED, pageNumber);
+    }
+
+    private Page<Room> getPaginatedRooms(long memberId, RoomClassification classification, RoomStatus status, PageRequest pageRequest) {
+        if (classification.isAll()) {
+            return roomRepository.findAllByMemberAndStatus(memberId, status, pageRequest);
+        }
+        return roomRepository.findAllByMemberAndClassificationAndStatus(memberId, classification, status, pageRequest);
     }
 }
