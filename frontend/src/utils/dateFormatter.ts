@@ -9,12 +9,6 @@ const formatStringToDate = (
   return { year, month, day, hours, minutes };
 };
 
-// 마감일 포맷 함수
-export const formatDeadlineString = (dateString: string): string => {
-  const { year, month, day, hours, minutes } = formatStringToDate(dateString);
-  return `${year.slice(2)}-${month}-${day} ${hours}:${minutes}`;
-};
-
 // 일반 날짜 시간 포맷 함수
 export const formatDateTimeString = (dateString: string): string => {
   const { year, month, day, hours, minutes } = formatStringToDate(dateString);
