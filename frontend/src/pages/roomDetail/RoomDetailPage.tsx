@@ -81,7 +81,7 @@ const RoomDetailPage = () => {
 
         <S.ImgWithError>
           <img src={defaultCharacter} alt="매칭 실패시 이미지" />
-          <p>현재 참여 중인 인원이 충분하지 않아 프로세스가 일찍 종료될 예정입니다.</p>
+          <p>{roomInfo.message}</p>
         </S.ImgWithError>
       </S.Layout>
     );
