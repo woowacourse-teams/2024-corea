@@ -1,6 +1,7 @@
 const { server } = require("@/mocks/server");
 
 jest.mock("@/assets", () => "");
+process.env.TZ = "Asia/Seoul";
 
 // 모든 테스트 전에 MSW 서버를 시작합니다.
 beforeAll(() => server.listen());
