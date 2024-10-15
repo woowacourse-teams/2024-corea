@@ -5,12 +5,13 @@ import useMutateRoom from "@/hooks/mutations/useMutateRoom";
 import Button from "@/components/common/button/Button";
 import CalendarDropdown from "@/components/common/calendarDropdown/CalendarDropdown";
 import ContentSection from "@/components/common/contentSection/ContentSection";
+import Dropdown, { DropdownItem } from "@/components/common/dropdown/Dropdown";
 import { Input } from "@/components/common/input/Input";
 import ConfirmModal from "@/components/common/modal/confirmModal/ConfirmModal";
 import { Textarea } from "@/components/common/textarea/Textarea";
 import { TimeDropdown } from "@/components/common/timeDropdown/TimeDropdown";
 import * as S from "@/pages/roomCreate/RoomCreatePage.style";
-import { CreateRoomInfo } from "@/@types/roomInfo";
+import { Classification, CreateRoomInfo } from "@/@types/roomInfo";
 import MESSAGES from "@/constants/message";
 import { formatCombinedDateTime } from "@/utils/dateFormatter";
 
@@ -26,6 +27,12 @@ const initialFormState: CreateRoomInfo = {
   reviewDeadline: formatCombinedDateTime(new Date(), new Date()),
   classification: "",
 };
+
+const dropdownItems: DropdownItem[] = [
+  { text: "안드로이드", value: "ANDROID" },
+  { text: "백엔드", value: "BACKEND" },
+  { text: "프론트엔드", value: "FRONTEND" },
+];
 
 const RoomCreatePage = () => {
   const navigate = useNavigate();
@@ -110,7 +117,7 @@ const RoomCreatePage = () => {
       <S.CreateSection>
         <S.RowContainer>
           <S.ContentLabel>
-            제목<span>*필수입력</span>
+            제목 <span>*필수입력</span>
           </S.ContentLabel>
           <S.ContentInput>
             <Input
@@ -125,15 +132,18 @@ const RoomCreatePage = () => {
 
         <S.RowContainer>
           <S.ContentLabel>
-            분류(FRONTEND, BACKEND, ANDROID) <span>*필수입력</span>
+            분류 <span>*필수입력</span>
           </S.ContentLabel>
           <S.ContentInput>
-            <Input
-              name="classification"
-              value={formState.classification}
-              onChange={handleInputChange}
-              error={isClickedButton && formState.classification === ""}
-              required
+            <Dropdown
+              dropdownItems={dropdownItems}
+              selectedCategory={formState.classification}
+              onSelectCategory={(value) =>
+                setFormState((prevState) => ({
+                  ...prevState,
+                  classification: value as Classification,
+                }))
+              }
             />
           </S.ContentInput>
         </S.RowContainer>

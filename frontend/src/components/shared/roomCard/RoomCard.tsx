@@ -63,9 +63,13 @@ const RoomCard = React.memo(({ roomInfo }: RoomCardProps) => {
 
           <S.KeywordsContainer>
             <S.KeywordWrapper>
-              {displayedKeywords.map((keyword) => (
-                <S.KeywordText key={keyword}>#{keyword}</S.KeywordText>
-              ))}
+              {displayedKeywords.length === 1 ? (
+                <S.NoKeywordText>지정된 키워드 없음</S.NoKeywordText>
+              ) : (
+                displayedKeywords.map((keyword) => (
+                  <S.KeywordText key={keyword}>#{keyword}</S.KeywordText>
+                ))
+              )}
             </S.KeywordWrapper>
           </S.KeywordsContainer>
 

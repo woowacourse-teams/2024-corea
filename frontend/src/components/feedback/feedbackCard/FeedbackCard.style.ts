@@ -101,12 +101,12 @@ export const FeedbackDetailContainer = styled.div`
 `;
 
 export const FeedbackDetail = styled.p`
-  overflow: hidden;
+  overflow: hidden auto;
 
-  height: 120px;
+  height: 172px;
 
   font: ${({ theme }) => theme.TEXT.small};
-  line-height: 2rem;
+  line-height: 2.2rem;
   text-overflow: ellipsis;
   white-space: break-spaces;
 `;
