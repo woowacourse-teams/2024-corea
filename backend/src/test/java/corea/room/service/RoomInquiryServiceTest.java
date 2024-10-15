@@ -82,21 +82,6 @@ public class RoomInquiryServiceTest {
                 .toList();
     }
 
-    @ParameterizedTest
-    @CsvSource(value = {"0, false", "1, true"})
-    @DisplayName("방을 조회할 때 전달받은 페이지가 마지막 페이지인지 판별할 수 있다.")
-    void isLastPage(int pageNumber, boolean expected) {
-        Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
-        for (int i = 0; i < 9; i++) {
-            roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo));
-        }
-
-        AuthInfo anonymous = AuthInfo.getAnonymous();
-        RoomResponses response = roomInquiryService.findRoomsWithRoomStatus(anonymous.getId(), pageNumber, "all", RoomStatus.OPEN);
-
-        assertThat(response.isLastPage()).isEqualTo(expected);
-    }
-
     @Test
     @DisplayName("현재 로그인한 멤버가 참여 중인 방을 리뷰 마감일이 임박한 순으로 볼 수 있다.")
     void findParticipatedRooms() {
@@ -161,5 +146,20 @@ public class RoomInquiryServiceTest {
         List<String> managerNames = getManagerNames(response);
 
         assertThat(managerNames).containsExactly("조경찬", "박민아", "김현중");
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {"0, false", "1, true"})
+    @DisplayName("방을 조회할 때 전달받은 페이지가 마지막 페이지인지 판별할 수 있다.")
+    void isLastPage(int pageNumber, boolean expected) {
+        Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
+        for (int i = 0; i < 9; i++) {
+            roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo));
+        }
+
+        AuthInfo anonymous = AuthInfo.getAnonymous();
+        RoomResponses response = roomInquiryService.findRoomsWithRoomStatus(anonymous.getId(), pageNumber, "all", RoomStatus.OPEN);
+
+        assertThat(response.isLastPage()).isEqualTo(expected);
     }
 }

@@ -7,6 +7,7 @@ import corea.participation.repository.ParticipationRepository;
 import corea.room.domain.Room;
 import corea.room.domain.RoomClassification;
 import corea.room.domain.RoomStatus;
+import corea.room.dto.RoomResponse;
 import corea.room.dto.RoomResponses;
 import corea.room.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,27 +31,39 @@ public class RoomInquiryService {
     private final ParticipationRepository participationRepository;
 
     public RoomResponses findRoomsWithRoomStatus(long memberId, int pageNumber, String expression, RoomStatus roomStatus) {
+        Page<Room> roomsWithPage = getPaginatedRooms(memberId, pageNumber, expression, roomStatus);
+        List<RoomResponse> roomResponses = getRoomResponses(roomsWithPage.getContent(), memberId);
+
+        return RoomResponses.of(roomResponses, roomsWithPage.isLast(), pageNumber);
+    }
+
+    private Page<Room> getPaginatedRooms(long memberId, int pageNumber, String expression, RoomStatus status) {
         RoomClassification classification = RoomClassification.from(expression);
-        return getRoomResponses(memberId, pageNumber, classification, roomStatus);
-    }
-
-    private RoomResponses getRoomResponses(long memberId, int pageNumber, RoomClassification classification, RoomStatus status) {
         PageRequest pageRequest = PageRequest.of(pageNumber, PAGE_DISPLAY_SIZE);
-        Page<Room> roomsWithPage = getPaginatedRooms(memberId, classification, status, pageRequest);
 
-        return RoomResponses.of(roomsWithPage, MemberRole.NONE, ParticipationStatus.NOT_PARTICIPATED, pageNumber);
-    }
-
-    private Page<Room> getPaginatedRooms(long memberId, RoomClassification classification, RoomStatus status, PageRequest pageRequest) {
         if (classification.isAll()) {
             return roomRepository.findAllByMemberAndStatus(memberId, status, pageRequest);
         }
         return roomRepository.findAllByMemberAndClassificationAndStatus(memberId, classification, status, pageRequest);
     }
 
+    private List<RoomResponse> getRoomResponses(List<Room> rooms, long memberId) {
+        return rooms.stream()
+                .map(room -> getRoomResponse(room, memberId))
+                .toList();
+    }
+
+    private RoomResponse getRoomResponse(Room room, long memberId) {
+        return participationRepository.findByRoomIdAndMemberId(room.getId(), memberId)
+                .map(participation -> RoomResponse.of(room, participation))
+                .orElseGet(() -> RoomResponse.of(room, MemberRole.NONE, ParticipationStatus.NOT_PARTICIPATED));
+    }
+
     public RoomResponses findParticipatedRooms(long memberId, boolean includeClosed) {
         List<Room> rooms = findFilteredParticipatedRooms(memberId, includeClosed);
-        return RoomResponses.of(rooms, MemberRole.NONE, ParticipationStatus.PARTICIPATED, true, 0);
+        List<RoomResponse> roomResponses = getRoomResponses(rooms, memberId);
+
+        return RoomResponses.of(roomResponses, true, 0);
     }
 
     private List<Room> findFilteredParticipatedRooms(long memberId, boolean includeClosed) {
