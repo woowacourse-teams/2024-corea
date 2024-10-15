@@ -90,33 +90,6 @@ public class RoomService {
                 .orElseGet(() -> RoomResponse.of(room, participation));
     }
 
-    public RoomResponses findParticipatedRooms(long memberId, boolean includeClosed) {
-        List<Room> rooms = findFilteredParticipatedRooms(memberId, includeClosed);
-        return RoomResponses.of(rooms, MemberRole.NONE, ParticipationStatus.PARTICIPATED, true, 0);
-    }
-
-    private List<Room> findFilteredParticipatedRooms(long memberId, boolean includeClosed) {
-        List<Room> rooms = findAllParticipatedRooms(memberId);
-
-        if (includeClosed) {
-            return rooms;
-        }
-        return filterOutClosedRooms(rooms);
-    }
-
-    private List<Room> findAllParticipatedRooms(long memberId) {
-        return participationRepository.findAllByMemberId(memberId)
-                .stream()
-                .map(Participation::getRoom)
-                .toList();
-    }
-
-    private List<Room> filterOutClosedRooms(List<Room> rooms) {
-        return rooms.stream()
-                .filter(Room::isNotClosed)
-                .toList();
-    }
-
     @Transactional
     public void delete(long roomId, long memberId) {
         Room room = getRoom(roomId);
