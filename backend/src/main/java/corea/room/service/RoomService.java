@@ -10,9 +10,8 @@ import corea.member.repository.MemberRepository;
 import corea.participation.domain.Participation;
 import corea.participation.domain.ParticipationStatus;
 import corea.participation.repository.ParticipationRepository;
+import corea.participation.service.ParticipationWriter;
 import corea.room.domain.Room;
-import corea.room.domain.RoomClassification;
-import corea.room.domain.RoomStatus;
 import corea.room.dto.*;
 import corea.room.repository.RoomRepository;
 import corea.scheduler.domain.AutomaticMatching;
@@ -21,8 +20,6 @@ import corea.scheduler.repository.AutomaticMatchingRepository;
 import corea.scheduler.repository.AutomaticUpdateRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,6 +45,7 @@ public class RoomService {
     private final FailedMatchingRepository failedMatchingRepository;
     private final AutomaticMatchingRepository automaticMatchingRepository;
     private final AutomaticUpdateRepository automaticUpdateRepository;
+    private final ParticipationWriter participationWriter;
 
     @Transactional
     public RoomResponse create(long memberId, RoomCreateRequest request) {
@@ -56,9 +54,10 @@ public class RoomService {
         Member manager = memberRepository.findById(memberId)
                 .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND));
         Room room = roomRepository.save(request.toEntity(manager));
-        Participation participation = new Participation(room, manager);
+        log.info("방을 생성했습니다. 방 생성자 id={}, 요청한 사용자 id={}", room.getManagerId(), memberId);
 
-        participationRepository.save(participation);
+        Participation participation = participationWriter.create(room,manager,MemberRole.REVIEWER,ParticipationStatus.MANAGER);
+
         automaticMatchingRepository.save(new AutomaticMatching(room.getId(), request.recruitmentDeadline()));
         automaticUpdateRepository.save(new AutomaticUpdate(room.getId(), request.reviewDeadline()));
 
@@ -112,6 +111,7 @@ public class RoomService {
         Room room = getRoom(roomId);
         validateDeletionAuthority(room, memberId);
 
+        log.info("방을 삭제했습니다. 방 id={}, 사용자 iD={}", roomId, memberId);
         roomRepository.delete(room);
         participationRepository.deleteAllByRoomId(roomId);
         automaticMatchingRepository.deleteByRoomId(roomId);

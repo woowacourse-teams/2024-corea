@@ -40,14 +40,16 @@ public class Participation extends BaseTimeEntity {
 
     private int matchingSize;
 
+    public Participation(Room room, Member member, MemberRole memberRole, ParticipationStatus status, int matchingSize) {
+        this(null,room,member,memberRole,status,matchingSize);
+    }
+
     public Participation(Room room, Member member, MemberRole role, int matchingSize) {
         this(null, room, member, role, ParticipationStatus.PARTICIPATED, matchingSize);
-        debug(room.getId(), member.getId());
     }
 
     public Participation(Room room, Member member) {
         this(null, room, member, MemberRole.REVIEWER, ParticipationStatus.MANAGER, room.getMatchingSize());
-        debug(room.getId(), member.getId());
     }
 
     public boolean isNotMatchingMemberId(long memberId) {
@@ -90,7 +92,4 @@ public class Participation extends BaseTimeEntity {
         return member.getGithubUserId();
     }
 
-    private static void debug(long roomId, long memberId) {
-        log.debug("참가자 생성[방 ID={}, 멤버 ID={}", roomId, memberId);
-    }
 }
