@@ -46,7 +46,9 @@ interface RoomCardProps {
 const RoomCard = React.memo(({ roomInfo }: RoomCardProps) => {
   const { isModalOpen, handleOpenModal, handleCloseModal } = useModal();
 
-  const displayedKeywords = roomInfo.keywords.slice(0, MAX_KEYWORDS);
+  const displayedKeywords = roomInfo.keywords
+    .filter((keyword) => keyword !== "")
+    .slice(0, MAX_KEYWORDS);
 
   return (
     <>
@@ -63,7 +65,7 @@ const RoomCard = React.memo(({ roomInfo }: RoomCardProps) => {
 
           <S.KeywordsContainer>
             <S.KeywordWrapper>
-              {displayedKeywords.length === 1 ? (
+              {displayedKeywords.length === 0 ? (
                 <S.NoKeywordText>지정된 키워드 없음</S.NoKeywordText>
               ) : (
                 displayedKeywords.map((keyword) => (
