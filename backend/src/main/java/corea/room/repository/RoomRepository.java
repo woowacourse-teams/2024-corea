@@ -14,19 +14,19 @@ import java.util.List;
 public interface RoomRepository extends JpaRepository<Room, Long> {
 
     @Query("""
-            SELECT r FROM Room r 
-            LEFT JOIN Participation p 
-            ON r = p.room AND p.member.id = :memberId 
-            WHERE p.id IS NULL AND r.status = :status AND r.manager.id <> :memberId
+            SELECT r FROM Room r
+            LEFT JOIN Participation p
+            ON r = p.room AND p.member.id = :memberId
+            WHERE r.status = :status
             ORDER BY r.recruitmentDeadline ASC
             """)
-    Page<Room> findAllByMemberAndStatus(long memberId, RoomStatus status, PageRequest pageRequest);
+    Page<Room> findAllByMemberAndStatus(long memberId, RoomStatus status, Pageable pageable);
 
     @Query("""
-            SELECT r FROM Room r 
-            LEFT JOIN Participation p 
-            ON r = p.room AND p.member.id = :memberId 
-            WHERE p.id IS NULL AND r.classification = :classification AND r.status = :status AND r.manager.id <> :memberId
+            SELECT r FROM Room r
+            LEFT JOIN Participation p
+            ON r = p.room AND p.member.id = :memberId
+            WHERE r.classification = :classification AND r.status = :status
             ORDER BY r.recruitmentDeadline ASC
             """)
     Page<Room> findAllByMemberAndClassificationAndStatus(long memberId, RoomClassification classification, RoomStatus status, Pageable pageable);

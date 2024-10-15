@@ -43,18 +43,19 @@ public class RoomInquiryServiceTest {
 
     @ParameterizedTest
     @EnumSource(RoomStatus.class)
-    @DisplayName("로그인한 사용자가 자신이 참여하지 않은 방을 상태별로 마감일 임박순으로 조회할 수 있다.")
+    @DisplayName("로그인한 사용자가 방을 상태별로 마감일 임박순으로 조회할 수 있다.")
     void findRoomsWithRoomStatus_login_member(RoomStatus roomStatus) {
         Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member ash = memberRepository.save(MemberFixture.MEMBER_ASH());
 
         roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo, LocalDateTime.now().plusDays(2), roomStatus));
-        roomRepository.save(RoomFixture.ROOM_DOMAIN(ash, LocalDateTime.now().plusDays(3), roomStatus));
+        Room ashRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN(ash, LocalDateTime.now().plusDays(3), roomStatus));
+        participationRepository.save(new Participation(ashRoom, ash));
 
         RoomResponses response = roomInquiryService.findRoomsWithRoomStatus(pororo.getId(), 0, "all", roomStatus);
         List<String> managerNames = getManagerNames(response);
 
-        assertThat(managerNames).containsExactly("박민아");
+        assertThat(managerNames).containsExactly("조경찬", "박민아");
     }
 
     @ParameterizedTest
