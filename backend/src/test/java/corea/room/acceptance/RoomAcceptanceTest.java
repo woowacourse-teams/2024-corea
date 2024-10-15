@@ -212,10 +212,11 @@ class RoomAcceptanceTest {
         List<RoomResponse> rooms = response.rooms();
 
         assertSoftly(softly -> {
-            softly.assertThat(rooms).hasSize(3);
-            softly.assertThat(rooms.get(0).manager()).isEqualTo("박민아");
-            softly.assertThat(rooms.get(1).manager()).isEqualTo("포비");
+            softly.assertThat(rooms).hasSize(4);
+            softly.assertThat(rooms.get(0).manager()).isEqualTo("조경찬");
+            softly.assertThat(rooms.get(1).manager()).isEqualTo("박민아");
             softly.assertThat(rooms.get(2).manager()).isEqualTo("포비");
+            softly.assertThat(rooms.get(3).manager()).isEqualTo("포비");
         });
     }
 
