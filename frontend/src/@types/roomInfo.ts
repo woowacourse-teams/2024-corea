@@ -32,6 +32,7 @@ export interface RoomInfo extends BaseRoomInfo {
   roomStatus: RoomStatus;
   participationStatus: ParticipationStatus;
   memberRole: Role;
+  message: string;
 }
 
 export interface RoomListInfo {
