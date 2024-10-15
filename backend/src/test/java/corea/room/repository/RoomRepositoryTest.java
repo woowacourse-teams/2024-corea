@@ -35,13 +35,13 @@ class RoomRepositoryTest {
 
     @Test
     @DisplayName("선택한 분야와 일치하는 방들을 조회할 수 있다.")
-    void findAllByMemberAndClassificationAndStatus() {
+    void findAllByClassificationAndStatusOrderByRecruitmentDeadline() {
         Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member joyson = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
         roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_CLASSIFICATION(pororo, LocalDateTime.now().plusDays(2), RoomClassification.ANDROID));
         roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_CLASSIFICATION(joyson, LocalDateTime.now().plusDays(3), RoomClassification.BACKEND));
 
-        Page<Room> roomPage = roomRepository.findAllByMemberAndClassificationAndStatus(pororo.getId(), RoomClassification.BACKEND, RoomStatus.OPEN, PageRequest.of(0, 8));
+        Page<Room> roomPage = roomRepository.findAllByClassificationAndStatusOrderByRecruitmentDeadline(RoomClassification.BACKEND, RoomStatus.OPEN, PageRequest.of(0, 8));
 
         List<String> managerNames = getManagerNames(roomPage.getContent());
         assertThat(managerNames).containsExactly("이영수");
@@ -56,7 +56,7 @@ class RoomRepositoryTest {
         roomRepository.save(RoomFixture.ROOM_DOMAIN(joyson, LocalDateTime.now().plusDays(3)));
 
         participationRepository.save(new Participation(pororoRoom, pororo));
-        Page<Room> roomPage = roomRepository.findAllByMemberAndStatus(pororo.getId(), RoomStatus.OPEN, PageRequest.of(0, 8));
+        Page<Room> roomPage = roomRepository.findAllByStatusOrderByRecruitmentDeadline(RoomStatus.OPEN, PageRequest.of(0, 8));
 
         List<String> managerNames = getManagerNames(roomPage.getContent());
         assertThat(managerNames).containsExactly("조경찬", "이영수");
@@ -70,7 +70,7 @@ class RoomRepositoryTest {
         roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo, LocalDateTime.now().plusDays(2)));
         roomRepository.save(RoomFixture.ROOM_DOMAIN(joyson, LocalDateTime.now().plusDays(3)));
 
-        Page<Room> roomPage = roomRepository.findAllByMemberAndStatus(pororo.getId(), RoomStatus.OPEN, PageRequest.of(0, 8));
+        Page<Room> roomPage = roomRepository.findAllByStatusOrderByRecruitmentDeadline(RoomStatus.OPEN, PageRequest.of(0, 8));
 
         List<String> managerNames = getManagerNames(roomPage.getContent());
         assertThat(managerNames).containsExactly("조경찬", "이영수");

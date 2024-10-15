@@ -31,20 +31,20 @@ public class RoomInquiryService {
     private final ParticipationRepository participationRepository;
 
     public RoomResponses findRoomsWithRoomStatus(long memberId, int pageNumber, String expression, RoomStatus roomStatus) {
-        Page<Room> roomsWithPage = getPaginatedRooms(memberId, pageNumber, expression, roomStatus);
+        Page<Room> roomsWithPage = getPaginatedRooms(pageNumber, expression, roomStatus);
         List<RoomResponse> roomResponses = getRoomResponses(roomsWithPage.getContent(), memberId);
 
         return RoomResponses.of(roomResponses, roomsWithPage.isLast(), pageNumber);
     }
 
-    private Page<Room> getPaginatedRooms(long memberId, int pageNumber, String expression, RoomStatus status) {
+    private Page<Room> getPaginatedRooms(int pageNumber, String expression, RoomStatus status) {
         RoomClassification classification = RoomClassification.from(expression);
         PageRequest pageRequest = PageRequest.of(pageNumber, PAGE_DISPLAY_SIZE);
 
         if (classification.isAll()) {
-            return roomRepository.findAllByMemberAndStatus(memberId, status, pageRequest);
+            return roomRepository.findAllByStatusOrderByRecruitmentDeadline(status, pageRequest);
         }
-        return roomRepository.findAllByMemberAndClassificationAndStatus(memberId, classification, status, pageRequest);
+        return roomRepository.findAllByClassificationAndStatusOrderByRecruitmentDeadline(classification, status, pageRequest);
     }
 
     private List<RoomResponse> getRoomResponses(List<Room> rooms, long memberId) {

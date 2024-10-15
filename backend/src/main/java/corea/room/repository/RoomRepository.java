@@ -4,36 +4,16 @@ import corea.room.domain.Room;
 import corea.room.domain.RoomClassification;
 import corea.room.domain.RoomStatus;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
 public interface RoomRepository extends JpaRepository<Room, Long> {
 
-    @Query("""
-            SELECT r FROM Room r
-            LEFT JOIN Participation p
-            ON r = p.room AND p.member.id = :memberId
-            WHERE r.status = :status
-            ORDER BY r.recruitmentDeadline ASC
-            """)
-    Page<Room> findAllByMemberAndStatus(long memberId, RoomStatus status, Pageable pageable);
+    Page<Room> findAllByStatusOrderByRecruitmentDeadline(RoomStatus status, Pageable pageable);
 
-    @Query("""
-            SELECT r FROM Room r
-            LEFT JOIN Participation p
-            ON r = p.room AND p.member.id = :memberId
-            WHERE r.classification = :classification AND r.status = :status
-            ORDER BY r.recruitmentDeadline ASC
-            """)
-    Page<Room> findAllByMemberAndClassificationAndStatus(long memberId, RoomClassification classification, RoomStatus status, Pageable pageable);
-
-    Page<Room> findAllByStatusOrderByRecruitmentDeadlineAsc(RoomStatus status, PageRequest pageRequest);
-
-    Page<Room> findAllByClassificationAndStatusOrderByRecruitmentDeadlineAsc(RoomClassification classification, RoomStatus status, Pageable pageable);
+    Page<Room> findAllByClassificationAndStatusOrderByRecruitmentDeadline(RoomClassification classification, RoomStatus status, Pageable pageable);
 
     List<Room> findAllByIdInOrderByReviewDeadlineAsc(List<Long> ids);
 }
