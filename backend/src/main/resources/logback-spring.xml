@@ -27,7 +27,7 @@
     <springProfile name="dev">
         <include resource="logs/loki-appender.xml"/>
 
-        <logger name="corea" level="DEBUG">
+        <logger name="corea" level="DEBUG" additivity="false">
             <appender-ref ref="LOKI"/>
         </logger>
 
@@ -42,7 +42,7 @@
         <include resource="logs/file-warn-appender.xml"/>
         <include resource="logs/file-error-appender.xml"/>
 
-        <logger name="corea" level="INFO">
+        <logger name="corea" level="INFO" additivity="false">
             <appender-ref ref="LOKI"/>
             <appender-ref ref="FILE-INFO"/>
             <appender-ref ref="FILE-WARN"/>
