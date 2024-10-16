@@ -5,12 +5,14 @@ import roomInfo from "@/mocks/mockResponse/roomInfo.json";
 
 const sampleRoomList = {
   ...roomInfo,
-  roomStatus: roomInfo.roomStatus as "OPEN" | "CLOSE" | "PROGRESS",
+  roomStatus: roomInfo.roomStatus as "OPEN" | "CLOSE" | "PROGRESS" | "FAIL",
   participationStatus: roomInfo.participationStatus as
     | "NOT_PARTICIPATED"
     | "PARTICIPATED"
-    | "MANAGER",
+    | "MANAGER"
+    | "PULL_REQUEST_NOT_SUBMITTED",
   memberRole: roomInfo.memberRole as "BOTH" | "REVIEWER" | "REVIEWEE" | "NONE",
+  message: "FAIL시 오류 메시지",
 } satisfies RoomInfo;
 
 const meta = {
