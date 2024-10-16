@@ -1,7 +1,6 @@
 package corea.room.service;
 
 import config.ServiceTest;
-import corea.auth.domain.AuthInfo;
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
 import corea.fixture.MatchResultFixture;
@@ -17,7 +16,6 @@ import corea.participation.domain.Participation;
 import corea.participation.domain.ParticipationStatus;
 import corea.participation.repository.ParticipationRepository;
 import corea.room.domain.Room;
-import corea.room.domain.RoomStatus;
 import corea.room.dto.RoomCreateRequest;
 import corea.room.dto.RoomParticipantResponses;
 import corea.room.dto.RoomResponse;
@@ -28,9 +26,6 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.EnumSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -74,13 +69,32 @@ class RoomServiceTest {
         assertThat(roomRepository.findAll()).hasSize(1);
     }
 
+    @Test
+    @DisplayName("방의 매니저가 아니면 수정 시, 예외를 발생합니다.")
+    void throw_exception_when_update_with_not_manager() {
+        Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
+        RoomResponse response = roomService.create(manager.getId(), RoomFixture.ROOM_CREATE_REQUEST());
+        assertThatThrownBy(() -> roomService.update(-1, RoomFixture.ROOM_UPDATE_REQUEST(response.id())))
+                .isInstanceOf(CoreaException.class);
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 방이면, 예외를 발생합니다.")
+    void throw_exception_when_update_with_not_exist_room() {
+        Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
+        roomService.create(manager.getId(), RoomFixture.ROOM_CREATE_REQUEST());
+        assertThatThrownBy(() -> roomService.update(manager.getId(), RoomFixture.ROOM_UPDATE_REQUEST(-1)))
+                .isInstanceOf(CoreaException.class);
+    }
+
     @Disabled
     @Test
     @DisplayName("방을 생성할 때 모집 마감 시간은 현재 시간보다 1시간 이후가 아니라면 예외가 발생한다.")
     void invalidRecruitmentDeadline() {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
 
-        RoomCreateRequest request = RoomFixture.ROOM_CREATE_REQUEST_WITH_RECRUITMENT_DEADLINE(LocalDateTime.now().plusMinutes(59));
+        RoomCreateRequest request = RoomFixture.ROOM_CREATE_REQUEST_WITH_RECRUITMENT_DEADLINE(LocalDateTime.now()
+                .plusMinutes(59));
 
         assertThatThrownBy(() -> roomService.create(manager.getId(), request))
                 .asInstanceOf(InstanceOfAssertFactories.type(CoreaException.class))
@@ -94,7 +108,9 @@ class RoomServiceTest {
     void invalidReviewDeadline() {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
 
-        RoomCreateRequest request = RoomFixture.ROOM_CREATE_REQUEST(LocalDateTime.now().plusHours(2), LocalDateTime.now().plusDays(1));
+        RoomCreateRequest request = RoomFixture.ROOM_CREATE_REQUEST(LocalDateTime.now()
+                .plusHours(2), LocalDateTime.now()
+                .plusDays(1));
 
         assertThatThrownBy(() -> roomService.create(manager.getId(), request))
                 .asInstanceOf(InstanceOfAssertFactories.type(CoreaException.class))
@@ -161,8 +177,10 @@ class RoomServiceTest {
         Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member ash = memberRepository.save(MemberFixture.MEMBER_ASH());
 
-        Room pororoRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo, LocalDateTime.now().plusDays(2)));
-        Room ashRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN(ash, LocalDateTime.now().plusDays(3)));
+        Room pororoRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo, LocalDateTime.now()
+                .plusDays(2)));
+        Room ashRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN(ash, LocalDateTime.now()
+                .plusDays(3)));
 
         Member joyson = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
         Long joysonId = joyson.getId();
@@ -182,8 +200,10 @@ class RoomServiceTest {
         Member ash = memberRepository.save(MemberFixture.MEMBER_ASH());
         Member movin = memberRepository.save(MemberFixture.MEMBER_MOVIN());
 
-        Room pororoRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo, LocalDateTime.now().plusDays(2)));
-        Room ashRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN(ash, LocalDateTime.now().plusDays(3)));
+        Room pororoRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo, LocalDateTime.now()
+                .plusDays(2)));
+        Room ashRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN(ash, LocalDateTime.now()
+                .plusDays(3)));
         Room movinRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_CLOSED(movin));
 
         Member joyson = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
@@ -210,7 +230,8 @@ class RoomServiceTest {
         assertAll(
                 () -> assertThat(response.manager()).isEqualTo(manager.getName()),
                 () -> assertThat(participation.isPresent()).isTrue(),
-                () -> assertThat(participation.get().getStatus()).isEqualTo(ParticipationStatus.MANAGER)
+                () -> assertThat(participation.get()
+                        .getStatus()).isEqualTo(ParticipationStatus.MANAGER)
         );
     }
 
@@ -252,9 +273,13 @@ class RoomServiceTest {
         List<Member> members = memberRepository.saveAll(MemberFixture.SEVEN_MEMBERS());
 
         participationRepository.save(new Participation(room, manager));
-        participationRepository.saveAll(members.stream().map(member -> new Participation(room, member, MemberRole.BOTH, 2)).toList());
+        participationRepository.saveAll(members.stream()
+                .map(member -> new Participation(room, member, MemberRole.BOTH, 2))
+                .toList());
 
-        matchResultRepository.saveAll(members.stream().map(member -> MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), manager, member)).toList());
+        matchResultRepository.saveAll(members.stream()
+                .map(member -> MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), manager, member))
+                .toList());
         matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), members.get(0), manager));
 
         RoomParticipantResponses participants = roomService.findParticipants(room.getId(), manager.getId());
@@ -277,9 +302,13 @@ class RoomServiceTest {
 
         List<Member> members = memberRepository.saveAll(MemberFixture.SEVEN_MEMBERS());
 
-        participationRepository.saveAll(members.stream().map(member -> new Participation(room, member, MemberRole.BOTH, 2)).toList());
+        participationRepository.saveAll(members.stream()
+                .map(member -> new Participation(room, member, MemberRole.BOTH, 2))
+                .toList());
 
-        matchResultRepository.saveAll(members.stream().map(member -> MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), manager, member)).toList());
+        matchResultRepository.saveAll(members.stream()
+                .map(member -> MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), manager, member))
+                .toList());
         matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), members.get(0), manager));
 
         RoomParticipantResponses participants = assertDoesNotThrow(() -> roomService.findParticipants(room.getId(), manager.getId()));
