@@ -1,10 +1,10 @@
 package corea.feedback.service;
 
+import corea.feedback.domain.DevelopFeedbackReader;
+import corea.feedback.domain.SocialFeedbackReader;
 import corea.feedback.dto.FeedbackResponse;
 import corea.feedback.dto.FeedbacksResponse;
 import corea.feedback.dto.UserFeedbackResponse;
-import corea.feedback.repository.DevelopFeedbackRepository;
-import corea.feedback.repository.SocialFeedbackRepository;
 import corea.room.domain.Room;
 import corea.room.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import static corea.global.util.MapHandler.extractDistinctKeyStreams;
 import static corea.global.util.NullHandler.emptyListIfNull;
@@ -25,49 +24,21 @@ import static corea.global.util.NullHandler.emptyListIfNull;
 public class UserFeedbackService {
 
     private final RoomRepository roomRepository;
-    private final DevelopFeedbackRepository developFeedbackRepository;
-    private final SocialFeedbackRepository socialFeedbackRepository;
+    private final DevelopFeedbackReader developFeedbackReader;
+    private final SocialFeedbackReader socialFeedbackReader;
 
     public UserFeedbackResponse getDeliveredFeedback(long feedbackDeliverId) {
-        Map<Long, List<FeedbackResponse>> deliveredDevelopFeedback = getDeliveredDevelopFeedback(feedbackDeliverId);
-        Map<Long, List<FeedbackResponse>> deliverSocialFeedback = getDeliveredSocialFeedback(feedbackDeliverId);
+        Map<Long, List<FeedbackResponse>> developFeedbacks = developFeedbackReader.findDeliveredDevelopFeedback(feedbackDeliverId);
+        Map<Long, List<FeedbackResponse>> socialFeedbacks = socialFeedbackReader.findDeliveredSocialFeedback(feedbackDeliverId);
 
-        return getUserFeedbackResponse(deliveredDevelopFeedback, deliverSocialFeedback, room -> true);
-    }
-
-    private Map<Long, List<FeedbackResponse>> getDeliveredDevelopFeedback(long feedbackDeliverId) {
-        return developFeedbackRepository.findByDeliverId(feedbackDeliverId)
-                .stream()
-                .map(FeedbackResponse::fromDeliver)
-                .collect(Collectors.groupingBy(FeedbackResponse::roomId));
-    }
-
-    private Map<Long, List<FeedbackResponse>> getDeliveredSocialFeedback(long feedbackDeliverId) {
-        return socialFeedbackRepository.findByDeliverId(feedbackDeliverId)
-                .stream()
-                .map(FeedbackResponse::fromDeliver)
-                .collect(Collectors.groupingBy(FeedbackResponse::roomId));
+        return getUserFeedbackResponse(developFeedbacks, socialFeedbacks, room -> true);
     }
 
     public UserFeedbackResponse getReceivedFeedback(long feedbackReceiverId) {
-        Map<Long, List<FeedbackResponse>> receivedDevelopFeedback = getReceivedDevelopFeedback(feedbackReceiverId);
-        Map<Long, List<FeedbackResponse>> receivedSocialFeedback = getReceivedSocialFeedback(feedbackReceiverId);
+        Map<Long, List<FeedbackResponse>> developFeedback = developFeedbackReader.findReceivedDevelopFeedback(feedbackReceiverId);
+        Map<Long, List<FeedbackResponse>> socialFeedback = socialFeedbackReader.findReceivedSocialFeedback(feedbackReceiverId);
 
-        return getUserFeedbackResponse(receivedDevelopFeedback, receivedSocialFeedback, Room::isClosed);
-    }
-
-    private Map<Long, List<FeedbackResponse>> getReceivedDevelopFeedback(long feedbackReceiverId) {
-        return developFeedbackRepository.findByReceiverId(feedbackReceiverId)
-                .stream()
-                .map(FeedbackResponse::fromReceiver)
-                .collect(Collectors.groupingBy(FeedbackResponse::roomId));
-    }
-
-    private Map<Long, List<FeedbackResponse>> getReceivedSocialFeedback(long feedbackReceiverId) {
-        return socialFeedbackRepository.findByReceiverId(feedbackReceiverId)
-                .stream()
-                .map(FeedbackResponse::fromReceiver)
-                .collect(Collectors.groupingBy(FeedbackResponse::roomId));
+        return getUserFeedbackResponse(developFeedback, socialFeedback, Room::isClosed);
     }
 
     private UserFeedbackResponse getUserFeedbackResponse(Map<Long, List<FeedbackResponse>> developFeedback, Map<Long, List<FeedbackResponse>> socialFeedback, Predicate<Room> predicate) {
