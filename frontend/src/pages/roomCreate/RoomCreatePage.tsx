@@ -24,7 +24,7 @@ const initialFormState = {
   limitedParticipants: 0,
   recruitmentDeadline: new Date(),
   reviewDeadline: new Date(),
-  classification: "",
+  classification: "ALL" as Classification,
 };
 
 const dropdownItems: DropdownItem[] = [
@@ -53,11 +53,9 @@ const RoomCreatePage = () => {
       recruitmentDeadline: formatCombinedDateTime(formState.recruitmentDeadline),
       reviewDeadline: formatCombinedDateTime(formState.reviewDeadline),
     };
-
     postCreateRoomMutation.mutate(formattedFormState, {
       onSuccess: () => navigate("/"),
     });
-
     setIsClickedButton(true);
     handleCloseModal();
   };

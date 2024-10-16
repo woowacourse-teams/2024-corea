@@ -22,13 +22,13 @@ interface BaseRoomInfo {
 export interface CreateRoomInfo extends BaseRoomInfo {
   recruitmentDeadline: Date;
   reviewDeadline: Date;
-  classification: string;
+  classification: Classification;
 }
 
 export interface SubmitRoomInfo extends BaseRoomInfo {
   recruitmentDeadline: string;
   reviewDeadline: string;
-  classification: string;
+  classification: Classification;
 }
 
 export interface RoomInfo extends BaseRoomInfo {
