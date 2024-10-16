@@ -46,12 +46,6 @@ public class RoomController implements RoomControllerSpecification {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/participated")
-    public ResponseEntity<RoomResponses> participatedRooms(@LoginMember AuthInfo authInfo) {
-        RoomResponses response = roomService.findParticipatedRooms(authInfo.getId());
-        return ResponseEntity.ok(response);
-    }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable long id, @LoginMember AuthInfo authInfo) {
         roomService.delete(id, authInfo.getId());

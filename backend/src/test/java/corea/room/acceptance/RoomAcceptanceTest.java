@@ -19,6 +19,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -134,6 +135,48 @@ class RoomAcceptanceTest {
     }
 
     @Test
+    @DisplayName("참여 중인 방을 종료된 방도 포함해서 보여줄 수 있다.")
+    void participatedRooms_IncludeClosed() {
+        String accessToken = tokenService.createAccessToken(memberRepository.findByUsername("jcoding-play").get());
+
+        RoomResponses response = RestAssured.given().log().all()
+                .auth().oauth2(accessToken)
+                .when().get("/rooms/participated?includeClosed=true")
+                .then().log().all()
+                .statusCode(200)
+                .extract().as(RoomResponses.class);
+
+        List<RoomResponse> rooms = response.rooms();
+
+        List<String> managers = rooms.stream()
+                .map(RoomResponse::manager)
+                .toList();
+
+        assertThat(managers).containsExactlyInAnyOrder("조경찬", "강다빈", "이상엽", "최진실");
+    }
+
+    @Test
+    @DisplayName("참여 중인 방을 종료된 방도 제외해서 보여줄 수 있다.")
+    void participatedRooms_ExcludeClosed() {
+        String accessToken = tokenService.createAccessToken(memberRepository.findByUsername("jcoding-play").get());
+
+        RoomResponses response = RestAssured.given().log().all()
+                .auth().oauth2(accessToken)
+                .when().get("/rooms/participated?includeClosed=false")
+                .then().log().all()
+                .statusCode(200)
+                .extract().as(RoomResponses.class);
+
+        List<RoomResponse> rooms = response.rooms();
+
+        List<String> managers = rooms.stream()
+                .map(RoomResponse::manager)
+                .toList();
+
+        assertThat(managers).containsExactlyInAnyOrder("강다빈", "이상엽", "최진실");
+    }
+
+    @Test
     @DisplayName("로그인하지 않은 사용자가 분야별로 현재 모집 중인 방들을 조회할 수 있다.")
     void openedRoomsWithoutLogin() {
         RoomResponses response = RestAssured.given().log().all()
@@ -169,10 +212,11 @@ class RoomAcceptanceTest {
         List<RoomResponse> rooms = response.rooms();
 
         assertSoftly(softly -> {
-            softly.assertThat(rooms).hasSize(3);
-            softly.assertThat(rooms.get(0).manager()).isEqualTo("박민아");
-            softly.assertThat(rooms.get(1).manager()).isEqualTo("포비");
+            softly.assertThat(rooms).hasSize(4);
+            softly.assertThat(rooms.get(0).manager()).isEqualTo("조경찬");
+            softly.assertThat(rooms.get(1).manager()).isEqualTo("박민아");
             softly.assertThat(rooms.get(2).manager()).isEqualTo("포비");
+            softly.assertThat(rooms.get(3).manager()).isEqualTo("포비");
         });
     }
 
