@@ -69,6 +69,24 @@ class DevelopFeedbackServiceTest {
     }
 
     @Test
+    @DisplayName("개발(리뷰어 -> 리뷰이) 에 대한 피드백이 이미 있다면 피드백을 생성할 때 예외를 발생한다.")
+    void throw_exception_when_already_feedback_exist() {
+        Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
+        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
+        Member deliver = memberRepository.save(MemberFixture.MEMBER_PORORO());
+        Member receiver = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
+        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(
+                room.getId(),
+                deliver,
+                receiver
+        ));
+
+        developFeedbackService.create(room.getId(), deliver.getId(), createRequest(receiver.getId()));
+        assertThatCode(() -> developFeedbackService.create(room.getId(), deliver.getId(), createRequest(receiver.getId())))
+                .isInstanceOf(CoreaException.class);
+    }
+
+    @Test
     @DisplayName("유저네임을 통해 방에 대한 자신의 리뷰이를 검색한다.")
     void findDevelopFeedback() {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
@@ -118,6 +136,24 @@ class DevelopFeedbackServiceTest {
         ));
 
         assertThatThrownBy(() -> developFeedbackService.update(room.getId(), deliver.getId(), createRequest(receiver.getId())))
+                .isInstanceOf(CoreaException.class);
+    }
+
+    @Test
+    @DisplayName("개발(리뷰어 -> 리뷰이) 피드백 작성자가 아닌 사람이 업데이트시 예외를 발생한다.")
+    void throw_exception_when_anonymous_updates_feedback() {
+        Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
+        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
+        Member deliver = memberRepository.save(MemberFixture.MEMBER_PORORO());
+        Member receiver = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
+        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(
+                room.getId(),
+                deliver,
+                receiver
+        ));
+
+        DevelopFeedbackResponse createResponse = developFeedbackService.create(room.getId(), deliver.getId(), createRequest(receiver.getId()));
+        assertThatThrownBy(() -> developFeedbackService.update(createResponse.feedbackId(), receiver.getId(), createRequest(receiver.getId())))
                 .isInstanceOf(CoreaException.class);
     }
 

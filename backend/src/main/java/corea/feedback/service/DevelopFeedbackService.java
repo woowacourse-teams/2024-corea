@@ -7,6 +7,7 @@ import corea.feedback.domain.DevelopFeedbackReader;
 import corea.feedback.domain.DevelopFeedbackWriter;
 import corea.feedback.dto.DevelopFeedbackRequest;
 import corea.feedback.dto.DevelopFeedbackResponse;
+import corea.feedback.dto.DevelopFeedbackUpdateInput;
 import corea.feedback.repository.DevelopFeedbackRepository;
 import corea.matchresult.domain.MatchResult;
 import corea.matchresult.domain.MatchResultWriter;
@@ -42,22 +43,12 @@ public class DevelopFeedbackService {
 
     @Transactional
     public DevelopFeedbackResponse update(long feedbackId, long deliverId, DevelopFeedbackRequest request) {
-        log.debug("개발 피드백 업데이트[작성자({}), 피드백 ID({}), 요청값({})", deliverId, feedbackId, request);
+        DevelopFeedback developFeedback = developFeedbackReader.findById(feedbackId);
 
-        DevelopFeedback feedback = developFeedbackRepository.findById(feedbackId)
-                .orElseThrow(() -> new CoreaException(ExceptionType.FEEDBACK_NOT_FOUND));
-        updateFeedback(feedback, request);
+        DevelopFeedbackUpdateInput input = DevelopFeedbackUpdateInput.from(request);
+        developFeedbackWriter.update(developFeedback, deliverId, input);
 
-        return DevelopFeedbackResponse.from(feedback);
-    }
-
-    private void updateFeedback(DevelopFeedback feedback, DevelopFeedbackRequest request) {
-        feedback.update(
-                request.evaluationPoint(),
-                request.feedbackKeywords(),
-                request.feedbackText(),
-                request.recommendationPoint()
-        );
+        return DevelopFeedbackResponse.from(developFeedback);
     }
 
     public DevelopFeedbackResponse findDevelopFeedback(long roomId, long deliverId, String username) {

@@ -1,5 +1,7 @@
 package corea.feedback.domain;
 
+import corea.exception.CoreaException;
+import corea.exception.ExceptionType;
 import corea.feedback.dto.FeedbackResponse;
 import corea.feedback.repository.DevelopFeedbackRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,5 +31,10 @@ public class DevelopFeedbackReader {
                 .stream()
                 .map(FeedbackResponse::fromReceiver)
                 .collect(Collectors.groupingBy(FeedbackResponse::roomId));
+    }
+
+    public DevelopFeedback findById(long feedbackId) {
+        return developFeedbackRepository.findById(feedbackId)
+                .orElseThrow(() -> new CoreaException(ExceptionType.FEEDBACK_NOT_FOUND));
     }
 }
