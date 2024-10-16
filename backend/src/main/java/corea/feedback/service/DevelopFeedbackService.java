@@ -3,9 +3,10 @@ package corea.feedback.service;
 import corea.feedback.domain.DevelopFeedback;
 import corea.feedback.domain.DevelopFeedbackReader;
 import corea.feedback.domain.DevelopFeedbackWriter;
-import corea.feedback.dto.DevelopFeedbackRequest;
+import corea.feedback.dto.DevelopFeedbackCreateRequest;
 import corea.feedback.dto.DevelopFeedbackResponse;
 import corea.feedback.dto.DevelopFeedbackUpdateInput;
+import corea.feedback.dto.DevelopFeedbackUpdateRequest;
 import corea.matchresult.domain.MatchResult;
 import corea.matchresult.domain.MatchResultWriter;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,7 @@ public class DevelopFeedbackService {
     private final MatchResultWriter matchResultWriter;
 
     @Transactional
-    public DevelopFeedbackResponse create(long roomId, long deliverId, DevelopFeedbackRequest request) {
+    public DevelopFeedbackResponse create(long roomId, long deliverId, DevelopFeedbackCreateRequest request) {
         MatchResult matchResult = matchResultWriter.completeDevelopFeedback(roomId, deliverId, request.receiverId());
 
         DevelopFeedback feedback = request.toEntity(roomId, matchResult.getReviewer(), matchResult.getReviewee());
@@ -32,7 +33,7 @@ public class DevelopFeedbackService {
     }
 
     @Transactional
-    public DevelopFeedbackResponse update(long feedbackId, long deliverId, DevelopFeedbackRequest request) {
+    public DevelopFeedbackResponse update(long feedbackId, long deliverId, DevelopFeedbackUpdateRequest request) {
         DevelopFeedback developFeedback = developFeedbackReader.findById(feedbackId);
 
         DevelopFeedbackUpdateInput input = DevelopFeedbackUpdateInput.from(request);

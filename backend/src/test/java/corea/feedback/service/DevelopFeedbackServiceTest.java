@@ -2,8 +2,9 @@ package corea.feedback.service;
 
 import config.ServiceTest;
 import corea.exception.CoreaException;
-import corea.feedback.dto.DevelopFeedbackRequest;
+import corea.feedback.dto.DevelopFeedbackCreateRequest;
 import corea.feedback.dto.DevelopFeedbackResponse;
+import corea.feedback.dto.DevelopFeedbackUpdateRequest;
 import corea.fixture.MatchResultFixture;
 import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
@@ -117,9 +118,9 @@ class DevelopFeedbackServiceTest {
                 receiver
         ));
         DevelopFeedbackResponse createResponse = developFeedbackService.create(room.getId(), deliver.getId(), createRequest(receiver.getId()));
-        DevelopFeedbackResponse updateResponse = developFeedbackService.update(createResponse.feedbackId(), deliver.getId(), createRequest(receiver.getId()));
+        DevelopFeedbackResponse updateResponse = developFeedbackService.update(createResponse.feedbackId(), deliver.getId(), updateRequest());
 
-        assertThat(createResponse).isEqualTo(updateResponse);
+        assertThat(updateResponse.evaluationPoint()).isEqualTo(2);
     }
 
     @Test
@@ -135,7 +136,7 @@ class DevelopFeedbackServiceTest {
                 receiver
         ));
 
-        assertThatThrownBy(() -> developFeedbackService.update(room.getId(), deliver.getId(), createRequest(receiver.getId())))
+        assertThatThrownBy(() -> developFeedbackService.update(room.getId(), deliver.getId(), updateRequest()))
                 .isInstanceOf(CoreaException.class);
     }
 
@@ -153,17 +154,26 @@ class DevelopFeedbackServiceTest {
         ));
 
         DevelopFeedbackResponse createResponse = developFeedbackService.create(room.getId(), deliver.getId(), createRequest(receiver.getId()));
-        assertThatThrownBy(() -> developFeedbackService.update(createResponse.feedbackId(), receiver.getId(), createRequest(receiver.getId())))
+        assertThatThrownBy(() -> developFeedbackService.update(createResponse.feedbackId(), receiver.getId(), updateRequest()))
                 .isInstanceOf(CoreaException.class);
     }
 
-    private DevelopFeedbackRequest createRequest(long receiverId) {
-        return new DevelopFeedbackRequest(
+    private DevelopFeedbackCreateRequest createRequest(long receiverId) {
+        return new DevelopFeedbackCreateRequest(
                 receiverId,
                 4,
                 List.of("방의 목적에 맞게 코드를 작성했어요", "코드를 이해하기 쉬웠어요"),
                 "처음 자바를 접해봤다고 했는데 \n 생각보다 매우 구성되어 있는 코드 였던거 같습니다. ...",
                 2
+        );
+    }
+
+    private DevelopFeedbackUpdateRequest updateRequest() {
+        return new DevelopFeedbackUpdateRequest(
+                2,
+                List.of("코드를 이해하기 어려웠어요"),
+                "처음 자바를 접해봤다고 했는데, 납득 했습니다.",
+                1
         );
     }
 }

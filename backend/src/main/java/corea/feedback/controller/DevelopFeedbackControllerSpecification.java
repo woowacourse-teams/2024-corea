@@ -2,8 +2,9 @@ package corea.feedback.controller;
 
 import corea.auth.domain.AuthInfo;
 import corea.exception.ExceptionType;
-import corea.feedback.dto.DevelopFeedbackRequest;
+import corea.feedback.dto.DevelopFeedbackCreateRequest;
 import corea.feedback.dto.DevelopFeedbackResponse;
+import corea.feedback.dto.DevelopFeedbackUpdateRequest;
 import corea.global.annotation.ApiErrorResponses;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -26,7 +27,7 @@ public interface DevelopFeedbackControllerSpecification {
             @Parameter(description = "방 아이디", example = "1")
             long roomId,
             AuthInfo authInfo,
-            DevelopFeedbackRequest request);
+            DevelopFeedbackCreateRequest request);
 
     @Operation(summary = "개발 관련 피드백 리스트를 반환합니다.",
             description = "자신에게 사람들이 남긴 개발 능력 관련 피드백을 읽어옵니다. <br>" +
@@ -59,5 +60,5 @@ public interface DevelopFeedbackControllerSpecification {
             @Parameter(description = "피드백 아이디", example = "2")
             long feedbackId,
             AuthInfo authInfo,
-            DevelopFeedbackRequest request);
+            DevelopFeedbackUpdateRequest request);
 }

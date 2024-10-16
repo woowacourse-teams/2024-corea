@@ -17,7 +17,7 @@ public record DevelopFeedbackUpdateInput(@Schema(description = "평가 점수", 
                                          @Schema(description = "랭킹에 필요한 추천 점수", example = "2")
                                          int recommendationPoint) {
 
-    public static DevelopFeedbackUpdateInput from(DevelopFeedbackRequest request) {
+    public static DevelopFeedbackUpdateInput from(DevelopFeedbackUpdateRequest request) {
         return new DevelopFeedbackUpdateInput(
                 request.evaluationPoint(),
                 request.feedbackKeywords(),
