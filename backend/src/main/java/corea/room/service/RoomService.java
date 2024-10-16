@@ -14,10 +14,6 @@ import corea.participation.service.ParticipationWriter;
 import corea.room.domain.Room;
 import corea.room.dto.*;
 import corea.room.repository.RoomRepository;
-import corea.scheduler.domain.AutomaticMatching;
-import corea.scheduler.domain.AutomaticUpdate;
-import corea.scheduler.repository.AutomaticMatchingRepository;
-import corea.scheduler.repository.AutomaticUpdateRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -43,9 +39,7 @@ public class RoomService {
     private final MatchResultRepository matchResultRepository;
     private final ParticipationRepository participationRepository;
     private final FailedMatchingRepository failedMatchingRepository;
-    private final AutomaticMatchingRepository automaticMatchingRepository;
-    private final AutomaticUpdateRepository automaticUpdateRepository;
-    private final ParticipationWriter participationWriter;
+    private final RoomAutomaticService roomAutomaticService;
 
     @Transactional
     public RoomResponse create(long memberId, RoomCreateRequest request) {
@@ -58,10 +52,27 @@ public class RoomService {
 
         Participation participation = participationWriter.create(room,manager,MemberRole.REVIEWER,ParticipationStatus.MANAGER);
 
-        automaticMatchingRepository.save(new AutomaticMatching(room.getId(), request.recruitmentDeadline()));
-        automaticUpdateRepository.save(new AutomaticUpdate(room.getId(), request.reviewDeadline()));
+        participationRepository.save(participation);
+        roomAutomaticService.createAutomatic(room);
 
         return RoomResponse.of(room, participation.getMemberRole(), ParticipationStatus.MANAGER);
+    }
+
+    @Transactional
+    public RoomResponse update(long memberId, RoomUpdateRequest request) {
+        Room room = getRoom(request.roomId());
+        if (room.isNotMatchingManager(memberId)) {
+            throw new CoreaException(ExceptionType.MEMBER_IS_NOT_MANAGER);
+        }
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND));
+
+        Room updatedRoom = roomRepository.save(request.toEntity(member));
+        Participation participation = participationRepository.findByRoomIdAndMemberId(updatedRoom.getId(), memberId)
+                .orElseThrow(() -> new CoreaException(ExceptionType.NOT_ALREADY_APPLY));
+
+        roomAutomaticService.updateTime(updatedRoom);
+        return RoomResponse.of(updatedRoom, participation.getMemberRole(), ParticipationStatus.MANAGER);
     }
 
     private void validateDeadLine(LocalDateTime recruitmentDeadline, LocalDateTime reviewDeadline) {
@@ -93,19 +104,6 @@ public class RoomService {
                 .orElseGet(() -> RoomResponse.of(room, participation));
     }
 
-    public RoomResponses findParticipatedRooms(long memberId) {
-        List<Room> rooms = findNonClosedParticipatedRooms(memberId);
-        return RoomResponses.of(rooms, MemberRole.NONE, ParticipationStatus.PARTICIPATED, true, 0);
-    }
-
-    private List<Room> findNonClosedParticipatedRooms(long memberId) {
-        return participationRepository.findAllByMemberId(memberId)
-                .stream()
-                .map(Participation::getRoom)
-                .filter(Room::isNotClosed)
-                .toList();
-    }
-
     @Transactional
     public void delete(long roomId, long memberId) {
         Room room = getRoom(roomId);
@@ -114,8 +112,7 @@ public class RoomService {
         log.info("방을 삭제했습니다. 방 id={}, 사용자 iD={}", roomId, memberId);
         roomRepository.delete(room);
         participationRepository.deleteAllByRoomId(roomId);
-        automaticMatchingRepository.deleteByRoomId(roomId);
-        automaticUpdateRepository.deleteByRoomId(roomId);
+        roomAutomaticService.deleteAutomatic(room);
     }
 
     private void validateDeletionAuthority(Room room, long memberId) {

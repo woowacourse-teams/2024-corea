@@ -1,6 +1,7 @@
 package corea.room.controller;
 
 import corea.auth.annotation.AccessedMember;
+import corea.auth.annotation.LoginMember;
 import corea.auth.domain.AuthInfo;
 import corea.room.domain.RoomStatus;
 import corea.room.dto.RoomResponses;
@@ -40,6 +41,13 @@ public class RoomInquiryController implements RoomInquiryControllerSpecification
                                                      @RequestParam(defaultValue = "0") int page,
                                                      @RequestParam(value = "classification", defaultValue = "all") String expression) {
         RoomResponses response = roomInquiryService.findRoomsWithRoomStatus(authInfo.getId(), page, expression, RoomStatus.CLOSE);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/participated")
+    public ResponseEntity<RoomResponses> participatedRooms(@LoginMember AuthInfo authInfo,
+                                                           @RequestParam(defaultValue = "false") boolean includeClosed) {
+        RoomResponses response = roomInquiryService.findParticipatedRooms(authInfo.getId(), includeClosed);
         return ResponseEntity.ok(response);
     }
 }

@@ -80,6 +80,10 @@ public class Participation extends BaseTimeEntity {
         return status.isPullRequestNotSubmitted();
     }
 
+    public boolean isParticipatedRoom(Room room) {
+        return this.room == room;
+    }
+
     public long getRoomsId() {
         return room.getId();
     }
