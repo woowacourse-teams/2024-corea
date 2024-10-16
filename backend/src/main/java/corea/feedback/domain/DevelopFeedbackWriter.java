@@ -31,11 +31,8 @@ public class DevelopFeedbackWriter {
     }
 
     public void update(DevelopFeedback developFeedback, long deliverId, DevelopFeedbackUpdateInput input) {
-        System.out.println("deliverId = " + deliverId);
-        System.out.println("input = " + input);
-
-        log.info("개발 피드백 업데이트 [피드백 ID={}, 작성자 ID={}, 요청값={}]", developFeedback.getId(), developFeedback, input);
         validateUpdateAuthority(developFeedback, deliverId);
+        log.info("개발 피드백 업데이트 [피드백 ID={}, 작성자 ID={}, 요청값={}]", developFeedback.getId(), developFeedback, input);
 
         developFeedback.update(
                 input.evaluationPoint(),
