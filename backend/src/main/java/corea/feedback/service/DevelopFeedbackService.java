@@ -7,6 +7,7 @@ import corea.feedback.dto.DevelopFeedbackCreateRequest;
 import corea.feedback.dto.DevelopFeedbackResponse;
 import corea.feedback.dto.DevelopFeedbackUpdateInput;
 import corea.feedback.dto.DevelopFeedbackUpdateRequest;
+import corea.feedback.util.FeedbackMapper;
 import corea.matchresult.domain.MatchResult;
 import corea.matchresult.domain.MatchResultWriter;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +37,7 @@ public class DevelopFeedbackService {
     public DevelopFeedbackResponse update(long feedbackId, long deliverId, DevelopFeedbackUpdateRequest request) {
         DevelopFeedback developFeedback = developFeedbackReader.findById(feedbackId);
 
-        DevelopFeedbackUpdateInput input = DevelopFeedbackUpdateInput.from(request);
+        DevelopFeedbackUpdateInput input = FeedbackMapper.toFeedbackInput(request);
         developFeedbackWriter.update(developFeedback, deliverId, input);
 
         return DevelopFeedbackResponse.from(developFeedback);

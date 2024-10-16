@@ -2,6 +2,7 @@ package corea.feedback.service;
 
 import config.ServiceTest;
 import corea.exception.CoreaException;
+import corea.exception.ExceptionType;
 import corea.feedback.dto.DevelopFeedbackCreateRequest;
 import corea.feedback.dto.DevelopFeedbackResponse;
 import corea.feedback.dto.DevelopFeedbackUpdateRequest;
@@ -14,6 +15,7 @@ import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
 import corea.room.domain.Room;
 import corea.room.repository.RoomRepository;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,7 +68,9 @@ class DevelopFeedbackServiceTest {
         Member receiver = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
 
         assertThatCode(() -> developFeedbackService.create(room.getId(), deliver.getId(), createRequest(receiver.getId())))
-                .isInstanceOf(CoreaException.class);
+                .asInstanceOf(InstanceOfAssertFactories.type(CoreaException.class))
+                .extracting(CoreaException::getExceptionType)
+                .isEqualTo(ExceptionType.NOT_MATCHED_MEMBER);
     }
 
     @Test
@@ -83,8 +87,11 @@ class DevelopFeedbackServiceTest {
         ));
 
         developFeedbackService.create(room.getId(), deliver.getId(), createRequest(receiver.getId()));
+
         assertThatCode(() -> developFeedbackService.create(room.getId(), deliver.getId(), createRequest(receiver.getId())))
-                .isInstanceOf(CoreaException.class);
+                .asInstanceOf(InstanceOfAssertFactories.type(CoreaException.class))
+                .extracting(CoreaException::getExceptionType)
+                .isEqualTo(ExceptionType.ALREADY_COMPLETED_FEEDBACK);
     }
 
     @Test
@@ -137,7 +144,9 @@ class DevelopFeedbackServiceTest {
         ));
 
         assertThatThrownBy(() -> developFeedbackService.update(room.getId(), deliver.getId(), updateRequest()))
-                .isInstanceOf(CoreaException.class);
+                .asInstanceOf(InstanceOfAssertFactories.type(CoreaException.class))
+                .extracting(CoreaException::getExceptionType)
+                .isEqualTo(ExceptionType.FEEDBACK_NOT_FOUND);
     }
 
     @Test
@@ -154,8 +163,11 @@ class DevelopFeedbackServiceTest {
         ));
 
         DevelopFeedbackResponse createResponse = developFeedbackService.create(room.getId(), deliver.getId(), createRequest(receiver.getId()));
+
         assertThatThrownBy(() -> developFeedbackService.update(createResponse.feedbackId(), receiver.getId(), updateRequest()))
-                .isInstanceOf(CoreaException.class);
+                .asInstanceOf(InstanceOfAssertFactories.type(CoreaException.class))
+                .extracting(CoreaException::getExceptionType)
+                .isEqualTo(ExceptionType.FEEDBACK_UPDATE_AUTHORIZATION_ERROR);
     }
 
     private DevelopFeedbackCreateRequest createRequest(long receiverId) {

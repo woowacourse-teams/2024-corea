@@ -1,6 +1,6 @@
 package corea.feedback.domain;
 
-import corea.feedback.dto.FeedbackResponse;
+import corea.feedback.dto.FeedbackOutput;
 import corea.feedback.repository.SocialFeedbackRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -17,17 +17,17 @@ public class SocialFeedbackReader {
 
     private final SocialFeedbackRepository socialFeedbackRepository;
 
-    public Map<Long, List<FeedbackResponse>> findDeliveredSocialFeedback(long feedbackDeliverId) {
-        return socialFeedbackRepository.findByDeliverId(feedbackDeliverId)
+    public Map<Long, List<FeedbackOutput>> collectDeliverSocialFeedback(long feedbackDeliverId) {
+        return socialFeedbackRepository.findAllByDeliverId(feedbackDeliverId)
                 .stream()
-                .map(FeedbackResponse::fromDeliver)
-                .collect(Collectors.groupingBy(FeedbackResponse::roomId));
+                .map(FeedbackOutput::fromDeliver)
+                .collect(Collectors.groupingBy(FeedbackOutput::roomId));
     }
 
-    public Map<Long, List<FeedbackResponse>> findReceivedSocialFeedback(long feedbackReceiverId) {
-        return socialFeedbackRepository.findByReceiverId(feedbackReceiverId)
+    public Map<Long, List<FeedbackOutput>> collectReceivedSocialFeedback(long feedbackReceiverId) {
+        return socialFeedbackRepository.findAllByReceiverId(feedbackReceiverId)
                 .stream()
-                .map(FeedbackResponse::fromReceiver)
-                .collect(Collectors.groupingBy(FeedbackResponse::roomId));
+                .map(FeedbackOutput::fromReceiver)
+                .collect(Collectors.groupingBy(FeedbackOutput::roomId));
     }
 }

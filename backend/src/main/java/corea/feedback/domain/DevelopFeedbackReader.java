@@ -2,7 +2,7 @@ package corea.feedback.domain;
 
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
-import corea.feedback.dto.FeedbackResponse;
+import corea.feedback.dto.FeedbackOutput;
 import corea.feedback.repository.DevelopFeedbackRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -19,18 +19,18 @@ public class DevelopFeedbackReader {
 
     private final DevelopFeedbackRepository developFeedbackRepository;
 
-    public Map<Long, List<FeedbackResponse>> findDeliveredDevelopFeedback(long feedbackDeliverId) {
-        return developFeedbackRepository.findByDeliverId(feedbackDeliverId)
+    public Map<Long, List<FeedbackOutput>> collectDeliverDevelopFeedback(long feedbackDeliverId) {
+        return developFeedbackRepository.findAllByDeliverId(feedbackDeliverId)
                 .stream()
-                .map(FeedbackResponse::fromDeliver)
-                .collect(Collectors.groupingBy(FeedbackResponse::roomId));
+                .map(FeedbackOutput::fromDeliver)
+                .collect(Collectors.groupingBy(FeedbackOutput::roomId));
     }
 
-    public Map<Long, List<FeedbackResponse>> findReceivedDevelopFeedback(long feedbackReceiverId) {
-        return developFeedbackRepository.findByReceiverId(feedbackReceiverId)
+    public Map<Long, List<FeedbackOutput>> collectReceivedDevelopFeedback(long feedbackReceiverId) {
+        return developFeedbackRepository.findAllByReceiverId(feedbackReceiverId)
                 .stream()
-                .map(FeedbackResponse::fromReceiver)
-                .collect(Collectors.groupingBy(FeedbackResponse::roomId));
+                .map(FeedbackOutput::fromReceiver)
+                .collect(Collectors.groupingBy(FeedbackOutput::roomId));
     }
 
     public DevelopFeedback findById(long feedbackId) {
