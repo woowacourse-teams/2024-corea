@@ -18,5 +18,7 @@ public interface AutomaticUpdateRepository extends JpaRepository<AutomaticUpdate
 
     List<AutomaticUpdate> findAllByStatus(ScheduleStatus status);
 
+    Optional<AutomaticUpdate> findByRoomId(long roomId);
+
     void deleteByRoomId(long roomId);
 }
