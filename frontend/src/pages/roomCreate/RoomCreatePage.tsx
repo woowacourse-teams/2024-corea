@@ -3,18 +3,17 @@ import { useNavigate } from "react-router-dom";
 import useModal from "@/hooks/common/useModal";
 import useMutateRoom from "@/hooks/mutations/useMutateRoom";
 import Button from "@/components/common/button/Button";
-import CalendarDropdown from "@/components/common/calendarDropdown/CalendarDropdown";
 import ContentSection from "@/components/common/contentSection/ContentSection";
 import { Input } from "@/components/common/input/Input";
 import ConfirmModal from "@/components/common/modal/confirmModal/ConfirmModal";
 import { Textarea } from "@/components/common/textarea/Textarea";
-import { TimeDropdown } from "@/components/common/timeDropdown/TimeDropdown";
+import DateTimePicker from "@/components/dateTimePicker/DateTimePicker";
 import * as S from "@/pages/roomCreate/RoomCreatePage.style";
 import { CreateRoomInfo } from "@/@types/roomInfo";
 import MESSAGES from "@/constants/message";
 import { formatCombinedDateTime } from "@/utils/dateFormatter";
 
-const initialFormState: CreateRoomInfo = {
+const initialFormState = {
   title: "",
   content: "",
   repositoryLink: "",
@@ -22,76 +21,36 @@ const initialFormState: CreateRoomInfo = {
   matchingSize: 0,
   keywords: [],
   limitedParticipants: 0,
-  recruitmentDeadline: formatCombinedDateTime(new Date(), new Date()),
-  reviewDeadline: formatCombinedDateTime(new Date(), new Date()),
+  recruitmentDeadline: new Date(),
+  reviewDeadline: new Date(),
   classification: "",
 };
 
 const RoomCreatePage = () => {
   const navigate = useNavigate();
-
   const [isClickedButton, setIsClickedButton] = useState(false);
   const [formState, setFormState] = useState<CreateRoomInfo>(initialFormState);
-
-  const [recruitmentDate, setRecruitmentDate] = useState(new Date());
-  const [reviewDate, setReviewDate] = useState(new Date());
-  const [recruitmentTime, setRecruitmentTime] = useState(new Date());
-  const [reviewTime, setReviewTime] = useState(new Date());
-
   const { postCreateRoomMutation } = useMutateRoom();
   const { isModalOpen, handleOpenModal, handleCloseModal } = useModal();
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    let newValue: string | string[] | number;
-    if (name === "keywords") {
-      newValue = value.split(",").map((keyword) => keyword.trim());
-    } else if (name === "matchingSize" || name === "limitedParticipants") {
-      newValue = value === "" ? 0 : parseInt(value, 10);
-    } else {
-      newValue = value;
-    }
+  const handleInputChange = <K extends keyof CreateRoomInfo>(name: K, value: CreateRoomInfo[K]) => {
     setFormState((prevState) => ({
       ...prevState,
-      [name]: newValue,
+      [name]: value,
     }));
-  };
-
-  const updateFormStateWithDateTime = (
-    field: "recruitmentDeadline" | "reviewDeadline",
-    date: Date,
-    time: Date,
-  ) => {
-    setFormState((prev) => ({
-      ...prev,
-      [field]: formatCombinedDateTime(date, time),
-    }));
-  };
-
-  const handleRecruitmentDateChange = (date: Date) => {
-    setRecruitmentDate(date);
-    updateFormStateWithDateTime("recruitmentDeadline", date, recruitmentTime);
-  };
-
-  const handleRecruitmentTimeChange = (time: Date) => {
-    setRecruitmentTime(time);
-    updateFormStateWithDateTime("recruitmentDeadline", recruitmentDate, time);
-  };
-
-  const handleReviewDateChange = (date: Date) => {
-    setReviewDate(date);
-    updateFormStateWithDateTime("reviewDeadline", date, reviewTime);
-  };
-
-  const handleReviewTimeChange = (time: Date) => {
-    setReviewTime(time);
-    updateFormStateWithDateTime("reviewDeadline", reviewDate, time);
   };
 
   const handleConfirm = () => {
-    postCreateRoomMutation.mutate(formState, {
+    const formattedFormState = {
+      ...formState,
+      recruitmentDeadline: formatCombinedDateTime(formState.recruitmentDeadline),
+      reviewDeadline: formatCombinedDateTime(formState.reviewDeadline),
+    };
+
+    postCreateRoomMutation.mutate(formattedFormState, {
       onSuccess: () => navigate("/"),
     });
+
     setIsClickedButton(true);
     handleCloseModal();
   };
@@ -116,7 +75,7 @@ const RoomCreatePage = () => {
             <Input
               name="title"
               value={formState.title}
-              onChange={handleInputChange}
+              onChange={(e) => handleInputChange("title", e.target.value)}
               error={isClickedButton && formState.title === ""}
               required
             />
@@ -131,7 +90,7 @@ const RoomCreatePage = () => {
             <Input
               name="classification"
               value={formState.classification}
-              onChange={handleInputChange}
+              onChange={(e) => handleInputChange("classification", e.target.value)}
               error={isClickedButton && formState.classification === ""}
               required
             />
@@ -144,7 +103,7 @@ const RoomCreatePage = () => {
             <Textarea
               name="content"
               value={formState.content}
-              onChange={handleInputChange}
+              onChange={(e) => handleInputChange("content", e.target.value)}
               rows={5}
               showCharCount={true}
               maxLength={1000}
@@ -160,7 +119,7 @@ const RoomCreatePage = () => {
             <Input
               name="repositoryLink"
               value={formState.repositoryLink}
-              onChange={handleInputChange}
+              onChange={(e) => handleInputChange("repositoryLink", e.target.value)}
               error={isClickedButton && formState.repositoryLink === ""}
               required
             />
@@ -173,7 +132,7 @@ const RoomCreatePage = () => {
             <Input
               name="thumbnailLink"
               value={formState.thumbnailLink}
-              onChange={handleInputChange}
+              onChange={(e) => handleInputChange("thumbnailLink", e.target.value)}
             />
           </S.ContentInput>
         </S.RowContainer>
@@ -181,7 +140,16 @@ const RoomCreatePage = () => {
         <S.RowContainer>
           <S.ContentLabel>키워드 (콤마로 구분)</S.ContentLabel>
           <S.ContentInput>
-            <Input name="keywords" value={formState.keywords} onChange={handleInputChange} />
+            <Input
+              name="keywords"
+              value={formState.keywords}
+              onChange={(e) =>
+                handleInputChange(
+                  "keywords",
+                  e.target.value.split(",").map((keyword) => keyword.trim()),
+                )
+              }
+            />
           </S.ContentInput>
         </S.RowContainer>
 
@@ -194,7 +162,7 @@ const RoomCreatePage = () => {
               type="number"
               name="matchingSize"
               value={formState.matchingSize}
-              onChange={handleInputChange}
+              onChange={(e) => handleInputChange("matchingSize", parseInt(e.target.value, 10))}
               error={isClickedButton && formState.matchingSize === 0}
               required
             />
@@ -210,7 +178,9 @@ const RoomCreatePage = () => {
               type="number"
               name="limitedParticipants"
               value={formState.limitedParticipants}
-              onChange={handleInputChange}
+              onChange={(e) =>
+                handleInputChange("limitedParticipants", parseInt(e.target.value, 10))
+              }
               error={isClickedButton && formState.limitedParticipants === 0}
               required
             />
@@ -222,17 +192,11 @@ const RoomCreatePage = () => {
             모집 마감일 <span>*필수입력</span>
           </S.ContentLabel>
           <S.ContentInput>
-            <CalendarDropdown
-              selectedDate={recruitmentDate}
-              handleSelectedDate={handleRecruitmentDateChange}
-              error={isClickedButton && formState.recruitmentDeadline === ""}
-              required
-            ></CalendarDropdown>
-            <TimeDropdown
-              selectedTime={recruitmentTime}
-              onTimeChange={handleRecruitmentTimeChange}
-              error={isClickedButton && formState.recruitmentDeadline === ""}
-              required
+            <DateTimePicker
+              selectedDateTime={formState.recruitmentDeadline}
+              onDateTimeChange={(newDateTime) =>
+                handleInputChange("recruitmentDeadline", newDateTime)
+              }
             />
           </S.ContentInput>
         </S.RowContainer>
@@ -242,17 +206,9 @@ const RoomCreatePage = () => {
             코드 리뷰 마감일 <span>*필수입력</span>
           </S.ContentLabel>
           <S.ContentInput>
-            <CalendarDropdown
-              selectedDate={reviewDate}
-              handleSelectedDate={handleReviewDateChange}
-              error={isClickedButton && formState.reviewDeadline === ""}
-              required
-            ></CalendarDropdown>
-            <TimeDropdown
-              selectedTime={reviewTime}
-              onTimeChange={handleReviewTimeChange}
-              error={isClickedButton && formState.reviewDeadline === ""}
-              required
+            <DateTimePicker
+              selectedDateTime={formState.reviewDeadline}
+              onDateTimeChange={(newDateTime) => handleInputChange("reviewDeadline", newDateTime)}
             />
           </S.ContentInput>
         </S.RowContainer>

@@ -18,11 +18,17 @@ interface BaseRoomInfo {
   matchingSize: number;
   keywords: string[];
   limitedParticipants: number;
-  recruitmentDeadline: string;
-  reviewDeadline: string;
 }
 export interface CreateRoomInfo extends BaseRoomInfo {
-  classification: Classification | "";
+  recruitmentDeadline: Date;
+  reviewDeadline: Date;
+  classification: string;
+}
+
+export interface SubmitRoomInfo extends BaseRoomInfo {
+  recruitmentDeadline: string;
+  reviewDeadline: string;
+  classification: string;
 }
 
 export interface RoomInfo extends BaseRoomInfo {
@@ -32,6 +38,8 @@ export interface RoomInfo extends BaseRoomInfo {
   roomStatus: RoomStatus;
   participationStatus: ParticipationStatus;
   memberRole: Role;
+  recruitmentDeadline: string;
+  reviewDeadline: string;
 }
 
 export interface RoomListInfo {
