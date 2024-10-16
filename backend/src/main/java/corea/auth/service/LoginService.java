@@ -38,11 +38,12 @@ public class LoginService {
 
     private Member register(GithubUserInfo userInfo) {
         Member member = memberRepository.save(new Member(userInfo.login(), userInfo.avatarUrl(), userInfo.name(), userInfo.email(), true, userInfo.id()));
-        createLog(member);
+        logCreateMembers(member);
         return member;
     }
-    private static void createLog(Member member){
-        log.info("멤버를 생성했습니다. 멤버 id={}, 멤버 이름={},깃허브 id={}, 닉네임={}",member.getId(),member.getName(),member.getGithubUserId(),member.getUsername());
+
+    private void logCreateMembers(Member member) {
+        log.info("멤버를 생성했습니다. 멤버 id={}, 멤버 이름={},깃허브 id={}, 닉네임={}", member.getId(), member.getName(), member.getGithubUserId(), member.getUsername());
     }
 
     private String extendAuthorization(Member member) {
@@ -63,7 +64,8 @@ public class LoginService {
                     .orElseThrow(() -> new CoreaException(INVALID_TOKEN));
             return tokenService.createAccessToken(info.getMember());
         } catch (CoreaException e) {
-            if (e.getExceptionType().equals(TOKEN_EXPIRED)) {
+            if (e.getExceptionType()
+                    .equals(TOKEN_EXPIRED)) {
                 logoutService.logoutByExpiredRefreshToken(refreshToken);
             }
             throw e;

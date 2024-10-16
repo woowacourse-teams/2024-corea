@@ -40,6 +40,7 @@ public class RoomService {
     private final ParticipationRepository participationRepository;
     private final FailedMatchingRepository failedMatchingRepository;
     private final RoomAutomaticService roomAutomaticService;
+    private final ParticipationWriter participationWriter;
 
     @Transactional
     public RoomResponse create(long memberId, RoomCreateRequest request) {
@@ -50,7 +51,7 @@ public class RoomService {
         Room room = roomRepository.save(request.toEntity(manager));
         log.info("방을 생성했습니다. 방 생성자 id={}, 요청한 사용자 id={}", room.getManagerId(), memberId);
 
-        Participation participation = participationWriter.create(room,manager,MemberRole.REVIEWER,ParticipationStatus.MANAGER);
+        Participation participation = participationWriter.create(room, manager, MemberRole.REVIEWER, ParticipationStatus.MANAGER);
 
         participationRepository.save(participation);
         roomAutomaticService.createAutomatic(room);

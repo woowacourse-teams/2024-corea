@@ -214,11 +214,11 @@ class RoomServiceTest {
     void findParticipants() {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
-        participationRepository.save(new Participation(room, manager));
+        participationRepository.save(new Participation(room, manager,MemberRole.REVIEWER, ParticipationStatus.MANAGER, room.getMatchingSize()));
 
         List<Member> members = memberRepository.saveAll(MemberFixture.SEVEN_MEMBERS());
 
-        participationRepository.save(new Participation(room, manager));
+        participationRepository.save(new Participation(room, manager,MemberRole.REVIEWER, ParticipationStatus.MANAGER, room.getMatchingSize()));
         participationRepository.saveAll(members.stream().map(member -> new Participation(room, member, MemberRole.BOTH, 2)).toList());
 
         matchResultRepository.saveAll(members.stream().map(member -> MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), manager, member)).toList());
@@ -238,7 +238,7 @@ class RoomServiceTest {
         Member pullRequestNotSubmittedMember = memberRepository.save(MemberFixture.MEMBER_ASH());
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
 
-        participationRepository.save(new Participation(room, manager));
+        participationRepository.save(new Participation(room, manager,MemberRole.REVIEWER, ParticipationStatus.MANAGER, room.getMatchingSize()));
         Participation participation = participationRepository.save(new Participation(room, pullRequestNotSubmittedMember, MemberRole.BOTH, 2));
         participation.invalidate();
 

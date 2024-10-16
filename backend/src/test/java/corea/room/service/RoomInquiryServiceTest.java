@@ -8,6 +8,7 @@ import corea.member.domain.Member;
 import corea.member.domain.MemberRole;
 import corea.member.repository.MemberRepository;
 import corea.participation.domain.Participation;
+import corea.participation.domain.ParticipationStatus;
 import corea.participation.repository.ParticipationRepository;
 import corea.room.domain.Room;
 import corea.room.domain.RoomStatus;
@@ -50,7 +51,7 @@ public class RoomInquiryServiceTest {
 
         roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo, LocalDateTime.now().plusDays(2), roomStatus));
         Room ashRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN(ash, LocalDateTime.now().plusDays(3), roomStatus));
-        participationRepository.save(new Participation(ashRoom, ash));
+        participationRepository.save(new Participation(ashRoom, ash,MemberRole.REVIEWER, ParticipationStatus.MANAGER, ashRoom.getMatchingSize()));
 
         RoomResponses response = roomInquiryService.findRoomsWithRoomStatus(pororo.getId(), 0, "all", roomStatus);
         List<String> managerNames = getManagerNames(response);

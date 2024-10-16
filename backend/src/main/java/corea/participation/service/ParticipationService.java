@@ -37,8 +37,7 @@ public class ParticipationService {
         MemberRole memberRole = MemberRole.from(request.role());
         Room room = getRoom(request.roomId());
 
-        Participation participation = participationWriter.create(room,member, memberRole,request.matchingSize());
-        return participationRepository.save(participation);
+        return participationWriter.create(room, member, memberRole, request.matchingSize());
     }
 
     @Transactional

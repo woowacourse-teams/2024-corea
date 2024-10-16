@@ -21,19 +21,19 @@ public class ParticipationWriter {
 
     private final ParticipationRepository participationRepository;
 
-    public Participation create(Room room, Member member, MemberRole memberRole,ParticipationStatus participationStatus) {
+    public Participation create(Room room, Member member, MemberRole memberRole, ParticipationStatus participationStatus) {
 
-        return create(room, member, memberRole,participationStatus, room.getMatchingSize());
+        return create(room, member, memberRole, participationStatus, room.getMatchingSize());
     }
 
     public Participation create(Room room, Member member, MemberRole memberRole, int matchingSize) {
-        return create(room, member, memberRole,memberRole.getParticipationStatus(),matchingSize);
+        return create(room, member, memberRole, memberRole.getParticipationStatus(), matchingSize);
     }
 
     private Participation create(Room room, Member member, MemberRole memberRole, ParticipationStatus participationStatus, int matchingSize) {
         Participation participation = participationRepository.save(new Participation(room, member, memberRole, participationStatus, matchingSize));
         participation.participate();
-        createLog(participation);
+        logCreateParticipation(participation);
         return participation;
     }
 
@@ -43,15 +43,15 @@ public class ParticipationWriter {
         Participation participation = participationRepository.findByRoomIdAndMemberId(roomId, memberId)
                 .orElseThrow(() -> new CoreaException(ExceptionType.NOT_ALREADY_APPLY));
         participation.cancel();
-        deleteLog(participation);
+        logDeleteParticipation(participation);
         participationRepository.delete(participation);
     }
 
-    private static void createLog(Participation participation) {
+    private void logCreateParticipation(Participation participation) {
         log.info("방에 참가했습니다. id={}, 방 id={}, 참가한 사용자 id={}, 역할={}, 원하는 매칭 인원={}", participation.getId(), participation.getRoomsId(), participation.getMembersId(), participation.getMemberRole(), participation.getMatchingSize());
     }
 
-    private static void deleteLog(Participation participation) {
+    private void logDeleteParticipation(Participation participation) {
         log.info("참여를 취소했습니다. 방 id={}, 참가한 사용자 id={}", participation.getRoomsId(), participation.getMembersId());
     }
 }

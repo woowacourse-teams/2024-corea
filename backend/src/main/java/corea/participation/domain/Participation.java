@@ -41,15 +41,11 @@ public class Participation extends BaseTimeEntity {
     private int matchingSize;
 
     public Participation(Room room, Member member, MemberRole memberRole, ParticipationStatus status, int matchingSize) {
-        this(null,room,member,memberRole,status,matchingSize);
+        this(null, room, member, memberRole, status, matchingSize);
     }
 
     public Participation(Room room, Member member, MemberRole role, int matchingSize) {
         this(null, room, member, role, ParticipationStatus.PARTICIPATED, matchingSize);
-    }
-
-    public Participation(Room room, Member member) {
-        this(null, room, member, MemberRole.REVIEWER, ParticipationStatus.MANAGER, room.getMatchingSize());
     }
 
     public boolean isNotMatchingMemberId(long memberId) {
