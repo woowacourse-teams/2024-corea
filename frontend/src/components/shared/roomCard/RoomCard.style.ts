@@ -78,18 +78,24 @@ export const RoomTitle = styled.h2`
 export const KeywordsContainer = styled.div`
   display: flex;
   gap: 2px;
+  height: 33px;
 `;
 
 export const KeywordWrapper = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-wrap: wrap;
   gap: 0.5rem;
-  align-items: center;
+  align-items: flex-start;
 `;
 
 export const KeywordText = styled.span`
   font: ${({ theme }) => theme.TEXT.semiSmall};
   color: ${({ theme }) => theme.COLOR.grey3};
+`;
+
+export const NoKeywordText = styled.span`
+  font: ${({ theme }) => theme.TEXT.semiSmall};
+  color: ${({ theme }) => theme.COLOR.grey2};
 `;
 
 export const EtcContainer = styled.div`

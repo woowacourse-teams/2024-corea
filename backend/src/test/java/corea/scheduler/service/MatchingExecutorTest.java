@@ -8,12 +8,15 @@ import corea.matching.domain.PullRequestInfo;
 import corea.matching.infrastructure.dto.GithubUserResponse;
 import corea.matching.infrastructure.dto.PullRequestResponse;
 import corea.matching.service.PullRequestProvider;
+import corea.matchresult.domain.MatchResult;
+import corea.matchresult.repository.MatchResultRepository;
 import corea.member.domain.Member;
 import corea.member.domain.MemberRole;
 import corea.member.repository.MemberRepository;
 import corea.participation.domain.Participation;
 import corea.participation.repository.ParticipationRepository;
 import corea.room.domain.Room;
+import corea.room.domain.RoomStatus;
 import corea.room.repository.RoomRepository;
 import corea.scheduler.domain.AutomaticMatching;
 import corea.scheduler.repository.AutomaticMatchingRepository;
@@ -23,13 +26,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -37,13 +38,16 @@ import static org.mockito.Mockito.when;
 
 @ServiceTest
 @Import(TestAsyncConfig.class)
-class AutomaticMatchingExecutorTest {
+class MatchingExecutorTest {
 
     @Autowired
-    private AutomaticMatchingExecutor automaticMatchingExecutor;
+    private MatchingExecutor matchingExecutor;
 
     @Autowired
     private AutomaticMatchingRepository automaticMatchingRepository;
+
+    @Autowired
+    private MatchResultRepository matchResultRepository;
 
     @Autowired
     private RoomRepository roomRepository;
@@ -114,32 +118,24 @@ class AutomaticMatchingExecutorTest {
     }
 
     @Test
-    @DisplayName("동시에 10개의 자동 매칭을 실행해도 PESSIMISTIC_WRITE 락을 통해 동시성을 제어할 수 있다.")
-    void startMatchingWithLock() throws InterruptedException {
-        AutomaticMatching automaticMatching = automaticMatchingRepository.save(new AutomaticMatching(room.getId(), LocalDateTime.now().plusDays(1)));
+    @DisplayName("매칭을 진행한다.")
+    void match() {
+        AutomaticMatching automaticMatching = automaticMatchingRepository.save(new AutomaticMatching(room.getId(), room.getRecruitmentDeadline()));
 
-        int threadCount = 10;
-        ExecutorService executorService = Executors.newFixedThreadPool(threadCount);
-        CountDownLatch latch = new CountDownLatch(threadCount);
-        AtomicInteger successCount = new AtomicInteger(0);
+        matchingExecutor.match(automaticMatching.getRoomId());
 
-        when(pullRequestProvider.getUntilDeadline(any(), any())).thenAnswer(ignore -> {
-            successCount.incrementAndGet();
-            return getPullRequestInfo(pororo, ash, joysun, movin, ten, cho);
-        });
+        List<MatchResult> matchResults = matchResultRepository.findAll();
+        assertThat(matchResults).isNotEmpty();
+    }
 
-        for (int i = 0; i < threadCount; i++) {
-            executorService.execute(() -> {
-                try {
-                    automaticMatchingExecutor.execute(automaticMatching.getRoomId());
-                } finally {
-                    latch.countDown();
-                }
-            });
-        }
+    @Transactional
+    @Test
+    @DisplayName("매칭 시도 중 예외가 발생했다면 방 상태를 FAIL로 변경한다.")
+    void matchFail() {
+        AutomaticMatching automaticMatching = automaticMatchingRepository.save(new AutomaticMatching(emptyParticipantRoom.getId(), emptyParticipantRoom.getRecruitmentDeadline()));
 
-        latch.await();
+        matchingExecutor.match(automaticMatching.getRoomId());
 
-        assertThat(successCount.get()).isEqualTo(1);
+        assertThat(emptyParticipantRoom.getStatus()).isEqualTo(RoomStatus.FAIL);
     }
 }

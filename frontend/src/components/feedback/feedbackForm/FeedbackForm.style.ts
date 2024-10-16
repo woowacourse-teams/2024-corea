@@ -33,6 +33,11 @@ export const ModalQuestion = styled.p<ModalQuestionProps>`
 
 export const StyledTextarea = styled.p`
   display: flex;
+
   width: 100%;
+
   font: ${({ theme }) => theme.TEXT.small};
+  line-height: 2.2rem;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
 `;

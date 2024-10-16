@@ -40,6 +40,7 @@ export interface RoomInfo extends BaseRoomInfo {
   memberRole: Role;
   recruitmentDeadline: string;
   reviewDeadline: string;
+  message: string;
 }
 
 export interface RoomListInfo {

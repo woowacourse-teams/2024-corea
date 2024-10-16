@@ -1,4 +1,4 @@
-import { InputHTMLAttributes } from "react";
+import React, { InputHTMLAttributes, useEffect, useRef } from "react";
 import useDropdown from "@/hooks/common/useDropdown";
 import * as S from "@/components/common/timeDropdown/TimeDropdown.style";
 import { formatTime } from "@/utils/dateFormatter";
@@ -20,6 +20,18 @@ const TimePicker = ({
   time: Date;
   onTimeInputChange: (event: TimeDropdownChangeProps) => void;
 }) => {
+  const hourRef = useRef<HTMLButtonElement | null>(null);
+  const minuteRef = useRef<HTMLButtonElement | null>(null);
+
+  useEffect(() => {
+    if (hourRef.current) {
+      hourRef.current.scrollIntoView({ block: "start" });
+    }
+    if (minuteRef.current) {
+      minuteRef.current.scrollIntoView({ block: "start" });
+    }
+  }, [time]);
+
   return (
     <S.TimePickerWrapper>
       <S.TimeSelector>
@@ -27,6 +39,7 @@ const TimePicker = ({
           <S.TimeButton
             key={hour}
             isActive={hour === time.getHours()}
+            ref={hour === time.getHours() ? hourRef : null}
             onClick={() => {
               const newTime = new Date(time);
               newTime.setHours(hour);
@@ -43,6 +56,7 @@ const TimePicker = ({
           <S.TimeButton
             key={minute}
             isActive={minute === time.getMinutes()}
+            ref={minute === time.getMinutes() ? minuteRef : null}
             onClick={() => {
               const newTime = new Date(time);
               newTime.setMinutes(minute);
