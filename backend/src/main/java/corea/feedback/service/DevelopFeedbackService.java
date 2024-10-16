@@ -3,10 +3,13 @@ package corea.feedback.service;
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
 import corea.feedback.domain.DevelopFeedback;
+import corea.feedback.domain.DevelopFeedbackReader;
+import corea.feedback.domain.DevelopFeedbackWriter;
 import corea.feedback.dto.DevelopFeedbackRequest;
 import corea.feedback.dto.DevelopFeedbackResponse;
 import corea.feedback.repository.DevelopFeedbackRepository;
 import corea.matchresult.domain.MatchResult;
+import corea.matchresult.domain.MatchResultWriter;
 import corea.matchresult.repository.MatchResultRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
@@ -24,28 +27,17 @@ public class DevelopFeedbackService {
     private final MatchResultRepository matchResultRepository;
     private final DevelopFeedbackRepository developFeedbackRepository;
 
+    private final DevelopFeedbackReader developFeedbackReader;
+    private final DevelopFeedbackWriter developFeedbackWriter;
+    private final MatchResultWriter matchResultWriter;
+
     @Transactional
     public DevelopFeedbackResponse create(long roomId, long deliverId, DevelopFeedbackRequest request) {
-        validateAlreadyExist(roomId, deliverId, request.receiverId());
-        log.debug("개발 피드백 작성[작성자({}), 요청값({})", deliverId, request);
+        MatchResult matchResult = matchResultWriter.completeDevelopFeedback(roomId, deliverId, request.receiverId());
 
-        MatchResult matchResult = matchResultRepository.findByRoomIdAndReviewerIdAndRevieweeId(roomId, deliverId, request.receiverId())
-                .orElseThrow(() -> new CoreaException(ExceptionType.NOT_MATCHED_MEMBER));
-        matchResult.reviewerCompleteFeedback();
-
-        DevelopFeedback feedback = saveDevelopFeedback(roomId, request, matchResult);
-        return DevelopFeedbackResponse.from(feedback);
-    }
-
-    private void validateAlreadyExist(long roomId, long deliverId, long receiverId) {
-        if (developFeedbackRepository.existsByRoomIdAndDeliverIdAndReceiverId(roomId, deliverId, receiverId)) {
-            throw new CoreaException(ExceptionType.ALREADY_COMPLETED_FEEDBACK);
-        }
-    }
-
-    private DevelopFeedback saveDevelopFeedback(long roomId, DevelopFeedbackRequest request, MatchResult matchResult) {
         DevelopFeedback feedback = request.toEntity(roomId, matchResult.getReviewer(), matchResult.getReviewee());
-        return developFeedbackRepository.save(feedback);
+        DevelopFeedback createdFeedback = developFeedbackWriter.create(feedback, roomId, deliverId, request.receiverId());
+        return DevelopFeedbackResponse.from(createdFeedback);
     }
 
     @Transactional
