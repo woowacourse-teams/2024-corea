@@ -4,8 +4,10 @@ import config.RepositoryTest;
 import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
 import corea.member.domain.Member;
+import corea.member.domain.MemberRole;
 import corea.member.repository.MemberRepository;
 import corea.participation.domain.Participation;
+import corea.participation.domain.ParticipationStatus;
 import corea.participation.repository.ParticipationRepository;
 import corea.room.domain.Room;
 import corea.room.domain.RoomClassification;
@@ -55,7 +57,7 @@ class RoomRepositoryTest {
         Room pororoRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo, LocalDateTime.now().plusDays(2)));
         roomRepository.save(RoomFixture.ROOM_DOMAIN(joyson, LocalDateTime.now().plusDays(3)));
 
-        participationRepository.save(new Participation(pororoRoom, pororo));
+        participationRepository.save(new Participation(pororoRoom, pororo, MemberRole.REVIEWER, ParticipationStatus.MANAGER,pororoRoom.getMatchingSize()));
         Page<Room> roomPage = roomRepository.findAllByStatusOrderByRecruitmentDeadline(RoomStatus.OPEN, PageRequest.of(0, 8));
 
         List<String> managerNames = getManagerNames(roomPage.getContent());

@@ -8,12 +8,14 @@ import corea.exception.CoreaException;
 import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import static corea.exception.ExceptionType.INVALID_TOKEN;
 import static corea.exception.ExceptionType.TOKEN_EXPIRED;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -35,7 +37,13 @@ public class LoginService {
     }
 
     private Member register(GithubUserInfo userInfo) {
-        return memberRepository.save(new Member(userInfo.login(), userInfo.avatarUrl(), userInfo.name(), userInfo.email(), true, userInfo.id()));
+        Member member = memberRepository.save(new Member(userInfo.login(), userInfo.avatarUrl(), userInfo.name(), userInfo.email(), true, userInfo.id()));
+        logCreateMembers(member);
+        return member;
+    }
+
+    private void logCreateMembers(Member member) {
+        log.info("멤버를 생성했습니다. 멤버 id={}, 멤버 이름={},깃허브 id={}, 닉네임={}", member.getId(), member.getName(), member.getGithubUserId(), member.getUsername());
     }
 
     private String extendAuthorization(Member member) {
@@ -56,7 +64,8 @@ public class LoginService {
                     .orElseThrow(() -> new CoreaException(INVALID_TOKEN));
             return tokenService.createAccessToken(info.getMember());
         } catch (CoreaException e) {
-            if (e.getExceptionType().equals(TOKEN_EXPIRED)) {
+            if (e.getExceptionType()
+                    .equals(TOKEN_EXPIRED)) {
                 logoutService.logoutByExpiredRefreshToken(refreshToken);
             }
             throw e;
