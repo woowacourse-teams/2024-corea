@@ -11,9 +11,15 @@ interface DropdownProps {
   dropdownItems: DropdownItem[];
   selectedCategory: string;
   onSelectCategory: (category: string) => void;
+  error?: boolean;
 }
 
-const Dropdown = ({ dropdownItems, onSelectCategory, selectedCategory }: DropdownProps) => {
+const Dropdown = ({
+  dropdownItems,
+  onSelectCategory,
+  selectedCategory,
+  error = false,
+}: DropdownProps) => {
   const { isDropdownOpen, handleToggleDropdown, dropdownRef } = useDropdown();
 
   const handleDropdownItemClick = (category: string) => {
@@ -23,7 +29,7 @@ const Dropdown = ({ dropdownItems, onSelectCategory, selectedCategory }: Dropdow
 
   return (
     <S.DropdownContainer ref={dropdownRef}>
-      <S.DropdownToggle onClick={handleToggleDropdown}>
+      <S.DropdownToggle onClick={handleToggleDropdown} $error={error}>
         {dropdownItems.find((item) => item.value === selectedCategory)?.text || "선택해주세요"}
         <Icon kind={isDropdownOpen ? "arrowDropUp" : "arrowDropDown"} />
       </S.DropdownToggle>

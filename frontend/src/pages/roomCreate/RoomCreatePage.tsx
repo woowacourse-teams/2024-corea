@@ -19,9 +19,9 @@ const initialFormState = {
   content: "",
   repositoryLink: "",
   thumbnailLink: "",
-  matchingSize: 0,
+  matchingSize: 1,
   keywords: [],
-  limitedParticipants: 0,
+  limitedParticipants: 1,
   recruitmentDeadline: new Date(),
   reviewDeadline: new Date(),
   classification: "ALL" as Classification,
@@ -47,6 +47,13 @@ const RoomCreatePage = () => {
     }));
   };
 
+  const isFormValid =
+    formState.title !== "" &&
+    formState.classification !== "ALL" &&
+    formState.repositoryLink !== "" &&
+    formState.recruitmentDeadline !== null &&
+    formState.reviewDeadline !== null;
+
   const handleConfirm = () => {
     const formattedFormState = {
       ...formState,
@@ -56,7 +63,6 @@ const RoomCreatePage = () => {
     postCreateRoomMutation.mutate(formattedFormState, {
       onSuccess: () => navigate("/"),
     });
-    setIsClickedButton(true);
     handleCloseModal();
   };
 
@@ -98,6 +104,7 @@ const RoomCreatePage = () => {
               onSelectCategory={(value) =>
                 handleInputChange("classification", value as Classification)
               }
+              error={isClickedButton && formState.classification === "ALL"}
             />
           </S.ContentInput>
         </S.RowContainer>
@@ -165,10 +172,10 @@ const RoomCreatePage = () => {
           <S.ContentInput>
             <Input
               type="number"
+              min="1"
               name="matchingSize"
               value={formState.matchingSize}
               onChange={(e) => handleInputChange("matchingSize", parseInt(e.target.value, 10))}
-              error={isClickedButton && formState.matchingSize === 0}
               required
             />
           </S.ContentInput>
@@ -181,12 +188,12 @@ const RoomCreatePage = () => {
           <S.ContentInput>
             <Input
               type="number"
+              min="1"
               name="limitedParticipants"
               value={formState.limitedParticipants}
               onChange={(e) =>
                 handleInputChange("limitedParticipants", parseInt(e.target.value, 10))
               }
-              error={isClickedButton && formState.limitedParticipants === 0}
               required
             />
           </S.ContentInput>
@@ -218,7 +225,14 @@ const RoomCreatePage = () => {
           </S.ContentInput>
         </S.RowContainer>
 
-        <Button onClick={handleOpenModal}>완료</Button>
+        <Button
+          onClick={() => {
+            if (isFormValid) handleOpenModal();
+            setIsClickedButton(true);
+          }}
+        >
+          완료
+        </Button>
       </S.CreateSection>
     </ContentSection>
   );
