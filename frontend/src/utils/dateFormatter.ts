@@ -50,15 +50,15 @@ export const formatDate = (date: Date): string => {
 };
 
 // 시간 -> 문자열
-export const formatTime = (time: Date): string => {
-  const hour = time.getHours().toString().padStart(2, "0");
-  const minutes = time.getMinutes().toString().padStart(2, "0");
+export const formatTime = (date: Date): string => {
+  const hour = date.getHours().toString().padStart(2, "0");
+  const minutes = date.getMinutes().toString().padStart(2, "0");
   return `${hour}:${minutes}`;
 };
 
 // 날짜+시간
-export const formatCombinedDateTime = (date: Date, time: Date): string => {
-  return `${formatDate(date)} ${formatTime(time)}`;
+export const formatCombinedDateTime = (date: Date): string => {
+  return `${formatDate(date)} ${formatTime(date)}`;
 };
 
 export const formatLeftTime = (time: string) => {
