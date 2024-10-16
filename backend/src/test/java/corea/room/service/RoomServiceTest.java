@@ -19,6 +19,7 @@ import corea.room.domain.Room;
 import corea.room.dto.RoomCreateRequest;
 import corea.room.dto.RoomParticipantResponses;
 import corea.room.dto.RoomResponse;
+import corea.room.dto.RoomUpdateRequest;
 import corea.room.repository.RoomRepository;
 import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.*;
@@ -52,7 +53,7 @@ class RoomServiceTest {
     private ParticipationRepository participationRepository;
 
     @Nested
-    @DisplayName("방을 생성 및 삭제할 수 있다.")
+    @DisplayName("방을 생성, 수정 및 삭제할 수 있다.")
     class RoomWriter {
 
         private Member manager;
@@ -116,6 +117,24 @@ class RoomServiceTest {
                     .asInstanceOf(InstanceOfAssertFactories.type(CoreaException.class))
                     .extracting(CoreaException::getExceptionType)
                     .isEqualTo(ExceptionType.ROOM_DELETION_AUTHORIZATION_ERROR);
+        }
+
+        @Test
+        @DisplayName("방의 매니저가 아니면 수정 시, 예외를 발생합니다.")
+        void throw_exception_when_update_with_not_manager() {
+            RoomResponse response = roomService.create(manager.getId(), RoomFixture.ROOM_CREATE_REQUEST());
+
+            assertThatThrownBy(() -> roomService.update(-1, RoomFixture.ROOM_UPDATE_REQUEST(response.id())))
+                    .isInstanceOf(CoreaException.class);
+        }
+
+        @Test
+        @DisplayName("존재하지 않는 방이면, 예외를 발생합니다.")
+        void throw_exception_when_update_with_not_exist_room() {
+            roomService.create(manager.getId(), RoomFixture.ROOM_CREATE_REQUEST());
+
+            assertThatThrownBy(() -> roomService.update(manager.getId(), RoomFixture.ROOM_UPDATE_REQUEST(-1)))
+                    .isInstanceOf(CoreaException.class);
         }
     }
 
