@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import media from "@/styles/media";
 
 export const CreateSection = styled.section`
   display: flex;
@@ -17,9 +18,16 @@ export const CreateSection = styled.section`
 
 export const RowContainer = styled.p`
   display: flex;
+  flex-direction: column;
   gap: 2rem;
-  align-items: center;
+  align-items: flex-start;
+
   width: 100%;
+
+  ${media.large`
+    flex-direction: row;
+    align-items: center;
+  `}
 `;
 
 export const ContentLabel = styled.div`
