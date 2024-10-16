@@ -48,13 +48,17 @@ public class RoomInquiryService {
     }
 
     private List<RoomResponse> getRoomResponses(List<Room> rooms, long memberId) {
+        List<Participation> participations = participationRepository.findAllByMemberId(memberId);
+
         return rooms.stream()
-                .map(room -> getRoomResponse(room, memberId))
+                .map(room -> getRoomResponse(participations, room))
                 .toList();
     }
 
-    private RoomResponse getRoomResponse(Room room, long memberId) {
-        return participationRepository.findByRoomIdAndMemberId(room.getId(), memberId)
+    private RoomResponse getRoomResponse(List<Participation> participations, Room room) {
+        return participations.stream()
+                .filter(participation -> participation.isParticipatedRoom(room))
+                .findFirst()
                 .map(participation -> RoomResponse.of(room, participation))
                 .orElseGet(() -> RoomResponse.of(room, MemberRole.NONE, ParticipationStatus.NOT_PARTICIPATED));
     }
