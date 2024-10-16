@@ -1,7 +1,6 @@
-package corea.scheduler.service;
+package corea.scheduler.domain;
 
 import corea.room.domain.Room;
-import corea.scheduler.domain.AutomaticMatching;
 import corea.scheduler.repository.AutomaticMatchingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

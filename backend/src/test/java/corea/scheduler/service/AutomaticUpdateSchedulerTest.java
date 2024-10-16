@@ -21,7 +21,7 @@ import java.util.concurrent.ScheduledFuture;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ServiceTest
-class AutomaticUpdateServiceTest {
+class AutomaticUpdateSchedulerTest {
 
     @Autowired
     private MemberRepository memberRepository;
@@ -36,12 +36,12 @@ class AutomaticUpdateServiceTest {
     private AutomaticUpdateExecutor automaticUpdateExecutor;
 
     private Map<Long, ScheduledFuture<?>> scheduledTasks;
-    private AutomaticUpdateService automaticUpdateService;
+    private AutomaticUpdateScheduler automaticUpdateScheduler;
 
     @BeforeEach
     void setup() {
         this.scheduledTasks = new HashMap<>();
-        this.automaticUpdateService = new AutomaticUpdateService(taskScheduler, automaticUpdateExecutor, scheduledTasks);
+        this.automaticUpdateScheduler = new AutomaticUpdateScheduler(taskScheduler, automaticUpdateExecutor, scheduledTasks);
     }
 
     @Test
@@ -52,7 +52,7 @@ class AutomaticUpdateServiceTest {
                 .plusDays(2);
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN_REVIEW_DEADLINE(manager, reviewDeadline));
 
-        automaticUpdateService.updateAtReviewDeadline(room);
+        automaticUpdateScheduler.updateAtReviewDeadline(room);
 
         assertThat(scheduledTasks.containsKey(room.getId())).isTrue();
     }
@@ -64,10 +64,10 @@ class AutomaticUpdateServiceTest {
         LocalDateTime reviewDeadline = LocalDateTime.now()
                 .plusDays(2);
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN_REVIEW_DEADLINE(manager, reviewDeadline));
-        automaticUpdateService.updateAtReviewDeadline(room);
+        automaticUpdateScheduler.updateAtReviewDeadline(room);
         ScheduledFuture<?> scheduledFuture = scheduledTasks.get(room.getId());
 
-        automaticUpdateService.cancel(room.getId());
+        automaticUpdateScheduler.cancel(room.getId());
 
         assertThat(scheduledFuture.isCancelled()).isTrue();
         assertThat(scheduledTasks.containsKey(room.getId())).isFalse();
@@ -80,10 +80,10 @@ class AutomaticUpdateServiceTest {
         LocalDateTime reviewDeadline = LocalDateTime.now()
                 .plusDays(2);
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN_REVIEW_DEADLINE(manager, reviewDeadline));
-        automaticUpdateService.updateAtReviewDeadline(room);
+        automaticUpdateScheduler.updateAtReviewDeadline(room);
         ScheduledFuture<?> task = scheduledTasks.get(room.getId());
 
-        automaticUpdateService.modifyTask(room);
+        automaticUpdateScheduler.modifyTask(room);
         ScheduledFuture<?> updateTask = scheduledTasks.get(room.getId());
 
         assertThat(task.isCancelled()).isTrue();

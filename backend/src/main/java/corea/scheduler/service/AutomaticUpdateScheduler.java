@@ -18,7 +18,7 @@ import java.util.concurrent.ScheduledFuture;
 @Slf4j
 @Service
 @Transactional(readOnly = true)
-public class AutomaticUpdateService {
+public class AutomaticUpdateScheduler {
 
     private static final ZoneId ZONE_ID = ZoneId.of("Asia/Seoul");
 
@@ -27,13 +27,11 @@ public class AutomaticUpdateService {
     private final Map<Long, ScheduledFuture<?>> scheduledTasks;
 
     @Autowired
-    public AutomaticUpdateService(TaskScheduler taskScheduler, AutomaticUpdateExecutor automaticUpdateExecutor) {
-        this.taskScheduler = taskScheduler;
-        this.automaticUpdateExecutor = automaticUpdateExecutor;
-        this.scheduledTasks = new ConcurrentHashMap<>();
+    public AutomaticUpdateScheduler(TaskScheduler taskScheduler, AutomaticUpdateExecutor automaticUpdateExecutor) {
+        this(taskScheduler,automaticUpdateExecutor,new ConcurrentHashMap<>());
     }
 
-    public AutomaticUpdateService(TaskScheduler taskScheduler, AutomaticUpdateExecutor automaticUpdateExecutor, Map<Long, ScheduledFuture<?>> scheduledTasks) {
+    public AutomaticUpdateScheduler(TaskScheduler taskScheduler, AutomaticUpdateExecutor automaticUpdateExecutor, Map<Long, ScheduledFuture<?>> scheduledTasks) {
         this.taskScheduler = taskScheduler;
         this.automaticUpdateExecutor = automaticUpdateExecutor;
         this.scheduledTasks = scheduledTasks;
@@ -48,7 +46,7 @@ public class AutomaticUpdateService {
     }
 
     public void modifyTask(Room room) {
-        cancelScheduledUpdate(room.getId());
+        cancel(room.getId());
         scheduleUpdate(room.getId(), room.getReviewDeadline());
     }
 

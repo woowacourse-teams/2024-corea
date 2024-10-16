@@ -10,6 +10,7 @@ import corea.room.dto.RoomUpdateRequest;
 import java.time.LocalDateTime;
 import java.util.List;
 
+//@formatter:off
 public class RoomFixture {
 
     public static Room ROOM_DOMAIN(Member member) {
@@ -62,8 +63,7 @@ public class RoomFixture {
                 30,
                 member,
                 recruitmentDeadline,
-                LocalDateTime.now()
-                        .plusDays(14),
+                LocalDateTime.now().plusDays(14),
                 RoomClassification.BACKEND,
                 status
         );
@@ -82,8 +82,7 @@ public class RoomFixture {
                 30,
                 member,
                 LocalDateTime.now(),
-                LocalDateTime.now()
-                        .plusDays(14),
+                LocalDateTime.now().plusDays(14),
                 RoomClassification.BACKEND,
                 RoomStatus.OPEN
         );
@@ -99,26 +98,21 @@ public class RoomFixture {
                 List.of("TDD, 클린코드, 자바"),
                 10,
                 LocalDateTime.now(),
-                LocalDateTime.now()
-                        .plusDays(14),
+                LocalDateTime.now().plusDays(14),
                 RoomClassification.BACKEND
         );
     }
 
     public static RoomCreateRequest ROOM_CREATE_REQUEST() {
-        return ROOM_CREATE_REQUEST(LocalDateTime.now()
-                .plusHours(2), LocalDateTime.now()
-                .plusDays(2));
+        return ROOM_CREATE_REQUEST(LocalDateTime.now().plusHours(2), LocalDateTime.now().plusDays(2));
     }
 
     public static RoomCreateRequest ROOM_CREATE_REQUEST_WITH_RECRUITMENT_DEADLINE(LocalDateTime recruitmentDeadline) {
-        return ROOM_CREATE_REQUEST(recruitmentDeadline, LocalDateTime.now()
-                .plusDays(2));
+        return ROOM_CREATE_REQUEST(recruitmentDeadline, LocalDateTime.now().plusDays(2));
     }
 
     public static RoomCreateRequest ROOM_CREATE_REQUEST_WITH_REVIEW_DEADLINE(LocalDateTime reviewDeadline) {
-        return ROOM_CREATE_REQUEST(LocalDateTime.now()
-                .plusHours(2), reviewDeadline);
+        return ROOM_CREATE_REQUEST(LocalDateTime.now().plusHours(2), reviewDeadline);
     }
 
     public static RoomCreateRequest ROOM_CREATE_REQUEST(LocalDateTime recruitmentDeadline, LocalDateTime reviewDeadline) {
@@ -147,11 +141,9 @@ public class RoomFixture {
                 0,
                 100,
                 member,
-                LocalDateTime.now()
-                        .plusSeconds(100),
-                LocalDateTime.now()
-                        .plusDays(1),
-                RoomClassification.BACKEND,
-                RoomStatus.OPEN);
+                LocalDateTime.now().plusSeconds(100),
+                LocalDateTime.now().plusDays(1),
+                RoomClassification.BACKEND, RoomStatus.OPEN);
     }
 }
+//@formatter:on

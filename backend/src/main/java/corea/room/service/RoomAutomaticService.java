@@ -1,9 +1,7 @@
 package corea.room.service;
 
 import corea.room.domain.Room;
-import corea.scheduler.domain.AutomaticMatching;
-import corea.scheduler.domain.AutomaticUpdate;
-import corea.scheduler.domain.ScheduleStatus;
+import corea.scheduler.domain.*;
 import corea.scheduler.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,8 +24,8 @@ public class RoomAutomaticService {
     private final AutomaticMatchingWriter automaticMatchingWriter;
     private final AutomaticMatchingReader automaticMatchingReader;
 
-    private final AutomaticMatchingService automaticMatchingService;
-    private final AutomaticUpdateService automaticUpdateService;
+    private final AutomaticMatchingScheduler automaticMatchingScheduler;
+    private final AutomaticUpdateScheduler automaticUpdateScheduler;
 
     @Transactional
     public void updateTime(Room updateRoom) {
@@ -37,8 +35,8 @@ public class RoomAutomaticService {
         automaticMatchingWriter.updateTime(automaticMatching, updateRoom.getRecruitmentDeadline());
         automaticUpdateWriter.updateTime(automaticUpdate, updateRoom.getReviewDeadline());
 
-        automaticMatchingService.modifyTask(updateRoom);
-        automaticUpdateService.modifyTask(updateRoom);
+        automaticMatchingScheduler.modifyTask(updateRoom);
+        automaticUpdateScheduler.modifyTask(updateRoom);
     }
 
     @Transactional
@@ -46,8 +44,8 @@ public class RoomAutomaticService {
         automaticMatchingWriter.create(room);
         automaticUpdateWriter.create(room);
 
-        automaticMatchingService.matchOnRecruitmentDeadline(room);
-        automaticUpdateService.updateAtReviewDeadline(room);
+        automaticMatchingScheduler.matchOnRecruitmentDeadline(room);
+        automaticUpdateScheduler.updateAtReviewDeadline(room);
     }
 
     @Transactional
@@ -58,28 +56,28 @@ public class RoomAutomaticService {
         automaticMatchingWriter.delete(automaticMatching);
         automaticUpdateWriter.delete(automaticUpdate);
 
-        automaticMatchingService.cancel(room.getId());
-        automaticUpdateService.cancel(room.getId());
+        automaticMatchingScheduler.cancel(room.getId());
+        automaticUpdateScheduler.cancel(room.getId());
     }
 
     @EventListener(ApplicationReadyEvent.class)
     public void schedulePendingAutomaticMatching() {
-        List<AutomaticMatching> matchings = automaticMatchingReader.findByStatus(ScheduleStatus.PENDING);
+        List<AutomaticMatching> matchings = automaticMatchingReader.findAllByStatus(ScheduleStatus.PENDING);
 
         log.info("{}개의 방에 대해 자동 매칭 재예약 시작", matchings.size());
 
-        matchings.forEach(automaticMatchingService::matchOnRecruitmentDeadline);
+        matchings.forEach(automaticMatchingScheduler::matchOnRecruitmentDeadline);
 
         log.info("{}개의 방에 대해 자동 매칭 재예약 완료", matchings.size());
     }
 
     @EventListener(ApplicationReadyEvent.class)
     public void schedulePendingAutomaticUpdate() {
-        List<AutomaticUpdate> updates = automaticUpdateReader.findByStatus(ScheduleStatus.PENDING);
+        List<AutomaticUpdate> updates = automaticUpdateReader.findAllByStatus(ScheduleStatus.PENDING);
 
         log.info("{}개의 방에 대해 자동 상태 업데이트 재예약 시작", updates.size());
 
-        updates.forEach(automaticUpdateService::updateAtReviewDeadline);
+        updates.forEach(automaticUpdateScheduler::updateAtReviewDeadline);
 
         log.info("{}개의 방에 대해 자동 상태 업데이트 재예약 완료", updates.size());
     }

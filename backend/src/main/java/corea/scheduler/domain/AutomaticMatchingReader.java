@@ -1,10 +1,8 @@
-package corea.scheduler.service;
+package corea.scheduler.domain;
 
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
 import corea.room.domain.Room;
-import corea.scheduler.domain.AutomaticMatching;
-import corea.scheduler.domain.ScheduleStatus;
 import corea.scheduler.repository.AutomaticMatchingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -24,7 +22,7 @@ public class AutomaticMatchingReader {
                 .orElseThrow(() -> new CoreaException(ExceptionType.AUTOMATIC_MATCHING_NOT_FOUND));
     }
 
-    public List<AutomaticMatching> findByStatus(ScheduleStatus status) {
+    public List<AutomaticMatching> findAllByStatus(ScheduleStatus status) {
         return automaticMatchingRepository.findAllByStatus(status);
     }
 }

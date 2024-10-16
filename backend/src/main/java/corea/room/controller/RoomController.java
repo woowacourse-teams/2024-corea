@@ -30,7 +30,7 @@ public class RoomController implements RoomControllerSpecification {
     public ResponseEntity<RoomResponse> update(@LoginMember AuthInfo authInfo, @RequestBody RoomUpdateRequest request) {
         RoomResponse response = roomService.update(authInfo.getId(), request);
 
-        return ResponseEntity.created(URI.create(String.format("/rooms/%d", response.id())))
+        return ResponseEntity.ok()
                 .body(response);
     }
 

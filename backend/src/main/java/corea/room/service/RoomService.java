@@ -65,12 +65,12 @@ public class RoomService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND));
 
-        Room updateRoom = roomRepository.save(request.toEntity(member));
-        Participation participation = participationRepository.findByRoomIdAndMemberId(updateRoom.getId(), memberId)
+        Room updatedRoom = roomRepository.save(request.toEntity(member));
+        Participation participation = participationRepository.findByRoomIdAndMemberId(updatedRoom.getId(), memberId)
                 .orElseThrow(() -> new CoreaException(ExceptionType.NOT_ALREADY_APPLY));
 
-        roomAutomaticService.updateTime(updateRoom);
-        return RoomResponse.of(updateRoom, participation.getMemberRole(), ParticipationStatus.MANAGER);
+        roomAutomaticService.updateTime(updatedRoom);
+        return RoomResponse.of(updatedRoom, participation.getMemberRole(), ParticipationStatus.MANAGER);
     }
 
     private void validateDeadLine(LocalDateTime recruitmentDeadline, LocalDateTime reviewDeadline) {

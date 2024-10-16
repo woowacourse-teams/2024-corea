@@ -1,10 +1,8 @@
-package corea.scheduler.service;
+package corea.scheduler.domain;
 
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
 import corea.room.domain.Room;
-import corea.scheduler.domain.AutomaticUpdate;
-import corea.scheduler.domain.ScheduleStatus;
 import corea.scheduler.repository.AutomaticUpdateRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -24,9 +22,7 @@ public class AutomaticUpdateReader {
                 .orElseThrow(() -> new CoreaException(ExceptionType.AUTOMATIC_UPDATE_NOT_FOUND));
     }
 
-    public List<AutomaticUpdate> findByStatus(ScheduleStatus status) {
-        return automaticUpdateRepository.findAllByStatus(status)
-                .stream()
-                .toList();
+    public List<AutomaticUpdate> findAllByStatus(ScheduleStatus status) {
+        return automaticUpdateRepository.findAllByStatus(status);
     }
 }

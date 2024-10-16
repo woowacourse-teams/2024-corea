@@ -26,7 +26,7 @@ import java.util.concurrent.ScheduledFuture;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ServiceTest
-class AutomaticMatchingServiceTest {
+class AutomaticMatchingSchedulerTest {
 
     @Autowired
     private MemberRepository memberRepository;
@@ -44,12 +44,12 @@ class AutomaticMatchingServiceTest {
     private AutomaticMatchingExecutor automaticMatchingExecutor;
 
     private Map<Long, ScheduledFuture<?>> scheduledTasks;
-    private AutomaticMatchingService automaticMatchingService;
+    private AutomaticMatchingScheduler automaticMatchingScheduler;
 
     @BeforeEach
     void setup() {
         this.scheduledTasks = new HashMap<>();
-        this.automaticMatchingService = new AutomaticMatchingService(taskScheduler, automaticMatchingExecutor, scheduledTasks);
+        this.automaticMatchingScheduler = new AutomaticMatchingScheduler(taskScheduler, automaticMatchingExecutor, scheduledTasks);
     }
 
     @Test
@@ -60,7 +60,7 @@ class AutomaticMatchingServiceTest {
                 .plusDays(2);
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN_REVIEW_DEADLINE(manager, reviewDeadline));
 
-        automaticMatchingService.matchOnRecruitmentDeadline(room);
+        automaticMatchingScheduler.matchOnRecruitmentDeadline(room);
 
         assertThat(scheduledTasks.containsKey(room.getId())).isTrue();
     }
@@ -72,10 +72,10 @@ class AutomaticMatchingServiceTest {
         LocalDateTime reviewDeadline = LocalDateTime.now()
                 .plusDays(2);
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN_REVIEW_DEADLINE(manager, reviewDeadline));
-        automaticMatchingService.matchOnRecruitmentDeadline(room);
+        automaticMatchingScheduler.matchOnRecruitmentDeadline(room);
         ScheduledFuture<?> scheduledFuture = scheduledTasks.get(room.getId());
 
-        automaticMatchingService.cancel(room.getId());
+        automaticMatchingScheduler.cancel(room.getId());
 
         assertThat(scheduledFuture.isCancelled()).isTrue();
         assertThat(scheduledTasks.containsKey(room.getId())).isFalse();
@@ -88,10 +88,10 @@ class AutomaticMatchingServiceTest {
         LocalDateTime reviewDeadline = LocalDateTime.now()
                 .plusDays(2);
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN_REVIEW_DEADLINE(manager, reviewDeadline));
-        automaticMatchingService.matchOnRecruitmentDeadline(room);
+        automaticMatchingScheduler.matchOnRecruitmentDeadline(room);
         ScheduledFuture<?> task = scheduledTasks.get(room.getId());
 
-        automaticMatchingService.modifyTask(room);
+        automaticMatchingScheduler.modifyTask(room);
         ScheduledFuture<?> updateTask = scheduledTasks.get(room.getId());
 
         assertThat(task.isCancelled()).isTrue();

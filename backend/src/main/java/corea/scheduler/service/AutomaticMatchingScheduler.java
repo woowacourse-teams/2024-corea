@@ -18,29 +18,29 @@ import java.util.concurrent.ScheduledFuture;
 @Slf4j
 @Service
 @Transactional(readOnly = true)
-public class AutomaticMatchingService {
+public class AutomaticMatchingScheduler {
 
     private static final ZoneId ZONE_ID = ZoneId.of("Asia/Seoul");
 
     private final TaskScheduler taskScheduler;
     private final AutomaticMatchingExecutor automaticMatchingExecutor;
-    private Map<Long, ScheduledFuture<?>> scheduledTasks;
+    private final Map<Long, ScheduledFuture<?>> scheduledTasks;
 
     @Autowired
-    public AutomaticMatchingService(TaskScheduler taskScheduler, AutomaticMatchingExecutor automaticMatchingExecutor) {
+    public AutomaticMatchingScheduler(TaskScheduler taskScheduler, AutomaticMatchingExecutor automaticMatchingExecutor) {
         this.taskScheduler = taskScheduler;
         this.automaticMatchingExecutor = automaticMatchingExecutor;
         this.scheduledTasks = new ConcurrentHashMap<>();
     }
 
-    public AutomaticMatchingService(TaskScheduler taskScheduler, AutomaticMatchingExecutor automaticMatchingExecutor, Map<Long, ScheduledFuture<?>> scheduledTasks) {
+    public AutomaticMatchingScheduler(TaskScheduler taskScheduler, AutomaticMatchingExecutor automaticMatchingExecutor, Map<Long, ScheduledFuture<?>> scheduledTasks) {
         this.taskScheduler = taskScheduler;
         this.automaticMatchingExecutor = automaticMatchingExecutor;
         this.scheduledTasks = scheduledTasks;
     }
 
     public void modifyTask(Room room) {
-        cancelScheduledMatching(room.getId());
+        cancel(room.getId());
         scheduleMatching(room.getId(), room.getRecruitmentDeadline());
     }
 
