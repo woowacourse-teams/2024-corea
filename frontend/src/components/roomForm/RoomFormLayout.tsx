@@ -45,7 +45,6 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
   const [formState, setFormState] = useState<CreateRoomInfo>(() => getInitialFormState(data));
   const { postCreateRoomMutation, putEditRoomMutation } = useMutateRoom();
   const { isModalOpen, handleOpenModal, handleCloseModal } = useModal();
-  console.log(roomId);
 
   const isFormValid =
     formState.title !== "" && formState.classification !== "ALL" && formState.repositoryLink !== "";

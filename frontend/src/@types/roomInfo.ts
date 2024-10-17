@@ -26,7 +26,7 @@ export interface CreateRoomInfo extends BaseRoomInfo {
 }
 
 export interface SubmitRoomInfo extends BaseRoomInfo {
-  id?: number;
+  roomId?: number;
   recruitmentDeadline: string;
   reviewDeadline: string;
 }
