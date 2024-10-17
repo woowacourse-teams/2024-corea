@@ -65,7 +65,7 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
     };
 
     if (formType === "edit" && roomId) {
-      const updatedFormState = { ...formattedFormState, id: roomId };
+      const updatedFormState = { ...formattedFormState, roomId };
       putEditRoomMutation.mutate(updatedFormState, {
         onSuccess: () => navigate(`/rooms/${roomId}`),
       });
