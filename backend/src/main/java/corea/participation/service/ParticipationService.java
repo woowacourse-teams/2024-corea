@@ -6,6 +6,7 @@ import corea.member.domain.Member;
 import corea.member.domain.MemberRole;
 import corea.member.repository.MemberRepository;
 import corea.participation.domain.Participation;
+import corea.participation.domain.ParticipationWriter;
 import corea.participation.dto.ParticipationRequest;
 import corea.participation.dto.ParticipationResponse;
 import corea.participation.repository.ParticipationRepository;

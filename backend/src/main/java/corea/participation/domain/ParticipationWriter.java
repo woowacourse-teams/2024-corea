@@ -1,11 +1,9 @@
-package corea.participation.service;
+package corea.participation.domain;
 
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
 import corea.member.domain.Member;
 import corea.member.domain.MemberRole;
-import corea.participation.domain.Participation;
-import corea.participation.domain.ParticipationStatus;
 import corea.participation.repository.ParticipationRepository;
 import corea.room.domain.Room;
 import lombok.RequiredArgsConstructor;
