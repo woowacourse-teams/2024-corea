@@ -31,7 +31,10 @@ public class DynamicSizeMatchingStrategy implements MatchingStrategy {
         List<Pair> pairs = strategy.matchPairs(nonReviewers, roomMatchingSize);
         // 이후 추가적으로 matchingSize 에 따라 매칭 시도
         handleAdditionalMatching(nonReviewers, roomMatchingSize, pairs);
-        // TODO: 리뷰이 매칭 필요
+        // Reviewer 마다 matchingSize 만큼 reviewee 매칭
+        if (!reviewers.isEmpty()) {
+            matchReviewers(reviewers, nonReviewers, pairs);
+        }
         return pairs;
     }
 
@@ -57,7 +60,6 @@ public class DynamicSizeMatchingStrategy implements MatchingStrategy {
 
             // 지금 가능한 reviewers, reviewees 사이에 매칭 시도
             performAdditionalMatching(participations, pairs);
-
         }
     }
 
@@ -71,6 +73,7 @@ public class DynamicSizeMatchingStrategy implements MatchingStrategy {
 
     // 현재 reviewees 를 기준으로, 모든 reviewee 가 한 번씩 현재 reviewers 에서 가능한 매칭을 시도
     private void performAdditionalMatching(List<Participation> participations, List<Pair> pairs) {
+        // reviewer, reviewee 를 matchingSize 기준 상반되게 정렬하여 매칭 횟수를 최대화
         List<Participation> reviewersArray = new ArrayList<>(participations);
         ArrayDeque<Member> reviewers = extractMember(reviewersArray);
         Collections.reverse(reviewersArray);
@@ -133,5 +136,25 @@ public class DynamicSizeMatchingStrategy implements MatchingStrategy {
         }
         // MemberRole.BOTH 인 경우 matchingSize 와 currentMatchingSize 를 비교
         return participation.getMatchingSize() >= currentMatchingSize;
+    }
+
+    // 모든 Reviewer 에 대해 매칭 시도
+    private void matchReviewers(List<Participation> reviewers, List<Participation> nonReviewers, List<Pair> pairs) {
+        ArrayDeque<Member> reviewees = extractMember(nonReviewers);
+        for (Participation reviewer : reviewers) {
+            matchRevieweesToReviewer(pairs, reviewer, reviewees);
+        }
+    }
+
+    // MemberRole.Reviewer 인 참여자는 본인의 matchingSize 만큼 리뷰이를 배정
+    private void matchRevieweesToReviewer(List<Pair> pairs, Participation reviewerParticipant, ArrayDeque<Member> reviewees) {
+        for (int count = 0; count < reviewerParticipant.getMatchingSize(); count++) {
+            Member reviewer = reviewerParticipant.getMember();
+            Member reviewee = reviewees.pollFirst();
+            if (isPossiblePair(reviewer, reviewee, pairs)) {
+                pairs.add(new Pair(reviewer, reviewee));
+            }
+            reviewees.add(reviewee);
+        }
     }
 }

@@ -100,6 +100,8 @@ class DynamicSizeMatchingStrategyTest {
 
         List<Pair> pairs = matchingStrategy.matchPairs(participations, room.getMatchingSize());
 
+        long reviewerSize = participations.stream().filter(Participation::isReviewer).count();
+
         for (Participation participation : participations) {
             long reviewerCount = pairs.stream()
                     .filter(pair -> pair.getDeliver().getGithubUserId().equals(participation.getMemberGithubId()))
@@ -108,12 +110,14 @@ class DynamicSizeMatchingStrategyTest {
                     .filter(pair -> pair.getReceiver().getGithubUserId().equals(participation.getMemberGithubId()))
                     .count();
             if (participation.getMemberRole().isReviewer()) {
-                assertThat(reviewerCount).isLessThanOrEqualTo(participation.getMatchingSize());
+                //MemberRole.REVIEWER 는 matchingSize 만큼 리뷰하고, 이무에게도 리뷰받지 않는다.
+                assertThat(reviewerCount).isEqualTo(participation.getMatchingSize());
                 assertThat(revieweeCount).isZero();
             } else {
+                //MemberRole.BOTH 는 최소 roomMatchingSize, 최대 matchingSize 만큼 리뷰하고, 최소 roomMatchingSize, 최대 matchingSize + MemberRole.REVIEWER 수 만큼 리뷰를 받는다.
                 assertThat(reviewerCount).isLessThanOrEqualTo(participation.getMatchingSize());
                 assertThat(reviewerCount).isGreaterThanOrEqualTo(room.getMatchingSize());
-                assertThat(revieweeCount).isLessThanOrEqualTo(participation.getMatchingSize());
+                assertThat(revieweeCount).isLessThanOrEqualTo(participation.getMatchingSize() + reviewerSize);
                 assertThat(revieweeCount).isGreaterThanOrEqualTo(room.getMatchingSize());
             }
         }
