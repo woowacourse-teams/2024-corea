@@ -5,6 +5,7 @@ import corea.member.domain.MemberRole;
 import corea.participation.domain.Participation;
 import corea.participation.domain.ParticipationStatus;
 import corea.room.domain.Room;
+import corea.room.domain.RoomClassification;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDateTime;
@@ -56,6 +57,9 @@ public record RoomResponse(@Schema(description = "방 아이디", example = "1")
                            @Schema(description = "방 상태", example = "OPEN")
                            String roomStatus,
 
+                           @Schema(description = "방 분야 정보", example = "BACKEND")
+                           RoomClassification classification,
+
                            @Schema(description = "매칭 실패 원인 메세지 제공", example = "참여 인원이 부족하여 매칭을 진행할 수 없습니다.")
                            String message
 ) {
@@ -84,6 +88,7 @@ public record RoomResponse(@Schema(description = "방 아이디", example = "1")
                 participationStatus,
                 role,
                 room.getRoomStatus(),
+                room.getClassification(),
                 DEFAULT_MESSAGE
         );
     }
@@ -105,6 +110,7 @@ public record RoomResponse(@Schema(description = "방 아이디", example = "1")
                 participation.getStatus(),
                 participation.getMemberRole(),
                 room.getRoomStatus(),
+                room.getClassification(),
                 DEFAULT_MESSAGE
         );
     }
@@ -126,6 +132,7 @@ public record RoomResponse(@Schema(description = "방 아이디", example = "1")
                 participation.getStatus(),
                 participation.getMemberRole(),
                 room.getRoomStatus(),
+                room.getClassification(),
                 failedMatching.getMatchingFailedReason()
         );
     }
