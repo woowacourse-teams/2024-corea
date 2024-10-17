@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayDeque;
+import java.util.Comparator;
 import java.util.List;
 
 @Component
@@ -20,24 +21,25 @@ public class DynamicSizeMatchingStrategy implements MatchingStrategy {
     private final PlainRandomMatchingStrategy strategy;
 
     public List<Pair> matchPairs(List<Participation> participations, int roomMatchingSize) {
-        List<Participation> participationWithoutReviewer = participations.stream()
-                .filter(participation -> !participation.isReviewer())
+        List<Participation> nonReviewers = participations.stream()
+                .filter(Participation::isNotReviewer)
+                .sorted(Comparator.comparing(Participation::getMatchingSize))
                 .toList();
-        validateNonReviewerSize(participationWithoutReviewer.size(), roomMatchingSize);
+        validateNonReviewerSize(nonReviewers, roomMatchingSize);
         // MemberRole.REVIEWER 인 사람을 제외하고 기존 로직으로 roomMatchingSize 만큼 선 매칭
-        List<Pair> pairs = strategy.matchPairs(participationWithoutReviewer, roomMatchingSize);
+        List<Pair> pairs = strategy.matchPairs(nonReviewers, roomMatchingSize);
         // 이후 추가적으로 matchingSize 에 따라 매칭 시도
-        handleAdditionalMatching(participations, participationWithoutReviewer, roomMatchingSize, pairs);
+        handleAdditionalMatching(participations, nonReviewers, roomMatchingSize, pairs);
         return pairs;
     }
 
-    private void validateNonReviewerSize(int participationSize, int roomMatchingSize) {
-        if (participationSize <= roomMatchingSize) {
+    private void validateNonReviewerSize(List<Participation> nonReviewers, int roomMatchingSize) {
+        if (nonReviewers.size() <= roomMatchingSize) {
             throw new CoreaException(ExceptionType.PARTICIPANT_SIZE_LACK);
         }
     }
 
-    private void handleAdditionalMatching(List<Participation> participations, List<Participation> participationsWithoutReviewer, int roomMatchingSize, List<Pair> pairs) {
+    private void handleAdditionalMatching(List<Participation> participations, List<Participation> nonReviewers, int roomMatchingSize, List<Pair> pairs) {
         // 참여자들의 matchingSize 중 최대값
         int max = getMaxMatchingSize(participations, roomMatchingSize);
 
@@ -45,14 +47,14 @@ public class DynamicSizeMatchingStrategy implements MatchingStrategy {
         for (int currentMatchingSize = roomMatchingSize + 1; currentMatchingSize <= max; currentMatchingSize++) {
             // currentMatchingSize 미만의 matchingSize 를 가진 참여자 제외
             participations = filterUnderMatchedParticipants(participations, currentMatchingSize, roomMatchingSize);
-            participationsWithoutReviewer = filterUnderMatchedParticipants(participationsWithoutReviewer, currentMatchingSize, roomMatchingSize);
+            nonReviewers = filterUnderMatchedParticipants(nonReviewers, currentMatchingSize, roomMatchingSize);
 
-            if (participationsWithoutReviewer.isEmpty()) {
+            if (nonReviewers.isEmpty()) {
                 break;
             }
 
             // 지금 가능한 reviewers, reviewees 사이에 매칭 시도
-            performAdditionalMatching(participations, participationsWithoutReviewer, pairs);
+            performAdditionalMatching(participations, nonReviewers, pairs);
 
         }
     }
@@ -66,9 +68,9 @@ public class DynamicSizeMatchingStrategy implements MatchingStrategy {
     }
 
     // 현재 reviewees 를 기준으로, 모든 reviewee 가 한 번씩 현재 reviewers 에서 가능한 매칭을 시도
-    private void performAdditionalMatching(List<Participation> participations, List<Participation> participationWithoutReviewer, List<Pair> pairs) {
+    private void performAdditionalMatching(List<Participation> participations, List<Participation> nonReviewers, List<Pair> pairs) {
         ArrayDeque<Member> reviewers = extractMember(participations);
-        ArrayDeque<Member> reviewees = extractMember(participationWithoutReviewer);
+        ArrayDeque<Member> reviewees = extractMember(nonReviewers);
 
         // reviewee 를 한 명 뽑아 가능한 reviewer 검색
         while (!reviewees.isEmpty()) {
