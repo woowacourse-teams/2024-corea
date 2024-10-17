@@ -62,33 +62,4 @@ public class RoomInquiryService {
                 .map(participation -> RoomResponse.of(room, participation))
                 .orElseGet(() -> RoomResponse.of(room, MemberRole.NONE, ParticipationStatus.NOT_PARTICIPATED));
     }
-
-    public RoomResponses findParticipatedRooms(long memberId, boolean includeClosed) {
-        List<Room> rooms = findFilteredParticipatedRooms(memberId, includeClosed);
-        List<RoomResponse> roomResponses = getRoomResponses(rooms, memberId);
-
-        return RoomResponses.of(roomResponses, true, 0);
-    }
-
-    private List<Room> findFilteredParticipatedRooms(long memberId, boolean includeClosed) {
-        List<Room> rooms = findAllParticipatedRooms(memberId);
-
-        if (includeClosed) {
-            return rooms;
-        }
-        return filterOutClosedRooms(rooms);
-    }
-
-    private List<Room> findAllParticipatedRooms(long memberId) {
-        return participationRepository.findAllByMemberId(memberId)
-                .stream()
-                .map(Participation::getRoom)
-                .toList();
-    }
-
-    private List<Room> filterOutClosedRooms(List<Room> rooms) {
-        return rooms.stream()
-                .filter(Room::isNotClosed)
-                .toList();
-    }
 }

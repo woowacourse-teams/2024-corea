@@ -2,7 +2,6 @@ package corea.room.service;
 
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
-import corea.matchresult.repository.FailedMatchingRepository;
 import corea.matchresult.repository.MatchResultRepository;
 import corea.member.domain.Member;
 import corea.member.domain.MemberRole;
@@ -38,7 +37,6 @@ public class RoomService {
     private final MemberRepository memberRepository;
     private final MatchResultRepository matchResultRepository;
     private final ParticipationRepository participationRepository;
-    private final FailedMatchingRepository failedMatchingRepository;
     private final RoomAutomaticService roomAutomaticService;
     private final ParticipationWriter participationWriter;
 
@@ -59,23 +57,6 @@ public class RoomService {
         return RoomResponse.of(room, participation.getMemberRole(), ParticipationStatus.MANAGER);
     }
 
-    @Transactional
-    public RoomResponse update(long memberId, RoomUpdateRequest request) {
-        Room room = getRoom(request.roomId());
-        if (room.isNotMatchingManager(memberId)) {
-            throw new CoreaException(ExceptionType.MEMBER_IS_NOT_MANAGER);
-        }
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND));
-
-        Room updatedRoom = roomRepository.save(request.toEntity(member));
-        Participation participation = participationRepository.findByRoomIdAndMemberId(updatedRoom.getId(), memberId)
-                .orElseThrow(() -> new CoreaException(ExceptionType.NOT_ALREADY_APPLY));
-
-        roomAutomaticService.updateTime(updatedRoom);
-        return RoomResponse.of(updatedRoom, participation.getMemberRole(), ParticipationStatus.MANAGER);
-    }
-
     private void validateDeadLine(LocalDateTime recruitmentDeadline, LocalDateTime reviewDeadline) {
         LocalDateTime currentDateTime = LocalDateTime.now();
 
@@ -91,18 +72,21 @@ public class RoomService {
         }
     }
 
-    public RoomResponse findOne(long roomId, long memberId) {
-        Room room = getRoom(roomId);
+    @Transactional
+    public RoomResponse update(long memberId, RoomUpdateRequest request) {
+        Room room = getRoom(request.roomId());
+        if (room.isNotMatchingManager(memberId)) {
+            throw new CoreaException(ExceptionType.MEMBER_IS_NOT_MANAGER);
+        }
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND));
 
-        return participationRepository.findByRoomIdAndMemberId(roomId, memberId)
-                .map(participation -> createRoomResponseWithParticipation(room, participation))
-                .orElseGet(() -> RoomResponse.of(room, MemberRole.NONE, ParticipationStatus.NOT_PARTICIPATED));
-    }
+        Room updatedRoom = roomRepository.save(request.toEntity(member));
+        Participation participation = participationRepository.findByRoomIdAndMemberId(updatedRoom.getId(), memberId)
+                .orElseThrow(() -> new CoreaException(ExceptionType.NOT_ALREADY_APPLY));
 
-    private RoomResponse createRoomResponseWithParticipation(Room room, Participation participation) {
-        return failedMatchingRepository.findByRoomId(room.getId())
-                .map(failedMatching -> RoomResponse.of(room, participation, failedMatching))
-                .orElseGet(() -> RoomResponse.of(room, participation));
+        roomAutomaticService.updateTime(updatedRoom);
+        return RoomResponse.of(updatedRoom, participation.getMemberRole(), ParticipationStatus.MANAGER);
     }
 
     @Transactional
