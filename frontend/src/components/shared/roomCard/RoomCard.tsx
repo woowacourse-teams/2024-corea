@@ -76,7 +76,13 @@ const RoomCard = React.memo(({ roomInfo }: RoomCardProps) => {
           </S.KeywordsContainer>
 
           <S.EtcContainer>
-            <Label type={roomInfo.roomStatus} />
+            <S.LabelWrapper>
+              {roomInfo.roomStatus === "OPEN" &&
+                roomInfo.participationStatus === "PARTICIPATED" && (
+                  <Label type={roomInfo.participationStatus} />
+                )}
+              <Label type={roomInfo.roomStatus} />
+            </S.LabelWrapper>
             <S.JoinMember>
               <Icon kind="person" size="1.6rem" color={theme.COLOR.grey4} />
               {roomInfo.currentParticipants}/{roomInfo.limitedParticipants}
