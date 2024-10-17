@@ -1,5 +1,7 @@
 package corea.matching.strategy;
 
+import corea.exception.CoreaException;
+import corea.exception.ExceptionType;
 import corea.matching.domain.Pair;
 import corea.member.domain.Member;
 import corea.participation.domain.Participation;
@@ -21,11 +23,18 @@ public class DynamicSizeMatchingStrategy implements MatchingStrategy {
         List<Participation> participationWithoutReviewer = participations.stream()
                 .filter(participation -> !participation.isReviewer())
                 .toList();
+        validateNonReviewerSize(participationWithoutReviewer.size(), roomMatchingSize);
         // MemberRole.REVIEWER 인 사람을 제외하고 기존 로직으로 roomMatchingSize 만큼 선 매칭
         List<Pair> pairs = strategy.matchPairs(participationWithoutReviewer, roomMatchingSize);
         // 이후 추가적으로 matchingSize 에 따라 매칭 시도
         handleAdditionalMatching(participations, participationWithoutReviewer, roomMatchingSize, pairs);
         return pairs;
+    }
+
+    private void validateNonReviewerSize(int participationSize, int roomMatchingSize) {
+        if (participationSize <= roomMatchingSize) {
+            throw new CoreaException(ExceptionType.PARTICIPANT_SIZE_LACK);
+        }
     }
 
     private void handleAdditionalMatching(List<Participation> participations, List<Participation> participationsWithoutReviewer, int roomMatchingSize, List<Pair> pairs) {
@@ -94,7 +103,7 @@ public class DynamicSizeMatchingStrategy implements MatchingStrategy {
     //선택된 reviewer 와 reviewee 가 매칭 가능한 상태인지 판단
     private boolean isPossiblePair(Member reviewer, Member reviewee, List<Pair> pairs) {
         // reviewer 와 reviewee 가 동일한 경우 false 반환
-        if (reviewer.equals(reviewee)) {
+        if (reviewer == reviewee) {
             return false;
         }
 
