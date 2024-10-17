@@ -13,9 +13,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Schema(description = "방 수정 요청")
-public record RoomUpdateRequest(
-                                @Schema(description = "방 ID", example = "99")
-                                @NotBlank
+public record RoomUpdateRequest(@Schema(description = "방 ID", example = "99")
+                                @NotNull
                                 long roomId,
 
                                 @Schema(description = "방 제목", example = "MVC를 아시나요?")
