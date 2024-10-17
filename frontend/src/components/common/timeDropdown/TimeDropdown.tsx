@@ -1,4 +1,4 @@
-import { InputHTMLAttributes } from "react";
+import React, { InputHTMLAttributes, useEffect, useRef } from "react";
 import useDropdown from "@/hooks/common/useDropdown";
 import * as S from "@/components/common/timeDropdown/TimeDropdown.style";
 import { formatTime } from "@/utils/dateFormatter";
@@ -6,7 +6,6 @@ import { formatTime } from "@/utils/dateFormatter";
 interface TimeDropdownProps extends InputHTMLAttributes<HTMLInputElement> {
   selectedTime: Date;
   onTimeChange: (time: Date) => void;
-  error?: boolean;
 }
 
 interface TimeDropdownChangeProps {
@@ -21,6 +20,18 @@ const TimePicker = ({
   time: Date;
   onTimeInputChange: (event: TimeDropdownChangeProps) => void;
 }) => {
+  const hourRef = useRef<HTMLButtonElement | null>(null);
+  const minuteRef = useRef<HTMLButtonElement | null>(null);
+
+  useEffect(() => {
+    if (hourRef.current) {
+      hourRef.current.scrollIntoView({ block: "start" });
+    }
+    if (minuteRef.current) {
+      minuteRef.current.scrollIntoView({ block: "start" });
+    }
+  }, [time]);
+
   return (
     <S.TimePickerWrapper>
       <S.TimeSelector>
@@ -28,6 +39,7 @@ const TimePicker = ({
           <S.TimeButton
             key={hour}
             isActive={hour === time.getHours()}
+            ref={hour === time.getHours() ? hourRef : null}
             onClick={() => {
               const newTime = new Date(time);
               newTime.setHours(hour);
@@ -44,6 +56,7 @@ const TimePicker = ({
           <S.TimeButton
             key={minute}
             isActive={minute === time.getMinutes()}
+            ref={minute === time.getMinutes() ? minuteRef : null}
             onClick={() => {
               const newTime = new Date(time);
               newTime.setMinutes(minute);
@@ -58,12 +71,7 @@ const TimePicker = ({
   );
 };
 
-export const TimeDropdown = ({
-  selectedTime,
-  onTimeChange,
-  error = false,
-  ...rest
-}: TimeDropdownProps) => {
+export const TimeDropdown = ({ selectedTime, onTimeChange, ...rest }: TimeDropdownProps) => {
   const { isDropdownOpen, handleToggleDropdown, dropdownRef } = useDropdown();
 
   const handleTimeChange = ({ newTime, canCloseDropdown }: TimeDropdownChangeProps) => {
@@ -80,7 +88,6 @@ export const TimeDropdown = ({
         onClick={handleToggleDropdown}
         placeholder="시간을 선택하세요"
         readOnly
-        $error={error}
         {...rest}
       />
       {isDropdownOpen && <TimePicker time={selectedTime} onTimeInputChange={handleTimeChange} />}

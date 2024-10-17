@@ -27,7 +27,7 @@ public class SocialFeedbackService {
     @Transactional
     public SocialFeedbackResponse create(long roomId, long deliverId, SocialFeedbackRequest request) {
         validateAlreadyExist(roomId, deliverId, request.receiverId());
-        log.debug("소설 피드백 작성[작성자({}), 요청값({})", deliverId, request);
+        log.info("소설 피드백 작성[작성자({}), 요청값({})", deliverId, request);
 
         MatchResult matchResult = matchResultRepository.findByRoomIdAndReviewerIdAndRevieweeId(roomId, request.receiverId(), deliverId)
                 .orElseThrow(() -> new CoreaException(ExceptionType.NOT_MATCHED_MEMBER));
@@ -50,7 +50,7 @@ public class SocialFeedbackService {
 
     @Transactional
     public SocialFeedbackResponse update(long feedbackId, long deliverId, SocialFeedbackRequest request) {
-        log.debug("소설 피드백 업데이트[작성자({}), 피드백 ID({}), 요청값({})", deliverId, feedbackId, request);
+        log.info("소설 피드백 업데이트[작성자({}), 피드백 ID({}), 요청값({})", deliverId, feedbackId, request);
 
         SocialFeedback feedback = socialFeedbackRepository.findById(feedbackId)
                 .orElseThrow(() -> new CoreaException(ExceptionType.FEEDBACK_NOT_FOUND));

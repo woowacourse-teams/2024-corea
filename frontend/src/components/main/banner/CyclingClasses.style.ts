@@ -3,7 +3,11 @@ import media from "@/styles/media";
 
 export const CyclingContainer = styled.div`
   overflow: hidden;
-  height: 54px;
+  height: 60px;
+
+  ${media.medium`
+    height: 42px;
+  `}
 `;
 
 export const CyclingList = styled.ul`
@@ -13,9 +17,9 @@ export const CyclingList = styled.ul`
   flex-direction: column;
   align-items: flex-end;
 
-  width: 160px;
+  width: 180px;
   height: 52px;
-  padding: 0.2rem;
+  padding: 1rem;
 
   font-family: "Do Hyeon", sans-serif;
   font-size: 8rem;
@@ -42,7 +46,7 @@ export const CyclingList = styled.ul`
   }
 
   ${media.medium`
-    width: 120px;
+    width: 150px;
     height: 40px;
     font-size: 6.4rem;
   `}

@@ -2,6 +2,7 @@ package corea.member.domain;
 
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
+import corea.participation.domain.ParticipationStatus;
 
 public enum MemberRole {
 
@@ -21,5 +22,12 @@ public enum MemberRole {
 
     public boolean isReviewer() {
         return this == REVIEWER;
+    }
+
+    public ParticipationStatus getParticipationStatus() {
+        return switch (this) {
+            case REVIEWER,REVIEWEE,BOTH -> ParticipationStatus.PARTICIPATED;
+            case NONE -> ParticipationStatus.NOT_PARTICIPATED;
+        };
     }
 }

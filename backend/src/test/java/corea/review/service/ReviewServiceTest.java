@@ -52,7 +52,7 @@ class ReviewServiceTest {
     void completeReview() {
         Member reviewer = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
         Member reviewee = memberRepository.save(MemberFixture.MEMBER_PORORO());
-        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON())));
+        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_PROGRESS(memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON())));
         MatchResult matchResult = matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), reviewer, reviewee));
 
         when(githubOAuthProvider.getPullRequestReview(anyString()))
@@ -77,7 +77,7 @@ class ReviewServiceTest {
     void notCompleteReview() {
         Member reviewer = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
         Member reviewee = memberRepository.save(MemberFixture.MEMBER_PORORO());
-        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON())));
+        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_PROGRESS(memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON())));
         matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), reviewer, reviewee));
 
         when(githubOAuthProvider.getPullRequestReview(anyString())).thenReturn(new GithubPullRequestReview[]{});
@@ -86,6 +86,20 @@ class ReviewServiceTest {
                 .asInstanceOf(InstanceOfAssertFactories.type(CoreaException.class))
                 .extracting(CoreaException::getExceptionType)
                 .isEqualTo(ExceptionType.NOT_COMPLETE_GITHUB_REVIEW);
+    }
+
+    @Test
+    @DisplayName("방이 종료되고 코드 리뷰 완료 버튼을 누르면 예외가 발생한다.")
+    void completeReviewAfterRoomClosed() {
+        Member reviewer = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
+        Member reviewee = memberRepository.save(MemberFixture.MEMBER_PORORO());
+        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_CLOSED(memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON())));
+        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), reviewer, reviewee));
+
+        assertThatThrownBy(() -> reviewService.completeReview(room.getId(), reviewer.getId(), reviewee.getId()))
+                .asInstanceOf(InstanceOfAssertFactories.type(CoreaException.class))
+                .extracting(CoreaException::getExceptionType)
+                .isEqualTo(ExceptionType.ROOM_STATUS_INVALID);
     }
 
     @Test

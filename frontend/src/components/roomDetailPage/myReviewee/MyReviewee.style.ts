@@ -43,6 +43,30 @@ export const MyRevieweeContent = styled.span`
   }
 `;
 
+export const MyRevieweeId = styled.span`
+  overflow: hidden;
+  display: block;
+
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100px;
+  height: 40px;
+
+  font: ${({ theme }) => theme.TEXT.semiSmall};
+  line-height: 40px;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  ${media.medium`
+    max-width: 120px;
+  `}
+
+  ${media.large`
+    max-width: 100%;
+  `}
+`;
+
 export const PRLink = styled.a`
   cursor: pointer;
 
@@ -63,7 +87,7 @@ export const PRLink = styled.a`
 export const IconWrapper = styled.span`
   ${media.small`
     display: none;
-`}
+  `}
 `;
 
 export const GuidanceWrapper = styled.div`

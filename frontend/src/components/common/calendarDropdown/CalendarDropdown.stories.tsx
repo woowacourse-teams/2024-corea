@@ -74,7 +74,6 @@ export const 캘린더_드롭다운_에러: Story = {
     options: {
       isPastDateDisabled: true,
     },
-    error: true,
   },
   render: (args) => {
     const [selectedDate, setSelectedDate] = useState<Date>(args.selectedDate);
@@ -88,7 +87,6 @@ export const 캘린더_드롭다운_에러: Story = {
         selectedDate={selectedDate}
         handleSelectedDate={handleSelectedDate}
         options={args.options}
-        error={args.error}
       />
     );
   },
