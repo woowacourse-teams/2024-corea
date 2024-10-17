@@ -4,7 +4,7 @@ import ContentSection from "@/components/common/contentSection/ContentSection";
 import RoomList from "@/components/shared/roomList/RoomList";
 
 const UserParticipatedRoom = () => {
-  const { data: roomList } = useFetchParticipatedRoomList();
+  const { data: roomList } = useFetchParticipatedRoomList(true);
 
   const participatingRoomList = roomList.rooms.filter((room) => room.roomStatus !== "CLOSE");
   const participatedRoomList = roomList.rooms.filter((room) => room.roomStatus === "CLOSE");

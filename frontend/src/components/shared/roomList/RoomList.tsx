@@ -48,7 +48,9 @@ const RoomList = ({
     <S.RoomListSection>
       <S.RoomListContainer>
         {roomList.map((roomInfo) =>
-          roomType === "participated" ? (
+          roomType === "participated" ||
+          roomInfo.participationStatus === "PARTICIPATED" ||
+          roomInfo.participationStatus === "MANAGER" ? (
             <Link to={`/rooms/${roomInfo.id}`} key={roomInfo.id}>
               <RoomCard roomInfo={roomInfo} />
             </Link>

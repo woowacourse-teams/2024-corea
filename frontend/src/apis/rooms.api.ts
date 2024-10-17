@@ -4,9 +4,11 @@ import { ParticipantListInfo } from "@/@types/participantList";
 import { Role, RoomInfo, RoomListInfo, SubmitRoomInfo } from "@/@types/roomInfo";
 import MESSAGES from "@/constants/message";
 
-export const getParticipatedRoomList = async (): Promise<RoomListInfo> => {
+export const getParticipatedRoomList = async (
+  includeClosed: boolean = false,
+): Promise<RoomListInfo> => {
   const res = await apiClient.get({
-    endpoint: API_ENDPOINTS.PARTICIPATED_ROOMS,
+    endpoint: `${API_ENDPOINTS.PARTICIPATED_ROOMS}?includeClosed=${includeClosed}`,
     errorMessage: MESSAGES.ERROR.GET_PARTICIPATED_ROOM_LIST,
   });
 

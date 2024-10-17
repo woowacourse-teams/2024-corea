@@ -39,6 +39,17 @@ const DisplayLeftTime = (roomInfo: RoomInfo) => {
   return <>종료됨</>;
 };
 
+const DisplayLabel = (roomInfo: RoomInfo) => {
+  return (
+    <>
+      <Label type={roomInfo.roomStatus} />
+      {(roomInfo.participationStatus === "MANAGER" ||
+        roomInfo.participationStatus === "PARTICIPATED") && <Label type="PARTICIPATED" />}
+      {roomInfo.roomStatus === "CLOSE" && roomInfo.message !== "" && <Label type="FAIL" />}
+    </>
+  );
+};
+
 interface RoomCardProps {
   roomInfo: RoomInfo;
 }
@@ -76,7 +87,7 @@ const RoomCard = React.memo(({ roomInfo }: RoomCardProps) => {
           </S.KeywordsContainer>
 
           <S.EtcContainer>
-            <Label type={roomInfo.roomStatus} />
+            <S.LabelWrapper>{DisplayLabel(roomInfo)}</S.LabelWrapper>
             <S.JoinMember>
               <Icon kind="person" size="1.6rem" color={theme.COLOR.grey4} />
               {roomInfo.currentParticipants}/{roomInfo.limitedParticipants}
