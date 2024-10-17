@@ -49,6 +49,10 @@ public class DevelopFeedback extends BaseTimeEntity {
         this(null, roomId, deliver, receiver, evaluatePoint, keywords, feedBackText, recommendationPoint);
     }
 
+    public boolean isNotMatchingDeliver(long deliverId) {
+        return deliver.isNotMatchingId(deliverId);
+    }
+
     public void update(int evaluationPoint, List<String> feedbackKeywords, String feedbackText, int recommendationPoint) {
         this.evaluatePoint = evaluationPoint;
         this.keywords = FeedbackKeywordConverter.convertToKeywords(feedbackKeywords);

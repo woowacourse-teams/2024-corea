@@ -11,7 +11,8 @@ import java.util.stream.Stream;
 public class MapHandler {
 
     public static <T> Stream<T> extractDistinctKeyStreams(Map<? extends T, ?>... maps) {
-        return (Stream<T>) Arrays.stream(maps).flatMap(map -> map.keySet().stream())
+        return (Stream<T>) Arrays.stream(maps)
+                .flatMap(map -> map.keySet().stream())
                 .distinct();
     }
 }
