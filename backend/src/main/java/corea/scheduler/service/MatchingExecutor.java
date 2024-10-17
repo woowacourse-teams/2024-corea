@@ -5,6 +5,8 @@ import corea.exception.ExceptionType;
 import corea.matching.domain.PullRequestInfo;
 import corea.matching.service.MatchingService;
 import corea.matching.service.PullRequestProvider;
+import corea.matchresult.domain.FailedMatching;
+import corea.matchresult.repository.FailedMatchingRepository;
 import corea.room.domain.Room;
 import corea.room.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
 
 @Slf4j
@@ -24,6 +25,7 @@ public class MatchingExecutor {
     private final PullRequestProvider pullRequestProvider;
     private final MatchingService matchingService;
     private final RoomRepository roomRepository;
+    private final FailedMatchingRepository failedMatchingRepository;
 
     @Async
     public void match(long roomId) {
@@ -37,7 +39,7 @@ public class MatchingExecutor {
             });
         } catch (CoreaException e) {
             log.warn("매칭 실행 중 에러 발생: {}", e.getMessage(), e);
-            updateRoomStatusToFail(roomId);
+            recordMatchingFailure(roomId, e.getExceptionType());
         }
     }
 
@@ -48,15 +50,24 @@ public class MatchingExecutor {
         matchingService.match(roomId, pullRequestInfo);
     }
 
-
-    private void updateRoomStatusToFail(long roomId) {
+    private void recordMatchingFailure(long roomId, ExceptionType exceptionType) {
         //TODO: 위와 동일
         TransactionTemplate template = new TransactionTemplate(transactionManager);
         template.execute(status -> {
-            Room room = getRoom(roomId);
-            room.updateStatusToFail();
+            updateRoomStatusToFail(roomId);
+            saveFailedMatching(roomId, exceptionType);
             return null;
         });
+    }
+
+    private void updateRoomStatusToFail(long roomId) {
+        Room room = getRoom(roomId);
+        room.updateStatusToFail();
+    }
+
+    private void saveFailedMatching(long roomId, ExceptionType exceptionType) {
+        FailedMatching failedMatching = new FailedMatching(roomId, exceptionType);
+        failedMatchingRepository.save(failedMatching);
     }
 
     private Room getRoom(long roomId) {
