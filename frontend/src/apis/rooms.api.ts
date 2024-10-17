@@ -67,7 +67,7 @@ export const postCreateRoom = async (roomData: SubmitRoomInfo): Promise<void> =>
 };
 
 export const putEditRoom = async (roomData: SubmitRoomInfo): Promise<void> => {
-  return apiClient.post({
+  return apiClient.put({
     endpoint: API_ENDPOINTS.ROOMS,
     body: roomData,
     errorMessage: MESSAGES.ERROR.PUT_EDIT_ROOM,
