@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Button from "@/components/common/button/Button";
 import IntroNavigationBar from "@/components/intro/IntroNavigationBar";
 import * as S from "@/pages/intro/IntroPage.style";
-import { puzzle_with_people_color, question } from "@/assets/index";
+import { puzzle_with_people_color, question_with_color } from "@/assets/index";
 
 const IntroPage = () => {
   const [currentSection, setCurrentSection] = useState(0);
@@ -61,9 +61,9 @@ const IntroPage = () => {
         <S.ContentSectionColumn>
           <S.ChatBubble className="one">{`"남들은 내 코드를 어떻게 생각하고 있을까?"`}</S.ChatBubble>
           <S.ChatBubble className="two">{`"좋은 코드에 대한 평가 기준은 없을까?"`}</S.ChatBubble>
-          <S.ChatBubble className="three">{`"코드리뷰하면 좋다던데,, 사람은 어떻게 구하지?"`}</S.ChatBubble>
+          <S.ChatBubble className="three">{`"코드리뷰하면 좋다던데... 사람은 어떻게 구하지?"`}</S.ChatBubble>
           <S.ChatBubble className="four">{`"내가 지금 제대로 공부하고 있는 건가?"`}</S.ChatBubble>
-          <S.ImgWrapper src={question} style={{ marginTop: "2rem" }} />
+          <S.ImgWrapper src={question_with_color} style={{ marginTop: "2rem" }} />
         </S.ContentSectionColumn>
       </S.ContentLayout>
 
