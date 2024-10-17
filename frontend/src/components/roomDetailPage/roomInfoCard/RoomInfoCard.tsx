@@ -68,7 +68,7 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
                 <S.DateTimeText>
                   {formatDateTimeString(roomInfo.recruitmentDeadline)}
                 </S.DateTimeText>
-                <S.StyledDday>
+                <S.StyledDday data-testid="recruitLeftTime">
                   {roomInfo.roomStatus === "OPEN" &&
                     formatDday(roomInfo.recruitmentDeadline) !== "종료됨" &&
                     displayLeftTime(roomInfo.recruitmentDeadline)}
@@ -84,8 +84,9 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
               </S.RoomContentSmall>
               <div>
                 <S.DateTimeText>{formatDateTimeString(roomInfo.reviewDeadline)}</S.DateTimeText>
-                <S.StyledDday>
-                  {formatDday(roomInfo.reviewDeadline) !== "종료됨" &&
+                <S.StyledDday data-testid="reviewLeftTime">
+                  {(roomInfo.roomStatus === "OPEN" || roomInfo.roomStatus === "PROGRESS") &&
+                    formatDday(roomInfo.reviewDeadline) !== "종료됨" &&
                     displayLeftTime(roomInfo.reviewDeadline)}
                 </S.StyledDday>
               </div>
