@@ -26,23 +26,29 @@ interface RoomFormLayoutProps {
   data?: RoomInfo;
 }
 
+const getInitialFormState = (data?: RoomInfo): CreateRoomInfo => ({
+  title: data?.title || "",
+  content: data?.content || "",
+  repositoryLink: data?.repositoryLink || "",
+  thumbnailLink: data?.thumbnailLink || "",
+  matchingSize: data?.matchingSize || 1,
+  keywords: data?.keywords || [],
+  limitedParticipants: data?.limitedParticipants || 1,
+  recruitmentDeadline: data ? new Date(data.recruitmentDeadline) : new Date(),
+  reviewDeadline: data ? new Date(data.reviewDeadline) : new Date(),
+  classification: data?.classification || "ALL",
+});
+
 const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
   const navigate = useNavigate();
   const [isClickedButton, setIsClickedButton] = useState(false);
-  const [formState, setFormState] = useState<CreateRoomInfo>(() => ({
-    title: data?.title || "",
-    content: data?.content || "",
-    repositoryLink: data?.repositoryLink || "",
-    thumbnailLink: data?.thumbnailLink || "",
-    matchingSize: data?.matchingSize || 1,
-    keywords: data?.keywords || [],
-    limitedParticipants: data?.limitedParticipants || 1,
-    recruitmentDeadline: data ? new Date(data.recruitmentDeadline) : new Date(),
-    reviewDeadline: data ? new Date(data.reviewDeadline) : new Date(),
-    classification: data?.classification || "ALL",
-  }));
+  const [formState, setFormState] = useState<CreateRoomInfo>(() => getInitialFormState(data));
   const { postCreateRoomMutation, putEditRoomMutation } = useMutateRoom();
   const { isModalOpen, handleOpenModal, handleCloseModal } = useModal();
+  console.log(roomId);
+
+  const isFormValid =
+    formState.title !== "" && formState.classification !== "ALL" && formState.repositoryLink !== "";
 
   const handleInputChange = <K extends keyof CreateRoomInfo>(name: K, value: CreateRoomInfo[K]) => {
     setFormState((prevState) => ({
@@ -50,9 +56,6 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
       [name]: value,
     }));
   };
-
-  const isFormValid =
-    formState.title !== "" && formState.classification !== "ALL" && formState.repositoryLink !== "";
 
   const handleConfirm = () => {
     const formattedFormState = {
@@ -64,7 +67,7 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
     if (formType === "edit" && roomId) {
       const updatedFormState = { ...formattedFormState, id: roomId };
       putEditRoomMutation.mutate(updatedFormState, {
-        onSuccess: () => navigate(`/detail/${roomId}`),
+        onSuccess: () => navigate(`/rooms/${roomId}`),
       });
     } else {
       postCreateRoomMutation.mutate(formattedFormState, {
