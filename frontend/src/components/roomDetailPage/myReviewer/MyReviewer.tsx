@@ -84,6 +84,15 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
     );
   }
 
+  // 매칭 후 PR 제출 안 해서 매칭 실패했을 때 보여줄 화면
+  if (roomInfo.participationStatus === "PULL_REQUEST_NOT_SUBMITTED") {
+    return (
+      <S.GuidanceWrapper>
+        <p className="process-paused">{MESSAGES.GUIDANCE.PULL_REQUEST_NOT_SUBMITTED}</p>
+      </S.GuidanceWrapper>
+    );
+  }
+
   // 방 종료 후 실패했을 때 보여줄 화면
   if (roomInfo.roomStatus === "CLOSE" && reviewerData.length === 0) {
     return (
@@ -123,7 +132,7 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
           return (
             <S.MyReviewerWrapper key={reviewer.userId}>
               <HoverStyledLink to={`/profile/${reviewer.username}`}>
-                <S.MyReviewerContent>{reviewer.username}</S.MyReviewerContent>
+                <S.MyReviewerId>{reviewer.username}</S.MyReviewerId>
               </HoverStyledLink>
 
               {reviewer.link.length !== 0 ? (

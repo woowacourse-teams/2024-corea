@@ -12,6 +12,10 @@ public enum RoomStatus {
         return this != OPEN;
     }
 
+    public boolean isNotProgress() {
+        return this != PROGRESS;
+    }
+
     public String getStatus() {
         return this.name();
     }
