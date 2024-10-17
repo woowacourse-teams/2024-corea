@@ -12,7 +12,7 @@ const sampleRoomList = {
     | "MANAGER"
     | "PULL_REQUEST_NOT_SUBMITTED",
   memberRole: roomInfo.memberRole as "BOTH" | "REVIEWER" | "REVIEWEE" | "NONE",
-  message: "FAIL시 오류 메시지",
+  classification: roomInfo.classification as "ALL" | "FRONTEND" | "BACKEND" | "ANDROID",
 } satisfies RoomInfo;
 
 const meta: Meta<typeof RoomCardModal> = {
