@@ -9,9 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayDeque;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 @Component
 @Primary
@@ -21,6 +19,9 @@ public class DynamicSizeMatchingStrategy implements MatchingStrategy {
     private final PlainRandomMatchingStrategy strategy;
 
     public List<Pair> matchPairs(List<Participation> participations, int roomMatchingSize) {
+        List<Participation> reviewers = participations.stream()
+                .filter(Participation::isReviewer)
+                .toList();
         List<Participation> nonReviewers = participations.stream()
                 .filter(Participation::isNotReviewer)
                 .sorted(Comparator.comparing(Participation::getMatchingSize))
@@ -29,32 +30,33 @@ public class DynamicSizeMatchingStrategy implements MatchingStrategy {
         // MemberRole.REVIEWER 인 사람을 제외하고 기존 로직으로 roomMatchingSize 만큼 선 매칭
         List<Pair> pairs = strategy.matchPairs(nonReviewers, roomMatchingSize);
         // 이후 추가적으로 matchingSize 에 따라 매칭 시도
-        handleAdditionalMatching(participations, nonReviewers, roomMatchingSize, pairs);
+        handleAdditionalMatching(nonReviewers, roomMatchingSize, pairs);
+        // TODO: 리뷰이 매칭 필요
         return pairs;
     }
 
-    private void validateNonReviewerSize(List<Participation> nonReviewers, int roomMatchingSize) {
-        if (nonReviewers.size() <= roomMatchingSize) {
+    private void validateNonReviewerSize(List<Participation> participations, int roomMatchingSize) {
+        if (participations.size() <= roomMatchingSize) {
             throw new CoreaException(ExceptionType.PARTICIPANT_SIZE_LACK);
         }
     }
 
-    private void handleAdditionalMatching(List<Participation> participations, List<Participation> nonReviewers, int roomMatchingSize, List<Pair> pairs) {
+    private void handleAdditionalMatching(List<Participation> nonReviewers, int roomMatchingSize, List<Pair> pairs) {
+        List<Participation> participations = nonReviewers.stream().toList();
         // 참여자들의 matchingSize 중 최대값
-        int max = getMaxMatchingSize(participations, roomMatchingSize);
+        int max = getMaxMatchingSize(nonReviewers, roomMatchingSize);
 
         // currentMatchingSize 이상의 matchingSize 를 가진 참여자들끼리 추가적인 매칭을 참여자별로 1회씩 시도
         for (int currentMatchingSize = roomMatchingSize + 1; currentMatchingSize <= max; currentMatchingSize++) {
             // currentMatchingSize 미만의 matchingSize 를 가진 참여자 제외
-            participations = filterUnderMatchedParticipants(participations, currentMatchingSize, roomMatchingSize);
-            nonReviewers = filterUnderMatchedParticipants(nonReviewers, currentMatchingSize, roomMatchingSize);
+            participations = filterUnderMatchedParticipants(participations, currentMatchingSize);
 
-            if (nonReviewers.isEmpty()) {
+            if (participations.isEmpty()) {
                 break;
             }
 
             // 지금 가능한 reviewers, reviewees 사이에 매칭 시도
-            performAdditionalMatching(participations, nonReviewers, pairs);
+            performAdditionalMatching(participations, pairs);
 
         }
     }
@@ -68,9 +70,11 @@ public class DynamicSizeMatchingStrategy implements MatchingStrategy {
     }
 
     // 현재 reviewees 를 기준으로, 모든 reviewee 가 한 번씩 현재 reviewers 에서 가능한 매칭을 시도
-    private void performAdditionalMatching(List<Participation> participations, List<Participation> nonReviewers, List<Pair> pairs) {
-        ArrayDeque<Member> reviewers = extractMember(participations);
-        ArrayDeque<Member> reviewees = extractMember(nonReviewers);
+    private void performAdditionalMatching(List<Participation> participations, List<Pair> pairs) {
+        List<Participation> reviewersArray = new ArrayList<>(participations);
+        ArrayDeque<Member> reviewers = extractMember(reviewersArray);
+        Collections.reverse(reviewersArray);
+        ArrayDeque<Member> reviewees = extractMember(reviewersArray);
 
         // reviewee 를 한 명 뽑아 가능한 reviewer 검색
         while (!reviewees.isEmpty()) {
@@ -116,16 +120,16 @@ public class DynamicSizeMatchingStrategy implements MatchingStrategy {
     }
 
     // currentMatchingSize 미만의 matchingSize 를 가지는 참여자를 제외
-    private List<Participation> filterUnderMatchedParticipants(List<Participation> participations, int currentMatchingSize, int roomMatchingSize) {
+    private List<Participation> filterUnderMatchedParticipants(List<Participation> participations, int currentMatchingSize) {
         return participations.stream()
-                .filter(participation -> isUnderMatchedParticipants(participation, currentMatchingSize, roomMatchingSize))
+                .filter(participation -> isUnderMatchedParticipants(participation, currentMatchingSize))
                 .toList();
     }
 
-    private boolean isUnderMatchedParticipants(Participation participation, int currentMatchingSize, int roomMatchingSize) {
-        // MemberRole.REVIEWER 인 경우 currentMatchingSize 가 roomMatchingSize 부터 증가하고, REVIEWER 는 0 회 부터 매칭을 시도하므로 roomMatchingSize 만큼 추가적인 기회 필요
+    private boolean isUnderMatchedParticipants(Participation participation, int currentMatchingSize) {
+        // MemberRole.REVIEWER 인 경우 제외
         if (participation.isReviewer()) {
-            return participation.getMatchingSize() + roomMatchingSize >= currentMatchingSize;
+            return false;
         }
         // MemberRole.BOTH 인 경우 matchingSize 와 currentMatchingSize 를 비교
         return participation.getMatchingSize() >= currentMatchingSize;
