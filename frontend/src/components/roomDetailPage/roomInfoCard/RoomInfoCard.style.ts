@@ -94,6 +94,11 @@ export const RoomTagBox = styled.div`
   gap: 1rem;
 `;
 
+export const NoKeywordText = styled.span`
+  font: ${({ theme }) => theme.TEXT.semiSmall};
+  color: ${({ theme }) => theme.COLOR.grey2};
+`;
+
 export const RoomContentSmall = styled.span`
   display: flex;
   gap: 1rem;
@@ -102,11 +107,20 @@ export const RoomContentSmall = styled.span`
   font: ${({ theme }) => theme.TEXT.small_bold};
   line-height: 2rem;
   color: ${({ theme }) => theme.COLOR.black};
-  white-space: pre-line;
 
   span {
     font: ${({ theme }) => theme.TEXT.small};
     color: ${({ theme }) => theme.COLOR.grey4};
+  }
+
+  span#githubid {
+    overflow: hidden;
+
+    max-width: 210px;
+
+    font: ${({ theme }) => theme.TEXT.small_bold};
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   div {
@@ -123,8 +137,7 @@ export const RoomContentSmall = styled.span`
 
 export const ContentLineBreak = styled.div`
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-flow: row wrap;
 `;
 
 export const DateTimeText = styled.p`

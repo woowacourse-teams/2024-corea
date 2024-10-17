@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import media from "@/styles/media";
 
 export const CreateSection = styled.section`
   display: flex;
@@ -15,14 +16,21 @@ export const CreateSection = styled.section`
   box-shadow: ${({ theme }) => theme.BOX_SHADOW.regular};
 `;
 
-export const RowContainer = styled.p`
+export const RowContainer = styled.div`
   display: flex;
+  flex-direction: column;
   gap: 2rem;
-  align-items: center;
+  align-items: flex-start;
+
   width: 100%;
+
+  ${media.large`
+    flex-direction: row;
+    align-items: center;
+  `}
 `;
 
-export const ContentLabel = styled.div`
+export const ContentLabel = styled.span`
   flex-shrink: 0;
   width: 250px;
   font: ${({ theme }) => theme.TEXT.medium_bold};

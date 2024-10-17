@@ -6,8 +6,8 @@ import corea.feedback.domain.DevelopFeedback;
 import corea.feedback.dto.DevelopFeedbackRequest;
 import corea.feedback.dto.DevelopFeedbackResponse;
 import corea.feedback.repository.DevelopFeedbackRepository;
-import corea.matching.domain.MatchResult;
-import corea.matching.repository.MatchResultRepository;
+import corea.matchresult.domain.MatchResult;
+import corea.matchresult.repository.MatchResultRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,7 +27,7 @@ public class DevelopFeedbackService {
     @Transactional
     public DevelopFeedbackResponse create(long roomId, long deliverId, DevelopFeedbackRequest request) {
         validateAlreadyExist(roomId, deliverId, request.receiverId());
-        log.debug("개발 피드백 작성[작성자({}), 요청값({})", deliverId, request);
+        log.info("개발 피드백 작성[작성자({}), 요청값({})", deliverId, request);
 
         MatchResult matchResult = matchResultRepository.findByRoomIdAndReviewerIdAndRevieweeId(roomId, deliverId, request.receiverId())
                 .orElseThrow(() -> new CoreaException(ExceptionType.NOT_MATCHED_MEMBER));
@@ -50,7 +50,7 @@ public class DevelopFeedbackService {
 
     @Transactional
     public DevelopFeedbackResponse update(long feedbackId, long deliverId, DevelopFeedbackRequest request) {
-        log.debug("개발 피드백 업데이트[작성자({}), 피드백 ID({}), 요청값({})", deliverId, feedbackId, request);
+        log.info("개발 피드백 업데이트[작성자({}), 피드백 ID({}), 요청값({})", deliverId, feedbackId, request);
 
         DevelopFeedback feedback = developFeedbackRepository.findById(feedbackId)
                 .orElseThrow(() -> new CoreaException(ExceptionType.FEEDBACK_NOT_FOUND));

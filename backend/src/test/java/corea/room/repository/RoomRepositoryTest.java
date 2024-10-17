@@ -4,7 +4,11 @@ import config.RepositoryTest;
 import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
 import corea.member.domain.Member;
+import corea.member.domain.MemberRole;
 import corea.member.repository.MemberRepository;
+import corea.participation.domain.Participation;
+import corea.participation.domain.ParticipationStatus;
+import corea.participation.repository.ParticipationRepository;
 import corea.room.domain.Room;
 import corea.room.domain.RoomClassification;
 import corea.room.domain.RoomStatus;
@@ -28,32 +32,47 @@ class RoomRepositoryTest {
     @Autowired
     private MemberRepository memberRepository;
 
-    @Test
-    @DisplayName("자신이 참여하지 않고, 계속 모집 중인 방들을 모집 마감일이 임박한 순으로 조회할 수 있다.")
+    @Autowired
+    private ParticipationRepository participationRepository;
 
-    void findAllByMemberAndClassificationAndStatus() {
+    @Test
+    @DisplayName("선택한 분야와 일치하는 방들을 조회할 수 있다.")
+    void findAllByClassificationAndStatusOrderByRecruitmentDeadline() {
         Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member joyson = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
-        roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo, LocalDateTime.now().plusDays(2)));
+        roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_CLASSIFICATION(pororo, LocalDateTime.now().plusDays(2), RoomClassification.ANDROID));
+        roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_CLASSIFICATION(joyson, LocalDateTime.now().plusDays(3), RoomClassification.BACKEND));
+
+        Page<Room> roomPage = roomRepository.findAllByClassificationAndStatusOrderByRecruitmentDeadline(RoomClassification.BACKEND, RoomStatus.OPEN, PageRequest.of(0, 8));
+
+        List<String> managerNames = getManagerNames(roomPage.getContent());
+        assertThat(managerNames).containsExactly("이영수");
+    }
+
+    @Test
+    @DisplayName("모집 중인 방들을 조회할 때 자신이 참여한 방도 포함하여 조회한다.")
+    void findAllByMemberAndStatus_participated() {
+        Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
+        Member joyson = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
+        Room pororoRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo, LocalDateTime.now().plusDays(2)));
         roomRepository.save(RoomFixture.ROOM_DOMAIN(joyson, LocalDateTime.now().plusDays(3)));
 
-        Member movin = memberRepository.save(MemberFixture.MEMBER_MOVIN());
-        Page<Room> roomPage = roomRepository.findAllByMemberAndClassificationAndStatus(movin.getId(), RoomClassification.BACKEND, RoomStatus.OPEN, PageRequest.of(0, 8));
+        participationRepository.save(new Participation(pororoRoom, pororo, MemberRole.REVIEWER, ParticipationStatus.MANAGER,pororoRoom.getMatchingSize()));
+        Page<Room> roomPage = roomRepository.findAllByStatusOrderByRecruitmentDeadline(RoomStatus.OPEN, PageRequest.of(0, 8));
 
         List<String> managerNames = getManagerNames(roomPage.getContent());
         assertThat(managerNames).containsExactly("조경찬", "이영수");
     }
 
     @Test
-    @DisplayName("분야와 상관 없이 자신이 참여하지 않고, 계속 모집 중인 방들을 모집 마감일이 임박한 순으로 조회할 수 있다.")
-    void findAllByMemberAndStatus() {
+    @DisplayName("모집 중인 방들을 모집 마감일이 임박한 순으로 조회할 수 있다.")
+    void findAllByMemberAndStatus_notParticipated() {
         Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member joyson = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
         roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo, LocalDateTime.now().plusDays(2)));
         roomRepository.save(RoomFixture.ROOM_DOMAIN(joyson, LocalDateTime.now().plusDays(3)));
-      
-        Member movin = memberRepository.save(MemberFixture.MEMBER_MOVIN());
-        Page<Room> roomPage = roomRepository.findAllByMemberAndStatus(movin.getId(), RoomStatus.OPEN, PageRequest.of(0, 8));
+
+        Page<Room> roomPage = roomRepository.findAllByStatusOrderByRecruitmentDeadline(RoomStatus.OPEN, PageRequest.of(0, 8));
 
         List<String> managerNames = getManagerNames(roomPage.getContent());
         assertThat(managerNames).containsExactly("조경찬", "이영수");

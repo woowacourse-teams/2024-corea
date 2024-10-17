@@ -5,8 +5,10 @@ import corea.exception.CoreaException;
 import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
 import corea.member.domain.Member;
+import corea.member.domain.MemberRole;
 import corea.member.repository.MemberRepository;
 import corea.participation.domain.Participation;
+import corea.participation.domain.ParticipationStatus;
 import corea.participation.dto.ParticipationRequest;
 import corea.participation.repository.ParticipationRepository;
 import corea.room.domain.Room;
@@ -92,7 +94,7 @@ class ParticipationServiceTest {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
         Member member = memberRepository.save(MEMBER_YOUNGSU());
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
-        participationRepository.save(new Participation(room, member));
+        participationRepository.save(new Participation(room, member, MemberRole.REVIEWER, ParticipationStatus.MANAGER, room.getMatchingSize()));
 
         participationService.cancel(room.getId(), member.getId());
 

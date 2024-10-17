@@ -4,7 +4,6 @@ import corea.member.domain.Member;
 import corea.member.domain.MemberRole;
 import corea.member.repository.MemberRepository;
 import corea.participation.domain.Participation;
-import corea.participation.domain.ParticipationStatus;
 import corea.participation.repository.ParticipationRepository;
 import corea.room.domain.Room;
 import corea.room.domain.RoomClassification;
@@ -120,7 +119,7 @@ public class DataInitializer implements ApplicationRunner {
                         LocalDateTime.of(2024, 12, 25, 12, 30),
                         LocalDateTime.of(2025, 1, 3, 12, 0),
                         RoomClassification.BACKEND, RoomStatus.OPEN));
-        roomRepository.save(
+        Room closedRoom = roomRepository.save(
                 new Room("방 제목 10", "방 설명 10", 3,
                         null, null, List.of("TDD", "클린코드"),
                         1, 20, member1,
@@ -205,6 +204,7 @@ public class DataInitializer implements ApplicationRunner {
         participationRepository.save(new Participation(room7, member1, MemberRole.BOTH, room7.getMatchingSize()));
         participationRepository.save(new Participation(room7, member2, MemberRole.BOTH, room7.getMatchingSize()));
 
+        participationRepository.save(new Participation(closedRoom, member1, MemberRole.BOTH, closedRoom.getMatchingSize()));
         participationRepository.save(new Participation(roomProgress, member1, MemberRole.BOTH, roomProgress.getMatchingSize()));
     }
 }

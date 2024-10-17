@@ -51,6 +51,9 @@ const FeedbackCardList = ({ selectedFeedbackType, feedbackData }: FeedbackCardLi
           >
             <S.FeedbackMissionTitle>
               <S.FeedbackMissionInfo>{feedback.title}</S.FeedbackMissionInfo>
+              <S.FeedbackCount>
+                ({feedback.developFeedback.length + feedback.socialFeedback.length})
+              </S.FeedbackCount>
               <S.FeedbackKeywordContainer>
                 {feedback.roomKeywords.map((keyword) => (
                   <Label

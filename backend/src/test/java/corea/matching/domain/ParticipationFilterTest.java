@@ -7,7 +7,10 @@ import corea.fixture.RoomFixture;
 import corea.matching.infrastructure.dto.GithubUserResponse;
 import corea.matching.infrastructure.dto.PullRequestResponse;
 import corea.member.domain.Member;
+import corea.member.domain.MemberRole;
 import corea.participation.domain.Participation;
+import corea.participation.domain.ParticipationStatus;
+import corea.room.domain.Room;
 import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -31,10 +34,11 @@ class ParticipationFilterTest {
     @Test
     @DisplayName("방 참여자의 수가 매칭 사이즈보다 작거나 같다면 예외가 발생한다.")
     void invalid() {
+
+        Room movinRoom = RoomFixture.ROOM_DOMAIN(1L, movin);
         List<Participation> participations = List.of(
-                new Participation(RoomFixture.ROOM_DOMAIN(1L, pororo), pororo),
-                new Participation(RoomFixture.ROOM_DOMAIN(1L, movin), movin)
-        );
+                new Participation(movinRoom, pororo,MemberRole.REVIEWER, ParticipationStatus.MANAGER, movinRoom.getMatchingSize()),
+                new Participation(movinRoom, movin,MemberRole.REVIEWER, ParticipationStatus.MANAGER, movinRoom.getMatchingSize()));
 
         assertThatThrownBy(() -> new ParticipationFilter(participations, 2))
                 .asInstanceOf(InstanceOfAssertFactories.type(CoreaException.class))
@@ -45,11 +49,12 @@ class ParticipationFilterTest {
     @Test
     @DisplayName("pr을 제출한 참가자들만 찾을 수 있다.")
     void filterPRSubmittedParticipation() {
+        Room room = RoomFixture.ROOM_DOMAIN(1L, joyson);
         List<Participation> participations = List.of(
-                new Participation(RoomFixture.ROOM_DOMAIN(1L, pororo), pororo),
-                new Participation(RoomFixture.ROOM_DOMAIN(1L, movin), movin),
-                new Participation(RoomFixture.ROOM_DOMAIN(1L, joyson), joyson),
-                new Participation(RoomFixture.ROOM_DOMAIN(1L, choco), choco)
+                new Participation(room, pororo, MemberRole.BOTH, 2),
+                new Participation(room, movin, MemberRole.BOTH, 2),
+                new Participation(room, joyson,MemberRole.REVIEWER, ParticipationStatus.MANAGER, 2),
+                new Participation(room, choco, MemberRole.BOTH, 2)
         );
 
         ParticipationFilter participationFilter = new ParticipationFilter(participations, 2);
@@ -65,10 +70,11 @@ class ParticipationFilterTest {
     @Test
     @DisplayName("pr을 제출하지 않아 매칭 인원이 부족하면 예외가 발생한다.")
     void validatePRSubmittedParticipationSize() {
+        Room room = RoomFixture.ROOM_DOMAIN(1L, pororo);
         List<Participation> participations = List.of(
-                new Participation(RoomFixture.ROOM_DOMAIN(1L, pororo), pororo),
-                new Participation(RoomFixture.ROOM_DOMAIN(1L, movin), movin),
-                new Participation(RoomFixture.ROOM_DOMAIN(1L, choco), choco)
+                new Participation(room, pororo,MemberRole.REVIEWER, ParticipationStatus.MANAGER, room.getMatchingSize()),
+                new Participation(room, movin, MemberRole.BOTH, 2),
+                new Participation(room, choco, MemberRole.BOTH, 2)
         );
 
         ParticipationFilter participationFilter = new ParticipationFilter(participations, 2);

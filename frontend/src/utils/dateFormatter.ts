@@ -9,12 +9,6 @@ const formatStringToDate = (
   return { year, month, day, hours, minutes };
 };
 
-// 마감일 포맷 함수
-export const formatDeadlineString = (dateString: string): string => {
-  const { year, month, day, hours, minutes } = formatStringToDate(dateString);
-  return `${year.slice(2)}-${month}-${day} ${hours}:${minutes}`;
-};
-
 // 일반 날짜 시간 포맷 함수
 export const formatDateTimeString = (dateString: string): string => {
   const { year, month, day, hours, minutes } = formatStringToDate(dateString);
@@ -24,18 +18,17 @@ export const formatDateTimeString = (dateString: string): string => {
 // 디데이 포맷 함수
 export const formatDday = (dateString: string): string => {
   const targetDate = new Date(dateString);
-  const today = new Date();
+  const now = new Date();
 
-  today.setHours(0, 0, 0, 0);
-  targetDate.setHours(0, 0, 0, 0);
+  const timeDiff = targetDate.getTime() - now.getTime();
+  const dayDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
 
-  const timeDiff = targetDate.getTime() - today.getTime();
-  const dayDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+  const hoursDiff = timeDiff / (1000 * 3600);
 
-  if (dayDiff > 0) {
+  if (dayDiff > 0 && hoursDiff >= 24) {
     return `D-${dayDiff}`;
   }
-  if (dayDiff === 0) {
+  if (dayDiff >= 0 && hoursDiff < 24) {
     return "D-Day";
   }
   return "종료됨";
@@ -50,15 +43,15 @@ export const formatDate = (date: Date): string => {
 };
 
 // 시간 -> 문자열
-export const formatTime = (time: Date): string => {
-  const hour = time.getHours().toString().padStart(2, "0");
-  const minutes = time.getMinutes().toString().padStart(2, "0");
+export const formatTime = (date: Date): string => {
+  const hour = date.getHours().toString().padStart(2, "0");
+  const minutes = date.getMinutes().toString().padStart(2, "0");
   return `${hour}:${minutes}`;
 };
 
 // 날짜+시간
-export const formatCombinedDateTime = (date: Date, time: Date): string => {
-  return `${formatDate(date)} ${formatTime(time)}`;
+export const formatCombinedDateTime = (date: Date): string => {
+  return `${formatDate(date)} ${formatTime(date)}`;
 };
 
 export const formatLeftTime = (time: string) => {
@@ -73,7 +66,17 @@ export const formatLeftTime = (time: string) => {
     targetMinutes,
   );
 
-  return `${hours}시간 ${minutes}분 전`;
+  if (hours === 0 && minutes === 0) return "곧 종료";
+
+  return hours !== 0 ? `${hours}시간 ${minutes}분 전` : `${minutes}분 전`;
+};
+
+export const areDatesEqual = (date1: Date, date2: Date): boolean => {
+  return (
+    date1.getFullYear() === date2.getFullYear() &&
+    date1.getMonth() === date2.getMonth() &&
+    date1.getDate() === date2.getDate()
+  );
 };
 
 const calculateTimeDifference = (
@@ -103,4 +106,9 @@ const calculateTimeDifference = (
     hours: diffHours,
     minutes: remainingMinutes,
   };
+};
+
+export const displayLeftTime = (time: string) => {
+  const Dday = formatDday(time);
+  return Dday === "D-Day" ? formatLeftTime(time) : Dday;
 };

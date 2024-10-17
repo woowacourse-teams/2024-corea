@@ -68,8 +68,14 @@ export const ProfileWrapper = styled.div`
 `;
 
 export const ProfileNickname = styled.div`
+  overflow: hidden;
+
+  max-width: 80rem;
+
   font: ${({ theme }) => theme.TEXT.small};
   text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 export const PRLink = styled.a`

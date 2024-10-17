@@ -11,7 +11,7 @@ import static org.hibernate.cfg.JdbcSettings.STATEMENT_INSPECTOR;
 
 @Configuration
 @RequiredArgsConstructor
-@Profile({"local","dev"})
+@Profile({"local", "dev"})
 public class HibernateConfig {
 
     private final QueryInspector queryInspector;

@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ParticipationService {
 
     private final ParticipationRepository participationRepository;
+    private final ParticipationWriter participationWriter;
     private final RoomRepository roomRepository;
     private final MemberRepository memberRepository;
 
@@ -34,23 +35,15 @@ public class ParticipationService {
         Member member = memberRepository.findById(request.memberId())
                 .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND));
         MemberRole memberRole = MemberRole.from(request.role());
+        Room room = getRoom(request.roomId());
 
-        Participation participation = new Participation(getRoom(request.roomId()), member, memberRole, request.matchingSize());
-        participation.participate();
-        return participationRepository.save(participation);
+        return participationWriter.create(room, member, memberRole, request.matchingSize());
     }
 
     @Transactional
     public void cancel(long roomId, long memberId) {
         validateMemberExist(memberId);
-        deleteParticipation(roomId, memberId);
-    }
-
-    private void deleteParticipation(long roomId, long memberId) {
-        Participation participation = participationRepository.findByRoomIdAndMemberId(roomId, memberId)
-                .orElseThrow(() -> new CoreaException(ExceptionType.NOT_ALREADY_APPLY));
-        participation.cancel();
-        participationRepository.delete(participation);
+        participationWriter.delete(roomId, memberId);
     }
 
     private void validateIdExist(long roomId, long memberId) {

@@ -45,7 +45,6 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
         if (accessToken.equals(ANONYMOUS)) {
             throw new CoreaException(ExceptionType.AUTHORIZATION_ERROR);
         }
-        log.info("로그인 시도[토큰={}]", accessToken);
 
         long memberId = tokenService.findMemberIdByToken(accessToken);
         Member member = memberRepository.findById(memberId)
