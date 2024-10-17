@@ -3,10 +3,10 @@ import { RoomListInfo } from "@/@types/roomInfo";
 import QUERY_KEYS from "@/apis/queryKeys";
 import { getParticipantList, getParticipatedRoomList } from "@/apis/rooms.api";
 
-export const useFetchParticipatedRoomList = () => {
+export const useFetchParticipatedRoomList = (includeClosed: boolean = false) => {
   return useSuspenseQuery({
-    queryKey: [QUERY_KEYS.PARTICIPATED_ROOM_LIST],
-    queryFn: getParticipatedRoomList,
+    queryKey: [QUERY_KEYS.PARTICIPATED_ROOM_LIST, includeClosed],
+    queryFn: () => getParticipatedRoomList(includeClosed),
   });
 };
 
