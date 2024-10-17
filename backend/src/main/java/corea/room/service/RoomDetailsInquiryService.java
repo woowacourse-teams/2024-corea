@@ -32,30 +32,15 @@ public class RoomDetailsInquiryService {
         Room room = getRoom(roomId);
 
         return participationRepository.findByRoomIdAndMemberId(roomId, memberId)
-                .map(participation -> createRoomResponseWithParticipation(room, participation))
+                .map(participation -> appendMatchingInfo(room, participation))
                 .orElseGet(() -> RoomResponse.of(room, MemberRole.NONE, ParticipationStatus.NOT_PARTICIPATED));
     }
 
-    private RoomResponse createRoomResponseWithParticipation(Room room, Participation participation) {
-        return failedMatchingRepository.findByRoomId(room.getId())
-                .map(failedMatching -> RoomResponse.of(room, participation, failedMatching))
-                .orElseGet(() -> RoomResponse.of(room, participation));
-    }
-
     public RoomResponses findParticipatedRooms(long memberId, boolean includeClosed) {
-        List<Room> rooms = findFilteredParticipatedRooms(memberId, includeClosed);
-        List<RoomResponse> roomResponses = getRoomResponses(rooms, memberId);
-
-        return RoomResponses.of(roomResponses, true, 0);
-    }
-
-    private List<Room> findFilteredParticipatedRooms(long memberId, boolean includeClosed) {
         List<Room> rooms = findAllParticipatedRooms(memberId);
+        List<RoomResponse> responses = getRoomResponses(rooms, memberId, includeClosed);
 
-        if (includeClosed) {
-            return rooms;
-        }
-        return filterOutClosedRooms(rooms);
+        return RoomResponses.of(responses, true, 0);
     }
 
     private List<Room> findAllParticipatedRooms(long memberId) {
@@ -65,26 +50,22 @@ public class RoomDetailsInquiryService {
                 .toList();
     }
 
-    private List<Room> filterOutClosedRooms(List<Room> rooms) {
+    private List<RoomResponse> getRoomResponses(List<Room> rooms, long memberId, boolean includeClosed) {
         return rooms.stream()
-                .filter(Room::isNotClosed)
+                .filter(room -> includeClosed || room.isNotClosed())
+                .map(room -> appendMatchingInfo(room, getParticipation(room.getId(), memberId)))
                 .toList();
     }
 
-    private List<RoomResponse> getRoomResponses(List<Room> rooms, long memberId) {
-        List<Participation> participations = participationRepository.findAllByMemberId(memberId);
-
-        return rooms.stream()
-                .map(room -> getRoomResponse(participations, room))
-                .toList();
+    private RoomResponse appendMatchingInfo(Room room, Participation participation) {
+        return failedMatchingRepository.findByRoomId(room.getId())
+                .map(failedMatching -> RoomResponse.of(room, participation, failedMatching))
+                .orElseGet(() -> RoomResponse.of(room, participation));
     }
 
-    private RoomResponse getRoomResponse(List<Participation> participations, Room room) {
-        return participations.stream()
-                .filter(participation -> participation.isParticipatedRoom(room))
-                .findFirst()
-                .map(participation -> RoomResponse.of(room, participation))
-                .orElseGet(() -> RoomResponse.of(room, MemberRole.NONE, ParticipationStatus.NOT_PARTICIPATED));
+    private Participation getParticipation(Long roomId, long memberId) {
+        return participationRepository.findByRoomIdAndMemberId(roomId, memberId)
+                .orElseThrow(() -> new CoreaException(ExceptionType.NOT_PARTICIPATED_ROOM));
     }
 
     private Room getRoom(long roomId) {
