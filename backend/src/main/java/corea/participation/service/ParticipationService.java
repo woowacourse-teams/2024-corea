@@ -50,7 +50,7 @@ public class ParticipationService {
     private void validateIdExist(long roomId, long memberId) {
         validateMemberExist(memberId);
         if (participationRepository.existsByRoomIdAndMemberId(roomId, memberId)) {
-            throw new CoreaException(ExceptionType.ALREADY_APPLY);
+            throw new CoreaException(ExceptionType.ALREADY_PARTICIPATED_ROOM);
         }
     }
 

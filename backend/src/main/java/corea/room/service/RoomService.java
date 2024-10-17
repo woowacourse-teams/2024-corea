@@ -83,7 +83,7 @@ public class RoomService {
 
         Room updatedRoom = roomRepository.save(request.toEntity(member));
         Participation participation = participationRepository.findByRoomIdAndMemberId(updatedRoom.getId(), memberId)
-                .orElseThrow(() -> new CoreaException(ExceptionType.NOT_ALREADY_APPLY));
+                .orElseThrow(() -> new CoreaException(ExceptionType.NOT_PARTICIPATED_ROOM));
 
         roomAutomaticService.updateTime(updatedRoom);
         return RoomResponse.of(updatedRoom, participation.getMemberRole(), ParticipationStatus.MANAGER);

@@ -39,7 +39,7 @@ public class ParticipationWriter {
     // 현재, 로직상 cancel 호출 시, 의도하지 않는 room 조회문 발생
     public void delete(long roomId, long memberId) {
         Participation participation = participationRepository.findByRoomIdAndMemberId(roomId, memberId)
-                .orElseThrow(() -> new CoreaException(ExceptionType.NOT_ALREADY_APPLY));
+                .orElseThrow(() -> new CoreaException(ExceptionType.NOT_PARTICIPATED_ROOM));
         participation.cancel();
         logDeleteParticipation(participation);
         participationRepository.delete(participation);
