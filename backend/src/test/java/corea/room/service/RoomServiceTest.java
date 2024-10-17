@@ -6,8 +6,6 @@ import corea.exception.ExceptionType;
 import corea.fixture.MatchResultFixture;
 import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
-import corea.matchresult.domain.FailedMatching;
-import corea.matchresult.repository.FailedMatchingRepository;
 import corea.matchresult.repository.MatchResultRepository;
 import corea.member.domain.Member;
 import corea.member.domain.MemberRole;
@@ -19,7 +17,6 @@ import corea.room.domain.Room;
 import corea.room.dto.RoomCreateRequest;
 import corea.room.dto.RoomParticipantResponses;
 import corea.room.dto.RoomResponse;
-import corea.room.dto.RoomUpdateRequest;
 import corea.room.repository.RoomRepository;
 import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.*;
@@ -151,11 +148,11 @@ class RoomServiceTest {
     void findParticipants() {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
-        participationRepository.save(new Participation(room, manager,MemberRole.REVIEWER, ParticipationStatus.MANAGER, room.getMatchingSize()));
+        participationRepository.save(new Participation(room, manager, MemberRole.REVIEWER, ParticipationStatus.MANAGER, room.getMatchingSize()));
 
         List<Member> members = memberRepository.saveAll(MemberFixture.SEVEN_MEMBERS());
 
-        participationRepository.save(new Participation(room, manager,MemberRole.REVIEWER, ParticipationStatus.MANAGER, room.getMatchingSize()));
+        participationRepository.save(new Participation(room, manager, MemberRole.REVIEWER, ParticipationStatus.MANAGER, room.getMatchingSize()));
         participationRepository.saveAll(members.stream().map(member -> new Participation(room, member, MemberRole.BOTH, 2)).toList());
 
         matchResultRepository.saveAll(members.stream().map(member -> MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), manager, member)).toList());
@@ -175,7 +172,7 @@ class RoomServiceTest {
         Member pullRequestNotSubmittedMember = memberRepository.save(MemberFixture.MEMBER_ASH());
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
 
-        participationRepository.save(new Participation(room, manager,MemberRole.REVIEWER, ParticipationStatus.MANAGER, room.getMatchingSize()));
+        participationRepository.save(new Participation(room, manager, MemberRole.REVIEWER, ParticipationStatus.MANAGER, room.getMatchingSize()));
         Participation participation = participationRepository.save(new Participation(room, pullRequestNotSubmittedMember, MemberRole.BOTH, 2));
         participation.invalidate();
 

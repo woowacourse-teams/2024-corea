@@ -183,7 +183,7 @@ class RoomDetailsInquiryServiceTest {
         }
 
         @Test
-        @DisplayName("방 참여자의 수가 최소 매칭 인원보다 작다면 매칭이 진행되지 않았다면 메세지를 통해 원인을 파악할 수 있다.")
+        @DisplayName("방 참여자의 수가 최소 매칭 인원보다 작아 매칭이 진행되지 않았다면 메세지를 통해 원인을 파악할 수 있다.")
         void participant_size_lack() {
             Member member = memberRepository.save(MemberFixture.MEMBER_PORORO());
             participationRepository.save(new Participation(room, member, MemberRole.BOTH, room.getMatchingSize()));
