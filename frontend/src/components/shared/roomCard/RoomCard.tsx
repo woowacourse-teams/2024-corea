@@ -31,7 +31,7 @@ const DisplayLeftTime = (roomInfo: RoomInfo) => {
     return (
       <>
         {dDay !== "종료됨" && "리뷰 마감"}
-        <S.StyledDday>{dDay ? leftTime : dDay}</S.StyledDday>
+        <S.StyledDday>{dDay === "D-Day" ? leftTime : dDay}</S.StyledDday>
       </>
     );
   }

@@ -10,6 +10,7 @@ import corea.member.repository.MemberRepository;
 import corea.participation.domain.Participation;
 import corea.participation.domain.ParticipationStatus;
 import corea.participation.repository.ParticipationRepository;
+import corea.participation.service.ParticipationWriter;
 import corea.room.domain.Room;
 import corea.room.dto.*;
 import corea.room.repository.RoomRepository;
@@ -39,7 +40,7 @@ public class RoomService {
     private final ParticipationRepository participationRepository;
     private final FailedMatchingRepository failedMatchingRepository;
     private final RoomAutomaticService roomAutomaticService;
-
+    private final ParticipationWriter participationWriter;
 
     @Transactional
     public RoomResponse create(long memberId, RoomCreateRequest request) {
@@ -48,7 +49,9 @@ public class RoomService {
         Member manager = memberRepository.findById(memberId)
                 .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND));
         Room room = roomRepository.save(request.toEntity(manager));
-        Participation participation = new Participation(room, manager);
+        log.info("방을 생성했습니다. 방 생성자 id={}, 요청한 사용자 id={}", room.getManagerId(), memberId);
+
+        Participation participation = participationWriter.create(room, manager, MemberRole.REVIEWER, ParticipationStatus.MANAGER);
 
         participationRepository.save(participation);
         roomAutomaticService.createAutomatic(room);
@@ -107,6 +110,7 @@ public class RoomService {
         Room room = getRoom(roomId);
         validateDeletionAuthority(room, memberId);
 
+        log.info("방을 삭제했습니다. 방 id={}, 사용자 iD={}", roomId, memberId);
         roomRepository.delete(room);
         participationRepository.deleteAllByRoomId(roomId);
         roomAutomaticService.deleteAutomatic(room);
