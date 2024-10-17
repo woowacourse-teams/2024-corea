@@ -15,7 +15,7 @@ const Label = ({ text, type, size = "semiSmall", backgroundColor }: LabelProps) 
   return (
     <S.LabelWrapper type={type} $size={size} $backgroundColor={backgroundColor}>
       {type === "KEYWORD" && `#${text}`}
-      {type === "PARTICIPATED" && "참여 중"}
+      {type === "PARTICIPATED" && "참여"}
       {type === "OPEN" && "모집 중"}
       {type === "PROGRESS" && "진행 중"}
       {type === "CLOSE" && "종료"}
