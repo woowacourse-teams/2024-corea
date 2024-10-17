@@ -82,6 +82,7 @@ const RoomCard = React.memo(({ roomInfo }: RoomCardProps) => {
                   <Label type={roomInfo.participationStatus} />
                 )}
               <Label type={roomInfo.roomStatus} />
+              {roomInfo.roomStatus === "CLOSE" && roomInfo.message !== "" && <Label type="FAIL" />}
             </S.LabelWrapper>
             <S.JoinMember>
               <Icon kind="person" size="1.6rem" color={theme.COLOR.grey4} />
