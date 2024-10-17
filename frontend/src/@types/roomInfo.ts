@@ -18,17 +18,17 @@ interface BaseRoomInfo {
   matchingSize: number;
   keywords: string[];
   limitedParticipants: number;
+  classification: Classification;
 }
 export interface CreateRoomInfo extends BaseRoomInfo {
   recruitmentDeadline: Date;
   reviewDeadline: Date;
-  classification: Classification;
 }
 
 export interface SubmitRoomInfo extends BaseRoomInfo {
+  roomId?: number;
   recruitmentDeadline: string;
   reviewDeadline: string;
-  classification: Classification;
 }
 
 export interface RoomInfo extends BaseRoomInfo {

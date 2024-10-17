@@ -14,5 +14,7 @@
   "roomStatus": "OPEN",
   "participationStatus": "PARTICIPATED",
   "isClosed": false,
-  "memberRole": "BOTH"
+  "memberRole": "BOTH",
+  "classification": "BACKEND",
+  "message": "방 실패했습니다."
 }

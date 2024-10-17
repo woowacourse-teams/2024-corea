@@ -38,7 +38,11 @@ const Dropdown = ({
         <S.DropdownMenu>
           <S.DropdownItemWrapper>
             {dropdownItems.map((item) => (
-              <S.DropdownItem key={item.value} onClick={() => handleDropdownItemClick(item.value)}>
+              <S.DropdownItem
+                key={item.value}
+                onClick={() => handleDropdownItemClick(item.value)}
+                $isSelected={item.value === selectedCategory}
+              >
                 <span>{item.text}</span>
               </S.DropdownItem>
             ))}
