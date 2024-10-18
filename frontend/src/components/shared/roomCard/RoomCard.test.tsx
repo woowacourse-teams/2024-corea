@@ -25,7 +25,7 @@ const mockBaseRoomInfo: RoomInfo = {
   message: "테스트 메세지",
 };
 
-describe("RoomCard 컴포넌트 테스트", () => {
+describe("RoomCard 컴포넌트 날짜 테스트", () => {
   beforeAll(() => {
     const mockDate = new Date("2024-10-02T10:30:00+09:00");
     const OriginalDate = Date;
@@ -296,5 +296,172 @@ describe("RoomCard 컴포넌트 테스트", () => {
     expect(recruitText).not.toBeInTheDocument();
     expect(reviewText).not.toBeInTheDocument();
     expect(leftDay).toBeInTheDocument();
+  });
+});
+
+describe("RoomCard 컴포넌트 라벨 테스트", () => {
+  it("참여중 상태의 방은 '참여' 라벨이 표시된다.", async () => {
+    const mockRoomInfo: RoomInfo = {
+      ...mockBaseRoomInfo,
+      roomStatus: "OPEN",
+      participationStatus: "PARTICIPATED",
+      message: "",
+    };
+    render(
+      <ThemeProvider theme={theme}>
+        <RoomCard roomInfo={mockRoomInfo} />
+      </ThemeProvider>,
+    );
+
+    expect(await screen.findByText("참여")).toBeInTheDocument();
+  });
+
+  it("참여중 상태인데 모집 중인 상태의 방은 '참여'와 '모집 중' 라벨이 표시된다.", async () => {
+    const mockRoomInfo: RoomInfo = {
+      ...mockBaseRoomInfo,
+      roomStatus: "OPEN",
+      participationStatus: "PARTICIPATED",
+      message: "",
+    };
+    render(
+      <ThemeProvider theme={theme}>
+        <RoomCard roomInfo={mockRoomInfo} />
+      </ThemeProvider>,
+    );
+
+    expect(await screen.findByText("참여")).toBeInTheDocument();
+    expect(await screen.findByText("모집 중")).toBeInTheDocument();
+  });
+
+  it("모집중 상태의 방은 '모집 중' 라벨이 표시된다.", async () => {
+    const mockRoomInfo: RoomInfo = {
+      ...mockBaseRoomInfo,
+      roomStatus: "OPEN",
+      participationStatus: "NOT_PARTICIPATED",
+      message: "",
+    };
+    render(
+      <ThemeProvider theme={theme}>
+        <RoomCard roomInfo={mockRoomInfo} />
+      </ThemeProvider>,
+    );
+
+    expect(await screen.findByText("모집 중")).toBeInTheDocument();
+  });
+
+  it("모집중 상태인데 참여중인 상태의 방은 '모집 중'과 '참여' 라벨이 표시된다.", async () => {
+    const mockRoomInfo: RoomInfo = {
+      ...mockBaseRoomInfo,
+      roomStatus: "OPEN",
+      participationStatus: "PARTICIPATED",
+      message: "",
+    };
+    render(
+      <ThemeProvider theme={theme}>
+        <RoomCard roomInfo={mockRoomInfo} />
+      </ThemeProvider>,
+    );
+
+    expect(await screen.findByText("모집 중")).toBeInTheDocument();
+    expect(await screen.findByText("참여")).toBeInTheDocument();
+  });
+
+  it("진행 중 상태의 방은 '진행 중' 라벨이 표시된다.", async () => {
+    const mockRoomInfo: RoomInfo = {
+      ...mockBaseRoomInfo,
+      roomStatus: "PROGRESS",
+      participationStatus: "NOT_PARTICIPATED",
+      message: "",
+    };
+    render(
+      <ThemeProvider theme={theme}>
+        <RoomCard roomInfo={mockRoomInfo} />
+      </ThemeProvider>,
+    );
+
+    expect(await screen.findByText("진행 중")).toBeInTheDocument();
+  });
+
+  it("진행 중 상태인데 참여중인 상태의 방은 '진행 중'과 '참여' 라벨이 표시된다.", async () => {
+    const mockRoomInfo: RoomInfo = {
+      ...mockBaseRoomInfo,
+      roomStatus: "PROGRESS",
+      participationStatus: "PARTICIPATED",
+      message: "",
+    };
+    render(
+      <ThemeProvider theme={theme}>
+        <RoomCard roomInfo={mockRoomInfo} />
+      </ThemeProvider>,
+    );
+
+    expect(await screen.findByText("진행 중")).toBeInTheDocument();
+    expect(await screen.findByText("참여")).toBeInTheDocument();
+  });
+
+  it("종료됨 상태의 방은 '종료' 라벨이 표시된다.", async () => {
+    const mockRoomInfo: RoomInfo = {
+      ...mockBaseRoomInfo,
+      roomStatus: "CLOSE",
+      participationStatus: "NOT_PARTICIPATED",
+      message: "",
+    };
+    render(
+      <ThemeProvider theme={theme}>
+        <RoomCard roomInfo={mockRoomInfo} />
+      </ThemeProvider>,
+    );
+
+    expect(await screen.findByText("종료")).toBeInTheDocument();
+  });
+
+  it("종료됨 상태인데 참여중인 상태의 방은 '종료'와 '참여' 라벨이 표시된다.", async () => {
+    const mockRoomInfo: RoomInfo = {
+      ...mockBaseRoomInfo,
+      roomStatus: "CLOSE",
+      participationStatus: "PARTICIPATED",
+      message: "",
+    };
+    render(
+      <ThemeProvider theme={theme}>
+        <RoomCard roomInfo={mockRoomInfo} />
+      </ThemeProvider>,
+    );
+
+    expect(await screen.findByText("종료")).toBeInTheDocument();
+    expect(await screen.findByText("참여")).toBeInTheDocument();
+  });
+
+  it("메인페이지에서 종료됨 상태인데 매칭실패 상태의 방은 '종료' 라벨만 표시된다.", async () => {
+    const mockRoomInfo: RoomInfo = {
+      ...mockBaseRoomInfo,
+      roomStatus: "CLOSE",
+      participationStatus: "NOT_PARTICIPATED",
+      message: "",
+    };
+    render(
+      <ThemeProvider theme={theme}>
+        <RoomCard roomInfo={mockRoomInfo} />
+      </ThemeProvider>,
+    );
+
+    expect(await screen.findByText("종료")).toBeInTheDocument();
+  });
+
+  it("마이페이지에서 종료된 방인데 매칭실패 상태의 방은 '종료'와 '매칭실패' 라벨이 표시된다.", async () => {
+    const mockRoomInfo: RoomInfo = {
+      ...mockBaseRoomInfo,
+      roomStatus: "CLOSE",
+      participationStatus: "PARTICIPATED",
+      message: "방의 최소 참여 인원보다 참가자가 부족하여 매칭이 진행되지 않았습니다.",
+    };
+    render(
+      <ThemeProvider theme={theme}>
+        <RoomCard roomInfo={mockRoomInfo} />
+      </ThemeProvider>,
+    );
+
+    expect(await screen.findByText("종료")).toBeInTheDocument();
+    expect(await screen.findByText("매칭 실패")).toBeInTheDocument();
   });
 });

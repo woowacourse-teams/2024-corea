@@ -129,3 +129,8 @@ export const StyledDday = styled.span`
   font: ${({ theme }) => theme.TEXT.semiSmall_bold};
   color: ${({ theme }) => theme.COLOR.error};
 `;
+
+export const LabelWrapper = styled.div`
+  display: flex;
+  gap: 0.5rem;
+`;

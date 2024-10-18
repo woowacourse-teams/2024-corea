@@ -34,10 +34,10 @@ export const useFetchDetailRoomInfo = (roomId: number) => {
   });
 };
 
-export const useFetchParticipatedRoomList = () => {
+export const useFetchParticipatedRoomList = (includeClosed: boolean = false) => {
   return useSuspenseQuery({
-    queryKey: [QUERY_KEYS.PARTICIPATED_ROOM_LIST],
-    queryFn: getParticipatedRoomList,
+    queryKey: [QUERY_KEYS.PARTICIPATED_ROOM_LIST, includeClosed],
+    queryFn: () => getParticipatedRoomList(includeClosed),
   });
 };
 
