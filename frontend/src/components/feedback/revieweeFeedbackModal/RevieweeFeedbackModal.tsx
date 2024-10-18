@@ -38,22 +38,24 @@ const RevieweeFeedbackModal = ({
           {modalType === "edit" && "리뷰이 피드백 수정하기"}
           {modalType === "view" && "리뷰이 피드백 확인하기"}
         </S.ModalType>
-        <S.ModalTitle>{roomInfo.title}</S.ModalTitle>
-        <S.Keywords>
-          {displayedKeywords.length === 0 ? (
-            <S.NoKeywordText>지정된 키워드 없음</S.NoKeywordText>
-          ) : (
-            displayedKeywords.map((keyword) => (
-              <Label
-                key={keyword}
-                type="KEYWORD"
-                text={keyword}
-                size="semiSmall"
-                backgroundColor={theme.COLOR.grey0}
-              />
-            ))
-          )}
-        </S.Keywords>
+        <S.FeedbackContainerHeader>
+          <S.ModalTitle>{roomInfo.title}</S.ModalTitle>
+          <S.Keywords>
+            {displayedKeywords.length === 0 ? (
+              <S.NoKeywordText>지정된 키워드 없음</S.NoKeywordText>
+            ) : (
+              displayedKeywords.map((keyword) => (
+                <Label
+                  key={keyword}
+                  type="KEYWORD"
+                  text={keyword}
+                  size="semiSmall"
+                  backgroundColor={theme.COLOR.grey0}
+                />
+              ))
+            )}
+          </S.Keywords>
+        </S.FeedbackContainerHeader>
 
         <RevieweeFeedbackForm formState={formState} onChange={handleChange} modalType={modalType} />
 
