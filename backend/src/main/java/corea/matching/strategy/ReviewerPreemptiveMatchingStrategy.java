@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 
 @Component
-@Primary
 @RequiredArgsConstructor
 public class ReviewerPreemptiveMatchingStrategy implements MatchingStrategy {
 
