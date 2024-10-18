@@ -26,7 +26,7 @@ public class AutomaticMatchingWriter {
     }
 
     public AutomaticMatching create(Room room) {
-        AutomaticMatching entity = new AutomaticMatching(room.getId(),room.getRecruitmentDeadline());
+        AutomaticMatching entity = new AutomaticMatching(room.getId(), room.getRecruitmentDeadline());
         return automaticMatchingRepository.save(entity);
     }
 

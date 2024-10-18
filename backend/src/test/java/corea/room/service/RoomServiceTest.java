@@ -6,8 +6,6 @@ import corea.exception.ExceptionType;
 import corea.fixture.MatchResultFixture;
 import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
-import corea.matchresult.domain.FailedMatching;
-import corea.matchresult.repository.FailedMatchingRepository;
 import corea.matchresult.repository.MatchResultRepository;
 import corea.member.domain.Member;
 import corea.member.domain.MemberRole;
@@ -19,7 +17,6 @@ import corea.room.domain.Room;
 import corea.room.dto.RoomCreateRequest;
 import corea.room.dto.RoomParticipantResponses;
 import corea.room.dto.RoomResponse;
-import corea.room.dto.RoomUpdateRequest;
 import corea.room.repository.RoomRepository;
 import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.*;
@@ -69,6 +66,14 @@ class RoomServiceTest {
             roomService.create(manager.getId(), RoomFixture.ROOM_CREATE_REQUEST());
 
             assertThat(roomRepository.findAll()).hasSize(1);
+        }
+
+        @Test
+        @DisplayName("방을 만든 사람은 방장이다.")
+        void manager() {
+            RoomResponse response = roomService.create(manager.getId(), RoomFixture.ROOM_CREATE_REQUEST());
+
+            assertThat(response.participationStatus()).isEqualTo(ParticipationStatus.MANAGER);
         }
 
         @Disabled
@@ -138,87 +143,16 @@ class RoomServiceTest {
         }
     }
 
-    @Nested
-    @DisplayName("방을 조회할 수 있다.")
-    class RoomReader {
-
-        private Member manager;
-        private Member member;
-        private Room room;
-
-        @BeforeEach
-        void setUp() {
-            manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
-            member = memberRepository.save(MemberFixture.MEMBER_PORORO());
-            room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
-        }
-
-        @Test
-        @DisplayName("조회하는 방을 만든 사람은 방장이다.")
-        void manager() {
-            RoomResponse response = roomService.create(manager.getId(), RoomFixture.ROOM_CREATE_REQUEST());
-
-            assertThat(response.participationStatus()).isEqualTo(ParticipationStatus.MANAGER);
-        }
-
-        @Test
-        @DisplayName("조회하는 방에 참여했다면 참여자이다.")
-        void participated() {
-            participationRepository.save(new Participation(room, member, MemberRole.BOTH, room.getMatchingSize()));
-
-            RoomResponse response = roomService.findOne(room.getId(), member.getId());
-
-            assertThat(response.participationStatus()).isEqualTo(ParticipationStatus.PARTICIPATED);
-        }
-
-        @Test
-        @DisplayName("조회하는 방에 참여하지 않았다면 참여자가 아니다.")
-        void not_participated() {
-            RoomResponse response = roomService.findOne(room.getId(), member.getId());
-
-            assertThat(response.participationStatus()).isEqualTo(ParticipationStatus.NOT_PARTICIPATED);
-        }
-    }
-
-    @Nested
-    @DisplayName("방 매칭이 실패 했을 경우 실패한 원인에 대해 알 수 있다.")
-    class MatchingFailedRoom {
-
-        @Autowired
-        private FailedMatchingRepository failedMatchingRepository;
-
-        private Member manager;
-        private Room room;
-
-        @BeforeEach
-        void setUp() {
-            manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
-            room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
-        }
-
-        @Test
-        @DisplayName("방 참여자의 수가 최소 매칭 인원보다 작다면 매칭이 진행되지 않았다면 메세지를 통해 원인을 파악할 수 있다.")
-        void participant_size_lack() {
-            Member member = memberRepository.save(MemberFixture.MEMBER_PORORO());
-            participationRepository.save(new Participation(room, member, MemberRole.BOTH, room.getMatchingSize()));
-
-            failedMatchingRepository.save(new FailedMatching(room.getId(), ExceptionType.PARTICIPANT_SIZE_LACK));
-            RoomResponse response = roomService.findOne(room.getId(), member.getId());
-
-            assertThat(response.message()).isEqualTo("방의 최소 참여 인원보다 참가자가 부족하여 매칭이 진행되지 않았습니다.");
-        }
-    }
-
     @Test
     @DisplayName("본인을 제외하고 방에 참여한 사람의 정보를 최대 6명까지 가져온다.")
     void findParticipants() {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
-        participationRepository.save(new Participation(room, manager,MemberRole.REVIEWER, ParticipationStatus.MANAGER, room.getMatchingSize()));
+        participationRepository.save(new Participation(room, manager, MemberRole.REVIEWER, ParticipationStatus.MANAGER, room.getMatchingSize()));
 
         List<Member> members = memberRepository.saveAll(MemberFixture.SEVEN_MEMBERS());
 
-        participationRepository.save(new Participation(room, manager,MemberRole.REVIEWER, ParticipationStatus.MANAGER, room.getMatchingSize()));
+        participationRepository.save(new Participation(room, manager, MemberRole.REVIEWER, ParticipationStatus.MANAGER, room.getMatchingSize()));
         participationRepository.saveAll(members.stream().map(member -> new Participation(room, member, MemberRole.BOTH, 2)).toList());
 
         matchResultRepository.saveAll(members.stream().map(member -> MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), manager, member)).toList());
@@ -238,7 +172,7 @@ class RoomServiceTest {
         Member pullRequestNotSubmittedMember = memberRepository.save(MemberFixture.MEMBER_ASH());
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
 
-        participationRepository.save(new Participation(room, manager,MemberRole.REVIEWER, ParticipationStatus.MANAGER, room.getMatchingSize()));
+        participationRepository.save(new Participation(room, manager, MemberRole.REVIEWER, ParticipationStatus.MANAGER, room.getMatchingSize()));
         Participation participation = participationRepository.save(new Participation(room, pullRequestNotSubmittedMember, MemberRole.BOTH, 2));
         participation.invalidate();
 

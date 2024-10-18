@@ -1,11 +1,9 @@
-package corea.participation.service;
+package corea.participation.domain;
 
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
 import corea.member.domain.Member;
 import corea.member.domain.MemberRole;
-import corea.participation.domain.Participation;
-import corea.participation.domain.ParticipationStatus;
 import corea.participation.repository.ParticipationRepository;
 import corea.room.domain.Room;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +39,7 @@ public class ParticipationWriter {
     // 현재, 로직상 cancel 호출 시, 의도하지 않는 room 조회문 발생
     public void delete(long roomId, long memberId) {
         Participation participation = participationRepository.findByRoomIdAndMemberId(roomId, memberId)
-                .orElseThrow(() -> new CoreaException(ExceptionType.NOT_ALREADY_APPLY));
+                .orElseThrow(() -> new CoreaException(ExceptionType.NOT_PARTICIPATED_ROOM));
         participation.cancel();
         logDeleteParticipation(participation);
         participationRepository.delete(participation);

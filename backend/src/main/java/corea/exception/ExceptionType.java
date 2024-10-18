@@ -6,8 +6,8 @@ import org.springframework.http.HttpStatus;
 @Getter
 public enum ExceptionType {
 
-    ALREADY_APPLY(HttpStatus.BAD_REQUEST, "해당 방에 이미 참여했습니다."),
-    NOT_ALREADY_APPLY(HttpStatus.BAD_REQUEST, "아직 참여하지 않은 방입니다."),
+    ALREADY_PARTICIPATED_ROOM(HttpStatus.BAD_REQUEST, "해당 방에 이미 참여했습니다."),
+    NOT_PARTICIPATED_ROOM(HttpStatus.BAD_REQUEST, "아직 참여하지 않은 방입니다."),
     ROOM_STATUS_INVALID(HttpStatus.BAD_REQUEST, "방이 마감되었습니다."),
     MEMBER_IS_NOT_MANAGER(HttpStatus.BAD_REQUEST, "매니저가 아닙니다."),
     ROOM_PARTICIPANT_EXCEED(HttpStatus.BAD_REQUEST, "방 참여 인원 수가 최대입니다."),
