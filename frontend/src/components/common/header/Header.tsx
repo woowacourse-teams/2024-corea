@@ -1,6 +1,6 @@
 import ProfileDropdown from "./ProfileDropdown";
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import * as S from "@/components/common/header/Header.style";
 import { githubAuthUrl } from "@/config/githubAuthUrl";
 
@@ -17,15 +17,14 @@ const headerItems = [
 
 const Header = () => {
   const { pathname } = useLocation();
-  const navigate = useNavigate();
   const [isSelect, setIsSelect] = useState("");
   const isLoggedIn = !!localStorage.getItem("accessToken");
   const isMain = pathname === "/";
 
-  const handlePage = (path: string, name: string) => {
-    setIsSelect(name);
-    navigate(path);
-  };
+  // const handlePage = (path: string, name: string) => {
+  //   setIsSelect(name);
+  //   navigate(path);
+  // };
 
   useEffect(() => {
     const currentItem = headerItems.find((item) => item.path === pathname);
@@ -36,31 +35,28 @@ const Header = () => {
     }
   }, [pathname, headerItems]);
 
-  const handleLogin = () => {
-    window.open(githubAuthUrl, "_self");
-  };
-
   return (
     <S.HeaderContainer $isMain={isMain}>
-      <S.HeaderLogo onClick={() => handlePage("/", "")}>
-        <span>CoReA</span>
+      <S.HeaderLogo>
+        <Link to="/">
+          <span>CoReA</span>
+        </Link>
       </S.HeaderLogo>
       <S.HeaderNavBarContainer>
         {headerItems.map((item) => (
           <S.HeaderItem
             $isMain={isMain}
             key={item.name}
-            onClick={() => handlePage(item.path, item.name)}
             className={isSelect === item.name ? "selected" : ""}
           >
-            {item.name}
+            <Link to={item.path}>{item.name}</Link>
           </S.HeaderItem>
         ))}
         {isLoggedIn ? (
           <ProfileDropdown />
         ) : (
-          <S.HeaderItem $isMain={isMain} onClick={handleLogin}>
-            로그인
+          <S.HeaderItem $isMain={isMain}>
+            <a href={githubAuthUrl}>로그인</a>
           </S.HeaderItem>
         )}
       </S.HeaderNavBarContainer>
