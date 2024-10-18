@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { EllipsisText } from "@/styles/common";
 import media from "@/styles/media";
 
 export const RoomInfoCardContainer = styled.div`
@@ -114,13 +115,10 @@ export const RoomContentSmall = styled.span`
   }
 
   span#githubid {
-    overflow: hidden;
-
     max-width: 210px;
-
     font: ${({ theme }) => theme.TEXT.small_bold};
-    text-overflow: ellipsis;
-    white-space: nowrap;
+
+    ${EllipsisText}
   }
 
   div {

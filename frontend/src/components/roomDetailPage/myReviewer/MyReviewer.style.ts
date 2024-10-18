@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { EllipsisText } from "@/styles/common";
 import media from "@/styles/media";
 
 export const MyReviewerContainer = styled.div`
@@ -46,7 +47,6 @@ export const MyReviewerContent = styled.span`
 `;
 
 export const MyReviewerId = styled.span`
-  overflow: hidden;
   display: block;
 
   box-sizing: border-box;
@@ -57,8 +57,8 @@ export const MyReviewerId = styled.span`
   font: ${({ theme }) => theme.TEXT.semiSmall};
   line-height: 40px;
   text-align: left;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+
+  ${EllipsisText}
 
   ${media.medium`
     max-width: 120px;

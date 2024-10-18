@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { EllipsisText } from "@/styles/common";
 import media from "@/styles/media";
 
 export const RoomCardModalContainer = styled.div`
@@ -75,13 +76,10 @@ export const ProfileContainer = styled.div`
   }
 
   span {
-    overflow: hidden;
-
     max-width: 168px;
-
     font: ${({ theme }) => theme.TEXT.small};
-    text-overflow: ellipsis;
-    white-space: nowrap;
+
+    ${EllipsisText}
   }
 `;
 

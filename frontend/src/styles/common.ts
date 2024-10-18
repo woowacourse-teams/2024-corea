@@ -36,3 +36,10 @@ export const VisuallyHidden = `
   white-space: nowrap;
   border: 0;
 `;
+
+export const EllipsisText = `
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: normal;
+`;
