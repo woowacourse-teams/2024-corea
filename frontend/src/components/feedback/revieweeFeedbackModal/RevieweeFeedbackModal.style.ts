@@ -28,3 +28,8 @@ export const ButtonWrapper = styled.div`
   justify-content: center;
   margin-top: 1rem;
 `;
+
+export const NoKeywordText = styled.span`
+  font: ${({ theme }) => theme.TEXT.semiSmall};
+  color: ${({ theme }) => theme.COLOR.grey2};
+`;
