@@ -14,6 +14,8 @@ interface RoomCardModalProps {
 }
 
 const RoomCardModal = ({ isOpen, onClose, roomInfo }: RoomCardModalProps) => {
+  const displayedKeywords = roomInfo.keywords.filter((keyword) => keyword !== "");
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <S.RoomCardModalContainer>
@@ -66,9 +68,13 @@ const RoomCardModal = ({ isOpen, onClose, roomInfo }: RoomCardModalProps) => {
         <S.DescriptionContainer>
           <S.KeywordsContainer>
             <S.KeywordWrapper>
-              {roomInfo.keywords.map((keyword) => (
-                <S.KeywordText key={keyword}>#{keyword}</S.KeywordText>
-              ))}
+              {displayedKeywords.length === 0 ? (
+                <S.NoKeywordText>지정된 키워드 없음</S.NoKeywordText>
+              ) : (
+                displayedKeywords.map((keyword) => (
+                  <S.KeywordText key={keyword}>#{keyword}</S.KeywordText>
+                ))
+              )}
             </S.KeywordWrapper>
           </S.KeywordsContainer>
           <S.ContentContainer>{roomInfo.content}</S.ContentContainer>
