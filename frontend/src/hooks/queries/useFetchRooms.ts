@@ -1,14 +1,7 @@
 import { useSuspenseInfiniteQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { RoomListInfo } from "@/@types/roomInfo";
 import QUERY_KEYS from "@/apis/queryKeys";
-import { getParticipantList, getParticipatedRoomList } from "@/apis/rooms.api";
-
-export const useFetchParticipatedRoomList = () => {
-  return useSuspenseQuery({
-    queryKey: [QUERY_KEYS.PARTICIPATED_ROOM_LIST],
-    queryFn: getParticipatedRoomList,
-  });
-};
+import { getParticipantList, getParticipatedRoomList, getRoomDetailInfo } from "@/apis/rooms.api";
 
 interface RoomListQueryProps {
   queryKey: string[];
@@ -31,6 +24,20 @@ export const useInfiniteFetchRoomList = ({
       return lastPage.pageNumber + 1;
     },
     initialPageParam: 0,
+  });
+};
+
+export const useFetchDetailRoomInfo = (roomId: number) => {
+  return useSuspenseQuery({
+    queryKey: [QUERY_KEYS.ROOM_DETAIL_INFO, roomId],
+    queryFn: () => getRoomDetailInfo(roomId),
+  });
+};
+
+export const useFetchParticipatedRoomList = () => {
+  return useSuspenseQuery({
+    queryKey: [QUERY_KEYS.PARTICIPATED_ROOM_LIST],
+    queryFn: getParticipatedRoomList,
   });
 };
 
