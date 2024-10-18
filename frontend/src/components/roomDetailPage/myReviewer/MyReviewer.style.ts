@@ -52,10 +52,8 @@ export const MyReviewerId = styled.span`
   box-sizing: border-box;
   width: 100%;
   max-width: 100px;
-  height: 40px;
 
   font: ${({ theme }) => theme.TEXT.semiSmall};
-  line-height: 40px;
   text-align: left;
 
   ${EllipsisText}
