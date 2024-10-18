@@ -5,7 +5,7 @@ import WithSuspense from "@/components/common/withSuspense/WithSuspense";
 import RoomList from "@/components/shared/roomList/RoomList";
 
 const ParticipatedRoomList = () => {
-  const { data: participatedRoomList } = useFetchParticipatedRoomList();
+  const { data: participatedRoomList } = useFetchParticipatedRoomList(false);
 
   return (
     <ContentSection title="">

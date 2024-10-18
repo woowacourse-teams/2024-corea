@@ -1,7 +1,7 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import useModal from "@/hooks/common/useModal";
 import useMutateRoom from "@/hooks/mutations/useMutateRoom";
+import { useFetchDetailRoomInfo } from "@/hooks/queries/useFetchRooms";
 import ContentSection from "@/components/common/contentSection/ContentSection";
 import ConfirmModal from "@/components/common/modal/confirmModal/ConfirmModal";
 import FeedbackProcessInfo from "@/components/roomDetailPage/feedbackProcessInfo/FeedbackProcessInfo";
@@ -10,8 +10,6 @@ import MyReviewer from "@/components/roomDetailPage/myReviewer/MyReviewer";
 import ParticipantList from "@/components/roomDetailPage/participantList/ParticipantList";
 import RoomInfoCard from "@/components/roomDetailPage/roomInfoCard/RoomInfoCard";
 import * as S from "@/pages/roomDetail/RoomDetailPage.style";
-import QUERY_KEYS from "@/apis/queryKeys";
-import { getRoomDetailInfo } from "@/apis/rooms.api";
 import { defaultCharacter } from "@/assets";
 import MESSAGES from "@/constants/message";
 
@@ -19,13 +17,9 @@ const RoomDetailPage = () => {
   const params = useParams();
   const { isModalOpen, handleOpenModal, handleCloseModal } = useModal();
   const roomId = params.id ? Number(params.id) : 0;
+  const { data: roomInfo } = useFetchDetailRoomInfo(roomId);
   const { deleteParticipateInMutation, deleteParticipatedRoomMutation } = useMutateRoom();
   const navigate = useNavigate();
-
-  const { data: roomInfo } = useSuspenseQuery({
-    queryKey: [QUERY_KEYS.ROOM_DETAIL_INFO, roomId],
-    queryFn: () => getRoomDetailInfo(roomId),
-  });
 
   const handleCancelParticipateInClick = () => {
     deleteParticipateInMutation.mutate(roomInfo.id, {

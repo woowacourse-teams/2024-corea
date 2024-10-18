@@ -18,9 +18,11 @@ const mockBaseRoomInfo: RoomInfo = {
   thumbnailLink: "테스트 썸네일",
   matchingSize: 5,
   keywords: ["테스트"],
+  classification: "BACKEND",
   limitedParticipants: 10,
   recruitmentDeadline: "2024-10-05T10:30:00+09:00",
   reviewDeadline: "2024-10-08T10:30:00+09:00",
+  message: "테스트 메세지",
 };
 
 describe("RoomInfoCard 컴포넌트 테스트", () => {
