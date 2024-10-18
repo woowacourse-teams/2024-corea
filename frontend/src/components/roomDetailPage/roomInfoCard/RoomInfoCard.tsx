@@ -17,7 +17,7 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
       <S.RoomInfoCardContent>
         <S.RoomHeaderWrapper>
           <S.RoomTitle>{roomInfo.title}</S.RoomTitle>
-          <S.RepositoryLink href={roomInfo.repositoryLink} target="_blank">
+          <S.RepositoryLink href={roomInfo.repositoryLink} target="_blank" rel="noreferrer">
             <Icon kind="link" />
             저장소 바로가기
           </S.RepositoryLink>

@@ -137,7 +137,7 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
 
               {reviewer.link.length !== 0 ? (
                 <S.MyReviewerContent>
-                  <S.PRLink href={reviewer.link} target="_blank">
+                  <S.PRLink href={reviewer.link} target="_blank" rel="noreferrer">
                     <S.IconWrapper>
                       <Icon kind="link" size="1.6rem" />
                     </S.IconWrapper>

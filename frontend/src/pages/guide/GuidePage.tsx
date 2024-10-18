@@ -28,7 +28,7 @@ const GuidePage = () => {
       <ContentSection title="분야별 코드 작성 가이드 바로가기">
         <S.GuideContainer>
           {guidePageOptions.map((option) => (
-            <Link to={option.link} target="_blank" key={option.link}>
+            <Link to={option.link} target="_blank" rel="noreferrer" key={option.link}>
               <S.CardContainer>
                 <Icon kind="link" size="2rem" />
                 <span>{option.title}</span>

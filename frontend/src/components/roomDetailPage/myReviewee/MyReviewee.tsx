@@ -147,7 +147,7 @@ const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
             </HoverStyledLink>
 
             <S.MyRevieweeContent>
-              <S.PRLink href={reviewee.link} target="_blank">
+              <S.PRLink href={reviewee.link} target="_blank" rel="noreferrer">
                 <S.IconWrapper>
                   <Icon kind="link" size="1.6rem" />
                 </S.IconWrapper>
