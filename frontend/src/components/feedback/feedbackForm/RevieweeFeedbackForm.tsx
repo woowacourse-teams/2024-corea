@@ -58,7 +58,7 @@ const RevieweeFeedbackForm = ({ formState, onChange, modalType }: RevieweeFeedba
 
       <S.ItemContainer>
         <S.ModalQuestion>
-          리뷰이의 코드를 추천하시나요?
+          리뷰이의 코드를 추천하시나요? (비공개 항목)
           <span>*필수입력</span>
         </S.ModalQuestion>
         <RecommendationPointBar
