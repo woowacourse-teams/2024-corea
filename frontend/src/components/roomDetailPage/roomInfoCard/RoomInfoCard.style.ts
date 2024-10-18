@@ -60,7 +60,7 @@ export const RoomTitle = styled.span`
   color: ${({ theme }) => theme.COLOR.black};
 `;
 
-export const RepositoryLink = styled.a`
+export const RepositoryLink = styled.div`
   cursor: pointer;
 
   display: flex;
@@ -68,14 +68,6 @@ export const RepositoryLink = styled.a`
   align-items: center;
 
   font: ${({ theme }) => theme.TEXT.medium_bold};
-  color: ${({ theme }) => theme.COLOR.primary2};
-  text-decoration: underline;
-  text-underline-offset: 0.3rem;
-
-  &:hover {
-    color: ${({ theme }) => theme.COLOR.primary3};
-    text-decoration: underline;
-  }
 `;
 
 export const RoomContentBox = styled.div`

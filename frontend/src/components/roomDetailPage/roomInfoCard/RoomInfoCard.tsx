@@ -3,6 +3,7 @@ import ImageWithFallback from "@/components/common/img/ImageWithFallback";
 import Label from "@/components/common/label/Label";
 import * as S from "@/components/roomDetailPage/roomInfoCard/RoomInfoCard.style";
 import { RoomInfo } from "@/@types/roomInfo";
+import { HoverStyledLink } from "@/styles/common";
 import { theme } from "@/styles/theme";
 import { displayLeftTime, formatDateTimeString, formatDday } from "@/utils/dateFormatter";
 
@@ -17,10 +18,17 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
       <S.RoomInfoCardContent>
         <S.RoomHeaderWrapper>
           <S.RoomTitle>{roomInfo.title}</S.RoomTitle>
-          <S.RepositoryLink href={roomInfo.repositoryLink} target="_blank" rel="noreferrer">
-            <Icon kind="link" />
-            저장소 바로가기
-          </S.RepositoryLink>
+
+          <HoverStyledLink
+            to={`/profile/${roomInfo.repositoryLink}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <S.RepositoryLink>
+              <Icon kind="link" size="2.4rem" />
+              저장소 바로가기
+            </S.RepositoryLink>
+          </HoverStyledLink>
         </S.RoomHeaderWrapper>
 
         <S.RoomContentBox>

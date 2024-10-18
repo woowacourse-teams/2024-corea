@@ -31,16 +31,9 @@ export const ProfileWrapper = styled.div`
 
 export const ProfileNickname = styled.div`
   max-width: 108px;
-  height: 24px;
-
   font: ${({ theme }) => theme.TEXT.medium_bold};
   color: ${({ theme }) => theme.COLOR.grey3};
   text-align: center;
-  text-decoration: underline;
-
-  &:hover {
-    color: ${({ theme }) => theme.COLOR.primary2};
-  }
 
   ${EllipsisText}
 `;

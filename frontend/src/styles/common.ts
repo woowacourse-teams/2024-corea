@@ -22,6 +22,7 @@ export const HoverStyledLink = styled(Link)`
   & :hover {
     color: ${theme.COLOR.primary2};
     text-decoration: underline;
+    text-underline-offset: 0.3rem;
   }
 `;
 

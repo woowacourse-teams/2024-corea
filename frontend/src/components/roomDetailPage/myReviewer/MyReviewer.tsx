@@ -137,12 +137,16 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
 
               {reviewer.link.length !== 0 ? (
                 <S.MyReviewerContent>
-                  <S.PRLink href={reviewer.link} target="_blank" rel="noreferrer">
-                    <S.IconWrapper>
-                      <Icon kind="link" size="1.6rem" />
-                    </S.IconWrapper>
-                    바로가기
-                  </S.PRLink>
+                  <HoverStyledLink
+                    to={`/profile/${reviewer.username} target="_blank" rel="noreferrer"`}
+                  >
+                    <S.PRLink>
+                      <S.IconWrapper>
+                        <Icon kind="link" size="1.8rem" />
+                      </S.IconWrapper>
+                      바로가기
+                    </S.PRLink>
+                  </HoverStyledLink>
                 </S.MyReviewerContent>
               ) : (
                 "-"

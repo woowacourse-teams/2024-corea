@@ -107,7 +107,7 @@ export const RoomTitle = styled.h2`
   font: ${({ theme }) => theme.TEXT.large_bold};
 `;
 
-export const RepositoryLink = styled.a`
+export const RepositoryLink = styled.div`
   cursor: pointer;
 
   display: flex;
@@ -116,13 +116,6 @@ export const RepositoryLink = styled.a`
 
   font: ${({ theme }) => theme.TEXT.small_bold};
   color: ${({ theme }) => theme.COLOR.primary2};
-  text-decoration: underline;
-  text-underline-offset: 0.3rem;
-
-  &:hover {
-    color: ${({ theme }) => theme.COLOR.primary3};
-    text-decoration: underline;
-  }
 `;
 
 // 마감 날짜, 모집 인원

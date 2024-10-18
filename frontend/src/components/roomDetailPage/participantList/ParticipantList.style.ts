@@ -76,7 +76,7 @@ export const ProfileNickname = styled.div`
   ${EllipsisText}
 `;
 
-export const PRLink = styled.a`
+export const PRLink = styled.div`
   cursor: pointer;
 
   display: flex;
@@ -84,12 +84,4 @@ export const PRLink = styled.a`
   align-items: center;
 
   font: ${({ theme }) => theme.TEXT.semiSmall};
-  color: ${({ theme }) => theme.COLOR.primary3};
-  text-decoration: underline;
-  text-underline-offset: 0.3rem;
-
-  &:hover {
-    color: ${({ theme }) => theme.COLOR.black};
-    text-decoration: underline;
-  }
 `;

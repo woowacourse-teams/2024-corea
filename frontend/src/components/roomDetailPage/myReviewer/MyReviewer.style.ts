@@ -67,24 +67,22 @@ export const MyReviewerId = styled.span`
   `}
 `;
 
-export const PRLink = styled.a`
+export const PRLink = styled.div`
   cursor: pointer;
 
   display: flex;
   gap: 0.5rem;
   align-items: center;
+  justify-content: center;
 
   font: ${({ theme }) => theme.TEXT.semiSmall};
-  text-decoration: underline;
-  text-underline-offset: 0.3rem;
-
-  &:hover {
-    color: ${({ theme }) => theme.COLOR.primary2};
-    text-decoration: underline;
-  }
 `;
 
 export const IconWrapper = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   ${media.small`
     display: none;
 `}

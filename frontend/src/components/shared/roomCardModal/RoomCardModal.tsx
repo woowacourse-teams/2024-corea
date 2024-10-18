@@ -5,6 +5,7 @@ import Label from "@/components/common/label/Label";
 import Modal from "@/components/common/modal/Modal";
 import * as S from "@/components/shared/roomCardModal/RoomCardModal.style";
 import { RoomInfo } from "@/@types/roomInfo";
+import { HoverStyledLink } from "@/styles/common";
 import { formatDateTimeString } from "@/utils/dateFormatter";
 
 interface RoomCardModalProps {
@@ -38,10 +39,12 @@ const RoomCardModal = ({ isOpen, onClose, roomInfo }: RoomCardModalProps) => {
 
             <S.TitleContainer>
               <S.RoomTitle>{roomInfo.title}</S.RoomTitle>
-              <S.RepositoryLink href={roomInfo.repositoryLink} target="_blank" rel="noreferrer">
-                <Icon kind="link" size="1.8rem" />
-                저장소 바로가기
-              </S.RepositoryLink>
+              <HoverStyledLink to={roomInfo.repositoryLink} target="_blank" rel="noreferrer">
+                <S.RepositoryLink>
+                  <Icon kind="link" size="1.8rem" />
+                  저장소 바로가기
+                </S.RepositoryLink>
+              </HoverStyledLink>
             </S.TitleContainer>
           </S.MainContainer>
         </S.HeaderContainer>

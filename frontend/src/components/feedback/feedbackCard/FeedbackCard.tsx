@@ -1,8 +1,8 @@
-import * as S from "./FeedbackCard.style";
 import { FeedbackType } from "@/hooks/feedback/useSelectedFeedbackData";
 import Profile from "@/components/common/profile/Profile";
 import { Textarea } from "@/components/common/textarea/Textarea";
 import EvaluationPointBar from "@/components/feedback/evaluationPointBar/EvaluationPointBar";
+import * as S from "@/components/feedback/feedbackCard/FeedbackCard.style";
 import { FeedbackCardData } from "@/@types/feedback";
 import { HoverStyledLink } from "@/styles/common";
 import { theme } from "@/styles/theme";
