@@ -44,24 +44,24 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
 
         <S.RoomContentBox>
           <S.RoomContentSmall>
-            <Icon kind="person" size="1.4rem" color={theme.COLOR.grey4} />
+            <Icon kind="person" size="1.8rem" color={theme.COLOR.grey4} />
             <span>방 생성자 : </span>
             <span id="githubid"> {roomInfo.manager}</span>
           </S.RoomContentSmall>
           <S.RoomContentSmall>
-            <Icon kind="person" size="1.4rem" color={theme.COLOR.grey4} />
+            <Icon kind="person" size="1.8rem" color={theme.COLOR.grey4} />
             <span>현재 참여 인원 : </span>
             {roomInfo.currentParticipants} / {roomInfo.limitedParticipants}명
           </S.RoomContentSmall>
           <S.RoomContentSmall>
-            <Icon kind="person" size="1.4rem" color={theme.COLOR.grey4} />
+            <Icon kind="person" size="1.8rem" color={theme.COLOR.grey4} />
             <span>최소 상호 리뷰 인원 : </span>
             {roomInfo.matchingSize}명
           </S.RoomContentSmall>
           <S.RoomContentSmall>
             <S.ContentLineBreak>
               <S.RoomContentSmall>
-                <Icon kind="calendar" size="1.4rem" color={theme.COLOR.grey4} />
+                <Icon kind="calendar" size="1.8rem" color={theme.COLOR.grey4} />
                 <span>모집 마감일: </span>
               </S.RoomContentSmall>
               <div>
@@ -79,7 +79,7 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
           <S.RoomContentSmall>
             <S.ContentLineBreak>
               <S.RoomContentSmall>
-                <Icon kind="calendar" size="1.4rem" color={theme.COLOR.grey4} />
+                <Icon kind="calendar" size="1.8rem" color={theme.COLOR.grey4} />
                 <span>리뷰 및 피드백 마감일: </span>
               </S.RoomContentSmall>
               <div>

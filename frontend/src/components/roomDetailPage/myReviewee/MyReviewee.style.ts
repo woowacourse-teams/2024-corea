@@ -54,7 +54,6 @@ export const MyRevieweeId = styled.span`
 
   font: ${({ theme }) => theme.TEXT.semiSmall};
   line-height: 40px;
-  text-align: left;
 
   ${EllipsisText}
 

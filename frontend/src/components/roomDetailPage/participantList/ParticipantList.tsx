@@ -46,7 +46,7 @@ const ParticipantList = ({ roomInfo }: ParticipantListProps) => {
       {participantListInfo.size > STANDARD_PARTICIPANTS && (
         <S.RenewButtonWrapper>
           <Button onClick={handleRefresh} size="xSmall">
-            <Icon kind="arrowRenew" size={20} />
+            <Icon kind="arrowRenew" size="2rem" />
           </Button>
         </S.RenewButtonWrapper>
       )}

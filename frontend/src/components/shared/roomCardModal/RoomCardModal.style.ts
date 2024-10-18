@@ -194,6 +194,11 @@ export const ContentContainer = styled.p`
   white-space: pre-line;
 `;
 
+export const NoKeywordText = styled.span`
+  font: ${({ theme }) => theme.TEXT.semiSmall};
+  color: ${({ theme }) => theme.COLOR.grey2};
+`;
+
 // 버튼
 export const ButtonContainer = styled.div`
   display: flex;
