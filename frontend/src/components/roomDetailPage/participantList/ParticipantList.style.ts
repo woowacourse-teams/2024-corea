@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { EllipsisText } from "@/styles/common";
 import media from "@/styles/media";
 
 export const TotalContainer = styled.div`
@@ -68,17 +69,14 @@ export const ProfileWrapper = styled.div`
 `;
 
 export const ProfileNickname = styled.div`
-  overflow: hidden;
-
   max-width: 80rem;
-
   font: ${({ theme }) => theme.TEXT.small};
   text-align: center;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+
+  ${EllipsisText}
 `;
 
-export const PRLink = styled.a`
+export const PRLink = styled.div`
   cursor: pointer;
 
   display: flex;
@@ -86,12 +84,4 @@ export const PRLink = styled.a`
   align-items: center;
 
   font: ${({ theme }) => theme.TEXT.semiSmall};
-  color: ${({ theme }) => theme.COLOR.primary3};
-  text-decoration: underline;
-  text-underline-offset: 0.3rem;
-
-  &:hover {
-    color: ${({ theme }) => theme.COLOR.black};
-    text-decoration: underline;
-  }
 `;

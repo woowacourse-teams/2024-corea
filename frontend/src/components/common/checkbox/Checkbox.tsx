@@ -14,7 +14,7 @@ const Checkbox = ({ id, label, checked, onChange }: CheckboxProps) => {
     <S.CheckboxLabel htmlFor={id}>
       <S.CheckboxStyle checked={checked}>
         <S.HiddenCheckbox type="checkbox" id={id} name={id} checked={checked} onChange={onChange} />
-        <S.CustomCheckbox>{checked && <Icon kind="check" size={16} />}</S.CustomCheckbox>
+        <S.CustomCheckbox>{checked && <Icon kind="check" size="1.6rem" />}</S.CustomCheckbox>
       </S.CheckboxStyle>
       <S.CheckboxText>{label}</S.CheckboxText>
     </S.CheckboxLabel>

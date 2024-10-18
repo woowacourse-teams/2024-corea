@@ -28,6 +28,8 @@ const ReviewerFeedbackModal = ({
   const { formState, handleChange, isFormValid, handleSubmit, handleClose } =
     useReviewerFeedbackForm(roomInfo.id, reviewer.username, reviewer.userId, modalType, onClose);
 
+  const displayedKeywords = roomInfo.keywords.filter((keyword) => keyword !== "");
+
   return (
     <FeedbackCustomModal isOpen={isOpen} onClose={handleClose}>
       <S.FeedbackContainer>
@@ -36,18 +38,24 @@ const ReviewerFeedbackModal = ({
           {modalType === "edit" && "리뷰어 피드백 수정하기"}
           {modalType === "view" && "리뷰어 피드백 확인하기"}
         </S.ModalType>
-        <S.ModalTitle>{roomInfo.title}</S.ModalTitle>
-        <S.Keywords>
-          {roomInfo.keywords.map((keyword) => (
-            <Label
-              key={keyword}
-              type="KEYWORD"
-              text={keyword}
-              size="semiSmall"
-              backgroundColor={theme.COLOR.grey0}
-            />
-          ))}
-        </S.Keywords>
+        <S.FeedbackContainerHeader>
+          <S.ModalTitle>{roomInfo.title}</S.ModalTitle>
+          <S.Keywords>
+            {displayedKeywords.length === 0 ? (
+              <S.NoKeywordText>지정된 키워드 없음</S.NoKeywordText>
+            ) : (
+              displayedKeywords.map((keyword) => (
+                <Label
+                  key={keyword}
+                  type="KEYWORD"
+                  text={keyword}
+                  size="semiSmall"
+                  backgroundColor={theme.COLOR.grey0}
+                />
+              ))
+            )}
+          </S.Keywords>
+        </S.FeedbackContainerHeader>
 
         <ReviewerFeedbackForm formState={formState} onChange={handleChange} modalType={modalType} />
 

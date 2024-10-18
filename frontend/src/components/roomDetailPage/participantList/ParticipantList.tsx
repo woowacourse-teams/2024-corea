@@ -46,7 +46,7 @@ const ParticipantList = ({ roomInfo }: ParticipantListProps) => {
       {participantListInfo.size > STANDARD_PARTICIPANTS && (
         <S.RenewButtonWrapper>
           <Button onClick={handleRefresh} size="xSmall">
-            <Icon kind="arrowRenew" size={20} />
+            <Icon kind="arrowRenew" size="2rem" />
           </Button>
         </S.RenewButtonWrapper>
       )}
@@ -60,10 +60,16 @@ const ParticipantList = ({ roomInfo }: ParticipantListProps) => {
                 <S.ProfileNickname>{participant.username}</S.ProfileNickname>
               </S.ProfileWrapper>
             </HoverStyledLink>
-            <S.PRLink href={participant.prLink} target="_blank">
-              <Icon kind="link" size="1.6rem" />
-              PR 링크
-            </S.PRLink>
+            <HoverStyledLink
+              to={`/profile/${participant.username}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <S.PRLink>
+                <Icon kind="link" size="1.8rem" />
+                PR 링크
+              </S.PRLink>
+            </HoverStyledLink>
           </S.ParticipantInfo>
         ))}
       </S.ParticipantListContainer>

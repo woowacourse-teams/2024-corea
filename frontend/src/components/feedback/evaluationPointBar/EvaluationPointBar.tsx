@@ -11,11 +11,11 @@ interface EvaluationOption {
 }
 
 const evaluationOptions: EvaluationOption[] = [
-  { text: "나쁨", value: 1, icon: "bad" },
-  { text: "아쉬움", value: 2, icon: "disappointing" },
-  { text: "보통", value: 3, icon: "average" },
-  { text: "만족", value: 4, icon: "satisfied" },
-  { text: "매우 만족", value: 5, icon: "verySatisfied" },
+  { text: "아쉬움", value: 1, icon: "bad" },
+  { text: "", value: 2, icon: "disappointing" },
+  { text: "", value: 3, icon: "average" },
+  { text: "", value: 4, icon: "satisfied" },
+  { text: "만족", value: 5, icon: "verySatisfied" },
 ];
 
 interface EvaluationPointBarProps {
