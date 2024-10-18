@@ -43,6 +43,8 @@ export const FeedbackKeywordWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
+  align-content: flex-start;
+
   height: 122px;
 `;
 
