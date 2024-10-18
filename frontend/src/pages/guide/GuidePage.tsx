@@ -13,6 +13,7 @@ import {
   github_suggestion,
   github_suggestion_ex,
 } from "@/assets";
+import { HoverStyledLinkForGuide } from "@/styles/common";
 
 const guidePageOptions = [
   {
@@ -124,9 +125,13 @@ const GuidePage = () => {
           <ul>
             <li>
               코드 작성 가이드와&nbsp;
-              <a href="https://meetup.nhncloud.com/posts/106" target="_blank" rel="noreferrer">
+              <HoverStyledLinkForGuide
+                to={`https://meetup.nhncloud.com/posts/106`}
+                target="_blank"
+                rel="noreferrer"
+              >
                 커밋 가이드라인
-              </a>
+              </HoverStyledLinkForGuide>
               을 준수하여 코드의 일관성을 유지하는 것을 목표로 해요.
             </li>
             <li>
@@ -159,31 +164,31 @@ const GuidePage = () => {
               )
             </li>
           </ul>
-          <S.IconWrapper>
-            <Icon kind="link" size="2rem" />
-            <a
-              href="https://github.com/woowacourse/java-chess/pull/699"
-              target="_blank"
-              rel="noreferrer"
-            >
+          <HoverStyledLinkForGuide
+            to={`https://github.com/woowacourse/java-chess/pull/699`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <S.IconWrapper>
+              <Icon kind="link" size="2rem" />
               참고 가능한 PR 링크
-            </a>
-          </S.IconWrapper>
+            </S.IconWrapper>
+          </HoverStyledLinkForGuide>
         </S.StyledContainer>
 
         <S.StyledContainer>
           <h1>🤔 고려하면 좋은 요소들 - 리뷰어</h1>
           <h2>1. 코드 리뷰 시 주로 확인하면 좋은 것들</h2>
-          <S.IconWrapper>
-            <Icon kind="link" size="2rem" />
-            <a
-              href="https://google.github.io/eng-practices/review/reviewer/looking-for.html"
-              target="_blank"
-              rel="noreferrer"
-            >
+          <HoverStyledLinkForGuide
+            to={`https://google.github.io/eng-practices/review/reviewer/looking-for.html`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <S.IconWrapper>
+              <Icon kind="link" size="2rem" />
               구글 코드 리뷰 가이드
-            </a>
-          </S.IconWrapper>
+            </S.IconWrapper>
+          </HoverStyledLinkForGuide>
           <ul>
             <li>
               처음부터 답을 알려주기보다는 고민할 방향을 제시해주는 게 리뷰이의 장기적인 성장에 더
@@ -277,22 +282,26 @@ private double getDiscountRate(boolean isMember, boolean isHoliday) {
 
         <S.StyledContainer>
           <h1>💡 추가로 참고하면 좋은 자료</h1>
-          <S.IconWrapper>
-            <Icon kind="link" size="2rem" />
-            <a href="https://tech.kakao.com/posts/498" target="_blank" rel="noreferrer">
+          <HoverStyledLinkForGuide
+            to={`https://tech.kakao.com/posts/498`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <S.IconWrapper>
+              <Icon kind="link" size="2rem" />
               효과적인 코드리뷰를 위한 리뷰어의 자세(카카오)
-            </a>
-          </S.IconWrapper>
-          <S.IconWrapper>
-            <Icon kind="link" size="2rem" />
-            <a
-              href="https://github.com/meshkorea/front-end-engineering/blob/main/conventions/code-review/index.md"
-              target="_blank"
-              rel="noreferrer"
-            >
+            </S.IconWrapper>
+          </HoverStyledLinkForGuide>
+          <HoverStyledLinkForGuide
+            to={`https://github.com/meshkorea/front-end-engineering/blob/main/conventions/code-review/index.md`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <S.IconWrapper>
+              <Icon kind="link" size="2rem" />
               메쉬코리아 팀의 코드 리뷰 규칙
-            </a>
-          </S.IconWrapper>
+            </S.IconWrapper>
+          </HoverStyledLinkForGuide>
         </S.StyledContainer>
       </ContentSection>
     </S.GuidPageLayout>

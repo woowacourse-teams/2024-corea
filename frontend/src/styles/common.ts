@@ -26,6 +26,13 @@ export const HoverStyledLink = styled(Link)`
   }
 `;
 
+export const HoverStyledLinkForGuide = styled(Link)`
+  & :hover {
+    text-decoration: underline;
+    text-underline-offset: 0.3rem;
+  }
+`;
+
 export const VisuallyHidden = `
   position: absolute;
   width: 1px;
