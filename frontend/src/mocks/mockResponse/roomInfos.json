@@ -15,7 +15,9 @@
       "reviewDeadline": "2024-10-12T23:59",
       "roomStatus": "FAIL",
       "participationStatus": "PARTICIPATED",
-      "memberRole": "BOTH"
+      "memberRole": "BOTH",
+      "classification": "BACKEND",
+      "message": "방 실패했습니다."
     },
     {
       "id": 2,
@@ -32,7 +34,9 @@
       "reviewDeadline": "2024-10-11T23:59",
       "roomStatus": "CLOSE",
       "participationStatus": "PARTICIPATED",
-      "memberRole": "BOTH"
+      "memberRole": "BOTH",
+      "classification": "BACKEND",
+      "message": "방 실패했습니다."
     },
     {
       "id": 2,
@@ -49,7 +53,9 @@
       "reviewDeadline": "2024-08-10T23:59",
       "roomStatus": "CLOSE",
       "participationStatus": "PARTICIPATED",
-      "memberRole": "REVIEWER"
+      "memberRole": "REVIEWER",
+      "classification": "BACKEND",
+      "message": "방 실패했습니다."
     },
     {
       "id": 2,
@@ -66,7 +72,9 @@
       "reviewDeadline": "2024-10-13T23:59",
       "roomStatus": "OPEN",
       "participationStatus": "PARTICIPATED",
-      "memberRole": "BOTH"
+      "memberRole": "BOTH",
+      "classification": "BACKEND",
+      "message": "방 실패했습니다."
     },
     {
       "id": 2,
@@ -83,24 +91,9 @@
       "reviewDeadline": "2024-10-13T23:59",
       "roomStatus": "PROGRESS",
       "participationStatus": "PARTICIPATED",
-      "memberRole": "BOTH"
-    },
-    {
-      "id": 2,
-      "title": "자바 레이싱 카 - MVC",
-      "content": "MVC 패턴을 아시나요?",
-      "manager": "최거짓",
-      "repositoryLink": "https://github.com/example/java-racingcar",
-      "thumbnailLink": "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=13301655&filePath=L2Rpc2sxL25ld2RhdGEvMjAyMS8yMS9DTFMxMDAwNC8xMzMwMTY1NV9XUlRfMjFfQ0xTMTAwMDRfMjAyMTEyMTNfMQ==&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004",
-      "matchingSize": 4,
-      "keywords": ["TDD", "클린코드", "자바"],
-      "currentParticipants": 17,
-      "limitedParticipants": 30,
-      "recruitmentDeadline": "2024-10-12T16:00",
-      "reviewDeadline": "2024-10-13T23:59",
-      "roomStatus": "PARTICIPATED",
-      "participationStatus": "PARTICIPATED",
-      "memberRole": "BOTH"
+      "memberRole": "BOTH",
+      "classification": "BACKEND",
+      "message": "방 실패했습니다."
     }
   ],
   "isLastPage": false,
