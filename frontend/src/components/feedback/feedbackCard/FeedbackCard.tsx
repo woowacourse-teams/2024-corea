@@ -1,6 +1,7 @@
 import * as S from "./FeedbackCard.style";
 import { FeedbackType } from "@/hooks/feedback/useSelectedFeedbackData";
 import Profile from "@/components/common/profile/Profile";
+import { Textarea } from "@/components/common/textarea/Textarea";
 import EvaluationPointBar from "@/components/feedback/evaluationPointBar/EvaluationPointBar";
 import { FeedbackCardData } from "@/@types/feedback";
 import { HoverStyledLink } from "@/styles/common";
@@ -42,6 +43,7 @@ const FeedbackCard = ({
           )}
         </S.FeedbackType>
       </S.FeedbackHeader>
+
       <S.FeedbackScoreContainer>
         <S.FeedbackTitle>피드백 점수</S.FeedbackTitle>
         <EvaluationPointBar
@@ -50,6 +52,7 @@ const FeedbackCard = ({
           color={feedbackType === "social" ? theme.COLOR.secondary : undefined}
         />
       </S.FeedbackScoreContainer>
+
       <S.FeedbackKeywordContainer>
         <S.FeedbackTitle>피드백 키워드</S.FeedbackTitle>
         <S.FeedbackKeywordWrapper>
@@ -58,11 +61,16 @@ const FeedbackCard = ({
           ))}
         </S.FeedbackKeywordWrapper>
       </S.FeedbackKeywordContainer>
+
       <S.FeedbackDetailContainer>
         <S.FeedbackTitle>세부 피드백</S.FeedbackTitle>
-        <S.FeedbackDetail>
-          {feedbackCardData.feedbackText.length ? feedbackCardData.feedbackText : "없음"}
-        </S.FeedbackDetail>
+        <Textarea
+          rows={5}
+          maxLength={512}
+          showCharCount={true}
+          value={feedbackCardData.feedbackText.length ? feedbackCardData.feedbackText : "없음"}
+          readOnly
+        />
       </S.FeedbackDetailContainer>
     </S.FeedbackCardContainer>
   );
