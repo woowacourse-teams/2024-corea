@@ -2,7 +2,7 @@ package corea.feedback.service;
 
 import config.ServiceTest;
 import corea.exception.CoreaException;
-import corea.feedback.dto.SocialFeedbackRequest;
+import corea.feedback.dto.SocialFeedbackCreateRequest;
 import corea.feedback.dto.SocialFeedbackResponse;
 import corea.fixture.MatchResultFixture;
 import corea.fixture.MemberFixture;
@@ -121,8 +121,8 @@ class SocialFeedbackServiceTest {
                 .isInstanceOf(CoreaException.class);
     }
 
-    private SocialFeedbackRequest createRequest(long revieweeId) {
-        return new SocialFeedbackRequest(
+    private SocialFeedbackCreateRequest createRequest(long revieweeId) {
+        return new SocialFeedbackCreateRequest(
                 revieweeId,
                 4,
                 List.of("방의 목적에 맞게 코드를 작성했어요", "코드를 이해하기 쉬웠어요"),
