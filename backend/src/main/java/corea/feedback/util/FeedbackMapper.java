@@ -1,9 +1,6 @@
 package corea.feedback.util;
 
-import corea.feedback.dto.DevelopFeedbackUpdateInput;
-import corea.feedback.dto.DevelopFeedbackUpdateRequest;
-import corea.feedback.dto.FeedbackOutput;
-import corea.feedback.dto.FeedbackResponse;
+import corea.feedback.dto.*;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -20,6 +17,14 @@ public class FeedbackMapper {
                 request.feedbackKeywords(),
                 request.feedbackText(),
                 request.recommendationPoint()
+        );
+    }
+
+    public static SocialFeedbackUpdateInput toFeedbackInput(SocialFeedbackUpdateRequest request) {
+        return new SocialFeedbackUpdateInput(
+                request.evaluationPoint(),
+                request.feedbackKeywords(),
+                request.feedbackText()
         );
     }
 

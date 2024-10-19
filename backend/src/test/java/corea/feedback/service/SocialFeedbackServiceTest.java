@@ -4,6 +4,7 @@ import config.ServiceTest;
 import corea.exception.CoreaException;
 import corea.feedback.dto.SocialFeedbackCreateRequest;
 import corea.feedback.dto.SocialFeedbackResponse;
+import corea.feedback.dto.SocialFeedbackUpdateRequest;
 import corea.fixture.MatchResultFixture;
 import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
@@ -20,7 +21,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static org.assertj.core.api.AssertionsForClassTypes.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 @ServiceTest
 class SocialFeedbackServiceTest {
@@ -99,9 +102,9 @@ class SocialFeedbackServiceTest {
                 reviewee
         ));
         SocialFeedbackResponse createResponse = socialFeedbackService.create(room.getId(), reviewee.getId(), createRequest(reviewer.getId()));
-        SocialFeedbackResponse updateResponse = socialFeedbackService.update(createResponse.feedbackId(), reviewee.getId(), createRequest(reviewer.getId()));
+        SocialFeedbackResponse updateResponse = socialFeedbackService.update(createResponse.feedbackId(), reviewee.getId(), updateRequest());
 
-        assertThat(createResponse).isEqualTo(updateResponse);
+        assertThat(updateResponse.evaluationPoint()).isEqualTo(2);
     }
 
     @Test
@@ -117,7 +120,7 @@ class SocialFeedbackServiceTest {
                 reviewee
         ));
 
-        assertThatThrownBy(() -> socialFeedbackService.update(room.getId(), reviewer.getId(), createRequest(reviewee.getId())))
+        assertThatThrownBy(() -> socialFeedbackService.update(room.getId(), reviewer.getId(), updateRequest()))
                 .isInstanceOf(CoreaException.class);
     }
 
@@ -127,6 +130,14 @@ class SocialFeedbackServiceTest {
                 4,
                 List.of("방의 목적에 맞게 코드를 작성했어요", "코드를 이해하기 쉬웠어요"),
                 "처음 자바를 접해봤다고 했는데 \n 생각보다 매우 구성되어 있는 코드 였던거 같습니다. ..."
+        );
+    }
+
+    private SocialFeedbackUpdateRequest updateRequest() {
+        return new SocialFeedbackUpdateRequest(
+                2,
+                List.of("설명이 부족해요"),
+                "설명이 너무 부족해요..."
         );
     }
 }
