@@ -2,7 +2,9 @@ package corea.feedback.service;
 
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
+import corea.feedback.domain.DevelopFeedback;
 import corea.feedback.domain.SocialFeedback;
+import corea.feedback.domain.SocialFeedbackReader;
 import corea.feedback.dto.SocialFeedbackRequest;
 import corea.feedback.dto.SocialFeedbackResponse;
 import corea.feedback.repository.SocialFeedbackRepository;
@@ -20,6 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class SocialFeedbackService {
 
     private static final Logger log = LogManager.getLogger(SocialFeedbackService.class);
+
+    private final SocialFeedbackReader socialFeedbackReader;
 
     private final SocialFeedbackRepository socialFeedbackRepository;
     private final MatchResultRepository matchResultRepository;
@@ -52,11 +56,11 @@ public class SocialFeedbackService {
     public SocialFeedbackResponse update(long feedbackId, long deliverId, SocialFeedbackRequest request) {
         log.info("소설 피드백 업데이트[작성자({}), 피드백 ID({}), 요청값({})", deliverId, feedbackId, request);
 
-        SocialFeedback feedback = socialFeedbackRepository.findById(feedbackId)
-                .orElseThrow(() -> new CoreaException(ExceptionType.FEEDBACK_NOT_FOUND));
-        updateFeedback(feedback, request);
+        SocialFeedback socialFeedback = socialFeedbackReader.findById(feedbackId);
 
-        return SocialFeedbackResponse.from(feedback);
+        updateFeedback(socialFeedback, request);
+
+        return SocialFeedbackResponse.from(socialFeedback);
     }
 
     private void updateFeedback(SocialFeedback feedback, SocialFeedbackRequest request) {
@@ -68,9 +72,7 @@ public class SocialFeedbackService {
     }
 
     public SocialFeedbackResponse findSocialFeedback(long roomId, long deliverId, String username) {
-        SocialFeedback feedback = socialFeedbackRepository.findByRoomIdAndDeliverIdAndReceiverUsername(roomId, deliverId, username)
-                .orElseThrow(() -> new CoreaException(ExceptionType.FEEDBACK_NOT_FOUND));
-
-        return SocialFeedbackResponse.from(feedback);
+        SocialFeedback socialFeedback = socialFeedbackReader.findSocialFeedback(roomId, deliverId, username);
+        return SocialFeedbackResponse.from(socialFeedback);
     }
 }
