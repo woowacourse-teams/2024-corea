@@ -1,7 +1,7 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import useModal from "@/hooks/common/useModal";
 import useMutateRoom from "@/hooks/mutations/useMutateRoom";
+import { useFetchDetailRoomInfo } from "@/hooks/queries/useFetchRooms";
 import ContentSection from "@/components/common/contentSection/ContentSection";
 import ConfirmModal from "@/components/common/modal/confirmModal/ConfirmModal";
 import FeedbackProcessInfo from "@/components/roomDetailPage/feedbackProcessInfo/FeedbackProcessInfo";
@@ -10,8 +10,6 @@ import MyReviewer from "@/components/roomDetailPage/myReviewer/MyReviewer";
 import ParticipantList from "@/components/roomDetailPage/participantList/ParticipantList";
 import RoomInfoCard from "@/components/roomDetailPage/roomInfoCard/RoomInfoCard";
 import * as S from "@/pages/roomDetail/RoomDetailPage.style";
-import QUERY_KEYS from "@/apis/queryKeys";
-import { getRoomDetailInfo } from "@/apis/rooms.api";
 import { defaultCharacter } from "@/assets";
 import MESSAGES from "@/constants/message";
 
@@ -19,13 +17,9 @@ const RoomDetailPage = () => {
   const params = useParams();
   const { isModalOpen, handleOpenModal, handleCloseModal } = useModal();
   const roomId = params.id ? Number(params.id) : 0;
+  const { data: roomInfo } = useFetchDetailRoomInfo(roomId);
   const { deleteParticipateInMutation, deleteParticipatedRoomMutation } = useMutateRoom();
   const navigate = useNavigate();
-
-  const { data: roomInfo } = useSuspenseQuery({
-    queryKey: [QUERY_KEYS.ROOM_DETAIL_INFO, roomId],
-    queryFn: () => getRoomDetailInfo(roomId),
-  });
 
   const handleCancelParticipateInClick = () => {
     deleteParticipateInMutation.mutate(roomInfo.id, {
@@ -81,7 +75,7 @@ const RoomDetailPage = () => {
 
         <S.ImgWithError>
           <img src={defaultCharacter} alt="매칭 실패시 이미지" />
-          <p>현재 참여 중인 인원이 충분하지 않아 프로세스가 일찍 종료될 예정입니다.</p>
+          <p>{roomInfo.message}</p>
         </S.ImgWithError>
       </S.Layout>
     );

@@ -2,7 +2,7 @@ import * as S from "./Calendar.style";
 import useCalendar from "@/hooks/common/useCalendar";
 import Icon from "@/components/common/icon/Icon";
 import DAYS from "@/constants/days";
-import areDatesEqual from "@/utils/areDatesEqual";
+import { areDatesEqual } from "@/utils/dateFormatter";
 
 export interface CalendarProps {
   selectedDate: Date;

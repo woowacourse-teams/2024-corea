@@ -1,6 +1,5 @@
 import useMutateHandlers from "./useMutateHandlers";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
 import { UserInfo } from "@/@types/userInfo";
 import { postLogin, postLogout } from "@/apis/auth.api";
 import QUERY_KEYS from "@/apis/queryKeys";
@@ -11,7 +10,6 @@ interface UserInfoResponse {
   userInfo: UserInfo;
 }
 const useMutateAuth = () => {
-  const navigate = useNavigate();
   const { handleMutateError } = useMutateHandlers();
   const queryClient = useQueryClient();
 

@@ -1,11 +1,10 @@
-import { decorators } from "./../../../../.storybook/preview";
 import styled from "styled-components";
 
 export const ProfileCardContainer = styled.div`
   width: 100%;
+  padding: 1rem;
   border: 1px solid ${({ theme }) => theme.COLOR.grey1};
   border-radius: 20px;
-  padding: 1rem;
 `;
 
 export const ProfileTitle = styled.div`
@@ -30,10 +29,17 @@ export const ProfileWrapper = styled.div`
 `;
 
 export const ProfileNickname = styled.div`
+  overflow: hidden;
+
+  max-width: 108px;
+  height: 24px;
+
   font: ${({ theme }) => theme.TEXT.medium_bold};
   color: ${({ theme }) => theme.COLOR.grey3};
   text-align: center;
   text-decoration: underline;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 
   &:hover {
     color: ${({ theme }) => theme.COLOR.primary2};

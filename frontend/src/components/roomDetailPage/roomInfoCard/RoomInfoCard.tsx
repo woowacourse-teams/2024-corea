@@ -25,15 +25,19 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
 
         <S.RoomContentBox>
           <S.RoomTagBox>
-            {roomInfo.keywords.map((keyword) => (
-              <Label
-                key={keyword}
-                type="KEYWORD"
-                text={keyword}
-                size="small"
-                backgroundColor={theme.COLOR.primary1}
-              />
-            ))}
+            {roomInfo.keywords.length === 1 ? (
+              <S.NoKeywordText>지정된 키워드 없음</S.NoKeywordText>
+            ) : (
+              roomInfo.keywords.map((keyword) => (
+                <Label
+                  key={keyword}
+                  type="KEYWORD"
+                  text={keyword}
+                  size="small"
+                  backgroundColor={theme.COLOR.primary1}
+                />
+              ))
+            )}
           </S.RoomTagBox>
           <S.RoomContentSmall>{roomInfo.content}</S.RoomContentSmall>
         </S.RoomContentBox>
@@ -42,7 +46,7 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
           <S.RoomContentSmall>
             <Icon kind="person" size="1.4rem" color={theme.COLOR.grey4} />
             <span>방 생성자 : </span>
-            {roomInfo.manager}
+            <span id="githubid"> {roomInfo.manager}</span>
           </S.RoomContentSmall>
           <S.RoomContentSmall>
             <Icon kind="person" size="1.4rem" color={theme.COLOR.grey4} />
@@ -64,7 +68,7 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
                 <S.DateTimeText>
                   {formatDateTimeString(roomInfo.recruitmentDeadline)}
                 </S.DateTimeText>
-                <S.StyledDday>
+                <S.StyledDday data-testid="recruitLeftTime">
                   {roomInfo.roomStatus === "OPEN" &&
                     formatDday(roomInfo.recruitmentDeadline) !== "종료됨" &&
                     displayLeftTime(roomInfo.recruitmentDeadline)}
@@ -80,8 +84,9 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
               </S.RoomContentSmall>
               <div>
                 <S.DateTimeText>{formatDateTimeString(roomInfo.reviewDeadline)}</S.DateTimeText>
-                <S.StyledDday>
-                  {formatDday(roomInfo.reviewDeadline) !== "종료됨" &&
+                <S.StyledDday data-testid="reviewLeftTime">
+                  {(roomInfo.roomStatus === "OPEN" || roomInfo.roomStatus === "PROGRESS") &&
+                    formatDday(roomInfo.reviewDeadline) !== "종료됨" &&
                     displayLeftTime(roomInfo.reviewDeadline)}
                 </S.StyledDday>
               </div>
