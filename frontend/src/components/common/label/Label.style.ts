@@ -28,23 +28,29 @@ export const LabelWrapper = styled.div<LabelWrapperProps>`
           background-color: ${$backgroundColor || theme.COLOR.white};
           border: 1px solid ${theme.COLOR.grey0};
         `;
+      case "PARTICIPATED":
+        return css`
+          color: ${theme.COLOR.white};
+          background-color: ${theme.COLOR.secondary};
+          border: 1px solid ${theme.COLOR.secondary};
+        `;
       case "OPEN":
         return css`
           color: ${theme.COLOR.black};
           background-color: ${theme.COLOR.primary1};
           border: 1px solid ${theme.COLOR.primary1};
         `;
-      case "CLOSE":
+      case "PROGRESS":
         return css`
           color: ${theme.COLOR.white};
           background-color: ${theme.COLOR.primary2};
           border: 1px solid ${theme.COLOR.primary2};
         `;
-      case "PROGRESS":
+      case "CLOSE":
         return css`
           color: ${theme.COLOR.white};
-          background-color: ${theme.COLOR.secondary};
-          border: 1px solid ${theme.COLOR.secondary};
+          background-color: ${theme.COLOR.grey1};
+          border: 1px solid ${theme.COLOR.grey1};
         `;
       case "FAIL":
         return css`
