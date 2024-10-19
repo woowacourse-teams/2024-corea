@@ -42,8 +42,8 @@ class UserFeedbackControllerTest {
     @DisplayName("자신이 작성한 피드백을 받는다.")
     void deliveredFeedbacks() {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
-        Room room1 = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
-        Room room2 = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
+        Room room1 = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_PROGRESS(manager));
+        Room room2 = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_CLOSED(manager));
         Member member1 = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member member2 = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
 
@@ -96,7 +96,7 @@ class UserFeedbackControllerTest {
     void receivedFeedbacksFromClosedRoom() {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
         Room room1 = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
-        Room room2 = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
+        Room room2 = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_PROGRESS(manager));
         Room room3 = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_CLOSED(manager));
         Member member1 = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member member2 = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());

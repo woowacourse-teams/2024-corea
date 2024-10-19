@@ -48,7 +48,7 @@ class UserFeedbackServiceTest {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
         Room room1 = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_CLOSED(manager));
         Room room2 = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_CLOSED(manager));
-        Room room3 = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
+        Room room3 = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_PROGRESS(manager));
         Member reviewer = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member reviewee = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
 

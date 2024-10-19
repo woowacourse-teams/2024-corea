@@ -34,7 +34,7 @@ public class UserFeedbackService {
         Map<Long, List<FeedbackOutput>> developFeedbackOutput = developFeedbackReader.collectDeliverDevelopFeedback(feedbackDeliverId);
         Map<Long, List<FeedbackOutput>> socialFeedbackOutput = socialFeedbackReader.collectDeliverSocialFeedback(feedbackDeliverId);
 
-        return getUserFeedbackResponse(developFeedbackOutput, socialFeedbackOutput, room -> true);
+        return getUserFeedbackResponse(developFeedbackOutput, socialFeedbackOutput, Room::isNotOpened);
     }
 
     public UserFeedbackResponse getReceivedFeedback(long feedbackReceiverId) {
