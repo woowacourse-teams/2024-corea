@@ -138,15 +138,15 @@ public class DynamicSizeMatchingStrategy implements MatchingStrategy {
     // 모든 Reviewer 에 대해 매칭 시도
     private void matchReviewers(List<Participation> reviewers, List<Participation> nonReviewers, List<Pair> pairs) {
         ArrayDeque<Member> reviewees = extractMember(nonReviewers);
-        for (Participation reviewerParticipant : reviewers) {
-            matchRevieweesToReviewer(pairs, reviewerParticipant, reviewees);
+        for (Participation reviewerParticipation : reviewers) {
+            matchRevieweesToReviewer(pairs, reviewerParticipation, reviewees);
         }
     }
 
     // MemberRole.Reviewer 인 참여자는 본인의 matchingSize 만큼 리뷰이를 배정
-    private void matchRevieweesToReviewer(List<Pair> pairs, Participation reviewerParticipant, ArrayDeque<Member> reviewees) {
-        Member reviewer = reviewerParticipant.getMember();
-        for (int count = 0; count < reviewerParticipant.getMatchingSize(); count++) {
+    private void matchRevieweesToReviewer(List<Pair> pairs, Participation reviewerParticipation, ArrayDeque<Member> reviewees) {
+        Member reviewer = reviewerParticipation.getMember();
+        for (int count = 0; count < reviewerParticipation.getMatchingSize(); count++) {
             Member reviewee = reviewees.pollFirst();
             if (!isPossiblePair(reviewer, reviewee, pairs)) {
                 reviewees.addFirst(reviewee);
