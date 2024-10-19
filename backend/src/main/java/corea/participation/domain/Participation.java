@@ -40,14 +40,12 @@ public class Participation extends BaseTimeEntity {
 
     private int matchingSize;
 
-    public Participation(Room room, Member member, MemberRole role, int matchingSize) {
-        this(null, room, member, role, ParticipationStatus.PARTICIPATED, matchingSize);
-        debug(room.getId(), member.getId());
+    public Participation(Room room, Member member, MemberRole memberRole, ParticipationStatus status, int matchingSize) {
+        this(null, room, member, memberRole, status, matchingSize);
     }
 
-    public Participation(Room room, Member member) {
-        this(null, room, member, MemberRole.REVIEWER, ParticipationStatus.MANAGER, room.getMatchingSize());
-        debug(room.getId(), member.getId());
+    public Participation(Room room, Member member, MemberRole role, int matchingSize) {
+        this(null, room, member, role, ParticipationStatus.PARTICIPATED, matchingSize);
     }
 
     public boolean isNotMatchingMemberId(long memberId) {
@@ -66,18 +64,6 @@ public class Participation extends BaseTimeEntity {
         room.participate();
     }
 
-    public long getRoomsId() {
-        return room.getId();
-    }
-
-    public long getMembersId() {
-        return member.getId();
-    }
-
-    public String getMemberGithubId() {
-        return member.getGithubUserId();
-    }
-
     public boolean isReviewer() {
         return memberRole.isReviewer();
     }
@@ -90,7 +76,20 @@ public class Participation extends BaseTimeEntity {
         return status.isPullRequestNotSubmitted();
     }
 
-    private static void debug(long roomId, long memberId) {
-        log.debug("참가자 생성[방 ID={}, 멤버 ID={}", roomId, memberId);
+    public boolean isParticipatedRoom(Room room) {
+        return this.room == room;
     }
+
+    public long getRoomsId() {
+        return room.getId();
+    }
+
+    public long getMembersId() {
+        return member.getId();
+    }
+
+    public String getMemberGithubId() {
+        return member.getGithubUserId();
+    }
+
 }

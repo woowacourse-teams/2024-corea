@@ -12,14 +12,13 @@ const dropdown = keyframes`
 `;
 
 export const DropdownContainer = styled.div`
+  cursor: pointer;
   position: relative;
   width: 160px;
   height: 40px;
-
-  cursor: pointer;
 `;
 
-export const DropdownToggle = styled.div`
+export const DropdownToggle = styled.div<{ $error: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -31,16 +30,16 @@ export const DropdownToggle = styled.div`
   font: ${({ theme }) => theme.TEXT.small};
   color: ${({ theme }) => theme.COLOR.grey4};
 
-  border: 1px solid ${({ theme }) => theme.COLOR.grey2};
-  border-radius: 4px;
+  border: 1px solid ${(props) => (props.$error ? props.theme.COLOR.error : props.theme.COLOR.grey1)};
+  border-radius: 6px;
 `;
 
-export const DropdownMenu = styled.div<{ show: boolean }>`
+export const DropdownMenu = styled.div`
   position: absolute;
   z-index: 1;
   right: 0;
 
-  display: ${({ show }) => (show ? "flex" : "none")};
+  display: flex;
   flex-direction: column;
 
   width: 100%;
@@ -48,6 +47,7 @@ export const DropdownMenu = styled.div<{ show: boolean }>`
   background-color: white;
   border: 1px solid ${({ theme }) => theme.COLOR.grey1};
   border-radius: 4px;
+
   animation: ${dropdown} 0.4s ease;
 `;
 
@@ -55,13 +55,15 @@ export const DropdownItemWrapper = styled.ul`
   margin: 0.6rem;
 `;
 
-export const DropdownItem = styled.li`
+export const DropdownItem = styled.li<{ $isSelected: boolean }>`
   cursor: pointer;
 
   display: flex;
   align-items: center;
 
   padding: 0.8rem 0;
+
+  background-color: ${(props) => (props.$isSelected ? props.theme.COLOR.grey0 : "")};
 
   transition: background-color 0.3s;
 

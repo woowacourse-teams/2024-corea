@@ -11,9 +11,15 @@ interface DropdownProps {
   dropdownItems: DropdownItem[];
   selectedCategory: string;
   onSelectCategory: (category: string) => void;
+  error?: boolean;
 }
 
-const Dropdown = ({ dropdownItems, onSelectCategory, selectedCategory }: DropdownProps) => {
+const Dropdown = ({
+  dropdownItems,
+  onSelectCategory,
+  selectedCategory,
+  error = false,
+}: DropdownProps) => {
   const { isDropdownOpen, handleToggleDropdown, dropdownRef } = useDropdown();
 
   const handleDropdownItemClick = (category: string) => {
@@ -21,24 +27,28 @@ const Dropdown = ({ dropdownItems, onSelectCategory, selectedCategory }: Dropdow
     handleToggleDropdown();
   };
 
-  const selectedItem =
-    dropdownItems.find((item) => item.value === selectedCategory) || dropdownItems[0];
-
   return (
     <S.DropdownContainer ref={dropdownRef}>
-      <S.DropdownToggle onClick={handleToggleDropdown}>
-        {selectedItem.text}
-        {isDropdownOpen ? <Icon kind="arrowDropUp" /> : <Icon kind="arrowDropDown" />}
+      <S.DropdownToggle onClick={handleToggleDropdown} $error={error}>
+        {dropdownItems.find((item) => item.value === selectedCategory)?.text || "선택해주세요"}
+        <Icon kind={isDropdownOpen ? "arrowDropUp" : "arrowDropDown"} />
       </S.DropdownToggle>
-      <S.DropdownMenu show={isDropdownOpen}>
-        <S.DropdownItemWrapper>
-          {dropdownItems.map((item) => (
-            <S.DropdownItem key={item.text} onClick={() => handleDropdownItemClick(item.value)}>
-              <span>{item.text}</span>
-            </S.DropdownItem>
-          ))}
-        </S.DropdownItemWrapper>
-      </S.DropdownMenu>
+
+      {isDropdownOpen && (
+        <S.DropdownMenu>
+          <S.DropdownItemWrapper>
+            {dropdownItems.map((item) => (
+              <S.DropdownItem
+                key={item.value}
+                onClick={() => handleDropdownItemClick(item.value)}
+                $isSelected={item.value === selectedCategory}
+              >
+                <span>{item.text}</span>
+              </S.DropdownItem>
+            ))}
+          </S.DropdownItemWrapper>
+        </S.DropdownMenu>
+      )}
     </S.DropdownContainer>
   );
 };

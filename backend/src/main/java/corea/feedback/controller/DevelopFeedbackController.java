@@ -2,8 +2,9 @@ package corea.feedback.controller;
 
 import corea.auth.annotation.LoginMember;
 import corea.auth.domain.AuthInfo;
-import corea.feedback.dto.DevelopFeedbackRequest;
+import corea.feedback.dto.DevelopFeedbackCreateRequest;
 import corea.feedback.dto.DevelopFeedbackResponse;
+import corea.feedback.dto.DevelopFeedbackUpdateRequest;
 import corea.feedback.service.DevelopFeedbackService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,15 +17,13 @@ public class DevelopFeedbackController implements DevelopFeedbackControllerSpeci
 
     private final DevelopFeedbackService developFeedbackService;
 
-    @Override
     @PostMapping
-    public ResponseEntity<Void> create(@PathVariable long roomId, @LoginMember AuthInfo authInfo, @RequestBody DevelopFeedbackRequest request) {
+    public ResponseEntity<Void> create(@PathVariable long roomId, @LoginMember AuthInfo authInfo, @RequestBody DevelopFeedbackCreateRequest request) {
         developFeedbackService.create(roomId, authInfo.getId(), request);
         return ResponseEntity.ok()
                 .build();
     }
 
-    @Override
     @GetMapping
     public ResponseEntity<DevelopFeedbackResponse> developFeedback(
             @PathVariable long roomId, @RequestParam String username, @LoginMember AuthInfo authInfo) {
@@ -33,10 +32,9 @@ public class DevelopFeedbackController implements DevelopFeedbackControllerSpeci
                 .body(response);
     }
 
-    @Override
     @PutMapping("/{feedbackId}")
     public ResponseEntity<Void> update(
-            @PathVariable long roomId, @PathVariable long feedbackId, @LoginMember AuthInfo authInfo, @RequestBody DevelopFeedbackRequest request) {
+            @PathVariable long roomId, @PathVariable long feedbackId, @LoginMember AuthInfo authInfo, @RequestBody DevelopFeedbackUpdateRequest request) {
         developFeedbackService.update(feedbackId, authInfo.getId(), request);
         return ResponseEntity.ok()
                 .build();

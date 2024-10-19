@@ -29,6 +29,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Set timezone to Asia/Seoul
+        run: sudo timedatectl set-timezone Asia/Seoul
+
       # 노드 설치
       - name: Install Nodejs
         uses: actions/setup-node@v4

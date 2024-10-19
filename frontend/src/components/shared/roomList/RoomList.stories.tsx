@@ -5,13 +5,15 @@ import roomInfos from "@/mocks/mockResponse/roomInfos.json";
 
 const sampleRoomList = roomInfos.rooms.map((roomInfo) => ({
   ...roomInfo,
-  roomStatus: roomInfo.roomStatus as "OPEN" | "CLOSE" | "PROGRESS",
+  roomStatus: roomInfo.roomStatus as "OPEN" | "CLOSE" | "PROGRESS" | "FAIL",
   participationStatus: roomInfo.participationStatus as
     | "NOT_PARTICIPATED"
     | "PARTICIPATED"
-    | "MANAGER",
+    | "MANAGER"
+    | "PULL_REQUEST_NOT_SUBMITTED",
 
   memberRole: roomInfo.memberRole as "BOTH" | "REVIEWER" | "REVIEWEE" | "NONE",
+  classification: roomInfo.classification as "ALL" | "FRONTEND" | "BACKEND" | "ANDROID",
 })) satisfies RoomInfo[];
 
 const meta = {
