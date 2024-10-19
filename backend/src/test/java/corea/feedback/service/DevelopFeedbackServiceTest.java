@@ -7,8 +7,8 @@ import corea.feedback.dto.DevelopFeedbackResponse;
 import corea.fixture.MatchResultFixture;
 import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
-import corea.matching.domain.MatchResult;
-import corea.matching.repository.MatchResultRepository;
+import corea.matchresult.domain.MatchResult;
+import corea.matchresult.repository.MatchResultRepository;
 import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
 import corea.room.domain.Room;
@@ -54,8 +54,6 @@ class DevelopFeedbackServiceTest {
         assertThatCode(() -> developFeedbackService.create(room.getId(), deliver.getId(), createRequest(receiver.getId())))
                 .doesNotThrowAnyException();
         assertThat(matchResult.isReviewerCompletedFeedback()).isTrue();
-        assertThat(receiver.getProfile().getFeedbackCount()).isEqualTo(1);
-        assertThat(receiver.getProfile().getAverageRatingValue()).isEqualTo(4);
     }
 
     @Test

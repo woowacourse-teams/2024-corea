@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useMutateLogin from "@/hooks/mutations/useMutateAuth";
 import * as S from "@/pages/callback/CallbackPage.style";
-import { thingkingCharacter } from "@/assets";
+import { thinkingCharacter } from "@/assets";
 
 const CallbackPage = () => {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ const CallbackPage = () => {
     }
 
     const timer = setTimeout(() => {
-      navigate("/");
+      navigate("/", { replace: true });
     }, 2000);
 
     return () => clearTimeout(timer);
@@ -25,9 +25,9 @@ const CallbackPage = () => {
 
   return (
     <S.CallbackPageContainer>
-      <S.Character src={thingkingCharacter} alt="로그인 중" />
+      <S.Character src={thinkingCharacter} alt="로그인 중" />
       <S.LoadingContainer>
-        로그인 중 ...
+        <p>로그인 중...</p>
         <S.LoadingBar />
       </S.LoadingContainer>
     </S.CallbackPageContainer>

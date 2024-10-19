@@ -22,6 +22,7 @@ const ParticipantList = ({ roomInfo }: ParticipantListProps) => {
     }
   };
 
+  // 매칭 전 보여줄 화면
   if (isOpenStatus) {
     return (
       <S.TotalContainer>
@@ -30,6 +31,16 @@ const ParticipantList = ({ roomInfo }: ParticipantListProps) => {
     );
   }
 
+  // 방 종료 후 참여자 없을 때 보여줄 화면
+  if (roomInfo.roomStatus === "CLOSE" && participantListInfo.size === 0) {
+    return (
+      <S.TotalContainer>
+        <S.MessageWrapper>{MESSAGES.GUIDANCE.ZERO_PARTICIPANTS}</S.MessageWrapper>
+      </S.TotalContainer>
+    );
+  }
+
+  // 참여자 보여주는 화면
   return (
     <S.TotalContainer>
       {participantListInfo.size > STANDARD_PARTICIPANTS && (

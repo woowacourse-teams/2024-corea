@@ -3,7 +3,7 @@ package corea.room.acceptance;
 import corea.auth.service.TokenService;
 import corea.fixture.RoomFixture;
 import corea.member.repository.MemberRepository;
-import corea.room.domain.ParticipationStatus;
+import corea.participation.domain.ParticipationStatus;
 import corea.room.dto.RoomCreateRequest;
 import corea.room.dto.RoomResponse;
 import corea.room.dto.RoomResponses;

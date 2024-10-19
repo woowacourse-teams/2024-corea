@@ -5,6 +5,7 @@ import Label from "@/components/common/label/Label";
 import FeedbackCard from "@/components/feedback/feedbackCard/FeedbackCard";
 import * as S from "@/components/feedback/feedbackCardList/FeedbackCardList.style";
 import { FeedbackCardDataList } from "@/@types/feedback";
+import { defaultCharacter } from "@/assets";
 import { theme } from "@/styles/theme";
 
 interface FeedbackCardListProps {
@@ -31,6 +32,15 @@ const FeedbackCardList = ({ selectedFeedbackType, feedbackData }: FeedbackCardLi
     [feedbackData],
   );
 
+  if (feedbackData.length === 0) {
+    return (
+      <S.EmptyContainer>
+        <S.Character src={defaultCharacter} alt="기본 캐릭터" />
+        <p>{selectedFeedbackType}이 없습니다.</p>
+      </S.EmptyContainer>
+    );
+  }
+
   return (
     <S.FeedbackCardContainer>
       {feedbackData.map((feedback) => (
@@ -41,6 +51,9 @@ const FeedbackCardList = ({ selectedFeedbackType, feedbackData }: FeedbackCardLi
           >
             <S.FeedbackMissionTitle>
               <S.FeedbackMissionInfo>{feedback.title}</S.FeedbackMissionInfo>
+              <S.FeedbackCount>
+                ({feedback.developFeedback.length + feedback.socialFeedback.length})
+              </S.FeedbackCount>
               <S.FeedbackKeywordContainer>
                 {feedback.roomKeywords.map((keyword) => (
                   <Label

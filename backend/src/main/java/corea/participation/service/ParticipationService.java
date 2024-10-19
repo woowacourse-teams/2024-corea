@@ -2,6 +2,8 @@ package corea.participation.service;
 
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
+import corea.member.domain.Member;
+import corea.member.domain.MemberRole;
 import corea.member.repository.MemberRepository;
 import corea.participation.domain.Participation;
 import corea.participation.dto.ParticipationRequest;
@@ -29,7 +31,11 @@ public class ParticipationService {
     }
 
     private Participation saveParticipation(ParticipationRequest request) {
-        Participation participation = new Participation(getRoom(request.roomId()), request.memberId());
+        Member member = memberRepository.findById(request.memberId())
+                .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND));
+        MemberRole memberRole = MemberRole.from(request.role());
+
+        Participation participation = new Participation(getRoom(request.roomId()), member, memberRole, request.matchingSize());
         participation.participate();
         return participationRepository.save(participation);
     }
@@ -42,7 +48,7 @@ public class ParticipationService {
 
     private void deleteParticipation(long roomId, long memberId) {
         Participation participation = participationRepository.findByRoomIdAndMemberId(roomId, memberId)
-                .orElseThrow(()->new CoreaException(ExceptionType.NOT_ALREADY_APPLY));
+                .orElseThrow(() -> new CoreaException(ExceptionType.NOT_ALREADY_APPLY));
         participation.cancel();
         participationRepository.delete(participation);
     }

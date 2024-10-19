@@ -7,8 +7,8 @@ import corea.feedback.dto.SocialFeedbackResponse;
 import corea.fixture.MatchResultFixture;
 import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
-import corea.matching.domain.MatchResult;
-import corea.matching.repository.MatchResultRepository;
+import corea.matchresult.domain.MatchResult;
+import corea.matchresult.repository.MatchResultRepository;
 import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
 import corea.room.domain.Room;
@@ -54,8 +54,6 @@ class SocialFeedbackServiceTest {
         assertThatCode(() -> socialFeedbackService.create(room.getId(), reviewee.getId(), createRequest(reviewer.getId())))
                 .doesNotThrowAnyException();
         assertThat(matchResult.isRevieweeCompletedFeedback()).isTrue();
-        assertThat(reviewer.getProfile().getFeedbackCount()).isEqualTo(1);
-        assertThat(reviewer.getProfile().getAverageRatingValue()).isEqualTo(4);
     }
 
     @Test

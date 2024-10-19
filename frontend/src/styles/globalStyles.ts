@@ -1,5 +1,4 @@
 import { createGlobalStyle } from "styled-components";
-import { theme } from "@/styles/theme";
 
 const globalStyles = createGlobalStyle`
   scrollbar-width: none;
@@ -10,6 +9,11 @@ const globalStyles = createGlobalStyle`
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+  }
+
+  html,
+  body{
+    scrollbar-gutter: stable;
   }
 
   html,
@@ -93,7 +97,8 @@ const globalStyles = createGlobalStyle`
   mark,
   audio,
   video,
-  input {
+  input,
+  textarea {
     box-sizing: border-box;
     margin: 0;
     padding: 0;

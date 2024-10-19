@@ -10,7 +10,8 @@ public enum ExceptionType {
     NOT_ALREADY_APPLY(HttpStatus.BAD_REQUEST, "아직 참여하지 않은 방입니다."),
     ROOM_STATUS_INVALID(HttpStatus.BAD_REQUEST, "방이 마감되었습니다."),
     ROOM_PARTICIPANT_EXCEED(HttpStatus.BAD_REQUEST, "방 참여 인원 수가 최대입니다."),
-    PARTICIPANT_SIZE_LACK(HttpStatus.BAD_REQUEST, "참여 인원 수가 부족합니다."),
+    PARTICIPANT_SIZE_LACK(HttpStatus.BAD_REQUEST, "참여 인원이 부족하여 매칭을 진행할 수 없습니다."),
+    PARTICIPANT_SIZE_LACK_DUE_TO_PULL_REQUEST(HttpStatus.BAD_REQUEST, "pull request 미제출로 인해 인원이 부족하여 매칭을 진행할 수 없습니다."),
     NOT_MATCHED_MEMBER(HttpStatus.BAD_REQUEST, "매칭된 인원들이 아닙니다."),
     ALREADY_COMPLETED_REVIEW(HttpStatus.BAD_REQUEST, "이미 리뷰를 완료했습니다."),
     ALREADY_COMPLETED_FEEDBACK(HttpStatus.BAD_REQUEST, "이미 작성한 피드백이 존재합니다."),
@@ -18,6 +19,8 @@ public enum ExceptionType {
     INVALID_VALUE(HttpStatus.BAD_REQUEST, "올바르지 않은 값입니다."),
     INVALID_RECRUITMENT_DEADLINE(HttpStatus.BAD_REQUEST, "올바르지 않은 모집 마감 시간입니다."),
     INVALID_REVIEW_DEADLINE(HttpStatus.BAD_REQUEST, "올바르지 않은 리뷰 마감 시간입니다."),
+    INVALID_PULL_REQUEST_URL(HttpStatus.BAD_REQUEST, "올바르지 않은 풀 리퀘스트 주소입니다."),
+    NOT_COMPLETE_GITHUB_REVIEW(HttpStatus.BAD_REQUEST, "깃허브 리뷰를 완료하지 않았습니다."),
 
     TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "토큰이 만료되었습니다."),
     INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "토큰이 올바르지 않습니다."),

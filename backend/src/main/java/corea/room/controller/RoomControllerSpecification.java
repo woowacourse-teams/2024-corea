@@ -3,7 +3,7 @@ package corea.room.controller;
 import corea.auth.domain.AuthInfo;
 import corea.exception.ExceptionType;
 import corea.global.annotation.ApiErrorResponses;
-import corea.matching.dto.MatchResultResponses;
+import corea.matchresult.dto.MatchResultResponses;
 import corea.room.dto.RoomCreateRequest;
 import corea.room.dto.RoomParticipantResponses;
 import corea.room.dto.RoomResponse;

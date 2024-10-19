@@ -1,6 +1,7 @@
 package corea;
 
 import corea.member.domain.Member;
+import corea.member.domain.MemberRole;
 import corea.member.repository.MemberRepository;
 import corea.participation.domain.Participation;
 import corea.participation.repository.ParticipationRepository;
@@ -182,27 +183,27 @@ public class DataInitializer implements ApplicationRunner {
                         LocalDateTime.of(2024, 12, 30, 12, 20),
                         RoomClassification.ANDROID, RoomStatus.PROGRESS));
 
-        participationRepository.save(new Participation(room1, member2.getId()));
-        participationRepository.save(new Participation(room1, member3.getId()));
+        participationRepository.save(new Participation(room1, member2, MemberRole.BOTH, room1.getMatchingSize()));
+        participationRepository.save(new Participation(room1, member3, MemberRole.BOTH, room1.getMatchingSize()));
 
-        participationRepository.save(new Participation(room2, member3.getId()));
-        participationRepository.save(new Participation(room2, member4.getId()));
+        participationRepository.save(new Participation(room2, member3, MemberRole.BOTH, room2.getMatchingSize()));
+        participationRepository.save(new Participation(room2, member4, MemberRole.BOTH, room2.getMatchingSize()));
 
-        participationRepository.save(new Participation(room3, member4.getId()));
-        participationRepository.save(new Participation(room3, member5.getId()));
+        participationRepository.save(new Participation(room3, member4, MemberRole.BOTH, room3.getMatchingSize()));
+        participationRepository.save(new Participation(room3, member5, MemberRole.BOTH, room3.getMatchingSize()));
 
-        participationRepository.save(new Participation(room4, member5.getId()));
-        participationRepository.save(new Participation(room4, member6.getId()));
+        participationRepository.save(new Participation(room4, member5, MemberRole.BOTH, room4.getMatchingSize()));
+        participationRepository.save(new Participation(room4, member6, MemberRole.BOTH, room4.getMatchingSize()));
 
-        participationRepository.save(new Participation(room5, member6.getId()));
-        participationRepository.save(new Participation(room5, member7.getId()));
+        participationRepository.save(new Participation(room5, member6, MemberRole.BOTH, room5.getMatchingSize()));
+        participationRepository.save(new Participation(room5, member7, MemberRole.BOTH, room5.getMatchingSize()));
 
-        participationRepository.save(new Participation(room6, member1.getId()));
-        participationRepository.save(new Participation(room6, member7.getId()));
+        participationRepository.save(new Participation(room6, member1, MemberRole.BOTH, room6.getMatchingSize()));
+        participationRepository.save(new Participation(room6, member7, MemberRole.BOTH, room6.getMatchingSize()));
 
-        participationRepository.save(new Participation(room7, member1.getId()));
-        participationRepository.save(new Participation(room7, member2.getId()));
+        participationRepository.save(new Participation(room7, member1, MemberRole.BOTH, room7.getMatchingSize()));
+        participationRepository.save(new Participation(room7, member2, MemberRole.BOTH, room7.getMatchingSize()));
 
-        participationRepository.save(new Participation(roomProgress, member1.getId()));
+        participationRepository.save(new Participation(roomProgress, member1, MemberRole.BOTH, roomProgress.getMatchingSize()));
     }
 }

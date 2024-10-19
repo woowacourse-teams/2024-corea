@@ -17,32 +17,32 @@ const RoomCardModal = ({ isOpen, onClose, roomInfo }: RoomCardModalProps) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <S.RoomCardModalContainer>
-        <S.RoomInfoThumbnail
-          as={ImageWithFallback}
-          src={roomInfo.thumbnailLink}
-          alt={roomInfo.title}
-        />
+        <S.HeaderContainer>
+          <S.RoomInfoThumbnail
+            as={ImageWithFallback}
+            src={roomInfo.thumbnailLink}
+            alt={roomInfo.title}
+          />
+          <S.MainContainer>
+            <S.ManagerContainer>
+              <S.ProfileContainer>
+                <S.IconWrapper>
+                  <Icon kind="person" />
+                </S.IconWrapper>
+                <span> {roomInfo.manager}</span>
+              </S.ProfileContainer>
+              <Label type={roomInfo.roomStatus} />
+            </S.ManagerContainer>
 
-        <S.MainContainer>
-          <S.ManagerContainer>
-            <S.ProfileContainer>
-              <S.IconWrapper>
-                <Icon kind="person" />
-              </S.IconWrapper>
-              <span> {roomInfo.manager}</span>
-            </S.ProfileContainer>
-            <Label type={roomInfo.roomStatus} />
-          </S.ManagerContainer>
-
-          <S.TitleContainer>
-            <S.RoomTitle>{roomInfo.title}</S.RoomTitle>
-            <S.RepositoryLink href={roomInfo.repositoryLink} target="_blank">
-              <Icon kind="link" size="1.8rem" />
-              저장소 바로가기
-            </S.RepositoryLink>
-          </S.TitleContainer>
-        </S.MainContainer>
-
+            <S.TitleContainer>
+              <S.RoomTitle>{roomInfo.title}</S.RoomTitle>
+              <S.RepositoryLink href={roomInfo.repositoryLink} target="_blank">
+                <Icon kind="link" size="1.8rem" />
+                저장소 바로가기
+              </S.RepositoryLink>
+            </S.TitleContainer>
+          </S.MainContainer>
+        </S.HeaderContainer>
         <S.EtcContainer>
           <S.InfoRow>
             <S.InfoTitle>모집 마감일</S.InfoTitle>
@@ -53,7 +53,7 @@ const RoomCardModal = ({ isOpen, onClose, roomInfo }: RoomCardModalProps) => {
             <S.InfoContent>{formatDateTimeString(roomInfo.reviewDeadline)}</S.InfoContent>
           </S.InfoRow>
           <S.InfoRow>
-            <S.InfoTitle>상호 리뷰 인원</S.InfoTitle>
+            <S.InfoTitle>최소 상호 리뷰 인원</S.InfoTitle>
             <S.InfoContent>{roomInfo.matchingSize}명</S.InfoContent>
           </S.InfoRow>
           <S.InfoRow>
@@ -63,7 +63,6 @@ const RoomCardModal = ({ isOpen, onClose, roomInfo }: RoomCardModalProps) => {
             </S.InfoContent>
           </S.InfoRow>
         </S.EtcContainer>
-
         <S.DescriptionContainer>
           <S.KeywordsContainer>
             <S.KeywordWrapper>
@@ -74,10 +73,9 @@ const RoomCardModal = ({ isOpen, onClose, roomInfo }: RoomCardModalProps) => {
           </S.KeywordsContainer>
           <S.ContentContainer>{roomInfo.content}</S.ContentContainer>
         </S.DescriptionContainer>
-
-        <S.ButtonContainer>
+        <S.ButtonWRapper>
           <RoomCardModalButton roomInfo={roomInfo} />
-        </S.ButtonContainer>
+        </S.ButtonWRapper>
       </S.RoomCardModalContainer>
     </Modal>
   );

@@ -1,82 +1,80 @@
 package corea.room.repository;
 
-import corea.DataInitializer;
+import config.RepositoryTest;
+import corea.fixture.MemberFixture;
+import corea.fixture.RoomFixture;
+import corea.member.domain.Member;
+import corea.member.repository.MemberRepository;
 import corea.room.domain.Room;
 import corea.room.domain.RoomClassification;
 import corea.room.domain.RoomStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
-@SpringBootTest
-@Import(DataInitializer.class)
-@ActiveProfiles("test")
+@RepositoryTest
 class RoomRepositoryTest {
 
     @Autowired
     private RoomRepository roomRepository;
 
-    @ParameterizedTest
-    @CsvSource(value = {"ANDROID, 2", "FRONTEND, 1", "BACKEND, 3"})
+    @Autowired
+    private MemberRepository memberRepository;
+
+    @Test
     @DisplayName("자신이 참여하지 않고, 계속 모집 중인 방들을 모집 마감일이 임박한 순으로 조회할 수 있다.")
-    void findAllByMemberAndClassificationAndStatus(RoomClassification classification, int expectedSize) {
-        Page<Room> rooms = roomRepository.findAllByMemberAndClassificationAndStatus(1, classification, RoomStatus.OPEN, PageRequest.of(0, 8));
+    void findAllByMemberAndClassificationAndStatus() {
+        Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
+        Member joyson = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
+        roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo, LocalDateTime.now().plusDays(2)));
+        roomRepository.save(RoomFixture.ROOM_DOMAIN(joyson, LocalDateTime.now().plusDays(3)));
 
-        List<LocalDateTime> recruitmentDeadlines = rooms.stream()
-                .map(Room::getRecruitmentDeadline)
-                .toList();
+        Member movin = memberRepository.save(MemberFixture.MEMBER_MOVIN());
+        Page<Room> roomPage = roomRepository.findAllByMemberAndClassificationAndStatus(movin.getId(), RoomClassification.BACKEND, RoomStatus.OPEN, PageRequest.of(0, 8));
 
-        assertSoftly(softly -> {
-            softly.assertThat(rooms.getContent()).hasSize(expectedSize);
-            softly.assertThat(recruitmentDeadlines)
-                    .isSortedAccordingTo(LocalDateTime::compareTo);
-        });
+        List<String> managerNames = getManagerNames(roomPage.getContent());
+        assertThat(managerNames).containsExactly("조경찬", "이영수");
     }
 
     @Test
     @DisplayName("분야와 상관 없이 자신이 참여하지 않고, 계속 모집 중인 방들을 모집 마감일이 임박한 순으로 조회할 수 있다.")
     void findAllByMemberAndStatus() {
-        Page<Room> roomsWithPage = roomRepository.findAllByMemberAndStatus(1, RoomStatus.OPEN, PageRequest.of(0, 8));
-        List<Room> rooms = roomsWithPage.getContent();
+        Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
+        Member joyson = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
+        roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo, LocalDateTime.now().plusDays(2)));
+        roomRepository.save(RoomFixture.ROOM_DOMAIN(joyson, LocalDateTime.now().plusDays(3)));
 
-        List<LocalDateTime> recruitmentDeadlines = rooms.stream()
-                .map(Room::getRecruitmentDeadline)
-                .toList();
+        Member movin = memberRepository.save(MemberFixture.MEMBER_MOVIN());
+        Page<Room> roomPage = roomRepository.findAllByMemberAndStatus(movin.getId(), RoomStatus.OPEN, PageRequest.of(0, 8));
 
-        assertSoftly(softly -> {
-            softly.assertThat(rooms.get(0).getId()).isEqualTo(2);
-            softly.assertThat(rooms.get(1).getId()).isEqualTo(3);
-            softly.assertThat(rooms.get(2).getId()).isEqualTo(4);
-            softly.assertThat(rooms.get(3).getId()).isEqualTo(5);
-            softly.assertThat(recruitmentDeadlines)
-                    .isSortedAccordingTo(LocalDateTime::compareTo);
-        });
+        List<String> managerNames = getManagerNames(roomPage.getContent());
+        assertThat(managerNames).containsExactly("조경찬", "이영수");
     }
 
     @Test
     @DisplayName("리뷰 마감일이 임박한 순으로 방 리스트를 반환한다.")
     void findAllByIdInOrderByReviewDeadlineAsc() {
-        List<Long> roomIds = new ArrayList<>(List.of(2L, 1L, 4L, 6L, 3L, 5L));
-        List<Room> participatedRooms = roomRepository.findAllByIdInOrderByReviewDeadlineAsc(roomIds);
+        Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
+        Member joyson = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
+        Room pororoRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo, LocalDateTime.now().plusDays(2)));
+        Room joysonRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN(joyson, LocalDateTime.now().plusDays(3)));
 
-        List<LocalDateTime> reviewDeadlines = participatedRooms.stream()
-                .map(Room::getReviewDeadline)
+        List<Room> rooms = roomRepository.findAllByIdInOrderByReviewDeadlineAsc(List.of(pororoRoom.getId(), joysonRoom.getId()));
+
+        List<String> managerNames = getManagerNames(rooms);
+        assertThat(managerNames).containsExactly("조경찬", "이영수");
+    }
+
+    private List<String> getManagerNames(List<Room> rooms) {
+        return rooms.stream()
+                .map(Room::getManagerName)
                 .toList();
-
-        assertThat(reviewDeadlines).isSortedAccordingTo(LocalDateTime::compareTo);
     }
 }

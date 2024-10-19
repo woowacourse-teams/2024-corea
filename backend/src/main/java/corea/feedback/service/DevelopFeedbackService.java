@@ -6,9 +6,8 @@ import corea.feedback.domain.DevelopFeedback;
 import corea.feedback.dto.DevelopFeedbackRequest;
 import corea.feedback.dto.DevelopFeedbackResponse;
 import corea.feedback.repository.DevelopFeedbackRepository;
-import corea.matching.domain.MatchResult;
-import corea.matching.repository.MatchResultRepository;
-import corea.member.domain.Profile;
+import corea.matchresult.domain.MatchResult;
+import corea.matchresult.repository.MatchResultRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,9 +34,6 @@ public class DevelopFeedbackService {
         matchResult.reviewerCompleteFeedback();
 
         DevelopFeedback feedback = saveDevelopFeedback(roomId, request, matchResult);
-        Profile profile = feedback.getReceiverProfile();
-        profile.updateProfile(request.evaluationPoint());
-
         return DevelopFeedbackResponse.from(feedback);
     }
 
@@ -64,11 +60,12 @@ public class DevelopFeedbackService {
     }
 
     private void updateFeedback(DevelopFeedback feedback, DevelopFeedbackRequest request) {
-        int preEvaluatePoint = feedback.getEvaluatePoint();
-        feedback.update(request);
-
-        Profile profile = feedback.getReceiverProfile();
-        profile.updateProfile(preEvaluatePoint, request.evaluationPoint());
+        feedback.update(
+                request.evaluationPoint(),
+                request.feedbackKeywords(),
+                request.feedbackText(),
+                request.recommendationPoint()
+        );
     }
 
     public DevelopFeedbackResponse findDevelopFeedback(long roomId, long deliverId, String username) {

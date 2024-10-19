@@ -2,6 +2,7 @@ package corea.room.domain;
 
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
+import corea.global.BaseTimeEntity;
 import corea.member.domain.Member;
 import corea.util.StringToListConverter;
 import jakarta.persistence.*;
@@ -19,7 +20,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Room {
+public class Room extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -71,9 +72,7 @@ public class Room {
     }
 
     public void cancelParticipation() {
-        if (status.isNotOpened()) {
-            throw new CoreaException(ExceptionType.ROOM_STATUS_INVALID);
-        }
+        validateOpened();
         currentParticipantsSize = Math.max(0, currentParticipantsSize - 1);
     }
 
@@ -85,19 +84,27 @@ public class Room {
         currentParticipantsSize += 1;
     }
 
-    public void toProgress() {
-        validateOpened();
-        status = RoomStatus.PROGRESS;
-    }
-
-    public void validateOpened() {
+    private void validateOpened() {
         if (status.isNotOpened()) {
             throw new CoreaException(ExceptionType.ROOM_STATUS_INVALID);
         }
     }
 
+    public void updateStatusToProgress() {
+        validateOpened();
+        status = RoomStatus.PROGRESS;
+    }
+
     public void updateStatusToClose() {
         status = RoomStatus.CLOSE;
+    }
+
+    public void updateStatusToFail() {
+        status = RoomStatus.FAIL;
+    }
+
+    public boolean isNotOpened() {
+        return status.isNotOpened();
     }
 
     public boolean isClosed() {
@@ -108,7 +115,7 @@ public class Room {
         return manager.isNotMatchingId(memberId);
     }
 
-    public boolean isManagerId(long managerId) {
+    public boolean isManagedBy(long managerId) {
         return manager.isMatchingId(managerId);
     }
 
@@ -124,4 +131,3 @@ public class Room {
         return manager.getName();
     }
 }
-

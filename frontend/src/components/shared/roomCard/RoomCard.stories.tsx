@@ -10,6 +10,7 @@ const sampleRoomList = {
     | "NOT_PARTICIPATED"
     | "PARTICIPATED"
     | "MANAGER",
+  memberRole: roomInfo.memberRole as "BOTH" | "REVIEWER" | "REVIEWEE" | "NONE",
 } satisfies RoomInfo;
 
 const meta = {

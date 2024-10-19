@@ -10,7 +10,10 @@ export const MyRevieweeContainer = styled.div`
 export const MyRevieweeWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  align-items: center;
+  place-items: center center;
+
+  box-sizing: content-box;
+  height: 40px;
   padding: 0.7rem 1rem;
 
   &:not(:last-child) {
@@ -29,8 +32,15 @@ export const MyRevieweeContent = styled.span`
   align-items: center;
   justify-content: center;
 
+  height: 40px;
+
   font: ${({ theme }) => theme.TEXT.semiSmall};
   text-align: center;
+
+  p {
+    font: ${({ theme }) => theme.TEXT.semiSmall};
+    text-align: center;
+  }
 `;
 
 export const PRLink = styled.a`
@@ -50,19 +60,13 @@ export const PRLink = styled.a`
   }
 `;
 
-export const ButtonContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-`;
-
 export const IconWrapper = styled.span`
   ${media.small`
     display: none;
 `}
 `;
 
-export const ErrorWrapper = styled.div`
+export const GuidanceWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -75,8 +79,13 @@ export const ErrorWrapper = styled.div`
   border: 1px solid ${({ theme }) => theme.COLOR.grey1};
   border-radius: 8px;
 
-  p {
+  p.process-waiting {
     font: ${({ theme }) => theme.TEXT.small_bold};
     color: ${({ theme }) => theme.COLOR.secondary};
+  }
+
+  p.process-paused {
+    font: ${({ theme }) => theme.TEXT.small_bold};
+    color: ${({ theme }) => theme.COLOR.grey3};
   }
 `;

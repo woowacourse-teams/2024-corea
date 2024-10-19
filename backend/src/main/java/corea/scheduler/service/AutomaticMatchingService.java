@@ -1,7 +1,5 @@
 package corea.scheduler.service;
 
-import corea.exception.CoreaException;
-import corea.exception.ExceptionType;
 import corea.room.dto.RoomResponse;
 import corea.scheduler.domain.AutomaticMatching;
 import corea.scheduler.domain.ScheduleStatus;
@@ -42,26 +40,18 @@ public class AutomaticMatchingService {
 
         log.info("{}개의 방에 대해 자동 매칭 재예약 시작", matchings.size());
 
-        matchings.forEach(matching -> scheduleMatching(matching, matching.getRoomId(), matching.getMatchingStartTime()));
+        matchings.forEach(matching -> scheduleMatching(matching.getRoomId(), matching.getMatchingStartTime()));
 
         log.info("{}개의 방에 대해 자동 매칭 재예약 완료", matchings.size());
     }
 
     public void matchOnRecruitmentDeadline(RoomResponse response) {
-        long roomId = response.id();
-        AutomaticMatching automaticMatching = getAutomaticMatchingByRoomId(roomId);
-
-        scheduleMatching(automaticMatching, roomId, response.recruitmentDeadline());
+        scheduleMatching(response.id(), response.recruitmentDeadline());
     }
 
-    private AutomaticMatching getAutomaticMatchingByRoomId(long roomId) {
-        return automaticMatchingRepository.findByRoomId(roomId)
-                .orElseThrow(() -> new CoreaException(ExceptionType.AUTOMATIC_MATCHING_NOT_FOUND));
-    }
-
-    private void scheduleMatching(AutomaticMatching automaticMatching, long roomId, LocalDateTime matchingStartTime) {
+    private void scheduleMatching(long roomId, LocalDateTime matchingStartTime) {
         ScheduledFuture<?> schedule = taskScheduler.schedule(
-                () -> automaticMatchingExecutor.execute(automaticMatching),
+                () -> automaticMatchingExecutor.execute(roomId),
                 toInstant(matchingStartTime)
         );
 
@@ -69,8 +59,8 @@ public class AutomaticMatchingService {
         scheduledTasks.put(roomId, schedule);
     }
 
-    private Instant toInstant(LocalDateTime recruitmentDeadline) {
-        return recruitmentDeadline.atZone(ZONE_ID).toInstant();
+    private Instant toInstant(LocalDateTime matchingStartTime) {
+        return matchingStartTime.atZone(ZONE_ID).toInstant();
     }
 
     public void cancel(long roomId) {

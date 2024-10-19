@@ -14,4 +14,12 @@ public class Pair {
     public String getReceiverGithubId() {
         return receiver.getGithubUserId();
     }
+
+    public boolean hasReviewer(Member reviewer) {
+        return deliver == reviewer;
+    }
+
+    public boolean hasReviewee(Member reviewee) {
+        return receiver == reviewee;
+    }
 }

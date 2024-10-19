@@ -1,7 +1,9 @@
 package corea.scheduler.service;
 
 import config.ServiceTest;
-import corea.room.domain.ParticipationStatus;
+import config.TestAsyncConfig;
+import corea.member.domain.MemberRole;
+import corea.participation.domain.ParticipationStatus;
 import corea.room.dto.RoomResponse;
 import corea.room.service.RoomService;
 import corea.scheduler.domain.AutomaticMatching;
@@ -11,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.TaskScheduler;
 
 import java.time.Instant;
@@ -25,6 +28,7 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 @ServiceTest
+@Import(TestAsyncConfig.class)
 class AutomaticMatchingServiceTest {
 
     @Autowired
@@ -68,7 +72,7 @@ class AutomaticMatchingServiceTest {
         // 예약된 시간이 설정한 모집 마감 시간과 일치하는지 확인
         assertThat(recruitmentDeadline.atZone(ZoneId.of("Asia/Seoul")).toInstant()).isEqualTo(scheduledTime);
         // automaticMatchingExecutor.execute 메소드가 호출되었는지 확인
-        verify(automaticMatchingExecutor).execute(any(AutomaticMatching.class));
+        verify(automaticMatchingExecutor).execute(response.id());
     }
 
     @Test
@@ -102,6 +106,7 @@ class AutomaticMatchingServiceTest {
                 recruitmentDeadline,
                 LocalDateTime.now().plusDays(3),
                 ParticipationStatus.PARTICIPATED,
+                MemberRole.NONE,
                 "OPEN");
     }
 }

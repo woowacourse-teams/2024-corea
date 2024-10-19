@@ -60,3 +60,54 @@ export const formatTime = (time: Date): string => {
 export const formatCombinedDateTime = (date: Date, time: Date): string => {
   return `${formatDate(date)} ${formatTime(time)}`;
 };
+
+export const formatLeftTime = (time: string) => {
+  const today = formatTime(new Date());
+  const [currentHours, currentMinutes] = today.split(":");
+  const { hours: targetHour, minutes: targetMinutes } = formatStringToDate(time);
+
+  const { hours, minutes } = calculateTimeDifference(
+    currentHours,
+    currentMinutes,
+    targetHour,
+    targetMinutes,
+  );
+
+  if (hours === 0 && minutes === 0) return "곧 종료";
+
+  return hours !== 0 ? `${hours}시간 ${minutes}분 전` : `${minutes}분 전`;
+};
+
+const calculateTimeDifference = (
+  currentHourStr: string,
+  currentMinuteStr: string,
+  targetHourStr: string,
+  targetMinuteStr: string,
+) => {
+  const currentHour = parseInt(currentHourStr, 10);
+  const currentMinute = parseInt(currentMinuteStr, 10);
+  const targetHour = parseInt(targetHourStr, 10);
+  const targetMinute = parseInt(targetMinuteStr, 10);
+
+  const currentTotalMinutes = currentHour * 60 + currentMinute;
+  const targetTotalMinutes = targetHour * 60 + targetMinute;
+
+  let diffMinutes = targetTotalMinutes - currentTotalMinutes;
+
+  if (diffMinutes < 0) {
+    diffMinutes += 24 * 60; // 24시간 = 1440분
+  }
+
+  const diffHours = Math.floor(diffMinutes / 60);
+  const remainingMinutes = diffMinutes % 60;
+
+  return {
+    hours: diffHours,
+    minutes: remainingMinutes,
+  };
+};
+
+export const displayLeftTime = (time: string) => {
+  const Dday = formatDday(time);
+  return Dday === "D-Day" ? formatLeftTime(time) : Dday;
+};

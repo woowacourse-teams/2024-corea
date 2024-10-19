@@ -22,12 +22,12 @@ export const getMyReviewees = async (roomId: number): Promise<ReviewerInfo[]> =>
 };
 
 export const postReviewComplete = async (roomId: number, revieweeId: number): Promise<void> => {
-  const res = await apiClient.post({
+  await apiClient.post({
     endpoint: API_ENDPOINTS.REVIEW_COMPLETE,
     body: {
       roomId,
       revieweeId,
     },
-    errorMessage: MESSAGES.ERROR.POST_PARTICIPATE_IN,
+    errorMessage: MESSAGES.ERROR.POST_REVIEW_COMPLETE,
   });
 };

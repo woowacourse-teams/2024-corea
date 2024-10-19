@@ -1,9 +1,8 @@
 package corea.feedback.domain;
 
-import corea.feedback.dto.SocialFeedbackRequest;
 import corea.feedback.util.FeedbackKeywordConverter;
+import corea.global.BaseTimeEntity;
 import corea.member.domain.Member;
-import corea.member.domain.Profile;
 import corea.util.FeedbackKeywordToStringConverter;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -20,7 +19,7 @@ import static lombok.AccessLevel.PROTECTED;
 @AllArgsConstructor
 @NoArgsConstructor(access = PROTECTED)
 @Getter
-public class SocialFeedback {
+public class SocialFeedback extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -48,14 +47,10 @@ public class SocialFeedback {
         this(null, roomId, deliver, receiver, evaluatePoint, keywords, feedBackText);
     }
 
-    public void update(SocialFeedbackRequest request) {
-        this.evaluatePoint = request.evaluationPoint();
-        this.keywords = FeedbackKeywordConverter.convertToKeywords(request.feedbackKeywords());
-        this.feedBackText = request.feedbackText();
-    }
-
-    public Profile getReceiverProfile() {
-        return receiver.getProfile();
+    public void update(int evaluationPoint, List<String> feedbackKeywords, String feedbackText) {
+        this.evaluatePoint = evaluationPoint;
+        this.keywords = FeedbackKeywordConverter.convertToKeywords(feedbackKeywords);
+        this.feedBackText = feedbackText;
     }
 }
 
