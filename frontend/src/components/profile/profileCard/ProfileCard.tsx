@@ -8,7 +8,12 @@ const ProfileCard = (profileData: ProfileData) => {
       <S.ProfileTitle>프로필</S.ProfileTitle>
 
       <S.ProfileCardWrapper>
-        <a href={"https://github.com/" + profileData.nickname} target="_blank">
+        <a
+          href={"https://github.com/" + profileData.nickname}
+          target="_blank"
+          rel="noreferrer"
+          tabIndex={-1}
+        >
           <S.ProfileWrapper>
             <Profile imgSrc={profileData.profileImage} size={110} />
             <S.ProfileNickname>{profileData.nickname}</S.ProfileNickname>
