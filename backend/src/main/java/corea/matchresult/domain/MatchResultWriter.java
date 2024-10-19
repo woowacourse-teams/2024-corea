@@ -21,4 +21,12 @@ public class MatchResultWriter {
         matchResult.reviewerCompleteFeedback();
         return matchResult;
     }
+
+    public MatchResult completeSocialFeedback(long roomId, long deliverId, long receiverId) {
+        MatchResult matchResult = matchResultRepository.findByRoomIdAndReviewerIdAndRevieweeId(roomId, receiverId, deliverId)
+                .orElseThrow(() -> new CoreaException(ExceptionType.NOT_MATCHED_MEMBER));
+
+        matchResult.revieweeCompleteFeedback();
+        return matchResult;
+    }
 }

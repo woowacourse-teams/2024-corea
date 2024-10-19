@@ -1,15 +1,12 @@
 package corea.feedback.service;
 
-import corea.exception.CoreaException;
-import corea.exception.ExceptionType;
-import corea.feedback.domain.DevelopFeedback;
 import corea.feedback.domain.SocialFeedback;
 import corea.feedback.domain.SocialFeedbackReader;
+import corea.feedback.domain.SocialFeedbackWriter;
 import corea.feedback.dto.SocialFeedbackRequest;
 import corea.feedback.dto.SocialFeedbackResponse;
-import corea.feedback.repository.SocialFeedbackRepository;
 import corea.matchresult.domain.MatchResult;
-import corea.matchresult.repository.MatchResultRepository;
+import corea.matchresult.domain.MatchResultWriter;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,32 +21,17 @@ public class SocialFeedbackService {
     private static final Logger log = LogManager.getLogger(SocialFeedbackService.class);
 
     private final SocialFeedbackReader socialFeedbackReader;
-
-    private final SocialFeedbackRepository socialFeedbackRepository;
-    private final MatchResultRepository matchResultRepository;
+    private final SocialFeedbackWriter socialFeedbackWriter;
+    private final MatchResultWriter matchResultWriter;
 
     @Transactional
     public SocialFeedbackResponse create(long roomId, long deliverId, SocialFeedbackRequest request) {
-        validateAlreadyExist(roomId, deliverId, request.receiverId());
-        log.info("소설 피드백 작성[작성자({}), 요청값({})", deliverId, request);
+        MatchResult matchResult = matchResultWriter.completeSocialFeedback(roomId, deliverId, request.receiverId());
 
-        MatchResult matchResult = matchResultRepository.findByRoomIdAndReviewerIdAndRevieweeId(roomId, request.receiverId(), deliverId)
-                .orElseThrow(() -> new CoreaException(ExceptionType.NOT_MATCHED_MEMBER));
-        matchResult.revieweeCompleteFeedback();
-
-        SocialFeedback feedback = saveSocialFeedback(roomId, request, matchResult);
-        return SocialFeedbackResponse.from(feedback);
-    }
-
-    private void validateAlreadyExist(long roomId, long deliverId, long receiverId) {
-        if (socialFeedbackRepository.existsByRoomIdAndDeliverIdAndReceiverId(roomId, deliverId, receiverId)) {
-            throw new CoreaException(ExceptionType.ALREADY_COMPLETED_FEEDBACK);
-        }
-    }
-
-    private SocialFeedback saveSocialFeedback(long roomId, SocialFeedbackRequest request, MatchResult matchResult) {
         SocialFeedback feedback = request.toEntity(roomId, matchResult.getReviewee(), matchResult.getReviewer());
-        return socialFeedbackRepository.save(feedback);
+        SocialFeedback createdFeedback = socialFeedbackWriter.create(feedback, roomId, deliverId, request.receiverId());
+
+        return SocialFeedbackResponse.from(createdFeedback);
     }
 
     @Transactional
