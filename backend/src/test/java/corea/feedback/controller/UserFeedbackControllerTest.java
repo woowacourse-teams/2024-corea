@@ -92,7 +92,7 @@ class UserFeedbackControllerTest {
     }
 
     @Test
-    @DisplayName("자신이 받은 피드백을 받을 때는 닫혀있는 방에서만 받는다.")
+    @DisplayName("자신이 받은 피드백은 닫혀있는 방에서 작성된 피드백만 확인할 수 있다")
     void receivedFeedbacksFromClosedRoom() {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
         Room room1 = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
