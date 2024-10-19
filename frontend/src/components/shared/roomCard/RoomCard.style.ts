@@ -1,19 +1,17 @@
 import styled from "styled-components";
 import media from "@/styles/media";
 
-export const RoomCardContainer = styled.button`
+export const RoomCardContainer = styled.div`
   overflow: hidden;
   display: flex;
   flex-direction: column;
 
   width: 100%;
   margin: 0 auto;
-  text-align: start;
-  padding-block: 0;
-  padding-inline: 0;
-  font: ${({ theme }) => theme.TEXT.xSmall};
 
-  background-color: transparent;
+  font: ${({ theme }) => theme.TEXT.xSmall};
+  text-align: start;
+
   border: 1px solid ${({ theme }) => theme.COLOR.grey1};
   border-radius: 15px;
   box-shadow: ${({ theme }) => theme.BOX_SHADOW.regular};
