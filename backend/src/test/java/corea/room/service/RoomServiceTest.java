@@ -121,7 +121,7 @@ class RoomServiceTest {
             assertThatThrownBy(() -> roomService.delete(response.id(), member.getId()))
                     .asInstanceOf(InstanceOfAssertFactories.type(CoreaException.class))
                     .extracting(CoreaException::getExceptionType)
-                    .isEqualTo(ExceptionType.ROOM_DELETION_AUTHORIZATION_ERROR);
+                    .isEqualTo(ExceptionType.ROOM_MODIFY_AUTHORIZATION_ERROR);
         }
 
         @Test

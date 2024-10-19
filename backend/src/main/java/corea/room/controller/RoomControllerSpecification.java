@@ -54,7 +54,7 @@ public interface RoomControllerSpecification {
                     "JWT 토큰에서 추출된 사용자 정보는 방을 생성한 사용자와 일치하는지 파악합니다. " +
                     "<br><br>**참고:** 이 API를 사용하기 위해서는 유효한 JWT 토큰이 필요하며, " +
                     "토큰이 없거나 유효하지 않은 경우 인증 오류가 발생합니다.")
-    @ApiErrorResponses(value = ExceptionType.ROOM_DELETION_AUTHORIZATION_ERROR)
+    @ApiErrorResponses(value = ExceptionType.ROOM_MODIFY_AUTHORIZATION_ERROR)
     ResponseEntity<Void> delete(@Parameter(description = "방 아이디", example = "1")
                                 long id,
                                 AuthInfo authInfo);
