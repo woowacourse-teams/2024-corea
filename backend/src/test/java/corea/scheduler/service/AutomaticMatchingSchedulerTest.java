@@ -146,23 +146,23 @@ class AutomaticMatchingSchedulerTest {
 //        verify(scheduledFuture).cancel(true);
 //    }
 
-    private RoomResponse getRoomResponse(LocalDateTime recruitmentDeadline) {
-        return new RoomResponse(10,
-                "title",
-                "content",
-                "managerName",
-                "repolink",
-                "link",
-                2,
-                List.of(),
-                1,
-                10,
-                recruitmentDeadline,
-                LocalDateTime.now()
-                        .plusDays(3),
-                ParticipationStatus.PARTICIPATED,
-                MemberRole.NONE,
-                "OPEN",
-                "");
-    }
+//    private RoomResponse getRoomResponse(LocalDateTime recruitmentDeadline) {
+//        return new RoomResponse(10,
+//                "title",
+//                "content",
+//                "managerName",
+//                "repolink",
+//                "link",
+//                2,
+//                List.of(),
+//                1,
+//                10,
+//                recruitmentDeadline,
+//                LocalDateTime.now()
+//                        .plusDays(3),
+//                ParticipationStatus.PARTICIPATED,
+//                MemberRole.NONE,
+//                "OPEN",
+//                "");
+//    }
 }
