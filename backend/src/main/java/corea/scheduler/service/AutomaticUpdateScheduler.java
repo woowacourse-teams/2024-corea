@@ -28,7 +28,7 @@ public class AutomaticUpdateScheduler {
 
     @Autowired
     public AutomaticUpdateScheduler(TaskScheduler taskScheduler, AutomaticUpdateExecutor automaticUpdateExecutor) {
-        this(taskScheduler,automaticUpdateExecutor,new ConcurrentHashMap<>());
+        this(taskScheduler, automaticUpdateExecutor, new ConcurrentHashMap<>());
     }
 
     public AutomaticUpdateScheduler(TaskScheduler taskScheduler, AutomaticUpdateExecutor automaticUpdateExecutor, Map<Long, ScheduledFuture<?>> scheduledTasks) {

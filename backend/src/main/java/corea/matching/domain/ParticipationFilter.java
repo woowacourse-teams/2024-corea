@@ -53,7 +53,7 @@ public class ParticipationFilter {
 
     private void invalidateIfNotSubmitPR(PullRequestInfo pullRequestInfo, Participation participation) {
         if (!hasSubmittedPR(pullRequestInfo, participation)) {
-            log.warn("매칭에 실패 했습니다. 방 id={},사용자 id={},사용자 깃허브 닉네임={}",participation.getRoomsId(),participation.getMembersId(),participation.getMember().getUsername());
+            log.warn("매칭에 실패 했습니다. 방 id={},사용자 id={},사용자 깃허브 닉네임={}", participation.getRoomsId(), participation.getMembersId(), participation.getMember().getUsername());
             participation.invalidate();
         }
     }
