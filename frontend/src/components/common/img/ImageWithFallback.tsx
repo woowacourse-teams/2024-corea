@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import * as S from "@/components/common/img/ImageWithFallback.style";
 import { errorCharacter } from "@/assets";
 
@@ -14,14 +14,7 @@ const ImageWithFallback = ({
   fallbackSrc = errorCharacter,
   ...props
 }: ImageWithFallbackProps) => {
-  const [isFallback, setIsFallback] = useState(false);
-
-  // 빈 문자열도 에러로 처리
-  useEffect(() => {
-    if (!src) {
-      setIsFallback(true);
-    }
-  }, [src]);
+  const [isFallback, setIsFallback] = useState(!src);
 
   const handleError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     const img = e.target as HTMLImageElement;
