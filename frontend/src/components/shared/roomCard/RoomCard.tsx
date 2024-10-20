@@ -6,10 +6,21 @@ import ImageWithFallback from "@/components/common/img/ImageWithFallback";
 import Label from "@/components/common/label/Label";
 import * as S from "@/components/shared/roomCard/RoomCard.style";
 import RoomCardModal from "@/components/shared/roomCardModal/RoomCardModal";
-import { RoomInfo } from "@/@types/roomInfo";
+import { Classification, RoomInfo } from "@/@types/roomInfo";
 import { MAX_KEYWORDS } from "@/constants/room";
 import { theme } from "@/styles/theme";
 import { formatDday, formatLeftTime } from "@/utils/dateFormatter";
+
+const classificationText = (text: Classification) => {
+  const mapping = {
+    ALL: "ALL",
+    ANDROID: "AN",
+    BACKEND: "BE",
+    FRONTEND: "FE",
+  };
+
+  return mapping[text] || text;
+};
 
 const DisplayLeftTime = (roomInfo: RoomInfo) => {
   if (roomInfo.roomStatus === "OPEN") {
@@ -66,6 +77,10 @@ const RoomCard = React.memo(({ roomInfo }: RoomCardProps) => {
       <RoomCardModal isOpen={isModalOpen} onClose={handleCloseModal} roomInfo={roomInfo} />
 
       <S.RoomCardContainer onClick={handleOpenModal}>
+        <S.ClassificationBadge $text={roomInfo.classification}>
+          {classificationText(roomInfo.classification)}
+        </S.ClassificationBadge>
+
         <S.RoomInfoThumbnail
           as={ImageWithFallback}
           src={roomInfo.thumbnailLink}

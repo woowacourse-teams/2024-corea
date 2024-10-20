@@ -36,3 +36,10 @@ export const VisuallyHidden = `
   white-space: nowrap;
   border: 0;
 `;
+
+export const TYPE_CLASSIFICATION = {
+  ALL: "#000000",
+  ANDROID: "#3DDC84",
+  FRONTEND: "#F7DF1E",
+  BACKEND: "#F5A74F",
+};
