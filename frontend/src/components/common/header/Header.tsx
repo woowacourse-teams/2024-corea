@@ -21,11 +21,6 @@ const Header = () => {
   const isLoggedIn = !!localStorage.getItem("accessToken");
   const isMain = pathname === "/";
 
-  // const handlePage = (path: string, name: string) => {
-  //   setIsSelect(name);
-  //   navigate(path);
-  // };
-
   useEffect(() => {
     const currentItem = headerItems.find((item) => item.path === pathname);
     if (currentItem) {
