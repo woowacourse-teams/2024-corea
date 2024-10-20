@@ -5,6 +5,7 @@ import corea.feedback.domain.SocialFeedback;
 import corea.feedback.util.FeedbackKeywordConverter;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import java.util.Collections;
 import java.util.List;
 
 @Schema(description = "개발 피드백 + 커뮤니케이션 피드백 조회 응답")
@@ -23,6 +24,9 @@ public record FeedbackOutput(@Schema(description = "피드백 아이디", exampl
                              @Schema(description = "유저 이름", example = "jcoding-play")
                              String username,
 
+                             @Schema(description = "내가 상대방의 피드백 작성을 완료하였는지 여부", example = "false")
+                             boolean isWrited,
+
                              @Schema(description = "선택한 피드백 키워드", example = "[\"코드를 이해하기 쉬웠어요\", \"컨벤션이 잘 지켜졌어요\"]")
                              List<String> feedbackKeywords,
 
@@ -39,6 +43,7 @@ public record FeedbackOutput(@Schema(description = "피드백 아이디", exampl
                 developFeedback.getDeliver().getId(),
                 developFeedback.getDeliver().getThumbnailUrl(),
                 developFeedback.getDeliver().getUsername(),
+                true,
                 FeedbackKeywordConverter.convertToMessages(developFeedback.getKeywords()),
                 developFeedback.getEvaluatePoint(),
                 developFeedback.getFeedBackText()
@@ -52,6 +57,7 @@ public record FeedbackOutput(@Schema(description = "피드백 아이디", exampl
                 developFeedback.getReceiver().getId(),
                 developFeedback.getReceiver().getThumbnailUrl(),
                 developFeedback.getReceiver().getUsername(),
+                true,
                 FeedbackKeywordConverter.convertToMessages(developFeedback.getKeywords()),
                 developFeedback.getEvaluatePoint(),
                 developFeedback.getFeedBackText()
@@ -65,6 +71,7 @@ public record FeedbackOutput(@Schema(description = "피드백 아이디", exampl
                 socialFeedback.getDeliver().getId(),
                 socialFeedback.getDeliver().getThumbnailUrl(),
                 socialFeedback.getDeliver().getUsername(),
+                true,
                 FeedbackKeywordConverter.convertToMessages(socialFeedback.getKeywords()),
                 socialFeedback.getEvaluatePoint(),
                 socialFeedback.getFeedBackText()
@@ -78,9 +85,24 @@ public record FeedbackOutput(@Schema(description = "피드백 아이디", exampl
                 socialFeedback.getReceiver().getId(),
                 socialFeedback.getReceiver().getThumbnailUrl(),
                 socialFeedback.getReceiver().getUsername(),
+                true,
                 FeedbackKeywordConverter.convertToMessages(socialFeedback.getKeywords()),
                 socialFeedback.getEvaluatePoint(),
                 socialFeedback.getFeedBackText()
+        );
+    }
+
+    public static FeedbackOutput masking(FeedbackOutput feedbackOutput) {
+        return new FeedbackOutput(
+                feedbackOutput.feedbackId(),
+                feedbackOutput.roomId,
+                feedbackOutput.receiverId,
+                feedbackOutput.profile,
+                feedbackOutput.username,
+                false,
+                Collections.emptyList(),
+                0,
+                ""
         );
     }
 }
