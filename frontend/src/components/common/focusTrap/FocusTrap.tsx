@@ -43,9 +43,9 @@ const FocusTrap = (props: FocusTrapProps) => {
 
   const focusPrevElement = () => {
     currentFocusIndex.current =
-      currentFocusIndex.current === 0
-        ? focusableElements.current.length - 1
-        : currentFocusIndex.current - 1;
+      (currentFocusIndex.current - 1 + focusableElements.current.length) %
+      focusableElements.current.length;
+
     focusableElements.current[currentFocusIndex.current]?.focus();
   };
 
