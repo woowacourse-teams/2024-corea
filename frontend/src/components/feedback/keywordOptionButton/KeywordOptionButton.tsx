@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
 import * as S from "@/components/feedback/keywordOptionButton/KeywordOptionButton.style";
 import { theme } from "@/styles/theme";
 
 interface OptionButtonProps {
-  initialOptions?: string[];
+  selectedOptions?: string[];
   readonly?: boolean;
   onChange?: (options: string[]) => void;
   selectedEvaluationId?: number;
@@ -12,27 +11,19 @@ interface OptionButtonProps {
 }
 
 const KeywordOptionButton = ({
-  initialOptions = [],
+  selectedOptions = [],
   readonly = false,
   onChange,
   options,
   color = theme.COLOR.primary2,
 }: OptionButtonProps) => {
-  const [selectedOptions, setSelectedOptions] = useState<string[]>(initialOptions);
-
-  useEffect(() => {
-    setSelectedOptions(initialOptions);
-  }, [initialOptions]);
-
   const toggleOption = (text: string) => {
     if (readonly) return;
-    setSelectedOptions((prevSelectedOptions) => {
-      const newOptions = prevSelectedOptions.includes(text)
-        ? prevSelectedOptions.filter((option) => option !== text)
-        : [...prevSelectedOptions, text];
-      onChange?.(newOptions);
-      return newOptions;
-    });
+    const newOptions = selectedOptions.includes(text)
+      ? selectedOptions.filter((option) => option !== text)
+      : [...selectedOptions, text];
+
+    onChange?.(newOptions);
   };
 
   return (
@@ -43,6 +34,7 @@ const KeywordOptionButton = ({
           onClick={() => toggleOption(text)}
           isSelected={selectedOptions.includes(text)}
           color={color}
+          tabIndex={readonly ? -1 : 0}
         >
           {text}
         </S.ButtonWrapper>

@@ -32,7 +32,6 @@ const globalStyles = createGlobalStyle`
   p,
   blockquote,
   pre,
-  a,
   abbr,
   acronym,
   address,

@@ -3,8 +3,6 @@ import { EllipsisText } from "@/styles/common";
 import media from "@/styles/media";
 
 export const RoomCardContainer = styled.div`
-  cursor: pointer;
-
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -13,6 +11,7 @@ export const RoomCardContainer = styled.div`
   margin: 0 auto;
 
   font: ${({ theme }) => theme.TEXT.xSmall};
+  text-align: start;
 
   border: 1px solid ${({ theme }) => theme.COLOR.grey1};
   border-radius: 15px;

@@ -48,7 +48,7 @@ const RevieweeFeedbackForm = ({ formState, onChange, modalType }: RevieweeFeedba
           <span>*필수입력</span>
         </S.ModalQuestion>
         <KeywordOptionButton
-          initialOptions={formState.feedbackKeywords}
+          selectedOptions={formState.feedbackKeywords}
           onChange={(value) => onChange("feedbackKeywords", value)}
           selectedEvaluationId={formState.evaluationPoint}
           readonly={modalType === "view"}

@@ -13,6 +13,7 @@ const ProfileCard = (profileData: ProfileData) => {
           to={`https://github.com/${profileData.nickname}`}
           target="_blank"
           rel="noreferrer"
+          tabIndex={-1}
         >
           <S.ProfileWrapper>
             <Profile imgSrc={profileData.profileImage} size={110} />

@@ -23,9 +23,9 @@ const FeedbackCard = ({
   return (
     <S.FeedbackCardContainer $isTypeDevelop={feedbackType === "develop"}>
       <S.FeedbackHeader>
-        <HoverStyledLink to={`/profile/${feedbackCardData.username}`}>
+        <HoverStyledLink to={`/profile/${feedbackCardData.username}`} tabIndex={-1}>
           <S.FeedbackProfile>
-            <Profile imgSrc={feedbackCardData.profile} />
+            <Profile imgSrc={feedbackCardData.profile} tabIndex={-1} />
             <S.FeedbackTitle>{feedbackCardData.username}</S.FeedbackTitle>
           </S.FeedbackProfile>
         </HoverStyledLink>
@@ -50,6 +50,7 @@ const FeedbackCard = ({
           initialOptionId={feedbackCardData.evaluationPoint}
           readonly={true}
           color={feedbackType === "social" ? theme.COLOR.secondary : undefined}
+          isTabFocusable={false}
         />
       </S.FeedbackScoreContainer>
 
