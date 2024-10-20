@@ -30,4 +30,8 @@ public class SocialFeedbackReader {
                 .map(FeedbackOutput::fromReceiver)
                 .collect(Collectors.groupingBy(FeedbackOutput::roomId));
     }
+
+    public boolean exist(long deliverId, long receiverId) {
+        return socialFeedbackRepository.existsByDeliverIdAndReceiverId(deliverId, receiverId);
+    }
 }

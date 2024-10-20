@@ -42,4 +42,8 @@ public class DevelopFeedbackReader {
         return developFeedbackRepository.findByRoomIdAndDeliverIdAndReceiverUsername(roomId, deliverId, username)
                 .orElseThrow(() -> new CoreaException(ExceptionType.FEEDBACK_NOT_FOUND));
     }
+
+    public boolean exist(long deliverId, long receiverId) {
+        return developFeedbackRepository.existsByDeliverIdAndReceiverId(deliverId, receiverId);
+    }
 }
