@@ -117,19 +117,6 @@ export const StyledContainer = styled.div`
   em {
     font-style: italic;
   }
-
-  a {
-    font: ${({ theme }) => theme.TEXT.small_bold};
-    color: ${({ theme }) => theme.COLOR.primary2};
-  }
-
-  a:hover {
-    text-decoration: underline;
-  }
-
-  a:visited {
-    color: ${({ theme }) => theme.COLOR.primary2};
-  }
 `;
 
 export const StyledSquare = styled.div`
@@ -144,18 +131,8 @@ export const IconWrapper = styled.div`
   gap: 0.4rem;
   align-items: center;
 
-  a {
-    font: ${({ theme }) => theme.TEXT.small_bold};
-    color: ${({ theme }) => theme.COLOR.primary2};
-  }
-
-  a:hover {
-    text-decoration: underline;
-  }
-
-  a:visited {
-    color: ${({ theme }) => theme.COLOR.primary2};
-  }
+  font: ${({ theme }) => theme.TEXT.small_bold};
+  color: ${({ theme }) => theme.COLOR.primary2};
 `;
 
 export const SubContainer = styled.div`

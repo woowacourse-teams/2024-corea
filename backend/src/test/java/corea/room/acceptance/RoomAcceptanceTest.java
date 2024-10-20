@@ -1,7 +1,9 @@
 package corea.room.acceptance;
 
 import corea.auth.service.TokenService;
+import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
+import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
 import corea.participation.domain.ParticipationStatus;
 import corea.room.dto.RoomCreateRequest;
@@ -9,9 +11,7 @@ import corea.room.dto.RoomResponse;
 import corea.room.dto.RoomResponses;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -35,67 +35,112 @@ class RoomAcceptanceTest {
     @Autowired
     private TokenService tokenService;
 
+    private Member member;
+
     @BeforeEach
     void setUp() {
         RestAssured.port = port;
+        member = memberRepository.save(MemberFixture.MEMBER_PORORO());
     }
 
-    @Test
-    @DisplayName("방을 생성 및 삭제할 수 있다.")
-    void create() {
-        String accessToken = tokenService.createAccessToken(memberRepository.findByUsername("jcoding-play").get());
-        RoomCreateRequest request = RoomFixture.ROOM_CREATE_REQUEST();
+    @Nested
+    @DisplayName("방 하나를 조회할 수 있다.")
+    class RoomReader {
 
-        RoomResponse response = RestAssured.given().log().all()
-                .auth().oauth2(accessToken)
-                .contentType(ContentType.JSON)
-                .body(request)
-                .when().post("/rooms")
-                .then().log().all()
-                .statusCode(201)
-                .extract().as(RoomResponse.class);
+        private RoomResponse response;
+        private String accessToken;
 
-        RestAssured.given().log().all()
-                .auth().oauth2(accessToken)
-                .when().delete("/rooms/" + response.id())
-                .then().log().all()
-                .statusCode(204);
-    }
+        @BeforeEach
+        void setUp() {
+            accessToken = tokenService.createAccessToken(member);
+            RoomCreateRequest request = RoomFixture.ROOM_CREATE_REQUEST();
 
-    @Test
-    @DisplayName("로그인하지 않은 사용자가 방에 대한 정보를 조회할 수 있다.")
-    void roomWithoutLogin() {
-        RoomResponse response = RestAssured.given().log().all()
-                .header("Authorization", "nothing")
-                .when().get("/rooms/7")
-                .then().log().all()
-                .statusCode(200)
-                .extract().as(RoomResponse.class);
+            // 방 생성
+            response = RestAssured.given().log().all()
+                    .auth().oauth2(accessToken)
+                    .contentType(ContentType.JSON)
+                    .body(request)
+                    .when().post("/rooms")
+                    .then().log().all()
+                    .statusCode(201)
+                    .extract().as(RoomResponse.class);
+        }
 
-        assertSoftly(softly -> {
-            softly.assertThat(response.manager()).isEqualTo("이상엽");
-            softly.assertThat(response.participationStatus()).isEqualTo(
-                    ParticipationStatus.NOT_PARTICIPATED
-            );
-        });
-    }
+        @AfterEach
+        void tearDown() {
+            // 방 삭제
+            RestAssured.given().log().all()
+                    .auth().oauth2(accessToken)
+                    .when().delete("/rooms/" + response.id())
+                    .then().log().all()
+                    .statusCode(204);
+        }
 
-    @Test
-    @DisplayName("로그인한 사용자가 방에 대한 정보를 조회할 수 있다.")
-    void roomWithLogin() {
-        String accessToken = tokenService.createAccessToken(memberRepository.findByUsername("jcoding-play").get());
+        @Test
+        @DisplayName("입력된 방 아이디에 대한 방이 없으면 예외가 발생한다.")
+        void roomNotFound() {
+            RestAssured.given().log().all()
+                    .auth().oauth2(accessToken)
+                    .when().get("rooms/" + 0)
+                    .then().log().all()
+                    .statusCode(404);
+        }
 
-        RoomResponse response = RestAssured.given()
-                .auth().oauth2(accessToken)
-                .when().get("/rooms/7")
-                .then().log().all()
-                .statusCode(200)
-                .extract().as(RoomResponse.class);
+        @Test
+        @DisplayName("로그인하지 않은 사용자가 방에 대한 정보를 조회할 수 있다.")
+        void roomWithoutLogin() {
+            RoomResponse result = RestAssured.given().log().all()
+                    .header("Authorization", "nothing")
+                    .when().get("/rooms/" + response.id())
+                    .then().log().all()
+                    .statusCode(200)
+                    .extract().as(RoomResponse.class);
 
-        assertSoftly(softly -> {
-            softly.assertThat(response.manager()).isEqualTo("이상엽");
-            softly.assertThat(response.participationStatus()).isEqualTo(ParticipationStatus.PARTICIPATED);
-        });
+            assertThat(result.manager()).isEqualTo(member.getName());
+        }
+
+        @Test
+        @DisplayName("로그인한 사용자가 방에 대한 정보를 조회할 수 있다.")
+        void roomWithLogin() {
+            RoomResponse result = RestAssured.given()
+                    .auth().oauth2(accessToken)
+                    .when().get("/rooms/" + response.id())
+                    .then().log().all()
+                    .statusCode(200)
+                    .extract().as(RoomResponse.class);
+
+            assertThat(result.manager()).isEqualTo(member.getName());
+        }
+
+        @Test
+        @DisplayName("조회한 방을 자신이 만들었다면 방장이다.")
+        void manager() {
+            RoomResponse result = RestAssured.given().log().all()
+                    .auth().oauth2(accessToken)
+                    .when().get("/rooms/" + response.id())
+                    .then().log().all()
+                    .statusCode(200)
+                    .extract().as(RoomResponse.class);
+
+            ParticipationStatus status = result.participationStatus();
+
+            assertThat(status).isEqualTo(ParticipationStatus.MANAGER);
+        }
+
+        @Test
+        @DisplayName("조회한 방을 참여하지 않았다면 이를 알 수 있다.")
+        void notParticipated() {
+            RoomResponse result = RestAssured.given().log().all()
+                    .header("Authorization", "unknown")
+                    .when().get("/rooms/" + response.id())
+                    .then().log().all()
+                    .statusCode(200)
+                    .extract().as(RoomResponse.class);
+
+            ParticipationStatus status = result.participationStatus();
+
+            assertThat(status).isEqualTo(ParticipationStatus.NOT_PARTICIPATED);
+        }
     }
 
     @Test

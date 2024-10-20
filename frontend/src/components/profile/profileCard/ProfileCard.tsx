@@ -1,6 +1,7 @@
 import Icon from "@/components/common/icon/Icon";
 import Profile from "@/components/common/profile/Profile";
 import * as S from "@/components/profile/profileCard/ProfileCard.style";
+import { HoverStyledLink } from "@/styles/common";
 
 const ProfileCard = (profileData: ProfileData) => {
   return (
@@ -8,8 +9,8 @@ const ProfileCard = (profileData: ProfileData) => {
       <S.ProfileTitle>프로필</S.ProfileTitle>
 
       <S.ProfileCardWrapper>
-        <a
-          href={"https://github.com/" + profileData.nickname}
+        <HoverStyledLink
+          to={`https://github.com/${profileData.nickname}`}
           target="_blank"
           rel="noreferrer"
           tabIndex={-1}
@@ -18,7 +19,7 @@ const ProfileCard = (profileData: ProfileData) => {
             <Profile imgSrc={profileData.profileImage} size={110} />
             <S.ProfileNickname>{profileData.nickname}</S.ProfileNickname>
           </S.ProfileWrapper>
-        </a>
+        </HoverStyledLink>
 
         <S.ProfileInfoWrapper>
           <S.ProfileSummaryContainer>

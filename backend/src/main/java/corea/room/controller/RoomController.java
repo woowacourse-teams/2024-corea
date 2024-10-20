@@ -3,7 +3,10 @@ package corea.room.controller;
 import corea.auth.annotation.AccessedMember;
 import corea.auth.annotation.LoginMember;
 import corea.auth.domain.AuthInfo;
-import corea.room.dto.*;
+import corea.room.dto.RoomCreateRequest;
+import corea.room.dto.RoomParticipantResponses;
+import corea.room.dto.RoomResponse;
+import corea.room.dto.RoomUpdateRequest;
 import corea.room.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -32,12 +35,6 @@ public class RoomController implements RoomControllerSpecification {
 
         return ResponseEntity.ok()
                 .body(response);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<RoomResponse> room(@PathVariable long id, @AccessedMember AuthInfo authInfo) {
-        RoomResponse response = roomService.findOne(id, authInfo.getId());
-        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}/participants")

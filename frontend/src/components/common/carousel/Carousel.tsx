@@ -24,7 +24,7 @@ const Carousel = ({ children }: CarouselProps) => {
         isLast={currentIndex === 0}
         tabIndex={currentIndex === 0 ? -1 : 0}
       >
-        <Icon kind="arrowLeft" size={30} />
+        <Icon kind="arrowLeft" size="3rem" />
       </S.CarouselLeftButton>
       <S.CarouselRightButton
         onClick={nextSlide}
@@ -32,7 +32,7 @@ const Carousel = ({ children }: CarouselProps) => {
         isLast={currentIndex === validChildren.length - 1}
         tabIndex={currentIndex === validChildren.length - 1 ? -1 : 0}
       >
-        <Icon kind="arrowRight" size={30} />
+        <Icon kind="arrowRight" size="3rem" />
       </S.CarouselRightButton>
       <S.CarouselWrapper $currentIndex={currentIndex}>
         {validChildren.map((child, index) => (

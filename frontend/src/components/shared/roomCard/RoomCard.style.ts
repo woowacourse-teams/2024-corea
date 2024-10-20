@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { EllipsisText } from "@/styles/common";
 import media from "@/styles/media";
 
 export const RoomCardContainer = styled.div`
@@ -62,16 +63,12 @@ export const RoomInformation = styled.div`
 `;
 
 export const RoomTitle = styled.h2`
-  overflow: hidden;
-
   width: 100%;
   padding: 1rem 0;
-
   font: ${({ theme }) => theme.TEXT.medium_bold};
-  text-overflow: ellipsis;
-  white-space: nowrap;
-
   border-bottom: 1px solid ${({ theme }) => theme.COLOR.grey1};
+
+  ${EllipsisText}
 `;
 
 export const KeywordsContainer = styled.div`

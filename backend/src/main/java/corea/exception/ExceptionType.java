@@ -6,8 +6,8 @@ import org.springframework.http.HttpStatus;
 @Getter
 public enum ExceptionType {
 
-    ALREADY_APPLY(HttpStatus.BAD_REQUEST, "해당 방에 이미 참여했습니다."),
-    NOT_ALREADY_APPLY(HttpStatus.BAD_REQUEST, "아직 참여하지 않은 방입니다."),
+    ALREADY_PARTICIPATED_ROOM(HttpStatus.BAD_REQUEST, "해당 방에 이미 참여했습니다."),
+    NOT_PARTICIPATED_ROOM(HttpStatus.BAD_REQUEST, "아직 참여하지 않은 방입니다."),
     ROOM_STATUS_INVALID(HttpStatus.BAD_REQUEST, "방이 마감되었습니다."),
     MEMBER_IS_NOT_MANAGER(HttpStatus.BAD_REQUEST, "매니저가 아닙니다."),
     ROOM_PARTICIPANT_EXCEED(HttpStatus.BAD_REQUEST, "방 참여 인원 수가 최대입니다."),
@@ -27,6 +27,7 @@ public enum ExceptionType {
     INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "토큰이 올바르지 않습니다."),
     AUTHORIZATION_ERROR(HttpStatus.UNAUTHORIZED, "인증에 실패했습니다."),
     ROOM_DELETION_AUTHORIZATION_ERROR(HttpStatus.UNAUTHORIZED, "방 삭제 권한이 없습니다. 방 생성자만 방을 삭제할 수 있습니다."),
+    FEEDBACK_UPDATE_AUTHORIZATION_ERROR(HttpStatus.UNAUTHORIZED, "피드백 수정 권한이 없습니다. 피드백 작성자만 피드백을 수정할 수 있습니다."),
 
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 멤버를 찾을 수 없습니다."),
     ROOM_NOT_FOUND(HttpStatus.NOT_FOUND, "방을 찾을 수 없습니다."),

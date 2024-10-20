@@ -1,5 +1,6 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import RoomInfoCard from "@/components/roomDetailPage/roomInfoCard/RoomInfoCard";
 import { RoomInfo } from "@/@types/roomInfo";
@@ -35,12 +36,16 @@ describe("RoomInfoCard 컴포넌트 테스트", () => {
     });
   });
 
-  it("'모집'중인 방에 2일 이상 남으면 '리뷰 마감까지 남은 일', '모집 마감까지 남은 일'이 보인다", async () => {
-    render(
-      <ThemeProvider theme={theme}>
-        <RoomInfoCard roomInfo={mockBaseRoomInfo} />
-      </ThemeProvider>,
+  const renderWithRouter = (ui: React.ReactElement) => {
+    return render(
+      <MemoryRouter>
+        <ThemeProvider theme={theme}>{ui}</ThemeProvider>
+      </MemoryRouter>,
     );
+  };
+
+  it("'모집'중인 방에 2일 이상 남으면 '리뷰 마감까지 남은 일', '모집 마감까지 남은 일'이 보인다", async () => {
+    renderWithRouter(<RoomInfoCard roomInfo={mockBaseRoomInfo} />);
 
     const recruitLeftDay = screen.getByTestId("recruitLeftTime");
     const reviewLeftDay = screen.getByTestId("reviewLeftTime");
@@ -56,11 +61,7 @@ describe("RoomInfoCard 컴포넌트 테스트", () => {
       reviewDeadline: "2024-10-05T00:30:00+09:00",
     };
 
-    render(
-      <ThemeProvider theme={theme}>
-        <RoomInfoCard roomInfo={mockRoomInfo} />
-      </ThemeProvider>,
-    );
+    renderWithRouter(<RoomInfoCard roomInfo={mockRoomInfo} />);
 
     const recruitLeftDay = screen.getByTestId("recruitLeftTime");
     const reviewLeftDay = screen.getByTestId("reviewLeftTime");
@@ -76,11 +77,7 @@ describe("RoomInfoCard 컴포넌트 테스트", () => {
       reviewDeadline: "2024-10-03T00:30:00+09:00",
     };
 
-    render(
-      <ThemeProvider theme={theme}>
-        <RoomInfoCard roomInfo={mockRoomInfo} />
-      </ThemeProvider>,
-    );
+    renderWithRouter(<RoomInfoCard roomInfo={mockRoomInfo} />);
 
     const recruitLeftDay = screen.getByTestId("recruitLeftTime");
     const reviewLeftDay = screen.getByTestId("reviewLeftTime");
@@ -96,11 +93,7 @@ describe("RoomInfoCard 컴포넌트 테스트", () => {
       reviewDeadline: "2024-10-04T00:30:00+09:00",
     };
 
-    render(
-      <ThemeProvider theme={theme}>
-        <RoomInfoCard roomInfo={mockRoomInfo} />
-      </ThemeProvider>,
-    );
+    renderWithRouter(<RoomInfoCard roomInfo={mockRoomInfo} />);
 
     const recruitLeftDay = screen.getByTestId("recruitLeftTime");
     const reviewLeftDay = screen.getByTestId("reviewLeftTime");
@@ -116,11 +109,7 @@ describe("RoomInfoCard 컴포넌트 테스트", () => {
       reviewDeadline: "2024-10-03T00:30:00+09:00",
     };
 
-    render(
-      <ThemeProvider theme={theme}>
-        <RoomInfoCard roomInfo={mockRoomInfo} />
-      </ThemeProvider>,
-    );
+    renderWithRouter(<RoomInfoCard roomInfo={mockRoomInfo} />);
 
     const recruitLeftDay = screen.getByTestId("recruitLeftTime");
     const reviewLeftDay = screen.getByTestId("reviewLeftTime");
@@ -137,11 +126,7 @@ describe("RoomInfoCard 컴포넌트 테스트", () => {
       reviewDeadline: "2024-10-03T00:30:00+09:00",
     };
 
-    render(
-      <ThemeProvider theme={theme}>
-        <RoomInfoCard roomInfo={mockRoomInfo} />
-      </ThemeProvider>,
-    );
+    renderWithRouter(<RoomInfoCard roomInfo={mockRoomInfo} />);
 
     const recruitLeftDay = screen.getByTestId("recruitLeftTime");
     const reviewLeftDay = screen.getByTestId("reviewLeftTime");
@@ -158,11 +143,7 @@ describe("RoomInfoCard 컴포넌트 테스트", () => {
       reviewDeadline: "2024-10-03T00:30:00+09:00",
     };
 
-    render(
-      <ThemeProvider theme={theme}>
-        <RoomInfoCard roomInfo={mockRoomInfo} />
-      </ThemeProvider>,
-    );
+    renderWithRouter(<RoomInfoCard roomInfo={mockRoomInfo} />);
 
     const recruitLeftDay = screen.getByTestId("recruitLeftTime");
     const reviewLeftDay = screen.getByTestId("reviewLeftTime");

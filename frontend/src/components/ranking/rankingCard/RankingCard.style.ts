@@ -1,4 +1,5 @@
 import { css, styled } from "styled-components";
+import { EllipsisText } from "@/styles/common";
 
 export const RankingCardContainer = styled.div`
   cursor: default;
@@ -117,7 +118,6 @@ export const RankingTableItem = styled.div`
 `;
 
 export const TableItem = styled.div`
-  overflow: hidden;
   display: flex;
   justify-content: center;
 
@@ -125,8 +125,8 @@ export const TableItem = styled.div`
 
   font: ${({ theme }) => theme.TEXT.small};
   color: ${({ theme }) => theme.COLOR.grey3};
-  text-overflow: ellipsis;
-  white-space: nowrap;
+
+  ${EllipsisText}
 
   img {
     width: 28px;
@@ -134,7 +134,6 @@ export const TableItem = styled.div`
   }
 
   a {
-    overflow: hidden;
     display: inline-block;
 
     width: 100%;
@@ -142,8 +141,7 @@ export const TableItem = styled.div`
     font: ${({ theme }) => theme.TEXT.small};
     color: ${({ theme }) => theme.COLOR.grey3};
     text-align: center;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    ${EllipsisText}
   }
 
   a:hover {
