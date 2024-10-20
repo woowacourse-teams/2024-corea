@@ -74,7 +74,7 @@ public class UserFeedbackService {
 
     private boolean needToMasking(long receiverId, FeedbackOutput feedbackResponse, BiFunction<Long, Long, Boolean> biConsumer) {
         long deliverId = feedbackResponse.receiverId();
-        return !biConsumer.apply(deliverId, receiverId);
+        return !biConsumer.apply(receiverId, deliverId);
     }
 
     private List<FeedbacksResponse> getFeedbacksResponses(Map<Long, List<FeedbackResponse>> developFeedbacks, Map<Long, List<FeedbackResponse>> socialFeedbacks, Predicate<Room> predicate) {
