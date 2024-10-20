@@ -10,7 +10,7 @@ const AttitudeScore = ({ score }: AttitudeScoreProps) => {
   return (
     <S.AttitudeScoreContainer>
       <S.AttitudeScoreArrow $score={score}>
-        <Icon kind="arrowDown" size="24" color={theme.COLOR.grass} />
+        <Icon kind="arrowDown" size="2.4rem" color={theme.COLOR.grass} />
       </S.AttitudeScoreArrow>
       <S.AttitudeScoreGauge $score={score} />
     </S.AttitudeScoreContainer>

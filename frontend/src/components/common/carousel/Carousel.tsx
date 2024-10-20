@@ -28,14 +28,14 @@ const Carousel = ({ children }: CarouselProps) => {
         disabled={currentIndex === 0}
         isLast={currentIndex === 0}
       >
-        <Icon kind="arrowLeft" size={30} />
+        <Icon kind="arrowLeft" size="3rem" />
       </S.CarouselLeftButton>
       <S.CarouselRightButton
         onClick={nextSlide}
         disabled={currentIndex === validChildren.length - 1}
         isLast={currentIndex === validChildren.length - 1}
       >
-        <Icon kind="arrowRight" size={30} />
+        <Icon kind="arrowRight" size="3rem" />
       </S.CarouselRightButton>
     </S.CarouselContainer>
   );
