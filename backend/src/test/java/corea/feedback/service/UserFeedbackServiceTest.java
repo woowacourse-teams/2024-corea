@@ -160,4 +160,34 @@ class UserFeedbackServiceTest {
         assertThat(receivedFeedback.feedbacks()).isEmpty();
         assertThat(deliveredFeedback.feedbacks()).isEmpty();
     }
+
+    @Test
+    @DisplayName("받은 피드백 중 피드백을 작성하지 않은 상대의 피드백은 빈 응답을 반환한다.")
+    void noFeedbackMaskingTest() {
+        Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
+        Room room1 = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_CLOSED(manager));
+        Member reviewer1 = memberRepository.save(MemberFixture.MEMBER_PORORO());
+        Member reviewer2 = memberRepository.save(MemberFixture.MEMBER_ASH());
+        Member reviewer3 = memberRepository.save(MemberFixture.MEMBER_MOVIN());
+        Member reviewee = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
+
+        developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room1.getId(), reviewer1, reviewee));
+        developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room1.getId(), reviewer3, reviewee));
+        saveRevieweeToReviewer(room1.getId(), reviewer1, reviewee);
+        saveRevieweeToReviewer(room1.getId(), reviewer2, reviewee);
+
+        UserFeedbackResponse response = userFeedbackService.getReceivedFeedback(reviewee.getId());
+        List<FeedbackResponse> feedbackData = response.feedbacks()
+                .get(0)
+                .developFeedback();
+        assertThat(feedbackData).hasSize(2);
+
+        FeedbackResponse unmaskedFeedbackData = feedbackData.get(0);
+        FeedbackResponse maskedFeedbackData = feedbackData.get(1);
+
+        assertThat(unmaskedFeedbackData.isWrited()).isTrue();
+        assertThat(unmaskedFeedbackData.feedbackText()).isNotEmpty();
+        assertThat(maskedFeedbackData.isWrited()).isFalse();
+        assertThat(maskedFeedbackData.feedbackText()).isEmpty();
+    }
 }
