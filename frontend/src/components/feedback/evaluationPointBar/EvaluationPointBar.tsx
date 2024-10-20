@@ -59,6 +59,9 @@ const EvaluationPointBar = ({
           color={color}
           onChange={handleRadioChange}
           tabIndex={isTabFocusable ? 0 : -1}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") handleRadioChange(option.value);
+          }}
         >
           <S.StyledChildren>
             <Icon kind={option.icon} />
