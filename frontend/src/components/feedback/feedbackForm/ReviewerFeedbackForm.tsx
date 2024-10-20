@@ -60,24 +60,17 @@ const ReviewerFeedbackForm = ({ formState, onChange, modalType }: ReviewerFeedba
 
       <S.ItemContainer>
         <S.ModalQuestion>추가적으로 하고 싶은 피드백이 있다면 남겨 주세요.</S.ModalQuestion>
-        {modalType === "view" ? (
-          <Textarea
-            rows={5}
-            maxLength={512}
-            showCharCount={true}
-            value={formState.feedbackText.length ? formState.feedbackText : "없음"}
-            readOnly
-          />
-        ) : (
-          <Textarea
-            rows={10}
-            showCharCount={true}
-            maxLength={512}
-            placeholder="상대 리뷰어의 소프트 스킬 역량 향상을 위해 피드백을 남겨주세요."
-            value={formState.feedbackText}
-            onChange={(e) => onChange("feedbackText", e.target.value)}
-          />
-        )}
+        <Textarea
+          rows={10}
+          showCharCount={true}
+          maxLength={512}
+          placeholder={
+            modalType === "view" ? "없음" : "상대 리뷰어의 소프트 향상을 위해 피드백을 남겨주세요."
+          }
+          value={formState.feedbackText}
+          onChange={(e) => onChange("feedbackText", e.target.value)}
+          readOnly={modalType === "view"}
+        />
       </S.ItemContainer>
     </S.FeedbackFormContainer>
   );
