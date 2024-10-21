@@ -60,8 +60,8 @@ public class UserFeedbackService {
         socialFeedbackOutput.forEach((key, value) -> socialFeedbackOutput.put(key, maskingFeedback(receiverId, value, false)));
     }
 
-    private List<FeedbackOutput> maskingFeedback(long receiverId, List<FeedbackOutput> feedbackOutputs, boolean isDeliver) {
-        BiFunction<Long, Long, Boolean> biFunction = isDeliver ? socialFeedbackReader::existsByDeliverAndReceiver : developFeedbackReader::exist;
+    private List<FeedbackOutput> maskingFeedback(long receiverId, List<FeedbackOutput> feedbackOutputs, boolean isDevelopFeedback) {
+        BiFunction<Long, Long, Boolean> biFunction = isDevelopFeedback ? socialFeedbackReader::existsByDeliverAndReceiver : developFeedbackReader::existsByDeliverAndReceiver;
         return feedbackOutputs.stream()
                 .map(feedbackOutput -> {
                     if (needToMasking(receiverId, feedbackOutput, biFunction)) {
