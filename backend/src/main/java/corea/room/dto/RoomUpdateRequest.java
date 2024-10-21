@@ -57,8 +57,6 @@ public record RoomUpdateRequest(@Schema(description = "방 ID", example = "99")
                                 RoomClassification classification
 ) {
 
-    private static final RoomStatus INITIAL_ROOM_STATUS = RoomStatus.OPEN;
-
     public Room toEntity(Room room, Member manager) {
         return new Room(
                 roomId,
@@ -68,7 +66,7 @@ public record RoomUpdateRequest(@Schema(description = "방 ID", example = "99")
                 room.getCurrentParticipantsSize(), limitedParticipants,
                 manager, recruitmentDeadline,
                 reviewDeadline, classification,
-                INITIAL_ROOM_STATUS
+                room.getStatus()
         );
     }
 }
