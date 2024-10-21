@@ -62,10 +62,10 @@ public class UserFeedbackService {
     }
 
     private List<FeedbackOutput> maskingFeedback(long receiverId, List<FeedbackOutput> feedbackOutputs, boolean isDevelopFeedback) {
-        BiPredicate<Long, Long> biFunction = isDevelopFeedback ? socialFeedbackReader::existsByDeliverAndReceiver : developFeedbackReader::existsByDeliverAndReceiver;
+        BiPredicate<Long, Long> biPredicate = isDevelopFeedback ? socialFeedbackReader::existsByDeliverAndReceiver : developFeedbackReader::existsByDeliverAndReceiver;
         return feedbackOutputs.stream()
                 .map(feedbackOutput -> {
-                    if (needToMasking(receiverId, feedbackOutput, biFunction)) {
+                    if (needToMasking(receiverId, feedbackOutput, biPredicate)) {
                         return FeedbackOutput.masking(feedbackOutput);
                     }
                     return feedbackOutput;
