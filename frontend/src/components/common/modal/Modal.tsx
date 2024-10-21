@@ -80,7 +80,6 @@ const Modal = ({ isOpen, onClose, hasCloseButton = true, style, children }: Moda
             {children}
           </div>
         </FocusTrap>
-        ,
       </S.ModalContent>
     </>,
     portalElement,
