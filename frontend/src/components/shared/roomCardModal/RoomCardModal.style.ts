@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { EllipsisText } from "@/styles/common";
 import media from "@/styles/media";
 
 export const RoomCardModalContainer = styled.div`
@@ -82,13 +83,10 @@ export const ProfileContainer = styled.div`
   }
 
   span {
-    overflow: hidden;
-
     max-width: 168px;
-
     font: ${({ theme }) => theme.TEXT.small};
-    text-overflow: ellipsis;
-    white-space: nowrap;
+
+    ${EllipsisText}
   }
 `;
 
@@ -116,7 +114,7 @@ export const RoomTitle = styled.h2`
   font: ${({ theme }) => theme.TEXT.large_bold};
 `;
 
-export const RepositoryLink = styled.a`
+export const RepositoryLink = styled.div`
   cursor: pointer;
 
   display: flex;
@@ -125,13 +123,6 @@ export const RepositoryLink = styled.a`
 
   font: ${({ theme }) => theme.TEXT.small_bold};
   color: ${({ theme }) => theme.COLOR.primary2};
-  text-decoration: underline;
-  text-underline-offset: 0.3rem;
-
-  &:hover {
-    color: ${({ theme }) => theme.COLOR.primary3};
-    text-decoration: underline;
-  }
 `;
 
 // 마감 날짜, 모집 인원
@@ -201,6 +192,11 @@ export const ContentContainer = styled.p`
   font: ${({ theme }) => theme.TEXT.small};
   line-height: 2rem;
   white-space: pre-line;
+`;
+
+export const NoKeywordText = styled.span`
+  font: ${({ theme }) => theme.TEXT.semiSmall};
+  color: ${({ theme }) => theme.COLOR.grey2};
 `;
 
 // 버튼

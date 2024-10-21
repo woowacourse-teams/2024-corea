@@ -39,7 +39,7 @@ const RankingCard = ({ title, rankingData }: RankingCardProps) => {
               size={50}
               onClick={() => window.open(data.githubLink, "_blank")}
             />
-            <a href={data.githubLink} target="_blank">
+            <a href={data.githubLink} target="_blank" rel="noreferrer">
               {data.nickname}
             </a>
             <S.RankingAwardBar $rank={`rank-${data.rank}`}>{data.rank}</S.RankingAwardBar>
@@ -60,7 +60,7 @@ const RankingCard = ({ title, rankingData }: RankingCardProps) => {
               <img src={rankImages[data.rank]} alt={`Rank ${data.rank}`} />
             </S.TableItem>
             <S.TableItem>
-              <a href={data.githubLink} target="_blank">
+              <a href={data.githubLink} target="_blank" rel="noreferrer">
                 {data.nickname}
               </a>
             </S.TableItem>

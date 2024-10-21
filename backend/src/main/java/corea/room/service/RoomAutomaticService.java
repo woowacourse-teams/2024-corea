@@ -2,7 +2,8 @@ package corea.room.service;
 
 import corea.room.domain.Room;
 import corea.scheduler.domain.*;
-import corea.scheduler.service.*;
+import corea.scheduler.service.AutomaticMatchingScheduler;
+import corea.scheduler.service.AutomaticUpdateScheduler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;

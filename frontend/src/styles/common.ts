@@ -22,6 +22,14 @@ export const HoverStyledLink = styled(Link)`
   & :hover {
     color: ${theme.COLOR.primary2};
     text-decoration: underline;
+    text-underline-offset: 0.3rem;
+  }
+`;
+
+export const HoverStyledLinkForGuide = styled(Link)`
+  & :hover {
+    text-decoration: underline;
+    text-underline-offset: 0.3rem;
   }
 `;
 
@@ -35,6 +43,13 @@ export const VisuallyHidden = `
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+`;
+
+export const EllipsisText = `
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: normal;
 `;
 
 export const TYPE_CLASSIFICATION = {

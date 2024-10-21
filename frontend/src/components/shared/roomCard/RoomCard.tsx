@@ -95,7 +95,7 @@ const RoomCard = React.memo(({ roomInfo }: RoomCardProps) => {
           <S.EtcContainer>
             <S.LabelWrapper>{DisplayLabel(roomInfo)}</S.LabelWrapper>
             <S.JoinMember>
-              <Icon kind="person" size="1.6rem" color={theme.COLOR.grey4} />
+              <Icon kind="person" size="1.8rem" color={theme.COLOR.grey4} />
               {roomInfo.currentParticipants}/{roomInfo.limitedParticipants}
             </S.JoinMember>
           </S.EtcContainer>
