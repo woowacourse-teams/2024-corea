@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { EllipsisText } from "@/styles/common";
 import media from "@/styles/media";
 
 export const FeedbackCardContainer = styled.div<{ $isTypeDevelop: boolean }>`
@@ -18,6 +19,7 @@ export const FeedbackCardContainer = styled.div<{ $isTypeDevelop: boolean }>`
 
   ${media.medium`
     width: 100%;
+    max-width: 420px;
   `}
 
   ${media.small`
@@ -28,18 +30,23 @@ export const FeedbackCardContainer = styled.div<{ $isTypeDevelop: boolean }>`
 export const FeedbackScoreContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  gap: 1.6rem;
 `;
 
 export const FeedbackKeywordContainer = styled.div`
-  height: 130px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  height: fit-content;
 `;
 
 export const FeedbackKeywordWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  margin-top: 1rem;
+  align-content: flex-start;
+
+  height: 122px;
 `;
 
 export const FeedbackHeader = styled.div`
@@ -85,8 +92,11 @@ export const FeedbackSubTitle = styled.span`
 `;
 
 export const FeedbackKeyword = styled.div`
+  height: fit-content;
   padding: 1rem;
-  font: ${({ theme }) => theme.TEXT.small};
+
+  font: ${({ theme }) => theme.TEXT.semiSmall};
+
   background: ${({ theme }) => theme.COLOR.grey0};
   border-radius: 5px;
 `;
@@ -95,18 +105,15 @@ export const FeedbackDetailContainer = styled.div`
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.6rem;
 
   height: 200px;
 `;
 
 export const FeedbackDetail = styled.p`
-  overflow: hidden auto;
-
   height: 172px;
-
   font: ${({ theme }) => theme.TEXT.small};
   line-height: 2.2rem;
-  text-overflow: ellipsis;
-  white-space: break-spaces;
+
+  ${EllipsisText}
 `;

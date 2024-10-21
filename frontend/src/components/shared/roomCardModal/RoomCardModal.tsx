@@ -5,6 +5,7 @@ import Label from "@/components/common/label/Label";
 import Modal from "@/components/common/modal/Modal";
 import * as S from "@/components/shared/roomCardModal/RoomCardModal.style";
 import { RoomInfo } from "@/@types/roomInfo";
+import { HoverStyledLink } from "@/styles/common";
 import { formatDateTimeString } from "@/utils/dateFormatter";
 
 interface RoomCardModalProps {
@@ -14,6 +15,8 @@ interface RoomCardModalProps {
 }
 
 const RoomCardModal = ({ isOpen, onClose, roomInfo }: RoomCardModalProps) => {
+  const displayedKeywords = roomInfo.keywords.filter((keyword) => keyword !== "");
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <S.RoomCardModalContainer>
@@ -36,10 +39,12 @@ const RoomCardModal = ({ isOpen, onClose, roomInfo }: RoomCardModalProps) => {
 
             <S.TitleContainer>
               <S.RoomTitle>{roomInfo.title}</S.RoomTitle>
-              <S.RepositoryLink href={roomInfo.repositoryLink} target="_blank">
-                <Icon kind="link" size="1.8rem" />
-                저장소 바로가기
-              </S.RepositoryLink>
+              <HoverStyledLink to={roomInfo.repositoryLink} target="_blank" rel="noreferrer">
+                <S.RepositoryLink>
+                  <Icon kind="link" size="1.8rem" />
+                  저장소 바로가기
+                </S.RepositoryLink>
+              </HoverStyledLink>
             </S.TitleContainer>
           </S.MainContainer>
         </S.HeaderContainer>
@@ -66,9 +71,13 @@ const RoomCardModal = ({ isOpen, onClose, roomInfo }: RoomCardModalProps) => {
         <S.DescriptionContainer>
           <S.KeywordsContainer>
             <S.KeywordWrapper>
-              {roomInfo.keywords.map((keyword) => (
-                <S.KeywordText key={keyword}>#{keyword}</S.KeywordText>
-              ))}
+              {displayedKeywords.length === 0 ? (
+                <S.NoKeywordText>지정된 키워드 없음</S.NoKeywordText>
+              ) : (
+                displayedKeywords.map((keyword) => (
+                  <S.KeywordText key={keyword}>#{keyword}</S.KeywordText>
+                ))
+              )}
             </S.KeywordWrapper>
           </S.KeywordsContainer>
           <S.ContentContainer>{roomInfo.content}</S.ContentContainer>

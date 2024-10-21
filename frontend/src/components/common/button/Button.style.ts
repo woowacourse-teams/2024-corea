@@ -39,7 +39,8 @@ const variantStyles = {
     background-color: ${({ theme }) => theme.COLOR.grey1};
   `,
   confirm: css`
-    background-color: ${({ theme }) => theme.COLOR.primary3};
+    color: ${({ theme }) => theme.COLOR.black};
+    background-color: ${({ theme }) => theme.COLOR.lightGrass};
   `,
   error: css`
     background-color: ${({ theme }) => theme.COLOR.error};
