@@ -71,7 +71,7 @@ const RevieweeFeedbackForm = ({ formState, onChange, modalType }: RevieweeFeedba
       <S.ItemContainer>
         <S.ModalQuestion>추가적으로 하고 싶은 피드백이 있다면 남겨 주세요.</S.ModalQuestion>
         <Textarea
-          rows={10}
+          rows={8}
           showCharCount={true}
           maxLength={512}
           placeholder={

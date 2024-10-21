@@ -25,7 +25,7 @@ const IconRadioButton = ({
   };
 
   return (
-    <S.IconRadioButtonContainer>
+    <S.IconRadioButtonLabel>
       <S.HiddenRadioInput
         type="radio"
         name={name}
@@ -34,16 +34,11 @@ const IconRadioButton = ({
         {...rest}
         tabIndex={-1}
       />
-      <S.IconRadioButtonBox
-        $color={color}
-        $isSelected={isSelected}
-        aria-label="Icon Button"
-        {...rest}
-      >
+      <S.IconRadioButtonBox $color={color} $isSelected={isSelected} aria-hidden={true} {...rest}>
         {children}
       </S.IconRadioButtonBox>
-      <S.IconRadioButtonText>{text}</S.IconRadioButtonText>
-    </S.IconRadioButtonContainer>
+      <S.IconRadioButtonText aria-hidden={true}>{text}</S.IconRadioButtonText>
+    </S.IconRadioButtonLabel>
   );
 };
 
