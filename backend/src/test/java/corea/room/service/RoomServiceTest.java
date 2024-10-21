@@ -80,7 +80,8 @@ class RoomServiceTest {
         @Test
         @DisplayName("방을 생성할 때 모집 마감 시간은 현재 시간보다 1시간 이후가 아니라면 예외가 발생한다.")
         void invalidRecruitmentDeadline() {
-            RoomCreateRequest request = RoomFixture.ROOM_CREATE_REQUEST_WITH_RECRUITMENT_DEADLINE(LocalDateTime.now().plusMinutes(59));
+            RoomCreateRequest request = RoomFixture.ROOM_CREATE_REQUEST_WITH_RECRUITMENT_DEADLINE(LocalDateTime.now()
+                    .plusMinutes(59));
 
             assertThatThrownBy(() -> roomService.create(manager.getId(), request))
                     .asInstanceOf(InstanceOfAssertFactories.type(CoreaException.class))
@@ -92,7 +93,9 @@ class RoomServiceTest {
         @Test
         @DisplayName("방을 생성할 때 리뷰 마감 시간은 모집 마감 시간보다 1일 이후가 아니라면 예외가 발생한다.")
         void invalidReviewDeadline() {
-            RoomCreateRequest request = RoomFixture.ROOM_CREATE_REQUEST(LocalDateTime.now().plusHours(2), LocalDateTime.now().plusDays(1));
+            RoomCreateRequest request = RoomFixture.ROOM_CREATE_REQUEST(LocalDateTime.now()
+                    .plusHours(2), LocalDateTime.now()
+                    .plusDays(1));
 
             assertThatThrownBy(() -> roomService.create(manager.getId(), request))
                     .asInstanceOf(InstanceOfAssertFactories.type(CoreaException.class))
@@ -109,6 +112,22 @@ class RoomServiceTest {
             roomService.delete(roomId, manager.getId());
 
             assertThat(roomRepository.findById(roomId)).isEmpty();
+        }
+
+        @Test
+        @DisplayName("방이 닫힌 상태면 삭제할 수 없다.")
+        void throw_exception_when_delete_with_room_is_closed() {
+            Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_CLOSED(manager));
+            assertThatThrownBy(() -> roomService.delete(room.getId(), manager.getId()))
+                    .isInstanceOf(CoreaException.class);
+        }
+
+        @Test
+        @DisplayName("방이 진행 상태면 삭제할 수 없다.")
+        void throw_exception_when_delete_with_room_is_progress() {
+            Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_PROGRESS(manager));
+            assertThatThrownBy(() -> roomService.delete(room.getId(), manager.getId()))
+                    .isInstanceOf(CoreaException.class);
         }
 
         @Test
@@ -134,6 +153,22 @@ class RoomServiceTest {
         }
 
         @Test
+        @DisplayName("방이 닫힌 상태면 수정할 수 없다.")
+        void throw_exception_when_update_with_room_is_closed() {
+            Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_CLOSED(manager));
+            assertThatThrownBy(() -> roomService.update(room.getId(), RoomFixture.ROOM_UPDATE_REQUEST(room.getId())))
+                    .isInstanceOf(CoreaException.class);
+        }
+
+        @Test
+        @DisplayName("방이 진행 상태면 수정할 수 없다.")
+        void throw_exception_when_update_with_room_is_progress() {
+            Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_PROGRESS(manager));
+            assertThatThrownBy(() -> roomService.update(room.getId(), RoomFixture.ROOM_UPDATE_REQUEST(room.getId())))
+                    .isInstanceOf(CoreaException.class);
+        }
+
+        @Test
         @DisplayName("존재하지 않는 방이면, 예외를 발생합니다.")
         void throw_exception_when_update_with_not_exist_room() {
             roomService.create(manager.getId(), RoomFixture.ROOM_CREATE_REQUEST());
@@ -153,9 +188,13 @@ class RoomServiceTest {
         List<Member> members = memberRepository.saveAll(MemberFixture.SEVEN_MEMBERS());
 
         participationRepository.save(new Participation(room, manager, MemberRole.REVIEWER, ParticipationStatus.MANAGER, room.getMatchingSize()));
-        participationRepository.saveAll(members.stream().map(member -> new Participation(room, member, MemberRole.BOTH, 2)).toList());
+        participationRepository.saveAll(members.stream()
+                .map(member -> new Participation(room, member, MemberRole.BOTH, 2))
+                .toList());
 
-        matchResultRepository.saveAll(members.stream().map(member -> MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), manager, member)).toList());
+        matchResultRepository.saveAll(members.stream()
+                .map(member -> MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), manager, member))
+                .toList());
         matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), members.get(0), manager));
 
         RoomParticipantResponses participants = roomService.findParticipants(room.getId(), manager.getId());
@@ -178,9 +217,13 @@ class RoomServiceTest {
 
         List<Member> members = memberRepository.saveAll(MemberFixture.SEVEN_MEMBERS());
 
-        participationRepository.saveAll(members.stream().map(member -> new Participation(room, member, MemberRole.BOTH, 2)).toList());
+        participationRepository.saveAll(members.stream()
+                .map(member -> new Participation(room, member, MemberRole.BOTH, 2))
+                .toList());
 
-        matchResultRepository.saveAll(members.stream().map(member -> MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), manager, member)).toList());
+        matchResultRepository.saveAll(members.stream()
+                .map(member -> MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), manager, member))
+                .toList());
         matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), members.get(0), manager));
 
         RoomParticipantResponses participants = assertDoesNotThrow(() -> roomService.findParticipants(room.getId(), manager.getId()));
