@@ -14,6 +14,11 @@ public class MatchResultWriter {
 
     private final MatchResultRepository matchResultRepository;
 
+    public void reviewComplete(MatchResult matchResult, String prLink) {
+        matchResult.reviewComplete();
+        matchResult.updateReviewLink(prLink);
+    }
+
     public MatchResult completeDevelopFeedback(long roomId, long deliverId, long receiverId) {
         MatchResult matchResult = matchResultRepository.findByRoomIdAndReviewerIdAndRevieweeId(roomId, deliverId, receiverId)
                 .orElseThrow(() -> new CoreaException(ExceptionType.NOT_MATCHED_MEMBER));

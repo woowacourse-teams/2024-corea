@@ -1,6 +1,7 @@
 package corea.auth.infrastructure;
 
-import corea.auth.dto.GithubPullRequestReview;
+import corea.review.dto.GithubPullRequestReview;
+import corea.review.infrastructure.GithubReviewClient;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +10,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-class GithubOAuthClientTest {
+class GithubPullRequestReviewClientTest {
 
     @Autowired
-    private GithubOAuthClient client;
+    private GithubReviewClient client;
 
     @Test
     @DisplayName("해당 PR 링크에 존재하는 리뷰들을 가져온다.")
