@@ -18,6 +18,20 @@ export interface ModalProps {
 const Modal = ({ isOpen, onClose, hasCloseButton = true, style, children }: ModalProps) => {
   const [isClosing, setIsClosing] = useState(false);
   useEffect(() => {
+    [...document.body.children].forEach((element) => {
+      if (element.id === "modal") {
+        element.removeAttribute("aria-hidden");
+        return;
+      }
+
+      if (isOpen) {
+        element.setAttribute("aria-hidden", "true");
+        return;
+      }
+
+      element.removeAttribute("aria-hidden");
+    });
+
     if (isOpen) {
       document.body.style.overflow = "hidden";
     } else {
