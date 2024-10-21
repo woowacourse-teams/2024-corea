@@ -1,7 +1,9 @@
 package corea.feedback.dto;
 
+import corea.room.domain.Room;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import java.util.Collections;
 import java.util.List;
 
 @Schema(description = "개발 피드백 + 커뮤니케이션 피드백 작성 응답")
@@ -19,6 +21,9 @@ public record FeedbackResponse(@Schema(description = "피드백 아이디", exam
 
                                @Schema(description = "유저 이름", example = "jcoding-play")
                                String username,
+
+                               @Schema(description = "내가 상대방의 피드백 작성을 완료하였는지 여부", example = "false")
+                               boolean isWrited,
 
                                @Schema(description = "선택한 피드백 키워드", example = "[\"코드를 이해하기 쉬웠어요\", \"컨벤션이 잘 지켜졌어요\"]")
                                List<String> feedbackKeywords,
