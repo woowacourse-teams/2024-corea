@@ -19,8 +19,8 @@ export const SkeletonShimmer = `
 `;
 
 export const HoverStyledLink = styled(Link)`
-  & :hover {
-    color: ${theme.COLOR.primary2};
+  &:hover {
+    color: ${theme.COLOR.grey3};
     text-decoration: underline;
     text-underline-offset: 0.3rem;
   }
@@ -51,3 +51,10 @@ export const EllipsisText = `
   white-space: nowrap;
   line-height: normal;
 `;
+
+export const TYPE_CLASSIFICATION = {
+  ALL: "#FFFFFF",
+  ANDROID: "#B5D932",
+  FRONTEND: "#F7DF1E",
+  BACKEND: "#F0A746",
+};

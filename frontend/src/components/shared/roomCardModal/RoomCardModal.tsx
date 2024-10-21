@@ -3,6 +3,7 @@ import Icon from "@/components/common/icon/Icon";
 import ImageWithFallback from "@/components/common/img/ImageWithFallback";
 import Label from "@/components/common/label/Label";
 import Modal from "@/components/common/modal/Modal";
+import ClassificationBadge from "@/components/shared/classificationBadge/ClassificationBadge";
 import * as S from "@/components/shared/roomCardModal/RoomCardModal.style";
 import { RoomInfo } from "@/@types/roomInfo";
 import { HoverStyledLink } from "@/styles/common";
@@ -21,6 +22,10 @@ const RoomCardModal = ({ isOpen, onClose, roomInfo }: RoomCardModalProps) => {
     <Modal isOpen={isOpen} onClose={onClose}>
       <S.RoomCardModalContainer>
         <S.HeaderContainer>
+          <S.ClassificationBadgeWrapper>
+            <ClassificationBadge text={roomInfo.classification} />
+          </S.ClassificationBadgeWrapper>
+
           <S.RoomInfoThumbnail
             as={ImageWithFallback}
             src={roomInfo.thumbnailLink}

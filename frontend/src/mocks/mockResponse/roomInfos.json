@@ -16,7 +16,7 @@
       "roomStatus": "FAIL",
       "participationStatus": "PARTICIPATED",
       "memberRole": "BOTH",
-      "classification": "BACKEND",
+      "classification": "ALL",
       "message": "방 실패했습니다."
     },
     {
@@ -35,7 +35,7 @@
       "roomStatus": "CLOSE",
       "participationStatus": "PARTICIPATED",
       "memberRole": "BOTH",
-      "classification": "BACKEND",
+      "classification": "ANDROID",
       "message": "방 실패했습니다."
     },
     {
@@ -54,7 +54,7 @@
       "roomStatus": "CLOSE",
       "participationStatus": "PARTICIPATED",
       "memberRole": "REVIEWER",
-      "classification": "BACKEND",
+      "classification": "FRONTEND",
       "message": "방 실패했습니다."
     },
     {

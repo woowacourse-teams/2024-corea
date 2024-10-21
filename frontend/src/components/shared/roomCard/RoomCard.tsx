@@ -4,6 +4,7 @@ import useModal from "@/hooks/common/useModal";
 import Icon from "@/components/common/icon/Icon";
 import ImageWithFallback from "@/components/common/img/ImageWithFallback";
 import Label from "@/components/common/label/Label";
+import ClassificationBadge from "@/components/shared/classificationBadge/ClassificationBadge";
 import * as S from "@/components/shared/roomCard/RoomCard.style";
 import RoomCardModal from "@/components/shared/roomCardModal/RoomCardModal";
 import { RoomInfo } from "@/@types/roomInfo";
@@ -66,11 +67,16 @@ const RoomCard = React.memo(({ roomInfo }: RoomCardProps) => {
       <RoomCardModal isOpen={isModalOpen} onClose={handleCloseModal} roomInfo={roomInfo} />
 
       <S.RoomCardContainer onClick={handleOpenModal}>
+        <S.ClassificationBadgeWrapper>
+          <ClassificationBadge text={roomInfo.classification} />
+        </S.ClassificationBadgeWrapper>
+
         <S.RoomInfoThumbnail
           as={ImageWithFallback}
           src={roomInfo.thumbnailLink}
           alt={roomInfo.title}
         />
+
         <S.RoomInformation>
           <S.RoomTitle>{roomInfo.title}</S.RoomTitle>
 
