@@ -1,6 +1,4 @@
 import styled from "styled-components";
-import { Classification } from "@/@types/roomInfo";
-import { TYPE_CLASSIFICATION } from "@/styles/common";
 import media from "@/styles/media";
 
 export const RoomCardContainer = styled.div`
@@ -34,23 +32,10 @@ export const RoomCardContainer = styled.div`
   }
 `;
 
-export const ClassificationBadge = styled.div<{ $text: Classification }>`
+export const ClassificationBadgeWrapper = styled.div`
   position: absolute;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
   width: 70px;
   height: 30px;
-
-  font: ${({ theme }) => theme.TEXT.small_bold};
-  color: ${(props) => TYPE_CLASSIFICATION[props.$text]};
-  text-shadow: 1px 1px 2px rgb(0 0 0 / 50%);
-
-  background-color: ${({ theme }) => theme.COLOR.grey3};
-  border-radius: 0 0 8px;
-  box-shadow: 0 2px 4px rgb(0 0 0 / 15%);
 `;
 
 export const RoomInfoThumbnail = styled.img`

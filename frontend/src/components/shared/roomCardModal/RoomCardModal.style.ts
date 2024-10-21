@@ -14,6 +14,13 @@ export const HeaderContainer = styled.div`
   justify-content: space-between;
 `;
 
+// 분류 배지
+export const ClassificationBadgeWrapper = styled.div`
+  position: absolute;
+  width: 60px;
+  height: 25px;
+`;
+
 // 썸네일
 export const RoomInfoThumbnail = styled.img`
   object-fit: scale-down;
