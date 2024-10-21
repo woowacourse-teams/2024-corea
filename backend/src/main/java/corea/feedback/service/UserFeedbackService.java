@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
+import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
 import static corea.global.util.MapHandler.extractDistinctKeyStreams;
@@ -61,7 +62,7 @@ public class UserFeedbackService {
     }
 
     private List<FeedbackOutput> maskingFeedback(long receiverId, List<FeedbackOutput> feedbackOutputs, boolean isDevelopFeedback) {
-        BiFunction<Long, Long, Boolean> biFunction = isDevelopFeedback ? socialFeedbackReader::existsByDeliverAndReceiver : developFeedbackReader::existsByDeliverAndReceiver;
+        BiPredicate<Long, Long> biFunction = isDevelopFeedback ? socialFeedbackReader::existsByDeliverAndReceiver : developFeedbackReader::existsByDeliverAndReceiver;
         return feedbackOutputs.stream()
                 .map(feedbackOutput -> {
                     if (needToMasking(receiverId, feedbackOutput, biFunction)) {
@@ -72,9 +73,9 @@ public class UserFeedbackService {
                 .toList();
     }
 
-    private boolean needToMasking(long receiverId, FeedbackOutput feedbackResponse, BiFunction<Long, Long, Boolean> biConsumer) {
+    private boolean needToMasking(long receiverId, FeedbackOutput feedbackResponse, BiPredicate<Long, Long> biConsumer) {
         long deliverId = feedbackResponse.receiverId();
-        return !biConsumer.apply(receiverId, deliverId);
+        return !biConsumer.test(receiverId, deliverId);
     }
 
     private List<FeedbacksResponse> getFeedbacksResponses(Map<Long, List<FeedbackResponse>> developFeedbacks, Map<Long, List<FeedbackResponse>> socialFeedbacks, Predicate<Room> predicate) {
