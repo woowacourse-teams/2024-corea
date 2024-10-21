@@ -72,8 +72,12 @@ const Modal = ({ isOpen, onClose, hasCloseButton = true, style, children }: Moda
           }}
         >
           <div>
+            {hasCloseButton && (
+              <S.CloseButton onClick={handleModalClose} aria-label="닫기">
+                &times;
+              </S.CloseButton>
+            )}
             {children}
-            {hasCloseButton && <S.CloseButton onClick={handleModalClose}>&times;</S.CloseButton>}
           </div>
         </FocusTrap>
         ,
