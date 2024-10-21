@@ -38,8 +38,8 @@ export const VisuallyHidden = `
 `;
 
 export const TYPE_CLASSIFICATION = {
-  ALL: "#000000",
-  ANDROID: "#3DDC84",
+  ALL: "#FFFFFF",
+  ANDROID: "#B5D932",
   FRONTEND: "#F7DF1E",
-  BACKEND: "#F5A74F",
+  BACKEND: "#DE8E2F",
 };

@@ -86,6 +86,7 @@ const RoomCard = React.memo(({ roomInfo }: RoomCardProps) => {
           src={roomInfo.thumbnailLink}
           alt={roomInfo.title}
         />
+
         <S.RoomInformation>
           <S.RoomTitle>{roomInfo.title}</S.RoomTitle>
 
