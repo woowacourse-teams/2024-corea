@@ -14,7 +14,7 @@ public record GithubPullRequestReview(
         @JsonProperty("html_url")
         String html_url
 ) {
-    public String getUserId() {
+    public String getGithubUserId() {
         return user.id();
     }
 }

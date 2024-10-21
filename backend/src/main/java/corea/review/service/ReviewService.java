@@ -42,7 +42,7 @@ public class ReviewService {
 
     private String getPrReviewLink(String prLink, String reviewerGithubId) {
         return githubReviewProvider.getReviewWithPrLink(prLink)
-                .findWithGithubId(reviewerGithubId)
+                .findWithGithubUserId(reviewerGithubId)
                 .map(GithubPullRequestReview::html_url)
                 .orElseThrow(() -> new CoreaException(ExceptionType.NOT_COMPLETE_GITHUB_REVIEW));
     }
