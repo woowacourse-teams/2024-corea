@@ -24,23 +24,24 @@ public class RoomWriter {
     private final RoomRepository roomRepository;
     private final ParticipationWriter participationWriter;
 
-    public Room create(Member member, RoomCreateRequest request) {
+    // TODO 서비스 용 DTO 만들어야함
+    public Room create(Member manager, RoomCreateRequest request) {
 //        validateDeadLine(request.recruitmentDeadline(), request.reviewDeadline());
-        Room room = roomRepository.save(request.toEntity(member));
+        Room room = roomRepository.save(request.toEntity(manager));
         log.info("방을 생성했습니다. 방 생성자 id={}, 요청한 사용자 id={}", room.getId(), room.getManagerId());
         return room;
     }
 
-    public Room update(Room room, Member member, RoomUpdateRequest request) {
-        validate(room, member);
-        return roomRepository.save(request.toEntity(room, member));
+    public Room update(Room room, Member manager, RoomUpdateRequest request) {
+        validate(room, manager);
+        return roomRepository.save(request.toEntity(room, manager));
     }
 
-    public void delete(Room room, Member member) {
-        validate(room, member);
+    public void delete(Room room, Member manager) {
+        validate(room, manager);
         roomRepository.delete(room);
         participationWriter.deleteAllByRoom(room);
-        log.info("방을 삭제했습니다. 방 id={}, 사용자 iD={}", room.getId(), member.getId());
+        log.info("방을 삭제했습니다. 방 id={}, 사용자 iD={}", room.getId(), manager.getId());
     }
 
     private void validate(Room room, Member member) {

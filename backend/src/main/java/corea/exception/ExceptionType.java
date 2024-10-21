@@ -25,7 +25,7 @@ public enum ExceptionType {
     TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "토큰이 만료되었습니다."),
     INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "토큰이 올바르지 않습니다."),
     AUTHORIZATION_ERROR(HttpStatus.UNAUTHORIZED, "인증에 실패했습니다."),
-    ROOM_MODIFY_AUTHORIZATION_ERROR(HttpStatus.UNAUTHORIZED, "방 변경 권한이 없습니다. 방 생성자만 방을 변경할 수 있습니다."),
+    ROOM_MODIFY_AUTHORIZATION_ERROR(HttpStatus.UNAUTHORIZED, "방 정보 변경 권한이 없습니다. 방 생성자만 방 정보를 변경할 수 있습니다."),
     FEEDBACK_UPDATE_AUTHORIZATION_ERROR(HttpStatus.UNAUTHORIZED, "피드백 수정 권한이 없습니다. 피드백 작성자만 피드백을 수정할 수 있습니다."),
 
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 멤버를 찾을 수 없습니다."),

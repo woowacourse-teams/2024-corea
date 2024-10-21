@@ -59,14 +59,14 @@ public record RoomUpdateRequest(@Schema(description = "방 ID", example = "99")
 
     private static final RoomStatus INITIAL_ROOM_STATUS = RoomStatus.OPEN;
 
-    public Room toEntity(Room room, Member member) {
+    public Room toEntity(Room room, Member manager) {
         return new Room(
                 roomId,
                 title, content,
                 matchingSize, repositoryLink,
                 thumbnailLink, keywords,
                 room.getCurrentParticipantsSize(), limitedParticipants,
-                member, recruitmentDeadline,
+                manager, recruitmentDeadline,
                 reviewDeadline, classification,
                 INITIAL_ROOM_STATUS
         );

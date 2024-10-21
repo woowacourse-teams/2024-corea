@@ -32,7 +32,7 @@ public interface RoomControllerSpecification {
                     "JWT 토큰에서 추출된 사용자 정보는 피드백 작성에 필요한 인증된 사용자 정보를 제공합니다. " +
                     "<br><br>**참고:** 이 API를 사용하기 위해서는 유효한 JWT 토큰이 필요하며, " +
                     "토큰이 없거나 유효하지 않은 경우 인증 오류가 발생합니다.")
-    @ApiErrorResponses(value = ExceptionType.MEMBER_NOT_FOUND)
+    @ApiErrorResponses(value = {ExceptionType.MEMBER_NOT_FOUND, ExceptionType.ROOM_MODIFY_AUTHORIZATION_ERROR})
     ResponseEntity<RoomResponse> update(AuthInfo authInfo, RoomUpdateRequest request);
 
     @Operation(summary = "방 참가자들의 정보를 반환합니다.",
