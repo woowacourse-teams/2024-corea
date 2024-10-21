@@ -1,5 +1,7 @@
 package corea.feedback.domain;
 
+import corea.exception.CoreaException;
+import corea.exception.ExceptionType;
 import corea.feedback.dto.FeedbackOutput;
 import corea.feedback.repository.SocialFeedbackRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,5 +31,15 @@ public class SocialFeedbackReader {
                 .stream()
                 .map(FeedbackOutput::fromReceiver)
                 .collect(Collectors.groupingBy(FeedbackOutput::roomId));
+    }
+
+    public SocialFeedback findById(long feedbackId) {
+        return socialFeedbackRepository.findById(feedbackId)
+                .orElseThrow(() -> new CoreaException(ExceptionType.FEEDBACK_NOT_FOUND));
+    }
+
+    public SocialFeedback findSocialFeedback(long roomId, long deliverId, String username) {
+        return socialFeedbackRepository.findByRoomIdAndDeliverIdAndReceiverUsername(roomId, deliverId, username)
+                .orElseThrow(() -> new CoreaException(ExceptionType.FEEDBACK_NOT_FOUND));
     }
 }

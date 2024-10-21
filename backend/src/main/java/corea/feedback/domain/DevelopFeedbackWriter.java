@@ -32,7 +32,7 @@ public class DevelopFeedbackWriter {
 
     public void update(DevelopFeedback developFeedback, long deliverId, DevelopFeedbackUpdateInput input) {
         validateUpdateAuthority(developFeedback, deliverId);
-        log.info("개발 피드백 업데이트 [피드백 ID={}, 작성자 ID={}, 요청값={}]", developFeedback.getId(), developFeedback, input);
+        log.info("개발 피드백 업데이트 [피드백 ID={}, 작성자 ID={}, 요청값={}]", developFeedback.getId(), deliverId, input);
 
         developFeedback.update(
                 input.evaluationPoint(),

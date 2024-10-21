@@ -4,7 +4,7 @@ import config.ControllerTest;
 import corea.auth.service.LoginService;
 import corea.auth.service.TokenService;
 import corea.feedback.dto.DevelopFeedbackCreateRequest;
-import corea.feedback.dto.SocialFeedbackRequest;
+import corea.feedback.dto.SocialFeedbackCreateRequest;
 import corea.fixture.MatchResultFixture;
 import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
@@ -103,7 +103,7 @@ class RoomReviewerAcceptanceTest {
                 reviewee
         ));
 
-        SocialFeedbackRequest request = new SocialFeedbackRequest(
+        SocialFeedbackCreateRequest request = new SocialFeedbackCreateRequest(
                 reviewer.getId(),
                 4,
                 List.of("방의 목적에 맞게 코드를 작성했어요", "코드를 이해하기 쉬웠어요"),

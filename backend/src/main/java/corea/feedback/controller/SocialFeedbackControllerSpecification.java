@@ -2,8 +2,9 @@ package corea.feedback.controller;
 
 import corea.auth.domain.AuthInfo;
 import corea.exception.ExceptionType;
-import corea.feedback.dto.SocialFeedbackRequest;
+import corea.feedback.dto.SocialFeedbackCreateRequest;
 import corea.feedback.dto.SocialFeedbackResponse;
+import corea.feedback.dto.SocialFeedbackUpdateRequest;
 import corea.global.annotation.ApiErrorResponses;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -25,7 +26,7 @@ public interface SocialFeedbackControllerSpecification {
     ResponseEntity<Void> create(@Parameter(description = "방 아이디", example = "1")
                                 long roomId,
                                 AuthInfo authInfo,
-                                SocialFeedbackRequest request);
+                                SocialFeedbackCreateRequest request);
 
     @Operation(summary = "커뮤니케이션 관련 피드백을 반환합니다.",
             description = "자신에게 사람들이 남긴 커뮤니케이션 능력 관련 피드백을 반환합니다. <br>" +
@@ -58,5 +59,5 @@ public interface SocialFeedbackControllerSpecification {
                                 @Parameter(description = "피드백 아이디", example = "2")
                                 long feedbackId,
                                 AuthInfo authInfo,
-                                SocialFeedbackRequest request);
+                                SocialFeedbackUpdateRequest request);
 }
