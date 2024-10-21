@@ -36,8 +36,13 @@ export const RoomCardContainer = styled.div`
 
 export const ClassificationBadgeWrapper = styled.div`
   position: absolute;
+
+  overflow: hidden;
+
   width: 70px;
   height: 30px;
+
+  border-radius: 0 0 8px;
 `;
 
 export const RoomInfoThumbnail = styled.img`

@@ -15,6 +15,5 @@ export const StyledBadge = styled.div<{ $text: Classification }>`
   text-shadow: 1px 1px 2px rgb(0 0 0 / 50%);
 
   background-color: ${({ theme }) => theme.COLOR.grey3};
-  border-radius: 0 0 8px;
   box-shadow: 0 2px 4px rgb(0 0 0 / 15%);
 `;

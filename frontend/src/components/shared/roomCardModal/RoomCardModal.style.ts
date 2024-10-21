@@ -18,8 +18,13 @@ export const HeaderContainer = styled.div`
 // 분류 배지
 export const ClassificationBadgeWrapper = styled.div`
   position: absolute;
+
+  overflow: hidden;
+
   width: 60px;
   height: 25px;
+
+  border-radius: 0 0 8px;
 `;
 
 // 썸네일

@@ -1,4 +1,3 @@
-import React from "react";
 import * as S from "@/components/shared/classificationBadge/ClassificationBadge.style";
 import { Classification } from "@/@types/roomInfo";
 import { classificationText } from "@/utils/roomInfoUtils";
