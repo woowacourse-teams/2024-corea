@@ -18,21 +18,19 @@ export const ButtonWrapper = styled.button<OptionButtonBoxProps>`
   align-items: center;
   justify-content: center;
 
+  box-sizing: border-box;
   padding: 0.8rem;
 
   font: ${({ theme }) => theme.TEXT.semiSmall};
 
   background-color: ${({ theme }) => theme.COLOR.white};
-  border-radius: 18px;
-  outline: ${(props) =>
+  border: ${(props) =>
     props.isSelected
-      ? `4px solid ${props.color || props.theme.COLOR.primary2}`
+      ? `2px solid ${props.color || props.theme.COLOR.primary2}`
       : `2px dashed ${props.theme.COLOR.grey1}`};
+  border-radius: 18px;
 
   &:focus {
-    outline: ${(props) =>
-      props.isSelected
-        ? `4px solid ${props.color || props.theme.COLOR.primary2}`
-        : " 2px rgb(0 95 204) solid"};
+    outline: "2px rgb(0 95 204) solid";
   }
 `;
