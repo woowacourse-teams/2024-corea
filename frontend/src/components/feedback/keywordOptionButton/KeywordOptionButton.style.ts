@@ -22,6 +22,7 @@ export const ButtonWrapper = styled.button<OptionButtonBoxProps>`
   padding: 0.8rem;
 
   font: ${({ theme }) => theme.TEXT.semiSmall};
+  color: ${({ theme }) => theme.COLOR.black};
 
   background-color: ${({ theme }) => theme.COLOR.white};
   border: ${(props) =>
