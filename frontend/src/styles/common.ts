@@ -19,8 +19,8 @@ export const SkeletonShimmer = `
 `;
 
 export const HoverStyledLink = styled(Link)`
-  & :hover {
-    color: ${theme.COLOR.primary2};
+  &:hover {
+    color: ${theme.COLOR.grey3};
     text-decoration: underline;
     text-underline-offset: 0.3rem;
   }
