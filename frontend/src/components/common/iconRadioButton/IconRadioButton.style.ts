@@ -39,5 +39,5 @@ export const IconRadioButtonBox = styled.div<IconRadioButtonBoxProps>`
 `;
 
 export const IconRadioButtonText = styled.span`
-  font: ${({ theme }) => theme.TEXT.xSmall};
+  font: ${({ theme }) => theme.TEXT.semiSmall};
 `;

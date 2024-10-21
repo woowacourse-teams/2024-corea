@@ -18,7 +18,7 @@ export const DropdownContainer = styled.div`
   height: 40px;
 `;
 
-export const DropdownToggle = styled.div<{ $error: boolean }>`
+export const DropdownToggle = styled.button<{ $error: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -30,6 +30,7 @@ export const DropdownToggle = styled.div<{ $error: boolean }>`
   font: ${({ theme }) => theme.TEXT.small};
   color: ${({ theme }) => theme.COLOR.grey4};
 
+  background-color: transparent;
   border: 1px solid ${(props) => (props.$error ? props.theme.COLOR.error : props.theme.COLOR.grey1)};
   border-radius: 6px;
 `;

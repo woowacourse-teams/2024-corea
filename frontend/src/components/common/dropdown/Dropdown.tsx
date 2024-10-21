@@ -1,5 +1,6 @@
 import useDropdown from "@/hooks/common/useDropdown";
 import * as S from "@/components/common/dropdown/Dropdown.style";
+import FocusTrap from "@/components/common/focusTrap/FocusTrap";
 import Icon from "@/components/common/icon/Icon";
 
 export interface DropdownItem {
@@ -36,17 +37,23 @@ const Dropdown = ({
 
       {isDropdownOpen && (
         <S.DropdownMenu>
-          <S.DropdownItemWrapper>
-            {dropdownItems.map((item) => (
-              <S.DropdownItem
-                key={item.value}
-                onClick={() => handleDropdownItemClick(item.value)}
-                $isSelected={item.value === selectedCategory}
-              >
-                <span>{item.text}</span>
-              </S.DropdownItem>
-            ))}
-          </S.DropdownItemWrapper>
+          <FocusTrap onEscapeFocusTrap={() => handleToggleDropdown()}>
+            <S.DropdownItemWrapper>
+              {dropdownItems.map((item) => (
+                <S.DropdownItem
+                  key={item.value}
+                  onClick={() => handleDropdownItemClick(item.value)}
+                  $isSelected={item.value === selectedCategory}
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") handleDropdownItemClick(item.value);
+                  }}
+                >
+                  <span>{item.text}</span>
+                </S.DropdownItem>
+              ))}
+            </S.DropdownItemWrapper>
+          </FocusTrap>
         </S.DropdownMenu>
       )}
     </S.DropdownContainer>

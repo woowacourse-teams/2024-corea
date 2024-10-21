@@ -28,4 +28,11 @@ export const ButtonWrapper = styled.button<OptionButtonBoxProps>`
     props.isSelected
       ? `4px solid ${props.color || props.theme.COLOR.primary2}`
       : `2px dashed ${props.theme.COLOR.grey1}`};
+
+  &:focus {
+    outline: ${(props) =>
+      props.isSelected
+        ? `4px solid ${props.color || props.theme.COLOR.primary2}`
+        : " 2px rgb(0 95 204) solid"};
+  }
 `;

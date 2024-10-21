@@ -21,6 +21,7 @@ const Button = ({
       $variant={disabled ? "disable" : variant}
       $size={size}
       disabled={disabled}
+      tabIndex={disabled ? -1 : 0}
       {...rest}
     >
       {children}

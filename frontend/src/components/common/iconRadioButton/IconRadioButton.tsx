@@ -32,6 +32,7 @@ const IconRadioButton = ({
         checked={isSelected}
         onChange={handleChange}
         {...rest}
+        tabIndex={-1}
       />
       <S.IconRadioButtonBox
         $color={color}

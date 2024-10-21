@@ -78,4 +78,8 @@ public class MatchResult extends BaseTimeEntity {
     public void updateReviewLink(String reviewLink) {
         this.reviewLink = reviewLink;
     }
+
+    public String getReviewerGithubId() {
+        return reviewer.getGithubUserId();
+    }
 }

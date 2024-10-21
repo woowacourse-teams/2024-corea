@@ -1,4 +1,4 @@
-import React, { Children, ReactNode, isValidElement, useState } from "react";
+import React, { Children, ReactNode, isValidElement, useEffect, useState } from "react";
 import * as S from "@/components/common/carousel/Carousel.style";
 import Icon from "@/components/common/icon/Icon";
 
@@ -18,25 +18,27 @@ const Carousel = ({ children }: CarouselProps) => {
 
   return (
     <S.CarouselContainer>
-      <S.CarouselWrapper $currentIndex={currentIndex}>
-        {validChildren.map((child, index) => (
-          <S.CarouselItem key={index}>{child}</S.CarouselItem>
-        ))}
-      </S.CarouselWrapper>
       <S.CarouselLeftButton
         onClick={prevSlide}
         disabled={currentIndex === 0}
         isLast={currentIndex === 0}
+        tabIndex={currentIndex === 0 ? -1 : 0}
       >
-        <Icon kind="arrowLeft" size={30} />
+        <Icon kind="arrowLeft" size="3rem" />
       </S.CarouselLeftButton>
       <S.CarouselRightButton
         onClick={nextSlide}
         disabled={currentIndex === validChildren.length - 1}
         isLast={currentIndex === validChildren.length - 1}
+        tabIndex={currentIndex === validChildren.length - 1 ? -1 : 0}
       >
-        <Icon kind="arrowRight" size={30} />
+        <Icon kind="arrowRight" size="3rem" />
       </S.CarouselRightButton>
+      <S.CarouselWrapper $currentIndex={currentIndex}>
+        {validChildren.map((child, index) => (
+          <S.CarouselItem key={index}>{child}</S.CarouselItem>
+        ))}
+      </S.CarouselWrapper>
     </S.CarouselContainer>
   );
 };

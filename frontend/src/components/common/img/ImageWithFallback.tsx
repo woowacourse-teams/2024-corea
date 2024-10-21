@@ -14,7 +14,7 @@ const ImageWithFallback = ({
   fallbackSrc = errorCharacter,
   ...props
 }: ImageWithFallbackProps) => {
-  const [isFallback, setIsFallback] = useState(false);
+  const [isFallback, setIsFallback] = useState(!src);
 
   const handleError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     const img = e.target as HTMLImageElement;
@@ -24,7 +24,13 @@ const ImageWithFallback = ({
   };
 
   return (
-    <S.StyledImg src={src} alt={alt} onError={handleError} $isFallback={isFallback} {...props} />
+    <S.StyledImg
+      src={isFallback ? fallbackSrc : src}
+      alt={alt}
+      onError={handleError}
+      $isFallback={isFallback}
+      {...props}
+    />
   );
 };
 

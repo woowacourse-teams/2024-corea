@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { EllipsisText } from "@/styles/common";
 import media from "@/styles/media";
 
 export const RoomInfoCardContainer = styled.div`
@@ -59,7 +60,7 @@ export const RoomTitle = styled.span`
   color: ${({ theme }) => theme.COLOR.black};
 `;
 
-export const RepositoryLink = styled.a`
+export const RepositoryLink = styled.div`
   cursor: pointer;
 
   display: flex;
@@ -67,14 +68,6 @@ export const RepositoryLink = styled.a`
   align-items: center;
 
   font: ${({ theme }) => theme.TEXT.medium_bold};
-  color: ${({ theme }) => theme.COLOR.primary2};
-  text-decoration: underline;
-  text-underline-offset: 0.3rem;
-
-  &:hover {
-    color: ${({ theme }) => theme.COLOR.primary3};
-    text-decoration: underline;
-  }
 `;
 
 export const RoomContentBox = styled.div`
@@ -114,13 +107,10 @@ export const RoomContentSmall = styled.span`
   }
 
   span#githubid {
-    overflow: hidden;
-
     max-width: 210px;
-
     font: ${({ theme }) => theme.TEXT.small_bold};
-    text-overflow: ellipsis;
-    white-space: nowrap;
+
+    ${EllipsisText}
   }
 
   div {

@@ -16,7 +16,6 @@ export const Option = styled.button<{ $isSelected: boolean }>`
   color: ${({ $isSelected, theme }) => ($isSelected ? theme.COLOR.black : theme.COLOR.grey3)};
 
   background: transparent;
-  outline: none;
 
   @media screen and (max-width: 520px) {
     flex: 1%;

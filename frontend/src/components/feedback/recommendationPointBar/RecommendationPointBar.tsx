@@ -49,6 +49,10 @@ const RecommendationPointBar = ({
           value={option.value}
           isSelected={selectedOptionId === option.value}
           onChange={handleRadioChange}
+          tabIndex={readonly ? -1 : 0}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") handleRadioChange(option.value);
+          }}
         >
           <S.StyledChildren>
             <Icon kind={option.icon} />
