@@ -35,6 +35,9 @@ const roomHandler = [
   http.get(serverUrl + API_ENDPOINTS.REVIEWER_FEEDBACK(1), () => {
     return HttpResponse.json(writedFeedback, { status: 200 });
   }),
+  http.get(serverUrl + API_ENDPOINTS.REVIEWEE_FEEDBACK(1), () => {
+    return HttpResponse.json(writedFeedback, { status: 200 });
+  }),
   http.post(serverUrl + API_ENDPOINTS.REVIEW_COMPLETE, () => {
     return HttpResponse.json(null, { status: 200 });
   }),
