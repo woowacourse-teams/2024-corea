@@ -23,6 +23,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.anyString;
@@ -56,7 +59,7 @@ class ReviewServiceTest {
         MatchResult matchResult = matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), reviewer, reviewee));
 
         when(githubReviewClient.getReviewLink(anyString()))
-                .thenReturn(new GithubPullRequestReview[]{
+                .thenReturn(List.of(
                         new GithubPullRequestReview(
                                 "id",
                                 new GithubUserInfo(
@@ -65,7 +68,7 @@ class ReviewServiceTest {
                                         reviewer.getThumbnailUrl(),
                                         reviewer.getEmail(),
                                         String.valueOf(reviewer.getGithubUserId())),
-                                "html_url")}
+                                "html_url"))
                 );
         reviewService.completeReview(room.getId(), reviewer.getId(), reviewee.getId());
 
@@ -80,7 +83,7 @@ class ReviewServiceTest {
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_PROGRESS(memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON())));
         matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), reviewer, reviewee));
 
-        when(githubReviewClient.getReviewLink(anyString())).thenReturn(new GithubPullRequestReview[]{});
+        when(githubReviewClient.getReviewLink(anyString())).thenReturn(Collections.emptyList());
 
         assertThatThrownBy(() -> reviewService.completeReview(room.getId(), reviewer.getId(), reviewee.getId()))
                 .asInstanceOf(InstanceOfAssertFactories.type(CoreaException.class))
