@@ -18,10 +18,10 @@ class GithubCommentClientTest {
 
     @Test
     @DisplayName("해당 PR 링크에 존재하는 커멘트들을 가져온다.")
-    void getCommentLink() {
+    void getPullRequestComments() {
         String prLink = "https://github.com/youngsu5582/github-api-test/pull/1";
 
-        List<GithubPullRequestReview> comments = githubCommentClient.getCommentLink(prLink);
+        List<GithubPullRequestReview> comments = githubCommentClient.getPullRequestComments(prLink);
 
         assertThat(comments).hasSize(2);
     }

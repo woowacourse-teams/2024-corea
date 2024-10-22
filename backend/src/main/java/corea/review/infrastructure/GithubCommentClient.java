@@ -19,13 +19,14 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 public class GithubCommentClient {
 
     private final RestClient restClient;
+    private final GithubPullRequestUrlExchanger githubPullRequestUrlExchanger;
 
-    public List<GithubPullRequestReview> getCommentLink(String prLink) {
-        String commentUrl = GithubPullRequestUrlExchanger.pullRequestUrlToComment(prLink);
+    public List<GithubPullRequestReview> getPullRequestComments(String prLink) {
+        String commentUrl = githubPullRequestUrlExchanger.pullRequestUrlToComment(prLink);
 
         return Stream.iterate(1, page -> page + 1) // 페이지를 1부터 시작해서 증가
                 .map(page -> getGithubPullRequestReviews(page, commentUrl))
-                .takeWhile(this::isLastPage)
+                .takeWhile(this::isNotLastPage)
                 .flatMap(Arrays::stream)
                 .toList();
     }
@@ -44,7 +45,7 @@ public class GithubCommentClient {
         return commentUrl + "?page=" + page + "&per_page=100";
     }
 
-    private boolean isLastPage(GithubPullRequestReview[] reviews) {
+    private boolean isNotLastPage(GithubPullRequestReview[] reviews) {
         return reviews.length > 0;
     }
 }

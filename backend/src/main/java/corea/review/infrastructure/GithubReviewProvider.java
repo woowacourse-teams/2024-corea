@@ -18,18 +18,18 @@ public class GithubReviewProvider {
     private final GithubReviewClient reviewClient;
     private final GithubCommentClient commentClient;
 
-    public GithubPullRequestReviewInfo getReviewWithPrLink(String prLink) {
-        List<GithubPullRequestReview> reviewLinks = reviewClient.getReviewLink(prLink);
-        List<GithubPullRequestReview> commentLinks = commentClient.getCommentLink(prLink);
+    public GithubPullRequestReviewInfo provideReviewInfo(String prLink) {
+        List<GithubPullRequestReview> reviews = reviewClient.getPullRequestReviews(prLink);
+        List<GithubPullRequestReview> comments = commentClient.getPullRequestComments(prLink);
 
-        Map<String, GithubPullRequestReview> result = getGithubPullRequestReviews(reviewLinks, commentLinks);
+        Map<String, GithubPullRequestReview> result = collectPullRequestReviews(reviews, comments);
         return new GithubPullRequestReviewInfo(result);
     }
 
-    private Map<String, GithubPullRequestReview> getGithubPullRequestReviews(List<GithubPullRequestReview> reviewLinks, List<GithubPullRequestReview> commentLinks) {
+    private Map<String, GithubPullRequestReview> collectPullRequestReviews(List<GithubPullRequestReview> reviews, List<GithubPullRequestReview> comments) {
         return Stream.concat(
-                        reviewLinks.stream(),
-                        commentLinks.stream()
+                        reviews.stream(),
+                        comments.stream()
                 )
                 .collect(Collectors.toMap(
                         GithubPullRequestReview::getGithubUserId,

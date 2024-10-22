@@ -42,7 +42,7 @@ public class ReviewService {
     }
 
     private String getPrReviewLink(String prLink, String reviewerGithubId) {
-        GithubPullRequestReviewInfo reviewInfo = githubReviewProvider.getReviewWithPrLink(prLink);
+        GithubPullRequestReviewInfo reviewInfo = githubReviewProvider.provideReviewInfo(prLink);
 
         return reviewInfo.findWithGithubUserId(reviewerGithubId)
                 .map(GithubPullRequestReview::html_url)

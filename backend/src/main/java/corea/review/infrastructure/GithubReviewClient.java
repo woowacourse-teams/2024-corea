@@ -19,13 +19,14 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 public class GithubReviewClient {
 
     private final RestClient restClient;
+    private final GithubPullRequestUrlExchanger githubPullRequestUrlExchanger;
 
-    public List<GithubPullRequestReview> getReviewLink(String prLink) {
-        String reviewUrl = GithubPullRequestUrlExchanger.pullRequestUrlToReview(prLink);
+    public List<GithubPullRequestReview> getPullRequestReviews(String prLink) {
+        String reviewUrl = githubPullRequestUrlExchanger.pullRequestUrlToReview(prLink);
 
         return Stream.iterate(1, page -> page + 1)
                 .map(page -> getGithubPullRequestReviews(page, reviewUrl))
-                .takeWhile(this::isLastPage)
+                .takeWhile(this::isNotLastPage)
                 .flatMap(Arrays::stream)
                 .toList();
     }
@@ -44,7 +45,7 @@ public class GithubReviewClient {
         return reviewUrl + "?page=" + page + "&per_page=100";
     }
 
-    private boolean isLastPage(GithubPullRequestReview[] githubPullRequestReviews) {
-        return githubPullRequestReviews.length > 0;
+    private boolean isNotLastPage(GithubPullRequestReview[] reviews) {
+        return reviews.length > 0;
     }
 }
