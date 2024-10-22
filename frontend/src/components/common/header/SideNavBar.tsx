@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
 import useMutateAuth from "@/hooks/mutations/useMutateAuth";
@@ -39,14 +39,14 @@ interface SideNavBarProps {
 }
 
 const SideNavBar = ({ isOpen, onClose, isLoggedIn }: SideNavBarProps) => {
+  const [isClosing, setIsClosing] = useState(false);
   const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
   const { postLogoutMutation } = useMutateAuth();
 
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
+      setIsClosing(false);
     }
 
     return () => {
@@ -54,17 +54,25 @@ const SideNavBar = ({ isOpen, onClose, isLoggedIn }: SideNavBarProps) => {
     };
   }, [isOpen]);
 
+  const handleClose = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      onClose();
+      setIsClosing(false);
+    }, 500);
+  };
+
   const handleLogoutClick = () => {
     postLogoutMutation.mutate();
     onClose();
   };
 
   const sideNavContent = (
-    <S.SideNavBarContainer isOpen={isOpen}>
+    <S.SideNavBarContainer $isOpen={isOpen} $isClosing={isClosing}>
       {isLoggedIn ? (
         <>
           <S.TopSection>
-            <Button onClick={onClose} size="xSmall">
+            <Button onClick={handleClose} size="xSmall">
               <Icon kind="close" size="2.4rem" />
             </Button>
             <S.ProfileWrapper>
@@ -124,7 +132,7 @@ const SideNavBar = ({ isOpen, onClose, isLoggedIn }: SideNavBarProps) => {
 
   return createPortal(
     <>
-      <S.BackDrop $isOpen={isOpen} onClick={onClose} />
+      <S.BackDrop $isOpen={isOpen} onClick={handleClose} />
       {sideNavContent}
     </>,
     portalElement,

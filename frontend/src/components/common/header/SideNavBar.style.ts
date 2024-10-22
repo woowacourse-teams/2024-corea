@@ -1,4 +1,26 @@
-import styled from "styled-components";
+import styled, { css, keyframes } from "styled-components";
+
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0);
+  }
+`;
+
+const fadeOut = keyframes`
+  0% {
+    opacity: 1;
+    transform: translate(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(100%);
+  }
+`;
 
 export const BackDrop = styled.div<{ $isOpen: boolean }>`
   position: fixed;
@@ -14,18 +36,28 @@ export const BackDrop = styled.div<{ $isOpen: boolean }>`
   background-color: ${({ theme }) => theme.COLOR.black};
 `;
 
-export const SideNavBarContainer = styled.div<{ isOpen: boolean }>`
+export const SideNavBarContainer = styled.div<{ $isOpen: boolean; $isClosing: boolean }>`
   position: fixed;
   z-index: 1000;
   top: 0;
-  right: ${({ isOpen }) => (isOpen ? "0" : "-60%")};
+  right: ${({ $isOpen }) => ($isOpen ? "0" : "-60%")};
 
   width: 60%;
   height: 100vh;
 
   background-color: ${({ theme }) => theme.COLOR.white};
 
-  transition: right 0.3s ease-in-out;
+  ${({ $isOpen, $isClosing }) => css`
+    ${$isOpen &&
+    css`
+      animation: ${fadeIn} 0.5s ease backwards;
+    `}
+
+    ${$isClosing &&
+    css`
+      animation: ${fadeOut} 0.5s ease backwards;
+    `}
+  `}
 `;
 
 export const TopSection = styled.div`
