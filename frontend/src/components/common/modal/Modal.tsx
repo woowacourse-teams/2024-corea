@@ -62,7 +62,6 @@ const Modal = ({ isOpen, onClose, hasCloseButton = true, style, children }: Moda
             {hasCloseButton && <S.CloseButton onClick={handleModalClose}>&times;</S.CloseButton>}
           </div>
         </FocusTrap>
-        ,
       </S.ModalContent>
     </>,
     portalElement,
