@@ -1,16 +1,17 @@
-package corea.auth.infrastructure;
+package corea.review.infrastructure;
 
 import corea.review.dto.GithubPullRequestReview;
-import corea.review.infrastructure.GithubReviewClient;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-class GithubPullRequestReviewClientTest {
+class GithubReviewClientTest {
 
     @Autowired
     private GithubReviewClient client;
@@ -23,10 +24,10 @@ class GithubPullRequestReviewClientTest {
         String prLink3 = "https://github.com/woowacourse-teams/2024-corea/pull/114";
         String prLink4 = "https://github.com/woowacourse-teams/2024-corea/pull/8";
 
-        GithubPullRequestReview[] reviews1 = client.getReviewLink(prLink1);
-        GithubPullRequestReview[] reviews2 = client.getReviewLink(prLink2);
-        GithubPullRequestReview[] reviews3 = client.getReviewLink(prLink3);
-        GithubPullRequestReview[] reviews4 = client.getReviewLink(prLink4);
+        List<GithubPullRequestReview> reviews1 = client.getReviewLink(prLink1);
+        List<GithubPullRequestReview> reviews2 = client.getReviewLink(prLink2);
+        List<GithubPullRequestReview> reviews3 = client.getReviewLink(prLink3);
+        List<GithubPullRequestReview> reviews4 = client.getReviewLink(prLink4);
 
         assertThat(reviews1).hasSize(1);
         assertThat(reviews2).hasSize(8);
