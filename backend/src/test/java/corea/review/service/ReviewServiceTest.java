@@ -13,6 +13,7 @@ import corea.matchresult.repository.MatchResultRepository;
 import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
 import corea.review.dto.GithubPullRequestReview;
+import corea.review.infrastructure.GithubCommentClient;
 import corea.review.infrastructure.GithubReviewClient;
 import corea.room.domain.Room;
 import corea.room.repository.RoomRepository;
@@ -23,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -47,6 +49,9 @@ class ReviewServiceTest {
 
     @MockBean
     private GithubReviewClient githubReviewClient;
+
+    @MockBean
+    private GithubCommentClient githubCommentClient;
 
     @Test
     @Transactional
@@ -82,7 +87,8 @@ class ReviewServiceTest {
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_PROGRESS(memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON())));
         matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), reviewer, reviewee));
 
-        when(githubReviewClient.getPullRequestReviews(anyString())).thenReturn(List.of(new GithubPullRequestReview(null, null, null)));
+        when(githubReviewClient.getPullRequestReviews(anyString())).thenReturn(Collections.emptyList());
+        when(githubCommentClient.getPullRequestComments(anyString())).thenReturn(Collections.emptyList());
 
         assertThatThrownBy(() -> reviewService.completeReview(room.getId(), reviewer.getId(), reviewee.getId()))
                 .asInstanceOf(InstanceOfAssertFactories.type(CoreaException.class))
