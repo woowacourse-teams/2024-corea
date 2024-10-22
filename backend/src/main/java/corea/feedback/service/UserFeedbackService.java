@@ -6,7 +6,6 @@ import corea.feedback.dto.FeedbackOutput;
 import corea.feedback.dto.FeedbackResponse;
 import corea.feedback.dto.FeedbacksResponse;
 import corea.feedback.dto.UserFeedbackResponse;
-import corea.feedback.util.FeedbackMapper;
 import corea.room.domain.Room;
 import corea.room.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +28,7 @@ public class UserFeedbackService {
     private final RoomRepository roomRepository;
     private final DevelopFeedbackReader developFeedbackReader;
     private final SocialFeedbackReader socialFeedbackReader;
+    private final FeedbackMapper feedbackMapper;
 
     public UserFeedbackResponse getDeliveredFeedback(long feedbackDeliverId) {
         Map<Long, List<FeedbackOutput>> developFeedbackOutput = developFeedbackReader.collectDeliverDevelopFeedback(feedbackDeliverId);
@@ -45,8 +45,8 @@ public class UserFeedbackService {
     }
 
     private UserFeedbackResponse getUserFeedbackResponse(Map<Long, List<FeedbackOutput>> developFeedbackOutput, Map<Long, List<FeedbackOutput>> socialFeedbackOutput, Predicate<Room> predicate) {
-        Map<Long, List<FeedbackResponse>> developFeedbacks = FeedbackMapper.toFeedbackResponseMap(developFeedbackOutput);
-        Map<Long, List<FeedbackResponse>> socialFeedbacks = FeedbackMapper.toFeedbackResponseMap(socialFeedbackOutput);
+        Map<Long, List<FeedbackResponse>> developFeedbacks = feedbackMapper.toFeedbackResponseMap(developFeedbackOutput);
+        Map<Long, List<FeedbackResponse>> socialFeedbacks = feedbackMapper.toFeedbackResponseMap(socialFeedbackOutput);
 
         List<FeedbacksResponse> feedbacksResponses = getFeedbacksResponses(developFeedbacks, socialFeedbacks, predicate);
         return new UserFeedbackResponse(feedbacksResponses);

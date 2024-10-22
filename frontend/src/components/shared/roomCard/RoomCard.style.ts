@@ -3,6 +3,10 @@ import { EllipsisText } from "@/styles/common";
 import media from "@/styles/media";
 
 export const RoomCardContainer = styled.div`
+  cursor: pointer;
+
+  position: relative;
+
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -28,6 +32,17 @@ export const RoomCardContainer = styled.div`
     top: 3px;
     box-shadow: ${({ theme }) => theme.BOX_SHADOW.light};
   }
+`;
+
+export const ClassificationBadgeWrapper = styled.div`
+  position: absolute;
+
+  overflow: hidden;
+
+  width: 70px;
+  height: 30px;
+
+  border-radius: 0 0 8px;
 `;
 
 export const RoomInfoThumbnail = styled.img`

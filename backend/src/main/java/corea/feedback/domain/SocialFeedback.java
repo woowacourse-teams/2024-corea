@@ -47,6 +47,10 @@ public class SocialFeedback extends BaseTimeEntity {
         this(null, roomId, deliver, receiver, evaluatePoint, keywords, feedBackText);
     }
 
+    public boolean isNotMatchingDeliver(long deliverId) {
+        return deliver.isNotMatchingId(deliverId);
+    }
+
     public void update(int evaluationPoint, List<String> feedbackKeywords, String feedbackText) {
         this.evaluatePoint = evaluationPoint;
         this.keywords = FeedbackKeywordConverter.convertToKeywords(feedbackKeywords);
