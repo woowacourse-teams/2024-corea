@@ -40,6 +40,7 @@ public class Member extends BaseTimeEntity {
     @JoinColumn(name = "profile_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Profile profile;
 
+    @Enumerated(EnumType.STRING)
     private AuthRole authRole;
 
     public Member(String username, String thumbnailUrl, String name, String email, boolean isEmailAccepted, String githubUserId) {
