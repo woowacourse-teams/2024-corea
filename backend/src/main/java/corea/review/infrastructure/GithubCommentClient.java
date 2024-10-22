@@ -22,17 +22,17 @@ public class GithubCommentClient {
     private final GithubPullRequestUrlExchanger githubPullRequestUrlExchanger;
 
     public List<GithubPullRequestReview> getPullRequestComments(String prLink) {
-        String commentUrl = githubPullRequestUrlExchanger.pullRequestUrlToComment(prLink);
+        String commentApiUrl = githubPullRequestUrlExchanger.pullRequestUrlToComment(prLink);
 
-        return Stream.iterate(1, page -> page + 1) // 페이지를 1부터 시작해서 증가
-                .map(page -> getPullRequestCommentsForPage(page, commentUrl))
+        return Stream.iterate(1, page -> page + 1)
+                .map(page -> getPullRequestCommentsForPage(page, commentApiUrl))
                 .takeWhile(this::hasMoreComments)
                 .flatMap(Arrays::stream)
                 .toList();
     }
 
-    private GithubPullRequestReview[] getPullRequestCommentsForPage(Integer page, String commentUrl) {
-        String url = buildPageUrl(page, commentUrl);
+    private GithubPullRequestReview[] getPullRequestCommentsForPage(int page, String commentApiUrl) {
+        String url = buildPageUrl(page, commentApiUrl);
 
         return restClient.get()
                 .uri(url)
@@ -41,8 +41,8 @@ public class GithubCommentClient {
                 .body(GithubPullRequestReview[].class);
     }
 
-    private String buildPageUrl(Integer page, String commentUrl) {
-        return commentUrl + "?page=" + page + "&per_page=100";
+    private String buildPageUrl(int page, String commentApiUrl) {
+        return commentApiUrl + "?page=" + page + "&per_page=100";
     }
 
     private boolean hasMoreComments(GithubPullRequestReview[] comments) {

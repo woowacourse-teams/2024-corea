@@ -22,17 +22,17 @@ public class GithubReviewClient {
     private final GithubPullRequestUrlExchanger githubPullRequestUrlExchanger;
 
     public List<GithubPullRequestReview> getPullRequestReviews(String prLink) {
-        String reviewUrl = githubPullRequestUrlExchanger.pullRequestUrlToReview(prLink);
+        String reviewApiUrl = githubPullRequestUrlExchanger.pullRequestUrlToReview(prLink);
 
         return Stream.iterate(1, page -> page + 1)
-                .map(page -> getPullRequestReviewsForPage(page, reviewUrl))
+                .map(page -> getPullRequestReviewsForPage(page, reviewApiUrl))
                 .takeWhile(this::hasMoreReviews)
                 .flatMap(Arrays::stream)
                 .toList();
     }
 
-    private GithubPullRequestReview[] getPullRequestReviewsForPage(int page, String reviewUrl) {
-        String url = buildPageUrl(page, reviewUrl);
+    private GithubPullRequestReview[] getPullRequestReviewsForPage(int page, String reviewApiUrl) {
+        String url = buildPageUrl(page, reviewApiUrl);
 
         return restClient.get()
                 .uri(url)
@@ -41,8 +41,8 @@ public class GithubReviewClient {
                 .body(GithubPullRequestReview[].class);
     }
 
-    private String buildPageUrl(Integer page, String reviewUrl) {
-        return reviewUrl + "?page=" + page + "&per_page=100";
+    private String buildPageUrl(int page, String reviewApiUrl) {
+        return reviewApiUrl + "?page=" + page + "&per_page=100";
     }
 
     private boolean hasMoreReviews(GithubPullRequestReview[] reviews) {
