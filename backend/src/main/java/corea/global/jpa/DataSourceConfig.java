@@ -58,7 +58,6 @@ public class DataSourceConfig {
     }
 
     @Bean
-    @Primary
     public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
         return new JpaTransactionManager(entityManagerFactory);
     }

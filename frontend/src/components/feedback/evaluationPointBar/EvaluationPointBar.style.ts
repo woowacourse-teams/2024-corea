@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 export const BarContainer = styled.div`
   display: flex;
-  gap: 1.5rem;
-  align-items: center;
+  gap: 1.6rem;
+  align-items: flex-start;
   justify-content: center;
 
   width: 100%;

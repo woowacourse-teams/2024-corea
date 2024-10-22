@@ -1,5 +1,6 @@
 import { CSSProperties, MouseEvent, ReactNode, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
+import FocusTrap from "@/components/common/focusTrap/FocusTrap";
 import * as S from "@/components/common/modal/Modal.style";
 
 const portalElement = document.getElementById("modal") as HTMLElement;
@@ -51,8 +52,16 @@ const Modal = ({ isOpen, onClose, hasCloseButton = true, style, children }: Moda
         onClick={handleModalContainerClick}
         style={style}
       >
-        {hasCloseButton && <S.CloseButton onClick={handleModalClose}>&times;</S.CloseButton>}
-        {children}
+        <FocusTrap
+          onEscapeFocusTrap={() => {
+            handleModalClose();
+          }}
+        >
+          <div>
+            {children}
+            {hasCloseButton && <S.CloseButton onClick={handleModalClose}>&times;</S.CloseButton>}
+          </div>
+        </FocusTrap>
       </S.ModalContent>
     </>,
     portalElement,

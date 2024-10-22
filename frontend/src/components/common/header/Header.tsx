@@ -1,8 +1,13 @@
-import ProfileDropdown from "./ProfileDropdown";
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import Button from "@/components/common/button/Button";
 import * as S from "@/components/common/header/Header.style";
+import ProfileDropdown from "@/components/common/header/ProfileDropdown";
+import SideNavBar from "@/components/common/header/SideNavBar";
+import Icon from "@/components/common/icon/Icon";
 import { githubAuthUrl } from "@/config/githubAuthUrl";
+
+const MOBILE_BREAKPOINT = 639;
 
 const headerItems = [
   {
@@ -17,15 +22,30 @@ const headerItems = [
 
 const Header = () => {
   const { pathname } = useLocation();
-  const navigate = useNavigate();
   const [isSelect, setIsSelect] = useState("");
+  const [isSideNavOpen, setIsSideNavOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= MOBILE_BREAKPOINT);
   const isLoggedIn = !!localStorage.getItem("accessToken");
   const isMain = pathname === "/";
 
-  const handlePage = (path: string, name: string) => {
-    setIsSelect(name);
-    navigate(path);
-  };
+  useEffect(() => {
+    const handleResize = () => {
+      const mobile = window.innerWidth <= MOBILE_BREAKPOINT;
+      setIsMobile(mobile);
+
+      if (!mobile && isSideNavOpen) {
+        setIsSideNavOpen(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    handleResize();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [isSideNavOpen]);
 
   useEffect(() => {
     const currentItem = headerItems.find((item) => item.path === pathname);
@@ -34,36 +54,45 @@ const Header = () => {
     } else {
       setIsSelect("");
     }
-  }, [pathname, headerItems]);
+  }, [pathname]);
 
-  const handleLogin = () => {
-    window.open(githubAuthUrl, "_self");
+  const toggleSideNav = () => {
+    setIsSideNavOpen(!isSideNavOpen);
   };
 
   return (
     <S.HeaderContainer $isMain={isMain}>
-      <S.HeaderLogo onClick={() => handlePage("/", "")}>
-        <span>CoReA</span>
+      <S.HeaderLogo>
+        <Link to="/">
+          <span>CoReA</span>
+        </Link>
       </S.HeaderLogo>
       <S.HeaderNavBarContainer>
         {headerItems.map((item) => (
           <S.HeaderItem
             $isMain={isMain}
             key={item.name}
-            onClick={() => handlePage(item.path, item.name)}
             className={isSelect === item.name ? "selected" : ""}
           >
-            {item.name}
+            <Link to={item.path}>{item.name}</Link>
           </S.HeaderItem>
         ))}
         {isLoggedIn ? (
           <ProfileDropdown />
         ) : (
-          <S.HeaderItem $isMain={isMain} onClick={handleLogin}>
-            로그인
+          <S.HeaderItem $isMain={isMain}>
+            <a href={githubAuthUrl}>로그인</a>
           </S.HeaderItem>
         )}
       </S.HeaderNavBarContainer>
+      <S.SideNavBarContainer>
+        <Button onClick={toggleSideNav} size="xSmall" variant="default">
+          <Icon kind="menu" size="2.6rem" />
+        </Button>
+      </S.SideNavBarContainer>
+      {isMobile && (
+        <SideNavBar isOpen={isSideNavOpen} onClose={toggleSideNav} isLoggedIn={isLoggedIn} />
+      )}
     </S.HeaderContainer>
   );
 };

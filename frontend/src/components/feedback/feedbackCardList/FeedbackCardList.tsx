@@ -55,15 +55,21 @@ const FeedbackCardList = ({ selectedFeedbackType, feedbackData }: FeedbackCardLi
                 ({feedback.developFeedback.length + feedback.socialFeedback.length})
               </S.FeedbackCount>
               <S.FeedbackKeywordContainer>
-                {feedback.roomKeywords.map((keyword) => (
-                  <Label
-                    key={keyword}
-                    type="KEYWORD"
-                    text={keyword}
-                    size="semiSmall"
-                    backgroundColor={theme.COLOR.white}
-                  />
-                ))}
+                {feedback.roomKeywords.filter((keyword) => keyword.trim() !== "").length > 0 ? (
+                  feedback.roomKeywords.map(
+                    (keyword) =>
+                      keyword.trim() !== "" && (
+                        <Label
+                          key={keyword}
+                          type="KEYWORD"
+                          text={keyword}
+                          backgroundColor={theme.COLOR.white}
+                        />
+                      ),
+                  )
+                ) : (
+                  <S.NoKeywordText>지정된 키워드 없음</S.NoKeywordText>
+                )}
               </S.FeedbackKeywordContainer>
             </S.FeedbackMissionTitle>
             <S.FeedbackMissionPrompt $isSelected={selectedFeedback === feedback.roomId}>

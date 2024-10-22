@@ -15,12 +15,12 @@ export const ProfileContainer = styled.div`
   position: relative;
 `;
 
-export const DropdownMenu = styled.div<{ show: boolean }>`
+export const DropdownMenu = styled.div`
   position: absolute;
   z-index: 1;
   right: 0;
 
-  display: ${({ show }) => (show ? "flex" : "none")};
+  display: flex;
   flex-direction: column;
 
   min-width: 200px;

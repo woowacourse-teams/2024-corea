@@ -85,7 +85,7 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
         onConfirm={handleConfirm}
         onCancel={handleCloseModal}
       >
-        {MESSAGES.GUIDANCE.CREATE_ROOM}
+        {formType === "create" ? MESSAGES.GUIDANCE.CREATE_ROOM : MESSAGES.GUIDANCE.EDIT_ROOM}
       </ConfirmModal>
 
       <S.CreateSection>

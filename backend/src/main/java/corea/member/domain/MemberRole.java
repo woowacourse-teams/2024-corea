@@ -26,7 +26,7 @@ public enum MemberRole {
 
     public ParticipationStatus getParticipationStatus() {
         return switch (this) {
-            case REVIEWER,REVIEWEE,BOTH -> ParticipationStatus.PARTICIPATED;
+            case REVIEWER, REVIEWEE, BOTH -> ParticipationStatus.PARTICIPATED;
             case NONE -> ParticipationStatus.NOT_PARTICIPATED;
         };
     }
