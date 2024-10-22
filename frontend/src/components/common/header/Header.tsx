@@ -7,6 +7,8 @@ import SideNavBar from "@/components/common/header/SideNavBar";
 import Icon from "@/components/common/icon/Icon";
 import { githubAuthUrl } from "@/config/githubAuthUrl";
 
+const MOBILE_BREAKPOINT = 639;
+
 const headerItems = [
   {
     name: "코드리뷰가이드",
@@ -22,8 +24,28 @@ const Header = () => {
   const { pathname } = useLocation();
   const [isSelect, setIsSelect] = useState("");
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= MOBILE_BREAKPOINT);
   const isLoggedIn = !!localStorage.getItem("accessToken");
   const isMain = pathname === "/";
+
+  useEffect(() => {
+    const handleResize = () => {
+      const mobile = window.innerWidth <= MOBILE_BREAKPOINT;
+      setIsMobile(mobile);
+
+      if (!mobile && isSideNavOpen) {
+        setIsSideNavOpen(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    handleResize();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [isSideNavOpen]);
 
   useEffect(() => {
     const currentItem = headerItems.find((item) => item.path === pathname);
@@ -45,7 +67,6 @@ const Header = () => {
           <span>CoReA</span>
         </Link>
       </S.HeaderLogo>
-
       <S.HeaderNavBarContainer>
         {headerItems.map((item) => (
           <S.HeaderItem
@@ -64,13 +85,14 @@ const Header = () => {
           </S.HeaderItem>
         )}
       </S.HeaderNavBarContainer>
-
       <S.SideNavBarContainer>
         <Button onClick={toggleSideNav} size="xSmall" variant="default">
           <Icon kind="menu" size="2.6rem" />
         </Button>
       </S.SideNavBarContainer>
-      <SideNavBar isOpen={isSideNavOpen} onClose={toggleSideNav} isLoggedIn={isLoggedIn} />
+      {isMobile && (
+        <SideNavBar isOpen={isSideNavOpen} onClose={toggleSideNav} isLoggedIn={isLoggedIn} />
+      )}
     </S.HeaderContainer>
   );
 };
