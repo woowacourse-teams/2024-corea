@@ -235,7 +235,7 @@ export const TextSection = styled.div`
   gap: 1rem;
 
   width: 40%;
-  height: 500px;
+  height: 300px;
 
   p.step {
     width: 100%;
