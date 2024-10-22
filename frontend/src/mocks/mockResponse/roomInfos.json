@@ -15,7 +15,9 @@
       "reviewDeadline": "2024-10-12T23:59",
       "roomStatus": "FAIL",
       "participationStatus": "PARTICIPATED",
-      "memberRole": "BOTH"
+      "memberRole": "BOTH",
+      "classification": "ALL",
+      "message": "방 실패했습니다."
     },
     {
       "id": 2,
@@ -32,7 +34,9 @@
       "reviewDeadline": "2024-10-11T23:59",
       "roomStatus": "CLOSE",
       "participationStatus": "PARTICIPATED",
-      "memberRole": "BOTH"
+      "memberRole": "BOTH",
+      "classification": "ANDROID",
+      "message": "방 실패했습니다."
     },
     {
       "id": 2,
@@ -49,7 +53,9 @@
       "reviewDeadline": "2024-08-10T23:59",
       "roomStatus": "CLOSE",
       "participationStatus": "PARTICIPATED",
-      "memberRole": "REVIEWER"
+      "memberRole": "REVIEWER",
+      "classification": "FRONTEND",
+      "message": "방 실패했습니다."
     },
     {
       "id": 2,
@@ -66,7 +72,9 @@
       "reviewDeadline": "2024-10-13T23:59",
       "roomStatus": "OPEN",
       "participationStatus": "PARTICIPATED",
-      "memberRole": "BOTH"
+      "memberRole": "BOTH",
+      "classification": "BACKEND",
+      "message": "방 실패했습니다."
     },
     {
       "id": 2,
@@ -83,7 +91,9 @@
       "reviewDeadline": "2024-10-13T23:59",
       "roomStatus": "PROGRESS",
       "participationStatus": "PARTICIPATED",
-      "memberRole": "BOTH"
+      "memberRole": "BOTH",
+      "classification": "BACKEND",
+      "message": "방 실패했습니다."
     }
   ],
   "isLastPage": false,

@@ -31,7 +31,7 @@ export const Default: Story = {
       "코드를 이해하기 어려웠어요",
       "응답 속도가 느렸어요",
     ],
-    initialOptions: [],
+    selectedOptions: [],
     readonly: false,
   },
 };
@@ -43,7 +43,7 @@ export const WithSelectedOptions: Story = {
       "코드를 이해하기 어려웠어요",
       "응답 속도가 느렸어요",
     ],
-    initialOptions: ["방의 목적에 맞게 코드를 작성하지 않았어요"],
+    selectedOptions: ["방의 목적에 맞게 코드를 작성하지 않았어요"],
     readonly: false,
   },
 };

@@ -19,9 +19,7 @@ import corea.room.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -29,8 +27,8 @@ import java.util.List;
 
 import static corea.feedback.domain.FeedbackKeyword.*;
 
-@Profile({"dev", "local"})
-@Component
+//@Profile({"dev", "local"})
+//@Component
 @Transactional
 @RequiredArgsConstructor
 public class ContextInitializer implements ApplicationRunner {
@@ -47,235 +45,235 @@ public class ContextInitializer implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
 //        initialize();
-        Member pororo = memberRepository.save(
-                new Member("jcoding-play", "https://avatars.githubusercontent.com/u/119468757?v=4", "조경찬",
-                        "pororo@email.com", true, "119468757"));
-        Member ash = memberRepository.save(
-                new Member("ashsty", "https://avatars.githubusercontent.com/u/77227961?v=4", "박민아",
-                        "ash@email.com", false, "77227961"));
-        Member joysun = memberRepository.save(
-                new Member("youngsu5582", "https://avatars.githubusercontent.com/u/98307410?v=4", "이영수",
-                        "joysun@email.com", false, "98307410"));
-        Member movin = memberRepository.save(
-                new Member("hjk0761", "https://avatars.githubusercontent.com/u/80106238?s=96&v=4", "김현중",
-                        "movin@email.com", true, "80106238"));
-        Member ten = memberRepository.save(
-                new Member("chlwlstlf", "https://avatars.githubusercontent.com/u/63334368?v=4", "최진실",
-                        "tenten@email.com", true, "63334368"));
-        Member cho = memberRepository.save(
-                new Member("00kang", "https://avatars.githubusercontent.com/u/70834044?v=4", "강다빈",
-                        "choco@email.com", true, "70834044"));
-        Member dar = memberRepository.save(
-                new Member("pp449", "https://avatars.githubusercontent.com/u/71641127?v=4", "이상엽",
-                        "darr@email.com", true, "71641127"));
-
-        Room r1 = roomRepository.save(
-                new Room("주문", "배달 주문을 받아보자", 2,
-                        "https://github.com/develup-mission/java-order",
-                        "https://raw.githubusercontent.com/develup-mission/docs/main/image/java-order.webp",
-                        List.of("JAVA", "객체지향", "클린코드"), 4, 10,
-                        pororo,
-                        LocalDateTime.now().plusDays(2),
-                        LocalDateTime.now().plusDays(5),
-                        RoomClassification.BACKEND, RoomStatus.OPEN));
-        List<Participation> r1Participations = List.of(
-                new Participation(r1, pororo, MemberRole.BOTH, r1.getMatchingSize()),
-                new Participation(r1, joysun, MemberRole.BOTH, r1.getMatchingSize()),
-                new Participation(r1, movin, MemberRole.BOTH, r1.getMatchingSize()),
-                new Participation(r1, ash, MemberRole.BOTH, r1.getMatchingSize())
-        );
-        participationRepository.saveAll(r1Participations);
-
-        Room r2 = roomRepository.save(
-                new Room("숫자 맞추기 게임", "숫자를 맞춰보자", 2,
-                        "https://github.com/develup-mission/java-guessing-number",
-                        "https://raw.githubusercontent.com/develup-mission/docs/main/image/java-guessing-number.webp",
-                        List.of("JAVA", "TDD", "클린코드"), 3, 15,
-                        ash,
-                        LocalDateTime.now().plusDays(3),
-                        LocalDateTime.now().plusDays(6),
-                        RoomClassification.BACKEND, RoomStatus.OPEN));
-        List<Participation> r2Participations = List.of(
-                new Participation(r2, pororo, MemberRole.BOTH, r2.getMatchingSize()),
-                new Participation(r2, joysun, MemberRole.BOTH, r2.getMatchingSize()),
-                new Participation(r2, ash, MemberRole.BOTH, r2.getMatchingSize())
-        );
-        participationRepository.saveAll(r2Participations);
-
-        Room r3 = roomRepository.save(
-                new Room("미로 탈출", "미노타우로스를 피해 미로에서 탈출하세요!", 2,
-                        "https://github.com/develup-mission/java-maze",
-                        "https://raw.githubusercontent.com/develup-mission/docs/main/image/java-maze.webp",
-                        List.of("MVC", "자바", "디자인패턴"), 5, 10,
-                        joysun,
-                        LocalDateTime.now().plusDays(1),
-                        LocalDateTime.now().plusDays(3),
-                        RoomClassification.BACKEND, RoomStatus.OPEN));
-        List<Participation> r3Participations = List.of(
-                new Participation(r3, pororo, MemberRole.BOTH, r3.getMatchingSize()),
-                new Participation(r3, joysun, MemberRole.BOTH, r3.getMatchingSize()),
-                new Participation(r3, movin, MemberRole.BOTH, r3.getMatchingSize()),
-                new Participation(r3, ash, MemberRole.BOTH, r3.getMatchingSize()),
-                new Participation(r3, cho, MemberRole.BOTH, r3.getMatchingSize())
-        );
-        participationRepository.saveAll(r3Participations);
-
-        Room r4 = roomRepository.save(
-                new Room("엘리베이터 시뮬레이션", "엘리베이터를 만들어봐요.", 2,
-                        "https://github.com/develup-mission/java-elevator",
-                        "https://raw.githubusercontent.com/develup-mission/docs/main/image/java-elevator.webp",
-                        List.of("TDD", "클린코드", "자바"), 6, 20,
-                        movin,
-                        LocalDateTime.now().plusDays(4),
-                        LocalDateTime.now().plusDays(7),
-                        RoomClassification.BACKEND, RoomStatus.OPEN));
-        List<Participation> r4Participations = List.of(
-                new Participation(r4, pororo, MemberRole.BOTH, r4.getMatchingSize()),
-                new Participation(r4, joysun, MemberRole.BOTH, r4.getMatchingSize()),
-                new Participation(r4, movin, MemberRole.BOTH, r4.getMatchingSize()),
-                new Participation(r4, ash, MemberRole.BOTH, r4.getMatchingSize()),
-                new Participation(r4, cho, MemberRole.BOTH, r4.getMatchingSize()),
-                new Participation(r4, ten, MemberRole.BOTH, r4.getMatchingSize())
-        );
-        participationRepository.saveAll(r4Participations);
-
-        Room r5 = roomRepository.save(
-                new Room("단어 퍼즐 게임", "단어의 퍼즐들을 맞춰주세요!", 2,
-                        "https://github.com/develup-mission/java-word-puzzle",
-                        "https://raw.githubusercontent.com/develup-mission/docs/main/image/java-word-puzzle.webp",
-                        List.of("JAVA", "객체지향", "클린코드"), 6, 25,
-                        cho,
-                        LocalDateTime.now().minusDays(2),
-                        LocalDateTime.now().plusDays(2),
-                        RoomClassification.BACKEND, RoomStatus.PROGRESS));
-        List<Participation> r5Participations = List.of(
-                new Participation(r5, pororo, MemberRole.BOTH, r5.getMatchingSize()),
-                new Participation(r5, joysun, MemberRole.BOTH, r5.getMatchingSize()),
-                new Participation(r5, movin, MemberRole.BOTH, r5.getMatchingSize()),
-                new Participation(r5, ash, MemberRole.BOTH, r5.getMatchingSize()),
-                new Participation(r5, cho, MemberRole.BOTH, r5.getMatchingSize()),
-                new Participation(r5, ten, MemberRole.BOTH, r5.getMatchingSize())
-        );
-        participationRepository.saveAll(r5Participations);
-        matchingStrategy.matchPairs(r5Participations, 2)
-                .stream()
-                .map(pair -> MatchResult.of(r5.getId(), pair, ""))
-                .forEach(matchResultRepository::save);
-
-        Room r6 = roomRepository.save(
-                new Room("리액트 회원가입/로그인 폼", "리액트 회원가입/로그인 폼을 만들어봐요.", 2,
-                        "https://github.com/develup-mission/react-auth-form",
-                        "https://raw.githubusercontent.com/develup-mission/docs/main/image/react-auth-form.webp",
-                        List.of("TYPESCRIPT", "REACT"), 7, 15,
-                        ten,
-                        LocalDateTime.now().minusDays(1),
-                        LocalDateTime.now().plusDays(3),
-                        RoomClassification.FRONTEND, RoomStatus.PROGRESS));
-        List<Participation> r6Participations = List.of(
-                new Participation(r6, pororo, MemberRole.BOTH, r6.getMatchingSize()),
-                new Participation(r6, joysun, MemberRole.BOTH, r6.getMatchingSize()),
-                new Participation(r6, movin, MemberRole.BOTH, r6.getMatchingSize()),
-                new Participation(r6, ash, MemberRole.BOTH, r6.getMatchingSize()),
-                new Participation(r6, cho, MemberRole.BOTH, r6.getMatchingSize()),
-                new Participation(r6, ten, MemberRole.BOTH, r6.getMatchingSize()),
-                new Participation(r6, dar, MemberRole.BOTH, r6.getMatchingSize())
-        );
-        participationRepository.saveAll(r6Participations);
-        matchingStrategy.matchPairs(r6Participations, 2)
-                .stream()
-                .map(pair -> MatchResult.of(r6.getId(), pair, ""))
-                .forEach(matchResultRepository::save);
-
-        Room r7 = roomRepository.save(
-                new Room("코틀린 레이싱 카", "자동차 게임을 만들어봐요.", 2,
-                        "https://github.com/woowacourse/kotlin-racingcar",
-                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtiY6mms9QRp80a1IGY1oqnTMmVYe7VmUasA&s",
-                        List.of("코틀린"), 7, 30,
-                        dar,
-                        LocalDateTime.now().minusDays(7),
-                        LocalDateTime.now().minusDays(1),
-                        RoomClassification.ANDROID, RoomStatus.CLOSE));
-        List<Participation> r7Participations = List.of(
-                new Participation(r7, pororo, MemberRole.BOTH, r7.getMatchingSize()),
-                new Participation(r7, joysun, MemberRole.BOTH, r7.getMatchingSize()),
-                new Participation(r7, movin, MemberRole.BOTH, r7.getMatchingSize()),
-                new Participation(r7, ash, MemberRole.BOTH, r7.getMatchingSize()),
-                new Participation(r7, cho, MemberRole.BOTH, r7.getMatchingSize()),
-                new Participation(r7, ten, MemberRole.BOTH, r7.getMatchingSize()),
-                new Participation(r7, dar, MemberRole.BOTH, r7.getMatchingSize())
-        );
-        participationRepository.saveAll(r7Participations);
-        List<MatchResult> r7MatchResults = matchingStrategy.matchPairs(r7Participations, 2)
-                .stream()
-                .map(pair -> MatchResult.of(r7.getId(), pair, ""))
-                .toList();
-
-        r7MatchResults.forEach(this::reviewSocialAndDevelopFeedback);
-
-        Room r8 = roomRepository.save(
-                new Room("자바 크리스마스", "크리스마스 프로모션", 2,
-                        "https://github.com/woowacourse-precourse/java-christmas-6",
-                        "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Christmas_Tree_and_Presents.jpg/1200px-Christmas_Tree_and_Presents.jpg",
-                        List.of("클린코드", "자바", "TDD"), 6, 10,
-                        pororo,
-                        LocalDateTime.now().minusHours(1),
-                        LocalDateTime.now().plusDays(14),
-                        RoomClassification.BACKEND, RoomStatus.OPEN));
-        List<Participation> r8Participations = List.of(
-                new Participation(r8, pororo, MemberRole.BOTH, r8.getMatchingSize()),
-                new Participation(r8, joysun, MemberRole.BOTH, r8.getMatchingSize()),
-                new Participation(r8, movin, MemberRole.BOTH, r8.getMatchingSize()),
-                new Participation(r8, ash, MemberRole.BOTH, r8.getMatchingSize()),
-                new Participation(r8, cho, MemberRole.BOTH, r8.getMatchingSize()),
-                new Participation(r8, ten, MemberRole.BOTH, r8.getMatchingSize())
-        );
-        participationRepository.saveAll(r8Participations);
-        List<MatchResult> r8MatchResults = matchingStrategy.matchPairs(r8Participations, 2)
-                .stream()
-                .map(pair -> MatchResult.of(r8.getId(), pair, ""))
-                .toList();
-
-        r8MatchResults.forEach(this::reviewSocialAndDevelopFeedback);
-
-        roomRepository.save(
-                new Room("주문", "배달 주문을 받아보자", 2,
-                        "https://github.com/develup-mission/java-order",
-                        "https://raw.githubusercontent.com/develup-mission/docs/main/image/java-order.webp",
-                        List.of("JAVA", "객체지향", "클린코드"), 4, 10,
-                        pororo,
-                        LocalDateTime.now().plusDays(2),
-                        LocalDateTime.now().plusDays(5),
-                        RoomClassification.BACKEND, RoomStatus.OPEN));
-
-        roomRepository.save(
-                new Room("주문", "배달 주문을 받아보자", 2,
-                        "https://github.com/develup-mission/java-order",
-                        "https://raw.githubusercontent.com/develup-mission/docs/main/image/java-order.webp",
-                        List.of("JAVA", "객체지향", "클린코드"), 4, 10,
-                        pororo,
-                        LocalDateTime.now().plusDays(2),
-                        LocalDateTime.now().plusDays(5),
-                        RoomClassification.BACKEND, RoomStatus.OPEN));
-
-        roomRepository.save(
-                new Room("주문", "배달 주문을 받아보자", 2,
-                        "https://github.com/develup-mission/java-order",
-                        "https://raw.githubusercontent.com/develup-mission/docs/main/image/java-order.webp",
-                        List.of("JAVA", "객체지향", "클린코드"), 4, 10,
-                        pororo,
-                        LocalDateTime.now().plusDays(2),
-                        LocalDateTime.now().plusDays(5),
-                        RoomClassification.BACKEND, RoomStatus.OPEN));
-
-        roomRepository.save(
-                new Room("주문", "배달 주문을 받아보자", 2,
-                        "https://github.com/develup-mission/java-order",
-                        "https://raw.githubusercontent.com/develup-mission/docs/main/image/java-order.webp",
-                        List.of("JAVA", "객체지향", "클린코드"), 4, 10,
-                        pororo,
-                        LocalDateTime.now().plusDays(2),
-                        LocalDateTime.now().plusDays(5),
-                        RoomClassification.BACKEND, RoomStatus.OPEN));
+//        Member pororo = memberRepository.save(
+//                new Member("jcoding-play", "https://avatars.githubusercontent.com/u/119468757?v=4", "조경찬",
+//                        "pororo@email.com", true, "119468757"));
+//        Member ash = memberRepository.save(
+//                new Member("ashsty", "https://avatars.githubusercontent.com/u/77227961?v=4", "박민아",
+//                        "ash@email.com", false, "77227961"));
+//        Member joysun = memberRepository.save(
+//                new Member("youngsu5582", "https://avatars.githubusercontent.com/u/98307410?v=4", "이영수",
+//                        "joysun@email.com", false, "98307410"));
+//        Member movin = memberRepository.save(
+//                new Member("hjk0761", "https://avatars.githubusercontent.com/u/80106238?s=96&v=4", "김현중",
+//                        "movin@email.com", true, "80106238"));
+//        Member ten = memberRepository.save(
+//                new Member("chlwlstlf", "https://avatars.githubusercontent.com/u/63334368?v=4", "최진실",
+//                        "tenten@email.com", true, "63334368"));
+//        Member cho = memberRepository.save(
+//                new Member("00kang", "https://avatars.githubusercontent.com/u/70834044?v=4", "강다빈",
+//                        "choco@email.com", true, "70834044"));
+//        Member dar = memberRepository.save(
+//                new Member("pp449", "https://avatars.githubusercontent.com/u/71641127?v=4", "이상엽",
+//                        "darr@email.com", true, "71641127"));
+//
+//        Room r1 = roomRepository.save(
+//                new Room("주문", "배달 주문을 받아보자", 2,
+//                        "https://github.com/develup-mission/java-order",
+//                        "https://raw.githubusercontent.com/develup-mission/docs/main/image/java-order.webp",
+//                        List.of("JAVA", "객체지향", "클린코드"), 4, 10,
+//                        pororo,
+//                        LocalDateTime.now().plusDays(2),
+//                        LocalDateTime.now().plusDays(5),
+//                        RoomClassification.BACKEND, RoomStatus.OPEN));
+//        List<Participation> r1Participations = List.of(
+//                new Participation(r1, pororo, MemberRole.BOTH, r1.getMatchingSize()),
+//                new Participation(r1, joysun, MemberRole.BOTH, r1.getMatchingSize()),
+//                new Participation(r1, movin, MemberRole.BOTH, r1.getMatchingSize()),
+//                new Participation(r1, ash, MemberRole.BOTH, r1.getMatchingSize())
+//        );
+//        participationRepository.saveAll(r1Participations);
+//
+//        Room r2 = roomRepository.save(
+//                new Room("숫자 맞추기 게임", "숫자를 맞춰보자", 2,
+//                        "https://github.com/develup-mission/java-guessing-number",
+//                        "https://raw.githubusercontent.com/develup-mission/docs/main/image/java-guessing-number.webp",
+//                        List.of("JAVA", "TDD", "클린코드"), 3, 15,
+//                        ash,
+//                        LocalDateTime.now().plusDays(3),
+//                        LocalDateTime.now().plusDays(6),
+//                        RoomClassification.BACKEND, RoomStatus.OPEN));
+//        List<Participation> r2Participations = List.of(
+//                new Participation(r2, pororo, MemberRole.BOTH, r2.getMatchingSize()),
+//                new Participation(r2, joysun, MemberRole.BOTH, r2.getMatchingSize()),
+//                new Participation(r2, ash, MemberRole.BOTH, r2.getMatchingSize())
+//        );
+//        participationRepository.saveAll(r2Participations);
+//
+//        Room r3 = roomRepository.save(
+//                new Room("미로 탈출", "미노타우로스를 피해 미로에서 탈출하세요!", 2,
+//                        "https://github.com/develup-mission/java-maze",
+//                        "https://raw.githubusercontent.com/develup-mission/docs/main/image/java-maze.webp",
+//                        List.of("MVC", "자바", "디자인패턴"), 5, 10,
+//                        joysun,
+//                        LocalDateTime.now().plusDays(1),
+//                        LocalDateTime.now().plusDays(3),
+//                        RoomClassification.BACKEND, RoomStatus.OPEN));
+//        List<Participation> r3Participations = List.of(
+//                new Participation(r3, pororo, MemberRole.BOTH, r3.getMatchingSize()),
+//                new Participation(r3, joysun, MemberRole.BOTH, r3.getMatchingSize()),
+//                new Participation(r3, movin, MemberRole.BOTH, r3.getMatchingSize()),
+//                new Participation(r3, ash, MemberRole.BOTH, r3.getMatchingSize()),
+//                new Participation(r3, cho, MemberRole.BOTH, r3.getMatchingSize())
+//        );
+//        participationRepository.saveAll(r3Participations);
+//
+//        Room r4 = roomRepository.save(
+//                new Room("엘리베이터 시뮬레이션", "엘리베이터를 만들어봐요.", 2,
+//                        "https://github.com/develup-mission/java-elevator",
+//                        "https://raw.githubusercontent.com/develup-mission/docs/main/image/java-elevator.webp",
+//                        List.of("TDD", "클린코드", "자바"), 6, 20,
+//                        movin,
+//                        LocalDateTime.now().plusDays(4),
+//                        LocalDateTime.now().plusDays(7),
+//                        RoomClassification.BACKEND, RoomStatus.OPEN));
+//        List<Participation> r4Participations = List.of(
+//                new Participation(r4, pororo, MemberRole.BOTH, r4.getMatchingSize()),
+//                new Participation(r4, joysun, MemberRole.BOTH, r4.getMatchingSize()),
+//                new Participation(r4, movin, MemberRole.BOTH, r4.getMatchingSize()),
+//                new Participation(r4, ash, MemberRole.BOTH, r4.getMatchingSize()),
+//                new Participation(r4, cho, MemberRole.BOTH, r4.getMatchingSize()),
+//                new Participation(r4, ten, MemberRole.BOTH, r4.getMatchingSize())
+//        );
+//        participationRepository.saveAll(r4Participations);
+//
+//        Room r5 = roomRepository.save(
+//                new Room("단어 퍼즐 게임", "단어의 퍼즐들을 맞춰주세요!", 2,
+//                        "https://github.com/develup-mission/java-word-puzzle",
+//                        "https://raw.githubusercontent.com/develup-mission/docs/main/image/java-word-puzzle.webp",
+//                        List.of("JAVA", "객체지향", "클린코드"), 6, 25,
+//                        cho,
+//                        LocalDateTime.now().minusDays(2),
+//                        LocalDateTime.now().plusDays(2),
+//                        RoomClassification.BACKEND, RoomStatus.PROGRESS));
+//        List<Participation> r5Participations = List.of(
+//                new Participation(r5, pororo, MemberRole.BOTH, r5.getMatchingSize()),
+//                new Participation(r5, joysun, MemberRole.BOTH, r5.getMatchingSize()),
+//                new Participation(r5, movin, MemberRole.BOTH, r5.getMatchingSize()),
+//                new Participation(r5, ash, MemberRole.BOTH, r5.getMatchingSize()),
+//                new Participation(r5, cho, MemberRole.BOTH, r5.getMatchingSize()),
+//                new Participation(r5, ten, MemberRole.BOTH, r5.getMatchingSize())
+//        );
+//        participationRepository.saveAll(r5Participations);
+//        matchingStrategy.matchPairs(r5Participations, 2)
+//                .stream()
+//                .map(pair -> MatchResult.of(r5.getId(), pair, ""))
+//                .forEach(matchResultRepository::save);
+//
+//        Room r6 = roomRepository.save(
+//                new Room("리액트 회원가입/로그인 폼", "리액트 회원가입/로그인 폼을 만들어봐요.", 2,
+//                        "https://github.com/develup-mission/react-auth-form",
+//                        "https://raw.githubusercontent.com/develup-mission/docs/main/image/react-auth-form.webp",
+//                        List.of("TYPESCRIPT", "REACT"), 7, 15,
+//                        ten,
+//                        LocalDateTime.now().minusDays(1),
+//                        LocalDateTime.now().plusDays(3),
+//                        RoomClassification.FRONTEND, RoomStatus.PROGRESS));
+//        List<Participation> r6Participations = List.of(
+//                new Participation(r6, pororo, MemberRole.BOTH, r6.getMatchingSize()),
+//                new Participation(r6, joysun, MemberRole.BOTH, r6.getMatchingSize()),
+//                new Participation(r6, movin, MemberRole.BOTH, r6.getMatchingSize()),
+//                new Participation(r6, ash, MemberRole.BOTH, r6.getMatchingSize()),
+//                new Participation(r6, cho, MemberRole.BOTH, r6.getMatchingSize()),
+//                new Participation(r6, ten, MemberRole.BOTH, r6.getMatchingSize()),
+//                new Participation(r6, dar, MemberRole.BOTH, r6.getMatchingSize())
+//        );
+//        participationRepository.saveAll(r6Participations);
+//        matchingStrategy.matchPairs(r6Participations, 2)
+//                .stream()
+//                .map(pair -> MatchResult.of(r6.getId(), pair, ""))
+//                .forEach(matchResultRepository::save);
+//
+//        Room r7 = roomRepository.save(
+//                new Room("코틀린 레이싱 카", "자동차 게임을 만들어봐요.", 2,
+//                        "https://github.com/woowacourse/kotlin-racingcar",
+//                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtiY6mms9QRp80a1IGY1oqnTMmVYe7VmUasA&s",
+//                        List.of("코틀린"), 7, 30,
+//                        dar,
+//                        LocalDateTime.now().minusDays(7),
+//                        LocalDateTime.now().minusDays(1),
+//                        RoomClassification.ANDROID, RoomStatus.CLOSE));
+//        List<Participation> r7Participations = List.of(
+//                new Participation(r7, pororo, MemberRole.BOTH, r7.getMatchingSize()),
+//                new Participation(r7, joysun, MemberRole.BOTH, r7.getMatchingSize()),
+//                new Participation(r7, movin, MemberRole.BOTH, r7.getMatchingSize()),
+//                new Participation(r7, ash, MemberRole.BOTH, r7.getMatchingSize()),
+//                new Participation(r7, cho, MemberRole.BOTH, r7.getMatchingSize()),
+//                new Participation(r7, ten, MemberRole.BOTH, r7.getMatchingSize()),
+//                new Participation(r7, dar, MemberRole.BOTH, r7.getMatchingSize())
+//        );
+//        participationRepository.saveAll(r7Participations);
+//        List<MatchResult> r7MatchResults = matchingStrategy.matchPairs(r7Participations, 2)
+//                .stream()
+//                .map(pair -> MatchResult.of(r7.getId(), pair, ""))
+//                .toList();
+//
+//        r7MatchResults.forEach(this::reviewSocialAndDevelopFeedback);
+//
+//        Room r8 = roomRepository.save(
+//                new Room("자바 크리스마스", "크리스마스 프로모션", 2,
+//                        "https://github.com/woowacourse-precourse/java-christmas-6",
+//                        "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Christmas_Tree_and_Presents.jpg/1200px-Christmas_Tree_and_Presents.jpg",
+//                        List.of("클린코드", "자바", "TDD"), 6, 10,
+//                        pororo,
+//                        LocalDateTime.now().minusHours(1),
+//                        LocalDateTime.now().plusDays(14),
+//                        RoomClassification.BACKEND, RoomStatus.OPEN));
+//        List<Participation> r8Participations = List.of(
+//                new Participation(r8, pororo, MemberRole.BOTH, r8.getMatchingSize()),
+//                new Participation(r8, joysun, MemberRole.BOTH, r8.getMatchingSize()),
+//                new Participation(r8, movin, MemberRole.BOTH, r8.getMatchingSize()),
+//                new Participation(r8, ash, MemberRole.BOTH, r8.getMatchingSize()),
+//                new Participation(r8, cho, MemberRole.BOTH, r8.getMatchingSize()),
+//                new Participation(r8, ten, MemberRole.BOTH, r8.getMatchingSize())
+//        );
+//        participationRepository.saveAll(r8Participations);
+//        List<MatchResult> r8MatchResults = matchingStrategy.matchPairs(r8Participations, 2)
+//                .stream()
+//                .map(pair -> MatchResult.of(r8.getId(), pair, ""))
+//                .toList();
+//
+//        r8MatchResults.forEach(this::reviewSocialAndDevelopFeedback);
+//
+//        roomRepository.save(
+//                new Room("주문", "배달 주문을 받아보자", 2,
+//                        "https://github.com/develup-mission/java-order",
+//                        "https://raw.githubusercontent.com/develup-mission/docs/main/image/java-order.webp",
+//                        List.of("JAVA", "객체지향", "클린코드"), 4, 10,
+//                        pororo,
+//                        LocalDateTime.now().plusDays(2),
+//                        LocalDateTime.now().plusDays(5),
+//                        RoomClassification.BACKEND, RoomStatus.OPEN));
+//
+//        roomRepository.save(
+//                new Room("주문", "배달 주문을 받아보자", 2,
+//                        "https://github.com/develup-mission/java-order",
+//                        "https://raw.githubusercontent.com/develup-mission/docs/main/image/java-order.webp",
+//                        List.of("JAVA", "객체지향", "클린코드"), 4, 10,
+//                        pororo,
+//                        LocalDateTime.now().plusDays(2),
+//                        LocalDateTime.now().plusDays(5),
+//                        RoomClassification.BACKEND, RoomStatus.OPEN));
+//
+//        roomRepository.save(
+//                new Room("주문", "배달 주문을 받아보자", 2,
+//                        "https://github.com/develup-mission/java-order",
+//                        "https://raw.githubusercontent.com/develup-mission/docs/main/image/java-order.webp",
+//                        List.of("JAVA", "객체지향", "클린코드"), 4, 10,
+//                        pororo,
+//                        LocalDateTime.now().plusDays(2),
+//                        LocalDateTime.now().plusDays(5),
+//                        RoomClassification.BACKEND, RoomStatus.OPEN));
+//
+//        roomRepository.save(
+//                new Room("주문", "배달 주문을 받아보자", 2,
+//                        "https://github.com/develup-mission/java-order",
+//                        "https://raw.githubusercontent.com/develup-mission/docs/main/image/java-order.webp",
+//                        List.of("JAVA", "객체지향", "클린코드"), 4, 10,
+//                        pororo,
+//                        LocalDateTime.now().plusDays(2),
+//                        LocalDateTime.now().plusDays(5),
+//                        RoomClassification.BACKEND, RoomStatus.OPEN));
 
 //        // 이미 모집 완료되어 매칭까지 진행된 방
 //        Room room1 = roomRepository.save(

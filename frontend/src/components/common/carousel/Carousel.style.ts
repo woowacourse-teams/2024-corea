@@ -22,11 +22,8 @@ export const CarouselItem = styled.div`
 export const CarouselLeftButton = styled.button<{ isLast: boolean }>`
   position: absolute;
   top: 50%;
-
   color: ${({ theme, isLast }) => (isLast ? theme.COLOR.grey1 : theme.COLOR.black)};
-
   background: transparent;
-  outline: none;
 `;
 
 export const CarouselRightButton = styled.button<{ isLast: boolean }>`
@@ -37,5 +34,4 @@ export const CarouselRightButton = styled.button<{ isLast: boolean }>`
   color: ${({ theme, isLast }) => (isLast ? theme.COLOR.grey1 : theme.COLOR.black)};
 
   background: transparent;
-  outline: none;
 `;

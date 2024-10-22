@@ -9,23 +9,10 @@ import { Input } from "@/components/common/input/Input";
 import ConfirmModal from "@/components/common/modal/confirmModal/ConfirmModal";
 import { Textarea } from "@/components/common/textarea/Textarea";
 import DateTimePicker from "@/components/dateTimePicker/DateTimePicker";
-import * as S from "@/pages/roomCreate/RoomCreatePage.style";
-import { Classification, CreateRoomInfo } from "@/@types/roomInfo";
+import * as S from "@/components/roomForm/RoomFormLayout.style";
+import { Classification, CreateRoomInfo, RoomInfo } from "@/@types/roomInfo";
 import MESSAGES from "@/constants/message";
 import { formatCombinedDateTime } from "@/utils/dateFormatter";
-
-const initialFormState = {
-  title: "",
-  content: "",
-  repositoryLink: "",
-  thumbnailLink: "",
-  matchingSize: 1,
-  keywords: [],
-  limitedParticipants: 1,
-  recruitmentDeadline: new Date(),
-  reviewDeadline: new Date(),
-  classification: "ALL" as Classification,
-};
 
 const dropdownItems: DropdownItem[] = [
   { text: "안드로이드", value: "ANDROID" },
@@ -33,12 +20,34 @@ const dropdownItems: DropdownItem[] = [
   { text: "프론트엔드", value: "FRONTEND" },
 ];
 
-const RoomCreatePage = () => {
+interface RoomFormLayoutProps {
+  formType: "create" | "edit";
+  roomId?: number;
+  data?: RoomInfo;
+}
+
+const getInitialFormState = (data?: RoomInfo): CreateRoomInfo => ({
+  title: data?.title || "",
+  content: data?.content || "",
+  repositoryLink: data?.repositoryLink || "",
+  thumbnailLink: data?.thumbnailLink || "",
+  matchingSize: data?.matchingSize || 1,
+  keywords: data?.keywords || [],
+  limitedParticipants: data?.limitedParticipants || 1,
+  recruitmentDeadline: data ? new Date(data.recruitmentDeadline) : new Date(),
+  reviewDeadline: data ? new Date(data.reviewDeadline) : new Date(),
+  classification: data?.classification || "ALL",
+});
+
+const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
   const navigate = useNavigate();
   const [isClickedButton, setIsClickedButton] = useState(false);
-  const [formState, setFormState] = useState<CreateRoomInfo>(initialFormState);
-  const { postCreateRoomMutation } = useMutateRoom();
+  const [formState, setFormState] = useState<CreateRoomInfo>(() => getInitialFormState(data));
+  const { postCreateRoomMutation, putEditRoomMutation } = useMutateRoom();
   const { isModalOpen, handleOpenModal, handleCloseModal } = useModal();
+
+  const isFormValid =
+    formState.title !== "" && formState.classification !== "ALL" && formState.repositoryLink !== "";
 
   const handleInputChange = <K extends keyof CreateRoomInfo>(name: K, value: CreateRoomInfo[K]) => {
     setFormState((prevState) => ({
@@ -47,34 +56,36 @@ const RoomCreatePage = () => {
     }));
   };
 
-  const isFormValid =
-    formState.title !== "" &&
-    formState.classification !== "ALL" &&
-    formState.repositoryLink !== "" &&
-    formState.recruitmentDeadline !== null &&
-    formState.reviewDeadline !== null;
-
   const handleConfirm = () => {
     const formattedFormState = {
       ...formState,
       recruitmentDeadline: formatCombinedDateTime(formState.recruitmentDeadline),
       reviewDeadline: formatCombinedDateTime(formState.reviewDeadline),
     };
-    postCreateRoomMutation.mutate(formattedFormState, {
-      onSuccess: () => navigate("/"),
-    });
+
+    if (formType === "edit" && roomId) {
+      const updatedFormState = { ...formattedFormState, roomId };
+      putEditRoomMutation.mutate(updatedFormState, {
+        onSuccess: () => navigate(`/rooms/${roomId}`),
+      });
+    } else {
+      postCreateRoomMutation.mutate(formattedFormState, {
+        onSuccess: () => navigate("/"),
+      });
+    }
+
     handleCloseModal();
   };
 
   return (
-    <ContentSection title="방 생성하기">
+    <ContentSection title={formType === "create" ? "방 생성하기" : "방 정보 수정하기"}>
       <ConfirmModal
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         onConfirm={handleConfirm}
         onCancel={handleCloseModal}
       >
-        {MESSAGES.GUIDANCE.CREATE_ROOM}
+        {formType === "create" ? MESSAGES.GUIDANCE.CREATE_ROOM : MESSAGES.GUIDANCE.EDIT_ROOM}
       </ConfirmModal>
 
       <S.CreateSection>
@@ -238,4 +249,4 @@ const RoomCreatePage = () => {
   );
 };
 
-export default RoomCreatePage;
+export default RoomFormLayout;

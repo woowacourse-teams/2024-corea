@@ -1,10 +1,11 @@
 package corea.feedback.service;
 
+import corea.feedback.domain.DevelopFeedbackReader;
+import corea.feedback.domain.SocialFeedbackReader;
+import corea.feedback.dto.FeedbackOutput;
 import corea.feedback.dto.FeedbackResponse;
 import corea.feedback.dto.FeedbacksResponse;
 import corea.feedback.dto.UserFeedbackResponse;
-import corea.feedback.repository.DevelopFeedbackRepository;
-import corea.feedback.repository.SocialFeedbackRepository;
 import corea.room.domain.Room;
 import corea.room.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.function.Predicate;
 
 import static corea.global.util.MapHandler.extractDistinctKeyStreams;
 import static corea.global.util.NullHandler.emptyListIfNull;
@@ -23,56 +24,41 @@ import static corea.global.util.NullHandler.emptyListIfNull;
 @Transactional(readOnly = true)
 public class UserFeedbackService {
 
+    // TODO: RoomReader로 분리 -> 현재 조이썬 작업중이라 충돌 방지로 안함
     private final RoomRepository roomRepository;
-    private final DevelopFeedbackRepository developFeedbackRepository;
-    private final SocialFeedbackRepository socialFeedbackRepository;
+    private final DevelopFeedbackReader developFeedbackReader;
+    private final SocialFeedbackReader socialFeedbackReader;
+    private final FeedbackMapper feedbackMapper;
 
     public UserFeedbackResponse getDeliveredFeedback(long feedbackDeliverId) {
-        Map<Long, List<FeedbackResponse>> deliveredDevelopFeedback = getDeliveredDevelopFeedback(feedbackDeliverId);
-        Map<Long, List<FeedbackResponse>> deliverSocialFeedback = getDeliveredSocialFeedback(feedbackDeliverId);
-        return getUserFeedbackResponse(deliveredDevelopFeedback, deliverSocialFeedback);
-    }
+        Map<Long, List<FeedbackOutput>> developFeedbackOutput = developFeedbackReader.collectDeliverDevelopFeedback(feedbackDeliverId);
+        Map<Long, List<FeedbackOutput>> socialFeedbackOutput = socialFeedbackReader.collectDeliverSocialFeedback(feedbackDeliverId);
 
-    private Map<Long, List<FeedbackResponse>> getDeliveredDevelopFeedback(long feedbackDeliverId) {
-        return developFeedbackRepository.findByDeliverId(feedbackDeliverId)
-                .stream()
-                .map(FeedbackResponse::fromDeliver)
-                .collect(Collectors.groupingBy(FeedbackResponse::roomId));
-    }
-
-    private Map<Long, List<FeedbackResponse>> getDeliveredSocialFeedback(long feedbackDeliverId) {
-        return socialFeedbackRepository.findByDeliverId(feedbackDeliverId)
-                .stream()
-                .map(FeedbackResponse::fromDeliver)
-                .collect(Collectors.groupingBy(FeedbackResponse::roomId));
+        return getUserFeedbackResponse(developFeedbackOutput, socialFeedbackOutput, Room::isNotOpened);
     }
 
     public UserFeedbackResponse getReceivedFeedback(long feedbackReceiverId) {
-        Map<Long, List<FeedbackResponse>> receivedDevelopFeedback = getReceivedDevelopFeedback(feedbackReceiverId);
-        Map<Long, List<FeedbackResponse>> receivedSocialFeedback = getReceivedSocialFeedback(feedbackReceiverId);
-        return getUserFeedbackResponse(receivedDevelopFeedback, receivedSocialFeedback);
+        Map<Long, List<FeedbackOutput>> developFeedbackOutput = developFeedbackReader.collectReceivedDevelopFeedback(feedbackReceiverId);
+        Map<Long, List<FeedbackOutput>> socialFeedbackOutput = socialFeedbackReader.collectReceivedSocialFeedback(feedbackReceiverId);
+
+        return getUserFeedbackResponse(developFeedbackOutput, socialFeedbackOutput, Room::isClosed);
     }
 
-    private Map<Long, List<FeedbackResponse>> getReceivedDevelopFeedback(long feedbackReceiverId) {
-        return developFeedbackRepository.findByReceiverId(feedbackReceiverId)
-                .stream()
-                .map(FeedbackResponse::fromReceiver)
-                .collect(Collectors.groupingBy(FeedbackResponse::roomId));
+    private UserFeedbackResponse getUserFeedbackResponse(Map<Long, List<FeedbackOutput>> developFeedbackOutput, Map<Long, List<FeedbackOutput>> socialFeedbackOutput, Predicate<Room> predicate) {
+        Map<Long, List<FeedbackResponse>> developFeedbacks = feedbackMapper.toFeedbackResponseMap(developFeedbackOutput);
+        Map<Long, List<FeedbackResponse>> socialFeedbacks = feedbackMapper.toFeedbackResponseMap(socialFeedbackOutput);
+
+        List<FeedbacksResponse> feedbacksResponses = getFeedbacksResponses(developFeedbacks, socialFeedbacks, predicate);
+        return new UserFeedbackResponse(feedbacksResponses);
     }
 
-    private Map<Long, List<FeedbackResponse>> getReceivedSocialFeedback(long feedbackReceiverId) {
-        return socialFeedbackRepository.findByReceiverId(feedbackReceiverId)
-                .stream()
-                .map(FeedbackResponse::fromReceiver)
-                .collect(Collectors.groupingBy(FeedbackResponse::roomId));
-    }
+    private List<FeedbacksResponse> getFeedbacksResponses(Map<Long, List<FeedbackResponse>> developFeedbacks, Map<Long, List<FeedbackResponse>> socialFeedbacks, Predicate<Room> predicate) {
+        List<Long> roomIds = extractDistinctKeyStreams(developFeedbacks, socialFeedbacks).toList();
+        List<Room> rooms = roomRepository.findAllById(roomIds);
 
-    private UserFeedbackResponse getUserFeedbackResponse(Map<Long, List<FeedbackResponse>> developFeedback, Map<Long, List<FeedbackResponse>> socialFeedback) {
-        List<Room> rooms = roomRepository.findAllById(
-                extractDistinctKeyStreams(developFeedback, socialFeedback).toList());
-        return new UserFeedbackResponse(rooms.stream()
-                .filter(Room::isClosed)
-                .map(room -> FeedbacksResponse.of(room, emptyListIfNull(developFeedback.get(room.getId())), emptyListIfNull(socialFeedback.get(room.getId()))))
-                .toList());
+        return rooms.stream()
+                .filter(predicate)
+                .map(room -> FeedbacksResponse.of(room, emptyListIfNull(developFeedbacks.get(room.getId())), emptyListIfNull(socialFeedbacks.get(room.getId()))))
+                .toList();
     }
 }

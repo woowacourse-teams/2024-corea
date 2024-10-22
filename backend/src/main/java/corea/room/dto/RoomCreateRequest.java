@@ -53,7 +53,7 @@ public record RoomCreateRequest(@Schema(description = "방 제목", example = "M
                                 RoomClassification classification
 ) {
 
-    private static final int INITIAL_PARTICIPANTS_SIZE = 1;
+    private static final int INITIAL_PARTICIPANTS_SIZE = 0;
     private static final RoomStatus INITIAL_ROOM_STATUS = RoomStatus.OPEN;
 
     public Room toEntity(Member manager) {

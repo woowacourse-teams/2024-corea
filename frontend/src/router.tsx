@@ -2,8 +2,9 @@ import PrivateRoute from "./components/routes/PrivateRoute";
 import CallbackPage from "./pages/callback/CallbackPage";
 import FeedbackPage from "./pages/feedback/FeedbackPage";
 import ProfilePage from "./pages/profile/ProfilePage";
+import RoomCreatePage from "./pages/roomForm/RoomCreatePage";
 // import RankingPage from "./pages/ranking/RankingPage";
-import RoomCreatePage from "./pages/roomCreate/RoomCreatePage";
+import RoomEditPage from "./pages/roomForm/RoomEditPage";
 import { lazy } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import Layout from "@/components/layout/Layout";
@@ -54,6 +55,10 @@ const router = sentryCreateBrowserRouter([
           {
             path: `rooms/create`,
             element: <RoomCreatePage />,
+          },
+          {
+            path: `rooms/edit/:roomId`,
+            element: <RoomEditPage />,
           },
           {
             path: `feedback`,
