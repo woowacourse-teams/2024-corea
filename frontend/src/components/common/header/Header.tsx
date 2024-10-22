@@ -1,7 +1,10 @@
-import ProfileDropdown from "./ProfileDropdown";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import Button from "@/components/common/button/Button";
 import * as S from "@/components/common/header/Header.style";
+import ProfileDropdown from "@/components/common/header/ProfileDropdown";
+import SideNavBar from "@/components/common/header/SideNavBar";
+import Icon from "@/components/common/icon/Icon";
 import { githubAuthUrl } from "@/config/githubAuthUrl";
 
 const headerItems = [
@@ -18,6 +21,7 @@ const headerItems = [
 const Header = () => {
   const { pathname } = useLocation();
   const [isSelect, setIsSelect] = useState("");
+  const [isSideNavOpen, setIsSideNavOpen] = useState(false);
   const isLoggedIn = !!localStorage.getItem("accessToken");
   const isMain = pathname === "/";
 
@@ -28,7 +32,11 @@ const Header = () => {
     } else {
       setIsSelect("");
     }
-  }, [pathname, headerItems]);
+  }, [pathname]);
+
+  const toggleSideNav = () => {
+    setIsSideNavOpen(!isSideNavOpen);
+  };
 
   return (
     <S.HeaderContainer $isMain={isMain}>
@@ -37,6 +45,7 @@ const Header = () => {
           <span>CoReA</span>
         </Link>
       </S.HeaderLogo>
+
       <S.HeaderNavBarContainer>
         {headerItems.map((item) => (
           <S.HeaderItem
@@ -55,6 +64,13 @@ const Header = () => {
           </S.HeaderItem>
         )}
       </S.HeaderNavBarContainer>
+
+      <S.SideNavBarContainer>
+        <Button onClick={toggleSideNav} size="xSmall" variant="default">
+          <Icon kind="menu" size="2.6rem" />
+        </Button>
+      </S.SideNavBarContainer>
+      <SideNavBar isOpen={isSideNavOpen} onClose={toggleSideNav} isLoggedIn={isLoggedIn} />
     </S.HeaderContainer>
   );
 };
