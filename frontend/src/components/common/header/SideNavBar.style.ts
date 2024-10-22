@@ -113,9 +113,11 @@ export const NavItem = styled.li`
   width: 100%;
   height: 42px;
 
-  font: ${({ theme }) => theme.TEXT.medium};
+  font: ${({ theme }) => theme.TEXT.small};
   color: ${({ theme }) => theme.COLOR.black};
   text-align: center;
+
+  transition: 0.4s background-color;
 
   &:hover,
   &:focus {
