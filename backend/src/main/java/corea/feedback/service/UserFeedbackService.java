@@ -47,11 +47,11 @@ public class UserFeedbackService {
         return getUserFeedbackResponse(developFeedbackOutput, socialFeedbackOutput, Room::isClosed);
     }
 
-    private UserFeedbackResponse getUserFeedbackResponse(Map<Long, List<FeedbackOutput>> developFeedbackOutput, Map<Long, List<FeedbackOutput>> socialFeedbackOutput, Predicate<Room> predicate) {
+    private UserFeedbackResponse getUserFeedbackResponse(Map<Long, List<FeedbackOutput>> developFeedbackOutput, Map<Long, List<FeedbackOutput>> socialFeedbackOutput, Predicate<Room> roomStatusPredicate) {
         Map<Long, List<FeedbackResponse>> developFeedbacks = FeedbackMapper.toFeedbackResponseMap(developFeedbackOutput);
         Map<Long, List<FeedbackResponse>> socialFeedbacks = FeedbackMapper.toFeedbackResponseMap(socialFeedbackOutput);
 
-        List<FeedbacksResponse> feedbacksResponses = getFeedbacksResponses(developFeedbacks, socialFeedbacks, predicate);
+        List<FeedbacksResponse> feedbacksResponses = getFeedbacksResponses(developFeedbacks, socialFeedbacks, roomStatusPredicate);
         return new UserFeedbackResponse(feedbacksResponses);
     }
 
@@ -60,11 +60,11 @@ public class UserFeedbackService {
         socialFeedbackOutput.forEach((key, value) -> socialFeedbackOutput.put(key, maskingFeedback(receiverId, value, false)));
     }
 
-    private List<FeedbackOutput> maskingFeedback(long receiverId, List<FeedbackOutput> feedbackOutputs, boolean isDevelopFeedback) {
-        BiPredicate<Long, Long> biPredicate = isDevelopFeedback ? socialFeedbackReader::existsByDeliverAndReceiver : developFeedbackReader::existsByDeliverAndReceiver;
+    private List<FeedbackOutput> maskingFeedback(long receiverId, List<FeedbackOutput> feedbackOutputs, boolean needToCheckSocialFeedback) {
+        BiPredicate<Long, Long> feedbackExistencePredicate = needToCheckSocialFeedback ? socialFeedbackReader::existsByDeliverAndReceiver : developFeedbackReader::existsByDeliverAndReceiver;
         return feedbackOutputs.stream()
                 .map(feedbackOutput -> {
-                    if (needToMasking(receiverId, feedbackOutput, biPredicate)) {
+                    if (needToMasking(receiverId, feedbackOutput, feedbackExistencePredicate)) {
                         return FeedbackOutput.masking(feedbackOutput);
                     }
                     return feedbackOutput;
@@ -72,17 +72,17 @@ public class UserFeedbackService {
                 .toList();
     }
 
-    private boolean needToMasking(long receiverId, FeedbackOutput feedbackResponse, BiPredicate<Long, Long> biConsumer) {
+    private boolean needToMasking(long receiverId, FeedbackOutput feedbackResponse, BiPredicate<Long, Long> feedbackExistencePredicate) {
         long deliverId = feedbackResponse.receiverId();
-        return !biConsumer.test(receiverId, deliverId);
+        return !feedbackExistencePredicate.test(receiverId, deliverId);
     }
 
-    private List<FeedbacksResponse> getFeedbacksResponses(Map<Long, List<FeedbackResponse>> developFeedbacks, Map<Long, List<FeedbackResponse>> socialFeedbacks, Predicate<Room> predicate) {
+    private List<FeedbacksResponse> getFeedbacksResponses(Map<Long, List<FeedbackResponse>> developFeedbacks, Map<Long, List<FeedbackResponse>> socialFeedbacks, Predicate<Room> roomStatusPredicate) {
         List<Long> roomIds = extractDistinctKeyStreams(developFeedbacks, socialFeedbacks).toList();
         List<Room> rooms = roomRepository.findAllById(roomIds);
 
         return rooms.stream()
-                .filter(predicate)
+                .filter(roomStatusPredicate)
                 .map(room -> FeedbacksResponse.of(room, emptyListIfNull(developFeedbacks.get(room.getId())), emptyListIfNull(socialFeedbacks.get(room.getId()))))
                 .toList();
     }
