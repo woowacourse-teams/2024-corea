@@ -1,4 +1,4 @@
-package corea.auth.infrastructure;
+package corea.review.infrastructure;
 
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
@@ -13,8 +13,10 @@ public class GithubPullRequestUrlExchanger {
     private static final String HTTP_SECURE_PREFIX = "https://";
     private static final String URL_DELIMITER = "/";
     private static final String GITHUB_PULL_REQUEST_REVIEW_API_SUFFIX = "reviews";
+    private static final String GITHUB_PULL_REQUEST_COMMENT_API_SUFFIX = "comments";
     private static final String GITHUB_PULL_REQUEST_DOMAIN = "pull";
     private static final String GITHUB_PULL_REQUEST_API_DOMAIN = "pulls";
+    private static final String GITHUB_PULL_REQUEST_COMMENT_DOMAIN = "issues";
     private static final int DOMAIN_PREFIX_INDEX = 0;
     private static final int GITHUB_PULL_REQUEST_URL_INDEX = 3;
     private static final int VALID_URL_SPLIT_COUNT = 5;
@@ -54,5 +56,26 @@ public class GithubPullRequestUrlExchanger {
             return splitPrLink[index];
         }
         return GITHUB_PULL_REQUEST_API_DOMAIN;
+    }
+
+    public static String pullRequestUrlToComment(String prLink) {
+        validatePrLink(prLink);
+        return prLinkToCommentApiLink(prLink);
+    }
+
+    private static String prLinkToCommentApiLink(String prLink) {
+        String[] splitPrLink = prLink.replaceFirst(HTTP_SECURE_PREFIX + GITHUB_PREFIX, "").split(URL_DELIMITER);
+        List<String> apiUrlComponents = IntStream.range(0, splitPrLink.length)
+                .mapToObj(i -> filterPullUrlToCommentUrl(splitPrLink, i))
+                .toList();
+        return HTTP_SECURE_PREFIX + REVIEW_API_PREFIX +
+                String.join(URL_DELIMITER, apiUrlComponents) + URL_DELIMITER + GITHUB_PULL_REQUEST_COMMENT_API_SUFFIX;
+    }
+
+    private static String filterPullUrlToCommentUrl(String[] splitPrLink, int index) {
+        if (index != GITHUB_PULL_REQUEST_URL_INDEX) {
+            return splitPrLink[index];
+        }
+        return GITHUB_PULL_REQUEST_COMMENT_DOMAIN;
     }
 }

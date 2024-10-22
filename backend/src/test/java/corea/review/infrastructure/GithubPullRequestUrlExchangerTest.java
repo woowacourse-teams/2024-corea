@@ -1,4 +1,4 @@
-package corea.auth.infrastructure;
+package corea.review.infrastructure;
 
 import corea.exception.CoreaException;
 import org.junit.jupiter.api.DisplayName;
