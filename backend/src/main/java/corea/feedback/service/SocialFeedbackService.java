@@ -7,7 +7,6 @@ import corea.feedback.dto.SocialFeedbackCreateRequest;
 import corea.feedback.dto.SocialFeedbackResponse;
 import corea.feedback.dto.SocialFeedbackUpdateInput;
 import corea.feedback.dto.SocialFeedbackUpdateRequest;
-import corea.feedback.util.FeedbackMapper;
 import corea.matchresult.domain.MatchResult;
 import corea.matchresult.domain.MatchResultWriter;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +21,7 @@ public class SocialFeedbackService {
     private final SocialFeedbackReader socialFeedbackReader;
     private final SocialFeedbackWriter socialFeedbackWriter;
     private final MatchResultWriter matchResultWriter;
+    private final FeedbackMapper feedbackMapper;
 
     @Transactional
     public SocialFeedbackResponse create(long roomId, long deliverId, SocialFeedbackCreateRequest request) {
@@ -37,7 +37,7 @@ public class SocialFeedbackService {
     public SocialFeedbackResponse update(long feedbackId, long deliverId, SocialFeedbackUpdateRequest request) {
         SocialFeedback socialFeedback = socialFeedbackReader.findById(feedbackId);
 
-        SocialFeedbackUpdateInput input = FeedbackMapper.toFeedbackInput(request);
+        SocialFeedbackUpdateInput input = feedbackMapper.toFeedbackInput(request);
         socialFeedbackWriter.update(socialFeedback, deliverId, input);
 
         return SocialFeedbackResponse.from(socialFeedback);
