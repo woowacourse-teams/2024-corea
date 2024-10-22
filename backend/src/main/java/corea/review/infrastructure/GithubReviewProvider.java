@@ -19,6 +19,7 @@ public class GithubReviewProvider {
     private final GithubCommentClient commentClient;
 
     public GithubPullRequestReviewInfo provideReviewInfo(String prLink) {
+        //TODO: getPullRequestReviews, getPullRequestComments에서 prLink를 중복으로 검증하고 있음.
         List<GithubPullRequestReview> reviews = reviewClient.getPullRequestReviews(prLink);
         List<GithubPullRequestReview> comments = commentClient.getPullRequestComments(prLink);
 
