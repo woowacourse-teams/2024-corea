@@ -1,11 +1,11 @@
 package corea.member.dto;
 
-import corea.member.domain.MemberRole;
+import corea.member.domain.AuthRole;
 
 public record MemberRoleResponse(String role) {
 
     public static MemberRoleResponse from(boolean isReviewer) {
-        MemberRole role = isReviewer ? MemberRole.REVIEWER : MemberRole.REVIEWEE;
+        AuthRole role = isReviewer ? AuthRole.REVIEWER : AuthRole.REVIEWEE;
         return new MemberRoleResponse(role.name());
     }
 }
