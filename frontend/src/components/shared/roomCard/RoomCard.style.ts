@@ -1,8 +1,11 @@
 import styled from "styled-components";
+import { EllipsisText } from "@/styles/common";
 import media from "@/styles/media";
 
 export const RoomCardContainer = styled.div`
   cursor: pointer;
+
+  position: relative;
 
   overflow: hidden;
   display: flex;
@@ -12,6 +15,7 @@ export const RoomCardContainer = styled.div`
   margin: 0 auto;
 
   font: ${({ theme }) => theme.TEXT.xSmall};
+  text-align: start;
 
   border: 1px solid ${({ theme }) => theme.COLOR.grey1};
   border-radius: 15px;
@@ -28,6 +32,17 @@ export const RoomCardContainer = styled.div`
     top: 3px;
     box-shadow: ${({ theme }) => theme.BOX_SHADOW.light};
   }
+`;
+
+export const ClassificationBadgeWrapper = styled.div`
+  position: absolute;
+
+  overflow: hidden;
+
+  width: 70px;
+  height: 30px;
+
+  border-radius: 0 0 8px;
 `;
 
 export const RoomInfoThumbnail = styled.img`
@@ -63,16 +78,12 @@ export const RoomInformation = styled.div`
 `;
 
 export const RoomTitle = styled.h2`
-  overflow: hidden;
-
   width: 100%;
   padding: 1rem 0;
-
   font: ${({ theme }) => theme.TEXT.medium_bold};
-  text-overflow: ellipsis;
-  white-space: nowrap;
-
   border-bottom: 1px solid ${({ theme }) => theme.COLOR.grey1};
+
+  ${EllipsisText}
 `;
 
 export const KeywordsContainer = styled.div`

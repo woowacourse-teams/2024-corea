@@ -36,8 +36,13 @@ const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
   };
 
   // 코드 리뷰 완료 post 요청 보내는 함수
-  const handleReviewCompleteClick = (revieweeId: number) => {
-    postReviewCompleteMutation.mutate({ roomId: roomInfo.id, revieweeId });
+  const handleReviewCompleteClick = (reviewee: ReviewerInfo) => {
+    postReviewCompleteMutation.mutate(
+      { roomId: roomInfo.id, revieweeId: reviewee.userId },
+      {
+        onSuccess: () => handleOpenFeedbackModal(reviewee),
+      },
+    );
   };
 
   // 리뷰 및 피드백 여부 버튼 렌더링 함수
@@ -70,7 +75,7 @@ const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
         size="xSmall"
         variant="confirm"
         disabled={reviewee.isReviewed}
-        onClick={() => handleReviewCompleteClick(reviewee.userId)}
+        onClick={() => handleReviewCompleteClick(reviewee)}
       >
         코드리뷰 완료
       </Button>
@@ -147,12 +152,14 @@ const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
             </HoverStyledLink>
 
             <S.MyRevieweeContent>
-              <S.PRLink href={reviewee.link} target="_blank">
-                <S.IconWrapper>
-                  <Icon kind="link" size="1.6rem" />
-                </S.IconWrapper>
-                바로가기
-              </S.PRLink>
+              <HoverStyledLink to={reviewee.link} target="_blank" rel="noreferrer">
+                <S.PRLink>
+                  <S.IconWrapper>
+                    <Icon kind="link" size="1.8rem" />
+                  </S.IconWrapper>
+                  바로가기
+                </S.PRLink>
+              </HoverStyledLink>
             </S.MyRevieweeContent>
 
             <S.MyRevieweeContent>{renderRevieweeButton(reviewee)}</S.MyRevieweeContent>

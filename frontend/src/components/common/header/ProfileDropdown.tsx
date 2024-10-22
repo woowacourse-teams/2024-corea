@@ -2,6 +2,7 @@ import Profile from "../profile/Profile";
 import { useNavigate } from "react-router-dom";
 import useDropdown from "@/hooks/common/useDropdown";
 import useMutateAuth from "@/hooks/mutations/useMutateAuth";
+import FocusTrap from "@/components/common/focusTrap/FocusTrap";
 import * as S from "@/components/common/header/ProfileDropdown.style";
 
 const dropdownItems = [
@@ -40,24 +41,43 @@ const ProfileDropdown = () => {
     <S.ProfileContainer ref={dropdownRef}>
       <Profile imgSrc={userInfo.avatar_url} onClick={handleProfileClick} />
 
-      <S.DropdownMenu show={isDropdownOpen}>
-        <S.ProfileWrapper>
-          <Profile imgSrc={userInfo.avatar_url} />
-          <S.ProfileInfo>
-            <strong>{userInfo.name}</strong>
-            <span>{userInfo.email !== "" ? userInfo.email : "email 비공개"}</span>
-          </S.ProfileInfo>
-        </S.ProfileWrapper>
+      {isDropdownOpen && (
+        <S.DropdownMenu>
+          <S.ProfileWrapper>
+            <Profile imgSrc={userInfo.avatar_url} />
+            <S.ProfileInfo>
+              <strong>{userInfo.name}</strong>
+              <span>{userInfo.email !== "" ? userInfo.email : "email 비공개"}</span>
+            </S.ProfileInfo>
+          </S.ProfileWrapper>
 
-        <S.DropdownItemWrapper>
-          {dropdownItems.map((item) => (
-            <S.DropdownItem key={item.name} onClick={() => handleDropdownItemClick(item.path)}>
-              {item.name}
-            </S.DropdownItem>
-          ))}
-          <S.DropdownItem onClick={handleLogoutClick}>로그아웃</S.DropdownItem>
-        </S.DropdownItemWrapper>
-      </S.DropdownMenu>
+          <FocusTrap onEscapeFocusTrap={() => handleToggleDropdown()}>
+            <S.DropdownItemWrapper>
+              {dropdownItems.map((item) => (
+                <S.DropdownItem
+                  key={item.name}
+                  onClick={() => handleDropdownItemClick(item.path)}
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") handleDropdownItemClick(item.path);
+                  }}
+                >
+                  {item.name}
+                </S.DropdownItem>
+              ))}
+              <S.DropdownItem
+                onClick={handleLogoutClick}
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") handleLogoutClick();
+                }}
+              >
+                로그아웃
+              </S.DropdownItem>
+            </S.DropdownItemWrapper>
+          </FocusTrap>
+        </S.DropdownMenu>
+      )}
     </S.ProfileContainer>
   );
 };

@@ -20,7 +20,6 @@ public class ParticipationWriter {
     private final ParticipationRepository participationRepository;
 
     public Participation create(Room room, Member member, MemberRole memberRole, ParticipationStatus participationStatus) {
-
         return create(room, member, memberRole, participationStatus, room.getMatchingSize());
     }
 
@@ -43,6 +42,13 @@ public class ParticipationWriter {
         participation.cancel();
         logDeleteParticipation(participation);
         participationRepository.delete(participation);
+    }
+
+    public void deleteAllByRoom(Room room) {
+        if (room.isNotOpened()) {
+            throw new CoreaException(ExceptionType.ROOM_STATUS_INVALID);
+        }
+        participationRepository.deleteAllByRoomId(room.getId());
     }
 
     private void logCreateParticipation(Participation participation) {

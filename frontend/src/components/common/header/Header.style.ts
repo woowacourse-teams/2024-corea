@@ -30,7 +30,7 @@ export const HeaderContainer = styled.header<{ $isMain: boolean }>`
 `;
 
 // 서비스 로고
-export const HeaderLogo = styled.button`
+export const HeaderLogo = styled.div`
   display: flex;
   gap: 0.8rem;
   align-items: center;
