@@ -3,6 +3,7 @@ package corea.participation.service;
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
 import corea.member.domain.Member;
+import corea.member.domain.MemberReader;
 import corea.member.domain.MemberRole;
 import corea.member.repository.MemberRepository;
 import corea.participation.domain.Participation;
@@ -25,6 +26,8 @@ public class ParticipationService {
     private final ParticipationWriter participationWriter;
     private final RoomRepository roomRepository;
     private final MemberRepository memberRepository;
+    //TODO: memberRepository -> Reader/Writer
+    private final MemberReader memberReader;
 
     @Transactional
     public ParticipationResponse participate(ParticipationRequest request) {
@@ -35,7 +38,9 @@ public class ParticipationService {
     private Participation saveParticipation(ParticipationRequest request) {
         Member member = memberRepository.findById(request.memberId())
                 .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND));
+
         MemberRole memberRole = MemberRole.from(request.role());
+        validateRole(member, memberRole);
         Room room = getRoom(request.roomId());
 
         return participationWriter.create(room, member, memberRole, request.matchingSize());
@@ -57,6 +62,15 @@ public class ParticipationService {
     private void validateMemberExist(long memberId) {
         if (!memberRepository.existsById(memberId)) {
             throw new CoreaException(ExceptionType.MEMBER_NOT_FOUND, String.format("%d에 해당하는 멤버가 없습니다.", memberId));
+        }
+    }
+
+    private void validateRole(Member member, MemberRole memberRole) {
+        if (memberReader.isNotReviewer(member.getGithubUserId()) && memberRole.isReviewer()) {
+            throw new CoreaException(ExceptionType.MEMBER_IS_NOT_REVIEWER);
+        }
+        if (memberReader.isReviewer(member.getGithubUserId()) && memberRole.isBoth()) {
+            throw new CoreaException(ExceptionType.MEMBER_IS_NOT_BOTH);
         }
     }
 

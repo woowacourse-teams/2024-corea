@@ -7,12 +7,14 @@ import corea.fixture.RoomFixture;
 import corea.member.domain.Member;
 import corea.member.domain.MemberRole;
 import corea.member.repository.MemberRepository;
+import corea.member.repository.ReviewerRepository;
 import corea.participation.domain.Participation;
 import corea.participation.domain.ParticipationStatus;
 import corea.participation.dto.ParticipationRequest;
 import corea.participation.repository.ParticipationRepository;
 import corea.room.domain.Room;
 import corea.room.repository.RoomRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +36,15 @@ class ParticipationServiceTest {
     private MemberRepository memberRepository;
 
     @Autowired
+    private ReviewerRepository reviewerRepository;
+
+    @Autowired
     private ParticipationRepository participationRepository;
+
+    @AfterEach
+    void tearDown() {
+        reviewerRepository.deleteAll();
+    }
 
     @Test
     @DisplayName("멤버가 BOTH 로 방에 참여한다.")
@@ -59,7 +69,8 @@ class ParticipationServiceTest {
     @Test
     @DisplayName("리뷰어가 reviewer 로 방에 참여한다.")
     void participate_with_reviewer() {
-        Member member = memberRepository.save(MEMBER_YOUNGSU_REVIEWER());
+        Member member = memberRepository.save(MEMBER_YOUNGSU());
+        reviewerRepository.save(MEMBER_YOUNGSU_REVIEWER());
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(member));
 
         assertThatCode(() -> participationService.participate(new ParticipationRequest(room.getId(), member.getId(), "reviewer", 2)))
@@ -67,9 +78,10 @@ class ParticipationServiceTest {
     }
 
     @Test
-    @DisplayName("리뷰어가 아닌데 reviewer 로 참여시 예외를 발생한다.")
+    @DisplayName("리뷰어가 both 로 참여시 예외를 발생한다.")
     void throw_exception_when_participate_both_with_not_both() {
-        Member member = memberRepository.save(MEMBER_YOUNGSU_REVIEWER());
+        Member member = memberRepository.save(MEMBER_YOUNGSU());
+        reviewerRepository.save(MEMBER_YOUNGSU_REVIEWER());
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(member));
 
         assertThatCode(() -> participationService.participate(new ParticipationRequest(room.getId(), member.getId(), "both", 2)))

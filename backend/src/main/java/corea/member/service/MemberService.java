@@ -1,6 +1,5 @@
 package corea.member.service;
 
-import corea.member.domain.Member;
 import corea.member.domain.MemberReader;
 import corea.member.dto.MemberRoleResponse;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +14,7 @@ public class MemberService {
     private final MemberReader memberReader;
 
     public MemberRoleResponse getMemberRoleWithGithubUserId(String githubUserId) {
-        Member member = memberReader.findOneByGithubUserId(githubUserId);
-        return MemberRoleResponse.from(member);
+        boolean isReviewer = memberReader.isReviewer(githubUserId);
+        return MemberRoleResponse.from(isReviewer);
     }
 }
