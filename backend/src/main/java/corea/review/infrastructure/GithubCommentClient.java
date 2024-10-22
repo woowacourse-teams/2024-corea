@@ -25,14 +25,14 @@ public class GithubCommentClient {
         String commentUrl = githubPullRequestUrlExchanger.pullRequestUrlToComment(prLink);
 
         return Stream.iterate(1, page -> page + 1) // 페이지를 1부터 시작해서 증가
-                .map(page -> getGithubPullRequestReviews(page, commentUrl))
-                .takeWhile(this::isNotLastPage)
+                .map(page -> getPullRequestCommentsForPage(page, commentUrl))
+                .takeWhile(this::hasMoreComments)
                 .flatMap(Arrays::stream)
                 .toList();
     }
 
-    private GithubPullRequestReview[] getGithubPullRequestReviews(Integer page, String commentUrl) {
-        String url = convertToPageUrl(page, commentUrl);
+    private GithubPullRequestReview[] getPullRequestCommentsForPage(Integer page, String commentUrl) {
+        String url = buildPageUrl(page, commentUrl);
 
         return restClient.get()
                 .uri(url)
@@ -41,11 +41,11 @@ public class GithubCommentClient {
                 .body(GithubPullRequestReview[].class);
     }
 
-    private String convertToPageUrl(Integer page, String commentUrl) {
+    private String buildPageUrl(Integer page, String commentUrl) {
         return commentUrl + "?page=" + page + "&per_page=100";
     }
 
-    private boolean isNotLastPage(GithubPullRequestReview[] reviews) {
-        return reviews.length > 0;
+    private boolean hasMoreComments(GithubPullRequestReview[] comments) {
+        return comments.length > 0;
     }
 }

@@ -25,14 +25,14 @@ public class GithubReviewClient {
         String reviewUrl = githubPullRequestUrlExchanger.pullRequestUrlToReview(prLink);
 
         return Stream.iterate(1, page -> page + 1)
-                .map(page -> getGithubPullRequestReviews(page, reviewUrl))
-                .takeWhile(this::isNotLastPage)
+                .map(page -> getPullRequestReviewsForPage(page, reviewUrl))
+                .takeWhile(this::hasMoreReviews)
                 .flatMap(Arrays::stream)
                 .toList();
     }
 
-    private GithubPullRequestReview[] getGithubPullRequestReviews(Integer page, String reviewUrl) {
-        String url = convertToPageUrl(page, reviewUrl);
+    private GithubPullRequestReview[] getPullRequestReviewsForPage(int page, String reviewUrl) {
+        String url = buildPageUrl(page, reviewUrl);
 
         return restClient.get()
                 .uri(url)
@@ -41,11 +41,11 @@ public class GithubReviewClient {
                 .body(GithubPullRequestReview[].class);
     }
 
-    private String convertToPageUrl(Integer page, String reviewUrl) {
+    private String buildPageUrl(Integer page, String reviewUrl) {
         return reviewUrl + "?page=" + page + "&per_page=100";
     }
 
-    private boolean isNotLastPage(GithubPullRequestReview[] reviews) {
+    private boolean hasMoreReviews(GithubPullRequestReview[] reviews) {
         return reviews.length > 0;
     }
 }
