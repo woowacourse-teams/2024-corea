@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @ServiceTest
 class UserFeedbackServiceTest {
@@ -180,14 +181,15 @@ class UserFeedbackServiceTest {
         List<FeedbackResponse> feedbackData = response.feedbacks()
                 .get(0)
                 .developFeedback();
-        assertThat(feedbackData).hasSize(2);
-
         FeedbackResponse unmaskedFeedbackData = feedbackData.get(0);
         FeedbackResponse maskedFeedbackData = feedbackData.get(1);
 
-        assertThat(unmaskedFeedbackData.isWrited()).isTrue();
-        assertThat(unmaskedFeedbackData.feedbackText()).isNotEmpty();
-        assertThat(maskedFeedbackData.isWrited()).isFalse();
-        assertThat(maskedFeedbackData.feedbackText()).isEmpty();
+        assertAll(
+                () -> assertThat(feedbackData).hasSize(2),
+                () -> assertThat(unmaskedFeedbackData.isWrited()).isTrue(),
+                () -> assertThat(unmaskedFeedbackData.feedbackText()).isNotEmpty(),
+                () -> assertThat(maskedFeedbackData.isWrited()).isFalse(),
+                () -> assertThat(maskedFeedbackData.feedbackText()).isEmpty()
+        );
     }
 }
