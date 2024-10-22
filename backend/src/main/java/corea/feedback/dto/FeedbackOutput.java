@@ -36,6 +36,9 @@ public record FeedbackOutput(@Schema(description = "피드백 아이디", exampl
                              @Schema(description = "부가 작성 가능한 피드백 텍스트", example = "처음 자바를 접해봤다고 했는데 생각보다 매우 잘 구성되어 있는 코드였습니다. ...")
                              String feedbackText) {
 
+    private static final boolean FEEDBACK_COMPLETE = true;
+    private static final boolean FEEDBACK_INCOMPLETE = false;
+
     public static FeedbackOutput fromReceiver(DevelopFeedback developFeedback) {
         return new FeedbackOutput(
                 developFeedback.getId(),
@@ -43,7 +46,7 @@ public record FeedbackOutput(@Schema(description = "피드백 아이디", exampl
                 developFeedback.getDeliver().getId(),
                 developFeedback.getDeliver().getThumbnailUrl(),
                 developFeedback.getDeliver().getUsername(),
-                true,
+                FEEDBACK_COMPLETE,
                 FeedbackKeywordConverter.convertToMessages(developFeedback.getKeywords()),
                 developFeedback.getEvaluatePoint(),
                 developFeedback.getFeedBackText()
@@ -57,7 +60,7 @@ public record FeedbackOutput(@Schema(description = "피드백 아이디", exampl
                 developFeedback.getReceiver().getId(),
                 developFeedback.getReceiver().getThumbnailUrl(),
                 developFeedback.getReceiver().getUsername(),
-                true,
+                FEEDBACK_COMPLETE,
                 FeedbackKeywordConverter.convertToMessages(developFeedback.getKeywords()),
                 developFeedback.getEvaluatePoint(),
                 developFeedback.getFeedBackText()
@@ -71,7 +74,7 @@ public record FeedbackOutput(@Schema(description = "피드백 아이디", exampl
                 socialFeedback.getDeliver().getId(),
                 socialFeedback.getDeliver().getThumbnailUrl(),
                 socialFeedback.getDeliver().getUsername(),
-                true,
+                FEEDBACK_COMPLETE,
                 FeedbackKeywordConverter.convertToMessages(socialFeedback.getKeywords()),
                 socialFeedback.getEvaluatePoint(),
                 socialFeedback.getFeedBackText()
@@ -85,7 +88,7 @@ public record FeedbackOutput(@Schema(description = "피드백 아이디", exampl
                 socialFeedback.getReceiver().getId(),
                 socialFeedback.getReceiver().getThumbnailUrl(),
                 socialFeedback.getReceiver().getUsername(),
-                true,
+                FEEDBACK_COMPLETE,
                 FeedbackKeywordConverter.convertToMessages(socialFeedback.getKeywords()),
                 socialFeedback.getEvaluatePoint(),
                 socialFeedback.getFeedBackText()
@@ -99,7 +102,7 @@ public record FeedbackOutput(@Schema(description = "피드백 아이디", exampl
                 feedbackOutput.receiverId,
                 feedbackOutput.profile,
                 feedbackOutput.username,
-                false,
+                FEEDBACK_INCOMPLETE,
                 Collections.emptyList(),
                 0,
                 ""
