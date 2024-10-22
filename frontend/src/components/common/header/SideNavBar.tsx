@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
 import useMutateAuth from "@/hooks/mutations/useMutateAuth";
@@ -40,6 +41,18 @@ interface SideNavBarProps {
 const SideNavBar = ({ isOpen, onClose, isLoggedIn }: SideNavBarProps) => {
   const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
   const { postLogoutMutation } = useMutateAuth();
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isOpen]);
 
   const handleLogoutClick = () => {
     postLogoutMutation.mutate();
