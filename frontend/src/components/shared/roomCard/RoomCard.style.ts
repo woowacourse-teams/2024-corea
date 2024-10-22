@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { EllipsisText } from "@/styles/common";
 import media from "@/styles/media";
 
-export const RoomCardContainer = styled.div`
+export const RoomCardContainer = styled.button`
   cursor: pointer;
 
   position: relative;
@@ -13,10 +13,13 @@ export const RoomCardContainer = styled.div`
 
   width: 100%;
   margin: 0 auto;
+  padding: 0;
 
   font: ${({ theme }) => theme.TEXT.xSmall};
+  color: ${({ theme }) => theme.COLOR.black};
   text-align: start;
 
+  background-color: transparent;
   border: 1px solid ${({ theme }) => theme.COLOR.grey1};
   border-radius: 15px;
   box-shadow: ${({ theme }) => theme.BOX_SHADOW.regular};
