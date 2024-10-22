@@ -1,17 +1,20 @@
 import styled from "styled-components";
 import { VisuallyHidden } from "@/styles/common";
 
-export const CheckboxLabel = styled.label`
+export const CheckboxLabel = styled.label<{ readonly: boolean }>`
   cursor: pointer;
+  cursor: ${({ readonly }) => (readonly ? "not-allowed" : "pointer")};
 
   position: relative;
 
   display: flex;
   gap: 0.5rem;
   align-items: center;
+
+  color: ${({ theme, readonly }) => (readonly ? theme.COLOR.grey2 : theme.COLOR.black)};
 `;
 
-export const CheckboxStyle = styled.div<{ checked: boolean }>`
+export const CheckboxStyle = styled.div<{ checked: boolean; readonly: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -19,8 +22,13 @@ export const CheckboxStyle = styled.div<{ checked: boolean }>`
   width: 16px;
   height: 16px;
 
-  background-color: ${({ theme, checked }) => (checked ? theme.COLOR.primary2 : theme.COLOR.white)};
-  border: 2px solid ${({ theme }) => theme.COLOR.primary2};
+  background-color: ${({ theme, checked, readonly }) => {
+    if (readonly) return theme.COLOR.grey2;
+    if (checked) return theme.COLOR.primary2;
+    return theme.COLOR.white;
+  }};
+  border: 2px solid
+    ${({ theme, readonly }) => (readonly ? theme.COLOR.grey2 : theme.COLOR.primary2)};
   border-radius: 2px;
 `;
 
