@@ -30,6 +30,10 @@ export const ContentLayout = styled.div`
   min-height: 100vh;
   padding: 10rem 0;
 
+  ${media.medium`
+    width: 600px;
+  `}
+
   ${media.small`
     width: 370px;
   `}
@@ -65,6 +69,17 @@ export const TextContainer = styled.div`
     font-weight: bold;
   }
 
+  ${media.medium`
+    .mobile-break {
+      display: block;
+      font-weight: bold;
+    }
+
+    .desktop-only {
+      display: none;
+    }
+  `}
+
   ${media.small`
     gap: 1rem;
 
@@ -96,7 +111,13 @@ export const ContentSection = styled.div`
   width: 100%;
   height: 700px;
 
+  ${media.medium`
+    position: relative;
+    flex-direction: column;
+  `}
+
   ${media.small`
+    position: relative;
     flex-direction: column;
   `}
 `;
@@ -142,6 +163,28 @@ export const ChatBubble = styled.div`
     transform: translateX(-25%);
   }
 
+  ${media.medium`
+    padding: 1.6rem 2.4rem;
+
+    font: ${({ theme }) => theme.TEXT.small};
+
+    &.one {
+      transform: translateX(15%);
+    }
+
+    &.two {
+      transform: translateX(-15%);
+    }
+
+    &.three {
+      transform: translateX(15%);
+    }
+
+    &.four {
+      transform: translateX(-15%);
+    }
+  `}
+
   ${media.small`
     padding: 1.2rem 2rem;
 
@@ -162,20 +205,27 @@ export const ButtonWrapper = styled.div`
   `}
 `;
 
-export const ImgSection = styled.div`
+export const ImgSection = styled.img`
   display: flex;
   align-items: center;
   justify-content: center;
 
   width: 60%;
-  height: 500px;
+  max-width: 600px;
 
   object-fit: contain;
-  background-color: gray;
+
+  ${media.medium`
+    position: absolute;
+    top: 0;
+    width: 100%;
+  `}
 
   ${media.small`
-    width: 90%;
-    height: 400px;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    max-width: 320px;
   `}
 `;
 
@@ -207,9 +257,36 @@ export const TextSection = styled.div`
     line-height: 2.4rem;
   }
 
+  ${media.medium`
+    position: absolute;
+    top: 500px;
+    width: 100%;
+
+    p.step {
+      width: 100%;
+      font-size: 3.6rem;
+      font-weight: bold;
+      color: ${({ theme }) => theme.COLOR.primary2};
+    }
+
+    p.main {
+      width: 100%;
+      margin-bottom: 2rem;
+      font-size: 2.8rem;
+      font-weight: bold;
+    }
+
+    p.sub {
+      width: 100%;
+      font: ${({ theme }) => theme.TEXT.xLarge};
+      line-height: 2.4rem;
+    }
+  `}
+
   ${media.small`
+    position: absolute;
+    top: 280px;
     width: 90%;
-    height: 300px;
 
     p.step {
       width: 100%;
@@ -234,6 +311,11 @@ export const TextSection = styled.div`
 
 export const TextSectionRight = styled(TextSection)`
   text-align: right;
+
+  ${media.medium`
+    text-align: left;
+    order: 2;
+  `}
 
   ${media.small`
     text-align: left;

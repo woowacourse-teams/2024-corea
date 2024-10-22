@@ -12,6 +12,10 @@ export const NavContainer = styled.div`
   gap: 10px;
   align-items: center;
 
+  ${media.medium`
+    right: 5%;
+  `}
+
   ${media.small`
     display: none;
   `}
