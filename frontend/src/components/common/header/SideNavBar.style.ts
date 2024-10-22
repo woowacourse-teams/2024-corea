@@ -24,7 +24,6 @@ const fadeOut = keyframes`
 
 export const BackDrop = styled.div<{ $isOpen: boolean }>`
   position: fixed;
-  z-index: 999;
   top: 0;
   left: 0;
 
@@ -38,7 +37,6 @@ export const BackDrop = styled.div<{ $isOpen: boolean }>`
 
 export const SideNavBarContainer = styled.div<{ $isOpen: boolean; $isClosing: boolean }>`
   position: fixed;
-  z-index: 1000;
   top: 0;
   right: ${({ $isOpen }) => ($isOpen ? "0" : "-60%")};
 
