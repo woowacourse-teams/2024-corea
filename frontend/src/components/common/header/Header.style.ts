@@ -49,6 +49,10 @@ export const HeaderNavBarContainer = styled.ul`
   display: flex;
   gap: 1rem;
   align-items: center;
+
+  ${media.small`
+    display: none;  
+  `}
 `;
 
 export const HeaderItem = styled.li<{ $isMain: boolean }>`
@@ -70,4 +74,13 @@ export const HeaderItem = styled.li<{ $isMain: boolean }>`
     color: ${({ theme }) => theme.COLOR.black};
     border-bottom: 3px solid ${({ theme }) => theme.COLOR.black};
   }
+`;
+
+// 사이드바
+export const SideNavBarContainer = styled.div`
+  display: none;
+
+  ${media.small`
+    display: block;
+  `}
 `;
