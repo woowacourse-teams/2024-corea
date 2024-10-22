@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-interface OptionButtonBoxProps {
+interface OptionBoxProps {
   isSelected?: boolean;
   color?: string;
 }
@@ -11,7 +11,12 @@ export const OptionContainer = styled.div`
   gap: 1.2rem;
 `;
 
-export const ButtonWrapper = styled.button<OptionButtonBoxProps>`
+export const HiddenRadioInput = styled.input`
+  position: absolute;
+  opacity: 0;
+`;
+
+export const ButtonWrapper = styled.div<OptionBoxProps>`
   cursor: pointer;
 
   display: flex;

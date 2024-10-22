@@ -31,6 +31,7 @@ const IconRadioButton = ({
         name={name}
         checked={isSelected}
         onChange={handleChange}
+        required
         {...rest}
         tabIndex={-1}
       />

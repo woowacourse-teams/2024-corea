@@ -31,10 +31,8 @@ const ReviewerFeedbackForm = ({ formState, onChange, modalType }: ReviewerFeedba
   return (
     <S.FeedbackFormContainer>
       <S.ItemContainer>
-        <S.ModalQuestion>
-          리뷰어의 소프트 스킬 역량 향상을 위해 피드백을 해주세요.
-          <span>*필수입력</span>
-        </S.ModalQuestion>
+        <S.ModalQuestion>리뷰어의 소프트 스킬 역량 향상을 위해 피드백을 해주세요.</S.ModalQuestion>
+        <S.Required>*필수입력</S.Required>
         <EvaluationPointBar
           initialOptionId={formState.evaluationPoint}
           onChange={(value) => onChange("evaluationPoint", value)}
@@ -44,10 +42,8 @@ const ReviewerFeedbackForm = ({ formState, onChange, modalType }: ReviewerFeedba
       </S.ItemContainer>
 
       <S.ItemContainer>
-        <S.ModalQuestion>
-          위와 같이 선택한 이유를 알려주세요. (1개 이상 선택)
-          <span>*필수입력</span>
-        </S.ModalQuestion>
+        <S.ModalQuestion>위와 같이 선택한 이유를 알려주세요. (1개 이상 선택)</S.ModalQuestion>
+        <S.Required>*필수입력</S.Required>
         <KeywordOptionButton
           selectedOptions={formState.feedbackKeywords}
           onChange={(value) => onChange("feedbackKeywords", value)}
