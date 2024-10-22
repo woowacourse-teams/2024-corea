@@ -3,7 +3,15 @@ import { useNavigate } from "react-router-dom";
 import Button from "@/components/common/button/Button";
 import IntroNavigationBar from "@/components/intro/IntroNavigationBar";
 import * as S from "@/pages/intro/IntroPage.style";
-import { puzzle_with_people_color, question_with_color } from "@/assets/index";
+import {
+  puzzle_with_people_color,
+  question_with_color,
+  step1_pic,
+  step2_pic,
+  step3_pic,
+  step4_pic,
+  step5_pic,
+} from "@/assets/index";
 
 const IntroPage = () => {
   const [currentSection, setCurrentSection] = useState(0);
@@ -69,7 +77,7 @@ const IntroPage = () => {
 
       <S.ContentLayout>
         <S.ContentSection>
-          <S.ImgSection />
+          <S.ImgSection src={step1_pic} />
           <S.TextSection>
             <p className="step">STEP1</p>
             <p className="main">방 참여</p>
@@ -85,18 +93,19 @@ const IntroPage = () => {
             <p className="main">리뷰어, 리뷰이 매칭</p>
             <p className="sub">모집 마감일이 지나면 리뷰어, 리뷰이가 매칭돼요.</p>
           </S.TextSectionRight>
-          <S.ImgSection />
+          <S.ImgSection src={step2_pic} />
         </S.ContentSection>
       </S.ContentLayout>
 
       <S.ContentLayout>
         <S.ContentSection>
-          <S.ImgSection />
+          <S.ImgSection src={step3_pic} />
           <S.TextSection>
             <p className="step">STEP3</p>
-            <p className="main">코드리뷰 이후</p>
-            <p className="sub">코드리뷰 이후에는 코드리뷰 완료 버튼을 클릭해요.</p>
-            <p className="sub">해당 버튼은 피드백 작성 버튼으로 전환돼요.</p>
+            <p className="main">코드리뷰</p>
+            <p className="sub">
+              나의 리뷰이 영역에 제공되는 PR링크로 이동하여 깃허브에서 코드리뷰를 남겨요.
+            </p>
           </S.TextSection>
         </S.ContentSection>
       </S.ContentLayout>
@@ -108,13 +117,13 @@ const IntroPage = () => {
             <p className="main">피드백 작성</p>
             <p className="sub">피드백 작성 버튼이 보이면 상대방 피드백을 작성해요.</p>
           </S.TextSectionRight>
-          <S.ImgSection />
+          <S.ImgSection src={step4_pic} />
         </S.ContentSection>
       </S.ContentLayout>
 
       <S.ContentLayout>
         <S.ContentSection>
-          <S.ImgSection />
+          <S.ImgSection src={step5_pic} />
           <S.TextSection>
             <p className="step">STEP5</p>
             <p className="main">피드백 확인</p>
