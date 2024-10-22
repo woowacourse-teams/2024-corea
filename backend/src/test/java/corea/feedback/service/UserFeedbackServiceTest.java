@@ -164,7 +164,7 @@ class UserFeedbackServiceTest {
 
     @Test
     @DisplayName("내가 피드백을 작성하지 않은 상대로부터 받은 피드백은 빈 응답으로 치환한다.")
-    void noFeedbackMaskingTest() {
+    void feedbackMaskingTest() {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
         Room room1 = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_CLOSED(manager));
         Member reviewer1 = memberRepository.save(MemberFixture.MEMBER_PORORO());
