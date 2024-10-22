@@ -2,6 +2,7 @@ import Icon from "@/components/common/icon/Icon";
 import ImageWithFallback from "@/components/common/img/ImageWithFallback";
 import Label from "@/components/common/label/Label";
 import * as S from "@/components/roomDetailPage/roomInfoCard/RoomInfoCard.style";
+import ClassificationBadge from "@/components/shared/classificationBadge/ClassificationBadge";
 import { RoomInfo } from "@/@types/roomInfo";
 import { HoverStyledLink } from "@/styles/common";
 import { theme } from "@/styles/theme";
@@ -10,6 +11,10 @@ import { displayLeftTime, formatDateTimeString, formatDday } from "@/utils/dateF
 const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
   return (
     <S.RoomInfoCardContainer>
+      <S.ClassificationBadgeWrapper>
+        <ClassificationBadge text={roomInfo.classification} />
+      </S.ClassificationBadgeWrapper>
+
       <S.RoomInfoCardImg
         as={ImageWithFallback}
         src={roomInfo.thumbnailLink}
@@ -19,11 +24,7 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
         <S.RoomHeaderWrapper>
           <S.RoomTitle>{roomInfo.title}</S.RoomTitle>
 
-          <HoverStyledLink
-            to={`/profile/${roomInfo.repositoryLink}`}
-            target="_blank"
-            rel="noreferrer"
-          >
+          <HoverStyledLink to={roomInfo.repositoryLink} target="_blank" rel="noreferrer">
             <S.RepositoryLink>
               <Icon kind="link" size="2.4rem" />
               저장소 바로가기

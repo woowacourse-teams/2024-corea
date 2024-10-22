@@ -137,9 +137,7 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
 
               {reviewer.link.length !== 0 ? (
                 <S.MyReviewerContent>
-                  <HoverStyledLink
-                    to={`/profile/${reviewer.username} target="_blank" rel="noreferrer"`}
-                  >
+                  <HoverStyledLink to={reviewer.link} target="_blank" rel="noreferrer">
                     <S.PRLink>
                       <S.IconWrapper>
                         <Icon kind="link" size="1.8rem" />
