@@ -14,9 +14,11 @@ import {
   MdAutorenew,
   MdCalendarMonth,
   MdCheck,
+  MdClear,
   MdExpandMore,
   MdInfoOutline,
   MdInsertLink,
+  MdMenu,
   MdOutlineArrowDropDown,
   MdOutlineArrowDropUp,
   MdOutlineCreate,
@@ -51,6 +53,8 @@ const ICON: { [key in IconKind]: IconType } = {
   arrowDropUp: MdOutlineArrowDropUp,
   arrowRenew: MdAutorenew,
   check: MdCheck,
+  menu: MdMenu,
+  close: MdClear,
 };
 
 interface IconProps {

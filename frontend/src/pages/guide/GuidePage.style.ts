@@ -76,11 +76,12 @@ export const StyledContainer = styled.div`
   li,
   em {
     font: ${({ theme }) => theme.TEXT.small};
+    line-height: 2.4rem;
   }
 
   p {
     font: ${({ theme }) => theme.TEXT.small};
-    line-height: 2rem;
+    line-height: 2.4rem;
 
     span {
       font: ${({ theme }) => theme.TEXT.small_bold};
@@ -103,6 +104,7 @@ export const StyledContainer = styled.div`
 
   li {
     margin-left: 2rem;
+    line-height: 2.4rem;
     list-style-type: initial;
   }
 
@@ -121,7 +123,10 @@ export const StyledContainer = styled.div`
 
 export const StyledSquare = styled.div`
   padding: 1.6rem 1rem;
+
   font: ${({ theme }) => theme.TEXT.small_bold};
+  line-height: 2rem;
+
   background-color: ${({ theme }) => theme.COLOR.grey0};
   border-left: 4px solid ${({ theme }) => theme.COLOR.primary3};
 `;
