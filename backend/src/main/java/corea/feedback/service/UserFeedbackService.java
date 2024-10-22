@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
 import static corea.global.util.MapHandler.extractDistinctKeyStreams;
@@ -41,6 +42,8 @@ public class UserFeedbackService {
         Map<Long, List<FeedbackOutput>> developFeedbackOutput = developFeedbackReader.collectReceivedDevelopFeedback(feedbackReceiverId);
         Map<Long, List<FeedbackOutput>> socialFeedbackOutput = socialFeedbackReader.collectReceivedSocialFeedback(feedbackReceiverId);
 
+        maskingIfNoFeedbackDeliver(feedbackReceiverId, developFeedbackOutput, socialFeedbackOutput);
+
         return getUserFeedbackResponse(developFeedbackOutput, socialFeedbackOutput, Room::isClosed);
     }
 
@@ -50,6 +53,28 @@ public class UserFeedbackService {
 
         List<FeedbacksResponse> feedbacksResponses = getFeedbacksResponses(developFeedbacks, socialFeedbacks, predicate);
         return new UserFeedbackResponse(feedbacksResponses);
+    }
+
+    private void maskingIfNoFeedbackDeliver(long receiverId, Map<Long, List<FeedbackOutput>> developFeedbackOutput, Map<Long, List<FeedbackOutput>> socialFeedbackOutput) {
+        developFeedbackOutput.forEach((key, value) -> developFeedbackOutput.put(key, maskingFeedback(receiverId, value, true)));
+        socialFeedbackOutput.forEach((key, value) -> socialFeedbackOutput.put(key, maskingFeedback(receiverId, value, false)));
+    }
+
+    private List<FeedbackOutput> maskingFeedback(long receiverId, List<FeedbackOutput> feedbackOutputs, boolean isDevelopFeedback) {
+        BiPredicate<Long, Long> biPredicate = isDevelopFeedback ? socialFeedbackReader::existsByDeliverAndReceiver : developFeedbackReader::existsByDeliverAndReceiver;
+        return feedbackOutputs.stream()
+                .map(feedbackOutput -> {
+                    if (needToMasking(receiverId, feedbackOutput, biPredicate)) {
+                        return FeedbackOutput.masking(feedbackOutput);
+                    }
+                    return feedbackOutput;
+                })
+                .toList();
+    }
+
+    private boolean needToMasking(long receiverId, FeedbackOutput feedbackResponse, BiPredicate<Long, Long> biConsumer) {
+        long deliverId = feedbackResponse.receiverId();
+        return !biConsumer.test(receiverId, deliverId);
     }
 
     private List<FeedbacksResponse> getFeedbacksResponses(Map<Long, List<FeedbackResponse>> developFeedbacks, Map<Long, List<FeedbackResponse>> socialFeedbacks, Predicate<Room> predicate) {
