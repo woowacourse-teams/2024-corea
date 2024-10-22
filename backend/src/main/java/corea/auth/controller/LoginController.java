@@ -10,6 +10,8 @@ import corea.auth.dto.TokenRefreshRequest;
 import corea.auth.service.GithubOAuthProvider;
 import corea.auth.service.LoginService;
 import corea.auth.service.LogoutService;
+import corea.member.dto.MemberRoleResponse;
+import corea.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,14 +29,17 @@ public class LoginController implements LoginControllerSpecification {
     private final GithubOAuthProvider githubOAuthProvider;
     private final LoginService loginService;
     private final LogoutService logoutService;
+    private final MemberService memberService;
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
         GithubUserInfo userInfo = githubOAuthProvider.getUserInfo(loginRequest.code());
         TokenInfo tokenInfo = loginService.login(userInfo);
+        MemberRoleResponse memberRoleResponse = memberService.getMemberRoleWithGithubUserId(userInfo.id());
+
         return ResponseEntity.ok()
                 .header(AUTHORIZATION_HEADER, tokenInfo.accessToken())
-                .body(new LoginResponse(tokenInfo.refreshToken(), userInfo));
+                .body(new LoginResponse(tokenInfo.refreshToken(), userInfo, memberRoleResponse.role()));
     }
 
     @PostMapping("/refresh")
