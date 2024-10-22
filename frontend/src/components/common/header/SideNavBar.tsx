@@ -1,3 +1,4 @@
+import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
 import useMutateAuth from "@/hooks/mutations/useMutateAuth";
 import Button from "@/components/common/button/Button";
@@ -5,6 +6,8 @@ import * as S from "@/components/common/header/SideNavBar.style";
 import Icon from "@/components/common/icon/Icon";
 import Profile from "@/components/common/profile/Profile";
 import { githubAuthUrl } from "@/config/githubAuthUrl";
+
+const portalElement = document.getElementById("sideNavBar") as HTMLElement;
 
 const loggedInMenuItems = [
   {
@@ -43,7 +46,7 @@ const SideNavBar = ({ isOpen, onClose, isLoggedIn }: SideNavBarProps) => {
     onClose();
   };
 
-  return (
+  const sideNavContent = (
     <S.SideNavBarContainer isOpen={isOpen}>
       {isLoggedIn ? (
         <>
@@ -104,6 +107,14 @@ const SideNavBar = ({ isOpen, onClose, isLoggedIn }: SideNavBarProps) => {
         </>
       )}
     </S.SideNavBarContainer>
+  );
+
+  return createPortal(
+    <>
+      <S.BackDrop $isOpen={isOpen} onClick={onClose} />
+      {sideNavContent}
+    </>,
+    portalElement,
   );
 };
 

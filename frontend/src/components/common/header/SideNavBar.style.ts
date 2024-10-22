@@ -1,5 +1,19 @@
 import styled from "styled-components";
 
+export const BackDrop = styled.div<{ $isOpen: boolean }>`
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  left: 0;
+
+  width: 100vw;
+  height: 100vh;
+
+  visibility: ${({ $isOpen }) => ($isOpen ? "visible" : "hidden")};
+  opacity: 0.4;
+  background-color: ${({ theme }) => theme.COLOR.black};
+`;
+
 export const SideNavBarContainer = styled.div<{ isOpen: boolean }>`
   position: fixed;
   z-index: 1000;
