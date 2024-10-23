@@ -323,3 +323,43 @@ export const TextSectionRight = styled(TextSection)`
     order: 2;
   `}
 `;
+
+// 헤더
+export const HeaderContainer = styled.header`
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 20px;
+
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+  height: 65px;
+
+  background: transparent;
+
+  ${media.small`
+    left: 10px;
+  `}
+`;
+
+export const HeaderLogo = styled.div`
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+  background: transparent;
+
+  span {
+    font-family: "Moirai One", system-ui;
+    font-size: 3rem;
+    font-weight: 900;
+    color: ${({ theme }) => theme.COLOR.grey4};
+
+    transition: color 0.2s ease-in-out;
+
+    &:hover {
+      color: ${({ theme }) => theme.COLOR.primary2};
+    }
+  }
+`;
