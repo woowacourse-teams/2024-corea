@@ -1,6 +1,7 @@
 package corea.member.domain;
 
 public enum AuthRole {
+
     REVIEWEE,
     REVIEWER;
 

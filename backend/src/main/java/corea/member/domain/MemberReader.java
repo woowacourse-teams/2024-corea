@@ -3,6 +3,7 @@ package corea.member.domain;
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
 import corea.member.repository.MemberRepository;
+import corea.member.repository.ReviewerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,14 +14,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberReader {
 
     private final MemberRepository memberRepository;
+    private final ReviewerRepository reviewerRepository;
 
     public Member findOne(long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND));
     }
 
-    public Member findOneByGithubUserId(String githubUserId){
-        return memberRepository.findByGithubUserId(githubUserId)
-                .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND));
+    public boolean isReviewer(String githubUserId) {
+        return reviewerRepository.existsByGithubUserId(githubUserId);
     }
 }

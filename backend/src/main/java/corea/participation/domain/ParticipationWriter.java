@@ -24,7 +24,6 @@ public class ParticipationWriter {
     }
 
     public Participation create(Room room, Member member, MemberRole memberRole, int matchingSize) {
-        validateReviewer(member,memberRole);
         return create(room, member, memberRole, memberRole.getParticipationStatus(), matchingSize);
     }
 
@@ -51,15 +50,6 @@ public class ParticipationWriter {
         }
         participationRepository.deleteAllByRoomId(room.getId());
     }
-    private void validateReviewer(Member member,MemberRole memberRole){
-        if(memberRole.isReviewer() && !member.isReviewer()){
-                throw new CoreaException(ExceptionType.MEMBER_IS_NOT_REVIEWER);
-        }
-        if(memberRole.isBoth() && member.isReviewer()){
-            throw new CoreaException(ExceptionType.MEMBER_IS_NOT_BOTH);
-        }
-    }
-
 
     private void logCreateParticipation(Participation participation) {
         log.info("방에 참가했습니다. id={}, 방 id={}, 참가한 사용자 id={}, 역할={}, 원하는 매칭 인원={}", participation.getId(), participation.getRoomsId(), participation.getMembersId(), participation.getMemberRole(), participation.getMatchingSize());

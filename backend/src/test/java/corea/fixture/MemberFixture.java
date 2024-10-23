@@ -1,8 +1,8 @@
 package corea.fixture;
 
-import corea.member.domain.AuthRole;
 import corea.member.domain.Member;
 import corea.member.domain.Profile;
+import corea.member.domain.Reviewer;
 
 import java.util.List;
 import java.util.stream.IntStream;
@@ -22,21 +22,6 @@ public class MemberFixture {
 
     public static Member MEMBER_YOUNGSU() {
         return MEMBER_YOUNGSU_WITH_ID(null);
-    }
-
-    public static Member MEMBER_YOUNGSU_REVIEWER() {
-        return new Member(
-                null,
-                "youngsu5582",
-                "https://avatars.githubusercontent.com/u/98307410?v=4",
-                "이영수",
-                "youngsu5582@gmail.com",
-                false,
-                "",
-                "98307410",
-                new Profile(),
-                AuthRole.REVIEWER
-        );
     }
 
     public static Member MEMBER_PORORO() {
@@ -73,8 +58,7 @@ public class MemberFixture {
                 false,
                 "",
                 "119468757",
-                new Profile(),
-                AuthRole.REVIEWEE
+                new Profile()
         );
     }
 
@@ -88,8 +72,7 @@ public class MemberFixture {
                 false,
                 "",
                 "80106238",
-                new Profile(),
-                AuthRole.REVIEWEE
+                new Profile()
         );
     }
 
@@ -103,8 +86,7 @@ public class MemberFixture {
                 false,
                 "",
                 "98307410",
-                new Profile(),
-                AuthRole.REVIEWEE
+                new Profile()
         );
     }
 
@@ -118,8 +100,7 @@ public class MemberFixture {
                 false,
                 "",
                 "77227961",
-                new Profile(),
-                AuthRole.REVIEWEE
+                new Profile()
         );
     }
 
@@ -133,8 +114,7 @@ public class MemberFixture {
                 false,
                 "",
                 "70834044",
-                new Profile(),
-                AuthRole.REVIEWEE
+                new Profile()
         );
     }
 
@@ -148,8 +128,7 @@ public class MemberFixture {
                 false,
                 "",
                 "63334368",
-                new Profile(),
-                AuthRole.REVIEWEE
+                new Profile()
         );
     }
 
@@ -163,8 +142,7 @@ public class MemberFixture {
                 false,
                 "",
                 "71641127",
-                new Profile(),
-                AuthRole.REVIEWEE
+                new Profile()
         );
     }
 
@@ -176,8 +154,7 @@ public class MemberFixture {
                 "jcoding-play@gmail.com",
                 false,
                 "119468757",
-                profile,
-                AuthRole.REVIEWEE
+                profile
         );
     }
 
@@ -189,6 +166,13 @@ public class MemberFixture {
                 "jcoding-play@gmail.com",
                 false,
                 "119468757"
+        );
+    }
+
+    public static Reviewer MEMBER_YOUNGSU_REVIEWER() {
+        return new Reviewer(
+                null,
+                "98307410"
         );
     }
 
