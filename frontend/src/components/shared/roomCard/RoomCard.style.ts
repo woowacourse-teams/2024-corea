@@ -146,5 +146,12 @@ export const StyledDday = styled.span`
 
 export const LabelWrapper = styled.div`
   display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
+  height: 53px;
+`;
+
+export const EtcWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
