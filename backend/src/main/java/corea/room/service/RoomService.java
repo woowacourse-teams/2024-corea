@@ -1,7 +1,5 @@
 package corea.room.service;
 
-import corea.exception.CoreaException;
-import corea.exception.ExceptionType;
 import corea.matchresult.repository.MatchResultRepository;
 import corea.member.domain.Member;
 import corea.member.domain.MemberReader;
@@ -23,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -81,10 +80,12 @@ public class RoomService {
 
         Collections.shuffle(participants);
 
-        return new RoomParticipantResponses(participants.stream()
+        List<RoomParticipantResponse> roomParticipantResponses = participants.stream()
                 .limit(RANDOM_DISPLAY_PARTICIPANTS_SIZE)
                 .map(participation -> getRoomParticipantResponse(roomId, participation))
-                .toList(), participants.size());
+                .filter(Objects::nonNull)
+                .toList();
+        return new RoomParticipantResponses(roomParticipantResponses, participants.size());
     }
 
     private boolean isValidParticipant(Participation participation, long memberId) {
@@ -102,7 +103,7 @@ public class RoomService {
                                 .getGithubUserId(), matchResult.getReviewee()
                         .getUsername(), matchResult.getPrLink(), matchResult.getReviewee()
                         .getThumbnailUrl()))
-                .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND));
+                .orElse(null);
     }
 
     public RoomResponse getRoomById(long roomId) {
