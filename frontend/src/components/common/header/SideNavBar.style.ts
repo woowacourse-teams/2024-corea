@@ -43,6 +43,10 @@ export const SideNavBarContainer = styled.div<{ $isOpen: boolean; $isClosing: bo
   width: 60%;
   height: 100vh;
 
+  border-radius: 10px 0 0 10px;
+
+  overflow: hidden auto;
+
   background-color: ${({ theme }) => theme.COLOR.white};
 
   ${({ $isOpen, $isClosing }) => css`
