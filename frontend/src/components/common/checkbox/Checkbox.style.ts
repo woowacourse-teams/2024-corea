@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { VisuallyHidden } from "@/styles/common";
 
 export const CheckboxLabel = styled.label<{ readonly: boolean }>`
-  cursor: pointer;
   cursor: ${({ readonly }) => (readonly ? "not-allowed" : "pointer")};
 
   position: relative;
