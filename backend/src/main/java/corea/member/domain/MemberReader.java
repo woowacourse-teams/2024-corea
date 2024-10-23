@@ -18,4 +18,9 @@ public class MemberReader {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND));
     }
+
+    public Member findOneByGithubUserId(String githubUserId){
+        return memberRepository.findByGithubUserId(githubUserId)
+                .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND));
+    }
 }
