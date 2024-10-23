@@ -26,7 +26,7 @@ export const ContentLayout = styled.div`
   align-items: center;
   justify-content: center;
 
-  width: 1400px;
+  width: 1300px;
   min-height: 100vh;
   padding: 10rem 0;
 
@@ -112,12 +112,12 @@ export const ContentSection = styled.div`
   height: 700px;
 
   ${media.medium`
-    position: relative;
+    gap: 6rem;
     flex-direction: column;
   `}
 
   ${media.small`
-    position: relative;
+    gap: 4rem;
     flex-direction: column;
   `}
 `;
@@ -210,22 +210,18 @@ export const ImgSection = styled.img`
   align-items: center;
   justify-content: center;
 
-  width: 60%;
-  max-width: 600px;
+  height: 350px;
 
   object-fit: contain;
 
   ${media.medium`
-    position: absolute;
-    top: 0;
     width: 100%;
   `}
 
   ${media.small`
-    position: absolute;
-    top: 0;
     width: 100%;
     max-width: 320px;
+    height: fit-content;
   `}
 `;
 
@@ -235,7 +231,7 @@ export const TextSection = styled.div`
   gap: 1rem;
 
   width: 40%;
-  height: 300px;
+  height: 350px;
 
   p.step {
     width: 100%;
@@ -258,9 +254,8 @@ export const TextSection = styled.div`
   }
 
   ${media.medium`
-    position: absolute;
-    top: 500px;
     width: 100%;
+    height: 200px;
 
     p.step {
       width: 100%;
@@ -284,9 +279,8 @@ export const TextSection = styled.div`
   `}
 
   ${media.small`
-    position: absolute;
-    top: 280px;
     width: 90%;
+    height: 200px;
 
     p.step {
       width: 100%;
