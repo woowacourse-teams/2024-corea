@@ -86,6 +86,8 @@ export const RepositoryLink = styled.div`
   gap: 0.5rem;
   align-items: center;
 
+  padding-right: 1rem;
+
   font: ${({ theme }) => theme.TEXT.medium_bold};
 `;
 

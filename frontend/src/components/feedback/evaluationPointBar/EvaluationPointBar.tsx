@@ -62,10 +62,12 @@ const EvaluationPointBar = ({
           onKeyDown={(e) => {
             if (e.key === "Enter") handleRadioChange(option.value);
           }}
+          aria-labelledby={`score-${option.value}`}
         >
           <S.StyledChildren>
-            <Icon kind={option.icon} />
+            <Icon kind={option.icon} aria-hidden={true} />
           </S.StyledChildren>
+          <span id={`score-${option.value}`} hidden>{`${option.value}점`}</span>
         </IconRadioButton>
       ))}
     </S.BarContainer>

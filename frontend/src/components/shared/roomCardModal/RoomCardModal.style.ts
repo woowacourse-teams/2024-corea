@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { EllipsisText } from "@/styles/common";
+import { EllipsisText, VisuallyHidden } from "@/styles/common";
 import media from "@/styles/media";
 
 export const RoomCardModalContainer = styled.div`
@@ -126,8 +126,7 @@ export const RepositoryLink = styled.div`
   gap: 0.4rem;
   align-items: center;
 
-  font: ${({ theme }) => theme.TEXT.small_bold};
-  color: ${({ theme }) => theme.COLOR.primary2};
+  font: ${({ theme }) => theme.TEXT.semiSmall_bold};
 `;
 
 // 마감 날짜, 모집 인원
@@ -262,4 +261,8 @@ export const ButtonWRapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+export const ScreenReader = styled.div`
+  ${VisuallyHidden}
 `;

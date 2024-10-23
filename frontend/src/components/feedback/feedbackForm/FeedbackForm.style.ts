@@ -10,13 +10,13 @@ export const FeedbackFormContainer = styled.div`
   gap: 4rem;
 `;
 
-export const ItemContainer = styled.div`
+export const ItemContainer = styled.fieldset`
   display: flex;
   flex-direction: column;
   gap: 1.6rem;
 `;
 
-export const ModalQuestion = styled.p<ModalQuestionProps>`
+export const ModalQuestion = styled.legend<ModalQuestionProps>`
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
@@ -24,9 +24,10 @@ export const ModalQuestion = styled.p<ModalQuestionProps>`
 
   font: ${({ theme }) => theme.TEXT.small_bold};
   color: ${({ theme }) => theme.COLOR.grey4};
+`;
 
-  span {
-    font: ${({ theme }) => theme.TEXT.semiSmall};
-    color: ${({ theme }) => theme.COLOR.error};
-  }
+export const Required = styled.span`
+  padding-top: 0.5rem;
+  font: ${({ theme }) => theme.TEXT.semiSmall};
+  color: ${({ theme }) => theme.COLOR.error};
 `;

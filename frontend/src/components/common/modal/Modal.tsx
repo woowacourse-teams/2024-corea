@@ -18,6 +18,22 @@ export interface ModalProps {
 const Modal = ({ isOpen, onClose, hasCloseButton = true, style, children }: ModalProps) => {
   const [isClosing, setIsClosing] = useState(false);
   useEffect(() => {
+    [...document.body.children].forEach((element) => {
+      if (element.id === "toast") return;
+
+      if (element.id === "modal") {
+        element.removeAttribute("aria-hidden");
+        return;
+      }
+
+      if (isOpen) {
+        element.setAttribute("aria-hidden", "true");
+        return;
+      }
+
+      element.removeAttribute("aria-hidden");
+    });
+
     if (isOpen) {
       document.body.style.overflow = "hidden";
     } else {
@@ -58,8 +74,12 @@ const Modal = ({ isOpen, onClose, hasCloseButton = true, style, children }: Moda
           }}
         >
           <div>
+            {hasCloseButton && (
+              <S.CloseButton onClick={handleModalClose} aria-label="모달 닫기">
+                &times;
+              </S.CloseButton>
+            )}
             {children}
-            {hasCloseButton && <S.CloseButton onClick={handleModalClose}>&times;</S.CloseButton>}
           </div>
         </FocusTrap>
       </S.ModalContent>

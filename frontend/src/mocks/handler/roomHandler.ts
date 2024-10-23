@@ -5,6 +5,7 @@ import participantList from "@/mocks/mockResponse/participantList.json";
 import reviewInfo from "@/mocks/mockResponse/reviewInfo.json";
 import roomInfo from "@/mocks/mockResponse/roomInfo.json";
 import roomInfos from "@/mocks/mockResponse/roomInfos.json";
+import writedFeedback from "@/mocks/mockResponse/writedFeedback.json";
 
 const roomHandler = [
   http.get(serverUrl + API_ENDPOINTS.PARTICIPATED_ROOMS, () => {
@@ -31,6 +32,12 @@ const roomHandler = [
   }),
   http.get(serverUrl + API_ENDPOINTS.REVIEWEES(1), () => {
     return HttpResponse.json(reviewInfo, { status: 200 });
+  }),
+  http.get(serverUrl + API_ENDPOINTS.REVIEWER_FEEDBACK(1), () => {
+    return HttpResponse.json(writedFeedback, { status: 200 });
+  }),
+  http.get(serverUrl + API_ENDPOINTS.REVIEWEE_FEEDBACK(1), () => {
+    return HttpResponse.json(writedFeedback, { status: 200 });
   }),
   http.get(serverUrl + API_ENDPOINTS.PARTICIPANT_LIST(1), () => {
     return HttpResponse.json(participantList, { status: 200 });
