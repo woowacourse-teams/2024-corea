@@ -1,4 +1,4 @@
-import React, { Children, ReactNode, isValidElement, useEffect, useState } from "react";
+import React, { Children, ReactNode, isValidElement, useState } from "react";
 import * as S from "@/components/common/carousel/Carousel.style";
 import Icon from "@/components/common/icon/Icon";
 
@@ -18,6 +18,11 @@ const Carousel = ({ children }: CarouselProps) => {
 
   return (
     <S.CarouselContainer>
+      <S.CarouselWrapper $currentIndex={currentIndex}>
+        {validChildren.map((child, index) => (
+          <S.CarouselItem key={index}>{child}</S.CarouselItem>
+        ))}
+      </S.CarouselWrapper>
       <S.CarouselLeftButton
         onClick={prevSlide}
         disabled={currentIndex === 0}
@@ -34,11 +39,6 @@ const Carousel = ({ children }: CarouselProps) => {
       >
         <Icon kind="arrowRight" size="3rem" />
       </S.CarouselRightButton>
-      <S.CarouselWrapper $currentIndex={currentIndex}>
-        {validChildren.map((child, index) => (
-          <S.CarouselItem key={index}>{child}</S.CarouselItem>
-        ))}
-      </S.CarouselWrapper>
     </S.CarouselContainer>
   );
 };
