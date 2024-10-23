@@ -66,10 +66,12 @@ public class ParticipationService {
     }
 
     private void validateRole(Member member, MemberRole memberRole) {
-        if (memberReader.isNotReviewer(member.getGithubUserId()) && memberRole.isReviewer()) {
+        boolean isReviewer = memberReader.isReviewer(member.getGithubUserId());
+
+        if (!isReviewer && memberRole.isReviewer()) {
             throw new CoreaException(ExceptionType.MEMBER_IS_NOT_REVIEWER);
         }
-        if (memberReader.isReviewer(member.getGithubUserId()) && memberRole.isBoth()) {
+        if (isReviewer && memberRole.isBoth()) {
             throw new CoreaException(ExceptionType.MEMBER_IS_NOT_BOTH);
         }
     }

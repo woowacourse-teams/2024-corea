@@ -24,8 +24,4 @@ public class MemberReader {
     public boolean isReviewer(String githubUserId) {
         return reviewerRepository.existsByGithubUserId(githubUserId);
     }
-
-    public boolean isNotReviewer(String githubUserId) {
-        return !reviewerRepository.existsByGithubUserId(githubUserId);
-    }
 }
