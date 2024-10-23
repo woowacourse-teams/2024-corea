@@ -9,8 +9,9 @@ import {
   step1_pic,
   step2_pic,
   step3_pic,
-  step4_pic,
   step5_pic,
+  step41_pic,
+  step42_pic,
 } from "@/assets/index";
 
 const IntroPage = () => {
@@ -79,9 +80,9 @@ const IntroPage = () => {
         <S.ContentSection>
           <S.ImgSection src={step1_pic} />
           <S.TextSection>
-            <p className="step">STEP1</p>
+            <p className="step">STEP 1</p>
             <p className="main">방 참여</p>
-            <p className="sub">방 정보 모달을 확인하고, 원하는 미션에 참여하세요.</p>
+            <p className="sub">원하는 미션을 선택하고 방 세부 정보를 확인한 후 참여하세요.</p>
           </S.TextSection>
         </S.ContentSection>
       </S.ContentLayout>
@@ -89,9 +90,9 @@ const IntroPage = () => {
       <S.ContentLayout>
         <S.ContentSection>
           <S.TextSectionRight>
-            <p className="step">STEP2</p>
+            <p className="step">STEP 2</p>
             <p className="main">리뷰어, 리뷰이 매칭</p>
-            <p className="sub">모집 마감일이 지나면 리뷰어, 리뷰이가 매칭돼요.</p>
+            <p className="sub">모집 마감 후 리뷰어와 리뷰이가 자동으로 매칭돼요.</p>
           </S.TextSectionRight>
           <S.ImgSection src={step2_pic} />
         </S.ContentSection>
@@ -101,11 +102,9 @@ const IntroPage = () => {
         <S.ContentSection>
           <S.ImgSection src={step3_pic} />
           <S.TextSection>
-            <p className="step">STEP3</p>
+            <p className="step">STEP 3</p>
             <p className="main">코드리뷰</p>
-            <p className="sub">
-              나의 리뷰이 영역에 제공되는 PR링크로 이동하여 깃허브에서 코드리뷰를 남겨요.
-            </p>
+            <p className="sub">매칭된 리뷰이의 PR 링크에서 깃허브 코드리뷰를 진행해요.</p>
           </S.TextSection>
         </S.ContentSection>
       </S.ContentLayout>
@@ -113,22 +112,37 @@ const IntroPage = () => {
       <S.ContentLayout>
         <S.ContentSection>
           <S.TextSectionRight>
-            <p className="step">STEP4</p>
-            <p className="main">피드백 작성</p>
-            <p className="sub">피드백 작성 버튼이 보이면 상대방 피드백을 작성해요.</p>
+            <p className="step">STEP 4-1</p>
+            <p className="main">피드백 작성 for 리뷰이</p>
+            <p className="sub">
+              코드리뷰를 마치고 코드리뷰 완료 버튼을 클릭하면 피드백을 작성할 수 있어요.
+            </p>
+            <p className="sub">리뷰어의 코드리뷰에 대한 피드백을 남겨주세요.</p>
           </S.TextSectionRight>
-          <S.ImgSection src={step4_pic} />
+          <S.ImgSection src={step41_pic} />
+        </S.ContentSection>
+      </S.ContentLayout>
+
+      <S.ContentLayout>
+        <S.ContentSection>
+          <S.TextSection>
+            <p className="step">STEP 4-2</p>
+            <p className="main">피드백 작성 for 리뷰어</p>
+            <p className="sub">리뷰어가 코드리뷰를 완료하면 피드백 작성 버튼이 활성화돼요.</p>
+            <p className="sub">버튼을 클릭하여 상대방의 리뷰에 대한 피드백을 남겨주세요.</p>
+          </S.TextSection>
+          <S.ImgSection src={step42_pic} />
         </S.ContentSection>
       </S.ContentLayout>
 
       <S.ContentLayout>
         <S.ContentSection>
           <S.ImgSection src={step5_pic} />
-          <S.TextSection>
-            <p className="step">STEP5</p>
+          <S.TextSectionRight>
+            <p className="step">STEP 5</p>
             <p className="main">피드백 확인</p>
-            <p className="sub">상대방이 나에게 작성해준 피드백도 확인할 수 있어요.</p>
-          </S.TextSection>
+            <p className="sub">피드백 모아보기에서 주고받은 모든 피드백을 확인할 수 있어요.</p>
+          </S.TextSectionRight>
         </S.ContentSection>
         <S.ButtonWrapper style={{ position: "absolute", bottom: "10%" }}>
           <Button onClick={() => navigate("/")} size="large">
