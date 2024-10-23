@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const oneSecond = 1000;
+const ONE_SECOND = 1000;
 
 const useCountDown = (second: number) => {
   const [remainingTime, setRemainingTime] = useState(0);
@@ -19,7 +19,7 @@ const useCountDown = (second: number) => {
         }
         return prevTime - 1;
       });
-    }, oneSecond);
+    }, ONE_SECOND);
   };
 
   return { remainingTime, isRefreshing, startRefreshCountDown };
