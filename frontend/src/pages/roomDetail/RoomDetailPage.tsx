@@ -118,7 +118,7 @@ const RoomDetailPage = () => {
         </S.FeedbackSection>
       </S.FeedbackContainer>
 
-      <ContentSection title="함께 하는 참여자 살펴보기">
+      <ContentSection title="미션을 함께 하는 참여자 살펴보기">
         <S.StyledDescription>
           해당 방에 같이 참여중인 인원 중 6명을 랜덤으로 보여줍니다. 새로고침 버튼을 통해 새로운
           리스트를 확인할 수 있습니다.
