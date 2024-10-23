@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import SentryTotalBoundary from "@/components/common/errorBoundary/SentryTotalBoundary";
 import Header from "@/components/common/header/Header";
 import * as S from "@/components/layout/Layout.style";
@@ -8,19 +8,30 @@ import { initializeSentryUser } from "@/Sentry";
 
 const Layout = () => {
   RouteChangeTracker();
+  const location = useLocation();
 
   useEffect(() => {
     initializeSentryUser();
   }, []);
 
+  const isIntroPage = location.pathname === "/intro";
+
   return (
     <>
-      <Header />
-      <S.ContentContainer>
+      {isIntroPage ? (
         <SentryTotalBoundary>
           <Outlet />
         </SentryTotalBoundary>
-      </S.ContentContainer>
+      ) : (
+        <>
+          <Header />
+          <S.ContentContainer>
+            <SentryTotalBoundary>
+              <Outlet />
+            </SentryTotalBoundary>
+          </S.ContentContainer>
+        </>
+      )}
     </>
   );
 };

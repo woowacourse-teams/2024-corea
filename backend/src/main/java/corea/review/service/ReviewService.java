@@ -6,6 +6,7 @@ import corea.matchresult.domain.MatchResult;
 import corea.matchresult.domain.MatchResultReader;
 import corea.matchresult.domain.MatchResultWriter;
 import corea.review.dto.GithubPullRequestReview;
+import corea.review.dto.GithubPullRequestReviewInfo;
 import corea.review.infrastructure.GithubReviewProvider;
 import corea.room.domain.RoomReader;
 import corea.room.domain.RoomStatus;
@@ -34,15 +35,16 @@ public class ReviewService {
             throw new CoreaException(ExceptionType.ROOM_STATUS_INVALID);
         }
         MatchResult matchResult = matchResultReader.findOne(roomId, reviewerId, revieweeId);
-        String prLink = getPrReviewLink(matchResult.getPrLink(), matchResult.getReviewerGithubId());
-        matchResultWriter.reviewComplete(matchResult, prLink);
+        String reviewLink = getPrReviewLink(matchResult.getPrLink(), matchResult.getReviewerGithubId());
+        matchResultWriter.reviewComplete(matchResult, reviewLink);
 
         log.info("리뷰 완료[{매칭 ID({}), 리뷰어 ID({}, 리뷰이 ID({})", matchResult.getId(), reviewerId, revieweeId);
     }
 
     private String getPrReviewLink(String prLink, String reviewerGithubId) {
-        return githubReviewProvider.getReviewWithPrLink(prLink)
-                .findWithGithubUserId(reviewerGithubId)
+        GithubPullRequestReviewInfo reviewInfo = githubReviewProvider.provideReviewInfo(prLink);
+
+        return reviewInfo.findWithGithubUserId(reviewerGithubId)
                 .map(GithubPullRequestReview::html_url)
                 .orElseThrow(() -> new CoreaException(ExceptionType.NOT_COMPLETE_GITHUB_REVIEW));
     }

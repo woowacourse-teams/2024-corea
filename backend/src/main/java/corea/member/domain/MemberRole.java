@@ -24,6 +24,10 @@ public enum MemberRole {
         return this == REVIEWER;
     }
 
+    public boolean isBoth(){
+        return this == BOTH;
+    }
+
     public ParticipationStatus getParticipationStatus() {
         return switch (this) {
             case REVIEWER, REVIEWEE, BOTH -> ParticipationStatus.PARTICIPATED;

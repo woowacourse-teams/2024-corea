@@ -1,0 +1,47 @@
+{
+  "participants": [
+    {
+      "githubId": "1",
+      "username": "asd",
+      "prLink": "we",
+      "thumbnailLink": "https://avatars.githubusercontent.com/u/63334368?v=4"
+    },
+    {
+      "githubId": "2",
+      "username": "asd",
+      "prLink": "we",
+      "thumbnailLink": "https://avatars.githubusercontent.com/u/63334368?v=4"
+    },
+    {
+      "githubId": "3",
+      "username": "asd",
+      "prLink": "we",
+      "thumbnailLink": "https://avatars.githubusercontent.com/u/63334368?v=4"
+    },
+    {
+      "githubId": "4",
+      "username": "asd",
+      "prLink": "we",
+      "thumbnailLink": "https://avatars.githubusercontent.com/u/63334368?v=4"
+    },
+    {
+      "githubId": "5",
+      "username": "asd",
+      "prLink": "we",
+      "thumbnailLink": "https://avatars.githubusercontent.com/u/63334368?v=4"
+    },
+    {
+      "githubId": "6",
+      "username": "asd",
+      "prLink": "we",
+      "thumbnailLink": "https://avatars.githubusercontent.com/u/63334368?v=4"
+    },
+    {
+      "githubId": "7",
+      "username": "asd",
+      "prLink": "we",
+      "thumbnailLink": "https://avatars.githubusercontent.com/u/63334368?v=4"
+    }
+  ],
+  "size": 7
+}

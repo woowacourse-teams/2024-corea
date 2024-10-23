@@ -38,8 +38,7 @@ public class MatchingExecutor {
                 return null;
             });
         } catch (CoreaException e) {
-            log.warn("매칭 실행 중 에러 발생: {}", e.getMessage(), e);
-            recordMatchingFailure(roomId, e.getExceptionType());
+            recordMatchingFailure(roomId, e);
         }
     }
 
@@ -50,12 +49,12 @@ public class MatchingExecutor {
         matchingService.match(roomId, pullRequestInfo);
     }
 
-    private void recordMatchingFailure(long roomId, ExceptionType exceptionType) {
+    private void recordMatchingFailure(long roomId, CoreaException e) {
         //TODO: 위와 동일
         TransactionTemplate template = new TransactionTemplate(transactionManager);
         template.execute(status -> {
             updateRoomStatusToFail(roomId);
-            saveFailedMatching(roomId, exceptionType);
+            saveFailedMatching(roomId, e);
             return null;
         });
     }
@@ -65,9 +64,11 @@ public class MatchingExecutor {
         room.updateStatusToFail();
     }
 
-    private void saveFailedMatching(long roomId, ExceptionType exceptionType) {
-        FailedMatching failedMatching = new FailedMatching(roomId, exceptionType);
+    private void saveFailedMatching(long roomId, CoreaException e) {
+        FailedMatching failedMatching = new FailedMatching(roomId, e.getExceptionType());
         failedMatchingRepository.save(failedMatching);
+
+        log.info("매칭 실행 중 에러 발생. 방 아이디={}, 실패 원인={}", roomId, e.getMessage(), e);
     }
 
     private Room getRoom(long roomId) {

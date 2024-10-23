@@ -22,7 +22,7 @@ class ProfileRepositoryTest {
     @DisplayName("사용자가 쓴 피드백의 개수를 셀 수 있다.")
     void findDeliverCountByProfile() {
         Profile profile = new Profile(3, 2, 1, 5.0f, 5.0f);
-        memberRepository.save(MemberFixture.MEMBER_PORORO(profile));
+        profileRepository.save(profile);
 
         long result = profileRepository.findDeliverCountByProfile(profile);
 
