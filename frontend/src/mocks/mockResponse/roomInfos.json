@@ -71,7 +71,7 @@
       "recruitmentDeadline": "2024-10-12T19:00",
       "reviewDeadline": "2024-10-13T23:59",
       "roomStatus": "OPEN",
-      "participationStatus": "PARTICIPATED",
+      "participationStatus": "NOT_PARTICIPATED",
       "memberRole": "BOTH",
       "classification": "BACKEND",
       "message": "방 실패했습니다."
