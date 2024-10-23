@@ -59,8 +59,18 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
           </S.RoomContentSmall>
           <S.RoomContentSmall>
             <Icon kind="person" size="1.8rem" color={theme.COLOR.grey4} />
-            <span>현재 참여 인원 : </span>
-            {roomInfo.currentParticipants} / {roomInfo.limitedParticipants}명
+            <span>총 인원 : </span>
+            {roomInfo.reviewerCount + roomInfo.bothCount} / {roomInfo.limitedParticipants}명
+          </S.RoomContentSmall>
+          <S.RoomContentSmall>
+            <Icon kind="person" size="1.8rem" color={theme.COLOR.grey4} />
+            <span>리뷰어 인원 : </span>
+            {roomInfo.reviewerCount} / {roomInfo.reviewerCount + roomInfo.bothCount}명
+          </S.RoomContentSmall>
+          <S.RoomContentSmall>
+            <Icon kind="person" size="1.8rem" color={theme.COLOR.grey4} />
+            <span>참여자 인원 : </span>
+            {roomInfo.bothCount} / {roomInfo.reviewerCount + roomInfo.bothCount}명
           </S.RoomContentSmall>
           <S.RoomContentSmall>
             <Icon kind="person" size="1.8rem" color={theme.COLOR.grey4} />

@@ -94,15 +94,12 @@ const RoomCard = React.memo(({ roomInfo }: RoomCardProps) => {
 
           <S.EtcContainer>
             <S.LabelWrapper>{DisplayLabel(roomInfo)}</S.LabelWrapper>
-          </S.EtcContainer>
-
-          <S.EtcWrapper>
             <S.DeadLineText>{DisplayLeftTime(roomInfo)}</S.DeadLineText>
             <S.JoinMember>
               <Icon kind="person" size="1.8rem" color={theme.COLOR.grey4} />
-              {roomInfo.currentParticipants}/{roomInfo.limitedParticipants}
+              {roomInfo.reviewerCount + roomInfo.bothCount} / {roomInfo.limitedParticipants}
             </S.JoinMember>
-          </S.EtcWrapper>
+          </S.EtcContainer>
         </S.RoomInformation>
       </S.RoomCardContainer>
     </>

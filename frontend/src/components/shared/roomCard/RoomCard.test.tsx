@@ -8,7 +8,8 @@ import { theme } from "@/styles/theme";
 const mockBaseRoomInfo: RoomInfo = {
   id: 1,
   manager: "darr",
-  currentParticipants: 5,
+  reviewerCount: 2,
+  bothCount: 3,
   roomStatus: "OPEN",
   participationStatus: "PARTICIPATED",
   memberRole: "BOTH",

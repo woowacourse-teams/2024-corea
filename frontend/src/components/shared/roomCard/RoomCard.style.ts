@@ -114,7 +114,8 @@ export const NoKeywordText = styled.span`
 
 export const EtcContainer = styled.div`
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 0.6rem;
 `;
 
 export const JoinMember = styled.span`
@@ -149,9 +150,4 @@ export const LabelWrapper = styled.div`
   flex-wrap: wrap;
   gap: 0.5rem;
   height: 53px;
-`;
-
-export const EtcWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
 `;
