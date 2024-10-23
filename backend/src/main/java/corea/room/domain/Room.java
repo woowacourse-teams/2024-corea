@@ -41,7 +41,9 @@ public class Room extends BaseTimeEntity {
     @Convert(converter = StringToListConverter.class)
     private List<String> keyword;
 
-    private int currentParticipantsSize;
+    private int reviewerCount;
+
+    private int bothCount;
 
     private int limitedParticipantsSize;
 
@@ -67,21 +69,31 @@ public class Room extends BaseTimeEntity {
     @Enumerated(value = EnumType.STRING)
     private RoomStatus status;
 
-    public Room(String title, String content, int matchingSize, String repositoryLink, String thumbnailLink, List<String> keyword, int currentParticipantsSize, int limitedParticipantsSize, Member manager, LocalDateTime recruitmentDeadline, LocalDateTime reviewDeadline, RoomClassification classification, RoomStatus status) {
-        this(null, title, content, matchingSize, repositoryLink, thumbnailLink, keyword, currentParticipantsSize, limitedParticipantsSize, manager, recruitmentDeadline, reviewDeadline, classification, status);
+    public Room(String title, String content, int matchingSize, String repositoryLink, String thumbnailLink, List<String> keyword, int reviewerCount, int bothCount, int limitedParticipantsSize, Member manager, LocalDateTime recruitmentDeadline, LocalDateTime reviewDeadline, RoomClassification classification, RoomStatus status) {
+        this(null, title, content, matchingSize, repositoryLink, thumbnailLink, keyword, reviewerCount, bothCount, limitedParticipantsSize, manager, recruitmentDeadline, reviewDeadline, classification, status);
     }
 
-    public void cancelParticipation() {
+    public void increaseReviewerCount() {
         validateOpened();
-        currentParticipantsSize = Math.max(0, currentParticipantsSize - 1);
+        this.reviewerCount++;
     }
 
-    public void participate() {
+    public void increaseBothCount() {
         validateOpened();
-        if (currentParticipantsSize >= limitedParticipantsSize) {
+        if (bothCount >= limitedParticipantsSize) {
             throw new CoreaException(ExceptionType.ROOM_PARTICIPANT_EXCEED);
         }
-        currentParticipantsSize += 1;
+        this.bothCount++;
+    }
+
+    public void decreaseReviewerCount() {
+        validateOpened();
+        reviewerCount = Math.max(0, reviewerCount - 1);
+    }
+
+    public void decreaseBothCount() {
+        validateOpened();
+        bothCount = Math.max(0, bothCount - 1);
     }
 
     private void validateOpened() {
