@@ -20,7 +20,14 @@ const guidePageOptions = [
     title: "BACKEND",
     link: "https://code-review-area.notion.site/v-1-0-b2ea7761e0e949e396c3bdd45860d270?pvs=4",
   },
-  { title: "FRONTEND", link: "http://code-review-area.notion.site" },
+  {
+    title: "FRONTEND",
+    link: "https://code-review-area.notion.site/v-1-0-a2f03dd6258a4789aba38722125da514",
+  },
+  {
+    title: "ANDROID",
+    link: "https://kangdabin.notion.site/v-1-0-128cd3aed24b80c29c9bfd145e341361",
+  },
 ];
 
 const GuidePage = () => {
