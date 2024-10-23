@@ -19,6 +19,8 @@ const Modal = ({ isOpen, onClose, hasCloseButton = true, style, children }: Moda
   const [isClosing, setIsClosing] = useState(false);
   useEffect(() => {
     [...document.body.children].forEach((element) => {
+      if (element.id === "toast") return;
+
       if (element.id === "modal") {
         element.removeAttribute("aria-hidden");
         return;
