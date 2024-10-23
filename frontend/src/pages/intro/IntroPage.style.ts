@@ -26,12 +26,16 @@ export const ContentLayout = styled.div`
   align-items: center;
   justify-content: center;
 
-  width: 1300px;
+  width: 1000px;
   min-height: 100vh;
   padding: 10rem 0;
 
+  @media (width >= 1300px) {
+    width: 1200px;
+  }
+
   ${media.medium`
-    width: 600px;
+    width: 580px;
   `}
 
   ${media.small`
@@ -250,7 +254,8 @@ export const TextSection = styled.div`
   p.sub {
     width: 100%;
     font: ${({ theme }) => theme.TEXT.xLarge};
-    line-height: 2.4rem;
+    line-height: normal;
+    word-break: keep-all;
   }
 
   ${media.medium`
@@ -274,7 +279,8 @@ export const TextSection = styled.div`
     p.sub {
       width: 100%;
       font: ${({ theme }) => theme.TEXT.xLarge};
-      line-height: 2.4rem;
+      line-height: normal;
+      word-break: keep-all;
     }
   `}
 
@@ -298,7 +304,8 @@ export const TextSection = styled.div`
     p.sub {
       width: 100%;    
       font: ${({ theme }) => theme.TEXT.medium};
-      line-height: 2.4rem;
+      line-height: normal;
+      word-break: keep-all;
     }
   `}
 `;
