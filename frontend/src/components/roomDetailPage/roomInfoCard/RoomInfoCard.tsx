@@ -9,6 +9,8 @@ import { theme } from "@/styles/theme";
 import { displayLeftTime, formatDateTimeString, formatDday } from "@/utils/dateFormatter";
 
 const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
+  const displayedKeywords = roomInfo.keywords.filter((keyword) => keyword !== "");
+
   return (
     <S.RoomInfoCardContainer>
       <S.ClassificationBadgeWrapper>
@@ -34,10 +36,10 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
 
         <S.RoomContentBox>
           <S.RoomTagBox>
-            {roomInfo.keywords.length === 1 ? (
+            {displayedKeywords.length === 0 ? (
               <S.NoKeywordText>지정된 키워드 없음</S.NoKeywordText>
             ) : (
-              roomInfo.keywords.map((keyword) => (
+              displayedKeywords.map((keyword) => (
                 <Label
                   key={keyword}
                   type="KEYWORD"
