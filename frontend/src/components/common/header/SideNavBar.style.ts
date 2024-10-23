@@ -124,6 +124,7 @@ export const NavItem = styled.li`
   &:hover,
   &:focus {
     background-color: ${({ theme }) => theme.COLOR.grey0};
+    border-radius: 5px;
   }
 
   a {
