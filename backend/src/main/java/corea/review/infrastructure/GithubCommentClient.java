@@ -16,23 +16,23 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 @EnableConfigurationProperties(GithubProperties.class)
 @Component
 @RequiredArgsConstructor
-public class GithubReviewClient {
+public class GithubCommentClient {
 
     private final RestClient restClient;
     private final GithubPullRequestUrlExchanger githubPullRequestUrlExchanger;
 
-    public List<GithubPullRequestReview> getPullRequestReviews(String prLink) {
-        String reviewApiUrl = githubPullRequestUrlExchanger.pullRequestUrlToReview(prLink);
+    public List<GithubPullRequestReview> getPullRequestComments(String prLink) {
+        String commentApiUrl = githubPullRequestUrlExchanger.pullRequestUrlToComment(prLink);
 
         return Stream.iterate(1, page -> page + 1)
-                .map(page -> getPullRequestReviewsForPage(page, reviewApiUrl))
-                .takeWhile(this::hasMoreReviews)
+                .map(page -> getPullRequestCommentsForPage(page, commentApiUrl))
+                .takeWhile(this::hasMoreComments)
                 .flatMap(Arrays::stream)
                 .toList();
     }
 
-    private GithubPullRequestReview[] getPullRequestReviewsForPage(int page, String reviewApiUrl) {
-        String url = buildPageUrl(page, reviewApiUrl);
+    private GithubPullRequestReview[] getPullRequestCommentsForPage(int page, String commentApiUrl) {
+        String url = buildPageUrl(page, commentApiUrl);
 
         return restClient.get()
                 .uri(url)
@@ -41,11 +41,11 @@ public class GithubReviewClient {
                 .body(GithubPullRequestReview[].class);
     }
 
-    private String buildPageUrl(int page, String reviewApiUrl) {
-        return reviewApiUrl + "?page=" + page + "&per_page=100";
+    private String buildPageUrl(int page, String commentApiUrl) {
+        return commentApiUrl + "?page=" + page + "&per_page=100";
     }
 
-    private boolean hasMoreReviews(GithubPullRequestReview[] reviews) {
-        return reviews.length > 0;
+    private boolean hasMoreComments(GithubPullRequestReview[] comments) {
+        return comments.length > 0;
     }
 }
