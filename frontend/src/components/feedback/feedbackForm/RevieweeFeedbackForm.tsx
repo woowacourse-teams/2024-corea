@@ -31,10 +31,8 @@ const RevieweeFeedbackForm = ({ formState, onChange, modalType }: RevieweeFeedba
   return (
     <S.FeedbackFormContainer>
       <S.ItemContainer>
-        <S.ModalQuestion>
-          리뷰이의 개발 역량 향상을 위해 코드를 평가 해주세요.
-          <span>*필수입력</span>
-        </S.ModalQuestion>
+        <S.ModalQuestion>리뷰이의 개발 역량 향상을 위해 코드를 평가 해주세요.</S.ModalQuestion>
+        <S.Required>*필수입력</S.Required>
         <EvaluationPointBar
           initialOptionId={formState.evaluationPoint}
           onChange={(value) => onChange("evaluationPoint", value)}
@@ -43,10 +41,8 @@ const RevieweeFeedbackForm = ({ formState, onChange, modalType }: RevieweeFeedba
       </S.ItemContainer>
 
       <S.ItemContainer>
-        <S.ModalQuestion>
-          위와 같이 선택한 이유를 알려주세요. (1개 이상 선택)
-          <span>*필수입력</span>
-        </S.ModalQuestion>
+        <S.ModalQuestion>위와 같이 선택한 이유를 알려주세요. (1개 이상 선택)</S.ModalQuestion>
+        <S.Required>*필수입력</S.Required>
         <KeywordOptionButton
           selectedOptions={formState.feedbackKeywords}
           onChange={(value) => onChange("feedbackKeywords", value)}
@@ -57,10 +53,8 @@ const RevieweeFeedbackForm = ({ formState, onChange, modalType }: RevieweeFeedba
       </S.ItemContainer>
 
       <S.ItemContainer>
-        <S.ModalQuestion>
-          리뷰이의 코드를 추천하시나요? (비공개 항목)
-          <span>*필수입력</span>
-        </S.ModalQuestion>
+        <S.ModalQuestion>리뷰이의 코드를 추천하시나요? (비공개 항목)</S.ModalQuestion>
+        <S.Required>*필수입력</S.Required>
         <RecommendationPointBar
           initialOptionId={formState.recommendationPoint}
           onChange={(value) => onChange("recommendationPoint", value)}

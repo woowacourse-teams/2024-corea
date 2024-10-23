@@ -53,11 +53,15 @@ export const RoomInfoCardContent = styled.div`
   width: 100%;
   height: 100%;
   padding: 2rem 1rem;
+
+  ${media.small`
+    padding: 3rem 1rem;
+  `}
 `;
 
 export const RoomHeaderWrapper = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-flow: row wrap;
   align-items: flex-start;
   justify-content: space-between;
 
@@ -75,8 +79,14 @@ export const RoomHeaderWrapper = styled.div`
 `;
 
 export const RoomTitle = styled.span`
+  max-width: calc(100% - 160px);
   font: ${({ theme }) => theme.TEXT.large_bold};
+  line-height: 2.5rem;
   color: ${({ theme }) => theme.COLOR.black};
+
+  ${media.small`
+    max-width: 100%;
+  `}
 `;
 
 export const RepositoryLink = styled.div`

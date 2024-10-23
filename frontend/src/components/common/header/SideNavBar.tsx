@@ -80,7 +80,11 @@ const SideNavBar = ({ isOpen, onClose, isLoggedIn }: SideNavBarProps) => {
       {isLoggedIn ? (
         <>
           <S.TopSection>
-            <Button onClick={handleClose} size="xSmall">
+            <Button
+              onClick={handleClose}
+              size="xSmall"
+              style={{ background: "transparent", color: "black" }}
+            >
               <Icon kind="close" size="2.4rem" />
             </Button>
             <S.ProfileWrapper>
