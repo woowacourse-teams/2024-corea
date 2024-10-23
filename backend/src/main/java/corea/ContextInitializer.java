@@ -422,7 +422,7 @@ public class ContextInitializer implements ApplicationRunner {
                 new Room("코틀린 숫자 야구", "코틀린 기초 같이 할 사람", 3,
                         "https://github.com/example/kotlin-baseball",
                         "https://static.ebs.co.kr/images/public/lectures/2014/06/19/10/bhpImg/44deb98d-1c50-4073-9bd7-2c2c28d65f9e.jpg",
-                        List.of("코틀린"), 1, 20, member,
+                        List.of("코틀린"), 1, 1, 20, member,
                         LocalDateTime.now()
                                 .plusDays(2),
                         LocalDateTime.now()
@@ -432,7 +432,7 @@ public class ContextInitializer implements ApplicationRunner {
                 new Room("자바스크립트 크리스마스", "진짜 요구사항대로 구현하기!", 3,
                         "https://github.com/example/javascript-christmas",
                         "https://static.ebs.co.kr/images/ebs/WAS-HOME/portal/upload/img/programinfo/person/per/1242723588618_dphGgSgOAp.jpg",
-                        List.of("구현", "자바스크립트"), 1, 20, member,
+                        List.of("구현", "자바스크립트"), 1, 1, 20, member,
                         LocalDateTime.now()
                                 .plusDays(5),
                         LocalDateTime.now()
@@ -443,7 +443,7 @@ public class ContextInitializer implements ApplicationRunner {
                         "https://github.com/example/java-racingcar",
                         "https://static.ebs.co.kr/images/ebs/WAS-HOME/portal/upload/img/programinfo/person/per/1242723572507_BOtiBfIuyL.jpg",
                         List.of("TDD"),
-                        1, 20, member,
+                        1, 1, 20, member,
                         LocalDateTime.now()
                                 .plusDays(3),
                         LocalDateTime.now()
@@ -454,7 +454,7 @@ public class ContextInitializer implements ApplicationRunner {
                         "https://github.com/example/java-racingcar",
                         "https://static.ebs.co.kr/images/ebs/WAS-HOME/portal/upload/img/programinfo/person/per/1242723212878_bxr2reBk9w.jpg",
                         List.of("TDD"),
-                        1, 20, member,
+                        1, 1, 20, member,
                         LocalDateTime.now()
                                 .plusDays(3),
                         LocalDateTime.now()
@@ -466,7 +466,7 @@ public class ContextInitializer implements ApplicationRunner {
                         "https://github.com/example/java-racingcar",
                         "https://static.ebs.co.kr/images/ebs/WAS-HOME/portal/upload/img/programinfo/person/per/1242723602807_VcCnrrJwzW.jpg",
                         List.of("TDD", "클린코드"),
-                        1, 20, member,
+                        1, 1, 20, member,
                         LocalDateTime.now()
                                 .plusDays(3),
                         LocalDateTime.now()
@@ -477,7 +477,7 @@ public class ContextInitializer implements ApplicationRunner {
                         "https://github.com/example/java-racingcar",
                         "https://static.ebs.co.kr/images/ebs/WAS-HOME/portal/upload/img/programinfo/person/per/1242723549377_49L83YjvJL.jpg",
                         List.of("TDD"),
-                        1, 20, member,
+                        1, 1, 20, member,
                         LocalDateTime.now()
                                 .plusDays(3),
                         LocalDateTime.now()
@@ -488,7 +488,7 @@ public class ContextInitializer implements ApplicationRunner {
                         "https://github.com/example/java-racingcar",
                         "https://static.ebs.co.kr/images/ebs/WAS-HOME/portal/upload/img/programinfo/person/per/1242723513396_kp9fgpCfTO.jpg",
                         List.of("TDD"),
-                        1, 20, member,
+                        1, 1, 20, member,
                         LocalDateTime.now()
                                 .plusDays(3),
                         LocalDateTime.now()
@@ -499,7 +499,7 @@ public class ContextInitializer implements ApplicationRunner {
                         "https://github.com/example/java-racingcar",
                         "https://static.ebs.co.kr/images/ebs/WAS-HOME/portal/upload/img/programinfo/person/per/1242724730403_Qkb1tVuekp.jpg",
                         List.of("TDD"),
-                        1, 20, member,
+                        1, 1, 20, member,
                         LocalDateTime.now()
                                 .plusDays(3),
                         LocalDateTime.now()
@@ -510,7 +510,7 @@ public class ContextInitializer implements ApplicationRunner {
                         "https://github.com/example/java-racingcar",
                         "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=13301655&filePath=L2Rpc2sxL25ld2RhdGEvMjAyMS8yMS9DTFMxMDAwNC8xMzMwMTY1NV9XUlRfMjFfQ0xTMTAwMDRfMjAyMTEyMTNfMQ==&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004",
                         List.of("TDD"),
-                        1, 20, member,
+                        1, 1, 20, member,
                         LocalDateTime.now()
                                 .plusDays(3),
                         LocalDateTime.now()
@@ -521,7 +521,7 @@ public class ContextInitializer implements ApplicationRunner {
                         "https://github.com/example/java-racingcar",
                         "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=13301655&filePath=L2Rpc2sxL25ld2RhdGEvMjAyMS8yMS9DTFMxMDAwNC8xMzMwMTY1NV9XUlRfMjFfQ0xTMTAwMDRfMjAyMTEyMTNfMQ==&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004",
                         List.of("TDD"),
-                        1, 20, member,
+                        1, 1, 20, member,
                         LocalDateTime.now()
                                 .plusDays(3),
                         LocalDateTime.now()
@@ -532,7 +532,7 @@ public class ContextInitializer implements ApplicationRunner {
                         "https://github.com/example/java-racingcar",
                         "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=13301655&filePath=L2Rpc2sxL25ld2RhdGEvMjAyMS8yMS9DTFMxMDAwNC8xMzMwMTY1NV9XUlRfMjFfQ0xTMTAwMDRfMjAyMTEyMTNfMQ==&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004",
                         List.of("TDD"),
-                        1, 20, member,
+                        1, 1, 20, member,
                         LocalDateTime.now()
                                 .plusDays(3),
                         LocalDateTime.now()
@@ -543,7 +543,7 @@ public class ContextInitializer implements ApplicationRunner {
                         "https://github.com/example/java-racingcar",
                         "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=13301655&filePath=L2Rpc2sxL25ld2RhdGEvMjAyMS8yMS9DTFMxMDAwNC8xMzMwMTY1NV9XUlRfMjFfQ0xTMTAwMDRfMjAyMTEyMTNfMQ==&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004",
                         List.of("TDD"),
-                        1, 20, member,
+                        1, 1, 20, member,
                         LocalDateTime.now()
                                 .plusDays(3),
                         LocalDateTime.now()
@@ -556,7 +556,7 @@ public class ContextInitializer implements ApplicationRunner {
                         "https://github.com/example/java-racingcar",
                         "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=13301655&filePath=L2Rpc2sxL25ld2RhdGEvMjAyMS8yMS9DTFMxMDAwNC8xMzMwMTY1NV9XUlRfMjFfQ0xTMTAwMDRfMjAyMTEyMTNfMQ==&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004",
                         List.of("TDD"),
-                        1, 20, member,
+                        1, 1, 20, member,
                         LocalDateTime.now()
                                 .plusDays(3),
                         LocalDateTime.now()
@@ -567,7 +567,7 @@ public class ContextInitializer implements ApplicationRunner {
                         "https://github.com/example/java-racingcar",
                         "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=13301655&filePath=L2Rpc2sxL25ld2RhdGEvMjAyMS8yMS9DTFMxMDAwNC8xMzMwMTY1NV9XUlRfMjFfQ0xTMTAwMDRfMjAyMTEyMTNfMQ==&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004",
                         List.of("TDD"),
-                        1, 20, member,
+                        1, 1, 20, member,
                         LocalDateTime.now()
                                 .plusDays(3),
                         LocalDateTime.now()
@@ -578,7 +578,7 @@ public class ContextInitializer implements ApplicationRunner {
                         "https://github.com/example/java-racingcar",
                         "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=13301655&filePath=L2Rpc2sxL25ld2RhdGEvMjAyMS8yMS9DTFMxMDAwNC8xMzMwMTY1NV9XUlRfMjFfQ0xTMTAwMDRfMjAyMTEyMTNfMQ==&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004",
                         List.of("TDD"),
-                        1, 20, member,
+                        1, 1, 20, member,
                         LocalDateTime.now()
                                 .plusDays(3),
                         LocalDateTime.now()
@@ -589,7 +589,7 @@ public class ContextInitializer implements ApplicationRunner {
                         "https://github.com/example/java-racingcar",
                         "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=13301655&filePath=L2Rpc2sxL25ld2RhdGEvMjAyMS8yMS9DTFMxMDAwNC8xMzMwMTY1NV9XUlRfMjFfQ0xTMTAwMDRfMjAyMTEyMTNfMQ==&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004",
                         List.of("TDD"),
-                        1, 20, member,
+                        1, 1, 20, member,
                         LocalDateTime.now()
                                 .plusDays(3),
                         LocalDateTime.now()
@@ -600,7 +600,7 @@ public class ContextInitializer implements ApplicationRunner {
                         "https://github.com/example/java-racingcar",
                         "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=13301655&filePath=L2Rpc2sxL25ld2RhdGEvMjAyMS8yMS9DTFMxMDAwNC8xMzMwMTY1NV9XUlRfMjFfQ0xTMTAwMDRfMjAyMTEyMTNfMQ==&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004",
                         List.of("TDD"),
-                        1, 20, member,
+                        1, 1, 20, member,
                         LocalDateTime.now()
                                 .plusDays(3),
                         LocalDateTime.now()
@@ -611,7 +611,7 @@ public class ContextInitializer implements ApplicationRunner {
                         "https://github.com/example/java-racingcar",
                         "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=13301655&filePath=L2Rpc2sxL25ld2RhdGEvMjAyMS8yMS9DTFMxMDAwNC8xMzMwMTY1NV9XUlRfMjFfQ0xTMTAwMDRfMjAyMTEyMTNfMQ==&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004",
                         List.of("TDD"),
-                        1, 20, member,
+                        1, 1, 20, member,
                         LocalDateTime.now()
                                 .plusDays(3),
                         LocalDateTime.now()
@@ -622,7 +622,7 @@ public class ContextInitializer implements ApplicationRunner {
                         "https://github.com/example/java-racingcar",
                         "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=13301655&filePath=L2Rpc2sxL25ld2RhdGEvMjAyMS8yMS9DTFMxMDAwNC8xMzMwMTY1NV9XUlRfMjFfQ0xTMTAwMDRfMjAyMTEyMTNfMQ==&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004",
                         List.of("TDD"),
-                        1, 20, member,
+                        1, 1, 20, member,
                         LocalDateTime.now()
                                 .plusDays(3),
                         LocalDateTime.now()
@@ -633,7 +633,7 @@ public class ContextInitializer implements ApplicationRunner {
                         "https://github.com/example/java-racingcar",
                         "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=13301655&filePath=L2Rpc2sxL25ld2RhdGEvMjAyMS8yMS9DTFMxMDAwNC8xMzMwMTY1NV9XUlRfMjFfQ0xTMTAwMDRfMjAyMTEyMTNfMQ==&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004",
                         List.of("TDD"),
-                        1, 20, member,
+                        1, 1, 20, member,
                         LocalDateTime.now()
                                 .plusDays(3),
                         LocalDateTime.now()
@@ -644,7 +644,7 @@ public class ContextInitializer implements ApplicationRunner {
                         "https://github.com/example/java-racingcar",
                         "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=13301655&filePath=L2Rpc2sxL25ld2RhdGEvMjAyMS8yMS9DTFMxMDAwNC8xMzMwMTY1NV9XUlRfMjFfQ0xTMTAwMDRfMjAyMTEyMTNfMQ==&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004",
                         List.of("TDD"),
-                        1, 20, member,
+                        1, 1, 20, member,
                         LocalDateTime.now()
                                 .plusDays(3),
                         LocalDateTime.now()
@@ -655,7 +655,7 @@ public class ContextInitializer implements ApplicationRunner {
                         "https://github.com/example/java-racingcar",
                         "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=13301655&filePath=L2Rpc2sxL25ld2RhdGEvMjAyMS8yMS9DTFMxMDAwNC8xMzMwMTY1NV9XUlRfMjFfQ0xTMTAwMDRfMjAyMTEyMTNfMQ==&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004",
                         List.of("TDD"),
-                        1, 20, member,
+                        1, 1, 20, member,
                         LocalDateTime.now()
                                 .plusDays(3),
                         LocalDateTime.now()
