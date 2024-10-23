@@ -59,7 +59,7 @@ const ReviewerFeedbackForm = ({ formState, onChange, modalType }: ReviewerFeedba
         <Textarea
           rows={8}
           showCharCount={true}
-          maxLength={512}
+          maxLength={1000}
           placeholder={
             modalType === "view"
               ? "없음"
