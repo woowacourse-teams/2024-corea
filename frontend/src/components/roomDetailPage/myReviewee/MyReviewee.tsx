@@ -166,7 +166,7 @@ const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
           </S.MyRevieweeWrapper>
         ))}
       </S.MyRevieweeContainer>
-      <S.ExtraInformation>※선호하는 리뷰이 인원 수보다 적게 매칭될 수 있습니다.</S.ExtraInformation>
+      <S.ExtraInformation>※선호하는 리뷰이 인원수보다 적게 매칭될 수 있습니다.</S.ExtraInformation>
     </>
   );
 };

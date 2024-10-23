@@ -52,7 +52,7 @@ export const BannerTextContainer = styled.div`
   margin-top: 65px;
 `;
 
-export const BannerText = styled.p`
+export const BannerText = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;

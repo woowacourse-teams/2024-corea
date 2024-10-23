@@ -34,7 +34,8 @@ export interface SubmitRoomInfo extends BaseRoomInfo {
 export interface RoomInfo extends BaseRoomInfo {
   id: number;
   manager: string;
-  currentParticipants: number;
+  reviewerCount: number;
+  bothCount: number;
   roomStatus: RoomStatus;
   participationStatus: ParticipationStatus;
   memberRole: Role;

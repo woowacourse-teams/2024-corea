@@ -115,3 +115,10 @@ export const GuidanceWrapper = styled.div`
 export const Character = styled.img`
   width: 150px;
 `;
+
+export const ExtraInformation = styled.span`
+  display: flex;
+  justify-content: flex-end;
+  font: ${({ theme }) => theme.TEXT.xSmall};
+  color: ${({ theme }) => theme.COLOR.grey2};
+`;

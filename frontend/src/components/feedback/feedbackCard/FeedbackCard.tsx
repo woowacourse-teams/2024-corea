@@ -66,8 +66,8 @@ const FeedbackCard = ({
       <S.FeedbackDetailContainer>
         <S.FeedbackTitle>세부 피드백</S.FeedbackTitle>
         <Textarea
-          rows={5}
-          maxLength={512}
+          rows={10}
+          maxLength={2000}
           showCharCount={true}
           value={feedbackCardData.feedbackText.length ? feedbackCardData.feedbackText : "없음"}
           readOnly

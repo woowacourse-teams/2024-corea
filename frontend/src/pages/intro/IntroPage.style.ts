@@ -26,12 +26,16 @@ export const ContentLayout = styled.div`
   align-items: center;
   justify-content: center;
 
-  width: 1300px;
+  width: 1000px;
   min-height: 100vh;
   padding: 10rem 0;
 
+  @media (width >= 1300px) {
+    width: 1200px;
+  }
+
   ${media.medium`
-    width: 600px;
+    width: 580px;
   `}
 
   ${media.small`
@@ -250,7 +254,8 @@ export const TextSection = styled.div`
   p.sub {
     width: 100%;
     font: ${({ theme }) => theme.TEXT.xLarge};
-    line-height: 2.4rem;
+    line-height: normal;
+    word-break: keep-all;
   }
 
   ${media.medium`
@@ -274,7 +279,8 @@ export const TextSection = styled.div`
     p.sub {
       width: 100%;
       font: ${({ theme }) => theme.TEXT.xLarge};
-      line-height: 2.4rem;
+      line-height: normal;
+      word-break: keep-all;
     }
   `}
 
@@ -298,7 +304,8 @@ export const TextSection = styled.div`
     p.sub {
       width: 100%;    
       font: ${({ theme }) => theme.TEXT.medium};
-      line-height: 2.4rem;
+      line-height: normal;
+      word-break: keep-all;
     }
   `}
 `;
@@ -315,4 +322,44 @@ export const TextSectionRight = styled(TextSection)`
     text-align: left;
     order: 2;
   `}
+`;
+
+// 헤더
+export const HeaderContainer = styled.header`
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 20px;
+
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+  height: 65px;
+
+  background: transparent;
+
+  ${media.small`
+    left: 10px;
+  `}
+`;
+
+export const HeaderLogo = styled.div`
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+  background: transparent;
+
+  span {
+    font-family: "Moirai One", system-ui;
+    font-size: 3rem;
+    font-weight: 900;
+    color: ${({ theme }) => theme.COLOR.grey4};
+
+    transition: color 0.2s ease-in-out;
+
+    &:hover {
+      color: ${({ theme }) => theme.COLOR.primary2};
+    }
+  }
 `;
