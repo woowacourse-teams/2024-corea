@@ -112,3 +112,14 @@ export const displayLeftTime = (time: string) => {
   const Dday = formatDday(time);
   return Dday === "D-Day" ? formatLeftTime(time) : Dday;
 };
+
+export const convertDateToKorean = (dateString: string) => {
+  const [date, time] = dateString.split(" ");
+  const year = date.split("-")[0];
+  const month = date.split("-")[1];
+  const day = date.split("-")[2];
+  const hour = time.split(":")[0];
+  const minute = time.split(":")[1];
+
+  return `20${year}년 ${month}월 ${day}일 ${hour}시 ${minute}분`;
+};

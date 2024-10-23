@@ -11,7 +11,7 @@
   "limitedParticipants": 20,
   "recruitmentDeadline": "2024-10-13T16:00",
   "reviewDeadline": "2024-10-14T23:59",
-  "roomStatus": "OPEN",
+  "roomStatus": "PROGRESS",
   "participationStatus": "PARTICIPATED",
   "isClosed": false,
   "memberRole": "BOTH",

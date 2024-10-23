@@ -10,6 +10,8 @@ public enum ExceptionType {
     NOT_PARTICIPATED_ROOM(HttpStatus.BAD_REQUEST, "아직 참여하지 않은 방입니다."),
     ROOM_STATUS_INVALID(HttpStatus.BAD_REQUEST, "방이 마감되었습니다."),
     MEMBER_IS_NOT_MANAGER(HttpStatus.BAD_REQUEST, "매니저가 아닙니다."),
+    MEMBER_IS_NOT_REVIEWER(HttpStatus.BAD_REQUEST, "리뷰어로만 참여할 수 없습니다."),
+    MEMBER_IS_NOT_BOTH(HttpStatus.BAD_REQUEST, "리뷰어로만 참여할 수 있습니다."),
     ROOM_PARTICIPANT_EXCEED(HttpStatus.BAD_REQUEST, "방 참여 인원 수가 최대입니다."),
     PARTICIPANT_SIZE_LACK(HttpStatus.BAD_REQUEST, "참여 인원이 부족하여 매칭을 진행할 수 없습니다."),
     PARTICIPANT_SIZE_LACK_DUE_TO_PULL_REQUEST(HttpStatus.BAD_REQUEST, "pull request 미제출로 인해 인원이 부족하여 매칭을 진행할 수 없습니다."),

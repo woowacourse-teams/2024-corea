@@ -29,7 +29,12 @@ const Toast = () => {
   }
 
   return createPortal(
-    <S.Wrapper $type={currentType} $closeAnimation={!toastInfo.isOpen}>
+    <S.Wrapper
+      $type={currentType}
+      $closeAnimation={!toastInfo.isOpen}
+      aria-live="assertive"
+      role="alert"
+    >
       {toastInfo.message}
     </S.Wrapper>,
     toastContainer,

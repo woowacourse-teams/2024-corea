@@ -5,7 +5,7 @@ interface IconRadioButtonBoxProps {
   $color?: string;
 }
 
-export const IconRadioButtonContainer = styled.label`
+export const IconRadioButtonLabel = styled.label`
   cursor: pointer;
 
   display: flex;

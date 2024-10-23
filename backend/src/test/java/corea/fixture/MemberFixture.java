@@ -2,6 +2,7 @@ package corea.fixture;
 
 import corea.member.domain.Member;
 import corea.member.domain.Profile;
+import corea.member.domain.Reviewer;
 
 import java.util.List;
 import java.util.stream.IntStream;
@@ -168,18 +169,27 @@ public class MemberFixture {
         );
     }
 
+    public static Reviewer MEMBER_YOUNGSU_REVIEWER() {
+        return new Reviewer(
+                null,
+                "98307410"
+        );
+    }
+
     public static List<Member> SEVEN_MEMBERS() {
         return List.of(MEMBER_PORORO(), MEMBER_ASH(), MEMBER_YOUNGSU(), MEMBER_CHOCO(), MEMBER_MOVIN(), MEMBER_TENTEN());
     }
 
     public static List<Member> CREATE_MEMBERS(int index) {
-        return IntStream.range(0, index).mapToObj(idx -> new Member(
-                "name : " + (idx + 10),
-                "https://avatars.githubusercontent.com/u/98307410?v=4",
-                null,
-                "jcoding-play@gmail.com",
-                false,
-                "119468757"
-        )).toList();
+        return IntStream.range(0, index)
+                .mapToObj(idx -> new Member(
+                        "name : " + (idx + 10),
+                        "https://avatars.githubusercontent.com/u/98307410?v=4",
+                        null,
+                        "jcoding-play@gmail.com",
+                        false,
+                        "119468757"
+                ))
+                .toList();
     }
 }

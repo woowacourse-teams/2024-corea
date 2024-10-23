@@ -11,6 +11,10 @@ const MOBILE_BREAKPOINT = 639;
 
 const headerItems = [
   {
+    name: "소개",
+    path: "/intro",
+  },
+  {
     name: "코드리뷰가이드",
     path: "/guide",
   },
@@ -68,6 +72,15 @@ const Header = () => {
         </Link>
       </S.HeaderLogo>
       <S.HeaderNavBarContainer>
+        <S.HeaderItem $isMain={isMain}>
+          <a
+            href="https://docs.google.com/forms/d/e/1FAIpQLSeuuEJ6oCnRi5AYjlKhWt-H5EEibZPIRLA4lY-5oqZpC2b0SA/viewform"
+            target="_blank"
+            rel="noreferrer"
+          >
+            문의
+          </a>
+        </S.HeaderItem>
         {headerItems.map((item) => (
           <S.HeaderItem
             $isMain={isMain}

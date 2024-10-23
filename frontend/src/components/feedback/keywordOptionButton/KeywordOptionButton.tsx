@@ -29,15 +29,27 @@ const KeywordOptionButton = ({
   return (
     <S.OptionContainer>
       {options.map((text) => (
-        <S.ButtonWrapper
-          key={text}
-          onClick={() => toggleOption(text)}
-          isSelected={selectedOptions.includes(text)}
-          color={color}
-          tabIndex={readonly ? -1 : 0}
-        >
-          {text}
-        </S.ButtonWrapper>
+        <label key={text} htmlFor={text}>
+          <S.HiddenRadioInput
+            type="checkbox"
+            id={text}
+            checked={selectedOptions.includes(text)}
+            onChange={() => toggleOption(text)}
+            tabIndex={-1}
+          />
+          <S.ButtonWrapper
+            isSelected={selectedOptions.includes(text)}
+            color={color}
+            tabIndex={readonly ? -1 : 0}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                toggleOption(text);
+              }
+            }}
+          >
+            {text}
+          </S.ButtonWrapper>
+        </label>
       ))}
     </S.OptionContainer>
   );

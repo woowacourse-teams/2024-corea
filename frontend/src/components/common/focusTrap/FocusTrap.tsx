@@ -36,6 +36,12 @@ const FocusTrap = (props: FocusTrapProps) => {
     ref: focusTrapRef,
   });
 
+  const updateFocusableElements = () => {
+    if (focusTrapRef.current) {
+      focusableElements.current = getFocusableElements(focusTrapRef.current);
+    }
+  };
+
   const focusNextElement = () => {
     currentFocusIndex.current = (currentFocusIndex.current + 1) % focusableElements.current.length;
     focusableElements.current[currentFocusIndex.current]?.focus();
@@ -81,9 +87,23 @@ const FocusTrap = (props: FocusTrapProps) => {
       focusableElements.current = getFocusableElements(focusTrapRef.current);
     }
 
+    const observer = new MutationObserver(() => {
+      updateFocusableElements();
+    });
+
+    if (focusTrapRef.current) {
+      observer.observe(focusTrapRef.current, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+      });
+      updateFocusableElements();
+    }
+
     document.addEventListener("keydown", handleKeyPress);
 
     return () => {
+      observer.disconnect();
       focusableElements.current = [];
       document.removeEventListener("keydown", handleKeyPress);
     };

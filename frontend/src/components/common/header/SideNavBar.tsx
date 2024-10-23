@@ -20,12 +20,20 @@ const loggedInMenuItems = [
     path: "/feedback",
   },
   {
+    name: "서비스 소개",
+    path: "/intro",
+  },
+  {
     name: "코드리뷰가이드",
     path: "/guide",
   },
 ];
 
 const commonMenuItems = [
+  {
+    name: "서비스 소개",
+    path: "/intro",
+  },
   {
     name: "코드리뷰가이드",
     path: "/guide",
@@ -101,6 +109,15 @@ const SideNavBar = ({ isOpen, onClose, isLoggedIn }: SideNavBarProps) => {
                 </Link>
               </S.NavItem>
             ))}
+            <S.NavItem>
+              <a
+                href="https://docs.google.com/forms/d/e/1FAIpQLSeuuEJ6oCnRi5AYjlKhWt-H5EEibZPIRLA4lY-5oqZpC2b0SA/viewform"
+                target="_blank"
+                rel="noreferrer"
+              >
+                문의
+              </a>
+            </S.NavItem>
           </S.NavItems>
         </>
       ) : (
@@ -124,6 +141,15 @@ const SideNavBar = ({ isOpen, onClose, isLoggedIn }: SideNavBarProps) => {
                 </Link>
               </S.NavItem>
             ))}
+            <S.NavItem>
+              <a
+                href="https://docs.google.com/forms/d/e/1FAIpQLSeuuEJ6oCnRi5AYjlKhWt-H5EEibZPIRLA4lY-5oqZpC2b0SA/viewform"
+                target="_blank"
+                rel="noreferrer"
+              >
+                문의
+              </a>
+            </S.NavItem>
           </S.NavItems>
         </>
       )}
