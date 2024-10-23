@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Classification } from "@/@types/roomInfo";
-import { TYPE_CLASSIFICATION } from "@/styles/common";
+import { TYPE_CLASSIFICATION, VisuallyHidden } from "@/styles/common";
 
 export const StyledBadge = styled.div<{ $text: Classification }>`
   display: flex;
@@ -16,4 +16,8 @@ export const StyledBadge = styled.div<{ $text: Classification }>`
 
   background-color: ${({ theme }) => theme.COLOR.grey3};
   box-shadow: 0 2px 4px rgb(0 0 0 / 15%);
+`;
+
+export const ScreenReader = styled.div`
+  ${VisuallyHidden}
 `;

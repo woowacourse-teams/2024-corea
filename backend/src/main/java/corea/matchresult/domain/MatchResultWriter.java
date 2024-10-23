@@ -14,9 +14,9 @@ public class MatchResultWriter {
 
     private final MatchResultRepository matchResultRepository;
 
-    public void reviewComplete(MatchResult matchResult, String prLink) {
+    public void reviewComplete(MatchResult matchResult, String reviewLink) {
         matchResult.reviewComplete();
-        matchResult.updateReviewLink(prLink);
+        matchResult.updateReviewLink(reviewLink);
     }
 
     public MatchResult completeDevelopFeedback(long roomId, long deliverId, long receiverId) {

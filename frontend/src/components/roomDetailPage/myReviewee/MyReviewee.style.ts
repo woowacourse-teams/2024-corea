@@ -108,3 +108,10 @@ export const GuidanceWrapper = styled.div`
     color: ${({ theme }) => theme.COLOR.grey3};
   }
 `;
+
+export const ExtraInformation = styled.span`
+  display: flex;
+  justify-content: flex-end;
+  font: ${({ theme }) => theme.TEXT.xSmall};
+  color: ${({ theme }) => theme.COLOR.grey2};
+`;

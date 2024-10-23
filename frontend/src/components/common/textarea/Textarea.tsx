@@ -29,7 +29,7 @@ export const Textarea = ({
         {...rest}
       />
       {showCharCount && (
-        <S.CharCount>
+        <S.CharCount aria-hidden>
           {value.toString().length}
           {rest.maxLength ? ` / ${rest.maxLength}자` : ""}
         </S.CharCount>
