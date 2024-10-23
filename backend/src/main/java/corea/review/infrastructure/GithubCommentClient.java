@@ -2,24 +2,34 @@ package corea.review.infrastructure;
 
 import corea.auth.infrastructure.GithubProperties;
 import corea.review.dto.GithubPullRequestReview;
-import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Stream;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 @EnableConfigurationProperties(GithubProperties.class)
 @Component
-@RequiredArgsConstructor
 public class GithubCommentClient {
+
+    private static final Random RANDOM = new Random();
 
     private final RestClient restClient;
     private final GithubPullRequestUrlExchanger githubPullRequestUrlExchanger;
+    private final List<String> personalAccessTokens;
+
+    public GithubCommentClient(RestClient restClient, GithubPullRequestUrlExchanger githubPullRequestUrlExchanger, GithubProperties githubProperties) {
+        this.restClient = restClient;
+        this.githubPullRequestUrlExchanger = githubPullRequestUrlExchanger;
+        this.personalAccessTokens = githubProperties.pullRequest()
+                .tokens();
+    }
 
     public List<GithubPullRequestReview> getPullRequestComments(String prLink) {
         String commentApiUrl = githubPullRequestUrlExchanger.pullRequestUrlToComment(prLink);
@@ -36,6 +46,7 @@ public class GithubCommentClient {
 
         return restClient.get()
                 .uri(url)
+                .header(HttpHeaders.AUTHORIZATION, getRandomPersonalAccessToken())
                 .accept(APPLICATION_JSON)
                 .retrieve()
                 .body(GithubPullRequestReview[].class);
@@ -47,5 +58,12 @@ public class GithubCommentClient {
 
     private boolean hasMoreComments(GithubPullRequestReview[] comments) {
         return comments.length > 0;
+    }
+
+    private String getRandomPersonalAccessToken() {
+        if (personalAccessTokens.isEmpty()) {
+            return "";
+        }
+        return "Bearer " + personalAccessTokens.get(RANDOM.nextInt(personalAccessTokens.size()));
     }
 }
