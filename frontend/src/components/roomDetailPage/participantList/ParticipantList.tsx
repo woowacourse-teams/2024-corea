@@ -67,11 +67,7 @@ const ParticipantList = ({ roomInfo }: ParticipantListProps) => {
                 <S.ProfileNickname>{participant.username}</S.ProfileNickname>
               </S.ProfileWrapper>
             </HoverStyledLink>
-            <HoverStyledLink
-              to={`/profile/${participant.username}`}
-              target="_blank"
-              rel="noreferrer"
-            >
+            <HoverStyledLink to={participant.prLink} target="_blank" rel="noreferrer">
               <S.PRLink>
                 <Icon kind="link" size="1.8rem" />
                 PR 링크
