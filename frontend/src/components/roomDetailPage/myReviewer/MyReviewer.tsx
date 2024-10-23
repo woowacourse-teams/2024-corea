@@ -120,7 +120,6 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
           buttonText={feedbackTypeResult.buttonText}
         />
       )}
-
       <S.MyReviewerContainer>
         <S.MyReviewerWrapper>
           <S.MyReviewerTitle>아이디</S.MyReviewerTitle>
@@ -155,6 +154,7 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
           );
         })}
       </S.MyReviewerContainer>
+      <S.ExtraInformation>※최소 상호 리뷰 인원수보다 많게 매칭될 수 있습니다.</S.ExtraInformation>
     </>
   );
 };
