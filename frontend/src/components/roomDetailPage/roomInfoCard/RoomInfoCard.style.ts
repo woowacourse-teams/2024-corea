@@ -57,7 +57,7 @@ export const RoomInfoCardContent = styled.div`
 
 export const RoomHeaderWrapper = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-flow: row wrap;
   align-items: flex-start;
   justify-content: space-between;
 
@@ -75,7 +75,9 @@ export const RoomHeaderWrapper = styled.div`
 `;
 
 export const RoomTitle = styled.span`
+  max-width: calc(100% - 160px);
   font: ${({ theme }) => theme.TEXT.large_bold};
+  line-height: 2.5rem;
   color: ${({ theme }) => theme.COLOR.black};
 `;
 
