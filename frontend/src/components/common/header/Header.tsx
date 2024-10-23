@@ -11,6 +11,10 @@ const MOBILE_BREAKPOINT = 639;
 
 const headerItems = [
   {
+    name: "소개",
+    path: "/intro",
+  },
+  {
     name: "코드리뷰가이드",
     path: "/guide",
   },

@@ -20,12 +20,20 @@ const loggedInMenuItems = [
     path: "/feedback",
   },
   {
+    name: "서비스 소개",
+    path: "/intro",
+  },
+  {
     name: "코드리뷰가이드",
     path: "/guide",
   },
 ];
 
 const commonMenuItems = [
+  {
+    name: "서비스 소개",
+    path: "/intro",
+  },
   {
     name: "코드리뷰가이드",
     path: "/guide",
