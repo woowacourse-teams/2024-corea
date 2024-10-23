@@ -18,6 +18,10 @@ public class GithubReviewProvider {
     public GithubPullRequestReviewInfo getReviewWithPrLink(String prLink) {
         final GithubPullRequestReview[] result = reviewClient.getReviewLink(prLink);
         return new GithubPullRequestReviewInfo(Arrays.stream(result)
-                .collect(Collectors.toMap(GithubPullRequestReview::getGithubUserId, Function.identity())));
+                .collect(Collectors.toMap(
+                        GithubPullRequestReview::getGithubUserId,
+                        Function.identity(),
+                        (x, y) -> x
+                )));
     }
 }

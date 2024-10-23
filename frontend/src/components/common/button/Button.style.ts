@@ -29,6 +29,10 @@ export const ButtonContainer = styled.button<{
 `;
 
 const variantStyles = {
+  default: css`
+    color: ${({ theme }) => theme.COLOR.black};
+    background-color: ${({ theme }) => theme.COLOR.white};
+  `,
   primary: css`
     background-color: ${({ theme }) => theme.COLOR.primary2};
   `,

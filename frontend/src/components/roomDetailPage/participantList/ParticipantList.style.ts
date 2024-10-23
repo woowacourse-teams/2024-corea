@@ -85,3 +85,10 @@ export const PRLink = styled.div`
 
   font: ${({ theme }) => theme.TEXT.semiSmall};
 `;
+
+export const RefreshRemainTime = styled.span`
+  box-sizing: content-box;
+  width: 2rem;
+  height: 2rem;
+  font: ${({ theme }) => theme.TEXT.semiSmall};
+`;

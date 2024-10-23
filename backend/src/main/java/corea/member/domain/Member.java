@@ -40,12 +40,15 @@ public class Member extends BaseTimeEntity {
     @JoinColumn(name = "profile_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Profile profile;
 
+    @Enumerated(EnumType.STRING)
+    private AuthRole authRole;
+
     public Member(String username, String thumbnailUrl, String name, String email, boolean isEmailAccepted, String githubUserId) {
-        this(null, username, thumbnailUrl, name, email, isEmailAccepted, "", githubUserId, new Profile());
+        this(null, username, thumbnailUrl, name, email, isEmailAccepted, "", githubUserId, new Profile(), AuthRole.REVIEWEE);
     }
 
-    public Member(String username, String thumbnailUrl, String name, String email, boolean isEmailAccepted, String githubUserId, Profile profile) {
-        this(null, username, thumbnailUrl, name, email, isEmailAccepted, "", githubUserId, profile);
+    public Member(String username, String thumbnailUrl, String name, String email, boolean isEmailAccepted, String githubUserId, Profile profile,AuthRole authRole) {
+        this(null, username, thumbnailUrl, name, email, isEmailAccepted, "", githubUserId, profile,authRole);
     }
 
     public void increaseReviewCount(MemberRole memberRole) {
@@ -62,6 +65,10 @@ public class Member extends BaseTimeEntity {
 
     public void updateAverageRating(int evaluatePoint) {
         profile.updateAverageRating(evaluatePoint);
+    }
+
+    public boolean isReviewer() {
+        return authRole.isReviewer();
     }
 
     @Override

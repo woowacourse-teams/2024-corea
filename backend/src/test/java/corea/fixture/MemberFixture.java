@@ -1,5 +1,6 @@
 package corea.fixture;
 
+import corea.member.domain.AuthRole;
 import corea.member.domain.Member;
 import corea.member.domain.Profile;
 
@@ -21,6 +22,21 @@ public class MemberFixture {
 
     public static Member MEMBER_YOUNGSU() {
         return MEMBER_YOUNGSU_WITH_ID(null);
+    }
+
+    public static Member MEMBER_YOUNGSU_REVIEWER() {
+        return new Member(
+                null,
+                "youngsu5582",
+                "https://avatars.githubusercontent.com/u/98307410?v=4",
+                "이영수",
+                "youngsu5582@gmail.com",
+                false,
+                "",
+                "98307410",
+                new Profile(),
+                AuthRole.REVIEWER
+        );
     }
 
     public static Member MEMBER_PORORO() {
@@ -57,7 +73,8 @@ public class MemberFixture {
                 false,
                 "",
                 "119468757",
-                new Profile()
+                new Profile(),
+                AuthRole.REVIEWEE
         );
     }
 
@@ -71,7 +88,8 @@ public class MemberFixture {
                 false,
                 "",
                 "80106238",
-                new Profile()
+                new Profile(),
+                AuthRole.REVIEWEE
         );
     }
 
@@ -85,7 +103,8 @@ public class MemberFixture {
                 false,
                 "",
                 "98307410",
-                new Profile()
+                new Profile(),
+                AuthRole.REVIEWEE
         );
     }
 
@@ -99,7 +118,8 @@ public class MemberFixture {
                 false,
                 "",
                 "77227961",
-                new Profile()
+                new Profile(),
+                AuthRole.REVIEWEE
         );
     }
 
@@ -113,7 +133,8 @@ public class MemberFixture {
                 false,
                 "",
                 "70834044",
-                new Profile()
+                new Profile(),
+                AuthRole.REVIEWEE
         );
     }
 
@@ -127,7 +148,8 @@ public class MemberFixture {
                 false,
                 "",
                 "63334368",
-                new Profile()
+                new Profile(),
+                AuthRole.REVIEWEE
         );
     }
 
@@ -141,7 +163,8 @@ public class MemberFixture {
                 false,
                 "",
                 "71641127",
-                new Profile()
+                new Profile(),
+                AuthRole.REVIEWEE
         );
     }
 
@@ -153,7 +176,8 @@ public class MemberFixture {
                 "jcoding-play@gmail.com",
                 false,
                 "119468757",
-                profile
+                profile,
+                AuthRole.REVIEWEE
         );
     }
 
@@ -173,13 +197,15 @@ public class MemberFixture {
     }
 
     public static List<Member> CREATE_MEMBERS(int index) {
-        return IntStream.range(0, index).mapToObj(idx -> new Member(
-                "name : " + (idx + 10),
-                "https://avatars.githubusercontent.com/u/98307410?v=4",
-                null,
-                "jcoding-play@gmail.com",
-                false,
-                "119468757"
-        )).toList();
+        return IntStream.range(0, index)
+                .mapToObj(idx -> new Member(
+                        "name : " + (idx + 10),
+                        "https://avatars.githubusercontent.com/u/98307410?v=4",
+                        null,
+                        "jcoding-play@gmail.com",
+                        false,
+                        "119468757"
+                ))
+                .toList();
     }
 }

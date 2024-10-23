@@ -1,3 +1,4 @@
+import useCountDown from "@/hooks/common/useCountDown";
 import { useFetchParticipantList } from "@/hooks/queries/useFetchRooms";
 import Button from "@/components/common/button/Button";
 import Icon from "@/components/common/icon/Icon";
@@ -15,10 +16,12 @@ interface ParticipantListProps {
 const ParticipantList = ({ roomInfo }: ParticipantListProps) => {
   const isOpenStatus = roomInfo.roomStatus === "OPEN";
   const { data: participantListInfo, refetch } = useFetchParticipantList(roomInfo.id, isOpenStatus);
+  const { remainingTime, isRefreshing, startRefreshCountDown } = useCountDown(5);
 
   const handleRefresh = () => {
-    if (!isOpenStatus) {
+    if (!isOpenStatus && !isRefreshing) {
       refetch();
+      startRefreshCountDown();
     }
   };
 
@@ -45,8 +48,12 @@ const ParticipantList = ({ roomInfo }: ParticipantListProps) => {
     <S.TotalContainer>
       {participantListInfo.size > STANDARD_PARTICIPANTS && (
         <S.RenewButtonWrapper>
-          <Button onClick={handleRefresh} size="xSmall">
-            <Icon kind="arrowRenew" size="2rem" />
+          <Button onClick={handleRefresh} size="xSmall" disabled={isRefreshing}>
+            {isRefreshing ? (
+              <S.RefreshRemainTime>{remainingTime}</S.RefreshRemainTime>
+            ) : (
+              <Icon kind="arrowRenew" size="2rem" />
+            )}
           </Button>
         </S.RenewButtonWrapper>
       )}
