@@ -15,12 +15,18 @@ const OptionSelect = <T extends NonEmptyArray<string>>({
   const selectedIndex = options.indexOf(selected);
 
   return (
-    <S.OptionSelectContainer>
+    <S.OptionSelectContainer role="listbox">
       {options.map((option) => (
         <S.Option
           key={option}
+          role="option"
+          aria-selected={option === selected}
           $isSelected={option === selected}
           onClick={() => handleSelectedOption(option)}
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") handleSelectedOption(option);
+          }}
         >
           {option}
         </S.Option>
