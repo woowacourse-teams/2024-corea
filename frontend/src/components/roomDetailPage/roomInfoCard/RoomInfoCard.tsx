@@ -1,3 +1,4 @@
+import React from "react";
 import Icon from "@/components/common/icon/Icon";
 import ImageWithFallback from "@/components/common/img/ImageWithFallback";
 import Label from "@/components/common/label/Label";
@@ -6,7 +7,12 @@ import ClassificationBadge from "@/components/shared/classificationBadge/Classif
 import { RoomInfo } from "@/@types/roomInfo";
 import { HoverStyledLink } from "@/styles/common";
 import { theme } from "@/styles/theme";
-import { displayLeftTime, formatDateTimeString, formatDday } from "@/utils/dateFormatter";
+import {
+  convertDateToKorean,
+  displayLeftTime,
+  formatDateTimeString,
+  formatDday,
+} from "@/utils/dateFormatter";
 
 const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
   const displayedKeywords = roomInfo.keywords.filter((keyword) => keyword !== "");
@@ -56,31 +62,49 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
         <S.RoomContentBox>
           <S.RoomContentSmall>
             <Icon kind="person" size="1.8rem" color={theme.COLOR.grey4} />
-            <span>방 생성자 : </span>
-            <span id="githubid"> {roomInfo.manager}</span>
+            <div aria-hidden>
+              <span>방 생성자 : </span>
+              <span id="githubid">{roomInfo.manager}</span>
+            </div>
+            <S.ScreenReader>{`방 생성자 ${roomInfo.manager}`}</S.ScreenReader>
           </S.RoomContentSmall>
+
           <S.RoomContentSmall>
             <Icon kind="person" size="1.8rem" color={theme.COLOR.grey4} />
-            <span>총 인원 : </span>
-            {roomInfo.reviewerCount + roomInfo.bothCount} / {roomInfo.limitedParticipants}명
+            <div aria-hidden>
+              <span>총 인원 : </span>
+              {roomInfo.reviewerCount + roomInfo.bothCount} / {roomInfo.limitedParticipants}명
+            </div>
+            <S.ScreenReader>{`총 인원 : ${roomInfo.limitedParticipants}명 중 ${roomInfo.reviewerCount + roomInfo.bothCount}명`}</S.ScreenReader>
           </S.RoomContentSmall>
+
           <S.RoomContentSmall>
             <Icon kind="person" size="1.8rem" color={theme.COLOR.grey4} />
-            <span>리뷰어 인원 : </span>
-            {roomInfo.reviewerCount} / {roomInfo.reviewerCount + roomInfo.bothCount}명
+            <div aria-hidden>
+              <span>리뷰어 인원 : </span>총 {roomInfo.reviewerCount}명
+            </div>
+            <S.ScreenReader>{`리뷰어 인원 : 총 ${roomInfo.reviewerCount}명`}</S.ScreenReader>
           </S.RoomContentSmall>
+
           <S.RoomContentSmall>
             <Icon kind="person" size="1.8rem" color={theme.COLOR.grey4} />
-            <span>참여자 인원 : </span>
-            {roomInfo.bothCount} / {roomInfo.reviewerCount + roomInfo.bothCount}명
+            <div aria-hidden>
+              <span>참여자 인원 : </span>총 {roomInfo.bothCount}명
+            </div>
+            <S.ScreenReader>{`참여자 인원 : 총 ${roomInfo.bothCount}명`}</S.ScreenReader>
           </S.RoomContentSmall>
+
           <S.RoomContentSmall>
             <Icon kind="person" size="1.8rem" color={theme.COLOR.grey4} />
-            <span>최소 상호 리뷰 인원 : </span>
-            {roomInfo.matchingSize}명
+            <div aria-hidden>
+              <span>최소 상호 리뷰 인원 : </span>
+              {roomInfo.matchingSize}명
+            </div>
+            <S.ScreenReader>{`최소 상호 리뷰 인원 ${roomInfo.matchingSize}명`}</S.ScreenReader>
           </S.RoomContentSmall>
+
           <S.RoomContentSmall>
-            <S.ContentLineBreak>
+            <S.ContentLineBreak aria-hidden>
               <S.RoomContentSmall>
                 <Icon kind="calendar" size="1.8rem" color={theme.COLOR.grey4} />
                 <span>모집 마감일: </span>
@@ -96,9 +120,13 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
                 </S.StyledDday>
               </div>
             </S.ContentLineBreak>
+            <S.ScreenReader>
+              {`모집 마감일 ${convertDateToKorean(formatDateTimeString(roomInfo.recruitmentDeadline))}`}
+            </S.ScreenReader>
           </S.RoomContentSmall>
+
           <S.RoomContentSmall>
-            <S.ContentLineBreak>
+            <S.ContentLineBreak aria-hidden>
               <S.RoomContentSmall>
                 <Icon kind="calendar" size="1.8rem" color={theme.COLOR.grey4} />
                 <span>리뷰 및 피드백 마감일: </span>
@@ -112,6 +140,9 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
                 </S.StyledDday>
               </div>
             </S.ContentLineBreak>
+            <S.ScreenReader>
+              {`리뷰 및 피드백 마감일 ${convertDateToKorean(formatDateTimeString(roomInfo.reviewDeadline))}`}
+            </S.ScreenReader>
           </S.RoomContentSmall>
         </S.RoomContentBox>
       </S.RoomInfoCardContent>
