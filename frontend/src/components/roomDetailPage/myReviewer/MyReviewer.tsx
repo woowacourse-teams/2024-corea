@@ -78,7 +78,7 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
   if (roomInfo.roomStatus === "OPEN" && reviewerData.length === 0) {
     return (
       <S.GuidanceWrapper>
-        <p className="process-waiting">{MESSAGES.GUIDANCE.EMPTY_REVIEWEE}</p>
+        <p className="process-waiting">{MESSAGES.GUIDANCE.EMPTY_REVIEWER}</p>
         <p className="process-waiting">{MESSAGES.GUIDANCE.SUB_DESCRIPTION}</p>
       </S.GuidanceWrapper>
     );
