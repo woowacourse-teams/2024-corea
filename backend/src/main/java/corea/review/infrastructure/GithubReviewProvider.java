@@ -30,11 +30,8 @@ public class GithubReviewProvider {
 
     public GithubPullRequestReviewInfo provideReviewInfo(String prLink) {
         validatePrLink(prLink);
-        List<GithubPullRequestReview> reviews = reviewClient.getPullRequestReviews(prLink);
-        List<GithubPullRequestReview> comments = commentClient.getPullRequestReviews(prLink);
 
-        Map<String, GithubPullRequestReview> result = collectPullRequestReviews(reviews, comments);
-        return new GithubPullRequestReviewInfo(result);
+        return getGithubPullRequestReviewInfo(prLink);
     }
 
     private void validatePrLink(String prUrl) {
@@ -50,11 +47,23 @@ public class GithubReviewProvider {
         }
     }
 
-    private Map<String, GithubPullRequestReview> collectPullRequestReviews(List<GithubPullRequestReview> reviews, List<GithubPullRequestReview> comments) {
-        return Stream.concat(
-                        reviews.stream(),
-                        comments.stream()
-                )
+    private GithubPullRequestReviewInfo getGithubPullRequestReviewInfo(String prLink) {
+        List<GithubPullRequestReview> reviews = getAllPullRequestReviews(prLink);
+        Map<String, GithubPullRequestReview> result = collectByGithubUserId(reviews);
+
+        return new GithubPullRequestReviewInfo(result);
+    }
+
+    private List<GithubPullRequestReview> getAllPullRequestReviews(String prLink) {
+        List<GithubPullRequestReview> reviews = reviewClient.getPullRequestReviews(prLink);
+        List<GithubPullRequestReview> comments = commentClient.getPullRequestReviews(prLink);
+
+        return Stream.concat(reviews.stream(), comments.stream())
+                .toList();
+    }
+
+    private Map<String, GithubPullRequestReview> collectByGithubUserId(List<GithubPullRequestReview> reviews) {
+        return reviews.stream()
                 .collect(Collectors.toMap(
                         GithubPullRequestReview::getGithubUserId,
                         Function.identity(),
