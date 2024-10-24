@@ -43,7 +43,10 @@ export const SideNavBarContainer = styled.div<{ $isOpen: boolean; $isClosing: bo
   width: 60%;
   height: 100vh;
 
+  overflow: hidden auto;
+
   background-color: ${({ theme }) => theme.COLOR.white};
+  border-radius: 10px 0 0 10px;
 
   ${({ $isOpen, $isClosing }) => css`
     ${$isOpen &&
@@ -63,9 +66,9 @@ export const TopSection = styled.div`
   flex-direction: column;
   gap: 1rem;
 
-  padding: 1rem;
+  padding: 2rem;
 
-  background-color: ${({ theme }) => theme.COLOR.primary2};
+  background: linear-gradient(to right, rgb(255 250 245 / 100%), rgb(230 230 255 / 100%));
 `;
 
 export const ProfileWrapper = styled.div`
@@ -78,16 +81,10 @@ export const ProfileWrapper = styled.div`
 export const ProfileInfo = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
-  color: ${({ theme }) => theme.COLOR.white};
+  justify-content: center;
 
-  strong {
-    font: ${({ theme }) => theme.TEXT.medium_bold};
-  }
-
-  span {
-    font: ${({ theme }) => theme.TEXT.semiSmall};
-  }
+  font: ${({ theme }) => theme.TEXT.medium_bold};
+  color: ${({ theme }) => theme.COLOR.black};
 `;
 
 export const NavItems = styled.ul`
@@ -96,7 +93,7 @@ export const NavItems = styled.ul`
   gap: 0.6rem;
 
   width: 100%;
-  padding: 1rem;
+  padding: 2rem;
 
   list-style-type: none;
 `;
@@ -119,7 +116,8 @@ export const NavItem = styled.li`
 
   &:hover,
   &:focus {
-    background-color: ${({ theme }) => theme.COLOR.grey0};
+    border: 1px solid ${({ theme }) => theme.COLOR.grey1};
+    border-radius: 5px;
   }
 
   a {

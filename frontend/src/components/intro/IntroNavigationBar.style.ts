@@ -4,7 +4,7 @@ import media from "@/styles/media";
 export const NavContainer = styled.div`
   position: fixed;
   top: 50%;
-  right: 12%;
+  right: calc((100vw - 1000px) / 2 - 10px);
   transform: translateY(-50%);
 
   display: flex;
@@ -12,8 +12,12 @@ export const NavContainer = styled.div`
   gap: 10px;
   align-items: center;
 
+  @media (width >= 1300px) {
+    right: calc((100vw - 1200px) / 2 - 10px);
+  }
+
   ${media.medium`
-    right: 5%;
+    right: calc((100vw - 580px) / 2 - 10px);  
   `}
 
   ${media.small`
@@ -37,6 +41,6 @@ export const NavDot = styled.div<NavDotProps>`
   transition: all 0.3s ease;
 
   &:hover {
-    background-color: #fff;
+    background-color: ${({ theme }) => theme.COLOR.grey2};
   }
 `;

@@ -36,8 +36,11 @@ public record RoomResponse(@Schema(description = "방 아이디", example = "1")
                            @Schema(description = "중심으로 리뷰하면 좋은 키워드", example = "[\"TDD\", \"클린코드\"]")
                            List<String> keywords,
 
-                           @Schema(description = "현재 참여 인원", example = "29")
-                           long currentParticipants,
+                           @Schema(description = "현재 리뷰어 수", example = "29")
+                           long reviewerCount,
+
+                           @Schema(description = "현재 리뷰어가 아닌 참여 인원", example = "29")
+                           long bothCount,
 
                            @Schema(description = "제한 참여 인원", example = "200")
                            long limitedParticipants,
@@ -81,7 +84,8 @@ public record RoomResponse(@Schema(description = "방 아이디", example = "1")
                 room.getThumbnailLink(),
                 room.getMatchingSize(),
                 room.getKeyword(),
-                room.getCurrentParticipantsSize(),
+                room.getReviewerCount(),
+                room.getBothCount(),
                 room.getLimitedParticipantsSize(),
                 room.getRecruitmentDeadline(),
                 room.getReviewDeadline(),
@@ -103,7 +107,8 @@ public record RoomResponse(@Schema(description = "방 아이디", example = "1")
                 room.getThumbnailLink(),
                 room.getMatchingSize(),
                 room.getKeyword(),
-                room.getCurrentParticipantsSize(),
+                room.getReviewerCount(),
+                room.getBothCount(),
                 room.getLimitedParticipantsSize(),
                 room.getRecruitmentDeadline(),
                 room.getReviewDeadline(),
@@ -125,7 +130,8 @@ public record RoomResponse(@Schema(description = "방 아이디", example = "1")
                 room.getThumbnailLink(),
                 room.getMatchingSize(),
                 room.getKeyword(),
-                room.getCurrentParticipantsSize(),
+                room.getReviewerCount(),
+                room.getBothCount(),
                 room.getLimitedParticipantsSize(),
                 room.getRecruitmentDeadline(),
                 room.getReviewDeadline(),

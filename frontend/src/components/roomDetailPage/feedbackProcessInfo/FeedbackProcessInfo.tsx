@@ -17,7 +17,7 @@ const FeedbackProcessInfo = ({ title, children }: ExpandableSectionProps) => {
 
   return (
     <S.ExpandableSection>
-      <S.StyledTitle onClick={handleProcessInfoClick}>
+      <S.StyledTitle onClick={handleProcessInfoClick} tabIndex={0} aria-expanded={isDropdownOpen}>
         {title}
         <Icon kind={isDropdownOpen ? "arrowDropUp" : "arrowDropDown"} size="2rem" />
       </S.StyledTitle>

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { EllipsisText } from "@/styles/common";
+import { EllipsisText, VisuallyHidden } from "@/styles/common";
 import media from "@/styles/media";
 
 export const FeedbackCardContainer = styled.div<{ $isTypeDevelop: boolean }>`
@@ -9,7 +9,7 @@ export const FeedbackCardContainer = styled.div<{ $isTypeDevelop: boolean }>`
   gap: 3rem;
 
   width: 40%;
-  height: 600px;
+  height: 700px;
   padding: 1rem;
 
   border: 3px solid
@@ -106,8 +106,6 @@ export const FeedbackDetailContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.6rem;
-
-  height: 200px;
 `;
 
 export const FeedbackDetail = styled.p`
@@ -116,4 +114,8 @@ export const FeedbackDetail = styled.p`
   line-height: 2.2rem;
 
   ${EllipsisText}
+`;
+
+export const ScreenReader = styled.div`
+  ${VisuallyHidden}
 `;

@@ -48,7 +48,14 @@ const ParticipantList = ({ roomInfo }: ParticipantListProps) => {
     <S.TotalContainer>
       {participantListInfo.size > STANDARD_PARTICIPANTS && (
         <S.RenewButtonWrapper>
-          <Button onClick={handleRefresh} size="xSmall" disabled={isRefreshing}>
+          <Button
+            onClick={handleRefresh}
+            size="xSmall"
+            disabled={isRefreshing}
+            aria-label={
+              isRefreshing ? `새로고침 가능까지 ${remainingTime}초 남았습니다` : "새로고침"
+            }
+          >
             {isRefreshing ? (
               <S.RefreshRemainTime>{remainingTime}</S.RefreshRemainTime>
             ) : (
@@ -61,16 +68,21 @@ const ParticipantList = ({ roomInfo }: ParticipantListProps) => {
       <S.ParticipantListContainer>
         {participantListInfo.participants.map((participant) => (
           <S.ParticipantInfo key={participant.githubId}>
-            <HoverStyledLink to={`/profile/${participant.username}`}>
-              <S.ProfileWrapper>
+            <HoverStyledLink
+              to={`/profile/${participant.username}`}
+              aria-label={`${participant.username}. 클릭하면 프로필로 이동합니다.`}
+            >
+              <S.ProfileWrapper aria-hidden>
                 <Profile imgSrc={participant.thumbnailLink} size={80} />
                 <S.ProfileNickname>{participant.username}</S.ProfileNickname>
               </S.ProfileWrapper>
             </HoverStyledLink>
+
             <HoverStyledLink
-              to={`/profile/${participant.username}`}
+              to={participant.prLink}
               target="_blank"
               rel="noreferrer"
+              aria-label={`클릭하면 PR 링크로 이동합니다.`}
             >
               <S.PRLink>
                 <Icon kind="link" size="1.8rem" />

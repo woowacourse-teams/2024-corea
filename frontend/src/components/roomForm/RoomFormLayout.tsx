@@ -110,6 +110,7 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
           </S.ContentLabel>
           <S.ContentInput>
             <Dropdown
+              name="방 카테고리 선택"
               dropdownItems={dropdownItems}
               selectedCategory={formState.classification}
               onSelectCategory={(value) =>

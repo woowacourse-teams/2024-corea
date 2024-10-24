@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { EllipsisText } from "@/styles/common";
+import { EllipsisText, VisuallyHidden } from "@/styles/common";
 import media from "@/styles/media";
 
 export const RoomCardContainer = styled.button`
@@ -114,7 +114,8 @@ export const NoKeywordText = styled.span`
 
 export const EtcContainer = styled.div`
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 0.6rem;
 `;
 
 export const JoinMember = styled.span`
@@ -146,5 +147,11 @@ export const StyledDday = styled.span`
 
 export const LabelWrapper = styled.div`
   display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
+  height: 53px;
+`;
+
+export const ScreenReader = styled.div`
+  ${VisuallyHidden}
 `;

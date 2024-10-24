@@ -28,7 +28,8 @@ export { default as puzzle_with_people_color } from "@/assets/intro/puzzle_with_
 export { default as step1_pic } from "@/assets/intro/step1_pic.webp";
 export { default as step2_pic } from "@/assets/intro/step2_pic.webp";
 export { default as step3_pic } from "@/assets/intro/step3_pic.webp";
-export { default as step4_pic } from "@/assets/intro/step4_pic.webp";
+export { default as step41_pic } from "@/assets/intro/step41_pic.webp";
+export { default as step42_pic } from "@/assets/intro/step42_pic.webp";
 export { default as step5_pic } from "@/assets/intro/step5_pic.webp";
 
 export { default as mainLogo } from "@/assets/coreaLogo/coreaMainLogo.svg";

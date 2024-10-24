@@ -53,7 +53,8 @@ public record RoomCreateRequest(@Schema(description = "방 제목", example = "M
                                 RoomClassification classification
 ) {
 
-    private static final int INITIAL_PARTICIPANTS_SIZE = 0;
+    private static final int INITIAL_REVIEWER_COUNT = 0;
+    private static final int INITIAL_BOTH_COUNT = 0;
     private static final RoomStatus INITIAL_ROOM_STATUS = RoomStatus.OPEN;
 
     public Room toEntity(Member manager) {
@@ -61,7 +62,8 @@ public record RoomCreateRequest(@Schema(description = "방 제목", example = "M
                 title, content,
                 matchingSize, repositoryLink,
                 thumbnailLink, keywords,
-                INITIAL_PARTICIPANTS_SIZE, limitedParticipants,
+                INITIAL_REVIEWER_COUNT, INITIAL_BOTH_COUNT,
+                limitedParticipants,
                 manager, recruitmentDeadline,
                 reviewDeadline, classification,
                 INITIAL_ROOM_STATUS

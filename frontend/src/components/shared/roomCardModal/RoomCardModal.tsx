@@ -27,6 +27,7 @@ const RoomCardModal = ({ isOpen, onClose, roomInfo }: RoomCardModalProps) => {
           </S.ClassificationBadgeWrapper>
 
           <S.RoomInfoThumbnail as={ImageWithFallback} src={roomInfo.thumbnailLink} alt="" />
+
           <S.MainContainer>
             <S.ManagerContainer>
               <S.ProfileContainer>
@@ -50,6 +51,7 @@ const RoomCardModal = ({ isOpen, onClose, roomInfo }: RoomCardModalProps) => {
             </S.TitleContainer>
           </S.MainContainer>
         </S.HeaderContainer>
+
         <S.EtcContainer>
           <S.InfoRow>
             <S.InfoTitle id="recruitDeadlineTitle" aria-hidden>
@@ -79,13 +81,28 @@ const RoomCardModal = ({ isOpen, onClose, roomInfo }: RoomCardModalProps) => {
             <S.ScreenReader>{`최소 상호 리뷰 인원 ${roomInfo.matchingSize}명`}</S.ScreenReader>
           </S.InfoRow>
           <S.InfoRow>
-            <S.InfoTitle aria-hidden>미션 참여 인원</S.InfoTitle>
+            <S.InfoTitle aria-hidden>총 인원</S.InfoTitle>
             <S.InfoContent aria-hidden>
-              {roomInfo.currentParticipants}명 / {roomInfo.limitedParticipants}명
+              {roomInfo.reviewerCount + roomInfo.bothCount} / {roomInfo.limitedParticipants}명
             </S.InfoContent>
-            <S.ScreenReader>{`미션 참여 인원 최대 ${roomInfo.limitedParticipants}명 현재 ${roomInfo.currentParticipants}명 `}</S.ScreenReader>
+            <S.ScreenReader>{`미션 참여 인원 최대 ${roomInfo.limitedParticipants}명, 현재 ${roomInfo.reviewerCount + roomInfo.bothCount}명 `}</S.ScreenReader>
+          </S.InfoRow>
+          <S.InfoRow>
+            <S.InfoTitle aria-hidden>리뷰어 인원</S.InfoTitle>
+            <S.InfoContent aria-hidden>
+              {roomInfo.reviewerCount} / {roomInfo.reviewerCount + roomInfo.bothCount}명
+            </S.InfoContent>
+            <S.ScreenReader>{`미션 참여 인원 ${roomInfo.reviewerCount + roomInfo.bothCount}명, 리뷰어로만 참여하는 사람 ${roomInfo.reviewerCount}명 `}</S.ScreenReader>
+          </S.InfoRow>
+          <S.InfoRow>
+            <S.InfoTitle aria-hidden>참여자 인원</S.InfoTitle>
+            <S.InfoContent aria-hidden>
+              {roomInfo.bothCount} / {roomInfo.reviewerCount + roomInfo.bothCount}명
+            </S.InfoContent>
+            <S.ScreenReader>{`미션 참여 인원 ${roomInfo.reviewerCount + roomInfo.bothCount}명, 리뷰어/리뷰이 둘 다 참여하는 사람 ${roomInfo.reviewerCount}명 `}</S.ScreenReader>
           </S.InfoRow>
         </S.EtcContainer>
+
         <S.DescriptionContainer>
           <S.KeywordsContainer>
             <S.KeywordWrapper>
@@ -100,6 +117,7 @@ const RoomCardModal = ({ isOpen, onClose, roomInfo }: RoomCardModalProps) => {
           </S.KeywordsContainer>
           <S.ContentContainer>{roomInfo.content}</S.ContentContainer>
         </S.DescriptionContainer>
+
         <S.ButtonWRapper>
           <RoomCardModalButton roomInfo={roomInfo} />
         </S.ButtonWRapper>

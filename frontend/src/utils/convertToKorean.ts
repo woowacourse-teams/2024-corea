@@ -1,6 +1,6 @@
 import { Classification } from "@/@types/roomInfo";
 
-const convertClassificationToKorean = (text: Classification) => {
+export const convertClassificationToKorean = (text: Classification) => {
   switch (text) {
     case "ALL":
       return "전체";
@@ -13,4 +13,8 @@ const convertClassificationToKorean = (text: Classification) => {
   }
 };
 
-export default convertClassificationToKorean;
+export const convertdDayToKorean = (dDay: string) => {
+  const leftDay = dDay.split("-")[1];
+
+  return `${leftDay}일 전`;
+};

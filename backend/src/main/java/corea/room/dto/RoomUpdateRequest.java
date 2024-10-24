@@ -62,7 +62,9 @@ public record RoomUpdateRequest(@Schema(description = "방 ID", example = "99")
                 title, content,
                 matchingSize, repositoryLink,
                 thumbnailLink, keywords,
-                room.getCurrentParticipantsSize(), limitedParticipants,
+                room.getReviewerCount(),
+                room.getBothCount(),
+                limitedParticipants,
                 manager, recruitmentDeadline,
                 reviewDeadline, classification,
                 room.getStatus()
