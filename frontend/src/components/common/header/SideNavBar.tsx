@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
 import useMutateAuth from "@/hooks/mutations/useMutateAuth";
@@ -50,17 +50,42 @@ const SideNavBar = ({ isOpen, onClose, isLoggedIn }: SideNavBarProps) => {
   const [isClosing, setIsClosing] = useState(false);
   const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
   const { postLogoutMutation } = useMutateAuth();
+  const previousFocusedElement = useRef<HTMLElement | null>(null);
+  const firstChildRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
     if (isOpen) {
+      previousFocusedElement.current = document.activeElement as HTMLElement;
       document.body.style.overflow = "hidden";
-      setIsClosing(false);
+      firstChildRef.current?.focus();
+    } else {
+      document.body.style.overflow = "auto";
     }
 
+    [...document.body.children].forEach((element) => {
+      if (element.id === "toast") return;
+
+      if (element.id === "sideNavBar") {
+        element.removeAttribute("aria-hidden");
+        return;
+      }
+
+      if (isOpen) {
+        element.setAttribute("aria-hidden", "true");
+        return;
+      }
+
+      element.removeAttribute("aria-hidden");
+    });
+
     return () => {
+      previousFocusedElement.current?.focus();
+      document.getElementById("root")?.setAttribute("aria-hidden", "false");
       document.body.style.overflow = "auto";
     };
   }, [isOpen]);
+
+  if (!isOpen) return null;
 
   const handleClose = () => {
     setIsClosing(true);
@@ -84,6 +109,7 @@ const SideNavBar = ({ isOpen, onClose, isLoggedIn }: SideNavBarProps) => {
               onClick={handleClose}
               size="xSmall"
               style={{ background: "transparent", color: "black" }}
+              ref={firstChildRef}
             >
               <Icon kind="close" size="2.4rem" />
             </Button>
@@ -124,7 +150,7 @@ const SideNavBar = ({ isOpen, onClose, isLoggedIn }: SideNavBarProps) => {
       ) : (
         <>
           <S.TopSection>
-            <Button onClick={onClose} size="xSmall">
+            <Button onClick={onClose} size="xSmall" ref={firstChildRef}>
               <Icon kind="close" size="2.4rem" />
             </Button>
             <S.NavItem>
