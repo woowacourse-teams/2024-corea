@@ -24,21 +24,7 @@ public class GithubPullRequestUrlExchanger {
     private static final int VALID_URL_SPLIT_COUNT = 5;
 
     public String pullRequestUrlToReview(String prLink) {
-        validatePrLink(prLink);
         return prLinkToReviewApiLink(prLink);
-    }
-
-    private void validatePrLink(String prUrl) {
-        if (prUrl == null || !prUrl.startsWith(HTTP_SECURE_PREFIX)) {
-            throw new CoreaException(ExceptionType.INVALID_PULL_REQUEST_URL);
-        }
-        String prLink = prUrl.replaceFirst(HTTP_SECURE_PREFIX, "");
-        List<String> splitPrLink = List.of(prLink.split(URL_DELIMITER));
-        if (splitPrLink.size() != VALID_URL_SPLIT_COUNT
-                || !splitPrLink.get(DOMAIN_PREFIX_INDEX).contains(GITHUB_PREFIX)
-                || !splitPrLink.get(GITHUB_PULL_REQUEST_URL_INDEX).equals(GITHUB_PULL_REQUEST_DOMAIN)) {
-            throw new CoreaException(ExceptionType.INVALID_PULL_REQUEST_URL);
-        }
     }
 
     private String prLinkToReviewApiLink(String prLink) {
@@ -58,7 +44,6 @@ public class GithubPullRequestUrlExchanger {
     }
 
     public String pullRequestUrlToComment(String prLink) {
-        validatePrLink(prLink);
         return prLinkToCommentApiLink(prLink);
     }
 
