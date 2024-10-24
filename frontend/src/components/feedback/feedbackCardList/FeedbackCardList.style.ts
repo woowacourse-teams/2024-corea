@@ -1,4 +1,5 @@
 import styled, { css, keyframes } from "styled-components";
+import { VisuallyHidden } from "@/styles/common";
 import media from "@/styles/media";
 
 const fadeIn = keyframes`
@@ -130,4 +131,8 @@ export const FeedbackKeywordContainer = styled.div`
 export const NoKeywordText = styled.span`
   font: ${({ theme }) => theme.TEXT.semiSmall};
   color: ${({ theme }) => theme.COLOR.grey2};
+`;
+
+export const ScreenReader = styled.div`
+  ${VisuallyHidden}
 `;
