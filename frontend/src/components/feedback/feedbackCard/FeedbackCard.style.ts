@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { EllipsisText } from "@/styles/common";
+import { EllipsisText, VisuallyHidden } from "@/styles/common";
 import media from "@/styles/media";
 
 export const FeedbackCardContainer = styled.div<{ $isTypeDevelop: boolean }>`
@@ -114,4 +114,8 @@ export const FeedbackDetail = styled.p`
   line-height: 2.2rem;
 
   ${EllipsisText}
+`;
+
+export const ScreenReader = styled.div`
+  ${VisuallyHidden}
 `;
