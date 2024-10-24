@@ -45,10 +45,7 @@ const ProfileDropdown = () => {
         <S.DropdownMenu>
           <S.ProfileWrapper>
             <Profile imgSrc={userInfo.avatar_url} />
-            <S.ProfileInfo>
-              <strong>{userInfo.name}</strong>
-              {/* <span>{userInfo.email !== "" ? userInfo.email : "email 비공개"}</span> */}
-            </S.ProfileInfo>
+            <S.ProfileInfo>{userInfo.name}</S.ProfileInfo>
           </S.ProfileWrapper>
 
           <FocusTrap onEscapeFocusTrap={() => handleToggleDropdown()}>

@@ -82,16 +82,10 @@ export const ProfileWrapper = styled.div`
 export const ProfileInfo = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  justify-content: center;
+
+  font: ${({ theme }) => theme.TEXT.medium_bold};
   color: ${({ theme }) => theme.COLOR.black};
-
-  strong {
-    font: ${({ theme }) => theme.TEXT.medium_bold};
-  }
-
-  span {
-    font: ${({ theme }) => theme.TEXT.semiSmall};
-  }
 `;
 
 export const NavItems = styled.ul`
