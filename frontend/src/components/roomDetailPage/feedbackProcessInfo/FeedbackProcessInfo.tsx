@@ -10,25 +10,18 @@ interface ExpandableSectionProps {
 const FeedbackProcessInfo = ({ title, children }: ExpandableSectionProps) => {
   const { isDropdownOpen, handleToggleDropdown } = useDropdown();
 
-  const handleProcessInfoClick = (event: React.MouseEvent | React.KeyboardEvent) => {
+  const handleProcessInfoClick = (event: React.MouseEvent) => {
     event.preventDefault();
-    if ("key" in event && event.key !== "Enter" && event.key !== " ") return;
     handleToggleDropdown();
   };
 
   return (
     <S.ExpandableSection>
-      <S.StyledTitle
-        onClick={handleProcessInfoClick}
-        onKeyDown={handleProcessInfoClick}
-        tabIndex={0}
-        role="button"
-        aria-expanded={isDropdownOpen}
-      >
+      <S.StyledTitle onClick={handleProcessInfoClick} tabIndex={0} aria-expanded={isDropdownOpen}>
         {title}
         <Icon kind={isDropdownOpen ? "arrowDropUp" : "arrowDropDown"} size="2rem" />
       </S.StyledTitle>
-      {isDropdownOpen && <S.ExpandableContent role="region">{children}</S.ExpandableContent>}
+      {isDropdownOpen && <S.ExpandableContent>{children}</S.ExpandableContent>}
     </S.ExpandableSection>
   );
 };
