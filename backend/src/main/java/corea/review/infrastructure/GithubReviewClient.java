@@ -48,12 +48,12 @@ public abstract class GithubReviewClient {
                 .body(GithubPullRequestReview[].class);
     }
 
-    private String buildPageUrl(int page, String commentApiUrl) {
-        return commentApiUrl + PAGE_PARAM + page + PER_PAGE_PARAM + MAX_PER_PAGE;
+    private String buildPageUrl(int page, String githubApiUrl) {
+        return githubApiUrl + PAGE_PARAM + page + PER_PAGE_PARAM + MAX_PER_PAGE;
     }
 
-    private boolean hasMoreReviews(GithubPullRequestReview[] comments) {
-        return comments.length > 0;
+    private boolean hasMoreReviews(GithubPullRequestReview[] reviews) {
+        return reviews.length > 0;
     }
 
     protected GithubPullRequestUrlExchanger getGithubPullRequestUrlExchanger() {
