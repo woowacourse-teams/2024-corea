@@ -15,7 +15,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 @Component
 @RequiredArgsConstructor
-public abstract class GithubPullRequestClient {
+public abstract class GithubReviewClient {
 
     private static final String PAGE_PARAM = "?page=";
     private static final String PER_PAGE_PARAM = "&per_page=";

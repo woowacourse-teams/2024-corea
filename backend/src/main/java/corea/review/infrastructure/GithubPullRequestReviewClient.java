@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
 @Component
-public class GithubPullRequestReviewClient extends GithubPullRequestClient {
+public class GithubPullRequestReviewClient extends GithubReviewClient {
 
     public GithubPullRequestReviewClient(RestClient restClient, GithubPullRequestUrlExchanger githubPullRequestUrlExchanger, GithubPersonalAccessTokenProvider githubPersonalAccessTokenProvider) {
         super(restClient, githubPullRequestUrlExchanger, githubPersonalAccessTokenProvider);
