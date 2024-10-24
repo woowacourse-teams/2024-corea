@@ -127,7 +127,11 @@ const SideNavBar = ({ isOpen, onClose, isLoggedIn }: SideNavBarProps) => {
       ) : (
         <>
           <S.TopSection>
-            <Button onClick={onClose} size="xSmall">
+            <Button
+              onClick={onClose}
+              size="xSmall"
+              style={{ background: "transparent", color: "black" }}
+            >
               <Icon kind="close" size="2.4rem" />
             </Button>
             <S.NavItem>
