@@ -79,7 +79,6 @@ class LoginServiceTest {
                 "youngsu5582",
                 "조희선",
                 "https://gongu.copyright.or.kr/",
-                "corea@example.com",
                 "98307410"
         ));
 

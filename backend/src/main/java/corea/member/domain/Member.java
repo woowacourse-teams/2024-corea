@@ -28,10 +28,6 @@ public class Member extends BaseTimeEntity {
 
     private String name;
 
-    private String email;
-
-    private boolean isEmailAccepted;
-
     private String profileLink;
 
     private String githubUserId;
@@ -40,12 +36,12 @@ public class Member extends BaseTimeEntity {
     @JoinColumn(name = "profile_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Profile profile;
 
-    public Member(String username, String thumbnailUrl, String name, String email, boolean isEmailAccepted, String githubUserId) {
-        this(null, username, thumbnailUrl, name, email, isEmailAccepted, "", githubUserId, new Profile());
+    public Member(String username, String thumbnailUrl, String name, String githubUserId) {
+        this(null, username, thumbnailUrl, name, "", githubUserId, new Profile());
     }
 
-    public Member(String username, String thumbnailUrl, String name, String email, boolean isEmailAccepted, String githubUserId, Profile profile) {
-        this(null, username, thumbnailUrl, name, email, isEmailAccepted, "", githubUserId, profile);
+    public Member(String username, String thumbnailUrl, String name, String githubUserId, Profile profile) {
+        this(null, username, thumbnailUrl, name, "", githubUserId, profile);
     }
 
     public void increaseReviewCount(MemberRole memberRole) {
