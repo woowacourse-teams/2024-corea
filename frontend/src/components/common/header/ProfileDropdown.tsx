@@ -47,7 +47,7 @@ const ProfileDropdown = () => {
             <Profile imgSrc={userInfo.avatar_url} />
             <S.ProfileInfo>
               <strong>{userInfo.name}</strong>
-              <span>{userInfo.email !== "" ? userInfo.email : "email 비공개"}</span>
+              {/* <span>{userInfo.email !== "" ? userInfo.email : "email 비공개"}</span> */}
             </S.ProfileInfo>
           </S.ProfileWrapper>
 

@@ -91,7 +91,7 @@ const SideNavBar = ({ isOpen, onClose, isLoggedIn }: SideNavBarProps) => {
               <Profile imgSrc={userInfo.avatar_url} size={44} />
               <S.ProfileInfo>
                 <strong>{userInfo.name}</strong>
-                <span>{userInfo.email !== "" ? userInfo.email : "email 비공개"}</span>
+                {/* <span>{userInfo.email !== "" ? userInfo.email : "email 비공개"}</span> */}
               </S.ProfileInfo>
             </S.ProfileWrapper>
             <S.LogoutButton

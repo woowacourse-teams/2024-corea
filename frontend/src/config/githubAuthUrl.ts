@@ -11,4 +11,4 @@ const getClientId = () => {
 };
 
 const clientId = getClientId();
-export const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&scope=user:email`;
+export const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}`;
