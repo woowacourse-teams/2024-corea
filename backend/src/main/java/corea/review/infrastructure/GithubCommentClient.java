@@ -32,7 +32,7 @@ public class GithubCommentClient {
     }
 
     public List<GithubPullRequestReview> getPullRequestComments(String prLink) {
-        String commentApiUrl = githubPullRequestUrlExchanger.pullRequestUrlToComment(prLink);
+        String commentApiUrl = githubPullRequestUrlExchanger.prLinkToCommentApiUrl(prLink);
 
         return Stream.iterate(1, page -> page + 1)
                 .map(page -> getPullRequestCommentsForPage(page, commentApiUrl))

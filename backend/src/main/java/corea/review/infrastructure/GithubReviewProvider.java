@@ -37,18 +37,6 @@ public class GithubReviewProvider {
         return new GithubPullRequestReviewInfo(result);
     }
 
-    private Map<String, GithubPullRequestReview> collectPullRequestReviews(List<GithubPullRequestReview> reviews, List<GithubPullRequestReview> comments) {
-        return Stream.concat(
-                        reviews.stream(),
-                        comments.stream()
-                )
-                .collect(Collectors.toMap(
-                        GithubPullRequestReview::getGithubUserId,
-                        Function.identity(),
-                        (x, y) -> x
-                ));
-    }
-
     private void validatePrLink(String prUrl) {
         if (prUrl == null || !prUrl.startsWith(HTTP_SECURE_PREFIX)) {
             throw new CoreaException(ExceptionType.INVALID_PULL_REQUEST_URL);
@@ -60,5 +48,17 @@ public class GithubReviewProvider {
                 || !splitPrLink.get(GITHUB_PULL_REQUEST_URL_INDEX).equals(GITHUB_PULL_REQUEST_DOMAIN)) {
             throw new CoreaException(ExceptionType.INVALID_PULL_REQUEST_URL);
         }
+    }
+
+    private Map<String, GithubPullRequestReview> collectPullRequestReviews(List<GithubPullRequestReview> reviews, List<GithubPullRequestReview> comments) {
+        return Stream.concat(
+                        reviews.stream(),
+                        comments.stream()
+                )
+                .collect(Collectors.toMap(
+                        GithubPullRequestReview::getGithubUserId,
+                        Function.identity(),
+                        (x, y) -> x
+                ));
     }
 }

@@ -32,7 +32,7 @@ public class GithubReviewClient {
     }
 
     public List<GithubPullRequestReview> getPullRequestReviews(String prLink) {
-        String reviewApiUrl = githubPullRequestUrlExchanger.pullRequestUrlToReview(prLink);
+        String reviewApiUrl = githubPullRequestUrlExchanger.prLinkToReviewApiUrl(prLink);
 
         return Stream.iterate(1, page -> page + 1)
                 .map(page -> getPullRequestReviewsForPage(page, reviewApiUrl))

@@ -28,7 +28,7 @@ class GithubPullRequestUrlExchangerTest {
         String test = "https://github.com/woowacourse-teams/2024-corea/pull/1";
         String expected = "https://api.github.com/repos/woowacourse-teams/2024-corea/pulls/1/reviews";
 
-        assertThat(githubPullRequestUrlExchanger.pullRequestUrlToReview(test)).isEqualTo(expected);
+        assertThat(githubPullRequestUrlExchanger.prLinkToReviewApiUrl(test)).isEqualTo(expected);
     }
 
     @Test
@@ -36,7 +36,7 @@ class GithubPullRequestUrlExchangerTest {
     void validate1() {
         String test = "http://github.com/woowacourse-teams/2024-corea/pull/1";
 
-        assertThatThrownBy(() -> githubPullRequestUrlExchanger.pullRequestUrlToReview(test))
+        assertThatThrownBy(() -> githubPullRequestUrlExchanger.prLinkToReviewApiUrl(test))
                 .isInstanceOf(CoreaException.class);
     }
 
@@ -44,7 +44,7 @@ class GithubPullRequestUrlExchangerTest {
     @NullAndEmptySource
     @DisplayName("빈 주소에 대해 예외를 발생한다.")
     void validate2(String test) {
-        assertThatThrownBy(() -> githubPullRequestUrlExchanger.pullRequestUrlToReview(test))
+        assertThatThrownBy(() -> githubPullRequestUrlExchanger.prLinkToReviewApiUrl(test))
                 .isInstanceOf(CoreaException.class);
     }
 
@@ -56,7 +56,7 @@ class GithubPullRequestUrlExchangerTest {
             "https://github.com/woowacourse-teams/2024-corea/pull"})
     @DisplayName("올바르지 않은 Pull Request 주소에 대해 예외를 발생한다.")
     void validate3(String test) {
-        assertThatThrownBy(() -> githubPullRequestUrlExchanger.pullRequestUrlToReview(test))
+        assertThatThrownBy(() -> githubPullRequestUrlExchanger.prLinkToReviewApiUrl(test))
                 .isInstanceOf(CoreaException.class);
     }
 }
