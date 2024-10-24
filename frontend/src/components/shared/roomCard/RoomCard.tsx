@@ -10,7 +10,8 @@ import RoomCardModal from "@/components/shared/roomCardModal/RoomCardModal";
 import { RoomInfo } from "@/@types/roomInfo";
 import { MAX_KEYWORDS } from "@/constants/room";
 import { theme } from "@/styles/theme";
-import { formatDday, formatLeftTime } from "@/utils/dateFormatter";
+import { convertdDayToKorean } from "@/utils/convertToKorean";
+import { convertDateToKorean, formatDday, formatLeftTime } from "@/utils/dateFormatter";
 
 const DisplayLeftTime = (roomInfo: RoomInfo) => {
   if (roomInfo.roomStatus === "OPEN") {
@@ -20,7 +21,10 @@ const DisplayLeftTime = (roomInfo: RoomInfo) => {
     return (
       <>
         {dDay !== "종료됨" && "모집 마감"}
-        <S.StyledDday>{dDay === "D-Day" ? leftTime : dDay}</S.StyledDday>
+        <S.StyledDday aria-hidden>{dDay === "D-Day" ? leftTime : dDay}</S.StyledDday>
+        <S.ScreenReader>
+          {dDay === "D-Day" ? convertDateToKorean(leftTime) : convertdDayToKorean(dDay)}
+        </S.ScreenReader>
       </>
     );
   }
@@ -32,7 +36,10 @@ const DisplayLeftTime = (roomInfo: RoomInfo) => {
     return (
       <>
         {dDay !== "종료됨" && "리뷰 마감"}
-        <S.StyledDday>{dDay === "D-Day" ? leftTime : dDay}</S.StyledDday>
+        <S.StyledDday aria-hidden>{dDay === "D-Day" ? leftTime : dDay}</S.StyledDday>
+        <S.ScreenReader>
+          {dDay === "D-Day" ? convertDateToKorean(leftTime) : convertdDayToKorean(dDay)}
+        </S.ScreenReader>
       </>
     );
   }
@@ -71,11 +78,7 @@ const RoomCard = React.memo(({ roomInfo }: RoomCardProps) => {
           <ClassificationBadge text={roomInfo.classification} />
         </S.ClassificationBadgeWrapper>
 
-        <S.RoomInfoThumbnail
-          as={ImageWithFallback}
-          src={roomInfo.thumbnailLink}
-          alt={roomInfo.title}
-        />
+        <S.RoomInfoThumbnail as={ImageWithFallback} src={roomInfo.thumbnailLink} alt="" />
 
         <S.RoomInformation>
           <S.RoomTitle>{roomInfo.title}</S.RoomTitle>
@@ -86,16 +89,21 @@ const RoomCard = React.memo(({ roomInfo }: RoomCardProps) => {
                 <S.NoKeywordText>지정된 키워드 없음</S.NoKeywordText>
               ) : (
                 displayedKeywords.map((keyword) => (
-                  <S.KeywordText key={keyword}>#{keyword}</S.KeywordText>
+                  <S.KeywordText key={keyword}>{`#${keyword}`}</S.KeywordText>
                 ))
               )}
             </S.KeywordWrapper>
           </S.KeywordsContainer>
 
           <S.EtcContainer>
-            <S.LabelWrapper>{DisplayLabel(roomInfo)}</S.LabelWrapper>
+            <S.LabelWrapper>
+              <S.ScreenReader>방 상태</S.ScreenReader>
+              {DisplayLabel(roomInfo)}
+            </S.LabelWrapper>
             <S.DeadLineText>{DisplayLeftTime(roomInfo)}</S.DeadLineText>
-            <S.JoinMember>
+            <S.JoinMember
+              aria-label={`미션 참여 인원 최대 ${roomInfo.limitedParticipants}명, 현재 ${roomInfo.reviewerCount + roomInfo.bothCount}명`}
+            >
               <Icon kind="person" size="1.8rem" color={theme.COLOR.grey4} />
               {roomInfo.reviewerCount + roomInfo.bothCount} / {roomInfo.limitedParticipants}
             </S.JoinMember>

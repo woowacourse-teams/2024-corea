@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import useDropdown from "@/hooks/common/useDropdown";
 import * as S from "@/components/common/dropdown/Dropdown.style";
 import FocusTrap from "@/components/common/focusTrap/FocusTrap";
@@ -9,6 +10,7 @@ export interface DropdownItem {
 }
 
 interface DropdownProps {
+  name?: string;
   dropdownItems: DropdownItem[];
   selectedCategory: string;
   onSelectCategory: (category: string) => void;
@@ -16,6 +18,7 @@ interface DropdownProps {
 }
 
 const Dropdown = ({
+  name = "",
   dropdownItems,
   onSelectCategory,
   selectedCategory,
@@ -28,15 +31,27 @@ const Dropdown = ({
     handleToggleDropdown();
   };
 
+  useEffect(() => {
+    if (isDropdownOpen && dropdownRef.current) {
+      const firstItem = dropdownRef.current.querySelector("[role='option']") as HTMLElement;
+      if (firstItem) firstItem.focus();
+    }
+  }, [isDropdownOpen]);
+
   return (
     <S.DropdownContainer ref={dropdownRef}>
-      <S.DropdownToggle onClick={handleToggleDropdown} $error={error}>
+      <S.DropdownToggle
+        onClick={handleToggleDropdown}
+        $error={error}
+        aria-label={name}
+        aria-expanded={isDropdownOpen}
+      >
         {dropdownItems.find((item) => item.value === selectedCategory)?.text || "선택해주세요"}
         <Icon kind={isDropdownOpen ? "arrowDropUp" : "arrowDropDown"} />
       </S.DropdownToggle>
 
       {isDropdownOpen && (
-        <S.DropdownMenu>
+        <S.DropdownMenu role="listbox">
           <FocusTrap onEscapeFocusTrap={() => handleToggleDropdown()}>
             <S.DropdownItemWrapper>
               {dropdownItems.map((item) => (
@@ -44,6 +59,8 @@ const Dropdown = ({
                   key={item.value}
                   onClick={() => handleDropdownItemClick(item.value)}
                   $isSelected={item.value === selectedCategory}
+                  role="option"
+                  aria-selected={item.value === selectedCategory}
                   tabIndex={0}
                   onKeyDown={(e) => {
                     if (e.key === "Enter") handleDropdownItemClick(item.value);

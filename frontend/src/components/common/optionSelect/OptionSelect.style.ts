@@ -1,23 +1,26 @@
 import styled from "styled-components";
 
-export const OptionSelectContainer = styled.div`
+export const OptionSelectContainer = styled.ul`
   position: relative;
   display: flex;
   flex-direction: row;
   border-bottom: 1px solid ${({ theme }) => theme.COLOR.grey1};
 `;
 
-export const Option = styled.button<{ $isSelected: boolean }>`
+export const Option = styled.li<{ $isSelected: boolean }>`
+  cursor: pointer;
+
   box-sizing: border-box;
   width: 120px;
   padding: 0.8rem;
 
   font: ${({ theme }) => theme.TEXT.medium_bold};
   color: ${({ $isSelected, theme }) => ($isSelected ? theme.COLOR.black : theme.COLOR.grey3)};
+  text-align: center;
 
   background: transparent;
 
-  @media screen and (max-width: 520px) {
+  @media screen and (width <= 520px) {
     flex: 1%;
   }
 `;
@@ -35,8 +38,8 @@ export const Indicator = styled.div<{ $position: number; $optionCount: number }>
 
   transition: transform 0.3s ease-in-out;
 
-  @media screen and (max-width: 520px) {
-    width: ${({ $optionCount }) => `calc(100% / ${$optionCount})`};
+  @media screen and (width <= 520px) {
     transform: ${({ $position }) => `translateX(calc(100% * ${$position}))`};
+    width: ${({ $optionCount }) => `calc(100% / ${$optionCount})`};
   }
 `;

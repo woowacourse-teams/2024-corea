@@ -266,3 +266,7 @@ export const ButtonWRapper = styled.div`
 export const ScreenReader = styled.div`
   ${VisuallyHidden}
 `;
+
+export const ReviewCount = styled.span`
+  font-size: ${({ theme }) => theme.TEXT.semiSmall};
+`;

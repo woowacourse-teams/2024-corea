@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { VisuallyHidden } from "@/styles/common";
 import media from "@/styles/media";
 
 export const EmptyContainer = styled.div`
@@ -41,4 +42,8 @@ export const RoomListContainer = styled.div`
     grid-template-columns: repeat(4, minmax(0, 1fr));
   `};
   padding-bottom: 1rem;
+`;
+
+export const ScreenReader = styled.div`
+  ${VisuallyHidden}
 `;

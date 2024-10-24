@@ -41,6 +41,6 @@ export const NavDot = styled.div<NavDotProps>`
   transition: all 0.3s ease;
 
   &:hover {
-    background-color: #fff;
+    background-color: ${({ theme }) => theme.COLOR.grey2};
   }
 `;

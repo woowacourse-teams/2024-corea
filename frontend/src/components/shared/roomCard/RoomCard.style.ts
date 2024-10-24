@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { EllipsisText } from "@/styles/common";
+import { EllipsisText, VisuallyHidden } from "@/styles/common";
 import media from "@/styles/media";
 
 export const RoomCardContainer = styled.button`
@@ -150,4 +150,8 @@ export const LabelWrapper = styled.div`
   flex-wrap: wrap;
   gap: 0.5rem;
   height: 53px;
+`;
+
+export const ScreenReader = styled.div`
+  ${VisuallyHidden}
 `;
