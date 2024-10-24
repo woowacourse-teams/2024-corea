@@ -49,6 +49,7 @@ export const MyReviewerContent = styled.div`
 
   font: ${({ theme }) => theme.TEXT.semiSmall};
   text-align: center;
+  word-break: keep-all;
 
   p {
     font: ${({ theme }) => theme.TEXT.semiSmall};

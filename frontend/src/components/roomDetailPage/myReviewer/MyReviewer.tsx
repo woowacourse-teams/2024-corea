@@ -121,7 +121,7 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
         />
       )}
 
-      <S.MyReviewerTable aria-label="나를 리뷰해주는 분의 목록.">
+      <S.MyReviewerTable aria-label="나의 리뷰어 목록.">
         <S.MyReviewerTableHead>
           <S.MyReviewerTableRow>
             <S.MyReviewerTableHeader>아이디</S.MyReviewerTableHeader>
