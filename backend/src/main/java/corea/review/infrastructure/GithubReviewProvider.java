@@ -34,19 +34,6 @@ public class GithubReviewProvider {
         return getGithubPullRequestReviewInfo(prLink);
     }
 
-    private void validatePrLink(String prUrl) {
-        if (prUrl == null || !prUrl.startsWith(HTTP_SECURE_PREFIX)) {
-            throw new CoreaException(ExceptionType.INVALID_PULL_REQUEST_URL);
-        }
-        String prLink = prUrl.replaceFirst(HTTP_SECURE_PREFIX, "");
-        List<String> splitPrLink = List.of(prLink.split(URL_DELIMITER));
-        if (splitPrLink.size() != VALID_URL_SPLIT_COUNT
-                || !splitPrLink.get(DOMAIN_PREFIX_INDEX).contains(GITHUB_PREFIX)
-                || !splitPrLink.get(GITHUB_PULL_REQUEST_URL_INDEX).equals(GITHUB_PULL_REQUEST_DOMAIN)) {
-            throw new CoreaException(ExceptionType.INVALID_PULL_REQUEST_URL);
-        }
-    }
-
     private GithubPullRequestReviewInfo getGithubPullRequestReviewInfo(String prLink) {
         List<GithubPullRequestReview> reviews = getAllPullRequestReviews(prLink);
         Map<String, GithubPullRequestReview> result = collectByGithubUserId(reviews);
@@ -69,5 +56,26 @@ public class GithubReviewProvider {
                         Function.identity(),
                         (x, y) -> x
                 ));
+    }
+
+    private void validatePrLink(String prUrl) {
+        if (isNotStartsWithHttps(prUrl) || isInvalidGithubPrUrl(extractPrLinkParts(prUrl))) {
+            throw new CoreaException(ExceptionType.INVALID_PULL_REQUEST_URL);
+        }
+    }
+
+    private boolean isNotStartsWithHttps(String prUrl) {
+        return prUrl == null || !prUrl.startsWith(HTTP_SECURE_PREFIX);
+    }
+
+    private List<String> extractPrLinkParts(String prUrl) {
+        String prLink = prUrl.replaceFirst(HTTP_SECURE_PREFIX, "");
+        return List.of(prLink.split(URL_DELIMITER));
+    }
+
+    private boolean isInvalidGithubPrUrl(List<String> prLinkParts) {
+        return prLinkParts.size() != VALID_URL_SPLIT_COUNT ||
+                !prLinkParts.get(DOMAIN_PREFIX_INDEX).contains(GITHUB_PREFIX) ||
+                !prLinkParts.get(GITHUB_PULL_REQUEST_URL_INDEX).equals(GITHUB_PULL_REQUEST_DOMAIN);
     }
 }
