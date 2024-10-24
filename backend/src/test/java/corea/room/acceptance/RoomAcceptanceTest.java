@@ -96,7 +96,7 @@ class RoomAcceptanceTest {
                     .statusCode(200)
                     .extract().as(RoomResponse.class);
 
-            assertThat(result.manager()).isEqualTo(member.getName());
+            assertThat(result.manager()).isEqualTo(member.getUsername());
         }
 
         @Test
@@ -109,7 +109,7 @@ class RoomAcceptanceTest {
                     .statusCode(200)
                     .extract().as(RoomResponse.class);
 
-            assertThat(result.manager()).isEqualTo(member.getName());
+            assertThat(result.manager()).isEqualTo(member.getUsername());
         }
 
         @Test
@@ -175,7 +175,7 @@ class RoomAcceptanceTest {
             softly.assertThat(rooms)
                     .hasSize(3);
             softly.assertThat(managers)
-                    .containsExactlyInAnyOrder("강다빈", "이상엽", "최진실");
+                    .containsExactlyInAnyOrder("00kang", "pp449", "chlwlstlf");
         });
     }
 
@@ -197,7 +197,7 @@ class RoomAcceptanceTest {
                 .map(RoomResponse::manager)
                 .toList();
 
-        assertThat(managers).containsExactlyInAnyOrder("조경찬", "강다빈", "이상엽", "최진실");
+        assertThat(managers).containsExactlyInAnyOrder("jcoding-play", "00kang", "pp449", "chlwlstlf");
     }
 
     @Test
@@ -218,7 +218,7 @@ class RoomAcceptanceTest {
                 .map(RoomResponse::manager)
                 .toList();
 
-        assertThat(managers).containsExactlyInAnyOrder("강다빈", "이상엽", "최진실");
+        assertThat(managers).containsExactlyInAnyOrder("00kang", "pp449", "chlwlstlf");
     }
 
     @Test
@@ -235,10 +235,10 @@ class RoomAcceptanceTest {
 
         assertSoftly(softly -> {
             softly.assertThat(rooms).hasSize(4);
-            softly.assertThat(rooms.get(0).manager()).isEqualTo("조경찬");
-            softly.assertThat(rooms.get(1).manager()).isEqualTo("박민아");
-            softly.assertThat(rooms.get(2).manager()).isEqualTo("포비");
-            softly.assertThat(rooms.get(3).manager()).isEqualTo("포비");
+            softly.assertThat(rooms.get(0).manager()).isEqualTo("jcoding-play");
+            softly.assertThat(rooms.get(1).manager()).isEqualTo("ashsty");
+            softly.assertThat(rooms.get(2).manager()).isEqualTo("pobi");
+            softly.assertThat(rooms.get(3).manager()).isEqualTo("pobi");
         });
     }
 
@@ -258,10 +258,10 @@ class RoomAcceptanceTest {
 
         assertSoftly(softly -> {
             softly.assertThat(rooms).hasSize(4);
-            softly.assertThat(rooms.get(0).manager()).isEqualTo("조경찬");
-            softly.assertThat(rooms.get(1).manager()).isEqualTo("박민아");
-            softly.assertThat(rooms.get(2).manager()).isEqualTo("포비");
-            softly.assertThat(rooms.get(3).manager()).isEqualTo("포비");
+            softly.assertThat(rooms.get(0).manager()).isEqualTo("jcoding-play");
+            softly.assertThat(rooms.get(1).manager()).isEqualTo("ashsty");
+            softly.assertThat(rooms.get(2).manager()).isEqualTo("pobi");
+            softly.assertThat(rooms.get(3).manager()).isEqualTo("pobi");
         });
     }
 
@@ -279,9 +279,9 @@ class RoomAcceptanceTest {
 
         assertSoftly(softly -> {
             softly.assertThat(rooms).hasSize(3);
-            softly.assertThat(rooms.get(0).manager()).isEqualTo("조경찬");
-            softly.assertThat(rooms.get(1).manager()).isEqualTo("이영수");
-            softly.assertThat(rooms.get(2).manager()).isEqualTo("최진실");
+            softly.assertThat(rooms.get(0).manager()).isEqualTo("jcoding-play");
+            softly.assertThat(rooms.get(1).manager()).isEqualTo("youngsu5582");
+            softly.assertThat(rooms.get(2).manager()).isEqualTo("chlwlstlf");
         });
     }
 }
