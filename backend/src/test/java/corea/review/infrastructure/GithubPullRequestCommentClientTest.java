@@ -13,17 +13,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @Disabled
 @SpringBootTest
-class GithubCommentClientTest {
+class GithubPullRequestCommentClientTest {
 
     @Autowired
-    private GithubCommentClient githubCommentClient;
+    private GithubPullRequestCommentClient githubPullRequestCommentClient;
 
     @Test
     @DisplayName("해당 PR 링크에 존재하는 커멘트들을 가져온다.")
     void getPullRequestComments() {
         String prLink = "https://github.com/youngsu5582/github-api-test/pull/1";
 
-        List<GithubPullRequestReview> comments = githubCommentClient.getPullRequestComments(prLink);
+        List<GithubPullRequestReview> comments = githubPullRequestCommentClient.getPullRequestReviews(prLink);
 
         assertThat(comments).hasSize(2);
     }
