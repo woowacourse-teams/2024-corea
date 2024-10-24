@@ -69,7 +69,6 @@ class ReviewServiceTest {
                                                 reviewer.getUsername(),
                                                 reviewer.getName(),
                                                 reviewer.getThumbnailUrl(),
-                                                reviewer.getEmail(),
                                                 reviewer.getGithubUserId()),
                                         "html_url")
                         )));

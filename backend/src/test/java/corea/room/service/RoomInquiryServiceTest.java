@@ -56,7 +56,7 @@ public class RoomInquiryServiceTest {
         RoomResponses response = roomInquiryService.findRoomsWithRoomStatus(pororo.getId(), 0, "all", roomStatus);
         List<String> managerNames = getManagerNames(response);
 
-        assertThat(managerNames).containsExactly("조경찬", "박민아");
+        assertThat(managerNames).containsExactly("pororo", "ashsty");
     }
 
     @ParameterizedTest
@@ -74,7 +74,7 @@ public class RoomInquiryServiceTest {
         RoomResponses response = roomInquiryService.findRoomsWithRoomStatus(anonymous.getId(), 0, "all", roomStatus);
         List<String> managerNames = getManagerNames(response);
 
-        assertThat(managerNames).containsExactly("조경찬", "박민아");
+        assertThat(managerNames).containsExactly("pororo", "ashsty");
     }
 
     private List<String> getManagerNames(RoomResponses response) {

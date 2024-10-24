@@ -14,15 +14,6 @@ public record GithubUserInfo(@Schema(description = "아이디", example = "young
                              @JsonProperty("avatar_url")
                              String avatarUrl,
 
-                             @Schema(description = "이메일", example = "corea@naver.com")
-                             String email,
-
                              @Schema(description = "깃허브 ID", example = "98307410")
                              String id) {
-
-    public GithubUserInfo {
-        if (email == null) {
-            email = "";
-        }
-    }
 }
