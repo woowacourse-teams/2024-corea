@@ -25,13 +25,13 @@ public class GithubReviewProvider {
     private static final int GITHUB_PULL_REQUEST_URL_INDEX = 3;
     private static final int VALID_URL_SPLIT_COUNT = 5;
 
-    private final GithubReviewClient reviewClient;
-    private final GithubCommentClient commentClient;
+    private final GithubPullRequestReviewClient reviewClient;
+    private final GithubPullRequestCommentClient commentClient;
 
     public GithubPullRequestReviewInfo provideReviewInfo(String prLink) {
         validatePrLink(prLink);
         List<GithubPullRequestReview> reviews = reviewClient.getPullRequestReviews(prLink);
-        List<GithubPullRequestReview> comments = commentClient.getPullRequestComments(prLink);
+        List<GithubPullRequestReview> comments = commentClient.getPullRequestReviews(prLink);
 
         Map<String, GithubPullRequestReview> result = collectPullRequestReviews(reviews, comments);
         return new GithubPullRequestReviewInfo(result);
