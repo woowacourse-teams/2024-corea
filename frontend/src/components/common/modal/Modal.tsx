@@ -24,6 +24,7 @@ const Modal = ({ isOpen, onClose, hasCloseButton = true, style, children }: Moda
   useEffect(() => {
     if (isOpen) {
       previousFocusedElement.current = document.activeElement as HTMLElement;
+      document.documentElement.style.scrollbarGutter = "stable";
       document.body.style.overflow = "hidden";
 
       if (hasCloseButton && closeButtonRef.current) {
@@ -33,6 +34,7 @@ const Modal = ({ isOpen, onClose, hasCloseButton = true, style, children }: Moda
       }
     } else {
       document.body.style.overflow = "auto";
+      document.documentElement.style.scrollbarGutter = "auto";
     }
 
     [...document.body.children].forEach((element) => {
@@ -50,11 +52,12 @@ const Modal = ({ isOpen, onClose, hasCloseButton = true, style, children }: Moda
 
       element.removeAttribute("aria-hidden");
     });
-
+    
     return () => {
       previousFocusedElement.current?.focus();
       document.getElementById("root")?.setAttribute("aria-hidden", "false");
       document.body.style.overflow = "auto";
+      document.documentElement.style.scrollbarGutter = "auto";
     };
   }, [isOpen]);
 

@@ -37,7 +37,7 @@ public class LoginService {
     }
 
     private Member register(GithubUserInfo userInfo) {
-        Member member = memberRepository.save(new Member(userInfo.login(), userInfo.avatarUrl(), userInfo.name(), userInfo.email(), true, userInfo.id()));
+        Member member = memberRepository.save(new Member(userInfo.login(), userInfo.avatarUrl(), userInfo.name(), userInfo.id()));
         logCreateMembers(member);
         return member;
     }

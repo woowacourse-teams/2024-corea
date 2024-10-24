@@ -148,6 +148,6 @@ public class Room extends BaseTimeEntity {
     }
 
     public String getManagerName() {
-        return manager.getName();
+        return manager.getUsername();
     }
 }

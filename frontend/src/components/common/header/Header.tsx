@@ -99,7 +99,7 @@ const Header = () => {
         )}
       </S.HeaderNavBarContainer>
       <S.SideNavBarContainer>
-        <Button onClick={toggleSideNav} size="xSmall" variant="default">
+        <Button onClick={toggleSideNav} size="xSmall" variant="default" aria-label="메뉴">
           <Icon kind="menu" size="2.6rem" />
         </Button>
       </S.SideNavBarContainer>

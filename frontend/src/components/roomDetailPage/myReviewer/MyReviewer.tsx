@@ -78,7 +78,7 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
   if (roomInfo.roomStatus === "OPEN" && reviewerData.length === 0) {
     return (
       <S.GuidanceWrapper>
-        <p className="process-waiting">{MESSAGES.GUIDANCE.EMPTY_REVIEWEE}</p>
+        <p className="process-waiting">{MESSAGES.GUIDANCE.EMPTY_REVIEWER}</p>
         <p className="process-waiting">{MESSAGES.GUIDANCE.SUB_DESCRIPTION}</p>
       </S.GuidanceWrapper>
     );
@@ -120,40 +120,54 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
           buttonText={feedbackTypeResult.buttonText}
         />
       )}
-      <S.MyReviewerContainer>
-        <S.MyReviewerWrapper>
-          <S.MyReviewerTitle>아이디</S.MyReviewerTitle>
-          <S.MyReviewerTitle>Comment 링크</S.MyReviewerTitle>
-          <S.MyReviewerTitle>피드백 여부</S.MyReviewerTitle>
-        </S.MyReviewerWrapper>
 
-        {reviewerData.map((reviewer) => {
-          return (
-            <S.MyReviewerWrapper key={reviewer.userId}>
-              <HoverStyledLink to={`/profile/${reviewer.username}`}>
-                <S.MyReviewerId>{reviewer.username}</S.MyReviewerId>
-              </HoverStyledLink>
+      <S.MyReviewerTable aria-label="나의 리뷰어 목록.">
+        <S.MyReviewerTableHead>
+          <S.MyReviewerTableRow>
+            <S.MyReviewerTableHeader>아이디</S.MyReviewerTableHeader>
+            <S.MyReviewerTableHeader>Comment 링크</S.MyReviewerTableHeader>
+            <S.MyReviewerTableHeader>피드백 여부</S.MyReviewerTableHeader>
+          </S.MyReviewerTableRow>
+        </S.MyReviewerTableHead>
 
-              {reviewer.link.length !== 0 ? (
-                <S.MyReviewerContent>
-                  <HoverStyledLink to={reviewer.link} target="_blank" rel="noreferrer">
-                    <S.PRLink>
-                      <S.IconWrapper>
-                        <Icon kind="link" size="1.8rem" />
-                      </S.IconWrapper>
-                      바로가기
-                    </S.PRLink>
-                  </HoverStyledLink>
-                </S.MyReviewerContent>
-              ) : (
-                "-"
-              )}
+        <S.MyReviewerTableBody>
+          {reviewerData.map((reviewer) => {
+            return (
+              <S.MyReviewerTableRow key={reviewer.userId}>
+                <HoverStyledLink
+                  to={`/profile/${reviewer.username}`}
+                  aria-label={`${reviewer.username}. 클릭하면 프로필로 이동합니다.`}
+                >
+                  <S.MyReviewerId>{reviewer.username}</S.MyReviewerId>
+                </HoverStyledLink>
 
-              <S.MyReviewerContent>{renderReviewerButton(reviewer)}</S.MyReviewerContent>
-            </S.MyReviewerWrapper>
-          );
-        })}
-      </S.MyReviewerContainer>
+                {reviewer.link.length !== 0 ? (
+                  <S.MyReviewerContent>
+                    <HoverStyledLink
+                      to={reviewer.link}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={`바로가기. 클릭하면 리뷰어의 코멘트 링크로 이동합니다.`}
+                    >
+                      <S.PRLink>
+                        <S.IconWrapper>
+                          <Icon kind="link" size="1.8rem" />
+                        </S.IconWrapper>
+                        바로가기
+                      </S.PRLink>
+                    </HoverStyledLink>
+                  </S.MyReviewerContent>
+                ) : (
+                  "-"
+                )}
+
+                <S.MyReviewerContent>{renderReviewerButton(reviewer)}</S.MyReviewerContent>
+              </S.MyReviewerTableRow>
+            );
+          })}
+        </S.MyReviewerTableBody>
+      </S.MyReviewerTable>
+
       <S.ExtraInformation>※최소 상호 리뷰 인원수보다 많게 매칭될 수 있습니다.</S.ExtraInformation>
     </>
   );
