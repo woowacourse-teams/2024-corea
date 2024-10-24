@@ -1,6 +1,6 @@
 import * as S from "@/components/shared/classificationBadge/ClassificationBadge.style";
 import { Classification } from "@/@types/roomInfo";
-import convertClassificationToKorean from "@/utils/convertClassificationToKorean";
+import { convertClassificationToKorean } from "@/utils/convertToKorean";
 import { classificationText } from "@/utils/roomInfoUtils";
 
 const ClassificationBadge = ({ text }: { text: Classification }) => {
