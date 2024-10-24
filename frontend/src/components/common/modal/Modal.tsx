@@ -36,12 +36,15 @@ const Modal = ({ isOpen, onClose, hasCloseButton = true, style, children }: Moda
 
     if (isOpen) {
       document.body.style.overflow = "hidden";
+      document.documentElement.style.scrollbarGutter = "stable";
     } else {
       document.body.style.overflow = "auto";
+      document.documentElement.style.scrollbarGutter = "auto";
     }
 
     return () => {
       document.body.style.overflow = "auto";
+      document.documentElement.style.scrollbarGutter = "auto";
     };
   }, [isOpen]);
 

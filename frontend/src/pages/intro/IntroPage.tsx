@@ -54,6 +54,7 @@ const IntroPage = () => {
           </Link>
         </S.HeaderLogo>
       </S.HeaderContainer>
+
       <S.Layout ref={layoutRef}>
         <S.ContentLayout>
           <S.ImgWrapper src={puzzle_with_people_color} alt="CoReA 로고 이미지" />
@@ -133,24 +134,24 @@ const IntroPage = () => {
 
         <S.ContentLayout>
           <S.ContentSection>
+            <S.ImgSection src={step42_pic} />
             <S.TextSection>
               <p className="step">STEP 4-2</p>
               <p className="main">피드백 작성 for 리뷰어</p>
               <p className="sub">리뷰어가 코드리뷰를 완료하면 피드백 작성 버튼이 활성화돼요.</p>
               <p className="sub">버튼을 클릭하여 상대방의 리뷰에 대한 피드백을 남겨주세요.</p>
             </S.TextSection>
-            <S.ImgSection src={step42_pic} />
           </S.ContentSection>
         </S.ContentLayout>
 
         <S.ContentLayout>
           <S.ContentSection>
-            <S.ImgSection src={step5_pic} />
             <S.TextSectionRight>
               <p className="step">STEP 5</p>
               <p className="main">피드백 확인</p>
               <p className="sub">피드백 모아보기에서 주고받은 모든 피드백을 확인할 수 있어요.</p>
             </S.TextSectionRight>
+            <S.ImgSection src={step5_pic} />
           </S.ContentSection>
           <S.ButtonWrapper style={{ position: "absolute", bottom: "10%" }}>
             <Button onClick={() => navigate("/")} size="large">
@@ -160,7 +161,7 @@ const IntroPage = () => {
         </S.ContentLayout>
 
         <IntroNavigationBar
-          totalSections={7}
+          totalSections={8}
           currentSection={currentSection}
           onDotClick={handleDotClick}
         />

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { EllipsisText } from "@/styles/common";
+import { EllipsisText, VisuallyHidden } from "@/styles/common";
 import media from "@/styles/media";
 
 export const RoomInfoCardContainer = styled.div`
@@ -129,7 +129,7 @@ export const RoomContentSmall = styled.span`
   align-items: center;
 
   font: ${({ theme }) => theme.TEXT.small_bold};
-  line-height: 2rem;
+  line-height: normal;
   color: ${({ theme }) => theme.COLOR.black};
 
   span {
@@ -149,6 +149,10 @@ export const RoomContentSmall = styled.span`
     flex-direction: row;
     gap: 1rem;
     align-items: center;
+
+    font: ${({ theme }) => theme.TEXT.small_bold};
+    line-height: normal;
+    color: ${({ theme }) => theme.COLOR.black};
   }
 
   ${media.small`
@@ -181,4 +185,8 @@ export const RoomKeyword = styled.div`
   background-color: ${({ theme }) => theme.COLOR.primary1};
   border: none;
   border-radius: 5px;
+`;
+
+export const ScreenReader = styled.div`
+  ${VisuallyHidden}
 `;

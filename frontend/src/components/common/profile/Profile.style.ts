@@ -5,6 +5,7 @@ export const ProfileContainer = styled.button<{ $size: number | undefined }>`
 
   overflow: hidden;
   display: flex;
+  flex-shrink: 0;
   align-items: center;
   justify-content: center;
 
