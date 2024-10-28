@@ -30,7 +30,12 @@ export const ProfileWrapper = styled.div`
 `;
 
 export const ProfileNickname = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+
   max-width: 108px;
+
   font: ${({ theme }) => theme.TEXT.medium_bold};
   color: ${({ theme }) => theme.COLOR.grey3};
   text-align: center;
