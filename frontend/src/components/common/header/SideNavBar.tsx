@@ -24,7 +24,7 @@ const loggedInMenuItems = [
     path: "/intro",
   },
   {
-    name: "코드리뷰가이드",
+    name: "가이드",
     path: "/guide",
   },
 ];
@@ -35,7 +35,7 @@ const commonMenuItems = [
     path: "/intro",
   },
   {
-    name: "코드리뷰가이드",
+    name: "가이드",
     path: "/guide",
   },
 ];
