@@ -21,6 +21,7 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
   const { isModalOpen, handleOpenModal, handleCloseModal } = useModal();
   const [selectedReviewer, setSelectedReviewer] = useState<ReviewerInfo | null>(null);
   const [feedbackTypeResult, setFeedbackTypeResult] = useState<FeedbackTypeResult | null>(null);
+  const [loadingButtonId, setLoadingButtonId] = useState<number[]>([]);
 
   // 피드백 모달 여는 함수
   const handleOpenFeedbackModal = (reviewer: ReviewerInfo) => {
