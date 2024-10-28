@@ -110,9 +110,12 @@ export const FeedbackMissionPrompt = styled.span<{ $isSelected: boolean }>`
 
 export const FeedbackMissionInfo = styled.div`
   display: flex;
-  align-items: center;
+  align-items: start;
+
   margin-right: 1rem;
+
   font: ${({ theme }) => theme.TEXT.medium_bold};
+  color: ${({ theme }) => theme.COLOR.black};
 `;
 
 export const FeedbackCount = styled.div`
@@ -135,4 +138,11 @@ export const NoKeywordText = styled.span`
 
 export const ScreenReader = styled.div`
   ${VisuallyHidden}
+`;
+
+export const FeedbackLink = styled.button`
+  display: flex;
+  align-items: center;
+  color: ${({ theme }) => theme.COLOR.black};
+  background-color: transparent;
 `;

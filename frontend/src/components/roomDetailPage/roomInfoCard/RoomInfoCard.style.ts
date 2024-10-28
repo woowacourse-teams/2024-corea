@@ -119,6 +119,8 @@ export const RoomTagBox = styled.div`
 `;
 
 export const NoKeywordText = styled.span`
+  display: flex;
+  align-items: center;
   font: ${({ theme }) => theme.TEXT.semiSmall};
   color: ${({ theme }) => theme.COLOR.grey2};
 `;
@@ -135,6 +137,11 @@ export const RoomContentSmall = styled.span`
   span {
     font: ${({ theme }) => theme.TEXT.small};
     color: ${({ theme }) => theme.COLOR.grey4};
+  }
+
+  span#sub {
+    font: ${({ theme }) => theme.TEXT.semiSmall};
+    color: ${({ theme }) => theme.COLOR.grey2};
   }
 
   span#githubid {

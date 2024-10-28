@@ -18,7 +18,12 @@ const FeedbackCard = ({
   feedbackCardData,
   feedbackType,
 }: FeedbackCardProps) => {
-  const feedbackTarget = selectedFeedbackType === "받은 피드백" ? "FROM" : "TO";
+  const getFeedbackTarget = (feedbackType: "develop" | "social") => {
+    if (selectedFeedbackType === "받은 피드백") {
+      return feedbackType === "develop" ? "FROM. 나의 리뷰어" : "FROM. 나의 리뷰이";
+    }
+    return feedbackType === "develop" ? "TO. 나의 리뷰이" : "TO. 나의 리뷰어";
+  };
 
   return (
     <>
@@ -35,12 +40,12 @@ const FeedbackCard = ({
             {feedbackType === "develop" ? (
               <>
                 개발 역량 피드백
-                <p>{feedbackTarget}. 나의 리뷰어</p>
+                <p>{getFeedbackTarget(feedbackType)}</p>
               </>
             ) : (
               <>
                 소프트스킬 역량 피드백
-                <p>{feedbackTarget}. 나의 리뷰이</p>
+                <p>{getFeedbackTarget(feedbackType)}</p>
               </>
             )}
           </S.FeedbackType>

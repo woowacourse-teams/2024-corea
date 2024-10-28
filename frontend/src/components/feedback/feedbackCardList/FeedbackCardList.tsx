@@ -6,6 +6,7 @@ import FeedbackCard from "@/components/feedback/feedbackCard/FeedbackCard";
 import * as S from "@/components/feedback/feedbackCardList/FeedbackCardList.style";
 import { FeedbackCardDataList } from "@/@types/feedback";
 import { defaultCharacter } from "@/assets";
+import { HoverStyledLink } from "@/styles/common";
 import { theme } from "@/styles/theme";
 
 interface FeedbackCardListProps {
@@ -25,12 +26,9 @@ const FeedbackCardList = ({ selectedFeedbackType, feedbackData }: FeedbackCardLi
     setSelectedFeedback(roomId);
   };
 
-  useEffect(
-    function resetSelectedFeedback() {
-      setSelectedFeedback(undefined);
-    },
-    [feedbackData],
-  );
+  useEffect(() => {
+    setSelectedFeedback(undefined);
+  }, [feedbackData]);
 
   if (feedbackData.length === 0) {
     return (
@@ -97,6 +95,11 @@ const FeedbackCardList = ({ selectedFeedbackType, feedbackData }: FeedbackCardLi
               >
                 피드백을 보려면 클릭해주세요
               </S.FeedbackMissionPrompt>
+              {selectedFeedback === feedback.roomId && (
+                <HoverStyledLink to={`/rooms/${feedback.roomId}`}>
+                  상세페이지로 이동하기
+                </HoverStyledLink>
+              )}
             </S.FeedbackMissionWrapper>
             <S.FeedbackInfoWrapper
               $isVisible={feedback.roomId === selectedFeedback}

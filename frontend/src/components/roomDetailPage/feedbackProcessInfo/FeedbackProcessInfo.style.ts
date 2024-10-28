@@ -47,6 +47,7 @@ export const ExpandableContent = styled.div`
   p {
     margin-bottom: 1rem;
     font: ${({ theme }) => theme.TEXT.small};
+    line-height: normal;
   }
 
   ol {
@@ -57,6 +58,7 @@ export const ExpandableContent = styled.div`
   li {
     margin: 0.4rem 1rem;
     font: ${({ theme }) => theme.TEXT.semiSmall};
+    line-height: normal;
     list-style-type: auto;
   }
 `;

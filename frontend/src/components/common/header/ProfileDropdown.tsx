@@ -7,12 +7,12 @@ import * as S from "@/components/common/header/ProfileDropdown.style";
 
 const dropdownItems = [
   {
-    name: "피드백 모아보기",
-    path: "/feedback",
-  },
-  {
     name: "마이페이지",
     path: "/profile",
+  },
+  {
+    name: "피드백 모아보기",
+    path: "/feedback",
   },
 ];
 
