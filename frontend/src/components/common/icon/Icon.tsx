@@ -6,6 +6,7 @@ import {
   FaRegFaceMeh,
   FaRegFaceSmile,
 } from "react-icons/fa6";
+import { IoLogoGithub } from "react-icons/io";
 import { IconType } from "react-icons/lib";
 import {
   MdArrowBackIos,
@@ -55,6 +56,7 @@ const ICON: { [key in IconKind]: IconType } = {
   check: MdCheck,
   menu: MdMenu,
   close: MdClear,
+  githubLogo: IoLogoGithub,
 };
 
 interface IconProps {
