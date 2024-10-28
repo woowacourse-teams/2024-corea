@@ -77,7 +77,7 @@ const MyReviewee = ({ roomInfo }: MyRevieweeProps) => {
         disabled={reviewee.isReviewed}
         onClick={() => handleReviewCompleteClick(reviewee)}
       >
-        코드리뷰 완료
+        코드리뷰 마치기
       </Button>
     );
   };

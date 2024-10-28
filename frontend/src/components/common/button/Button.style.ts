@@ -54,8 +54,8 @@ const variantStyles = {
 const sizeStyles = {
   xSmall: css`
     width: fit-content;
-    max-width: 110px;
-    padding: 1rem;
+    max-width: 120px;
+    padding: 1rem 0.5rem;
 
     font: ${({ theme }) => theme.TEXT.semiSmall};
 

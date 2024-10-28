@@ -43,7 +43,7 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
     });
 
     if (roomInfo.roomStatus === "CLOSE" && !reviewer.isReviewed) {
-      return <p>리뷰어가 리뷰를 안 했어요</p>;
+      return <p>리뷰어가 리뷰를 하지 않았어요</p>;
     }
 
     if (roomInfo.roomStatus === "CLOSE" && !reviewer.isWrited) {
