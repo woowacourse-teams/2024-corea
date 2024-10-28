@@ -25,12 +25,9 @@ const FeedbackCardList = ({ selectedFeedbackType, feedbackData }: FeedbackCardLi
     setSelectedFeedback(roomId);
   };
 
-  useEffect(
-    function resetSelectedFeedback() {
-      setSelectedFeedback(undefined);
-    },
-    [feedbackData],
-  );
+  useEffect(() => {
+    setSelectedFeedback(undefined);
+  }, [feedbackData]);
 
   if (feedbackData.length === 0) {
     return (
