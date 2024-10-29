@@ -7,12 +7,12 @@ import * as S from "@/components/common/header/ProfileDropdown.style";
 
 const dropdownItems = [
   {
-    name: "피드백 모아보기",
-    path: "/feedback",
-  },
-  {
     name: "마이페이지",
     path: "/profile",
+  },
+  {
+    name: "피드백 모아보기",
+    path: "/feedback",
   },
 ];
 
@@ -45,10 +45,7 @@ const ProfileDropdown = () => {
         <S.DropdownMenu>
           <S.ProfileWrapper>
             <Profile imgSrc={userInfo.avatar_url} />
-            <S.ProfileInfo>
-              <strong>{userInfo.name}</strong>
-              <span>{userInfo.email !== "" ? userInfo.email : "email 비공개"}</span>
-            </S.ProfileInfo>
+            <S.ProfileInfo>{userInfo.name}</S.ProfileInfo>
           </S.ProfileWrapper>
 
           <FocusTrap onEscapeFocusTrap={() => handleToggleDropdown()}>

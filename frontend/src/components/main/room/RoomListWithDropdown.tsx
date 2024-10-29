@@ -28,6 +28,7 @@ const RoomListWithDropdown = ({
     <ContentSection title="">
       <S.DropdownWrapper>
         <Dropdown
+          name="포지션 분류"
           dropdownItems={dropdownItems}
           selectedCategory={selectedCategory}
           onSelectCategory={handleSelectedCategory}

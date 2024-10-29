@@ -1,4 +1,5 @@
 import styled, { css, keyframes } from "styled-components";
+import { VisuallyHidden } from "@/styles/common";
 import media from "@/styles/media";
 
 const fadeIn = keyframes`
@@ -109,9 +110,12 @@ export const FeedbackMissionPrompt = styled.span<{ $isSelected: boolean }>`
 
 export const FeedbackMissionInfo = styled.div`
   display: flex;
-  align-items: center;
+  align-items: start;
+
   margin-right: 1rem;
+
   font: ${({ theme }) => theme.TEXT.medium_bold};
+  color: ${({ theme }) => theme.COLOR.black};
 `;
 
 export const FeedbackCount = styled.div`
@@ -130,4 +134,15 @@ export const FeedbackKeywordContainer = styled.div`
 export const NoKeywordText = styled.span`
   font: ${({ theme }) => theme.TEXT.semiSmall};
   color: ${({ theme }) => theme.COLOR.grey2};
+`;
+
+export const ScreenReader = styled.div`
+  ${VisuallyHidden}
+`;
+
+export const FeedbackLink = styled.button`
+  display: flex;
+  align-items: center;
+  color: ${({ theme }) => theme.COLOR.black};
+  background-color: transparent;
 `;

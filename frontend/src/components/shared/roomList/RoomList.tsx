@@ -46,12 +46,12 @@ const RoomList = ({
 
   return (
     <S.RoomListSection>
-      <S.RoomListContainer>
+      <S.RoomListContainer aria-busy={isFetchingNextPage}>
         {roomList.map((roomInfo) =>
           roomType === "participated" ||
           roomInfo.participationStatus === "PARTICIPATED" ||
           roomInfo.participationStatus === "MANAGER" ? (
-            <Link to={`/rooms/${roomInfo.id}`} key={roomInfo.id}>
+            <Link to={`/rooms/${roomInfo.id}`} key={roomInfo.id} tabIndex={-1}>
               <RoomCard roomInfo={roomInfo} />
             </Link>
           ) : (
@@ -60,6 +60,9 @@ const RoomList = ({
         )}
         {isFetchingNextPage && (
           <DelaySuspense>
+            <S.ScreenReader role="status" aria-live="polite">
+              새로운 방을 불러오는 중입니다...
+            </S.ScreenReader>
             {Array.from({ length: 8 }).map((_, idx) => (
               <RoomCardSkeleton.Wrapper key={idx} />
             ))}

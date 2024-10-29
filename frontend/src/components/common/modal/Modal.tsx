@@ -1,4 +1,4 @@
-import { CSSProperties, MouseEvent, ReactNode, useEffect, useState } from "react";
+import { CSSProperties, MouseEvent, ReactNode, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import FocusTrap from "@/components/common/focusTrap/FocusTrap";
 import * as S from "@/components/common/modal/Modal.style";
@@ -17,7 +17,26 @@ export interface ModalProps {
 
 const Modal = ({ isOpen, onClose, hasCloseButton = true, style, children }: ModalProps) => {
   const [isClosing, setIsClosing] = useState(false);
+  const previousFocusedElement = useRef<HTMLElement | null>(null);
+  const firstChildRef = useRef<HTMLDivElement | null>(null);
+  const closeButtonRef = useRef<HTMLButtonElement | null>(null);
+
   useEffect(() => {
+    if (isOpen) {
+      previousFocusedElement.current = document.activeElement as HTMLElement;
+      document.documentElement.style.scrollbarGutter = "stable";
+      document.body.style.overflow = "hidden";
+
+      if (hasCloseButton && closeButtonRef.current) {
+        closeButtonRef.current.focus();
+      } else if (firstChildRef.current) {
+        firstChildRef.current.focus();
+      }
+    } else {
+      document.body.style.overflow = "auto";
+      document.documentElement.style.scrollbarGutter = "auto";
+    }
+
     [...document.body.children].forEach((element) => {
       if (element.id === "toast") return;
 
@@ -33,15 +52,12 @@ const Modal = ({ isOpen, onClose, hasCloseButton = true, style, children }: Moda
 
       element.removeAttribute("aria-hidden");
     });
-
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-
+    
     return () => {
+      previousFocusedElement.current?.focus();
+      document.getElementById("root")?.setAttribute("aria-hidden", "false");
       document.body.style.overflow = "auto";
+      document.documentElement.style.scrollbarGutter = "auto";
     };
   }, [isOpen]);
 
@@ -74,8 +90,9 @@ const Modal = ({ isOpen, onClose, hasCloseButton = true, style, children }: Moda
           }}
         >
           <div>
+            <div ref={firstChildRef} tabIndex={-1} aria-hidden />
             {hasCloseButton && (
-              <S.CloseButton onClick={handleModalClose} aria-label="모달 닫기">
+              <S.CloseButton onClick={handleModalClose} ref={closeButtonRef} aria-label="모달 닫기">
                 &times;
               </S.CloseButton>
             )}

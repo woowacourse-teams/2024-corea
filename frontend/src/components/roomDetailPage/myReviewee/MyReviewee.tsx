@@ -8,20 +8,22 @@ import RevieweeFeedbackModal from "@/components/feedback/revieweeFeedbackModal/R
 import * as S from "@/components/roomDetailPage/myReviewee/MyReviewee.style";
 import { ReviewerInfo } from "@/@types/reviewer";
 import { RoomInfo } from "@/@types/roomInfo";
+import { spinner } from "@/assets";
 import MESSAGES from "@/constants/message";
 import { HoverStyledLink } from "@/styles/common";
 import { FeedbackTypeResult, getFeedbackType } from "@/utils/feedbackUtils";
 
-interface MyReviewerProps {
+interface MyRevieweeProps {
   roomInfo: RoomInfo;
 }
 
-const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
+const MyReviewee = ({ roomInfo }: MyRevieweeProps) => {
   const { data: revieweeData } = useFetchReviewee(roomInfo);
   const { isModalOpen, handleOpenModal, handleCloseModal } = useModal();
   const { postReviewCompleteMutation } = useMutateReviewComplete(roomInfo.id);
   const [selectedReviewee, setSelectedReviewee] = useState<ReviewerInfo | null>(null);
   const [feedbackTypeResult, setFeedbackTypeResult] = useState<FeedbackTypeResult | null>(null);
+  const [loadingButtonId, setLoadingButtonId] = useState<number[]>([]);
 
   // 피드백 모달 여는 함수
   const handleOpenFeedbackModal = (reviewee: ReviewerInfo) => {
@@ -37,10 +39,16 @@ const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
 
   // 코드 리뷰 완료 post 요청 보내는 함수
   const handleReviewCompleteClick = (reviewee: ReviewerInfo) => {
+    setLoadingButtonId((prev) => [...prev, reviewee.userId]);
+
     postReviewCompleteMutation.mutate(
       { roomId: roomInfo.id, revieweeId: reviewee.userId },
       {
-        onSuccess: () => handleOpenFeedbackModal(reviewee),
+        onSuccess: () => {
+          handleOpenFeedbackModal(reviewee);
+          setLoadingButtonId((prev) => prev.filter((id) => id !== reviewee.userId));
+        },
+        onError: () => setLoadingButtonId((prev) => prev.filter((id) => id !== reviewee.userId)),
       },
     );
   };
@@ -65,19 +73,27 @@ const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
       <Button
         size="xSmall"
         variant="primary"
-        disabled={!reviewee.isReviewed}
+        disabled={!reviewee.isReviewed || loadingButtonId.includes(reviewee.userId)}
         onClick={() => handleOpenFeedbackModal(reviewee)}
       >
-        {buttonText}
+        {loadingButtonId.includes(reviewee.userId) ? (
+          <S.LoadingSpinner src={spinner} />
+        ) : (
+          buttonText
+        )}
       </Button>
     ) : (
       <Button
         size="xSmall"
         variant="confirm"
-        disabled={reviewee.isReviewed}
+        disabled={reviewee.isReviewed || loadingButtonId.includes(reviewee.userId)}
         onClick={() => handleReviewCompleteClick(reviewee)}
       >
-        코드리뷰 완료
+        {loadingButtonId.includes(reviewee.userId) ? (
+          <S.LoadingSpinner src={spinner} />
+        ) : (
+          "코드리뷰 마치기"
+        )}
       </Button>
     );
   };
@@ -138,34 +154,47 @@ const MyReviewee = ({ roomInfo }: MyReviewerProps) => {
         />
       )}
 
-      <S.MyRevieweeContainer>
-        <S.MyRevieweeWrapper>
-          <S.MyRevieweeTitle>아이디</S.MyRevieweeTitle>
-          <S.MyRevieweeTitle>PR 링크</S.MyRevieweeTitle>
-          <S.MyRevieweeTitle>리뷰 및 피드백 여부</S.MyRevieweeTitle>
-        </S.MyRevieweeWrapper>
+      <S.MyRevieweeTable aria-label="나의 리뷰이 목록.">
+        <S.MyRevieweeTableHead>
+          <S.MyRevieweeTableRow>
+            <S.MyRevieweeTableHeader>아이디</S.MyRevieweeTableHeader>
+            <S.MyRevieweeTableHeader>PR 링크</S.MyRevieweeTableHeader>
+            <S.MyRevieweeTableHeader>리뷰 및 피드백 여부</S.MyRevieweeTableHeader>
+          </S.MyRevieweeTableRow>
+        </S.MyRevieweeTableHead>
 
-        {revieweeData?.map((reviewee) => (
-          <S.MyRevieweeWrapper key={reviewee.userId}>
-            <HoverStyledLink to={`/profile/${reviewee.username}`}>
-              <S.MyRevieweeId>{reviewee.username}</S.MyRevieweeId>
-            </HoverStyledLink>
-
-            <S.MyRevieweeContent>
-              <HoverStyledLink to={reviewee.link} target="_blank" rel="noreferrer">
-                <S.PRLink>
-                  <S.IconWrapper>
-                    <Icon kind="link" size="1.8rem" />
-                  </S.IconWrapper>
-                  바로가기
-                </S.PRLink>
+        <S.MyRevieweeTableBody>
+          {revieweeData?.map((reviewee) => (
+            <S.MyRevieweeTableRow key={reviewee.userId}>
+              <HoverStyledLink
+                to={`/profile/${reviewee.username}`}
+                aria-label={`${reviewee.username}. 클릭하면 프로필로 이동합니다.`}
+              >
+                <S.MyRevieweeId>{reviewee.username}</S.MyRevieweeId>
               </HoverStyledLink>
-            </S.MyRevieweeContent>
 
-            <S.MyRevieweeContent>{renderRevieweeButton(reviewee)}</S.MyRevieweeContent>
-          </S.MyRevieweeWrapper>
-        ))}
-      </S.MyRevieweeContainer>
+              <S.MyRevieweeContent>
+                <HoverStyledLink
+                  to={reviewee.link}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={`바로가기. 클릭하면 리뷰이의 PR 링크로 이동합니다.`}
+                >
+                  <S.PRLink>
+                    <S.IconWrapper>
+                      <Icon kind="link" size="1.8rem" />
+                    </S.IconWrapper>
+                    바로가기
+                  </S.PRLink>
+                </HoverStyledLink>
+              </S.MyRevieweeContent>
+
+              <S.MyRevieweeContent>{renderRevieweeButton(reviewee)}</S.MyRevieweeContent>
+            </S.MyRevieweeTableRow>
+          ))}
+        </S.MyRevieweeTableBody>
+      </S.MyRevieweeTable>
+
       <S.ExtraInformation>※선호하는 리뷰이 인원수보다 적게 매칭될 수 있습니다.</S.ExtraInformation>
     </>
   );

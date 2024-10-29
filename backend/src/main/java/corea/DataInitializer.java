@@ -32,29 +32,21 @@ public class DataInitializer implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
         Member member1 = memberRepository.save(
-                new Member("jcoding-play", null, "조경찬",
-                        "namejgc@naver.com", true, "119468757"));
+                new Member("jcoding-play", null, "조경찬", "119468757"));
         Member member2 = memberRepository.save(
-                new Member("ashsty", null, "박민아",
-                        null, false, "77227961"));
+                new Member("ashsty", null, "박민아", "77227961"));
         Member member3 = memberRepository.save(
-                new Member("youngsu5582", null, "이영수",
-                        null, false, "98307410"));
+                new Member("youngsu5582", null, "이영수", "98307410"));
         Member member4 = memberRepository.save(
-                new Member("hjk0761", null, "김현중",
-                        null, true, "80106238"));
+                new Member("hjk0761", null, "김현중", "80106238"));
         Member member5 = memberRepository.save(
-                new Member("chlwlstlf", null, "최진실",
-                        null, true, "63334368"));
+                new Member("chlwlstlf", null, "최진실", "63334368"));
         Member member6 = memberRepository.save(
-                new Member("00kang", null, "강다빈",
-                        null, true, "70834044"));
+                new Member("00kang", null, "강다빈", "70834044"));
         Member member7 = memberRepository.save(
-                new Member("pp449", null, "이상엽",
-                        "mma7710@naver.com", true, "71641127"));
+                new Member("pp449", null, "이상엽", "71641127"));
         Member member8 = memberRepository.save(
-                new Member("pobi", null, "포비",
-                        null, false, "99112400"));
+                new Member("pobi", null, "포비", "99112400"));
 
         Room room1 = roomRepository.save(
                 new Room("방 제목 1", "방 설명 1", 3,
