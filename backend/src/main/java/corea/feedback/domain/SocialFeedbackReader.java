@@ -31,7 +31,7 @@ public class SocialFeedbackReader {
                 .collect(Collectors.groupingBy(FeedbackOutput::roomId));
     }
 
-    public boolean existsByDeliverAndReceiver(long deliverId, long receiverId) {
-        return socialFeedbackRepository.existsByDeliverIdAndReceiverId(deliverId, receiverId);
+    public boolean existsByRoomIdAndDeliverAndReceiver(long rooomId, long deliverId, long receiverId) {
+        return socialFeedbackRepository.existsByRoomIdAndDeliverIdAndReceiverId(rooomId, deliverId, receiverId);
     }
 }

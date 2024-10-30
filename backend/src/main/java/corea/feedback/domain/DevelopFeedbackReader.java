@@ -43,7 +43,7 @@ public class DevelopFeedbackReader {
                 .orElseThrow(() -> new CoreaException(ExceptionType.FEEDBACK_NOT_FOUND));
     }
 
-    public boolean existsByDeliverAndReceiver(long deliverId, long receiverId) {
-        return developFeedbackRepository.existsByDeliverIdAndReceiverId(deliverId, receiverId);
+    public boolean existsByRoomIdAndDeliverAndReceiver(long roomId, long deliverId, long receiverId) {
+        return developFeedbackRepository.existsByRoomIdAndDeliverIdAndReceiverId(roomId, deliverId, receiverId);
     }
 }

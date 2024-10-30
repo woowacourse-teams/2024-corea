@@ -10,6 +10,7 @@ import corea.feedback.util.FeedbackMapper;
 import corea.room.domain.Room;
 import corea.room.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.function.TriFunction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -61,7 +62,8 @@ public class UserFeedbackService {
     }
 
     private List<FeedbackOutput> maskingFeedback(long receiverId, List<FeedbackOutput> feedbackOutputs, boolean needToCheckSocialFeedback) {
-        BiPredicate<Long, Long> feedbackExistencePredicate = needToCheckSocialFeedback ? socialFeedbackReader::existsByDeliverAndReceiver : developFeedbackReader::existsByDeliverAndReceiver;
+
+        TriFunction<Long, Long, Long, Boolean> feedbackExistencePredicate = needToCheckSocialFeedback ? socialFeedbackReader::existsByRoomIdAndDeliverAndReceiver : developFeedbackReader::existsByRoomIdAndDeliverAndReceiver;
         return feedbackOutputs.stream()
                 .map(feedbackOutput -> {
                     if (needToMasking(receiverId, feedbackOutput, feedbackExistencePredicate)) {
@@ -72,9 +74,10 @@ public class UserFeedbackService {
                 .toList();
     }
 
-    private boolean needToMasking(long receiverId, FeedbackOutput feedbackResponse, BiPredicate<Long, Long> feedbackExistencePredicate) {
+    private boolean needToMasking(long receiverId, FeedbackOutput feedbackResponse, TriFunction<Long, Long, Long, Boolean> feedbackExistencePredicate) {
+        long roomId = feedbackResponse.roomId();
         long deliverId = feedbackResponse.receiverId();
-        return !feedbackExistencePredicate.test(receiverId, deliverId);
+        return !feedbackExistencePredicate.apply(roomId, receiverId, deliverId);
     }
 
     private List<FeedbacksResponse> getFeedbacksResponses(Map<Long, List<FeedbackResponse>> developFeedbacks, Map<Long, List<FeedbackResponse>> socialFeedbacks, Predicate<Room> roomStatusPredicate) {
