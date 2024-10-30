@@ -1,5 +1,7 @@
 package corea.review.infrastructure;
 
+import corea.exception.CoreaException;
+import corea.exception.ExceptionType;
 import corea.review.dto.GithubPullRequestReview;
 import corea.review.dto.GithubPullRequestReviewInfo;
 import lombok.RequiredArgsConstructor;
@@ -15,27 +17,65 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class GithubReviewProvider {
 
-    private final GithubReviewClient reviewClient;
-    private final GithubCommentClient commentClient;
+    private static final String HTTP_SECURE_PREFIX = "https://";
+    private static final String URL_DELIMITER = "/";
+    private static final String GITHUB_PREFIX = "github.com";
+    private static final String GITHUB_PULL_REQUEST_DOMAIN = "pull";
+    private static final int DOMAIN_PREFIX_INDEX = 0;
+    private static final int GITHUB_PULL_REQUEST_URL_INDEX = 3;
+    private static final int VALID_URL_SPLIT_COUNT = 5;
+
+    private final GithubPullRequestReviewClient reviewClient;
+    private final GithubPullRequestCommentClient commentClient;
 
     public GithubPullRequestReviewInfo provideReviewInfo(String prLink) {
-        //TODO: getPullRequestReviews, getPullRequestComments에서 prLink를 중복으로 검증하고 있음.
-        List<GithubPullRequestReview> reviews = reviewClient.getPullRequestReviews(prLink);
-        List<GithubPullRequestReview> comments = commentClient.getPullRequestComments(prLink);
+        validatePrLink(prLink);
 
-        Map<String, GithubPullRequestReview> result = collectPullRequestReviews(reviews, comments);
+        return getGithubPullRequestReviewInfo(prLink);
+    }
+
+    private GithubPullRequestReviewInfo getGithubPullRequestReviewInfo(String prLink) {
+        List<GithubPullRequestReview> reviews = getAllPullRequestReviews(prLink);
+        Map<String, GithubPullRequestReview> result = collectByGithubUserId(reviews);
+
         return new GithubPullRequestReviewInfo(result);
     }
 
-    private Map<String, GithubPullRequestReview> collectPullRequestReviews(List<GithubPullRequestReview> reviews, List<GithubPullRequestReview> comments) {
-        return Stream.concat(
-                        reviews.stream(),
-                        comments.stream()
-                )
+    private List<GithubPullRequestReview> getAllPullRequestReviews(String prLink) {
+        List<GithubPullRequestReview> reviews = reviewClient.getPullRequestReviews(prLink);
+        List<GithubPullRequestReview> comments = commentClient.getPullRequestReviews(prLink);
+
+        return Stream.concat(reviews.stream(), comments.stream())
+                .toList();
+    }
+
+    private Map<String, GithubPullRequestReview> collectByGithubUserId(List<GithubPullRequestReview> reviews) {
+        return reviews.stream()
                 .collect(Collectors.toMap(
                         GithubPullRequestReview::getGithubUserId,
                         Function.identity(),
                         (x, y) -> x
                 ));
+    }
+
+    private void validatePrLink(String prUrl) {
+        if (isNotStartsWithHttps(prUrl) || isInvalidGithubPrUrl(extractPrLinkParts(prUrl))) {
+            throw new CoreaException(ExceptionType.INVALID_PULL_REQUEST_URL);
+        }
+    }
+
+    private boolean isNotStartsWithHttps(String prUrl) {
+        return prUrl == null || !prUrl.startsWith(HTTP_SECURE_PREFIX);
+    }
+
+    private List<String> extractPrLinkParts(String prUrl) {
+        String prLink = prUrl.replaceFirst(HTTP_SECURE_PREFIX, "");
+        return List.of(prLink.split(URL_DELIMITER));
+    }
+
+    private boolean isInvalidGithubPrUrl(List<String> prLinkParts) {
+        return prLinkParts.size() != VALID_URL_SPLIT_COUNT ||
+                !prLinkParts.get(DOMAIN_PREFIX_INDEX).contains(GITHUB_PREFIX) ||
+                !prLinkParts.get(GITHUB_PULL_REQUEST_URL_INDEX).equals(GITHUB_PULL_REQUEST_DOMAIN);
     }
 }

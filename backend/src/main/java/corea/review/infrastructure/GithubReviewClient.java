@@ -1,69 +1,62 @@
 package corea.review.infrastructure;
 
-import corea.auth.infrastructure.GithubProperties;
+import corea.auth.infrastructure.GithubPersonalAccessTokenProvider;
 import corea.review.dto.GithubPullRequestReview;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Stream;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
-@EnableConfigurationProperties(GithubProperties.class)
 @Component
-public class GithubReviewClient {
+@RequiredArgsConstructor
+public abstract class GithubReviewClient {
 
-    private static final Random RANDOM = new Random();
+    private static final String PAGE_PARAM = "?page=";
+    private static final String PER_PAGE_PARAM = "&per_page=";
+    private static final int MAX_PER_PAGE = 100;
 
     private final RestClient restClient;
     private final GithubPullRequestUrlExchanger githubPullRequestUrlExchanger;
-    private final List<String> personalAccessTokens;
+    private final GithubPersonalAccessTokenProvider githubPersonalAccessTokenProvider;
 
-    public GithubReviewClient(RestClient restClient, GithubPullRequestUrlExchanger githubPullRequestUrlExchanger, GithubProperties githubProperties) {
-        this.restClient = restClient;
-        this.githubPullRequestUrlExchanger = githubPullRequestUrlExchanger;
-        this.personalAccessTokens = githubProperties.pullRequest()
-                .tokens();
-    }
+    abstract protected String prLinkToGithubApiUrl(String prLink);
 
     public List<GithubPullRequestReview> getPullRequestReviews(String prLink) {
-        String reviewApiUrl = githubPullRequestUrlExchanger.pullRequestUrlToReview(prLink);
+        String githubApiUrl = prLinkToGithubApiUrl(prLink);
 
         return Stream.iterate(1, page -> page + 1)
-                .map(page -> getPullRequestReviewsForPage(page, reviewApiUrl))
+                .map(page -> getPullRequestReviewsForPage(page, githubApiUrl))
                 .takeWhile(this::hasMoreReviews)
                 .flatMap(Arrays::stream)
                 .toList();
     }
 
-    private GithubPullRequestReview[] getPullRequestReviewsForPage(int page, String reviewApiUrl) {
-        String url = buildPageUrl(page, reviewApiUrl);
+    private GithubPullRequestReview[] getPullRequestReviewsForPage(int page, String githubApiUrl) {
+        String url = buildPageUrl(page, githubApiUrl);
 
         return restClient.get()
                 .uri(url)
-                .header(HttpHeaders.AUTHORIZATION, getRandomPersonalAccessToken())
+                .header(HttpHeaders.AUTHORIZATION, githubPersonalAccessTokenProvider.getRandomPersonalAccessToken())
                 .accept(APPLICATION_JSON)
                 .retrieve()
                 .body(GithubPullRequestReview[].class);
     }
 
-    private String buildPageUrl(int page, String reviewApiUrl) {
-        return reviewApiUrl + "?page=" + page + "&per_page=100";
+    private String buildPageUrl(int page, String githubApiUrl) {
+        return githubApiUrl + PAGE_PARAM + page + PER_PAGE_PARAM + MAX_PER_PAGE;
     }
 
     private boolean hasMoreReviews(GithubPullRequestReview[] reviews) {
         return reviews.length > 0;
     }
 
-    private String getRandomPersonalAccessToken() {
-        if (personalAccessTokens.isEmpty()) {
-            return "";
-        }
-        return "Bearer " + personalAccessTokens.get(RANDOM.nextInt(personalAccessTokens.size()));
+    protected GithubPullRequestUrlExchanger getGithubPullRequestUrlExchanger() {
+        return githubPullRequestUrlExchanger;
     }
 }
