@@ -15,12 +15,12 @@ export const ProfileContainer = styled.div`
   position: relative;
 `;
 
-export const DropdownMenu = styled.div<{ show: boolean }>`
+export const DropdownMenu = styled.div`
   position: absolute;
   z-index: 1;
   right: 0;
 
-  display: ${({ show }) => (show ? "flex" : "none")};
+  display: flex;
   flex-direction: column;
 
   min-width: 200px;
@@ -35,25 +35,19 @@ export const DropdownMenu = styled.div<{ show: boolean }>`
 
 export const ProfileWrapper = styled.div`
   display: flex;
-  gap: 0.5rem;
+  gap: 1rem;
   padding-bottom: 1rem;
 `;
 
 export const ProfileInfo = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  justify-content: center;
+
   width: fit-content;
 
-  strong {
-    font: ${({ theme }) => theme.TEXT.medium_bold};
-    color: ${({ theme }) => theme.COLOR.black};
-  }
-
-  span {
-    font: ${({ theme }) => theme.TEXT.xSmall};
-    color: ${({ theme }) => theme.COLOR.grey3};
-  }
+  font: ${({ theme }) => theme.TEXT.medium_bold};
+  color: ${({ theme }) => theme.COLOR.black};
 `;
 
 export const DropdownItemWrapper = styled.ul`

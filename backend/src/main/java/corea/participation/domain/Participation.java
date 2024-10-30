@@ -53,7 +53,13 @@ public class Participation extends BaseTimeEntity {
     }
 
     public void cancel() {
-        room.cancelParticipation();
+        if (memberRole.isReviewer()) {
+            room.decreaseReviewerCount();
+            return;
+        }
+        if (memberRole.isBoth()) {
+            room.decreaseBothCount();
+        }
     }
 
     public void invalidate() {
@@ -61,7 +67,13 @@ public class Participation extends BaseTimeEntity {
     }
 
     public void participate() {
-        room.participate();
+        if (memberRole.isReviewer()) {
+            room.increaseReviewerCount();
+            return;
+        }
+        if (memberRole.isBoth()) {
+            room.increaseBothCount();
+        }
     }
 
     public boolean isReviewer() {

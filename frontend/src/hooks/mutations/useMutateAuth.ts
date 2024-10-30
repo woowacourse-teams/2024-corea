@@ -4,21 +4,24 @@ import { UserInfo } from "@/@types/userInfo";
 import { postLogin, postLogout } from "@/apis/auth.api";
 import QUERY_KEYS from "@/apis/queryKeys";
 
-interface UserInfoResponse {
+export interface UserInfoResponse {
   accessToken: string;
   refreshToken: string;
   userInfo: UserInfo;
+  memberRole: string;
 }
+
 const useMutateAuth = () => {
   const { handleMutateError } = useMutateHandlers();
   const queryClient = useQueryClient();
 
   const postLoginMutation = useMutation({
     mutationFn: (code: string) => postLogin(code),
-    onSuccess: ({ accessToken, refreshToken, userInfo }: UserInfoResponse) => {
+    onSuccess: ({ accessToken, refreshToken, userInfo, memberRole }: UserInfoResponse) => {
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
       localStorage.setItem("userInfo", JSON.stringify(userInfo));
+      localStorage.setItem("memberRole", memberRole);
     },
     onError: (error) => {
       localStorage.clear();

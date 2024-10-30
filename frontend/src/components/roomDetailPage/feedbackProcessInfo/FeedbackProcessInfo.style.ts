@@ -1,4 +1,15 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const dropdown = keyframes`
+  0% {
+    transform: translateY(-10%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+`;
 
 export const ExpandableSection = styled.div`
   cursor: pointer;
@@ -6,11 +17,12 @@ export const ExpandableSection = styled.div`
   transition: all 0.3s ease-in-out;
 `;
 
-export const StyledTitle = styled.div`
+export const StyledTitle = styled.button`
   display: flex;
   align-items: center;
   justify-content: space-between;
 
+  width: 100%;
   padding: 1.4rem 1rem;
 
   font: ${({ theme }) => theme.TEXT.small_bold};
@@ -30,10 +42,12 @@ export const ExpandableContent = styled.div`
   border-left: 4px solid ${({ theme }) => theme.COLOR.primary3};
 
   transition: all 0.3s ease-in-out;
+  animation: ${dropdown} 0.4s ease;
 
   p {
     margin-bottom: 1rem;
     font: ${({ theme }) => theme.TEXT.small};
+    line-height: normal;
   }
 
   ol {
@@ -44,6 +58,7 @@ export const ExpandableContent = styled.div`
   li {
     margin: 0.4rem 1rem;
     font: ${({ theme }) => theme.TEXT.semiSmall};
+    line-height: normal;
     list-style-type: auto;
   }
 `;

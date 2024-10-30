@@ -46,7 +46,7 @@ class RoomRepositoryTest {
         Page<Room> roomPage = roomRepository.findAllByClassificationAndStatusOrderByRecruitmentDeadline(RoomClassification.BACKEND, RoomStatus.OPEN, PageRequest.of(0, 8));
 
         List<String> managerNames = getManagerNames(roomPage.getContent());
-        assertThat(managerNames).containsExactly("이영수");
+        assertThat(managerNames).containsExactly("youngsu5582");
     }
 
     @Test
@@ -61,7 +61,7 @@ class RoomRepositoryTest {
         Page<Room> roomPage = roomRepository.findAllByStatusOrderByRecruitmentDeadline(RoomStatus.OPEN, PageRequest.of(0, 8));
 
         List<String> managerNames = getManagerNames(roomPage.getContent());
-        assertThat(managerNames).containsExactly("조경찬", "이영수");
+        assertThat(managerNames).containsExactly("pororo", "youngsu5582");
     }
 
     @Test
@@ -75,7 +75,7 @@ class RoomRepositoryTest {
         Page<Room> roomPage = roomRepository.findAllByStatusOrderByRecruitmentDeadline(RoomStatus.OPEN, PageRequest.of(0, 8));
 
         List<String> managerNames = getManagerNames(roomPage.getContent());
-        assertThat(managerNames).containsExactly("조경찬", "이영수");
+        assertThat(managerNames).containsExactly("pororo", "youngsu5582");
     }
 
     @Test
@@ -89,7 +89,7 @@ class RoomRepositoryTest {
         List<Room> rooms = roomRepository.findAllByIdInOrderByReviewDeadlineAsc(List.of(pororoRoom.getId(), joysonRoom.getId()));
 
         List<String> managerNames = getManagerNames(rooms);
-        assertThat(managerNames).containsExactly("조경찬", "이영수");
+        assertThat(managerNames).containsExactly("pororo", "youngsu5582");
     }
 
     private List<String> getManagerNames(List<Room> rooms) {

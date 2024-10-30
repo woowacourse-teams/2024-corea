@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { EllipsisText, VisuallyHidden } from "@/styles/common";
 import media from "@/styles/media";
 
 export const RoomCardModalContainer = styled.div`
@@ -12,6 +13,18 @@ export const HeaderContainer = styled.div`
   flex-wrap: wrap;
   gap: 2rem;
   justify-content: space-between;
+`;
+
+// 분류 배지
+export const ClassificationBadgeWrapper = styled.div`
+  position: absolute;
+
+  overflow: hidden;
+
+  width: 60px;
+  height: 25px;
+
+  border-radius: 0 0 8px;
 `;
 
 // 썸네일
@@ -75,13 +88,10 @@ export const ProfileContainer = styled.div`
   }
 
   span {
-    overflow: hidden;
-
     max-width: 168px;
-
     font: ${({ theme }) => theme.TEXT.small};
-    text-overflow: ellipsis;
-    white-space: nowrap;
+
+    ${EllipsisText}
   }
 `;
 
@@ -109,22 +119,14 @@ export const RoomTitle = styled.h2`
   font: ${({ theme }) => theme.TEXT.large_bold};
 `;
 
-export const RepositoryLink = styled.a`
+export const RepositoryLink = styled.div`
   cursor: pointer;
 
   display: flex;
   gap: 0.4rem;
   align-items: center;
 
-  font: ${({ theme }) => theme.TEXT.small_bold};
-  color: ${({ theme }) => theme.COLOR.primary2};
-  text-decoration: underline;
-  text-underline-offset: 0.3rem;
-
-  &:hover {
-    color: ${({ theme }) => theme.COLOR.primary3};
-    text-decoration: underline;
-  }
+  font: ${({ theme }) => theme.TEXT.semiSmall_bold};
 `;
 
 // 마감 날짜, 모집 인원
@@ -163,6 +165,12 @@ export const InfoTitle = styled.span`
 
 export const InfoContent = styled.span`
   font: ${({ theme }) => theme.TEXT.small};
+
+  span#sub {
+    padding-left: 1rem;
+    font: ${({ theme }) => theme.TEXT.small};
+    color: ${({ theme }) => theme.COLOR.grey3};
+  }
 `;
 
 // 키워드, 설명
@@ -194,6 +202,11 @@ export const ContentContainer = styled.p`
   font: ${({ theme }) => theme.TEXT.small};
   line-height: 2rem;
   white-space: pre-line;
+`;
+
+export const NoKeywordText = styled.span`
+  font: ${({ theme }) => theme.TEXT.semiSmall};
+  color: ${({ theme }) => theme.COLOR.grey2};
 `;
 
 // 버튼
@@ -254,4 +267,12 @@ export const ButtonWRapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+export const ScreenReader = styled.div`
+  ${VisuallyHidden}
+`;
+
+export const ReviewCount = styled.span`
+  font-size: ${({ theme }) => theme.TEXT.semiSmall};
 `;

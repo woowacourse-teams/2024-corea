@@ -12,11 +12,6 @@ const globalStyles = createGlobalStyle`
   }
 
   html,
-  body{
-    scrollbar-gutter: stable;
-  }
-
-  html,
   body,
   div,
   span,
@@ -32,7 +27,6 @@ const globalStyles = createGlobalStyle`
   p,
   blockquote,
   pre,
-  a,
   abbr,
   acronym,
   address,

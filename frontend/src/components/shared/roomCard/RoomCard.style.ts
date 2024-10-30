@@ -1,8 +1,11 @@
 import styled from "styled-components";
+import { EllipsisText, VisuallyHidden } from "@/styles/common";
 import media from "@/styles/media";
 
-export const RoomCardContainer = styled.div`
+export const RoomCardContainer = styled.button`
   cursor: pointer;
+
+  position: relative;
 
   overflow: hidden;
   display: flex;
@@ -10,9 +13,13 @@ export const RoomCardContainer = styled.div`
 
   width: 100%;
   margin: 0 auto;
+  padding: 0;
 
   font: ${({ theme }) => theme.TEXT.xSmall};
+  color: ${({ theme }) => theme.COLOR.black};
+  text-align: start;
 
+  background-color: transparent;
   border: 1px solid ${({ theme }) => theme.COLOR.grey1};
   border-radius: 15px;
   box-shadow: ${({ theme }) => theme.BOX_SHADOW.regular};
@@ -28,6 +35,17 @@ export const RoomCardContainer = styled.div`
     top: 3px;
     box-shadow: ${({ theme }) => theme.BOX_SHADOW.light};
   }
+`;
+
+export const ClassificationBadgeWrapper = styled.div`
+  position: absolute;
+
+  overflow: hidden;
+
+  width: 70px;
+  height: 30px;
+
+  border-radius: 0 0 8px;
 `;
 
 export const RoomInfoThumbnail = styled.img`
@@ -63,16 +81,12 @@ export const RoomInformation = styled.div`
 `;
 
 export const RoomTitle = styled.h2`
-  overflow: hidden;
-
   width: 100%;
   padding: 1rem 0;
-
   font: ${({ theme }) => theme.TEXT.medium_bold};
-  text-overflow: ellipsis;
-  white-space: nowrap;
-
   border-bottom: 1px solid ${({ theme }) => theme.COLOR.grey1};
+
+  ${EllipsisText}
 `;
 
 export const KeywordsContainer = styled.div`
@@ -100,7 +114,8 @@ export const NoKeywordText = styled.span`
 
 export const EtcContainer = styled.div`
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 0.6rem;
 `;
 
 export const JoinMember = styled.span`
@@ -132,5 +147,11 @@ export const StyledDday = styled.span`
 
 export const LabelWrapper = styled.div`
   display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
+  height: 53px;
+`;
+
+export const ScreenReader = styled.div`
+  ${VisuallyHidden}
 `;

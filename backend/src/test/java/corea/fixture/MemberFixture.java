@@ -2,6 +2,7 @@ package corea.fixture;
 
 import corea.member.domain.Member;
 import corea.member.domain.Profile;
+import corea.member.domain.Reviewer;
 
 import java.util.List;
 import java.util.stream.IntStream;
@@ -13,8 +14,6 @@ public class MemberFixture {
                 "joyson5582",
                 "https://avatars.githubusercontent.com/u/98307410?v=4",
                 "조이썬",
-                "joyson5582@gmail.com",
-                false,
                 "99112400"
         );
     }
@@ -53,8 +52,6 @@ public class MemberFixture {
                 "pororo",
                 "https://avatars.githubusercontent.com/u/98307410?v=4",
                 "조경찬",
-                "jcoding-play@gmail.com",
-                false,
                 "",
                 "119468757",
                 new Profile()
@@ -67,8 +64,6 @@ public class MemberFixture {
                 "hjk0761",
                 "https://avatars.githubusercontent.com/u/98307410?v=4",
                 "김현중",
-                "hjk0761@gmail.com",
-                false,
                 "",
                 "80106238",
                 new Profile()
@@ -81,8 +76,6 @@ public class MemberFixture {
                 "youngsu5582",
                 "https://avatars.githubusercontent.com/u/98307410?v=4",
                 "이영수",
-                "youngsu5582@gmail.com",
-                false,
                 "",
                 "98307410",
                 new Profile()
@@ -95,8 +88,6 @@ public class MemberFixture {
                 "ashsty",
                 "https://avatars.githubusercontent.com/u/98307410?v=4",
                 "박민아",
-                "ashsty@gmail.com",
-                false,
                 "",
                 "77227961",
                 new Profile()
@@ -109,8 +100,6 @@ public class MemberFixture {
                 "choco",
                 "https://avatars.githubusercontent.com/u/98307410?v=4",
                 "강다빈",
-                "choco@gmail.com",
-                false,
                 "",
                 "70834044",
                 new Profile()
@@ -123,8 +112,6 @@ public class MemberFixture {
                 "chlwlstlf",
                 "https://avatars.githubusercontent.com/u/98307410?v=4",
                 "최진실",
-                "tenten@gmail.com",
-                false,
                 "",
                 "63334368",
                 new Profile()
@@ -137,8 +124,6 @@ public class MemberFixture {
                 "darr",
                 "https://avatars.githubusercontent.com/u/98307410?v=4",
                 "이상엽",
-                "darr@gmail.com",
-                false,
                 "",
                 "71641127",
                 new Profile()
@@ -150,8 +135,6 @@ public class MemberFixture {
                 "pororo",
                 "https://avatars.githubusercontent.com/u/98307410?v=4",
                 null,
-                "jcoding-play@gmail.com",
-                false,
                 "119468757",
                 profile
         );
@@ -162,9 +145,14 @@ public class MemberFixture {
                 "jcoding-play",
                 "https://avatars.githubusercontent.com/u/98307410?v=4",
                 null,
-                "jcoding-play@gmail.com",
-                false,
                 "119468757"
+        );
+    }
+
+    public static Reviewer MEMBER_YOUNGSU_REVIEWER() {
+        return new Reviewer(
+                null,
+                "98307410"
         );
     }
 
@@ -173,13 +161,13 @@ public class MemberFixture {
     }
 
     public static List<Member> CREATE_MEMBERS(int index) {
-        return IntStream.range(0, index).mapToObj(idx -> new Member(
-                "name : " + (idx + 10),
-                "https://avatars.githubusercontent.com/u/98307410?v=4",
-                null,
-                "jcoding-play@gmail.com",
-                false,
-                "119468757"
-        )).toList();
+        return IntStream.range(0, index)
+                .mapToObj(idx -> new Member(
+                        "name : " + (idx + 10),
+                        "https://avatars.githubusercontent.com/u/98307410?v=4",
+                        null,
+                        "119468757"
+                ))
+                .toList();
     }
 }

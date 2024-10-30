@@ -1,16 +1,15 @@
 package corea.feedback.service;
 
-import corea.exception.CoreaException;
-import corea.exception.ExceptionType;
 import corea.feedback.domain.SocialFeedback;
-import corea.feedback.dto.SocialFeedbackRequest;
+import corea.feedback.domain.SocialFeedbackReader;
+import corea.feedback.domain.SocialFeedbackWriter;
+import corea.feedback.dto.SocialFeedbackCreateRequest;
 import corea.feedback.dto.SocialFeedbackResponse;
-import corea.feedback.repository.SocialFeedbackRepository;
+import corea.feedback.dto.SocialFeedbackUpdateInput;
+import corea.feedback.dto.SocialFeedbackUpdateRequest;
 import corea.matchresult.domain.MatchResult;
-import corea.matchresult.repository.MatchResultRepository;
+import corea.matchresult.domain.MatchResultWriter;
 import lombok.RequiredArgsConstructor;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,58 +18,33 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class SocialFeedbackService {
 
-    private static final Logger log = LogManager.getLogger(SocialFeedbackService.class);
-
-    private final SocialFeedbackRepository socialFeedbackRepository;
-    private final MatchResultRepository matchResultRepository;
+    private final SocialFeedbackReader socialFeedbackReader;
+    private final SocialFeedbackWriter socialFeedbackWriter;
+    private final MatchResultWriter matchResultWriter;
+    private final FeedbackMapper feedbackMapper;
 
     @Transactional
-    public SocialFeedbackResponse create(long roomId, long deliverId, SocialFeedbackRequest request) {
-        validateAlreadyExist(roomId, deliverId, request.receiverId());
-        log.info("소설 피드백 작성[작성자({}), 요청값({})", deliverId, request);
+    public SocialFeedbackResponse create(long roomId, long deliverId, SocialFeedbackCreateRequest request) {
+        MatchResult matchResult = matchResultWriter.completeSocialFeedback(roomId, deliverId, request.receiverId());
 
-        MatchResult matchResult = matchResultRepository.findByRoomIdAndReviewerIdAndRevieweeId(roomId, request.receiverId(), deliverId)
-                .orElseThrow(() -> new CoreaException(ExceptionType.NOT_MATCHED_MEMBER));
-        matchResult.revieweeCompleteFeedback();
-
-        SocialFeedback feedback = saveSocialFeedback(roomId, request, matchResult);
-        return SocialFeedbackResponse.from(feedback);
-    }
-
-    private void validateAlreadyExist(long roomId, long deliverId, long receiverId) {
-        if (socialFeedbackRepository.existsByRoomIdAndDeliverIdAndReceiverId(roomId, deliverId, receiverId)) {
-            throw new CoreaException(ExceptionType.ALREADY_COMPLETED_FEEDBACK);
-        }
-    }
-
-    private SocialFeedback saveSocialFeedback(long roomId, SocialFeedbackRequest request, MatchResult matchResult) {
         SocialFeedback feedback = request.toEntity(roomId, matchResult.getReviewee(), matchResult.getReviewer());
-        return socialFeedbackRepository.save(feedback);
+        SocialFeedback createdFeedback = socialFeedbackWriter.create(feedback, roomId, deliverId, request.receiverId());
+
+        return SocialFeedbackResponse.from(createdFeedback);
     }
 
     @Transactional
-    public SocialFeedbackResponse update(long feedbackId, long deliverId, SocialFeedbackRequest request) {
-        log.info("소설 피드백 업데이트[작성자({}), 피드백 ID({}), 요청값({})", deliverId, feedbackId, request);
+    public SocialFeedbackResponse update(long feedbackId, long deliverId, SocialFeedbackUpdateRequest request) {
+        SocialFeedback socialFeedback = socialFeedbackReader.findById(feedbackId);
 
-        SocialFeedback feedback = socialFeedbackRepository.findById(feedbackId)
-                .orElseThrow(() -> new CoreaException(ExceptionType.FEEDBACK_NOT_FOUND));
-        updateFeedback(feedback, request);
+        SocialFeedbackUpdateInput input = feedbackMapper.toFeedbackInput(request);
+        socialFeedbackWriter.update(socialFeedback, deliverId, input);
 
-        return SocialFeedbackResponse.from(feedback);
-    }
-
-    private void updateFeedback(SocialFeedback feedback, SocialFeedbackRequest request) {
-        feedback.update(
-                request.evaluationPoint(),
-                request.feedbackKeywords(),
-                request.feedbackText()
-        );
+        return SocialFeedbackResponse.from(socialFeedback);
     }
 
     public SocialFeedbackResponse findSocialFeedback(long roomId, long deliverId, String username) {
-        SocialFeedback feedback = socialFeedbackRepository.findByRoomIdAndDeliverIdAndReceiverUsername(roomId, deliverId, username)
-                .orElseThrow(() -> new CoreaException(ExceptionType.FEEDBACK_NOT_FOUND));
-
-        return SocialFeedbackResponse.from(feedback);
+        SocialFeedback socialFeedback = socialFeedbackReader.findSocialFeedback(roomId, deliverId, username);
+        return SocialFeedbackResponse.from(socialFeedback);
     }
 }

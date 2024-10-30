@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { EllipsisText } from "@/styles/common";
 
 export const ProfileCardContainer = styled.div`
   width: 100%;
@@ -29,21 +30,17 @@ export const ProfileWrapper = styled.div`
 `;
 
 export const ProfileNickname = styled.div`
-  overflow: hidden;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
 
   max-width: 108px;
-  height: 24px;
 
   font: ${({ theme }) => theme.TEXT.medium_bold};
   color: ${({ theme }) => theme.COLOR.grey3};
   text-align: center;
-  text-decoration: underline;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 
-  &:hover {
-    color: ${({ theme }) => theme.COLOR.primary2};
-  }
+  ${EllipsisText}
 `;
 
 export const ProfileInfoWrapper = styled.div`

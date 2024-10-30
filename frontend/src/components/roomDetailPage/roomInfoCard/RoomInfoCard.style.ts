@@ -1,7 +1,11 @@
 import styled from "styled-components";
+import { EllipsisText, VisuallyHidden } from "@/styles/common";
 import media from "@/styles/media";
 
 export const RoomInfoCardContainer = styled.div`
+  position: relative;
+
+  overflow: hidden;
   display: flex;
 
   width: 100%;
@@ -9,6 +13,22 @@ export const RoomInfoCardContainer = styled.div`
   border: 1px solid ${({ theme }) => theme.COLOR.grey1};
   border-radius: 8px;
   box-shadow: ${({ theme }) => theme.BOX_SHADOW.regular};
+`;
+
+export const ClassificationBadgeWrapper = styled.div`
+  position: absolute;
+
+  overflow: hidden;
+
+  width: 70px;
+  height: 30px;
+
+  border-radius: 0 0 8px;
+
+  ${media.small`
+    right: 0;
+    border-radius: 0 0 0 8px;
+  `}
 `;
 
 export const RoomInfoCardImg = styled.img`
@@ -33,11 +53,15 @@ export const RoomInfoCardContent = styled.div`
   width: 100%;
   height: 100%;
   padding: 2rem 1rem;
+
+  ${media.small`
+    padding: 3rem 1rem;
+  `}
 `;
 
 export const RoomHeaderWrapper = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-flow: row wrap;
   align-items: flex-start;
   justify-content: space-between;
 
@@ -55,26 +79,26 @@ export const RoomHeaderWrapper = styled.div`
 `;
 
 export const RoomTitle = styled.span`
+  max-width: calc(100% - 160px);
   font: ${({ theme }) => theme.TEXT.large_bold};
+  line-height: 2.5rem;
   color: ${({ theme }) => theme.COLOR.black};
+
+  ${media.small`
+    max-width: 100%;
+  `}
 `;
 
-export const RepositoryLink = styled.a`
+export const RepositoryLink = styled.div`
   cursor: pointer;
 
   display: flex;
   gap: 0.5rem;
   align-items: center;
 
-  font: ${({ theme }) => theme.TEXT.medium_bold};
-  color: ${({ theme }) => theme.COLOR.primary2};
-  text-decoration: underline;
-  text-underline-offset: 0.3rem;
+  padding-right: 1rem;
 
-  &:hover {
-    color: ${({ theme }) => theme.COLOR.primary3};
-    text-decoration: underline;
-  }
+  font: ${({ theme }) => theme.TEXT.medium_bold};
 `;
 
 export const RoomContentBox = styled.div`
@@ -95,6 +119,8 @@ export const RoomTagBox = styled.div`
 `;
 
 export const NoKeywordText = styled.span`
+  display: flex;
+  align-items: center;
   font: ${({ theme }) => theme.TEXT.semiSmall};
   color: ${({ theme }) => theme.COLOR.grey2};
 `;
@@ -105,7 +131,7 @@ export const RoomContentSmall = styled.span`
   align-items: center;
 
   font: ${({ theme }) => theme.TEXT.small_bold};
-  line-height: 2rem;
+  line-height: normal;
   color: ${({ theme }) => theme.COLOR.black};
 
   span {
@@ -113,14 +139,16 @@ export const RoomContentSmall = styled.span`
     color: ${({ theme }) => theme.COLOR.grey4};
   }
 
+  span#sub {
+    font: ${({ theme }) => theme.TEXT.semiSmall};
+    color: ${({ theme }) => theme.COLOR.grey2};
+  }
+
   span#githubid {
-    overflow: hidden;
-
     max-width: 210px;
-
     font: ${({ theme }) => theme.TEXT.small_bold};
-    text-overflow: ellipsis;
-    white-space: nowrap;
+
+    ${EllipsisText}
   }
 
   div {
@@ -128,6 +156,10 @@ export const RoomContentSmall = styled.span`
     flex-direction: row;
     gap: 1rem;
     align-items: center;
+
+    font: ${({ theme }) => theme.TEXT.small_bold};
+    line-height: normal;
+    color: ${({ theme }) => theme.COLOR.black};
   }
 
   ${media.small`
@@ -160,4 +192,8 @@ export const RoomKeyword = styled.div`
   background-color: ${({ theme }) => theme.COLOR.primary1};
   border: none;
   border-radius: 5px;
+`;
+
+export const ScreenReader = styled.div`
+  ${VisuallyHidden}
 `;

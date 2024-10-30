@@ -29,6 +29,10 @@ export const ButtonContainer = styled.button<{
 `;
 
 const variantStyles = {
+  default: css`
+    color: ${({ theme }) => theme.COLOR.black};
+    background-color: ${({ theme }) => theme.COLOR.white};
+  `,
   primary: css`
     background-color: ${({ theme }) => theme.COLOR.primary2};
   `,
@@ -39,7 +43,8 @@ const variantStyles = {
     background-color: ${({ theme }) => theme.COLOR.grey1};
   `,
   confirm: css`
-    background-color: ${({ theme }) => theme.COLOR.primary3};
+    color: ${({ theme }) => theme.COLOR.black};
+    background-color: ${({ theme }) => theme.COLOR.lightGrass};
   `,
   error: css`
     background-color: ${({ theme }) => theme.COLOR.error};
@@ -49,8 +54,8 @@ const variantStyles = {
 const sizeStyles = {
   xSmall: css`
     width: fit-content;
-    max-width: 110px;
-    padding: 1rem;
+    max-width: 120px;
+    padding: 1rem 0.5rem;
 
     font: ${({ theme }) => theme.TEXT.semiSmall};
 

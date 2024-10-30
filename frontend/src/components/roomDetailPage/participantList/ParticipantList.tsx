@@ -1,3 +1,4 @@
+import useCountDown from "@/hooks/common/useCountDown";
 import { useFetchParticipantList } from "@/hooks/queries/useFetchRooms";
 import Button from "@/components/common/button/Button";
 import Icon from "@/components/common/icon/Icon";
@@ -15,10 +16,12 @@ interface ParticipantListProps {
 const ParticipantList = ({ roomInfo }: ParticipantListProps) => {
   const isOpenStatus = roomInfo.roomStatus === "OPEN";
   const { data: participantListInfo, refetch } = useFetchParticipantList(roomInfo.id, isOpenStatus);
+  const { remainingTime, isRefreshing, startRefreshCountDown } = useCountDown(5);
 
   const handleRefresh = () => {
-    if (!isOpenStatus) {
+    if (!isOpenStatus && !isRefreshing) {
       refetch();
+      startRefreshCountDown();
     }
   };
 
@@ -45,8 +48,19 @@ const ParticipantList = ({ roomInfo }: ParticipantListProps) => {
     <S.TotalContainer>
       {participantListInfo.size > STANDARD_PARTICIPANTS && (
         <S.RenewButtonWrapper>
-          <Button onClick={handleRefresh} size="xSmall">
-            <Icon kind="arrowRenew" size={20} />
+          <Button
+            onClick={handleRefresh}
+            size="xSmall"
+            disabled={isRefreshing}
+            aria-label={
+              isRefreshing ? `새로고침 가능까지 ${remainingTime}초 남았습니다` : "새로고침"
+            }
+          >
+            {isRefreshing ? (
+              <S.RefreshRemainTime>{remainingTime}</S.RefreshRemainTime>
+            ) : (
+              <Icon kind="arrowRenew" size="2rem" />
+            )}
           </Button>
         </S.RenewButtonWrapper>
       )}
@@ -54,16 +68,27 @@ const ParticipantList = ({ roomInfo }: ParticipantListProps) => {
       <S.ParticipantListContainer>
         {participantListInfo.participants.map((participant) => (
           <S.ParticipantInfo key={participant.githubId}>
-            <HoverStyledLink to={`/profile/${participant.username}`}>
-              <S.ProfileWrapper>
+            <HoverStyledLink
+              to={`/profile/${participant.username}`}
+              aria-label={`${participant.username}. 클릭하면 프로필로 이동합니다.`}
+            >
+              <S.ProfileWrapper aria-hidden>
                 <Profile imgSrc={participant.thumbnailLink} size={80} />
                 <S.ProfileNickname>{participant.username}</S.ProfileNickname>
               </S.ProfileWrapper>
             </HoverStyledLink>
-            <S.PRLink href={participant.prLink} target="_blank">
-              <Icon kind="link" size="1.6rem" />
-              PR 링크
-            </S.PRLink>
+
+            <HoverStyledLink
+              to={participant.prLink}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={`클릭하면 PR 링크로 이동합니다.`}
+            >
+              <S.PRLink>
+                <Icon kind="link" size="1.8rem" />
+                PR 링크
+              </S.PRLink>
+            </HoverStyledLink>
           </S.ParticipantInfo>
         ))}
       </S.ParticipantListContainer>

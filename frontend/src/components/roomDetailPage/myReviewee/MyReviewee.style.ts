@@ -1,13 +1,27 @@
 import styled from "styled-components";
+import { EllipsisText } from "@/styles/common";
 import media from "@/styles/media";
 
-export const MyRevieweeContainer = styled.div`
+export const MyRevieweeTable = styled.table`
+  border-collapse: separate;
+
   width: 100%;
+
+  font: ${({ theme }) => theme.TEXT.small};
+
   border: 1px solid ${({ theme }) => theme.COLOR.grey1};
   border-radius: 8px;
 `;
 
-export const MyRevieweeWrapper = styled.div`
+export const MyRevieweeTableHead = styled.thead``;
+
+export const MyRevieweeTableBody = styled.tbody`
+  tr:last-child {
+    border-bottom: none;
+  }
+`;
+
+export const MyRevieweeTableRow = styled.tr`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   place-items: center center;
@@ -16,15 +30,14 @@ export const MyRevieweeWrapper = styled.div`
   height: 40px;
   padding: 0.7rem 1rem;
 
-  &:not(:last-child) {
-    border-bottom: 1px solid ${({ theme }) => theme.COLOR.grey1};
-  }
+  border-bottom: 1px solid ${({ theme }) => theme.COLOR.grey1};
 `;
 
-export const MyRevieweeTitle = styled.span`
+export const MyRevieweeTableHeader = styled.th`
   font: ${({ theme }) => theme.TEXT.small_bold};
   color: ${({ theme }) => theme.COLOR.grey3};
   text-align: center;
+  word-break: keep-all;
 `;
 
 export const MyRevieweeContent = styled.span`
@@ -36,6 +49,7 @@ export const MyRevieweeContent = styled.span`
 
   font: ${({ theme }) => theme.TEXT.semiSmall};
   text-align: center;
+  word-break: keep-all;
 
   p {
     font: ${({ theme }) => theme.TEXT.semiSmall};
@@ -44,19 +58,16 @@ export const MyRevieweeContent = styled.span`
 `;
 
 export const MyRevieweeId = styled.span`
-  overflow: hidden;
   display: block;
 
   box-sizing: border-box;
   width: 100%;
   max-width: 100px;
-  height: 40px;
 
   font: ${({ theme }) => theme.TEXT.semiSmall};
-  line-height: 40px;
   text-align: left;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+
+  ${EllipsisText}
 
   ${media.medium`
     max-width: 120px;
@@ -67,24 +78,22 @@ export const MyRevieweeId = styled.span`
   `}
 `;
 
-export const PRLink = styled.a`
+export const PRLink = styled.div`
   cursor: pointer;
 
   display: flex;
   gap: 0.5rem;
   align-items: center;
+  justify-content: center;
 
   font: ${({ theme }) => theme.TEXT.semiSmall};
-  text-decoration: underline;
-  text-underline-offset: 0.3rem;
-
-  &:hover {
-    color: ${({ theme }) => theme.COLOR.primary2};
-    text-decoration: underline;
-  }
 `;
 
 export const IconWrapper = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   ${media.small`
     display: none;
   `}
@@ -112,4 +121,17 @@ export const GuidanceWrapper = styled.div`
     font: ${({ theme }) => theme.TEXT.small_bold};
     color: ${({ theme }) => theme.COLOR.grey3};
   }
+`;
+
+export const ExtraInformation = styled.span`
+  display: flex;
+  justify-content: flex-end;
+  font: ${({ theme }) => theme.TEXT.xSmall};
+  color: ${({ theme }) => theme.COLOR.grey2};
+`;
+
+export const LoadingSpinner = styled.img`
+  width: 84px;
+  height: 11px;
+  background: transparent;
 `;

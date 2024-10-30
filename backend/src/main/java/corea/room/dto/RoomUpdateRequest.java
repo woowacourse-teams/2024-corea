@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import corea.member.domain.Member;
 import corea.room.domain.Room;
 import corea.room.domain.RoomClassification;
-import corea.room.domain.RoomStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -57,19 +56,18 @@ public record RoomUpdateRequest(@Schema(description = "방 ID", example = "99")
                                 RoomClassification classification
 ) {
 
-    private static final int INITIAL_PARTICIPANTS_SIZE = 1;
-    private static final RoomStatus INITIAL_ROOM_STATUS = RoomStatus.OPEN;
-
-    public Room toEntity(Member manager) {
+    public Room toEntity(Room room, Member manager) {
         return new Room(
                 roomId,
                 title, content,
                 matchingSize, repositoryLink,
                 thumbnailLink, keywords,
-                INITIAL_PARTICIPANTS_SIZE, limitedParticipants,
+                room.getReviewerCount(),
+                room.getBothCount(),
+                limitedParticipants,
                 manager, recruitmentDeadline,
                 reviewDeadline, classification,
-                INITIAL_ROOM_STATUS
+                room.getStatus()
         );
     }
 }

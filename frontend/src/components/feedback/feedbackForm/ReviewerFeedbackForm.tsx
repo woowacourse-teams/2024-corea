@@ -31,10 +31,12 @@ const ReviewerFeedbackForm = ({ formState, onChange, modalType }: ReviewerFeedba
   return (
     <S.FeedbackFormContainer>
       <S.ItemContainer>
-        <S.ModalQuestion>
-          리뷰어의 소프트 스킬 역량 향상을 위해 피드백을 해주세요.
-          <span>*필수입력</span>
-        </S.ModalQuestion>
+        <S.QuestionContainer>
+          <S.ModalQuestion>
+            리뷰어의 소프트 스킬 역량 향상을 위해 피드백을 해주세요.
+          </S.ModalQuestion>
+          <S.Required>*필수입력</S.Required>
+        </S.QuestionContainer>
         <EvaluationPointBar
           initialOptionId={formState.evaluationPoint}
           onChange={(value) => onChange("evaluationPoint", value)}
@@ -44,12 +46,12 @@ const ReviewerFeedbackForm = ({ formState, onChange, modalType }: ReviewerFeedba
       </S.ItemContainer>
 
       <S.ItemContainer>
-        <S.ModalQuestion>
-          위와 같이 선택한 이유를 알려주세요. (1개 이상 선택)
-          <span>*필수입력</span>
-        </S.ModalQuestion>
+        <S.QuestionContainer>
+          <S.ModalQuestion>위와 같이 선택한 이유를 알려주세요. (1개 이상 선택)</S.ModalQuestion>
+          <S.Required>*필수입력</S.Required>
+        </S.QuestionContainer>
         <KeywordOptionButton
-          initialOptions={formState.feedbackKeywords}
+          selectedOptions={formState.feedbackKeywords}
           onChange={(value) => onChange("feedbackKeywords", value)}
           selectedEvaluationId={formState.evaluationPoint}
           readonly={modalType === "view"}
@@ -60,18 +62,21 @@ const ReviewerFeedbackForm = ({ formState, onChange, modalType }: ReviewerFeedba
 
       <S.ItemContainer>
         <S.ModalQuestion>추가적으로 하고 싶은 피드백이 있다면 남겨 주세요.</S.ModalQuestion>
-        {modalType === "view" ? (
-          <S.StyledTextarea>{formState.feedbackText}</S.StyledTextarea>
-        ) : (
+        <S.TextareaWrapper>
           <Textarea
             rows={10}
             showCharCount={true}
-            maxLength={512}
-            placeholder="상대 리뷰어의 소프트 스킬 역량 향상을 위해 피드백을 남겨주세요."
+            maxLength={2000}
+            placeholder={
+              modalType === "view"
+                ? "없음"
+                : "상대 리뷰어의 소프트 스킬 향상을 위해 피드백을 남겨주세요."
+            }
             value={formState.feedbackText}
             onChange={(e) => onChange("feedbackText", e.target.value)}
+            readOnly={modalType === "view"}
           />
-        )}
+        </S.TextareaWrapper>
       </S.ItemContainer>
     </S.FeedbackFormContainer>
   );

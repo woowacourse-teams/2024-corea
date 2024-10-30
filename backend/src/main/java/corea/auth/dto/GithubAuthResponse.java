@@ -10,9 +10,6 @@ public record GithubAuthResponse(@Schema(description = "액세스 토큰", examp
                                  @JsonProperty("access_token")
                                  String accessToken,
 
-                                 @Schema(description = "허용 스코프", example = "user:email")
-                                 String scope,
-
                                  @Schema(description = "토큰 타입", example = "bearer")
                                  @JsonProperty("token_type")
                                  String tokenType) {

@@ -1,0 +1,8 @@
+{
+  "feedbackId": 1,
+  "receiverId": 1,
+  "evaluationPoint": 2,
+  "feedbackKeywords": ["불친절했어요", "도움이 되지 않았어요"],
+  "feedbackText": "아아 테스트에요!",
+  "recommendationPoint": 1
+}

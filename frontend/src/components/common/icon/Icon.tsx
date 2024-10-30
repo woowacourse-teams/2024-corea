@@ -6,6 +6,7 @@ import {
   FaRegFaceMeh,
   FaRegFaceSmile,
 } from "react-icons/fa6";
+import { IoLogoGithub } from "react-icons/io";
 import { IconType } from "react-icons/lib";
 import {
   MdArrowBackIos,
@@ -14,9 +15,11 @@ import {
   MdAutorenew,
   MdCalendarMonth,
   MdCheck,
+  MdClear,
   MdExpandMore,
   MdInfoOutline,
   MdInsertLink,
+  MdMenu,
   MdOutlineArrowDropDown,
   MdOutlineArrowDropUp,
   MdOutlineCreate,
@@ -51,6 +54,9 @@ const ICON: { [key in IconKind]: IconType } = {
   arrowDropUp: MdOutlineArrowDropUp,
   arrowRenew: MdAutorenew,
   check: MdCheck,
+  menu: MdMenu,
+  close: MdClear,
+  githubLogo: IoLogoGithub,
 };
 
 interface IconProps {

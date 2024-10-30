@@ -1,4 +1,5 @@
 import styled, { css, keyframes } from "styled-components";
+import { VisuallyHidden } from "@/styles/common";
 import media from "@/styles/media";
 
 const fadeIn = keyframes`
@@ -64,11 +65,11 @@ export const FeedbackCardContainer = styled.div`
 export const FeedbackMissionWrapper = styled.button<{ $isSelected: boolean }>`
   display: flex;
   flex-flow: row wrap;
+  gap: 1rem;
   align-items: center;
   justify-content: space-between;
 
   padding: 1.6rem;
-  gap: 1rem;
 
   background: ${({ theme, $isSelected }) =>
     $isSelected ? theme.COLOR.primary1 : theme.COLOR.grey0};
@@ -96,8 +97,8 @@ export const FeedbackInfoWrapper = styled.div<{ $isVisible: boolean }>`
 export const FeedbackMissionTitle = styled.div`
   display: flex;
   flex-flow: row wrap;
-  align-items: center;
   gap: 1rem;
+  align-items: center;
 `;
 
 export const FeedbackMissionPrompt = styled.span<{ $isSelected: boolean }>`
@@ -109,15 +110,18 @@ export const FeedbackMissionPrompt = styled.span<{ $isSelected: boolean }>`
 
 export const FeedbackMissionInfo = styled.div`
   display: flex;
-  align-items: center;
+  align-items: start;
+
   margin-right: 1rem;
+
   font: ${({ theme }) => theme.TEXT.medium_bold};
+  color: ${({ theme }) => theme.COLOR.black};
 `;
 
 export const FeedbackCount = styled.div`
-  border-radius: 6px;
   font: ${({ theme }) => theme.TEXT.small_bold};
   color: ${({ theme }) => theme.COLOR.primary2};
+  border-radius: 6px;
 `;
 
 export const FeedbackKeywordContainer = styled.div`
@@ -125,4 +129,20 @@ export const FeedbackKeywordContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 1rem;
+`;
+
+export const NoKeywordText = styled.span`
+  font: ${({ theme }) => theme.TEXT.semiSmall};
+  color: ${({ theme }) => theme.COLOR.grey2};
+`;
+
+export const ScreenReader = styled.div`
+  ${VisuallyHidden}
+`;
+
+export const FeedbackLink = styled.button`
+  display: flex;
+  align-items: center;
+  color: ${({ theme }) => theme.COLOR.black};
+  background-color: transparent;
 `;

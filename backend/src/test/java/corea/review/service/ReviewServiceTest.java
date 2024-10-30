@@ -1,9 +1,7 @@
 package corea.review.service;
 
 import config.ServiceTest;
-import corea.auth.dto.GithubPullRequestReview;
 import corea.auth.dto.GithubUserInfo;
-import corea.auth.service.GithubOAuthProvider;
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
 import corea.fixture.MatchResultFixture;
@@ -14,6 +12,9 @@ import corea.matchresult.domain.ReviewStatus;
 import corea.matchresult.repository.MatchResultRepository;
 import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
+import corea.review.dto.GithubPullRequestReview;
+import corea.review.dto.GithubPullRequestReviewInfo;
+import corea.review.infrastructure.GithubReviewProvider;
 import corea.room.domain.Room;
 import corea.room.repository.RoomRepository;
 import org.assertj.core.api.InstanceOfAssertFactories;
@@ -22,6 +23,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Collections;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -44,7 +48,7 @@ class ReviewServiceTest {
     private MatchResultRepository matchResultRepository;
 
     @MockBean
-    private GithubOAuthProvider githubOAuthProvider;
+    private GithubReviewProvider githubReviewProvider;
 
     @Test
     @Transactional
@@ -55,18 +59,20 @@ class ReviewServiceTest {
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_PROGRESS(memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON())));
         MatchResult matchResult = matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), reviewer, reviewee));
 
-        when(githubOAuthProvider.getPullRequestReview(anyString()))
-                .thenReturn(new GithubPullRequestReview[]{
-                        new GithubPullRequestReview(
-                                "id",
-                                new GithubUserInfo(
-                                        reviewer.getUsername(),
-                                        reviewer.getName(),
-                                        reviewer.getThumbnailUrl(),
-                                        reviewer.getEmail(),
-                                        String.valueOf(reviewer.getId())),
-                                "html_url")
-                });
+        when(githubReviewProvider.provideReviewInfo(anyString()))
+                .thenReturn(new GithubPullRequestReviewInfo(
+                        Map.of(
+                                reviewer.getGithubUserId(),
+                                new GithubPullRequestReview(
+                                        "id",
+                                        new GithubUserInfo(
+                                                reviewer.getUsername(),
+                                                reviewer.getName(),
+                                                reviewer.getThumbnailUrl(),
+                                                reviewer.getGithubUserId()),
+                                        "html_url")
+                        )));
+
         reviewService.completeReview(room.getId(), reviewer.getId(), reviewee.getId());
 
         assertThat(matchResult.getReviewStatus()).isEqualTo(ReviewStatus.COMPLETE);
@@ -80,7 +86,8 @@ class ReviewServiceTest {
         Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_PROGRESS(memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON())));
         matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), reviewer, reviewee));
 
-        when(githubOAuthProvider.getPullRequestReview(anyString())).thenReturn(new GithubPullRequestReview[]{});
+        when(githubReviewProvider.provideReviewInfo(anyString()))
+                .thenReturn(new GithubPullRequestReviewInfo(Collections.emptyMap()));
 
         assertThatThrownBy(() -> reviewService.completeReview(room.getId(), reviewer.getId(), reviewee.getId()))
                 .asInstanceOf(InstanceOfAssertFactories.type(CoreaException.class))

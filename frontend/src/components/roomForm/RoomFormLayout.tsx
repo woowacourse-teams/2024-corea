@@ -85,7 +85,7 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
         onConfirm={handleConfirm}
         onCancel={handleCloseModal}
       >
-        {MESSAGES.GUIDANCE.CREATE_ROOM}
+        {formType === "create" ? MESSAGES.GUIDANCE.CREATE_ROOM : MESSAGES.GUIDANCE.EDIT_ROOM}
       </ConfirmModal>
 
       <S.CreateSection>
@@ -110,6 +110,7 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
           </S.ContentLabel>
           <S.ContentInput>
             <Dropdown
+              name="방 카테고리 선택"
               dropdownItems={dropdownItems}
               selectedCategory={formState.classification}
               onSelectCategory={(value) =>
