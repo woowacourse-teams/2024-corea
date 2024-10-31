@@ -42,4 +42,8 @@ public class SocialFeedbackReader {
         return socialFeedbackRepository.findByRoomIdAndDeliverIdAndReceiverUsername(roomId, deliverId, username)
                 .orElseThrow(() -> new CoreaException(ExceptionType.FEEDBACK_NOT_FOUND));
     }
+
+    public boolean existsByRoomIdAndDeliverAndReceiver(long rooomId, long deliverId, long receiverId) {
+        return socialFeedbackRepository.existsByRoomIdAndDeliverIdAndReceiverId(rooomId, deliverId, receiverId);
+    }
 }
