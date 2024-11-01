@@ -3,6 +3,8 @@ import { EllipsisText, VisuallyHidden } from "@/styles/common";
 import media from "@/styles/media";
 
 export const FeedbackCardContainer = styled.div<{ $isTypeDevelop: boolean }>`
+  position: relative;
+
   overflow-y: hidden;
   display: flex;
   flex-direction: column;
@@ -25,6 +27,31 @@ export const FeedbackCardContainer = styled.div<{ $isTypeDevelop: boolean }>`
   ${media.small`
     width: 100%;
   `}
+`;
+
+export const ButtonWrapper = styled.div`
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+
+  font: ${({ theme }) => theme.TEXT.large_bold};
+`;
+
+export const BlurContainer = styled.div<{ $isWrited: boolean }>`
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  filter: ${(props) => (props.$isWrited ? "none" : "blur(7px)")};
 `;
 
 export const FeedbackScoreContainer = styled.div`
