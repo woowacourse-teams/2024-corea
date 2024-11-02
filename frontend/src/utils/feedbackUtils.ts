@@ -1,5 +1,5 @@
 // 피드백 작성/수정/확인 타입 구분
-export type FeedbackModalType = "create" | "edit" | "view";
+export type FeedbackType = "create" | "edit" | "view";
 
 interface FeedbackTypeProps {
   isReviewed: boolean;
@@ -8,7 +8,7 @@ interface FeedbackTypeProps {
 }
 
 export interface FeedbackTypeResult {
-  modalType: FeedbackModalType;
+  modalType: FeedbackType;
   buttonText: string;
 }
 
