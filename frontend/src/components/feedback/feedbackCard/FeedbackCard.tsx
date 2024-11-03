@@ -6,6 +6,7 @@ import { Textarea } from "@/components/common/textarea/Textarea";
 import EvaluationPointBar from "@/components/feedback/evaluationPointBar/EvaluationPointBar";
 import * as S from "@/components/feedback/feedbackCard/FeedbackCard.style";
 import { FeedbackCardData } from "@/@types/feedback";
+import { ReviewerInfo } from "@/@types/reviewer";
 import { HoverStyledLink } from "@/styles/common";
 import { theme } from "@/styles/theme";
 
@@ -28,6 +29,23 @@ const FeedbackCard = ({
     return feedbackType === "develop" ? "TO. 나의 리뷰이" : "TO. 나의 리뷰어";
   };
 
+  const reviewer: ReviewerInfo = {
+    userId: feedbackCardData.receiverId,
+    username: feedbackCardData.username,
+    link: feedbackCardData.profile,
+    isWrited: feedbackCardData.isWrited,
+  };
+
+  // 피드백 페이지 이동 함수
+  const handleNavigateFeedbackPage = (reviewer: ReviewerInfo) => {
+    navigate(
+      `/feedback/${feedbackType === "develop" ? "reviewer" : "reviewee"}/${feedbackCardData.roomId}?username=${feedbackCardData.username}`,
+      {
+        state: { reviewer },
+      },
+    );
+  };
+
   return (
     <>
       <S.ScreenReader>미션의 상세 피드백 내용입니다.</S.ScreenReader>
@@ -38,7 +56,7 @@ const FeedbackCard = ({
             <p>상대방 피드백을 작성해야 볼 수 있습니다.</p>
             <Button
               variant={feedbackType ? "primary" : "secondary"}
-              onClick={() => navigate(`/rooms/${feedbackCardData.roomId}`)}
+              onClick={() => handleNavigateFeedbackPage(reviewer)}
             >
               피드백 작성하러가기
             </Button>

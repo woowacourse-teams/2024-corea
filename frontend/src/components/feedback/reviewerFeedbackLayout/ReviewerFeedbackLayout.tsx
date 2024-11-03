@@ -23,7 +23,7 @@ const getInitialFormState = (
   feedbackData?: ReviewerFeedbackData,
 ): ReviewerFeedbackData => ({
   feedbackId: feedbackData?.feedbackId || 0,
-  receiverId: reviewer?.userId || 0,
+  receiverId: feedbackData?.receiverId || reviewer?.userId || 0,
   evaluationPoint: feedbackData?.evaluationPoint || 0,
   feedbackKeywords: feedbackData?.feedbackKeywords || [],
   feedbackText: feedbackData?.feedbackText || "",

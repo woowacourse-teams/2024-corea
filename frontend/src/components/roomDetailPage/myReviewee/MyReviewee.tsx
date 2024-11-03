@@ -48,7 +48,7 @@ const MyReviewee = ({ roomInfo }: MyRevieweeProps) => {
   // 리뷰 및 피드백 여부 버튼 렌더링 함수
   const renderRevieweeButton = (reviewee: ReviewerInfo) => {
     const { buttonText } = getFeedbackType({
-      isReviewed: reviewee.isReviewed,
+      isReviewed: reviewee.isReviewed ?? false,
       isWrited: reviewee.isWrited,
       isClosed: roomInfo.roomStatus === "CLOSE",
     });
