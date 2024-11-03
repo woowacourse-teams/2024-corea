@@ -9,7 +9,7 @@ import {
   SOCIAL_NORMAL_KEYWORD_OPTIONS,
 } from "@/constants/feedback";
 import { theme } from "@/styles/theme";
-import { FeedbackModalType } from "@/utils/feedbackUtils";
+import { FeedbackType } from "@/utils/feedbackUtils";
 
 interface ReviewerFeedbackFormProps {
   formState: ReviewerFeedbackData;
@@ -17,7 +17,7 @@ interface ReviewerFeedbackFormProps {
     key: keyof ReviewerFeedbackData,
     value: ReviewerFeedbackData[keyof ReviewerFeedbackData],
   ) => void;
-  modalType: FeedbackModalType;
+  feedbackType: FeedbackType;
 }
 
 const getSocialKeywordOptions = (selectedEvaluationId: number | undefined) => {
@@ -27,7 +27,7 @@ const getSocialKeywordOptions = (selectedEvaluationId: number | undefined) => {
   return SOCIAL_GOOD_KEYWORD_OPTIONS;
 };
 
-const ReviewerFeedbackForm = ({ formState, onChange, modalType }: ReviewerFeedbackFormProps) => {
+const ReviewerFeedbackForm = ({ formState, onChange, feedbackType }: ReviewerFeedbackFormProps) => {
   return (
     <S.FeedbackFormContainer>
       <S.ItemContainer>
@@ -40,8 +40,8 @@ const ReviewerFeedbackForm = ({ formState, onChange, modalType }: ReviewerFeedba
         <EvaluationPointBar
           initialOptionId={formState.evaluationPoint}
           onChange={(value) => onChange("evaluationPoint", value)}
-          readonly={modalType === "view"}
           color={theme.COLOR.secondary}
+          readonly={feedbackType === "view"}
         />
       </S.ItemContainer>
 
@@ -54,9 +54,9 @@ const ReviewerFeedbackForm = ({ formState, onChange, modalType }: ReviewerFeedba
           selectedOptions={formState.feedbackKeywords}
           onChange={(value) => onChange("feedbackKeywords", value)}
           selectedEvaluationId={formState.evaluationPoint}
-          readonly={modalType === "view"}
           options={getSocialKeywordOptions(formState.evaluationPoint)}
           color={theme.COLOR.secondary}
+          readonly={feedbackType === "view"}
         />
       </S.ItemContainer>
 
@@ -68,13 +68,13 @@ const ReviewerFeedbackForm = ({ formState, onChange, modalType }: ReviewerFeedba
             showCharCount={true}
             maxLength={2000}
             placeholder={
-              modalType === "view"
-                ? "없음"
+              feedbackType === "view"
+                ? "미작성"
                 : "상대 리뷰어의 소프트 스킬 향상을 위해 피드백을 남겨주세요."
             }
             value={formState.feedbackText}
             onChange={(e) => onChange("feedbackText", e.target.value)}
-            readOnly={modalType === "view"}
+            readOnly={feedbackType === "view"}
           />
         </S.TextareaWrapper>
       </S.ItemContainer>

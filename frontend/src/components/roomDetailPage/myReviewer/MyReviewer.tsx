@@ -1,38 +1,28 @@
-import { useState } from "react";
-import useModal from "@/hooks/common/useModal";
+import { useNavigate } from "react-router-dom";
 import { useFetchReviewer } from "@/hooks/queries/useFetchReviewer";
 import Button from "@/components/common/button/Button";
 import Icon from "@/components/common/icon/Icon";
-import ReviewerFeedbackModal from "@/components/feedback/reviewerFeedbackModal/ReviewerFeedbackModal";
 import * as S from "@/components/roomDetailPage/myReviewer/MyReviewer.style";
 import { ReviewerInfo } from "@/@types/reviewer";
 import { RoomInfo } from "@/@types/roomInfo";
 import { thinkingCharacter } from "@/assets";
 import MESSAGES from "@/constants/message";
 import { HoverStyledLink } from "@/styles/common";
-import { FeedbackTypeResult, getFeedbackType } from "@/utils/feedbackUtils";
+import { getFeedbackType } from "@/utils/feedbackUtils";
 
 interface MyReviewerProps {
   roomInfo: RoomInfo;
 }
 
 const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
+  const navigate = useNavigate();
   const { data: reviewerData } = useFetchReviewer(roomInfo);
-  const { isModalOpen, handleOpenModal, handleCloseModal } = useModal();
-  const [selectedReviewer, setSelectedReviewer] = useState<ReviewerInfo | null>(null);
-  const [feedbackTypeResult, setFeedbackTypeResult] = useState<FeedbackTypeResult | null>(null);
-  const [loadingButtonId, setLoadingButtonId] = useState<number[]>([]);
 
-  // 피드백 모달 여는 함수
-  const handleOpenFeedbackModal = (reviewer: ReviewerInfo) => {
-    const feedbackType = getFeedbackType({
-      isReviewed: reviewer.isReviewed,
-      isWrited: reviewer.isWrited,
-      isClosed: roomInfo.roomStatus === "CLOSE",
+  // 피드백 페이지 이동 함수
+  const handleNavigateFeedbackPage = (reviewer: ReviewerInfo) => {
+    navigate(`/feedback/reviewer/${roomInfo.id}?username=${reviewer.username}`, {
+      state: { reviewer },
     });
-    setSelectedReviewer(reviewer);
-    setFeedbackTypeResult(feedbackType);
-    handleOpenModal();
   };
 
   // 피드백 여부 버튼 렌더링 함수
@@ -47,15 +37,15 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
       return <p>리뷰어가 리뷰를 하지 않았어요</p>;
     }
 
-    if (roomInfo.roomStatus === "CLOSE" && !reviewer.isWrited) {
-      return <p>피드백을 작성하지 않았어요</p>;
-    }
+    // if (roomInfo.roomStatus === "CLOSE" && !reviewer.isWrited) {
+    //   return <p>피드백을 작성하지 않았어요</p>;
+    // }
 
     return reviewer.isReviewed ? (
       <Button
         size="xSmall"
-        onClick={() => handleOpenFeedbackModal(reviewer)}
         variant={reviewer.isReviewed ? "secondary" : "disable"}
+        onClick={() => handleNavigateFeedbackPage(reviewer)}
         disabled={!reviewer.isReviewed}
       >
         {buttonText}
@@ -106,22 +96,6 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
   // 매칭 후 성공했을 때 보여줄 화면
   return (
     <>
-      {selectedReviewer && feedbackTypeResult && (
-        <ReviewerFeedbackModal
-          key={selectedReviewer.username}
-          isOpen={isModalOpen}
-          onClose={() => {
-            handleCloseModal();
-            setSelectedReviewer(null);
-            setFeedbackTypeResult(null);
-          }}
-          roomInfo={roomInfo}
-          reviewer={selectedReviewer}
-          modalType={feedbackTypeResult.modalType}
-          buttonText={feedbackTypeResult.buttonText}
-        />
-      )}
-
       <S.MyReviewerTable aria-label="나의 리뷰어 목록.">
         <S.MyReviewerTableHead>
           <S.MyReviewerTableRow>
