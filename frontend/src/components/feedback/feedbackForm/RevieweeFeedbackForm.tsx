@@ -9,7 +9,7 @@ import {
   DEVELOP_GOOD_KEYWORD_OPTIONS,
   DEVELOP_NORMAL_KEYWORD_OPTIONS,
 } from "@/constants/feedback";
-import { FeedbackModalType } from "@/utils/feedbackUtils";
+import { FeedbackType } from "@/utils/feedbackUtils";
 
 interface RevieweeFeedbackFormProps {
   formState: RevieweeFeedbackData;
@@ -17,7 +17,7 @@ interface RevieweeFeedbackFormProps {
     key: keyof RevieweeFeedbackData,
     value: RevieweeFeedbackData[keyof RevieweeFeedbackData],
   ) => void;
-  modalType: FeedbackModalType;
+  feedbackType: FeedbackType;
 }
 
 const getDevelopKeywordOptions = (selectedEvaluationId: number | undefined) => {
@@ -27,7 +27,7 @@ const getDevelopKeywordOptions = (selectedEvaluationId: number | undefined) => {
   return DEVELOP_GOOD_KEYWORD_OPTIONS;
 };
 
-const RevieweeFeedbackForm = ({ formState, onChange, modalType }: RevieweeFeedbackFormProps) => {
+const RevieweeFeedbackForm = ({ formState, onChange, feedbackType }: RevieweeFeedbackFormProps) => {
   return (
     <S.FeedbackFormContainer>
       <S.ItemContainer>
@@ -38,7 +38,7 @@ const RevieweeFeedbackForm = ({ formState, onChange, modalType }: RevieweeFeedba
         <EvaluationPointBar
           initialOptionId={formState.evaluationPoint}
           onChange={(value) => onChange("evaluationPoint", value)}
-          readonly={modalType === "view"}
+          readonly={feedbackType === "view"}
         />
       </S.ItemContainer>
 
@@ -51,7 +51,7 @@ const RevieweeFeedbackForm = ({ formState, onChange, modalType }: RevieweeFeedba
           selectedOptions={formState.feedbackKeywords}
           onChange={(value) => onChange("feedbackKeywords", value)}
           selectedEvaluationId={formState.evaluationPoint}
-          readonly={modalType === "view"}
+          readonly={feedbackType === "view"}
           options={getDevelopKeywordOptions(formState.evaluationPoint)}
         />
       </S.ItemContainer>
@@ -64,7 +64,7 @@ const RevieweeFeedbackForm = ({ formState, onChange, modalType }: RevieweeFeedba
         <RecommendationPointBar
           initialOptionId={formState.recommendationPoint}
           onChange={(value) => onChange("recommendationPoint", value)}
-          readonly={modalType === "view"}
+          readonly={feedbackType === "view"}
         />
       </S.ItemContainer>
 
@@ -76,13 +76,13 @@ const RevieweeFeedbackForm = ({ formState, onChange, modalType }: RevieweeFeedba
             showCharCount={true}
             maxLength={2000}
             placeholder={
-              modalType === "view"
+              feedbackType === "view"
                 ? "없음"
                 : "상대 리뷰이의 개발 역량 향상을 위해 피드백을 남겨주세요."
             }
             value={formState.feedbackText}
             onChange={(e) => onChange("feedbackText", e.target.value)}
-            readOnly={modalType === "view"}
+            readOnly={feedbackType === "view"}
           />
         </S.TextareaWrapper>
       </S.ItemContainer>

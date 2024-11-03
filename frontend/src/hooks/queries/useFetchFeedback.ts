@@ -7,10 +7,9 @@ import {
 } from "@/apis/feedback.api";
 import QUERY_KEYS from "@/apis/queryKeys";
 
-interface UseFetchReviewerFeedbackProps {
+interface UseFetchFeedbackProps {
   roomId: number;
   username: string;
-  enabled: boolean;
 }
 
 export const useFetchReceivedFeedback = (enabled: boolean) => {
@@ -30,27 +29,19 @@ export const useFetchDeliveredFeedback = (enabled: boolean) => {
 };
 
 // 리뷰어 -> 리뷰이
-export const useFetchRevieweeFeedback = ({
-  roomId,
-  username,
-  enabled,
-}: UseFetchReviewerFeedbackProps) => {
+export const useFetchRevieweeFeedback = ({ roomId, username }: UseFetchFeedbackProps) => {
   return useQuery({
     queryKey: [QUERY_KEYS.REVIEWEE_FEEDBACK, roomId.toString(), username],
     queryFn: () => getRevieweeFeedback(roomId, username),
-    enabled: enabled && !!roomId && !!username,
+    enabled: !!roomId && !!username,
   });
 };
 
 // 리뷰이 -> 리뷰어
-export const useFetchReviewerFeedback = ({
-  roomId,
-  username,
-  enabled,
-}: UseFetchReviewerFeedbackProps) => {
+export const useFetchReviewerFeedback = ({ roomId, username }: UseFetchFeedbackProps) => {
   return useQuery({
     queryKey: [QUERY_KEYS.REVIEWER_FEEDBACK, roomId.toString(), username],
     queryFn: () => getReviewerFeedback(roomId, username),
-    enabled: enabled && !!roomId && !!username,
+    enabled: !!roomId && !!username,
   });
 };
