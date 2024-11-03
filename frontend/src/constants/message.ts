@@ -10,6 +10,7 @@ const GUIDANCE_MESSAGES = {
   EDIT_ROOM: "방 정보를 수정합니다.\n모집 마감 전까지 방 정보를 수정할 수 있습니다.",
   EMPTY_PARTICIPANTS: "참여자 목록은 매칭이 시작된 이후 공개됩니다.",
   ZERO_PARTICIPANTS: "이 방의 참여자가 없습니다.",
+  NO_PARTICIPANTS: "매칭 실패로 인해 참여자 목록을 볼 수 없습니다.",
   ONLY_REVIEWER: "리뷰어로만 참여 중입니다!",
   PULL_REQUEST_NOT_SUBMITTED: "PR을 제출하지 않아 매칭되지 않았습니다.",
 };
