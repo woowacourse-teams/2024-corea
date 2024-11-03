@@ -1,16 +1,12 @@
 import styled from "styled-components";
 
-interface ModalQuestionProps {
-  required?: boolean;
-}
-
 export const FeedbackContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.6rem;
 
   width: 100%;
-  min-width: 375px;
+  min-width: 335px;
   max-width: 700px;
   margin: auto;
 `;
@@ -42,25 +38,12 @@ export const ItemContainer = styled.div`
   gap: 0.8rem;
 `;
 
-export const PageQuestion = styled.p<ModalQuestionProps>`
-  font: ${({ theme }) => theme.TEXT.small};
-  font-weight: 600;
-
-  ${({ required, theme }) =>
-    required &&
-    `
-    &::after {
-      content: "*";
-      color: ${theme.COLOR.error};
-      margin-left: 4px;
-    }
-  `}
-`;
-
 export const ButtonWrapper = styled.div`
   display: flex;
+  gap: 2rem;
   align-items: center;
   justify-content: center;
+
   margin-top: 1rem;
 `;
 

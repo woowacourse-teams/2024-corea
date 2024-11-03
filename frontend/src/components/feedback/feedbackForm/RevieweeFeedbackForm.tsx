@@ -18,6 +18,7 @@ interface RevieweeFeedbackFormProps {
     value: RevieweeFeedbackData[keyof RevieweeFeedbackData],
   ) => void;
   feedbackType: FeedbackType;
+  isClicked: boolean;
 }
 
 const getDevelopKeywordOptions = (selectedEvaluationId: number | undefined) => {
@@ -27,12 +28,19 @@ const getDevelopKeywordOptions = (selectedEvaluationId: number | undefined) => {
   return DEVELOP_GOOD_KEYWORD_OPTIONS;
 };
 
-const RevieweeFeedbackForm = ({ formState, onChange, feedbackType }: RevieweeFeedbackFormProps) => {
+const RevieweeFeedbackForm = ({
+  formState,
+  onChange,
+  feedbackType,
+  isClicked,
+}: RevieweeFeedbackFormProps) => {
   return (
     <S.FeedbackFormContainer>
       <S.ItemContainer>
         <S.QuestionContainer>
-          <S.ModalQuestion>리뷰이의 개발 역량 향상을 위해 코드를 평가 해주세요.</S.ModalQuestion>
+          <S.ModalQuestion $isInvalid={isClicked && formState.evaluationPoint === 0}>
+            리뷰이의 개발 역량 향상을 위해 코드를 평가 해주세요.
+          </S.ModalQuestion>
           <S.Required>*필수입력</S.Required>
         </S.QuestionContainer>
         <EvaluationPointBar
@@ -44,7 +52,9 @@ const RevieweeFeedbackForm = ({ formState, onChange, feedbackType }: RevieweeFee
 
       <S.ItemContainer>
         <S.QuestionContainer>
-          <S.ModalQuestion>위와 같이 선택한 이유를 알려주세요. (1개 이상 선택)</S.ModalQuestion>
+          <S.ModalQuestion $isInvalid={isClicked && formState.feedbackKeywords.length === 0}>
+            위와 같이 선택한 이유를 알려주세요. (복수선택 가능)
+          </S.ModalQuestion>
           <S.Required>*필수입력</S.Required>
         </S.QuestionContainer>
         <KeywordOptionButton
@@ -58,7 +68,7 @@ const RevieweeFeedbackForm = ({ formState, onChange, feedbackType }: RevieweeFee
 
       <S.ItemContainer>
         <S.QuestionContainer>
-          <S.ModalQuestion>리뷰이의 코드를 추천하시나요? (비공개 항목)</S.ModalQuestion>
+          <S.ModalQuestion>[비공개] 리뷰이의 코드를 추천하시나요?</S.ModalQuestion>
           <S.Required>*필수입력</S.Required>
         </S.QuestionContainer>
         <RecommendationPointBar

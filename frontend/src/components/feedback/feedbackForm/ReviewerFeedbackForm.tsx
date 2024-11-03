@@ -18,6 +18,7 @@ interface ReviewerFeedbackFormProps {
     value: ReviewerFeedbackData[keyof ReviewerFeedbackData],
   ) => void;
   feedbackType: FeedbackType;
+  isClicked: boolean;
 }
 
 const getSocialKeywordOptions = (selectedEvaluationId: number | undefined) => {
@@ -27,12 +28,17 @@ const getSocialKeywordOptions = (selectedEvaluationId: number | undefined) => {
   return SOCIAL_GOOD_KEYWORD_OPTIONS;
 };
 
-const ReviewerFeedbackForm = ({ formState, onChange, feedbackType }: ReviewerFeedbackFormProps) => {
+const ReviewerFeedbackForm = ({
+  formState,
+  onChange,
+  feedbackType,
+  isClicked,
+}: ReviewerFeedbackFormProps) => {
   return (
     <S.FeedbackFormContainer>
       <S.ItemContainer>
         <S.QuestionContainer>
-          <S.ModalQuestion>
+          <S.ModalQuestion $isInvalid={isClicked && formState.evaluationPoint === 0}>
             리뷰어의 소프트 스킬 역량 향상을 위해 피드백을 해주세요.
           </S.ModalQuestion>
           <S.Required>*필수입력</S.Required>
@@ -47,7 +53,9 @@ const ReviewerFeedbackForm = ({ formState, onChange, feedbackType }: ReviewerFee
 
       <S.ItemContainer>
         <S.QuestionContainer>
-          <S.ModalQuestion>위와 같이 선택한 이유를 알려주세요. (1개 이상 선택)</S.ModalQuestion>
+          <S.ModalQuestion $isInvalid={isClicked && formState.feedbackKeywords.length === 0}>
+            위와 같이 선택한 이유를 알려주세요. (복수선택 가능)
+          </S.ModalQuestion>
           <S.Required>*필수입력</S.Required>
         </S.QuestionContainer>
         <KeywordOptionButton

@@ -1,13 +1,9 @@
 import styled from "styled-components";
 
-interface ModalQuestionProps {
-  required?: boolean;
-}
-
 export const FeedbackFormContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 4rem;
+  gap: 8rem;
 `;
 
 export const ItemContainer = styled.fieldset`
@@ -23,13 +19,12 @@ export const QuestionContainer = styled.div`
   align-items: center;
 `;
 
-export const ModalQuestion = styled.legend<ModalQuestionProps>`
+export const ModalQuestion = styled.legend<{ $isInvalid?: boolean }>`
   font: ${({ theme }) => theme.TEXT.small_bold};
-  color: ${({ theme }) => theme.COLOR.grey4};
+  color: ${({ theme, $isInvalid }) => ($isInvalid ? theme.COLOR.error : theme.COLOR.grey4)};
 `;
 
 export const Required = styled.span`
-  padding-top: 0.5rem;
   font: ${({ theme }) => theme.TEXT.xSmall};
   color: ${({ theme }) => theme.COLOR.error};
 `;

@@ -6,7 +6,7 @@ export const FeedbackContainer = styled.div`
   gap: 1.6rem;
 
   width: 100%;
-  min-width: 375px;
+  min-width: 335px;
   max-width: 700px;
   margin: auto;
 `;
@@ -34,8 +34,10 @@ export const Keywords = styled.div`
 
 export const ButtonWrapper = styled.div`
   display: flex;
+  gap: 2rem;
   align-items: center;
   justify-content: center;
+
   margin-top: 1rem;
 `;
 

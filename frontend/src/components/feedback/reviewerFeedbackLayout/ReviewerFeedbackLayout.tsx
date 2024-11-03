@@ -42,6 +42,7 @@ const ReviewerFeedbackLayout = ({
   const [formState, setFormState] = useState<ReviewerFeedbackData>(() =>
     getInitialFormState(reviewer, feedbackData),
   );
+  const [isClicked, setIsClicked] = useState(false);
 
   const buttonText = feedbackType === "create" ? "작성하기" : "수정하기";
 
@@ -78,10 +79,9 @@ const ReviewerFeedbackLayout = ({
     }
   };
 
-  const isFormValid = formState.evaluationPoint !== 0 && formState.feedbackKeywords.length > 0;
-
   const handleSubmit = () => {
-    if (!isFormValid || feedbackType === "view") return;
+    setIsClicked(true);
+    if (feedbackType === "view") return;
 
     const formattedFormState = {
       ...formState,
@@ -114,12 +114,13 @@ const ReviewerFeedbackLayout = ({
   return (
     <>
       <S.FeedbackContainer>
-        <S.PageType>
-          {feedbackType === "create" && "리뷰어 피드백 작성하기"}
-          {feedbackType === "edit" && "리뷰어 피드백 수정하기"}
-          {feedbackType === "view" && "리뷰어 피드백 확인하기"}
-        </S.PageType>
         <S.FeedbackContainerHeader>
+          <S.PageType>
+            <>{reviewer.username} </>
+            {feedbackType === "create" && "리뷰어 피드백 작성하기"}
+            {feedbackType === "edit" && "리뷰어 피드백 수정하기"}
+            {feedbackType === "view" && "리뷰어 피드백 확인하기"}
+          </S.PageType>
           <S.PageTitle>{roomInfo.title}</S.PageTitle>
           <S.Keywords>
             {displayedKeywords.length === 0 ? (
@@ -139,18 +140,20 @@ const ReviewerFeedbackLayout = ({
         </S.FeedbackContainerHeader>
 
         <ReviewerFeedbackForm
+          isClicked={isClicked}
           formState={formState}
           onChange={handleChange}
           feedbackType={feedbackType}
         />
 
-        {feedbackType !== "view" && (
-          <S.ButtonWrapper>
-            <Button onClick={handleSubmit} disabled={!isFormValid}>
-              {buttonText}
-            </Button>
-          </S.ButtonWrapper>
-        )}
+        <S.ButtonWrapper>
+          <Button onClick={() => navigate(-1)} type="button" variant="secondary" outline={true}>
+            뒤로가기
+          </Button>
+          <Button onClick={handleSubmit} variant="secondary">
+            {buttonText}
+          </Button>
+        </S.ButtonWrapper>
       </S.FeedbackContainer>
     </>
   );
