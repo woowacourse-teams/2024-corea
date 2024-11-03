@@ -10,6 +10,7 @@ import QUERY_KEYS from "@/apis/queryKeys";
 interface UseFetchFeedbackProps {
   roomId: number;
   username: string;
+  enabled: boolean;
 }
 
 export const useFetchReceivedFeedback = (enabled: boolean) => {
@@ -29,19 +30,19 @@ export const useFetchDeliveredFeedback = (enabled: boolean) => {
 };
 
 // 리뷰어 -> 리뷰이
-export const useFetchRevieweeFeedback = ({ roomId, username }: UseFetchFeedbackProps) => {
+export const useFetchRevieweeFeedback = ({ roomId, username, enabled }: UseFetchFeedbackProps) => {
   return useQuery({
     queryKey: [QUERY_KEYS.REVIEWEE_FEEDBACK, roomId.toString(), username],
     queryFn: () => getRevieweeFeedback(roomId, username),
-    enabled: !!roomId && !!username,
+    enabled: enabled && !!roomId && !!username,
   });
 };
 
 // 리뷰이 -> 리뷰어
-export const useFetchReviewerFeedback = ({ roomId, username }: UseFetchFeedbackProps) => {
+export const useFetchReviewerFeedback = ({ roomId, username, enabled }: UseFetchFeedbackProps) => {
   return useQuery({
     queryKey: [QUERY_KEYS.REVIEWER_FEEDBACK, roomId.toString(), username],
     queryFn: () => getReviewerFeedback(roomId, username),
-    enabled: !!roomId && !!username,
+    enabled: enabled && !!roomId && !!username,
   });
 };

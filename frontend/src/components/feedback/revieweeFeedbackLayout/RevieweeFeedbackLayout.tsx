@@ -14,20 +14,20 @@ import { FeedbackType } from "@/utils/feedbackUtils";
 interface RevieweeFeedbackProps {
   feedbackType: FeedbackType;
   roomInfo: Pick<RoomInfo, "id" | "title" | "keywords">;
-  reviewee: ReviewerInfo;
-  feedbackData: RevieweeFeedbackData;
+  reviewee?: ReviewerInfo;
+  feedbackData?: RevieweeFeedbackData;
 }
 
 const getInitialFormState = (
-  reviewee: ReviewerInfo,
-  data: RevieweeFeedbackData,
+  reviewee?: ReviewerInfo,
+  feedbackData?: RevieweeFeedbackData,
 ): RevieweeFeedbackData => ({
-  feedbackId: data.feedbackId || 0,
-  receiverId: reviewee.userId,
-  evaluationPoint: data.evaluationPoint || 0,
-  feedbackKeywords: data.feedbackKeywords || [],
-  feedbackText: data.feedbackText || "",
-  recommendationPoint: data.recommendationPoint || 0,
+  feedbackId: feedbackData?.feedbackId || 0,
+  receiverId: reviewee?.userId || 0,
+  evaluationPoint: feedbackData?.evaluationPoint || 0,
+  feedbackKeywords: feedbackData?.feedbackKeywords || [],
+  feedbackText: feedbackData?.feedbackText || "",
+  recommendationPoint: feedbackData?.recommendationPoint || 0,
 });
 
 const RevieweeFeedbackLayout = ({
@@ -50,19 +50,10 @@ const RevieweeFeedbackLayout = ({
   const displayedKeywords = roomInfo.keywords.filter((keyword) => keyword !== "");
 
   useEffect(() => {
-    if (feedbackType === "create") {
-      setFormState({
-        feedbackId: 0,
-        receiverId: reviewee.userId,
-        evaluationPoint: 0,
-        feedbackKeywords: [],
-        feedbackText: "",
-        recommendationPoint: 0,
-      });
-    } else {
-      setFormState(feedbackData);
+    if (feedbackData) {
+      setFormState(getInitialFormState(reviewee, feedbackData));
     }
-  }, [feedbackType, feedbackData, reviewee.userId]);
+  }, [reviewee, feedbackData]);
 
   const handleChange = (
     key: keyof RevieweeFeedbackData,
@@ -120,7 +111,7 @@ const RevieweeFeedbackLayout = ({
       <S.FeedbackContainer>
         <S.FeedbackContainerHeader>
           <S.PageType>
-            <>{reviewee.username} </>
+            <>{reviewee?.username} </>
             {feedbackType === "create" && "리뷰이 피드백 작성하기"}
             {feedbackType === "edit" && "리뷰이 피드백 수정하기"}
             {feedbackType === "view" && "리뷰이 피드백 확인하기"}

@@ -14,19 +14,19 @@ import { FeedbackType } from "@/utils/feedbackUtils";
 interface ReviewerFeedbackProps {
   feedbackType: FeedbackType;
   roomInfo: Pick<RoomInfo, "id" | "title" | "keywords">;
-  reviewer: ReviewerInfo;
-  feedbackData: ReviewerFeedbackData;
+  reviewer?: ReviewerInfo;
+  feedbackData?: ReviewerFeedbackData;
 }
 
 const getInitialFormState = (
-  reviewer: ReviewerInfo,
-  data: ReviewerFeedbackData,
+  reviewer?: ReviewerInfo,
+  feedbackData?: ReviewerFeedbackData,
 ): ReviewerFeedbackData => ({
-  feedbackId: data.feedbackId || 0,
-  receiverId: reviewer.userId,
-  evaluationPoint: data.evaluationPoint || 0,
-  feedbackKeywords: data.feedbackKeywords || [],
-  feedbackText: data.feedbackText || "",
+  feedbackId: feedbackData?.feedbackId || 0,
+  receiverId: reviewer?.userId || 0,
+  evaluationPoint: feedbackData?.evaluationPoint || 0,
+  feedbackKeywords: feedbackData?.feedbackKeywords || [],
+  feedbackText: feedbackData?.feedbackText || "",
 });
 
 const ReviewerFeedbackLayout = ({
@@ -49,18 +49,10 @@ const ReviewerFeedbackLayout = ({
   const displayedKeywords = roomInfo.keywords.filter((keyword) => keyword !== "");
 
   useEffect(() => {
-    if (feedbackType === "create") {
-      setFormState({
-        feedbackId: 0,
-        receiverId: reviewer.userId,
-        evaluationPoint: 0,
-        feedbackKeywords: [],
-        feedbackText: "",
-      });
-    } else {
-      setFormState(feedbackData);
+    if (feedbackData) {
+      setFormState(getInitialFormState(reviewer, feedbackData));
     }
-  }, [feedbackType, feedbackData, reviewer.userId]);
+  }, [reviewer, feedbackData]);
 
   const handleChange = (
     key: keyof ReviewerFeedbackData,
@@ -116,7 +108,7 @@ const ReviewerFeedbackLayout = ({
       <S.FeedbackContainer>
         <S.FeedbackContainerHeader>
           <S.PageType>
-            <>{reviewer.username} </>
+            <>{reviewer?.username} </>
             {feedbackType === "create" && "리뷰어 피드백 작성하기"}
             {feedbackType === "edit" && "리뷰어 피드백 수정하기"}
             {feedbackType === "view" && "리뷰어 피드백 확인하기"}

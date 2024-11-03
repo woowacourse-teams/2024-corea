@@ -2,7 +2,6 @@ import { useLocation, useParams } from "react-router-dom";
 import { useFetchReviewerFeedback } from "@/hooks/queries/useFetchFeedback";
 import { useFetchDetailRoomInfo } from "@/hooks/queries/useFetchRooms";
 import ReviewerFeedbackLayout from "@/components/feedback/reviewerFeedbackLayout/ReviewerFeedbackLayout";
-import { ReviewerFeedbackData } from "@/@types/feedback";
 import { ReviewerInfo } from "@/@types/reviewer";
 
 const ReviewerFeedbackPage = () => {
@@ -17,22 +16,15 @@ const ReviewerFeedbackPage = () => {
   const { data: feedbackData } = useFetchReviewerFeedback({
     roomId,
     username,
+    enabled: reviewer.isWrited,
   });
-
-  const initialFeedbackData: ReviewerFeedbackData = {
-    feedbackId: 0,
-    receiverId: reviewer.userId,
-    evaluationPoint: 0,
-    feedbackKeywords: [],
-    feedbackText: "",
-  };
 
   return (
     <ReviewerFeedbackLayout
       feedbackType={feedbackData ? "edit" : "create"}
       roomInfo={roomInfo}
       reviewer={reviewer}
-      feedbackData={feedbackData || initialFeedbackData}
+      feedbackData={feedbackData}
     />
   );
 };

@@ -20,9 +20,9 @@ export const getFeedbackType = ({
   if (!isReviewed) {
     return { modalType: "create", buttonText: "피드백 작성하기" };
   }
-  if (isClosed) {
-    return { modalType: "view", buttonText: "피드백 확인하기" };
-  }
+  // if (isClosed) {
+  //   return { modalType: "view", buttonText: "피드백 확인하기" };
+  // }
   if (isWrited) {
     return { modalType: "edit", buttonText: "피드백 수정하기" };
   }
