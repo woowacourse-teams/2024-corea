@@ -1,22 +1,22 @@
 import { ButtonSize, ButtonVariant } from "./Button";
 import { css, styled } from "styled-components";
+import { ThemeType } from "@/styles/theme";
 
 export const ButtonContainer = styled.button<{
   $variant: ButtonVariant;
   $size: ButtonSize;
+  $outline?: boolean;
 }>`
   display: flex;
   align-items: center;
   justify-content: center;
-
-  color: ${({ theme }) => theme.COLOR.white};
   text-align: center;
 
-  ${(props) => variantStyles[props.$variant]}
-  ${(props) => sizeStyles[props.$size]}
+  ${({ $variant, $outline }) => variantStyles($variant, $outline)}
+  ${({ $size }) => sizeStyles[$size]}
 
-  ${(props) =>
-    props.$variant !== "disable"
+  ${({ $variant }) =>
+    $variant !== "disable"
       ? css`
           &:hover {
             cursor: pointer;
@@ -28,27 +28,40 @@ export const ButtonContainer = styled.button<{
         `}
 `;
 
-const variantStyles = {
-  default: css`
-    color: ${({ theme }) => theme.COLOR.black};
-    background-color: ${({ theme }) => theme.COLOR.white};
-  `,
-  primary: css`
-    background-color: ${({ theme }) => theme.COLOR.primary2};
-  `,
-  secondary: css`
-    background-color: ${({ theme }) => theme.COLOR.secondary};
-  `,
-  disable: css`
-    background-color: ${({ theme }) => theme.COLOR.grey1};
-  `,
-  confirm: css`
-    color: ${({ theme }) => theme.COLOR.black};
-    background-color: ${({ theme }) => theme.COLOR.lightGrass};
-  `,
-  error: css`
-    background-color: ${({ theme }) => theme.COLOR.error};
-  `,
+const variantStyles = (variant: ButtonVariant, outline?: boolean) => {
+  return css`
+    ${outline
+      ? css`
+          color: ${({ theme }) => getColor(theme, variant)};
+          background-color: ${({ theme }) => theme.COLOR.white};
+          border: 2px solid ${({ theme }) => getColor(theme, variant)};
+        `
+      : css`
+          color: ${({ theme }) =>
+            variant === "default" || variant === "confirm" ? theme.COLOR.black : theme.COLOR.white};
+          background-color: ${({ theme }) => getColor(theme, variant)};
+          border: 2px solid ${({ theme }) => getColor(theme, variant)};
+        `}
+  `;
+};
+
+const getColor = (theme: ThemeType, variant: ButtonVariant) => {
+  switch (variant) {
+    case "default":
+      return theme.COLOR.black;
+    case "primary":
+      return theme.COLOR.primary2;
+    case "secondary":
+      return theme.COLOR.secondary;
+    case "disable":
+      return theme.COLOR.grey1;
+    case "confirm":
+      return theme.COLOR.lightGrass;
+    case "error":
+      return theme.COLOR.error;
+    default:
+      return theme.COLOR.black;
+  }
 };
 
 const sizeStyles = {
