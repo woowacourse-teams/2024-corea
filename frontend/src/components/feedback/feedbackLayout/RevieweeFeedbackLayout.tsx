@@ -147,9 +147,7 @@ const RevieweeFeedbackLayout = ({
           <Button onClick={() => navigate(-1)} type="button" variant="primary" outline={true}>
             뒤로가기
           </Button>
-          <Button onClick={handleSubmit} disabled={!isFormValid}>
-            {buttonText}
-          </Button>
+          <Button onClick={handleSubmit}>{buttonText}</Button>
         </S.ButtonWrapper>
       </S.FeedbackContainer>
     </>
