@@ -37,7 +37,7 @@ const FeedbackCard = ({
   };
 
   // 피드백 페이지 이동 함수
-  const handleNavigateFeedbackPage = (reviewer: ReviewerInfo) => {
+  const handleNavigateFeedbackPage = () => {
     navigate(
       `/rooms/${feedbackCardData.roomId}/feedback/${feedbackType === "develop" ? "reviewer" : "reviewee"}?username=${feedbackCardData.username}`,
       {
@@ -57,7 +57,7 @@ const FeedbackCard = ({
               <p>상대방 피드백을 작성해야 볼 수 있습니다.</p>
               <Button
                 variant={feedbackType ? "primary" : "secondary"}
-                onClick={() => handleNavigateFeedbackPage(reviewer)}
+                onClick={handleNavigateFeedbackPage}
               >
                 피드백 작성하러가기
               </Button>
