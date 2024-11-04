@@ -48,6 +48,8 @@ const ReviewerFeedbackLayout = ({
 
   const displayedKeywords = roomInfo.keywords.filter((keyword) => keyword !== "");
 
+  const isFormValid = formState.evaluationPoint !== 0 && formState.feedbackKeywords.length > 0;
+
   useEffect(() => {
     if (feedbackData) {
       setFormState(getInitialFormState(reviewer, feedbackData));
@@ -73,30 +75,26 @@ const ReviewerFeedbackLayout = ({
 
   const handleSubmit = () => {
     setIsClicked(true);
-    if (feedbackType === "view") return;
 
-    const formattedFormState = {
-      ...formState,
-      feedbackText: formState.feedbackText,
-      feedbackKeywords: formState.feedbackKeywords,
-      evaluationPoint: formState.evaluationPoint,
-    };
+    if (!isFormValid || feedbackType === "view") return;
 
     if (feedbackType === "create") {
       postReviewerFeedbackMutation.mutate(
-        { feedbackData: formattedFormState },
+        { feedbackData: formState },
         {
           onSuccess: () => {
-            navigate(`/rooms/${roomInfo.id}`);
+            navigate(-1);
           },
         },
       );
-    } else if (feedbackType === "edit") {
+    }
+
+    if (feedbackType === "edit") {
       putReviewerFeedbackMutation.mutate(
-        { feedbackId: formState.feedbackId, feedbackData: formattedFormState },
+        { feedbackId: formState.feedbackId, feedbackData: formState },
         {
           onSuccess: () => {
-            navigate(`/rooms/${roomInfo.id}`);
+            navigate(-1);
           },
         },
       );

@@ -49,6 +49,11 @@ const RevieweeFeedbackLayout = ({
 
   const displayedKeywords = roomInfo.keywords.filter((keyword) => keyword !== "");
 
+  const isFormValid =
+    formState.evaluationPoint !== 0 &&
+    formState.feedbackKeywords.length > 0 &&
+    formState.recommendationPoint !== 0;
+
   useEffect(() => {
     if (feedbackData) {
       setFormState(getInitialFormState(reviewee, feedbackData));
@@ -72,34 +77,28 @@ const RevieweeFeedbackLayout = ({
     }
   };
 
-  const isFormValid = formState.evaluationPoint !== 0 && formState.feedbackKeywords.length > 0;
-
   const handleSubmit = () => {
     setIsClicked(true);
-    if (feedbackType === "view") return;
 
-    const formattedFormState = {
-      ...formState,
-      feedbackText: formState.feedbackText,
-      feedbackKeywords: formState.feedbackKeywords,
-      evaluationPoint: formState.evaluationPoint,
-    };
+    if (!isFormValid || feedbackType === "view") return;
 
     if (feedbackType === "create") {
       postRevieweeFeedbackMutation.mutate(
-        { feedbackData: formattedFormState },
+        { feedbackData: formState },
         {
           onSuccess: () => {
-            navigate(`/rooms/${roomInfo.id}`);
+            navigate(-1);
           },
         },
       );
-    } else if (feedbackType === "edit") {
+    }
+
+    if (feedbackType === "edit") {
       putRevieweeFeedbackMutation.mutate(
-        { feedbackId: formState.feedbackId, feedbackData: formattedFormState },
+        { feedbackId: formState.feedbackId, feedbackData: formState },
         {
           onSuccess: () => {
-            navigate(`/rooms/${roomInfo.id}`);
+            navigate(-1);
           },
         },
       );
