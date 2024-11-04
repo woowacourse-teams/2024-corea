@@ -9,7 +9,7 @@ import {
   DEVELOP_GOOD_KEYWORD_OPTIONS,
   DEVELOP_NORMAL_KEYWORD_OPTIONS,
 } from "@/constants/feedback";
-import { FeedbackModalType } from "@/utils/feedbackUtils";
+import { FeedbackPageType } from "@/utils/feedbackUtils";
 
 interface RevieweeFeedbackFormProps {
   formState: RevieweeFeedbackData;
@@ -17,7 +17,8 @@ interface RevieweeFeedbackFormProps {
     key: keyof RevieweeFeedbackData,
     value: RevieweeFeedbackData[keyof RevieweeFeedbackData],
   ) => void;
-  modalType: FeedbackModalType;
+  feedbackPageType: FeedbackPageType;
+  isClicked: boolean;
 }
 
 const getDevelopKeywordOptions = (selectedEvaluationId: number | undefined) => {
@@ -27,62 +28,73 @@ const getDevelopKeywordOptions = (selectedEvaluationId: number | undefined) => {
   return DEVELOP_GOOD_KEYWORD_OPTIONS;
 };
 
-const RevieweeFeedbackForm = ({ formState, onChange, modalType }: RevieweeFeedbackFormProps) => {
+const RevieweeFeedbackForm = ({
+  formState,
+  onChange,
+  feedbackPageType,
+  isClicked,
+}: RevieweeFeedbackFormProps) => {
   return (
     <S.FeedbackFormContainer>
       <S.ItemContainer>
         <S.QuestionContainer>
-          <S.ModalQuestion>리뷰이의 개발 역량 향상을 위해 코드를 평가 해주세요.</S.ModalQuestion>
-          <S.Required>*필수입력</S.Required>
+          <S.ModalQuestion $isInvalid={isClicked && formState.evaluationPoint === 0}>
+            [공개] 리뷰이의 개발 역량 향상을 위해 코드를 평가 해주세요.
+            <S.Required> *필수입력</S.Required>
+          </S.ModalQuestion>
         </S.QuestionContainer>
         <EvaluationPointBar
           initialOptionId={formState.evaluationPoint}
           onChange={(value) => onChange("evaluationPoint", value)}
-          readonly={modalType === "view"}
+          readonly={feedbackPageType === "view"}
         />
       </S.ItemContainer>
 
       <S.ItemContainer>
         <S.QuestionContainer>
-          <S.ModalQuestion>위와 같이 선택한 이유를 알려주세요. (1개 이상 선택)</S.ModalQuestion>
-          <S.Required>*필수입력</S.Required>
+          <S.ModalQuestion $isInvalid={isClicked && formState.feedbackKeywords.length === 0}>
+            [공개] 위와 같이 선택한 이유를 알려주세요. (복수선택 가능)
+            <S.Required> *필수입력</S.Required>
+          </S.ModalQuestion>
         </S.QuestionContainer>
         <KeywordOptionButton
           selectedOptions={formState.feedbackKeywords}
           onChange={(value) => onChange("feedbackKeywords", value)}
           selectedEvaluationId={formState.evaluationPoint}
-          readonly={modalType === "view"}
+          readonly={feedbackPageType === "view"}
           options={getDevelopKeywordOptions(formState.evaluationPoint)}
         />
       </S.ItemContainer>
 
       <S.ItemContainer>
         <S.QuestionContainer>
-          <S.ModalQuestion>리뷰이의 코드를 추천하시나요? (비공개 항목)</S.ModalQuestion>
-          <S.Required>*필수입력</S.Required>
+          <S.ModalQuestion>
+            [비공개] 리뷰이의 코드를 추천하시나요?
+            <S.Required> *필수입력</S.Required>
+          </S.ModalQuestion>
         </S.QuestionContainer>
         <RecommendationPointBar
           initialOptionId={formState.recommendationPoint}
           onChange={(value) => onChange("recommendationPoint", value)}
-          readonly={modalType === "view"}
+          readonly={feedbackPageType === "view"}
         />
       </S.ItemContainer>
 
       <S.ItemContainer>
-        <S.ModalQuestion>추가적으로 하고 싶은 피드백이 있다면 남겨 주세요.</S.ModalQuestion>
+        <S.ModalQuestion>[공개] 추가적으로 하고 싶은 피드백이 있다면 남겨주세요.</S.ModalQuestion>
         <S.TextareaWrapper>
           <Textarea
             rows={10}
             showCharCount={true}
             maxLength={2000}
             placeholder={
-              modalType === "view"
-                ? "없음"
+              feedbackPageType === "view"
+                ? "미작성"
                 : "상대 리뷰이의 개발 역량 향상을 위해 피드백을 남겨주세요."
             }
             value={formState.feedbackText}
             onChange={(e) => onChange("feedbackText", e.target.value)}
-            readOnly={modalType === "view"}
+            readOnly={feedbackPageType === "view"}
           />
         </S.TextareaWrapper>
       </S.ItemContainer>

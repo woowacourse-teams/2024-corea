@@ -108,7 +108,7 @@ const SideNavBar = ({ isOpen, onClose, isLoggedIn }: SideNavBarProps) => {
             <Button
               onClick={handleClose}
               size="xSmall"
-              style={{ background: "transparent", color: "black" }}
+              style={{ background: "transparent", color: "black", border: "none" }}
               ref={firstChildRef}
             >
               <Icon kind="close" size="2.4rem" />
@@ -153,7 +153,7 @@ const SideNavBar = ({ isOpen, onClose, isLoggedIn }: SideNavBarProps) => {
             <Button
               onClick={onClose}
               size="xSmall"
-              style={{ background: "transparent", color: "black" }}
+              style={{ background: "transparent", color: "black", border: "none" }}
               ref={firstChildRef}
             >
               <Icon kind="close" size="2.4rem" />

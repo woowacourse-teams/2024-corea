@@ -37,8 +37,8 @@ export const 기술적_피드백: Story = {
       feedbackKeywords: ["작업 속도", "PR 본문 메시지", "코드 관심사 분리"],
       feedbackText: `작업 속도가 정말 빠르면서 평소 책을 많이 읽어서 그런지 PR 본문 메시지가 정말 알이 꽉꽉 찼어요.
       
-      그리고 코드 관심사 분리라는 단어를 알고 있어서 대화하기 편했어요 ㅎㅎ.
-  `,
+      그리고 코드 관심사 분리라는 단어를 알고 있어서 대화하기 편했어요 ㅎㅎ.`,
+      isWrited: true,
       evaluationPoint: 1,
     },
     feedbackType: "develop",
