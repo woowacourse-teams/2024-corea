@@ -9,9 +9,12 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static corea.global.util.FutureUtil.supplyAsync;
 
 @Component
 @RequiredArgsConstructor
@@ -35,27 +38,26 @@ public class GithubReviewProvider {
     }
 
     private GithubPullRequestReviewInfo getGithubPullRequestReviewInfo(String prLink) {
-        List<GithubPullRequestReview> reviews = getAllPullRequestReviews(prLink);
-        Map<String, GithubPullRequestReview> result = collectByGithubUserId(reviews);
+        CompletableFuture<List<GithubPullRequestReview>> reviewFuture = supplyAsync(() -> reviewClient.getPullRequestReviews(prLink));
+        CompletableFuture<List<GithubPullRequestReview>> commentFuture = supplyAsync(() -> commentClient.getPullRequestReviews(prLink));
 
-        return new GithubPullRequestReviewInfo(result);
+        return reviewFuture
+                .thenCombine(commentFuture, this::collectPullRequestReviews)
+                .exceptionally(e -> {throw new CoreaException(ExceptionType.GITHUB_SERVER_ERROR);})
+                .thenApply(GithubPullRequestReviewInfo::new)
+                .join();
     }
 
-    private List<GithubPullRequestReview> getAllPullRequestReviews(String prLink) {
-        List<GithubPullRequestReview> reviews = reviewClient.getPullRequestReviews(prLink);
-        List<GithubPullRequestReview> comments = commentClient.getPullRequestReviews(prLink);
-
-        return Stream.concat(reviews.stream(), comments.stream())
-                .toList();
+    private Map<String, GithubPullRequestReview> collectPullRequestReviews(List<GithubPullRequestReview> reviews, List<GithubPullRequestReview> comments) {
+        return collectByGithubUserId(Stream.concat(reviews.stream(), comments.stream()));
     }
 
-    private Map<String, GithubPullRequestReview> collectByGithubUserId(List<GithubPullRequestReview> reviews) {
-        return reviews.stream()
-                .collect(Collectors.toMap(
-                        GithubPullRequestReview::getGithubUserId,
-                        Function.identity(),
-                        (x, y) -> x
-                ));
+    private Map<String, GithubPullRequestReview> collectByGithubUserId(Stream<GithubPullRequestReview> reviews) {
+        return reviews.collect(Collectors.toMap(
+                GithubPullRequestReview::getGithubUserId,
+                Function.identity(),
+                (x, y) -> x
+        ));
     }
 
     private void validatePrLink(String prUrl) {
@@ -75,7 +77,9 @@ public class GithubReviewProvider {
 
     private boolean isInvalidGithubPrUrl(List<String> prLinkParts) {
         return prLinkParts.size() != VALID_URL_SPLIT_COUNT ||
-                !prLinkParts.get(DOMAIN_PREFIX_INDEX).contains(GITHUB_PREFIX) ||
-                !prLinkParts.get(GITHUB_PULL_REQUEST_URL_INDEX).equals(GITHUB_PULL_REQUEST_DOMAIN);
+                !prLinkParts.get(DOMAIN_PREFIX_INDEX)
+                        .contains(GITHUB_PREFIX) ||
+                !prLinkParts.get(GITHUB_PULL_REQUEST_URL_INDEX)
+                        .equals(GITHUB_PULL_REQUEST_DOMAIN);
     }
 }

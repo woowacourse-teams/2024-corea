@@ -40,6 +40,7 @@ public enum ExceptionType {
     AUTOMATIC_UPDATE_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 방에 예약된 자동 업데이트 정보를 찾을 수 없습니다."),
 
     SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버에 문제가 발생했습니다."),
+    GITHUB_SERVER_ERROR(HttpStatus.SERVICE_UNAVAILABLE, "깃허브 서버가 원활하게 작동하지 않습니다."),
     GITHUB_AUTHORIZATION_ERROR(HttpStatus.SERVICE_UNAVAILABLE, "깃허브 인증 서버가 원활하게 작동하지 않습니다."),
     ;
 
