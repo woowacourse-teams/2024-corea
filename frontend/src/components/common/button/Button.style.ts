@@ -48,7 +48,7 @@ const variantStyles = (variant: ButtonVariant, outline?: boolean) => {
 const getColor = (theme: ThemeType, variant: ButtonVariant) => {
   switch (variant) {
     case "default":
-      return theme.COLOR.black;
+      return theme.COLOR.white;
     case "primary":
       return theme.COLOR.primary2;
     case "secondary":
