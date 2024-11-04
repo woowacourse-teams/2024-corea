@@ -110,10 +110,10 @@ const RevieweeFeedbackLayout = ({
       <S.FeedbackContainer>
         <S.FeedbackContainerHeader>
           <S.PageType>
-            <>{reviewee?.username} </>
-            {feedbackPageType === "create" && "리뷰이 피드백 작성하기"}
-            {feedbackPageType === "edit" && "리뷰이 피드백 수정하기"}
-            {feedbackPageType === "view" && "리뷰이 피드백 확인하기"}
+            <>리뷰이 {reviewee?.username} 피드백 </>
+            {feedbackPageType === "create" && "작성하기"}
+            {feedbackPageType === "edit" && "수정하기"}
+            {feedbackPageType === "view" && "확인하기"}
           </S.PageType>
           <S.PageTitle>{roomInfo.title}</S.PageTitle>
           <S.Keywords>
