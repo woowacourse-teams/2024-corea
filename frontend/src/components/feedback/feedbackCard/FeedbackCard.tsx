@@ -29,7 +29,7 @@ const FeedbackCard = ({
     return feedbackType === "develop" ? "TO. 나의 리뷰이" : "TO. 나의 리뷰어";
   };
 
-  const reviewer: ReviewerInfo = {
+  const revieweInfo: ReviewerInfo = {
     userId: feedbackCardData.receiverId,
     username: feedbackCardData.username,
     link: feedbackCardData.profile,
@@ -41,7 +41,7 @@ const FeedbackCard = ({
     navigate(
       `/rooms/${feedbackCardData.roomId}/feedback/${feedbackType === "develop" ? "reviewer" : "reviewee"}?username=${feedbackCardData.username}`,
       {
-        state: { reviewer },
+        state: { revieweInfo },
       },
     );
   };
@@ -56,7 +56,7 @@ const FeedbackCard = ({
             <S.ButtonWrapper>
               <p>상대방 피드백을 작성해야 볼 수 있습니다.</p>
               <Button
-                variant={feedbackType ? "primary" : "secondary"}
+                variant={feedbackType === "develop" ? "primary" : "secondary"}
                 onClick={handleNavigateFeedbackPage}
               >
                 피드백 작성하러가기
