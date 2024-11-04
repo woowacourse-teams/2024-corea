@@ -28,7 +28,7 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
   // 피드백 여부 버튼 렌더링 함수
   const renderReviewerButton = (reviewer: ReviewerInfo) => {
     const { buttonText } = getFeedbackPageType({
-      isReviewed: reviewer.isReviewed ?? false,
+      isReviewed: reviewer.isReviewed ?? true,
       isWrited: reviewer.isWrited,
       isClosed: roomInfo.roomStatus === "CLOSE",
     });
