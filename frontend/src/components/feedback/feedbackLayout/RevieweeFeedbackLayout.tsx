@@ -4,7 +4,7 @@ import useMutateFeedback from "@/hooks/mutations/useMutateFeedback";
 import Button from "@/components/common/button/Button";
 import Label from "@/components/common/label/Label";
 import RevieweeFeedbackForm from "@/components/feedback/feedbackForm/RevieweeFeedbackForm";
-import * as S from "@/components/feedback/revieweeFeedbackLayout/RevieweeFeedbackLayout.style";
+import * as S from "@/components/feedback/feedbackLayout/FeedbackLayout.style";
 import { RevieweeFeedbackData } from "@/@types/feedback";
 import { ReviewerInfo } from "@/@types/reviewer";
 import { RoomInfo } from "@/@types/roomInfo";
@@ -115,22 +115,25 @@ const RevieweeFeedbackLayout = ({
             {feedbackPageType === "edit" && "수정하기"}
             {feedbackPageType === "view" && "확인하기"}
           </S.PageType>
-          <S.PageTitle>{roomInfo.title}</S.PageTitle>
-          <S.Keywords>
-            {displayedKeywords.length === 0 ? (
-              <S.NoKeywordText>지정된 키워드 없음</S.NoKeywordText>
-            ) : (
-              displayedKeywords.map((keyword) => (
-                <Label
-                  key={keyword}
-                  type="KEYWORD"
-                  text={keyword}
-                  size="semiSmall"
-                  backgroundColor={theme.COLOR.grey0}
-                />
-              ))
-            )}
-          </S.Keywords>
+
+          <S.MissionInfoContainer>
+            <S.PageTitle>{roomInfo.title}</S.PageTitle>
+            <S.Keywords>
+              {displayedKeywords.length === 0 ? (
+                <S.NoKeywordText>지정된 키워드 없음</S.NoKeywordText>
+              ) : (
+                displayedKeywords.map((keyword) => (
+                  <Label
+                    key={keyword}
+                    type="KEYWORD"
+                    text={keyword}
+                    size="semiSmall"
+                    backgroundColor={theme.COLOR.grey0}
+                  />
+                ))
+              )}
+            </S.Keywords>
+          </S.MissionInfoContainer>
         </S.FeedbackContainerHeader>
 
         <RevieweeFeedbackForm

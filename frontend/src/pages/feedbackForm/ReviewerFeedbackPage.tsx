@@ -1,7 +1,7 @@
 import { useLocation, useParams } from "react-router-dom";
 import { useFetchReviewerFeedback } from "@/hooks/queries/useFetchFeedback";
 import { useFetchDetailRoomInfo } from "@/hooks/queries/useFetchRooms";
-import ReviewerFeedbackLayout from "@/components/feedback/reviewerFeedbackLayout/ReviewerFeedbackLayout";
+import ReviewerFeedbackLayout from "@/components/feedback/feedbackLayout/ReviewerFeedbackLayout";
 import { ReviewerInfo } from "@/@types/reviewer";
 
 const ReviewerFeedbackPage = () => {
