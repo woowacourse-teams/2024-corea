@@ -10,7 +10,7 @@ import { RoomInfo } from "@/@types/roomInfo";
 import { spinner } from "@/assets";
 import MESSAGES from "@/constants/message";
 import { HoverStyledLink } from "@/styles/common";
-import { getFeedbackType } from "@/utils/feedbackUtils";
+import { getFeedbackPageType } from "@/utils/feedbackUtils";
 
 interface MyRevieweeProps {
   roomInfo: RoomInfo;
@@ -24,7 +24,7 @@ const MyReviewee = ({ roomInfo }: MyRevieweeProps) => {
 
   // 피드백 페이지 이동 함수
   const handleNavigateFeedbackPage = (reviewee: ReviewerInfo) => {
-    navigate(`/rooms/${roomInfo.id}/feedback/reviewer?username=${reviewee.username}`, {
+    navigate(`/rooms/${roomInfo.id}/feedback/reviewee?username=${reviewee.username}`, {
       state: { reviewee },
     });
   };
@@ -47,7 +47,7 @@ const MyReviewee = ({ roomInfo }: MyRevieweeProps) => {
 
   // 리뷰 및 피드백 여부 버튼 렌더링 함수
   const renderRevieweeButton = (reviewee: ReviewerInfo) => {
-    const { buttonText } = getFeedbackType({
+    const { buttonText } = getFeedbackPageType({
       isReviewed: reviewee.isReviewed ?? false,
       isWrited: reviewee.isWrited,
       isClosed: roomInfo.roomStatus === "CLOSE",
@@ -57,6 +57,7 @@ const MyReviewee = ({ roomInfo }: MyRevieweeProps) => {
       return <p>코드리뷰를 하지 않았어요</p>;
     }
 
+    // TODO: 방 끝나도 계속 작성 가능
     // if (roomInfo.roomStatus === "CLOSE" && !reviewee.isWrited) {
     //   return <p>피드백을 작성하지 않았어요</p>;
     // }

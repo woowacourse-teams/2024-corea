@@ -21,7 +21,7 @@ const RevieweeFeedbackPage = () => {
 
   return (
     <RevieweeFeedbackLayout
-      feedbackType={feedbackData ? "edit" : "create"}
+      feedbackPageType={reviewee.isWrited ? "edit" : "create"}
       roomInfo={roomInfo}
       reviewee={reviewee}
       feedbackData={feedbackData}

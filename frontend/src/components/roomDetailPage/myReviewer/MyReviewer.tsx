@@ -8,7 +8,7 @@ import { RoomInfo } from "@/@types/roomInfo";
 import { thinkingCharacter } from "@/assets";
 import MESSAGES from "@/constants/message";
 import { HoverStyledLink } from "@/styles/common";
-import { getFeedbackType } from "@/utils/feedbackUtils";
+import { getFeedbackPageType } from "@/utils/feedbackUtils";
 
 interface MyReviewerProps {
   roomInfo: RoomInfo;
@@ -27,7 +27,7 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
 
   // 피드백 여부 버튼 렌더링 함수
   const renderReviewerButton = (reviewer: ReviewerInfo) => {
-    const { buttonText } = getFeedbackType({
+    const { buttonText } = getFeedbackPageType({
       isReviewed: reviewer.isReviewed ?? false,
       isWrited: reviewer.isWrited,
       isClosed: roomInfo.roomStatus === "CLOSE",
@@ -37,6 +37,7 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
       return <p>리뷰어가 리뷰를 하지 않았어요</p>;
     }
 
+    // TODO: 방이 끝나도 계속 작성 가능
     // if (roomInfo.roomStatus === "CLOSE" && !reviewer.isWrited) {
     //   return <p>피드백을 작성하지 않았어요</p>;
     // }

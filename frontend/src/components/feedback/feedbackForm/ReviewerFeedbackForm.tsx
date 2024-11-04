@@ -9,7 +9,7 @@ import {
   SOCIAL_NORMAL_KEYWORD_OPTIONS,
 } from "@/constants/feedback";
 import { theme } from "@/styles/theme";
-import { FeedbackType } from "@/utils/feedbackUtils";
+import { FeedbackPageType } from "@/utils/feedbackUtils";
 
 interface ReviewerFeedbackFormProps {
   formState: ReviewerFeedbackData;
@@ -17,7 +17,7 @@ interface ReviewerFeedbackFormProps {
     key: keyof ReviewerFeedbackData,
     value: ReviewerFeedbackData[keyof ReviewerFeedbackData],
   ) => void;
-  feedbackType: FeedbackType;
+  feedbackPageType: FeedbackPageType;
   isClicked: boolean;
 }
 
@@ -31,7 +31,7 @@ const getSocialKeywordOptions = (selectedEvaluationId: number | undefined) => {
 const ReviewerFeedbackForm = ({
   formState,
   onChange,
-  feedbackType,
+  feedbackPageType,
   isClicked,
 }: ReviewerFeedbackFormProps) => {
   return (
@@ -47,7 +47,7 @@ const ReviewerFeedbackForm = ({
           initialOptionId={formState.evaluationPoint}
           onChange={(value) => onChange("evaluationPoint", value)}
           color={theme.COLOR.secondary}
-          readonly={feedbackType === "view"}
+          readonly={feedbackPageType === "view"}
         />
       </S.ItemContainer>
 
@@ -64,7 +64,7 @@ const ReviewerFeedbackForm = ({
           selectedEvaluationId={formState.evaluationPoint}
           options={getSocialKeywordOptions(formState.evaluationPoint)}
           color={theme.COLOR.secondary}
-          readonly={feedbackType === "view"}
+          readonly={feedbackPageType === "view"}
         />
       </S.ItemContainer>
 
@@ -76,13 +76,13 @@ const ReviewerFeedbackForm = ({
             showCharCount={true}
             maxLength={2000}
             placeholder={
-              feedbackType === "view"
+              feedbackPageType === "view"
                 ? "미작성"
                 : "상대 리뷰어의 소프트 스킬 향상을 위해 피드백을 남겨주세요."
             }
             value={formState.feedbackText}
             onChange={(e) => onChange("feedbackText", e.target.value)}
-            readOnly={feedbackType === "view"}
+            readOnly={feedbackPageType === "view"}
           />
         </S.TextareaWrapper>
       </S.ItemContainer>

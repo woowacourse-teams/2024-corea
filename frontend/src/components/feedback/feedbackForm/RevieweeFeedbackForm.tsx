@@ -9,7 +9,7 @@ import {
   DEVELOP_GOOD_KEYWORD_OPTIONS,
   DEVELOP_NORMAL_KEYWORD_OPTIONS,
 } from "@/constants/feedback";
-import { FeedbackType } from "@/utils/feedbackUtils";
+import { FeedbackPageType } from "@/utils/feedbackUtils";
 
 interface RevieweeFeedbackFormProps {
   formState: RevieweeFeedbackData;
@@ -17,7 +17,7 @@ interface RevieweeFeedbackFormProps {
     key: keyof RevieweeFeedbackData,
     value: RevieweeFeedbackData[keyof RevieweeFeedbackData],
   ) => void;
-  feedbackType: FeedbackType;
+  feedbackPageType: FeedbackPageType;
   isClicked: boolean;
 }
 
@@ -31,7 +31,7 @@ const getDevelopKeywordOptions = (selectedEvaluationId: number | undefined) => {
 const RevieweeFeedbackForm = ({
   formState,
   onChange,
-  feedbackType,
+  feedbackPageType,
   isClicked,
 }: RevieweeFeedbackFormProps) => {
   return (
@@ -46,7 +46,7 @@ const RevieweeFeedbackForm = ({
         <EvaluationPointBar
           initialOptionId={formState.evaluationPoint}
           onChange={(value) => onChange("evaluationPoint", value)}
-          readonly={feedbackType === "view"}
+          readonly={feedbackPageType === "view"}
         />
       </S.ItemContainer>
 
@@ -61,7 +61,7 @@ const RevieweeFeedbackForm = ({
           selectedOptions={formState.feedbackKeywords}
           onChange={(value) => onChange("feedbackKeywords", value)}
           selectedEvaluationId={formState.evaluationPoint}
-          readonly={feedbackType === "view"}
+          readonly={feedbackPageType === "view"}
           options={getDevelopKeywordOptions(formState.evaluationPoint)}
         />
       </S.ItemContainer>
@@ -74,7 +74,7 @@ const RevieweeFeedbackForm = ({
         <RecommendationPointBar
           initialOptionId={formState.recommendationPoint}
           onChange={(value) => onChange("recommendationPoint", value)}
-          readonly={feedbackType === "view"}
+          readonly={feedbackPageType === "view"}
         />
       </S.ItemContainer>
 
@@ -86,13 +86,13 @@ const RevieweeFeedbackForm = ({
             showCharCount={true}
             maxLength={2000}
             placeholder={
-              feedbackType === "view"
+              feedbackPageType === "view"
                 ? "없음"
                 : "상대 리뷰이의 개발 역량 향상을 위해 피드백을 남겨주세요."
             }
             value={formState.feedbackText}
             onChange={(e) => onChange("feedbackText", e.target.value)}
-            readOnly={feedbackType === "view"}
+            readOnly={feedbackPageType === "view"}
           />
         </S.TextareaWrapper>
       </S.ItemContainer>

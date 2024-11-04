@@ -9,10 +9,10 @@ import { RevieweeFeedbackData } from "@/@types/feedback";
 import { ReviewerInfo } from "@/@types/reviewer";
 import { RoomInfo } from "@/@types/roomInfo";
 import { theme } from "@/styles/theme";
-import { FeedbackType } from "@/utils/feedbackUtils";
+import { FeedbackPageType } from "@/utils/feedbackUtils";
 
 interface RevieweeFeedbackProps {
-  feedbackType: FeedbackType;
+  feedbackPageType: FeedbackPageType;
   roomInfo: Pick<RoomInfo, "id" | "title" | "keywords">;
   reviewee?: ReviewerInfo;
   feedbackData?: RevieweeFeedbackData;
@@ -31,7 +31,7 @@ const getInitialFormState = (
 });
 
 const RevieweeFeedbackLayout = ({
-  feedbackType,
+  feedbackPageType,
   roomInfo,
   reviewee,
   feedbackData,
@@ -45,7 +45,7 @@ const RevieweeFeedbackLayout = ({
   );
   const [isClicked, setIsClicked] = useState(false);
 
-  const buttonText = feedbackType === "create" ? "작성하기" : "수정하기";
+  const buttonText = feedbackPageType === "create" ? "작성하기" : "수정하기";
 
   const displayedKeywords = roomInfo.keywords.filter((keyword) => keyword !== "");
 
@@ -64,7 +64,7 @@ const RevieweeFeedbackLayout = ({
     key: keyof RevieweeFeedbackData,
     value: RevieweeFeedbackData[keyof RevieweeFeedbackData],
   ) => {
-    if (feedbackType === "view") return;
+    if (feedbackPageType === "view") return;
 
     if (key === "evaluationPoint") {
       setFormState((prevState) => ({
@@ -80,9 +80,9 @@ const RevieweeFeedbackLayout = ({
   const handleSubmit = () => {
     setIsClicked(true);
 
-    if (!isFormValid || feedbackType === "view") return;
+    if (!isFormValid || feedbackPageType === "view") return;
 
-    if (feedbackType === "create") {
+    if (feedbackPageType === "create") {
       postRevieweeFeedbackMutation.mutate(
         { feedbackData: formState },
         {
@@ -93,7 +93,7 @@ const RevieweeFeedbackLayout = ({
       );
     }
 
-    if (feedbackType === "edit") {
+    if (feedbackPageType === "edit") {
       putRevieweeFeedbackMutation.mutate(
         { feedbackId: formState.feedbackId, feedbackData: formState },
         {
@@ -111,9 +111,9 @@ const RevieweeFeedbackLayout = ({
         <S.FeedbackContainerHeader>
           <S.PageType>
             <>{reviewee?.username} </>
-            {feedbackType === "create" && "리뷰이 피드백 작성하기"}
-            {feedbackType === "edit" && "리뷰이 피드백 수정하기"}
-            {feedbackType === "view" && "리뷰이 피드백 확인하기"}
+            {feedbackPageType === "create" && "리뷰이 피드백 작성하기"}
+            {feedbackPageType === "edit" && "리뷰이 피드백 수정하기"}
+            {feedbackPageType === "view" && "리뷰이 피드백 확인하기"}
           </S.PageType>
           <S.PageTitle>{roomInfo.title}</S.PageTitle>
           <S.Keywords>
@@ -137,7 +137,7 @@ const RevieweeFeedbackLayout = ({
           isClicked={isClicked}
           formState={formState}
           onChange={handleChange}
-          feedbackType={feedbackType}
+          feedbackPageType={feedbackPageType}
         />
 
         <S.ButtonWrapper>
