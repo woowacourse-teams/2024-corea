@@ -8,6 +8,9 @@ export const ConfirmModalContainer = styled.div`
   padding: 3rem;
 
   font: ${({ theme }) => theme.TEXT.medium_bold};
+  line-height: normal;
+  text-align: center;
+  white-space: pre-line;
 `;
 
 export const ButtonWrapper = styled.div`

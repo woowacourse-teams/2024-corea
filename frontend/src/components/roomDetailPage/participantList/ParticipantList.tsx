@@ -43,6 +43,15 @@ const ParticipantList = ({ roomInfo }: ParticipantListProps) => {
     );
   }
 
+  // 방 종료 후 매칭 실패 상태의 화면
+  if (roomInfo.roomStatus === "CLOSE" && roomInfo.message !== "") {
+    return (
+      <S.TotalContainer>
+        <S.MessageWrapper>{MESSAGES.GUIDANCE.NO_PARTICIPANTS}</S.MessageWrapper>
+      </S.TotalContainer>
+    );
+  }
+
   // 참여자 보여주는 화면
   return (
     <S.TotalContainer>

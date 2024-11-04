@@ -29,12 +29,14 @@ const developFeedbackData = deliveredFeedbackInfo.feedbacks[0].developFeedback.m
   ...feedback,
   feedbackKeywords: feedback.feedbackKeywords as unknown as NonEmptyArray<string>,
   evaluationPoint: feedback.evaluationPoint as 1 | 2 | 3 | 4 | 5,
+  isWrited: feedback.isWrited as boolean,
 })) satisfies FeedbackCardData[];
 
 const socialFeedbackData = deliveredFeedbackInfo.feedbacks[0].socialFeedback.map((feedback) => ({
   ...feedback,
   feedbackKeywords: feedback.feedbackKeywords as unknown as NonEmptyArray<string>,
   evaluationPoint: feedback.evaluationPoint as 1 | 2 | 3 | 4 | 5,
+  isWrited: feedback.isWrited as boolean,
 })) satisfies FeedbackCardData[];
 
 export const Default: Story = {

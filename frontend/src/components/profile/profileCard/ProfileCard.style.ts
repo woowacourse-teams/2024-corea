@@ -33,14 +33,19 @@ export const ProfileNickname = styled.div`
   display: flex;
   gap: 0.5rem;
   align-items: center;
+  justify-content: center;
 
   max-width: 108px;
+`;
 
+export const GithubIcon = styled.div`
+  flex-shrink: 0;
+`;
+
+export const NicknameText = styled.span`
+  ${EllipsisText}
   font: ${({ theme }) => theme.TEXT.medium_bold};
   color: ${({ theme }) => theme.COLOR.grey3};
-  text-align: center;
-
-  ${EllipsisText}
 `;
 
 export const ProfileInfoWrapper = styled.div`

@@ -108,7 +108,7 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
             <S.ContentLineBreak aria-hidden>
               <S.RoomContentSmall>
                 <Icon kind="calendar" size="1.8rem" color={theme.COLOR.grey4} />
-                <span>리뷰 및 피드백 마감일: </span>
+                <span>리뷰 마감일: </span>
               </S.RoomContentSmall>
               <div>
                 <S.DateTimeText>{formatDateTimeString(roomInfo.reviewDeadline)}</S.DateTimeText>
@@ -120,7 +120,7 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
               </div>
             </S.ContentLineBreak>
             <S.ScreenReader>
-              {`리뷰 및 피드백 마감일 ${convertDateToKorean(formatDateTimeString(roomInfo.reviewDeadline))}`}
+              {`리뷰 마감일 ${convertDateToKorean(formatDateTimeString(roomInfo.reviewDeadline))}`}
             </S.ScreenReader>
           </S.RoomContentSmall>
         </S.RoomContentBox>
