@@ -20,7 +20,7 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
 
   // 피드백 페이지 이동 함수
   const handleNavigateFeedbackPage = (reviewer: ReviewerInfo) => {
-    navigate(`/feedback/reviewer/${roomInfo.id}?username=${reviewer.username}`, {
+    navigate(`/rooms/${roomInfo.id}/feedback/reviewer?username=${reviewer.username}`, {
       state: { reviewer },
     });
   };

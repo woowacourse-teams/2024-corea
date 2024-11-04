@@ -39,7 +39,7 @@ const FeedbackCard = ({
   // 피드백 페이지 이동 함수
   const handleNavigateFeedbackPage = (reviewer: ReviewerInfo) => {
     navigate(
-      `/feedback/${feedbackType === "develop" ? "reviewer" : "reviewee"}/${feedbackCardData.roomId}?username=${feedbackCardData.username}`,
+      `/rooms/${feedbackCardData.roomId}/feedback/${feedbackType === "develop" ? "reviewer" : "reviewee"}?username=${feedbackCardData.username}`,
       {
         state: { reviewer },
       },
@@ -52,16 +52,19 @@ const FeedbackCard = ({
 
       <S.FeedbackCardContainer $isTypeDevelop={feedbackType === "develop"}>
         {!feedbackCardData.isWrited && (
-          <S.ButtonWrapper>
-            <p>상대방 피드백을 작성해야 볼 수 있습니다.</p>
-            <Button
-              variant={feedbackType ? "primary" : "secondary"}
-              onClick={() => handleNavigateFeedbackPage(reviewer)}
-            >
-              피드백 작성하러가기
-            </Button>
-          </S.ButtonWrapper>
+          <S.Overlay>
+            <S.ButtonWrapper>
+              <p>상대방 피드백을 작성해야 볼 수 있습니다.</p>
+              <Button
+                variant={feedbackType ? "primary" : "secondary"}
+                onClick={() => handleNavigateFeedbackPage(reviewer)}
+              >
+                피드백 작성하러가기
+              </Button>
+            </S.ButtonWrapper>
+          </S.Overlay>
         )}
+
         <S.FeedbackHeader>
           <HoverStyledLink to={`/profile/${feedbackCardData.username}`} tabIndex={-1}>
             <S.FeedbackProfile>
@@ -84,7 +87,7 @@ const FeedbackCard = ({
           </S.FeedbackType>
         </S.FeedbackHeader>
 
-        <S.BlurContainer $isWrited={feedbackCardData.isWrited}>
+        <S.FeedbackContent $isWrited={feedbackCardData.isWrited}>
           <S.FeedbackScoreContainer>
             <S.FeedbackTitle>피드백 점수</S.FeedbackTitle>
             <EvaluationPointBar
@@ -114,7 +117,7 @@ const FeedbackCard = ({
               readOnly
             />
           </S.FeedbackDetailContainer>
-        </S.BlurContainer>
+        </S.FeedbackContent>
       </S.FeedbackCardContainer>
     </>
   );

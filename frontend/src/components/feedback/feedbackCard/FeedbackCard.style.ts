@@ -29,13 +29,25 @@ export const FeedbackCardContainer = styled.div<{ $isTypeDevelop: boolean }>`
   `}
 `;
 
-export const ButtonWrapper = styled.div`
-  position: absolute;
-  z-index: 1;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+export const Overlay = styled.div`
+  pointer-events: auto;
 
+  position: absolute;
+  z-index: 10;
+  top: 60px;
+  left: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: calc(100% - 60px);
+
+  background-color: rgb(255 255 255 / 50%);
+`;
+
+export const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -47,7 +59,7 @@ export const ButtonWrapper = styled.div`
   font: ${({ theme }) => theme.TEXT.large_bold};
 `;
 
-export const BlurContainer = styled.div<{ $isWrited: boolean }>`
+export const FeedbackContent = styled.div<{ $isWrited: boolean }>`
   display: flex;
   flex-direction: column;
   gap: 3rem;

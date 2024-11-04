@@ -67,11 +67,11 @@ const router = sentryCreateBrowserRouter([
             element: <FeedbackPage />,
           },
           {
-            path: `feedback/reviewer/:roomId`,
+            path: `/rooms/:roomId/feedback/reviewer`,
             element: <ReviewerFeedbackPage />,
           },
           {
-            path: `feedback/reviewee/:roomId`,
+            path: `/rooms/:roomId/feedback/reviewee`,
             element: <RevieweeFeedbackPage />,
           },
           {
