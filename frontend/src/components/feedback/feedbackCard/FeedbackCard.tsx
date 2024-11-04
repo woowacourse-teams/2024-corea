@@ -113,7 +113,9 @@ const FeedbackCard = ({
               rows={10}
               maxLength={2000}
               showCharCount={true}
-              value={feedbackCardData.feedbackText.length ? feedbackCardData.feedbackText : "없음"}
+              value={
+                feedbackCardData.feedbackText.length ? feedbackCardData.feedbackText : "미작성"
+              }
               readOnly
             />
           </S.FeedbackDetailContainer>
