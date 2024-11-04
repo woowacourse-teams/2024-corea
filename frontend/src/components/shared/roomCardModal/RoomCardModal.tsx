@@ -67,13 +67,13 @@ const RoomCardModal = ({ isOpen, onClose, roomInfo }: RoomCardModalProps) => {
 
           <S.InfoRow>
             <S.InfoTitle id="reviewDeadlineTitle" aria-hidden>
-              리뷰 및 피드백 마감일
+              리뷰 마감일
             </S.InfoTitle>
             <S.InfoContent aria-hidden>
               {formatDateTimeString(roomInfo.reviewDeadline)}
             </S.InfoContent>
             <S.ScreenReader>
-              {`리뷰 및 피드백 마감일 ${convertDateToKorean(formatDateTimeString(roomInfo.reviewDeadline))}`}
+              {`리뷰 마감일 ${convertDateToKorean(formatDateTimeString(roomInfo.reviewDeadline))}`}
             </S.ScreenReader>
           </S.InfoRow>
 

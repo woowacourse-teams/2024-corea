@@ -13,7 +13,8 @@
           "username": "a",
           "feedbackKeywords": ["string"],
           "evaluationPoint": 4,
-          "feedbackText": "string"
+          "feedbackText": "string",
+          "isWrited": true
         },
         {
           "feedbackId": 0,
@@ -23,7 +24,8 @@
           "username": "q",
           "feedbackKeywords": ["string"],
           "evaluationPoint": 4,
-          "feedbackText": "string"
+          "feedbackText": "string",
+          "isWrited": true
         },
         {
           "feedbackId": 0,
@@ -33,7 +35,8 @@
           "username": "m",
           "feedbackKeywords": ["string"],
           "evaluationPoint": 4,
-          "feedbackText": "string"
+          "feedbackText": "string",
+          "isWrited": true
         },
         {
           "feedbackId": 0,
@@ -43,7 +46,8 @@
           "username": "b",
           "feedbackKeywords": ["string"],
           "evaluationPoint": 4,
-          "feedbackText": "string"
+          "feedbackText": "string",
+          "isWrited": true
         }
       ],
       "socialFeedback": [
@@ -55,7 +59,8 @@
           "username": "q",
           "feedbackKeywords": ["string"],
           "evaluationPoint": 4,
-          "feedbackText": "string"
+          "feedbackText": "string",
+          "isWrited": true
         }
       ]
     }

@@ -13,10 +13,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @Disabled
 @SpringBootTest
-class GithubReviewClientTest {
+class GithubPullRequestReviewClientTest {
 
     @Autowired
-    private GithubReviewClient client;
+    private GithubPullRequestReviewClient client;
 
     @Test
     @DisplayName("해당 PR 링크에 존재하는 리뷰들을 가져온다.")

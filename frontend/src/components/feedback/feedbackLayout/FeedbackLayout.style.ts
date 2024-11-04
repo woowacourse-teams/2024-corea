@@ -1,27 +1,40 @@
 import styled from "styled-components";
 
-interface ModalQuestionProps {
-  required?: boolean;
-}
-
 export const FeedbackContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1.6rem;
+  gap: 2rem;
+
+  width: 100%;
+  min-width: 335px;
+  max-width: 700px;
+  margin: auto;
 `;
 
 export const FeedbackContainerHeader = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  gap: 1.6rem;
 `;
 
-export const ModalType = styled.p`
+export const PageType = styled.p`
   font: ${({ theme }) => theme.TEXT.small_bold};
   color: ${({ theme }) => theme.COLOR.grey3};
 `;
 
-export const ModalTitle = styled.p`
+export const MissionInfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  padding: 1rem;
+
+  border: 1px solid ${({ theme }) => theme.COLOR.grey1};
+  border-radius: 8px;
+  box-shadow: ${({ theme }) => theme.BOX_SHADOW.light};
+`;
+
+export const PageTitle = styled.p`
   font: ${({ theme }) => theme.TEXT.large_bold};
   color: ${({ theme }) => theme.COLOR.black};
 `;
@@ -37,25 +50,12 @@ export const ItemContainer = styled.div`
   gap: 0.8rem;
 `;
 
-export const ModalQuestion = styled.p<ModalQuestionProps>`
-  font: ${({ theme }) => theme.TEXT.small};
-  font-weight: 600;
-
-  ${({ required, theme }) =>
-    required &&
-    `
-    &::after {
-      content: "*";
-      color: ${theme.COLOR.error};
-      margin-left: 4px;
-    }
-  `}
-`;
-
 export const ButtonWrapper = styled.div`
   display: flex;
+  gap: 2rem;
   align-items: center;
   justify-content: center;
+
   margin-top: 1rem;
 `;
 
