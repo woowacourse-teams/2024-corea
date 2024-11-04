@@ -17,7 +17,10 @@ const ProfileCard = (profileData: ProfileData) => {
         >
           <S.ProfileWrapper>
             <Profile imgSrc={profileData.profileImage} size={110} />
-            <S.ProfileNickname>{profileData.nickname}</S.ProfileNickname>
+            <S.ProfileNickname>
+              <Icon kind="githubLogo" size="2.5rem" />
+              {profileData.nickname}
+            </S.ProfileNickname>
           </S.ProfileWrapper>
         </HoverStyledLink>
 

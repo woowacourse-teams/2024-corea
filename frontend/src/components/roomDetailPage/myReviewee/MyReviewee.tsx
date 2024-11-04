@@ -8,6 +8,7 @@ import RevieweeFeedbackModal from "@/components/feedback/revieweeFeedbackModal/R
 import * as S from "@/components/roomDetailPage/myReviewee/MyReviewee.style";
 import { ReviewerInfo } from "@/@types/reviewer";
 import { RoomInfo } from "@/@types/roomInfo";
+import { spinner } from "@/assets";
 import MESSAGES from "@/constants/message";
 import { HoverStyledLink } from "@/styles/common";
 import { FeedbackTypeResult, getFeedbackType } from "@/utils/feedbackUtils";
@@ -22,6 +23,7 @@ const MyReviewee = ({ roomInfo }: MyRevieweeProps) => {
   const { postReviewCompleteMutation } = useMutateReviewComplete(roomInfo.id);
   const [selectedReviewee, setSelectedReviewee] = useState<ReviewerInfo | null>(null);
   const [feedbackTypeResult, setFeedbackTypeResult] = useState<FeedbackTypeResult | null>(null);
+  const [loadingButtonId, setLoadingButtonId] = useState<number[]>([]);
 
   // 피드백 모달 여는 함수
   const handleOpenFeedbackModal = (reviewee: ReviewerInfo) => {
@@ -37,10 +39,16 @@ const MyReviewee = ({ roomInfo }: MyRevieweeProps) => {
 
   // 코드 리뷰 완료 post 요청 보내는 함수
   const handleReviewCompleteClick = (reviewee: ReviewerInfo) => {
+    setLoadingButtonId((prev) => [...prev, reviewee.userId]);
+
     postReviewCompleteMutation.mutate(
       { roomId: roomInfo.id, revieweeId: reviewee.userId },
       {
-        onSuccess: () => handleOpenFeedbackModal(reviewee),
+        onSuccess: () => {
+          handleOpenFeedbackModal(reviewee);
+          setLoadingButtonId((prev) => prev.filter((id) => id !== reviewee.userId));
+        },
+        onError: () => setLoadingButtonId((prev) => prev.filter((id) => id !== reviewee.userId)),
       },
     );
   };
@@ -65,19 +73,27 @@ const MyReviewee = ({ roomInfo }: MyRevieweeProps) => {
       <Button
         size="xSmall"
         variant="primary"
-        disabled={!reviewee.isReviewed}
+        disabled={!reviewee.isReviewed || loadingButtonId.includes(reviewee.userId)}
         onClick={() => handleOpenFeedbackModal(reviewee)}
       >
-        {buttonText}
+        {loadingButtonId.includes(reviewee.userId) ? (
+          <S.LoadingSpinner src={spinner} />
+        ) : (
+          buttonText
+        )}
       </Button>
     ) : (
       <Button
         size="xSmall"
         variant="confirm"
-        disabled={reviewee.isReviewed}
+        disabled={reviewee.isReviewed || loadingButtonId.includes(reviewee.userId)}
         onClick={() => handleReviewCompleteClick(reviewee)}
       >
-        코드리뷰 완료
+        {loadingButtonId.includes(reviewee.userId) ? (
+          <S.LoadingSpinner src={spinner} />
+        ) : (
+          "코드리뷰 마치기"
+        )}
       </Button>
     );
   };
