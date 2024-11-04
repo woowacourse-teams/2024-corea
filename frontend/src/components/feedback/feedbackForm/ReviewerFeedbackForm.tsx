@@ -40,8 +40,8 @@ const ReviewerFeedbackForm = ({
         <S.QuestionContainer>
           <S.ModalQuestion $isInvalid={isClicked && formState.evaluationPoint === 0}>
             리뷰어의 소프트 스킬 역량 향상을 위해 피드백을 해주세요.
+            <S.Required> *필수입력</S.Required>
           </S.ModalQuestion>
-          <S.Required>*필수입력</S.Required>
         </S.QuestionContainer>
         <EvaluationPointBar
           initialOptionId={formState.evaluationPoint}
@@ -55,8 +55,8 @@ const ReviewerFeedbackForm = ({
         <S.QuestionContainer>
           <S.ModalQuestion $isInvalid={isClicked && formState.feedbackKeywords.length === 0}>
             위와 같이 선택한 이유를 알려주세요. (복수선택 가능)
+            <S.Required> *필수입력</S.Required>
           </S.ModalQuestion>
-          <S.Required>*필수입력</S.Required>
         </S.QuestionContainer>
         <KeywordOptionButton
           selectedOptions={formState.feedbackKeywords}
@@ -69,7 +69,7 @@ const ReviewerFeedbackForm = ({
       </S.ItemContainer>
 
       <S.ItemContainer>
-        <S.ModalQuestion>추가적으로 하고 싶은 피드백이 있다면 남겨 주세요.</S.ModalQuestion>
+        <S.ModalQuestion>추가적으로 하고 싶은 피드백이 있다면 남겨주세요.</S.ModalQuestion>
         <S.TextareaWrapper>
           <Textarea
             rows={10}
