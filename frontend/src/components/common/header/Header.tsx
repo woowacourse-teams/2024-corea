@@ -15,7 +15,7 @@ const headerItems = [
     path: "/intro",
   },
   {
-    name: "코드리뷰가이드",
+    name: "가이드",
     path: "/guide",
   },
   // {

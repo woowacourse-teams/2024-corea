@@ -49,6 +49,7 @@ public class FeedbackMapper {
                 output.receiverId(),
                 output.profile(),
                 output.username(),
+                output.isWrited(),
                 output.feedbackKeywords(),
                 output.evaluationPoint(),
                 output.feedbackText()

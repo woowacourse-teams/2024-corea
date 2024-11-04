@@ -79,7 +79,7 @@ const RoomCardModalButton = ({ roomInfo }: RoomCardModalButtonProps) => {
             >
               -
             </Button>
-            <span>{matchingSize}</span>
+            <S.ReviewCount>{matchingSize}</S.ReviewCount>
             <Button
               variant={matchingSize === MAX_MATCHING_SIZE ? "disable" : "primary"}
               size="xSmall"

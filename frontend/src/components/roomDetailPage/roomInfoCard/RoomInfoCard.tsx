@@ -42,6 +42,7 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
 
         <S.RoomContentBox>
           <S.RoomTagBox>
+            <Label type="MANAGER" managerText={roomInfo.manager} />
             {displayedKeywords.length === 0 ? (
               <S.NoKeywordText>지정된 키워드 없음</S.NoKeywordText>
             ) : (
@@ -63,35 +64,13 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
           <S.RoomContentSmall>
             <Icon kind="person" size="1.8rem" color={theme.COLOR.grey4} />
             <div aria-hidden>
-              <span>방 생성자 : </span>
-              <span id="githubid">{roomInfo.manager}</span>
-            </div>
-            <S.ScreenReader>{`방 생성자 ${roomInfo.manager}`}</S.ScreenReader>
-          </S.RoomContentSmall>
-
-          <S.RoomContentSmall>
-            <Icon kind="person" size="1.8rem" color={theme.COLOR.grey4} />
-            <div aria-hidden>
               <span>총 인원 : </span>
               {roomInfo.reviewerCount + roomInfo.bothCount} / {roomInfo.limitedParticipants}명
+              <span id="sub">
+                리뷰어 {roomInfo.reviewerCount}, 참여자 {roomInfo.bothCount}
+              </span>
             </div>
-            <S.ScreenReader>{`총 인원 : ${roomInfo.limitedParticipants}명 중 ${roomInfo.reviewerCount + roomInfo.bothCount}명`}</S.ScreenReader>
-          </S.RoomContentSmall>
-
-          <S.RoomContentSmall>
-            <Icon kind="person" size="1.8rem" color={theme.COLOR.grey4} />
-            <div aria-hidden>
-              <span>리뷰어 인원 : </span>총 {roomInfo.reviewerCount}명
-            </div>
-            <S.ScreenReader>{`리뷰어 인원 : 총 ${roomInfo.reviewerCount}명`}</S.ScreenReader>
-          </S.RoomContentSmall>
-
-          <S.RoomContentSmall>
-            <Icon kind="person" size="1.8rem" color={theme.COLOR.grey4} />
-            <div aria-hidden>
-              <span>참여자 인원 : </span>총 {roomInfo.bothCount}명
-            </div>
-            <S.ScreenReader>{`참여자 인원 : 총 ${roomInfo.bothCount}명`}</S.ScreenReader>
+            <S.ScreenReader>{`총 인원 : ${roomInfo.limitedParticipants}명 중 ${roomInfo.reviewerCount + roomInfo.bothCount}명, 리뷰어 ${roomInfo.reviewerCount}명, 참여자 ${roomInfo.bothCount}명`}</S.ScreenReader>
           </S.RoomContentSmall>
 
           <S.RoomContentSmall>
@@ -129,7 +108,7 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
             <S.ContentLineBreak aria-hidden>
               <S.RoomContentSmall>
                 <Icon kind="calendar" size="1.8rem" color={theme.COLOR.grey4} />
-                <span>리뷰 및 피드백 마감일: </span>
+                <span>리뷰 마감일: </span>
               </S.RoomContentSmall>
               <div>
                 <S.DateTimeText>{formatDateTimeString(roomInfo.reviewDeadline)}</S.DateTimeText>
@@ -141,7 +120,7 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
               </div>
             </S.ContentLineBreak>
             <S.ScreenReader>
-              {`리뷰 및 피드백 마감일 ${convertDateToKorean(formatDateTimeString(roomInfo.reviewDeadline))}`}
+              {`리뷰 마감일 ${convertDateToKorean(formatDateTimeString(roomInfo.reviewDeadline))}`}
             </S.ScreenReader>
           </S.RoomContentSmall>
         </S.RoomContentBox>

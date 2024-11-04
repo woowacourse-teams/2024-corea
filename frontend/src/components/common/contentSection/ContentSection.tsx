@@ -8,15 +8,20 @@ interface ContentSectionButton extends ButtonProps {
 
 interface ContentSectionProps {
   title: string;
+  subtitle?: string;
   children?: ReactNode;
   button?: ContentSectionButton | undefined;
 }
 
-const ContentSection = ({ title, children, button }: ContentSectionProps) => {
+const ContentSection = ({ title, subtitle, children, button }: ContentSectionProps) => {
   return (
     <S.ContentSectionContainer>
       <S.ContentSectionHeader>
-        <S.ContentSectionTitle>{title}</S.ContentSectionTitle>
+        <S.TitleContainer>
+          <S.ContentSectionTitle>{title}</S.ContentSectionTitle>
+          <S.ContentSectionSubtitle>{subtitle}</S.ContentSectionSubtitle>
+        </S.TitleContainer>
+
         {button && (
           <Button onClick={button.onClick} size="small">
             {button.label}

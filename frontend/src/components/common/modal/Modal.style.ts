@@ -104,7 +104,7 @@ export const ModalContent = styled.div<{ $isVisible: boolean; $isClosing: boolea
       transform: translate(-50%, -50%);
       border-radius: 8px;
       width: 480px;
-      height: 400px;
+      height: 500px;
     `}
 
     ${media.large`
@@ -114,7 +114,7 @@ export const ModalContent = styled.div<{ $isVisible: boolean; $isClosing: boolea
       transform: translate(-50%, -50%);
       border-radius: 8px;
       width: 600px;
-      height: 480px;
+      height: 580px;
     `}
   `}
 `;

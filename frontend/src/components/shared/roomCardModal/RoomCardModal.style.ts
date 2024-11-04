@@ -165,6 +165,12 @@ export const InfoTitle = styled.span`
 
 export const InfoContent = styled.span`
   font: ${({ theme }) => theme.TEXT.small};
+
+  span#sub {
+    padding-left: 1rem;
+    font: ${({ theme }) => theme.TEXT.small};
+    color: ${({ theme }) => theme.COLOR.grey3};
+  }
 `;
 
 // 키워드, 설명
@@ -265,4 +271,8 @@ export const ButtonWRapper = styled.div`
 
 export const ScreenReader = styled.div`
   ${VisuallyHidden}
+`;
+
+export const ReviewCount = styled.span`
+  font-size: ${({ theme }) => theme.TEXT.semiSmall};
 `;

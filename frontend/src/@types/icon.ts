@@ -22,6 +22,7 @@ type IconKind =
   | "arrowRenew"
   | "check"
   | "menu"
-  | "close";
+  | "close"
+  | "githubLogo";
 
 export default IconKind;

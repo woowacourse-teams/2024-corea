@@ -52,7 +52,7 @@ const Modal = ({ isOpen, onClose, hasCloseButton = true, style, children }: Moda
 
       element.removeAttribute("aria-hidden");
     });
-    
+
     return () => {
       previousFocusedElement.current?.focus();
       document.getElementById("root")?.setAttribute("aria-hidden", "false");

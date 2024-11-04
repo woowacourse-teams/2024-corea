@@ -17,7 +17,12 @@ const ProfileCard = (profileData: ProfileData) => {
         >
           <S.ProfileWrapper>
             <Profile imgSrc={profileData.profileImage} size={110} />
-            <S.ProfileNickname>{profileData.nickname}</S.ProfileNickname>
+            <S.ProfileNickname>
+              <S.GithubIcon>
+                <Icon kind="githubLogo" size="2.5rem" />
+              </S.GithubIcon>
+              <S.NicknameText>{profileData.nickname}</S.NicknameText>
+            </S.ProfileNickname>
           </S.ProfileWrapper>
         </HoverStyledLink>
 
@@ -38,7 +43,7 @@ const ProfileCard = (profileData: ProfileData) => {
             <dl>
               <dt>평균 평점</dt>
               <dd>
-                <Icon kind="star" size="1rem" /> {profileData.averageRating}
+                <Icon kind="star" size="1rem" /> {profileData.averageRating.toFixed(1)}
               </dd>
             </dl>
           </S.ProfileSummaryContainer>

@@ -24,7 +24,7 @@ const loggedInMenuItems = [
     path: "/intro",
   },
   {
-    name: "코드리뷰가이드",
+    name: "가이드",
     path: "/guide",
   },
 ];
@@ -35,7 +35,7 @@ const commonMenuItems = [
     path: "/intro",
   },
   {
-    name: "코드리뷰가이드",
+    name: "가이드",
     path: "/guide",
   },
 ];
@@ -108,7 +108,7 @@ const SideNavBar = ({ isOpen, onClose, isLoggedIn }: SideNavBarProps) => {
             <Button
               onClick={handleClose}
               size="xSmall"
-              style={{ background: "transparent", color: "black" }}
+              style={{ background: "transparent", color: "black", border: "none" }}
               ref={firstChildRef}
             >
               <Icon kind="close" size="2.4rem" />
@@ -153,7 +153,7 @@ const SideNavBar = ({ isOpen, onClose, isLoggedIn }: SideNavBarProps) => {
             <Button
               onClick={onClose}
               size="xSmall"
-              style={{ background: "transparent", color: "black" }}
+              style={{ background: "transparent", color: "black", border: "none" }}
               ref={firstChildRef}
             >
               <Icon kind="close" size="2.4rem" />
