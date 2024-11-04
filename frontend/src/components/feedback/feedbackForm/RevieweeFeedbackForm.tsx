@@ -39,7 +39,7 @@ const RevieweeFeedbackForm = ({
       <S.ItemContainer>
         <S.QuestionContainer>
           <S.ModalQuestion $isInvalid={isClicked && formState.evaluationPoint === 0}>
-            리뷰이의 개발 역량 향상을 위해 코드를 평가 해주세요.
+            [공개] 리뷰이의 개발 역량 향상을 위해 코드를 평가 해주세요.
             <S.Required> *필수입력</S.Required>
           </S.ModalQuestion>
         </S.QuestionContainer>
@@ -53,7 +53,7 @@ const RevieweeFeedbackForm = ({
       <S.ItemContainer>
         <S.QuestionContainer>
           <S.ModalQuestion $isInvalid={isClicked && formState.feedbackKeywords.length === 0}>
-            위와 같이 선택한 이유를 알려주세요. (복수선택 가능)
+            [공개] 위와 같이 선택한 이유를 알려주세요. (복수선택 가능)
             <S.Required> *필수입력</S.Required>
           </S.ModalQuestion>
         </S.QuestionContainer>
@@ -81,7 +81,7 @@ const RevieweeFeedbackForm = ({
       </S.ItemContainer>
 
       <S.ItemContainer>
-        <S.ModalQuestion>추가적으로 하고 싶은 피드백이 있다면 남겨주세요.</S.ModalQuestion>
+        <S.ModalQuestion>[공개] 추가적으로 하고 싶은 피드백이 있다면 남겨주세요.</S.ModalQuestion>
         <S.TextareaWrapper>
           <Textarea
             rows={10}
