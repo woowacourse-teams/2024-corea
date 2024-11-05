@@ -29,7 +29,7 @@ const FeedbackCard = ({
     return feedbackType === "develop" ? "TO. 나의 리뷰이" : "TO. 나의 리뷰어";
   };
 
-  const revieweInfo: ReviewerInfo = {
+  const reviewInfo: ReviewerInfo = {
     userId: feedbackCardData.receiverId,
     username: feedbackCardData.username,
     link: feedbackCardData.profile,
@@ -41,7 +41,7 @@ const FeedbackCard = ({
     navigate(
       `/rooms/${feedbackCardData.roomId}/feedback/${feedbackType === "develop" ? "reviewer" : "reviewee"}?username=${feedbackCardData.username}`,
       {
-        state: { revieweInfo },
+        state: { reviewInfo },
       },
     );
   };
