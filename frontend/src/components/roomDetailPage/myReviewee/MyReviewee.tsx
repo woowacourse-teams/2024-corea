@@ -57,7 +57,7 @@ const MyReviewee = ({ roomInfo }: MyRevieweeProps) => {
       return <p>코드리뷰를 하지 않았어요</p>;
     }
 
-    // TODO: 방 끝나도 계속 작성 가능
+    // TODO: 방이 끝났을 때 피드백 렌더링 정하기
     // if (roomInfo.roomStatus === "CLOSE" && !reviewee.isWrited) {
     //   return <p>피드백을 작성하지 않았어요</p>;
     // }

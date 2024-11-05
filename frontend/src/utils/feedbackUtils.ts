@@ -21,7 +21,7 @@ export const getFeedbackPageType = ({
     return { feedbackPageType: "create", buttonText: "피드백 작성하기" };
   }
 
-  // TODO: 방 끝나도 계속 작성 가능
+  // TODO: 방이 끝났을 때 피드백 렌더링 정하기
   // if (isClosed) {
   //   return { modalType: "view", buttonText: "피드백 확인하기" };
   // }

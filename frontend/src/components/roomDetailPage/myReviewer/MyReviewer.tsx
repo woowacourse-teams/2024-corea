@@ -37,7 +37,7 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
       return <p>리뷰어가 리뷰를 하지 않았어요</p>;
     }
 
-    // TODO: 방이 끝나도 계속 작성 가능
+    // TODO: 방이 끝났을 때 피드백 렌더링 정하기
     // if (roomInfo.roomStatus === "CLOSE" && !reviewer.isWrited) {
     //   return <p>피드백을 작성하지 않았어요</p>;
     // }
@@ -107,7 +107,7 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
         </S.MyReviewerTableHead>
 
         <S.MyReviewerTableBody>
-          {reviewerData.map((reviewer) => {
+          {reviewerData.map((reviewer: ReviewInfo) => {
             return (
               <S.MyReviewerTableRow key={reviewer.userId}>
                 <HoverStyledLink
@@ -117,8 +117,8 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
                   <S.MyReviewerId>{reviewer.username}</S.MyReviewerId>
                 </HoverStyledLink>
 
-                {reviewer.link.length !== 0 ? (
-                  <S.MyReviewerContent>
+                <S.MyReviewerContent>
+                  {reviewer.link.length !== 0 ? (
                     <HoverStyledLink
                       to={reviewer.link}
                       target="_blank"
@@ -132,10 +132,10 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
                         바로가기
                       </S.PRLink>
                     </HoverStyledLink>
-                  </S.MyReviewerContent>
-                ) : (
-                  "-"
-                )}
+                  ) : (
+                    "-"
+                  )}
+                </S.MyReviewerContent>
 
                 <S.MyReviewerContent>{renderReviewerButton(reviewer)}</S.MyReviewerContent>
               </S.MyReviewerTableRow>

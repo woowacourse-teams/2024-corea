@@ -5,10 +5,6 @@ export const Layout = styled.div`
   display: flex;
   flex-direction: column;
   gap: 6rem;
-
-  ${media.small`
-    gap: 4rem;
-  `}
 `;
 
 export const ImgWithError = styled.div`
@@ -49,7 +45,7 @@ export const FeedbackSection = styled.div`
 
 export const StyledDescription = styled.p`
   height: fit-content;
-  font: ${({ theme }) => theme.TEXT.small};
+  font: ${({ theme }) => theme.TEXT.semiSmall};
   line-height: 2rem;
   color: ${({ theme }) => theme.COLOR.grey3};
 `;
