@@ -5,7 +5,7 @@ import { useFetchReviewee } from "@/hooks/queries/useFetchReviewee";
 import Button from "@/components/common/button/Button";
 import Icon from "@/components/common/icon/Icon";
 import * as S from "@/components/roomDetailPage/myReviewee/MyReviewee.style";
-import { ReviewerInfo } from "@/@types/reviewer";
+import { ReviewInfo } from "@/@types/review";
 import { RoomInfo } from "@/@types/roomInfo";
 import { spinner } from "@/assets";
 import MESSAGES from "@/constants/message";
@@ -23,14 +23,14 @@ const MyReviewee = ({ roomInfo }: MyRevieweeProps) => {
   const [loadingButtonId, setLoadingButtonId] = useState<number[]>([]);
 
   // 피드백 페이지 이동 함수
-  const handleNavigateFeedbackPage = (reviewInfo: ReviewerInfo) => {
+  const handleNavigateFeedbackPage = (reviewInfo: ReviewInfo) => {
     navigate(`/rooms/${roomInfo.id}/feedback/reviewee?username=${reviewInfo.username}`, {
       state: { reviewInfo },
     });
   };
 
   // 코드 리뷰 완료 post 요청 보내는 함수
-  const handleReviewCompleteClick = (reviewee: ReviewerInfo) => {
+  const handleReviewCompleteClick = (reviewee: ReviewInfo) => {
     setLoadingButtonId((prev) => [...prev, reviewee.userId]);
 
     postReviewCompleteMutation.mutate(
@@ -46,7 +46,7 @@ const MyReviewee = ({ roomInfo }: MyRevieweeProps) => {
   };
 
   // 리뷰 및 피드백 여부 버튼 렌더링 함수
-  const renderRevieweeButton = (reviewee: ReviewerInfo) => {
+  const renderRevieweeButton = (reviewee: ReviewInfo) => {
     const { buttonText } = getFeedbackPageType({
       isReviewed: reviewee.isReviewed ?? true,
       isWrited: reviewee.isWrited,

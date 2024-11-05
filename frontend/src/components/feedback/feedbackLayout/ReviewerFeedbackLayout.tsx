@@ -6,7 +6,7 @@ import Label from "@/components/common/label/Label";
 import ReviewerFeedbackForm from "@/components/feedback/feedbackForm/ReviewerFeedbackForm";
 import * as S from "@/components/feedback/feedbackLayout/FeedbackLayout.style";
 import { ReviewerFeedbackData } from "@/@types/feedback";
-import { ReviewerInfo } from "@/@types/reviewer";
+import { ReviewInfo } from "@/@types/review";
 import { RoomInfo } from "@/@types/roomInfo";
 import { theme } from "@/styles/theme";
 import { FeedbackPageType } from "@/utils/feedbackUtils";
@@ -14,12 +14,12 @@ import { FeedbackPageType } from "@/utils/feedbackUtils";
 interface ReviewerFeedbackProps {
   feedbackPageType: FeedbackPageType;
   roomInfo: Pick<RoomInfo, "id" | "title" | "keywords">;
-  reviewer?: ReviewerInfo;
+  reviewer?: ReviewInfo;
   feedbackData?: ReviewerFeedbackData;
 }
 
 const getInitialFormState = (
-  reviewer?: ReviewerInfo,
+  reviewer?: ReviewInfo,
   feedbackData?: ReviewerFeedbackData,
 ): ReviewerFeedbackData => ({
   feedbackId: feedbackData?.feedbackId || 0,

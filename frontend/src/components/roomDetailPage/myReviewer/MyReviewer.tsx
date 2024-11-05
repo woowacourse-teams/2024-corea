@@ -3,7 +3,7 @@ import { useFetchReviewer } from "@/hooks/queries/useFetchReviewer";
 import Button from "@/components/common/button/Button";
 import Icon from "@/components/common/icon/Icon";
 import * as S from "@/components/roomDetailPage/myReviewer/MyReviewer.style";
-import { ReviewerInfo } from "@/@types/reviewer";
+import { ReviewInfo } from "@/@types/review";
 import { RoomInfo } from "@/@types/roomInfo";
 import { thinkingCharacter } from "@/assets";
 import MESSAGES from "@/constants/message";
@@ -19,14 +19,14 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
   const { data: reviewerData } = useFetchReviewer(roomInfo);
 
   // 피드백 페이지 이동 함수
-  const handleNavigateFeedbackPage = (reviewInfo: ReviewerInfo) => {
+  const handleNavigateFeedbackPage = (reviewInfo: ReviewInfo) => {
     navigate(`/rooms/${roomInfo.id}/feedback/reviewer?username=${reviewInfo.username}`, {
       state: { reviewInfo },
     });
   };
 
   // 피드백 여부 버튼 렌더링 함수
-  const renderReviewerButton = (reviewer: ReviewerInfo) => {
+  const renderReviewerButton = (reviewer: ReviewInfo) => {
     const { buttonText } = getFeedbackPageType({
       isReviewed: reviewer.isReviewed ?? true,
       isWrited: reviewer.isWrited,

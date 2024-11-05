@@ -6,7 +6,7 @@ import { Textarea } from "@/components/common/textarea/Textarea";
 import EvaluationPointBar from "@/components/feedback/evaluationPointBar/EvaluationPointBar";
 import * as S from "@/components/feedback/feedbackCard/FeedbackCard.style";
 import { FeedbackCardData } from "@/@types/feedback";
-import { ReviewerInfo } from "@/@types/reviewer";
+import { ReviewInfo } from "@/@types/review";
 import { HoverStyledLink } from "@/styles/common";
 import { theme } from "@/styles/theme";
 
@@ -29,7 +29,7 @@ const FeedbackCard = ({
     return feedbackType === "develop" ? "TO. 나의 리뷰이" : "TO. 나의 리뷰어";
   };
 
-  const reviewInfo: ReviewerInfo = {
+  const reviewInfo: ReviewInfo = {
     userId: feedbackCardData.receiverId,
     username: feedbackCardData.username,
     link: feedbackCardData.profile,

@@ -1,4 +1,4 @@
-export interface ReviewerInfo {
+export interface ReviewInfo {
   userId: number;
   username: string;
   link: string;
