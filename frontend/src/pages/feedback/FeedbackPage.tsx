@@ -5,7 +5,7 @@ import FeedbackCardList from "@/components/feedback/feedbackCardList/FeedbackCar
 const options = ["받은 피드백", "쓴 피드백"] as const;
 
 const FeedbackPage = () => {
-  const { selectedFeedbackType, setSelectedFeedbackType, selectedFeedbackData } =
+  const { selectedFeedbackType, handleSelectedFeedbackType, selectedFeedbackData } =
     useSelectedFeedbackData();
 
   if (!selectedFeedbackData) return;
@@ -15,7 +15,7 @@ const FeedbackPage = () => {
       <OptionSelect
         selected={selectedFeedbackType}
         options={options}
-        handleSelectedOption={(option) => setSelectedFeedbackType(option)}
+        handleSelectedOption={(option) => handleSelectedFeedbackType(option)}
       />
       <FeedbackCardList
         selectedFeedbackType={selectedFeedbackType}
