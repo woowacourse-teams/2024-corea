@@ -51,5 +51,7 @@ export const Default: Story = {
         socialFeedback: socialFeedbackData,
       },
     ],
+    selectedFeedback: 0,
+    handleSelectedFeedback: () => {},
   },
 };

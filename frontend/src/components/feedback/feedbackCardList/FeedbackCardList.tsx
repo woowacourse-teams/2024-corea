@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { FeedbackType } from "@/hooks/feedback/useSelectedFeedbackData";
 import Carousel from "@/components/common/carousel/Carousel";
 import Label from "@/components/common/label/Label";
@@ -12,24 +12,16 @@ import { theme } from "@/styles/theme";
 interface FeedbackCardListProps {
   selectedFeedbackType: FeedbackType;
   feedbackData: FeedbackCardDataList[];
+  selectedFeedback: number | undefined;
+  handleSelectedFeedback: (roomId: number) => void;
 }
 
-const FeedbackCardList = ({ selectedFeedbackType, feedbackData }: FeedbackCardListProps) => {
-  const [selectedFeedback, setSelectedFeedback] = useState<number>();
-
-  const handleSelectedFeedback = (roomId: number) => {
-    if (selectedFeedback === roomId) {
-      setSelectedFeedback(undefined);
-      return;
-    }
-
-    setSelectedFeedback(roomId);
-  };
-
-  useEffect(() => {
-    setSelectedFeedback(undefined);
-  }, [feedbackData]);
-
+const FeedbackCardList = ({
+  selectedFeedbackType,
+  feedbackData,
+  selectedFeedback,
+  handleSelectedFeedback,
+}: FeedbackCardListProps) => {
   if (feedbackData.length === 0) {
     return (
       <S.EmptyContainer>
