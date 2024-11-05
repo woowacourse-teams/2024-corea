@@ -15,21 +15,21 @@ import corea.participation.domain.ParticipationStatus;
 import corea.participation.repository.ParticipationRepository;
 import corea.room.domain.Room;
 import corea.room.dto.RoomCreateRequest;
+import corea.room.dto.RoomParticipantResponse;
 import corea.room.dto.RoomParticipantResponses;
 import corea.room.dto.RoomResponse;
 import corea.room.repository.RoomRepository;
 import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 @ServiceTest
 class RoomServiceTest {
@@ -42,12 +42,6 @@ class RoomServiceTest {
 
     @Autowired
     private MemberRepository memberRepository;
-
-    @Autowired
-    private MatchResultRepository matchResultRepository;
-
-    @Autowired
-    private ParticipationRepository participationRepository;
 
     @Nested
     @DisplayName("방을 생성, 수정 및 삭제할 수 있다.")
@@ -178,59 +172,161 @@ class RoomServiceTest {
         }
     }
 
-    @Test
-    @DisplayName("본인을 제외하고 방에 참여한 사람의 정보를 최대 6명까지 가져온다.")
-    void findParticipants() {
-        Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
-        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
-        participationRepository.save(new Participation(room, manager, MemberRole.REVIEWER, ParticipationStatus.MANAGER, room.getMatchingSize()));
+    @Nested
+    @DisplayName("방에 참여한 사람들에 정보를 알 수 있다.")
+    class ParticipantsReader {
 
-        List<Member> members = memberRepository.saveAll(MemberFixture.SEVEN_MEMBERS());
+        @Autowired
+        private MatchResultRepository matchResultRepository;
 
-        participationRepository.save(new Participation(room, manager, MemberRole.REVIEWER, ParticipationStatus.MANAGER, room.getMatchingSize()));
-        participationRepository.saveAll(members.stream()
-                .map(member -> new Participation(room, member, MemberRole.BOTH, 2))
-                .toList());
+        @Autowired
+        private ParticipationRepository participationRepository;
 
-        matchResultRepository.saveAll(members.stream()
-                .map(member -> MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), manager, member))
-                .toList());
-        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), members.get(0), manager));
+        private Member manager;
+        private Room room;
+        private Member pororo, ash, joyson, darr, choco, movin, tenten;
 
-        RoomParticipantResponses participants = roomService.findParticipants(room.getId(), manager.getId());
+        @BeforeEach
+        void setUp() {
+            manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
+            room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
+            participationRepository.save(new Participation(room, manager, MemberRole.REVIEWER, ParticipationStatus.MANAGER, room.getMatchingSize()));
 
-        assertThat(participants.participants()).hasSize(6);
-        assertThat(participants.size()).isEqualTo(6);
-    }
+            pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
+            ash = memberRepository.save(MemberFixture.MEMBER_ASH());
+            joyson = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
+            darr = memberRepository.save(MemberFixture.MEMBER_DARR());
+            choco = memberRepository.save(MemberFixture.MEMBER_CHOCO());
+            movin = memberRepository.save(MemberFixture.MEMBER_MOVIN());
+            tenten = memberRepository.save(MemberFixture.MEMBER_TENTEN());
+        }
 
-    @Transactional
-    @RepeatedTest(10)
-    @DisplayName("Pull Request를 제출하지 않은 사람은 방 참여 목록 인원에 포함하지 않는다.")
-    void findParticipants_withNoPullRequestParticipants() {
-        Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
-        Member pullRequestNotSubmittedMember = memberRepository.save(MemberFixture.MEMBER_ASH());
-        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
+        @Test
+        @DisplayName("방에 참여한 사람의 정보를 최대 6명까지 가져온다.")
+        void findParticipants1() {
+            participationRepository.save(new Participation(room, pororo, MemberRole.BOTH, 2));
+            participationRepository.save(new Participation(room, ash, MemberRole.BOTH, 2));
+            participationRepository.save(new Participation(room, joyson, MemberRole.BOTH, 2));
+            participationRepository.save(new Participation(room, darr, MemberRole.BOTH, 2));
+            participationRepository.save(new Participation(room, choco, MemberRole.BOTH, 2));
+            participationRepository.save(new Participation(room, movin, MemberRole.BOTH, 2));
+            participationRepository.save(new Participation(room, tenten, MemberRole.BOTH, 2));
+            saveAllMatchResult();
 
-        participationRepository.save(new Participation(room, manager, MemberRole.REVIEWER, ParticipationStatus.MANAGER, room.getMatchingSize()));
-        Participation participation = participationRepository.save(new Participation(room, pullRequestNotSubmittedMember, MemberRole.BOTH, 2));
-        participation.invalidate();
+            RoomParticipantResponses participants = roomService.findParticipants(room.getId(), manager.getId());
 
-        List<Member> members = memberRepository.saveAll(MemberFixture.SEVEN_MEMBERS());
+            assertAll(
+                    () -> assertThat(participants.participants()).hasSize(6),
+                    () -> assertThat(participants.size()).isEqualTo(7)
+            );
+        }
 
-        participationRepository.saveAll(members.stream()
-                .map(member -> new Participation(room, member, MemberRole.BOTH, 2))
-                .toList());
+        @Test
+        @DisplayName("본인을 제외하고 방에 참여한 사람의 정보를 가져온다.")
+        void findParticipants2() {
+            participationRepository.save(new Participation(room, pororo, MemberRole.BOTH, 2));
+            participationRepository.save(new Participation(room, ash, MemberRole.BOTH, 2));
+            participationRepository.save(new Participation(room, joyson, MemberRole.BOTH, 2));
+            saveAllMatchResult();
 
-        matchResultRepository.saveAll(members.stream()
-                .map(member -> MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), manager, member))
-                .toList());
-        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), members.get(0), manager));
+            RoomParticipantResponses participants = roomService.findParticipants(room.getId(), pororo.getId());
 
-        RoomParticipantResponses participants = assertDoesNotThrow(() -> roomService.findParticipants(room.getId(), manager.getId()));
+            List<String> participantNames = getParticipantNames(participants);
+            assertThat(participantNames).containsExactlyInAnyOrder("youngsu5582", "ashsty");
+        }
 
-        assertAll(
-                () -> assertThat(participants.participants()).hasSize(6),
-                () -> assertThat(participants.size()).isEqualTo(6)
-        );
+        @Test
+        @DisplayName("리뷰어를 제외하고 방에 참여한 사람의 정보를 가져온다.")
+        void findParticipants3() {
+            participationRepository.save(new Participation(room, pororo, MemberRole.BOTH, 2));
+            participationRepository.save(new Participation(room, ash, MemberRole.BOTH, 2));
+            participationRepository.save(new Participation(room, movin, MemberRole.REVIEWER, 2));
+            saveAllMatchResult();
+
+            RoomParticipantResponses participants = roomService.findParticipants(room.getId(), manager.getId());
+
+            List<String> participantNames = getParticipantNames(participants);
+            assertThat(participantNames).containsExactlyInAnyOrder("pororo", "ashsty");
+        }
+
+        @Test
+        @DisplayName("pr을 제출하지 않은 사람을 제외하고 방에 참여한 사람의 정보를 가져온다.")
+        void findParticipants4() {
+            participationRepository.save(new Participation(room, pororo, MemberRole.BOTH, 2));
+            participationRepository.save(new Participation(room, ash, MemberRole.BOTH, ParticipationStatus.PULL_REQUEST_NOT_SUBMITTED, 2));
+            participationRepository.save(new Participation(room, joyson, MemberRole.BOTH, 2));
+            saveAllMatchResult();
+
+            RoomParticipantResponses participants = roomService.findParticipants(room.getId(), manager.getId());
+
+            List<String> participantNames = getParticipantNames(participants);
+            assertThat(participantNames).containsExactlyInAnyOrder("pororo", "youngsu5582");
+        }
+
+        @Test
+        @DisplayName("본인, 리뷰어, pr 미제출자를 제외한 후, 방에 참여한 사람의 정보를 가져온다.")
+        void findParticipants5() {
+            participationRepository.save(new Participation(room, pororo, MemberRole.BOTH, 2));
+            participationRepository.save(new Participation(room, joyson, MemberRole.REVIEWER, 2));
+            participationRepository.save(new Participation(room, ash, MemberRole.BOTH, ParticipationStatus.PULL_REQUEST_NOT_SUBMITTED, 2));
+            participationRepository.save(new Participation(room, choco, MemberRole.BOTH, 2));
+            saveAllMatchResult();
+
+            RoomParticipantResponses participants = roomService.findParticipants(room.getId(), pororo.getId());
+
+            List<String> participantNames = getParticipantNames(participants);
+            assertThat(participantNames).containsExactlyInAnyOrder("choco");
+        }
+
+        // 기존 코드에서 아래와 같이 테스트를 돌리면 통과하지 않을 때가 많음.
+        // 수정 이후 문제 없음.
+        // 이 부분은 커밋 기록에만 남기고 지울게요.
+        @RepeatedTest(10)
+        @DisplayName("방에 참여한 사람의 정보를 최대 6명까지 가져온다.")
+        void findParticipants6() {
+            participationRepository.save(new Participation(room, pororo, MemberRole.BOTH, 2));
+            participationRepository.save(new Participation(room, ash, MemberRole.BOTH, 2));
+            participationRepository.save(new Participation(room, joyson, MemberRole.BOTH, 2));
+            participationRepository.save(new Participation(room, darr, MemberRole.BOTH, 2));
+            participationRepository.save(new Participation(room, choco, MemberRole.BOTH, 2));
+            participationRepository.save(new Participation(room, movin, MemberRole.BOTH, 2));
+            participationRepository.save(new Participation(room, tenten, MemberRole.BOTH, 2));
+
+            matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), manager, pororo));
+            matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), manager, ash));
+            matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), manager, joyson));
+            matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), manager, darr));
+            matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), manager, choco));
+
+            RoomParticipantResponses participants = roomService.findParticipants(room.getId(), manager.getId());
+
+            assertThat(participants.participants()).hasSize(5);
+        }
+
+        private void saveAllMatchResult() {
+            List<Member> members = List.of(pororo, ash, joyson, darr, choco, movin, tenten);
+
+            matchResultRepository.saveAll(members.stream()
+                    .filter(this::isValidParticipant)
+                    .map(member -> MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), manager, member))
+                    .toList());
+        }
+
+        private boolean isValidParticipant(Member member) {
+            Optional<Participation> participationOpt = participationRepository.findByRoomIdAndMemberId(room.getId(), member.getId());
+
+            if (participationOpt.isPresent()) {
+                Participation participation = participationOpt.get();
+                return !participation.isReviewer() && !participation.isPullRequestNotSubmitted();
+            }
+            return false;
+        }
+
+        private List<String> getParticipantNames(RoomParticipantResponses participants) {
+            return participants.participants()
+                    .stream()
+                    .map(RoomParticipantResponse::username)
+                    .toList();
+        }
     }
 }
