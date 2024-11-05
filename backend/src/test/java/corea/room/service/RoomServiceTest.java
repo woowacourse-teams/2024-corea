@@ -278,31 +278,6 @@ class RoomServiceTest {
             assertThat(participantNames).containsExactlyInAnyOrder("choco");
         }
 
-        // 기존 코드에서 아래와 같이 테스트를 돌리면 통과하지 않을 때가 많음.
-        // 수정 이후 문제 없음.
-        // 이 부분은 커밋 기록에만 남기고 지울게요.
-        @RepeatedTest(10)
-        @DisplayName("방에 참여한 사람의 정보를 최대 6명까지 가져온다.")
-        void findParticipants6() {
-            participationRepository.save(new Participation(room, pororo, MemberRole.BOTH, 2));
-            participationRepository.save(new Participation(room, ash, MemberRole.BOTH, 2));
-            participationRepository.save(new Participation(room, joyson, MemberRole.BOTH, 2));
-            participationRepository.save(new Participation(room, darr, MemberRole.BOTH, 2));
-            participationRepository.save(new Participation(room, choco, MemberRole.BOTH, 2));
-            participationRepository.save(new Participation(room, movin, MemberRole.BOTH, 2));
-            participationRepository.save(new Participation(room, tenten, MemberRole.BOTH, 2));
-
-            matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), manager, pororo));
-            matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), manager, ash));
-            matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), manager, joyson));
-            matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), manager, darr));
-            matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), manager, choco));
-
-            RoomParticipantResponses participants = roomService.findParticipants(room.getId(), manager.getId());
-
-            assertThat(participants.participants()).hasSize(5);
-        }
-
         private void saveAllMatchResult() {
             List<Member> members = List.of(pororo, ash, joyson, darr, choco, movin, tenten);
 
