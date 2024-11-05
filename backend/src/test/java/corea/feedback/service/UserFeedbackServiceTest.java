@@ -15,11 +15,13 @@ import corea.fixture.SocialFeedbackFixture;
 import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
 import corea.room.domain.Room;
+import corea.room.domain.RoomStatus;
 import corea.room.repository.RoomRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -90,8 +92,9 @@ class UserFeedbackServiceTest {
     @DisplayName("자신이 해준 피드백을 가져올 때, 방이 최근에 종료된 순으로 가져온다.")
     void getDeliveredFeedback() {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
-        Room room1 = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_CLOSED(manager));
-        Room room2 = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_CLOSED(manager));
+        LocalDateTime now = LocalDateTime.now();
+        Room room1 = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager, now, now.plusDays(1), RoomStatus.CLOSE));
+        Room room2 = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager, now, now.plusDays(2), RoomStatus.CLOSE));
         Member member1 = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member member2 = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
 
@@ -156,8 +159,9 @@ class UserFeedbackServiceTest {
     @DisplayName("자신이 받은 피드백을 가져올 때, 방이 최근에 종료된 순으로 가져온다.")
     void getReceivedFeedback2() {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
-        Room room1 = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_CLOSED(manager));
-        Room room2 = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_CLOSED(manager));
+        LocalDateTime now = LocalDateTime.now();
+        Room room1 = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager, now, now.plusDays(1), RoomStatus.CLOSE));
+        Room room2 = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager, now, now.plusDays(2), RoomStatus.CLOSE));
         Member member1 = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member member2 = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
 

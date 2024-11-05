@@ -86,8 +86,13 @@ public class UserFeedbackService {
 
         return rooms.stream()
                 .filter(roomStatusPredicate)
-                .sorted(Comparator.comparing(Room::getId).reversed())
+                .sorted(latestSequenceComparator())
                 .map(room -> FeedbacksResponse.of(room, emptyListIfNull(developFeedbacks.get(room.getId())), emptyListIfNull(socialFeedbacks.get(room.getId()))))
                 .toList();
+    }
+
+    private Comparator<Room> latestSequenceComparator() {
+        return Comparator.comparing(Room::getReviewDeadline, Comparator.nullsLast(Comparator.reverseOrder()))
+                .thenComparing(Room::getId, Comparator.reverseOrder());
     }
 }
