@@ -13,6 +13,7 @@ import org.apache.commons.lang3.function.TriFunction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
@@ -85,6 +86,7 @@ public class UserFeedbackService {
 
         return rooms.stream()
                 .filter(roomStatusPredicate)
+                .sorted(Comparator.comparing(Room::getId).reversed())
                 .map(room -> FeedbacksResponse.of(room, emptyListIfNull(developFeedbacks.get(room.getId())), emptyListIfNull(socialFeedbacks.get(room.getId()))))
                 .toList();
     }
