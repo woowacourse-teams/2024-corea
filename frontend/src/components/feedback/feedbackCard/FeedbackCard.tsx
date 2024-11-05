@@ -32,7 +32,7 @@ const FeedbackCard = ({
   const reviewInfo: ReviewInfo = {
     userId: feedbackCardData.receiverId,
     username: feedbackCardData.username,
-    link: feedbackCardData.profile,
+    link: "", //TODO: 서버로부터 받은 PR 링크, comment 링크 넘겨주어야 함
     isWrited: feedbackCardData.isWrited,
   };
 
