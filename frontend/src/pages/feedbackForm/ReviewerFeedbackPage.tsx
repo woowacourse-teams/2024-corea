@@ -10,7 +10,7 @@ const ReviewerFeedbackPage = () => {
 
   const roomId = Number(useParams().roomId);
   const username = queryParams.get("username") || "";
-  const reviewer = location.state?.reviewer as ReviewerInfo;
+  const reviewer = location.state?.reviewInfo as ReviewerInfo;
 
   const { data: roomInfo } = useFetchDetailRoomInfo(roomId);
   const { data: feedbackData } = useFetchReviewerFeedback({
