@@ -35,7 +35,7 @@ export const ProfileNickname = styled.div`
   align-items: center;
   justify-content: center;
 
-  max-width: 108px;
+  max-width: 110px;
 `;
 
 export const GithubIcon = styled.div`
@@ -43,22 +43,18 @@ export const GithubIcon = styled.div`
 `;
 
 export const NicknameText = styled.span`
-  ${EllipsisText}
   font: ${({ theme }) => theme.TEXT.medium_bold};
   color: ${({ theme }) => theme.COLOR.grey3};
-`;
-
-export const ProfileInfoWrapper = styled.div`
-  margin: 0 auto;
+  ${EllipsisText}
 `;
 
 export const ProfileSummaryContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 1.5rem;
 
   width: 180px;
-  margin: 0;
+  margin: 0 auto;
   padding: 0;
 
   font: ${({ theme }) => theme.TEXT.medium};
@@ -66,7 +62,6 @@ export const ProfileSummaryContainer = styled.div`
   dl {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 10px;
   }
 
   dt {
