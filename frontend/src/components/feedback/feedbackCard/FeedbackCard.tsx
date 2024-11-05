@@ -36,10 +36,20 @@ const FeedbackCard = ({
     isWrited: feedbackCardData.isWrited,
   };
 
-  // 피드백 페이지 이동 함수
-  const handleNavigateFeedbackPage = () => {
+  // [받은 피드백] 상대 피드백 작성 페이지 이동 함수
+  const handleNavigateUserFeedbackPage = () => {
     navigate(
       `/rooms/${feedbackCardData.roomId}/feedback/${feedbackType === "develop" ? "reviewer" : "reviewee"}?username=${feedbackCardData.username}`,
+      {
+        state: { reviewInfo },
+      },
+    );
+  };
+
+  // [쓴 피드백] 내가 쓴 피드백 수정 페이지 이동 함수
+  const handleNavigateMyFeedbackPage = () => {
+    navigate(
+      `/rooms/${feedbackCardData.roomId}/feedback/${feedbackType === "develop" ? "reviewee" : "reviewer"}?username=${feedbackCardData.username}`,
       {
         state: { reviewInfo },
       },
@@ -57,7 +67,7 @@ const FeedbackCard = ({
               <p>상대방 피드백을 작성해야 볼 수 있습니다.</p>
               <Button
                 variant={feedbackType === "develop" ? "primary" : "secondary"}
-                onClick={handleNavigateFeedbackPage}
+                onClick={handleNavigateUserFeedbackPage}
               >
                 피드백 작성하러가기
               </Button>
@@ -72,6 +82,7 @@ const FeedbackCard = ({
               <S.FeedbackTitle>{feedbackCardData.username}</S.FeedbackTitle>
             </S.FeedbackProfile>
           </HoverStyledLink>
+
           <S.FeedbackType $isTypeDevelop={feedbackType === "develop"}>
             {feedbackType === "develop" ? (
               <>
@@ -110,7 +121,7 @@ const FeedbackCard = ({
           <S.FeedbackDetailContainer>
             <S.FeedbackTitle>세부 피드백</S.FeedbackTitle>
             <Textarea
-              rows={10}
+              rows={7}
               maxLength={2000}
               showCharCount={true}
               placeholder="미작성"
@@ -118,6 +129,18 @@ const FeedbackCard = ({
               disabled
             />
           </S.FeedbackDetailContainer>
+
+          {selectedFeedbackType === "쓴 피드백" && (
+            <S.ButtonWrapper>
+              <Button
+                onClick={handleNavigateMyFeedbackPage}
+                variant={feedbackType === "develop" ? "primary" : "secondary"}
+                size="small"
+              >
+                수정하기
+              </Button>
+            </S.ButtonWrapper>
+          )}
         </S.FeedbackContent>
       </S.FeedbackCardContainer>
     </>
