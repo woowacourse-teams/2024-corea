@@ -5,9 +5,11 @@ import corea.exception.ExceptionType;
 import corea.room.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class RoomReader {
 
     private final RoomRepository roomRepository;
