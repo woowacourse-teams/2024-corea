@@ -6,8 +6,6 @@ import { HoverStyledLink } from "@/styles/common";
 const ProfileCard = (profileData: ProfileData) => {
   return (
     <S.ProfileCardContainer>
-      <S.ProfileTitle>프로필</S.ProfileTitle>
-
       <S.ProfileCardWrapper>
         <HoverStyledLink
           to={`https://github.com/${profileData.nickname}`}
@@ -28,15 +26,15 @@ const ProfileCard = (profileData: ProfileData) => {
 
         <S.ProfileSummaryContainer>
           <dl>
-            <dt>리뷰한 개수</dt>
+            <dt>완료한 리뷰</dt>
             <dd>{profileData.givenReviewCount}개</dd>
           </dl>
           <dl>
-            <dt>리뷰 받은 개수</dt>
+            <dt>받은 리뷰</dt>
             <dd>{profileData.receivedReviewCount}개</dd>
           </dl>
           <dl>
-            <dt>피드백 받은 개수</dt>
+            <dt>받은 피드백</dt>
             <dd>{profileData.feedbackCount}개</dd>
           </dl>
           <dl>
