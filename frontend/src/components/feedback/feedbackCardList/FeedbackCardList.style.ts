@@ -127,7 +127,7 @@ export const FeedbackCount = styled.div`
 export const FeedbackKeywordContainer = styled.div`
   overflow: hidden;
   display: flex;
-  flex-direction: row;
+  flex-flow: row wrap;
   gap: 1rem;
 `;
 
