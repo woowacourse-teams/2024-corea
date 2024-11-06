@@ -116,6 +116,11 @@ export const KeywordContainer = styled.div`
   width: fit-content;
   margin: 0 auto;
   padding: 1rem;
+
+  ${media.small`
+    width: 100%;
+    justify-content: flex-start;
+  `}
 `;
 
 export const KeywordWrapper = styled.div`
