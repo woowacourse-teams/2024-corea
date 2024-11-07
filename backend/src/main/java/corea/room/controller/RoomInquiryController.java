@@ -47,9 +47,9 @@ public class RoomInquiryController implements RoomInquiryControllerSpecification
 
     @GetMapping("/search")
     public ResponseEntity<RoomSearchResponses> search(@AccessedMember AuthInfo authInfo,
-                                                      @RequestParam(value = "roomStatus") RoomStatus status,
-                                                      @RequestParam(value = "roomClassification", defaultValue = "ALL") RoomClassification classification,
-                                                      @RequestParam(value = "searchKeyword") String keywordTitle) {
+                                                      @RequestParam RoomStatus status,
+                                                      @RequestParam(defaultValue = "ALL") RoomClassification classification,
+                                                      @RequestParam(defaultValue = "") String keywordTitle) {
         RoomSearchResponses response = roomInquiryService.search(authInfo.getId(), status, classification, keywordTitle);
 
         return ResponseEntity.ok()
