@@ -52,7 +52,8 @@ public class FeedbackMapper {
                 output.isWrited(),
                 output.feedbackKeywords(),
                 output.evaluationPoint(),
-                output.feedbackText()
+                output.feedbackText(),
+                output.link()
         );
     }
 }

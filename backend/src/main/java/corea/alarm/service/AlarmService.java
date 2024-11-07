@@ -1,16 +1,22 @@
 package corea.alarm.service;
 
+import corea.alarm.domain.UserAlarmsByActionType;
 import corea.alarm.domain.UserToUserAlarmReader;
 import corea.alarm.domain.UserToUserAlarmType;
 import corea.alarm.domain.UserToUserAlarmWriter;
 import corea.alarm.dto.AlarmCountResponse;
 import corea.alarm.dto.CreateUserToUserAlarmInput;
+import corea.alarm.dto.AlarmResponses;
 import corea.member.domain.Member;
 import corea.member.domain.MemberReader;
+import corea.room.domain.Room;
+import corea.room.domain.RoomReader;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -23,6 +29,7 @@ public class AlarmService {
     private final MemberReader memberReader;
     private final UserToUserAlarmWriter userToUserAlarmWriter;
     private final UserToUserAlarmReader userToUserAlarmReader;
+    private final RoomReader roomReader;
 
     public AlarmCountResponse getUnReadAlarmCount(long userId) {
         Member member = memberReader.findOne(userId);
@@ -39,5 +46,12 @@ public class AlarmService {
             log.warn("리뷰 알림 생성을 실패했습니다. 리뷰어 ID={},리뷰이 ID={},방 ID={}",
                     reviewerId, revieweeId, roomId);
         }
+      
+    public AlarmResponses getAlarm(long userId) {
+        Member member = memberReader.findOne(userId);
+        UserAlarmsByActionType userToUserAlarms = userToUserAlarmReader.findAllByReceiver(member);
+        Map<Long, Member> actors = memberReader.findMembersMappedById(userToUserAlarms.getActorIds());
+        Map<Long, Room> rooms = roomReader.findRoomsMappedById(userToUserAlarms.getRoomIds());
+        return AlarmResponses.from(userToUserAlarms.getList(), actors, rooms);
     }
 }

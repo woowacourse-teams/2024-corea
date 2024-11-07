@@ -1,9 +1,7 @@
 package corea.feedback.dto;
 
-import corea.room.domain.Room;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import java.util.Collections;
 import java.util.List;
 
 @Schema(description = "개발 피드백 + 커뮤니케이션 피드백 작성 응답")
@@ -32,5 +30,8 @@ public record FeedbackResponse(@Schema(description = "피드백 아이디", exam
                                int evaluationPoint,
 
                                @Schema(description = "부가 작성 가능한 피드백 텍스트", example = "처음 자바를 접해봤다고 했는데 생각보다 매우 잘 구성되어 있는 코드였습니다. ...")
-                               String feedbackText) {
+                               String feedbackText,
+
+                               @Schema(description = "pr링크 및 comment링크 정보 제공", example = "https://github.com/youngsu5582/github-api-test/pull/1")
+                               String link) {
 }
