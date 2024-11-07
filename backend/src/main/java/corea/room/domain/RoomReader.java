@@ -9,6 +9,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.List;
 
 @Component
@@ -26,6 +29,12 @@ public class RoomReader {
     public Room find(long roomId) {
         return roomRepository.findById(roomId)
                 .orElseThrow(() -> new CoreaException(ExceptionType.ROOM_NOT_FOUND, String.format("해당 Id의 방이 없습니다. 입력된 Id=%d", roomId)));
+    }
+
+    public Map<Long, Room> findRoomsMappedById(Iterable<Long> roomIds) {
+        return roomRepository.findAllById(roomIds)
+                .stream()
+                .collect(Collectors.toMap(Room::getId, Function.identity()));
     }
 
     public List<Room> findAll(Specification<Room> spec) {

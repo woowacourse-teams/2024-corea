@@ -1,5 +1,5 @@
 package corea.alarm.domain;
 
-public enum UserToUserAlarmType {
+public enum AlarmActionType {
     REVIEW_COMPLETE,
 }
