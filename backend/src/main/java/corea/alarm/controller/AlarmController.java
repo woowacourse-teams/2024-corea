@@ -17,7 +17,7 @@ public class AlarmController implements AlarmControllerSpecification{
 
     @GetMapping("/alarm/count")
     public ResponseEntity<AlarmCountResponse> getAlarmCount(@LoginMember AuthInfo authInfo) {
-        AlarmCountResponse response = alarmService.getNotReadAlarmCount(authInfo.getId());
+        AlarmCountResponse response = alarmService.getUnReadAlarmCount(authInfo.getId());
         return ResponseEntity.ok(response);
     }
 }

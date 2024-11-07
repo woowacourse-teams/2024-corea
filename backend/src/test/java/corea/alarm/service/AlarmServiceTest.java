@@ -26,10 +26,10 @@ class AlarmServiceTest {
     @Autowired
     MemberRepository memberRepository;
 
-    Member actor;
-    Member receiver;
-    Member notReceiver;
-    long interactionId = 3L;
+    private Member actor;
+    private Member receiver;
+    private Member notReceiver;
+    private long interactionId = 3L;
 
     @BeforeEach
     void setUp(){
@@ -43,7 +43,7 @@ class AlarmServiceTest {
     void get_alarm_count() {
         userToUserAlarmRepository.save(AlarmFixture.REVIEW_COMPLETE(actor.getId(), receiver.getId(), interactionId));
         userToUserAlarmRepository.save(AlarmFixture.REVIEW_COMPLETE(actor.getId(), notReceiver.getId(), interactionId));
-        AlarmCountResponse response = alarmService.getNotReadAlarmCount(receiver.getId());
+        AlarmCountResponse response = alarmService.getUnReadAlarmCount(receiver.getId());
         assertThat(response.count()).isEqualTo(1);
     }
 
@@ -52,7 +52,7 @@ class AlarmServiceTest {
     void get_only_not_read_alarm_count() {
         userToUserAlarmRepository.save(AlarmFixture.REVIEW_COMPLETE(actor.getId(), receiver.getId(), interactionId));
         userToUserAlarmRepository.save(AlarmFixture.READ_REVIEW_COMPLETE(actor.getId(), receiver.getId(), interactionId));
-        AlarmCountResponse response = alarmService.getNotReadAlarmCount(receiver.getId());
+        AlarmCountResponse response = alarmService.getUnReadAlarmCount(receiver.getId());
         assertThat(response.count()).isEqualTo(1);
     }
 }

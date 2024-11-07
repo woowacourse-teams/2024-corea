@@ -13,14 +13,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class AlarmService {
 
-    private static final boolean NOT_READ = false;
+    private static final boolean UNREAD = false;
 
     private final MemberReader memberReader;
     private final UserToUserAlarmReader userToUserAlarmReader;
 
-    public AlarmCountResponse getNotReadAlarmCount(long userId) {
+    public AlarmCountResponse getUnReadAlarmCount(long userId) {
         Member member = memberReader.findOne(userId);
-        long userToUserAlarmCount = userToUserAlarmReader.countReceivedAlarm(member, NOT_READ);
+        long userToUserAlarmCount = userToUserAlarmReader.countReceivedAlarm(member, UNREAD);
         return new AlarmCountResponse(userToUserAlarmCount);
     }
 }
