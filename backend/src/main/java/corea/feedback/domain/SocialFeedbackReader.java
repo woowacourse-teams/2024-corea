@@ -4,6 +4,9 @@ import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
 import corea.feedback.dto.FeedbackOutput;
 import corea.feedback.repository.SocialFeedbackRepository;
+import corea.matchresult.domain.MatchResult;
+import corea.matchresult.repository.MatchResultRepository;
+import corea.member.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,19 +21,35 @@ import java.util.stream.Collectors;
 public class SocialFeedbackReader {
 
     private final SocialFeedbackRepository socialFeedbackRepository;
+    private final MatchResultRepository matchResultRepository;
 
     public Map<Long, List<FeedbackOutput>> collectDeliverSocialFeedback(long feedbackDeliverId) {
         return socialFeedbackRepository.findAllByDeliverId(feedbackDeliverId)
                 .stream()
-                .map(FeedbackOutput::fromDeliver)
+                .map(socialFeedback -> {
+                    MatchResult matchResult = getMatchResult(socialFeedback);
+                    return FeedbackOutput.fromDeliver(socialFeedback, matchResult.getReviewLink());
+                })
                 .collect(Collectors.groupingBy(FeedbackOutput::roomId));
     }
 
     public Map<Long, List<FeedbackOutput>> collectReceivedSocialFeedback(long feedbackReceiverId) {
         return socialFeedbackRepository.findAllByReceiverId(feedbackReceiverId)
                 .stream()
-                .map(FeedbackOutput::fromReceiver)
+                .map(socialFeedback -> {
+                    MatchResult matchResult = getMatchResult(socialFeedback);
+                    return FeedbackOutput.fromReceiver(socialFeedback, matchResult.getPrLink());
+                })
                 .collect(Collectors.groupingBy(FeedbackOutput::roomId));
+    }
+
+    private MatchResult getMatchResult(SocialFeedback socialFeedback) {
+        long roomId = socialFeedback.getRoomId();
+        Member reviewee = socialFeedback.getDeliver();
+        Member reviewer = socialFeedback.getReceiver();
+
+        return matchResultRepository.findByRoomIdAndReviewerAndReviewee(roomId, reviewer, reviewee)
+                .orElseThrow(() -> new CoreaException(ExceptionType.NOT_MATCHED_MEMBER));
     }
 
     public SocialFeedback findById(long feedbackId) {

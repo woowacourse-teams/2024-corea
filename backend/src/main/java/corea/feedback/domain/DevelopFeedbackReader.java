@@ -4,6 +4,9 @@ import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
 import corea.feedback.dto.FeedbackOutput;
 import corea.feedback.repository.DevelopFeedbackRepository;
+import corea.matchresult.domain.MatchResult;
+import corea.matchresult.repository.MatchResultRepository;
+import corea.member.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,19 +21,35 @@ import java.util.stream.Collectors;
 public class DevelopFeedbackReader {
 
     private final DevelopFeedbackRepository developFeedbackRepository;
+    private final MatchResultRepository matchResultRepository;
 
     public Map<Long, List<FeedbackOutput>> collectDeliverDevelopFeedback(long feedbackDeliverId) {
         return developFeedbackRepository.findAllByDeliverId(feedbackDeliverId)
                 .stream()
-                .map(FeedbackOutput::fromDeliver)
+                .map(developFeedback -> {
+                    MatchResult matchResult = getMatchResult(developFeedback);
+                    return FeedbackOutput.fromDeliver(developFeedback, matchResult.getPrLink());
+                })
                 .collect(Collectors.groupingBy(FeedbackOutput::roomId));
     }
 
     public Map<Long, List<FeedbackOutput>> collectReceivedDevelopFeedback(long feedbackReceiverId) {
         return developFeedbackRepository.findAllByReceiverId(feedbackReceiverId)
                 .stream()
-                .map(FeedbackOutput::fromReceiver)
+                .map(developFeedback -> {
+                    MatchResult matchResult = getMatchResult(developFeedback);
+                    return FeedbackOutput.fromReceiver(developFeedback, matchResult.getReviewLink());
+                })
                 .collect(Collectors.groupingBy(FeedbackOutput::roomId));
+    }
+
+    private MatchResult getMatchResult(DevelopFeedback developFeedback) {
+        long roomId = developFeedback.getRoomId();
+        Member reviewer = developFeedback.getDeliver();
+        Member reviewee = developFeedback.getReceiver();
+
+        return matchResultRepository.findByRoomIdAndReviewerAndReviewee(roomId, reviewer, reviewee)
+                .orElseThrow(() -> new CoreaException(ExceptionType.NOT_MATCHED_MEMBER));
     }
 
     public DevelopFeedback findById(long feedbackId) {

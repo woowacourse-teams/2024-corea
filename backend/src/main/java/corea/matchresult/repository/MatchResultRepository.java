@@ -2,6 +2,7 @@ package corea.matchresult.repository;
 
 import corea.matchresult.domain.MatchResult;
 import corea.matchresult.domain.ReviewStatus;
+import corea.member.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -16,4 +17,6 @@ public interface MatchResultRepository extends JpaRepository<MatchResult, Long> 
     List<MatchResult> findAllByRoomIdAndReviewStatus(long roomId, ReviewStatus reviewStatus);
 
     Optional<MatchResult> findByRoomIdAndReviewerIdAndRevieweeId(long roomId, long reviewerId, long revieweeId);
+
+    Optional<MatchResult> findByRoomIdAndReviewerAndReviewee(long roomId, Member reviewer, Member reviewee);
 }
