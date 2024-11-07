@@ -42,7 +42,7 @@ public class DevelopFeedbackReader {
         Member reviewer = developFeedback.getDeliver();
         Member reviewee = developFeedback.getReceiver();
 
-        return matchResultRepository.findByRoomIdAndReviewerAndReviewee(roomId, reviewer, reviewee)
+        return matchResultRepository.findByRoomIdAndReviewerIdAndRevieweeId(roomId, reviewer.getId(), reviewee.getId())
                 .orElseThrow(() -> new CoreaException(ExceptionType.NOT_MATCHED_MEMBER));
     }
 
