@@ -26,6 +26,7 @@ const QUERY_KEYS = {
 
   // alarm
   ALARM_COUNT: "alarm_count",
+  ALARM_LIST: "alarm_list",
 };
 
 export default QUERY_KEYS;
