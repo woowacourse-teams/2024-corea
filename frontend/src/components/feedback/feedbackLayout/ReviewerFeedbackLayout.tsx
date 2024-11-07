@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useMutateFeedback from "@/hooks/mutations/useMutateFeedback";
 import Button from "@/components/common/button/Button";
+import Icon from "@/components/common/icon/Icon";
 import Label from "@/components/common/label/Label";
 import ReviewerFeedbackForm from "@/components/feedback/feedbackForm/ReviewerFeedbackForm";
 import * as S from "@/components/feedback/feedbackLayout/FeedbackLayout.style";
 import { ReviewerFeedbackData } from "@/@types/feedback";
 import { ReviewInfo } from "@/@types/review";
 import { RoomInfo } from "@/@types/roomInfo";
+import { HoverStyledLink } from "@/styles/common";
 import { theme } from "@/styles/theme";
 import { FeedbackPageType } from "@/utils/feedbackUtils";
 
@@ -112,8 +114,23 @@ const ReviewerFeedbackLayout = ({
             {feedbackPageType === "view" && "확인하기"}
           </S.PageType>
 
-          <S.MissionInfoContainer>
-            <S.PageTitle>{roomInfo.title}</S.PageTitle>
+          <S.RoomInfoContainer>
+            <S.RoomInfoWrapper>
+              <S.PageTitle>{roomInfo.title}</S.PageTitle>
+              <HoverStyledLink
+                to={reviewer?.link || ""}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={`바로가기. 클릭하면 리뷰어의 코멘트 링크로 이동합니다.`}
+              >
+                <S.PRLink>
+                  <S.IconWrapper>
+                    <Icon kind="link" size="1.8rem" />
+                  </S.IconWrapper>
+                  Comment 링크
+                </S.PRLink>
+              </HoverStyledLink>
+            </S.RoomInfoWrapper>
             <S.Keywords>
               {displayedKeywords.length === 0 ? (
                 <S.NoKeywordText>지정된 키워드 없음</S.NoKeywordText>
@@ -129,7 +146,7 @@ const ReviewerFeedbackLayout = ({
                 ))
               )}
             </S.Keywords>
-          </S.MissionInfoContainer>
+          </S.RoomInfoContainer>
         </S.FeedbackContainerHeader>
 
         <ReviewerFeedbackForm
