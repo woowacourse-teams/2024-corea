@@ -13,7 +13,6 @@ interface RoomListProps {
   hasNextPage?: boolean;
   onLoadMore?: () => void;
   roomType: RoomStatusCategory;
-  emptyMessage?: string;
 }
 
 const RoomEmptyText = {
@@ -29,7 +28,6 @@ const RoomList = ({
   hasNextPage,
   onLoadMore,
   roomType,
-  emptyMessage,
 }: RoomListProps) => {
   const handleClickLoadMore = () => {
     if (isFetchingNextPage) return;
@@ -41,7 +39,7 @@ const RoomList = ({
     return (
       <S.EmptyContainer>
         <S.Character src={defaultCharacter} alt="기본 캐릭터" />
-        <p>{emptyMessage || RoomEmptyText[roomType]}</p>
+        <p>{RoomEmptyText[roomType]}</p>
       </S.EmptyContainer>
     );
   }

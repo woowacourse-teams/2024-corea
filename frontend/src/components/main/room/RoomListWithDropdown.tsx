@@ -1,4 +1,5 @@
 import { ChangeEvent, useEffect, useState } from "react";
+import useToast from "@/hooks/common/useToast";
 import { useFetchSearchRoomList } from "@/hooks/queries/useFetchRooms";
 import ContentSection from "@/components/common/contentSection/ContentSection";
 import Dropdown from "@/components/common/dropdown/Dropdown";
@@ -29,6 +30,7 @@ const RoomListWithDropdown = ({
 }: RoomListWithDropdownProps) => {
   const [searchInput, setSearchInput] = useState("");
   const [searchedRooms, setSearchedRooms] = useState<RoomInfo[]>([]);
+  const { openToast } = useToast();
 
   const { refetch: fetchSearch, isLoading } = useFetchSearchRoomList(
     roomType,
@@ -43,7 +45,10 @@ const RoomListWithDropdown = ({
 
   const handleSearch = async () => {
     const { data } = await fetchSearch();
-    if (!data) return;
+    if (!data || data.rooms.length === 0) {
+      openToast("검색한 방이 없습니다.");
+      return;
+    }
 
     setSearchedRooms(data.rooms);
   };
@@ -80,12 +85,7 @@ const RoomListWithDropdown = ({
           roomType={roomType}
         />
       ) : (
-        <RoomList
-          roomList={searchedRooms}
-          isFetchingNextPage={isLoading}
-          roomType={roomType}
-          emptyMessage="검색된 방이 없습니다."
-        />
+        <RoomList roomList={searchedRooms} isFetchingNextPage={isLoading} roomType={roomType} />
       )}
     </ContentSection>
   );
