@@ -13,6 +13,7 @@ const GUIDANCE_MESSAGES = {
   NO_PARTICIPANTS: "매칭 실패로 인해 참여자 목록을 볼 수 없습니다.",
   ONLY_REVIEWER: "리뷰어로만 참여 중입니다!",
   PULL_REQUEST_NOT_SUBMITTED: "PR을 제출하지 않아 매칭되지 않았습니다.",
+  NO_ALARM_LIST: "표시할 알림이 없습니다.",
 };
 
 const ERROR_MESSAGES = {

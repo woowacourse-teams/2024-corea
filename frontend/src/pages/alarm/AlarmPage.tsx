@@ -2,7 +2,20 @@ import { useNavigate } from "react-router-dom";
 import { useFetchAlarmList } from "@/hooks/queries/useFetchAlarm";
 import Profile from "@/components/common/profile/Profile";
 import * as S from "@/pages/alarm/AlarmPage.style";
+import { thinkingCharacter } from "@/assets";
+import MESSAGES from "@/constants/message";
 import { formatTimeAgo } from "@/utils/dateFormatter";
+
+const EmptyAlarm = () => {
+  return (
+    <S.EmptyContainer>
+      <S.GuidanceWrapper>
+        <S.Character src={thinkingCharacter} alt="생각 중인 캐릭터" />
+        <p>{MESSAGES.GUIDANCE.NO_ALARM_LIST}</p>
+      </S.GuidanceWrapper>
+    </S.EmptyContainer>
+  );
+};
 
 const AlarmPage = () => {
   const navigate = useNavigate();
@@ -34,7 +47,9 @@ const AlarmPage = () => {
     }
   };
 
-  //TODO: 알람이 없을 때
+  if (!alarmListData?.length) {
+    return <EmptyAlarm />;
+  }
 
   return (
     <S.Layout>
