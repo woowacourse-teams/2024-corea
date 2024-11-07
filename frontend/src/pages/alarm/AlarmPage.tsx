@@ -22,7 +22,7 @@ const AlarmPage = () => {
     <S.Layout>
       <S.AlarmList>
         {alarmListData?.map((alarm) => (
-          <S.AlarmItem key={alarm.alarmId}>
+          <S.AlarmItem key={alarm.alarmId} $isRead={alarm.isRead}>
             {alarm.actor && (
               <S.ProfileWrapper>
                 <Profile imgSrc={alarm.actor.thumbnailUrl} size={40} />

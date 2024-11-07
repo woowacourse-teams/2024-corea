@@ -23,7 +23,7 @@ export const AlarmList = styled.ul`
   `}
 `;
 
-export const AlarmItem = styled.li`
+export const AlarmItem = styled.li<{ $isRead: boolean }>`
   position: relative;
 
   display: grid;
@@ -33,9 +33,11 @@ export const AlarmItem = styled.li`
 
   width: 100%;
   min-height: 80px;
-  padding: 1rem 0;
+  padding: 1rem;
 
   font: ${({ theme }) => theme.TEXT.small};
+
+  background-color: ${({ theme, $isRead }) => $isRead && theme.COLOR.grey0};
 `;
 
 export const ProfileWrapper = styled.div`
@@ -71,7 +73,7 @@ export const Content = styled.div`
 
 export const TimeStamp = styled.div`
   width: 100%;
-  font: ${({ theme }) => theme.TEXT.xSmall};
-  color: ${({ theme }) => theme.COLOR.grey2};
+  font: ${({ theme }) => theme.TEXT.semiSmall};
+  color: ${({ theme }) => theme.COLOR.grey3};
   white-space: nowrap;
 `;

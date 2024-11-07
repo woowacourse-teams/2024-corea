@@ -28,7 +28,7 @@
         "interactionId": 1,
         "info": "TDD 자바 TDD 자바 TDD 자바 TDD 자바 TDD 자바 TDD 자바 TDD 자바"
       },
-      "isRead": false,
+      "isRead": true,
       "createAt": "2024-1108T00:01:59.4122",
       "alarmType": "USER"
     },
