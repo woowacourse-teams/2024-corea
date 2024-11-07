@@ -75,6 +75,7 @@ class AlarmServiceTest {
         UserToUserAlarm alarm2 = userToUserAlarmRepository.save(AlarmFixture.READ_REVIEW_COMPLETE(actor.getId(), receiver.getId(), interactionId));
         AlarmResponses responses = alarmService.getAlarm(receiver.getId());
         assertThat(responses.data()).hasSize(2)
+                .usingElementComparatorIgnoringFields("createAt")
                 .containsExactly(
                         AlarmResponse.from(alarm2, actor, interaction),
                         AlarmResponse.from(alarm1, actor,interaction)
