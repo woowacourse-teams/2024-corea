@@ -1,5 +1,6 @@
 import { ButtonHTMLAttributes, forwardRef } from "react";
 import * as S from "@/components/common/button/Button.style";
+import { spinner } from "@/assets";
 
 export type ButtonVariant = "default" | "primary" | "secondary" | "disable" | "confirm" | "error";
 export type ButtonSize = "xSmall" | "small" | "medium" | "large";
@@ -8,11 +9,20 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
   size?: ButtonSize;
   outline?: boolean;
+  isLoading?: boolean;
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
-    { children, variant = "primary", size = "medium", disabled = false, outline = false, ...rest },
+    {
+      children,
+      variant = "primary",
+      size = "medium",
+      disabled = false,
+      outline = false,
+      isLoading = false,
+      ...rest
+    },
     ref,
   ) => {
     return (
@@ -25,7 +35,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         tabIndex={disabled ? -1 : 0}
         {...rest}
       >
-        {children}
+        {isLoading ? <S.LoadingSpinner src={spinner} /> : children}
       </S.ButtonContainer>
     );
   },
