@@ -23,6 +23,7 @@ type IconKind =
   | "check"
   | "menu"
   | "close"
-  | "githubLogo";
+  | "githubLogo"
+  | "notificationBell";
 
 export default IconKind;
