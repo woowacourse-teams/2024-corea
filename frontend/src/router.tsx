@@ -11,6 +11,7 @@ import { lazy } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import Layout from "@/components/layout/Layout";
 import NotFoundRoute from "@/components/routes/NotFoundRoute";
+import AlarmPage from "@/pages/alarm/AlarmPage";
 import IntroPage from "@/pages/intro/IntroPage";
 import MainPage from "@/pages/main/MainPage";
 import RoomDetailPage from "@/pages/roomDetail/RoomDetailPage";
@@ -50,6 +51,10 @@ const router = sentryCreateBrowserRouter([
       {
         element: <PrivateRoute />,
         children: [
+          {
+            path: `alarm`,
+            element: <AlarmPage />,
+          },
           {
             path: `rooms/:id`,
             element: <RoomDetailPage />,
