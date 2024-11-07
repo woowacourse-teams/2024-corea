@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router-dom";
+import useMutateAlarm from "@/hooks/mutations/useMutateAlarm";
 import { useFetchAlarmList } from "@/hooks/queries/useFetchAlarm";
 import Profile from "@/components/common/profile/Profile";
 import * as S from "@/pages/alarm/AlarmPage.style";
+import { AlarmItemData } from "@/@types/alaram";
 import { thinkingCharacter } from "@/assets";
 import MESSAGES from "@/constants/message";
 import { formatTimeAgo } from "@/utils/dateFormatter";
@@ -20,6 +22,7 @@ const EmptyAlarm = () => {
 const AlarmPage = () => {
   const navigate = useNavigate();
   const { data } = useFetchAlarmList();
+  const { markAsRead } = useMutateAlarm();
   const alarmListData = data?.data;
 
   const getAlarmMessage = (actionType: string, username: string, info: string) => {
@@ -40,8 +43,14 @@ const AlarmPage = () => {
     return "";
   };
 
-  const handleAlarmClick = (actionType: string, interactionId: number) => {
-    const path = getNavigationPath(actionType, interactionId);
+  const handleAlarmClick = async (alarm: AlarmItemData) => {
+    const { actionType, alarmId, alarmType, isRead, interaction } = alarm;
+
+    if (!isRead) {
+      await markAsRead.mutateAsync({ alarmId, alarmType });
+    }
+
+    const path = getNavigationPath(actionType, interaction.interactionId);
     if (path) {
       navigate(path);
     }
@@ -58,7 +67,7 @@ const AlarmPage = () => {
           <S.AlarmItem
             key={alarm.alarmId}
             $isRead={alarm.isRead}
-            onClick={() => handleAlarmClick(alarm.actionType, alarm.interaction.interactionId)}
+            onClick={() => handleAlarmClick(alarm)}
           >
             {alarm.actor && (
               <S.ProfileWrapper>

@@ -64,6 +64,7 @@ const ERROR_MESSAGES = {
   // alaram
   GET_ALARM_COUNT: "읽지 않은 알림 개수를 불러오는 도중 에러가 발생하였습니다.",
   GET_ALARM_LIST: "알림 목록을 불러오는 도중 에러가 발생하였습니다.",
+  POSt_ALARM_CHECKED: "알림을 읽음 상태로 변경하기를 실패했습니다.",
 
   // errorBoundary
   BOUNDARY_TOTAL: "일시적인 에러가 발생했습니다.",

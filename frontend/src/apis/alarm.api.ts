@@ -1,4 +1,4 @@
-import { AlarmCount, AlarmListData } from "@/@types/alaram";
+import { AlarmAsRead, AlarmCount, AlarmListData } from "@/@types/alaram";
 import apiClient from "@/apis/apiClient";
 import { API_ENDPOINTS } from "@/apis/endpoints";
 import MESSAGES from "@/constants/message";
@@ -19,4 +19,13 @@ export const getAlarmList = async (): Promise<AlarmListData> => {
   });
 
   return res;
+};
+
+export const postMarkAlarmAsRead = async ({ alarmId, alarmType }: AlarmAsRead): Promise<void> => {
+  console.log("click");
+  return apiClient.post({
+    endpoint: API_ENDPOINTS.ALARM_CHECKED,
+    body: { alarmId, alarmType },
+    errorMessage: MESSAGES.ERROR.POSt_ALARM_CHECKED,
+  });
 };

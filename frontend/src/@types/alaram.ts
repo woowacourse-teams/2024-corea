@@ -22,3 +22,8 @@ export interface AlarmItemData {
 export interface AlarmListData {
   data: AlarmItemData[];
 }
+
+export interface AlarmAsRead {
+  alarmId: number;
+  alarmType: string;
+}

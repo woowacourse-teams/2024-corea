@@ -40,4 +40,5 @@ export const API_ENDPOINTS = {
   // alarm
   ALARM_COUNT: "/alarm/count",
   ALARM_LISt: "/alarm",
+  ALARM_CHECKED: "/alarm/check",
 };
