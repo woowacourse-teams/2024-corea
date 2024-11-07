@@ -6,10 +6,8 @@ import corea.feedback.dto.FeedbacksResponse;
 import corea.feedback.dto.UserFeedbackResponse;
 import corea.feedback.repository.DevelopFeedbackRepository;
 import corea.feedback.repository.SocialFeedbackRepository;
-import corea.fixture.DevelopFeedbackFixture;
-import corea.fixture.MemberFixture;
-import corea.fixture.RoomFixture;
-import corea.fixture.SocialFeedbackFixture;
+import corea.fixture.*;
+import corea.matchresult.repository.MatchResultRepository;
 import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
 import corea.room.domain.Room;
@@ -40,6 +38,9 @@ class UserFeedbackControllerTest {
     private SocialFeedbackRepository socialFeedbackRepository;
 
     @Autowired
+    private MatchResultRepository matchResultRepository;
+
+    @Autowired
     private TokenService tokenService;
 
     @Test
@@ -51,9 +52,11 @@ class UserFeedbackControllerTest {
         Member member1 = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member member2 = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
 
+        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room1.getId(), member1, member2));
+        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room2.getId(), member1, member2));
         developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room1.getId(), member1, member2));
         developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room2.getId(), member1, member2));
-        socialFeedbackRepository.save(SocialFeedbackFixture.POSITIVE_FEEDBACK(room1.getId(), member1, manager));
+        socialFeedbackRepository.save(SocialFeedbackFixture.POSITIVE_FEEDBACK(room1.getId(), member2, member1));
 
         String token = tokenService.createAccessToken(member1);
 
@@ -72,7 +75,7 @@ class UserFeedbackControllerTest {
                 () -> assertThat(firstFeedbackResponse.developFeedback()).hasSize(1),
                 () -> assertThat(firstFeedbackResponse.socialFeedback()).hasSize(0),
                 () -> assertThat(secondFeedbackResponse.developFeedback()).hasSize(1),
-                () -> assertThat(secondFeedbackResponse.socialFeedback()).hasSize(1)
+                () -> assertThat(secondFeedbackResponse.socialFeedback()).hasSize(0)
         );
     }
 
@@ -85,9 +88,11 @@ class UserFeedbackControllerTest {
         Member member1 = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member member2 = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
 
+        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room1.getId(), member1, member2));
+        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room2.getId(), member1, member2));
         developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room1.getId(), member1, member2));
-        developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room2.getId(), manager, member2));
-        socialFeedbackRepository.save(SocialFeedbackFixture.POSITIVE_FEEDBACK(room1.getId(), manager, member2));
+        developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room2.getId(), member1, member2));
+        socialFeedbackRepository.save(SocialFeedbackFixture.POSITIVE_FEEDBACK(room1.getId(), member2, member1));
 
         String token = tokenService.createAccessToken(member2);
 
@@ -106,7 +111,7 @@ class UserFeedbackControllerTest {
                 () -> assertThat(firstFeedbackResponse.developFeedback()).hasSize(1),
                 () -> assertThat(firstFeedbackResponse.socialFeedback()).hasSize(0),
                 () -> assertThat(secondFeedbackResponse.developFeedback()).hasSize(1),
-                () -> assertThat(secondFeedbackResponse.socialFeedback()).hasSize(1)
+                () -> assertThat(secondFeedbackResponse.socialFeedback()).hasSize(0)
         );
     }
 
@@ -120,11 +125,14 @@ class UserFeedbackControllerTest {
         Member member1 = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member member2 = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
 
+        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room1.getId(), member1, member2));
+        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room2.getId(), member1, member2));
+        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room3.getId(), member1, member2));
         developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room1.getId(), member1, member2));
-        developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room2.getId(), manager, member2));
-        developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room3.getId(), manager, member2));
-        socialFeedbackRepository.save(SocialFeedbackFixture.POSITIVE_FEEDBACK(room1.getId(), manager, member2));
-        socialFeedbackRepository.save(SocialFeedbackFixture.POSITIVE_FEEDBACK(room3.getId(), manager, member2));
+        developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room2.getId(), member1, member2));
+        developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room3.getId(), member1, member2));
+        socialFeedbackRepository.save(SocialFeedbackFixture.POSITIVE_FEEDBACK(room1.getId(), member2, member1));
+        socialFeedbackRepository.save(SocialFeedbackFixture.POSITIVE_FEEDBACK(room3.getId(), member2, member1));
 
         String token = tokenService.createAccessToken(member2);
 
@@ -140,7 +148,7 @@ class UserFeedbackControllerTest {
         assertAll(
                 () -> assertThat(feedbacks).hasSize(1),
                 () -> assertThat(firstFeedbackResponse.developFeedback()).hasSize(1),
-                () -> assertThat(firstFeedbackResponse.socialFeedback()).hasSize(1)
+                () -> assertThat(firstFeedbackResponse.socialFeedback()).hasSize(0)
         );
     }
 }

@@ -8,16 +8,16 @@ import corea.feedback.dto.FeedbacksResponse;
 import corea.feedback.dto.UserFeedbackResponse;
 import corea.feedback.repository.DevelopFeedbackRepository;
 import corea.feedback.repository.SocialFeedbackRepository;
-import corea.fixture.DevelopFeedbackFixture;
-import corea.fixture.MemberFixture;
-import corea.fixture.RoomFixture;
-import corea.fixture.SocialFeedbackFixture;
+import corea.fixture.*;
+import corea.matchresult.repository.MatchResultRepository;
 import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
 import corea.room.domain.Room;
 import corea.room.domain.RoomStatus;
 import corea.room.repository.RoomRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -45,6 +45,9 @@ class UserFeedbackServiceTest {
     @Autowired
     private SocialFeedbackRepository socialFeedbackRepository;
 
+    @Autowired
+    private MatchResultRepository matchResultRepository;
+
     @Test
     @DisplayName("작성한 피드백들을 가져온다.")
     void findFeedbacksWithEachRoom() {
@@ -55,6 +58,9 @@ class UserFeedbackServiceTest {
         Member reviewer = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member reviewee = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
 
+        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room1.getId(), reviewer, reviewee));
+        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room2.getId(), reviewer, reviewee));
+        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room3.getId(), reviewer, reviewee));
         developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room1.getId(), reviewer, reviewee));
         developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room2.getId(), reviewer, reviewee));
         developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room3.getId(), reviewer, reviewee));
@@ -73,8 +79,12 @@ class UserFeedbackServiceTest {
         Member member1 = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member member2 = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
 
+        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room1.getId(), member1, member2));
+        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room1.getId(), member2, member1));
+        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room2.getId(), member1, member2));
+        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room2.getId(), manager, member1));
         developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room1.getId(), member1, member2));
-        developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room1.getId(), manager, member1));
+        developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room1.getId(), member2, member1));
         developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room2.getId(), member1, member2));
         developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room2.getId(), manager, member1));
 
@@ -98,6 +108,8 @@ class UserFeedbackServiceTest {
         Member member1 = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member member2 = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
 
+        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room1.getId(), member1, member2));
+        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room2.getId(), member1, member2));
         developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room1.getId(), member1, member2));
         developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room2.getId(), member1, member2));
 
@@ -120,6 +132,8 @@ class UserFeedbackServiceTest {
         Member reviewer2 = memberRepository.save(MemberFixture.MEMBER_ASH());
         Member reviewee = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
 
+        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room1.getId(), reviewer1, reviewee));
+        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room2.getId(), reviewer1, reviewee));
         developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room1.getId(), reviewer1, reviewee));
         saveRevieweeToReviewer(room1.getId(), reviewer1, reviewee);
         saveRevieweeToReviewer(room1.getId(), reviewer2, reviewee);
@@ -144,6 +158,7 @@ class UserFeedbackServiceTest {
         Member reviewer2 = memberRepository.save(MemberFixture.MEMBER_ASH());
         Member reviewee = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
 
+        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room1.getId(), reviewer1, reviewee));
         developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room1.getId(), reviewer1, reviewee));
         saveRevieweeToReviewer(room1.getId(), reviewer1, reviewee);
         saveRevieweeToReviewer(room1.getId(), reviewer2, reviewee);
@@ -165,6 +180,8 @@ class UserFeedbackServiceTest {
         Member member1 = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member member2 = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
 
+        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room1.getId(), member1, member2));
+        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room2.getId(), member1, member2));
         developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room1.getId(), member1, member2));
         developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room2.getId(), member1, member2));
 
@@ -218,6 +235,9 @@ class UserFeedbackServiceTest {
         Member reviewer3 = memberRepository.save(MemberFixture.MEMBER_MOVIN());
         Member reviewee = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
 
+        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room1.getId(), reviewer1, reviewee));
+        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room1.getId(), reviewer2, reviewee));
+        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room1.getId(), reviewer3, reviewee));
         developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room1.getId(), reviewer1, reviewee));
         developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room1.getId(), reviewer3, reviewee));
         saveRevieweeToReviewer(room1.getId(), reviewer1, reviewee);
@@ -237,5 +257,69 @@ class UserFeedbackServiceTest {
                 () -> assertThat(maskedFeedbackData.isWrited()).isFalse(),
                 () -> assertThat(maskedFeedbackData.feedbackText()).isEmpty()
         );
+    }
+
+    @Nested
+    @DisplayName("피드백을 조회할 때, pr링크 및 review링크를 같이 조회할 수 있다.")
+    class readFeedbackWithLink {
+
+        private Member reviewer;
+        private Member reviewee;
+
+        @BeforeEach
+        void setUp() {
+            Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
+            Room room1 = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_CLOSED(manager));
+            reviewer = memberRepository.save(MemberFixture.MEMBER_PORORO());
+            reviewee = memberRepository.save(MemberFixture.MEMBER_MOVIN());
+
+            matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room1.getId(), reviewer, reviewee));
+            developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room1.getId(), reviewer, reviewee));
+            socialFeedbackRepository.save(SocialFeedbackFixture.POSITIVE_FEEDBACK(room1.getId(), reviewee, reviewer));
+        }
+
+        @Test
+        @DisplayName("받은 피드백 중, 개발 피드백에 대해서는 reviewLink를 같이 전달한다.")
+        void receivedFeedbackWithReviewLink() {
+            UserFeedbackResponse response = userFeedbackService.getReceivedFeedback(reviewee.getId());
+            List<FeedbackResponse> developFeedbacks = response.feedbacks()
+                    .get(0)
+                    .developFeedback();
+
+            assertThat(developFeedbacks.get(0).link()).isEqualTo("reviewLink");
+        }
+
+        @Test
+        @DisplayName("받은 피드백 중, 소셜 피드백에 대해서는 prLink를 같이 전달한다.")
+        void receivedFeedbackWithPrLink() {
+            UserFeedbackResponse response = userFeedbackService.getReceivedFeedback(reviewer.getId());
+            List<FeedbackResponse> socialFeedbacks = response.feedbacks()
+                    .get(0)
+                    .socialFeedback();
+
+            assertThat(socialFeedbacks.get(0).link()).isEqualTo("https://github.com/woowacourse-teams/2024-corea/pull/99");
+        }
+
+        @Test
+        @DisplayName("쓴 피드백 중, 개발 피드백에 대해서는 prLink를 같이 전달한다.")
+        void deliveredFeedbackWithPrLink() {
+            UserFeedbackResponse response = userFeedbackService.getDeliveredFeedback(reviewer.getId());
+            List<FeedbackResponse> developFeedbacks = response.feedbacks()
+                    .get(0)
+                    .developFeedback();
+
+            assertThat(developFeedbacks.get(0).link()).isEqualTo("https://github.com/woowacourse-teams/2024-corea/pull/99");
+        }
+
+        @Test
+        @DisplayName("쓴 피드백 중, 소셜 피드백에 대해서는 reviewLink를 같이 전달한다.")
+        void deliveredFeedbackWithReviewLink() {
+            UserFeedbackResponse response = userFeedbackService.getDeliveredFeedback(reviewee.getId());
+            List<FeedbackResponse> socialFeedbacks = response.feedbacks()
+                    .get(0)
+                    .socialFeedback();
+
+            assertThat(socialFeedbacks.get(0).link()).isEqualTo("reviewLink");
+        }
     }
 }
