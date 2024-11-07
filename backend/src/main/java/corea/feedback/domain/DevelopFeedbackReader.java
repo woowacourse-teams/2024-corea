@@ -26,20 +26,14 @@ public class DevelopFeedbackReader {
     public Map<Long, List<FeedbackOutput>> collectDeliverDevelopFeedback(long feedbackDeliverId) {
         return developFeedbackRepository.findAllByDeliverId(feedbackDeliverId)
                 .stream()
-                .map(developFeedback -> {
-                    MatchResult matchResult = getMatchResult(developFeedback);
-                    return FeedbackOutput.fromDeliver(developFeedback, matchResult.getPrLink());
-                })
+                .map(developFeedback -> FeedbackOutput.fromDeliver(developFeedback, getMatchResult(developFeedback).getPrLink()))
                 .collect(Collectors.groupingBy(FeedbackOutput::roomId));
     }
 
     public Map<Long, List<FeedbackOutput>> collectReceivedDevelopFeedback(long feedbackReceiverId) {
         return developFeedbackRepository.findAllByReceiverId(feedbackReceiverId)
                 .stream()
-                .map(developFeedback -> {
-                    MatchResult matchResult = getMatchResult(developFeedback);
-                    return FeedbackOutput.fromReceiver(developFeedback, matchResult.getReviewLink());
-                })
+                .map(developFeedback -> FeedbackOutput.fromReceiver(developFeedback, getMatchResult(developFeedback).getReviewLink()))
                 .collect(Collectors.groupingBy(FeedbackOutput::roomId));
     }
 

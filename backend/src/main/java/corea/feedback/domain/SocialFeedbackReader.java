@@ -26,20 +26,14 @@ public class SocialFeedbackReader {
     public Map<Long, List<FeedbackOutput>> collectDeliverSocialFeedback(long feedbackDeliverId) {
         return socialFeedbackRepository.findAllByDeliverId(feedbackDeliverId)
                 .stream()
-                .map(socialFeedback -> {
-                    MatchResult matchResult = getMatchResult(socialFeedback);
-                    return FeedbackOutput.fromDeliver(socialFeedback, matchResult.getReviewLink());
-                })
+                .map(socialFeedback -> FeedbackOutput.fromDeliver(socialFeedback, getMatchResult(socialFeedback).getReviewLink()))
                 .collect(Collectors.groupingBy(FeedbackOutput::roomId));
     }
 
     public Map<Long, List<FeedbackOutput>> collectReceivedSocialFeedback(long feedbackReceiverId) {
         return socialFeedbackRepository.findAllByReceiverId(feedbackReceiverId)
                 .stream()
-                .map(socialFeedback -> {
-                    MatchResult matchResult = getMatchResult(socialFeedback);
-                    return FeedbackOutput.fromReceiver(socialFeedback, matchResult.getPrLink());
-                })
+                .map(socialFeedback -> FeedbackOutput.fromReceiver(socialFeedback, getMatchResult(socialFeedback).getPrLink()))
                 .collect(Collectors.groupingBy(FeedbackOutput::roomId));
     }
 
