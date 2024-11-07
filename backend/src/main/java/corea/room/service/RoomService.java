@@ -113,11 +113,7 @@ public class RoomService {
     }
 
     private RoomParticipantResponse toRoomParticipantResponse(MatchResult matchResult) {
-        return new RoomParticipantResponse(
-                matchResult.getReviewee().getGithubUserId(),
-                matchResult.getReviewee().getUsername(),
-                matchResult.getPrLink(),
-                matchResult.getReviewee().getThumbnailUrl());
+        return RoomParticipantResponse.from(matchResult);
     }
 
     public RoomResponse getRoomById(long roomId) {
