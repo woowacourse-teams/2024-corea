@@ -6,8 +6,10 @@ import corea.global.annotation.Reader;
 import corea.member.repository.MemberRepository;
 import corea.member.repository.ReviewerRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Reader
 @RequiredArgsConstructor
@@ -19,6 +21,12 @@ public class MemberReader {
     public Member findOne(long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND));
+    }
+
+    public Map<Long, Member> findToMap(Iterable<Long> memberIds) {
+        return memberRepository.findAllById(memberIds)
+                .stream()
+                .collect(Collectors.toMap(Member::getId, Function.identity()));
     }
 
     public boolean isReviewer(String githubUserId) {
