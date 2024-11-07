@@ -1,7 +1,14 @@
 import apiClient from "./apiClient";
 import { API_ENDPOINTS } from "./endpoints";
 import { ParticipantListInfo } from "@/@types/participantList";
-import { Role, RoomInfo, RoomListInfo, SubmitRoomInfo } from "@/@types/roomInfo";
+import {
+  Classification,
+  Role,
+  RoomInfo,
+  RoomListInfo,
+  RoomStatusCategory,
+  SubmitRoomInfo,
+} from "@/@types/roomInfo";
 import MESSAGES from "@/constants/message";
 
 export const getParticipatedRoomList = async (
@@ -46,6 +53,19 @@ export const getClosedRoomList = async (
   const res = await apiClient.get({
     endpoint: `${API_ENDPOINTS.CLOSED_ROOMS}?classification=${classification}&page=${page}`,
     errorMessage: MESSAGES.ERROR.GET_CLOSED_ROOM_LIST,
+  });
+
+  return res;
+};
+
+export const getSearchRoomList = async (
+  status: RoomStatusCategory,
+  classification: Classification,
+  keywordTitle: string,
+): Promise<Pick<RoomListInfo, "rooms">> => {
+  const res = await apiClient.get({
+    endpoint: `${API_ENDPOINTS.SEARCH_ROOMS}?status=${status}&classification=${classification}&keywordTitle=${keywordTitle}`,
+    errorMessage: MESSAGES.ERROR.GET_SEARCH_ROOM_LIST,
   });
 
   return res;
