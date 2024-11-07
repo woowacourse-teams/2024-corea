@@ -1,0 +1,36 @@
+{
+  "data": [
+    {
+      "alarmId": 1,
+      "actionType": "REVIEW_COMPLETE",
+      "actor": {
+        "memberId": 2,
+        "username": "ashsty",
+        "thumbnailUrl": "www.myProfile.jpg"
+      },
+      "interaction": {
+        "interactionId": 1,
+        "info": "TDD 자바"
+      },
+      "isRead": false,
+      "createAt": "2024-1107T07:47:59.4122",
+      "alarmType": "USER"
+    },
+    {
+      "alarmId": 2,
+      "actionType": "REVIEW_COMPLETE",
+      "actor": {
+        "memberId": 2,
+        "username": "ashstyashstyashstyashstyashstyashsty",
+        "thumbnailUrl": "www.myProfile.jpg"
+      },
+      "interaction": {
+        "interactionId": 1,
+        "info": "TDD 자바 TDD 자바 TDD 자바 TDD 자바 TDD 자바 TDD 자바 TDD 자바"
+      },
+      "isRead": false,
+      "createAt": "2024-1107T07:47:59.4122",
+      "alarmType": "USER"
+    }
+  ]
+}
