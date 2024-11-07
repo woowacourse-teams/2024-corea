@@ -123,3 +123,29 @@ export const convertDateToKorean = (dateString: string) => {
 
   return `20${year}년 ${month}월 ${day}일 ${hour}시 ${minute}분`;
 };
+
+// 알람용 시간 표기
+export const formatTimeAgo = (dateString: string): string => {
+  const formattedDateString = dateString.replace(/(\d{4})-(\d{2})(\d{2})T/, "$1-$2-$3T");
+
+  const date = new Date(formattedDateString);
+  const now = new Date();
+  const diff = now.getTime() - date.getTime();
+  const hoursDiff = Math.floor(diff / (1000 * 60 * 60));
+
+  // 24시간 이내
+  if (hoursDiff < 24) {
+    if (hoursDiff === 0) {
+      const minutesDiff = Math.floor(diff / (1000 * 60));
+      return `${minutesDiff}분 전`;
+    }
+    return `${hoursDiff}시간 전`;
+  }
+
+  // 24시간 이후
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  const day = date.getDate().toString().padStart(2, "0");
+
+  return `${year}년 ${month}월 ${day}일`;
+};

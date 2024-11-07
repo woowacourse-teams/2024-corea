@@ -1,6 +1,7 @@
 import { useFetchAlarmList } from "@/hooks/queries/useFetchAlarm";
 import Profile from "@/components/common/profile/Profile";
 import * as S from "@/pages/alarm/AlarmPage.style";
+import { formatTimeAgo } from "@/utils/dateFormatter";
 
 const AlarmPage = () => {
   const { data } = useFetchAlarmList();
@@ -31,7 +32,7 @@ const AlarmPage = () => {
               <S.Content>
                 {getAlarmMessage(alarm.actionType, alarm.actor.username, alarm.interaction.info)}
               </S.Content>
-              <S.TimeStamp>{alarm.createAt}</S.TimeStamp>
+              <S.TimeStamp>{formatTimeAgo(alarm.createAt)}</S.TimeStamp>
             </S.ContentWrapper>
           </S.AlarmItem>
         ))}
