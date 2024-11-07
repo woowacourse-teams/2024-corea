@@ -2,6 +2,7 @@ package corea.feedback.controller;
 
 import config.ControllerTest;
 import corea.auth.service.TokenService;
+import corea.feedback.dto.FeedbacksResponse;
 import corea.feedback.dto.UserFeedbackResponse;
 import corea.feedback.repository.DevelopFeedbackRepository;
 import corea.feedback.repository.SocialFeedbackRepository;
@@ -18,7 +19,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @ControllerTest
 class UserFeedbackControllerTest {
@@ -59,9 +63,17 @@ class UserFeedbackControllerTest {
                 .then().statusCode(200)
                 .extract().as(UserFeedbackResponse.class);
 
-        assertThat(response.feedbacks()).hasSize(2);
-        assertThat(response.feedbacks().get(0).socialFeedback()).hasSize(1);
-        assertThat(response.feedbacks().get(0).developFeedback()).hasSize(1);
+        List<FeedbacksResponse> feedbacks = response.feedbacks();
+        FeedbacksResponse firstFeedbackResponse = feedbacks.get(0);
+        FeedbacksResponse secondFeedbackResponse = feedbacks.get(1);
+
+        assertAll(
+                () -> assertThat(feedbacks).hasSize(2),
+                () -> assertThat(firstFeedbackResponse.developFeedback()).hasSize(1),
+                () -> assertThat(firstFeedbackResponse.socialFeedback()).hasSize(0),
+                () -> assertThat(secondFeedbackResponse.developFeedback()).hasSize(1),
+                () -> assertThat(secondFeedbackResponse.socialFeedback()).hasSize(1)
+        );
     }
 
     @Test
@@ -85,10 +97,17 @@ class UserFeedbackControllerTest {
                 .then().statusCode(200)
                 .extract().as(UserFeedbackResponse.class);
 
-        assertThat(response.feedbacks()).hasSize(2);
-        assertThat(response.feedbacks().get(0).developFeedback()).hasSize(1);
-        assertThat(response.feedbacks().get(0).socialFeedback()).hasSize(1);
-        assertThat(response.feedbacks().get(1).developFeedback()).hasSize(1);
+        List<FeedbacksResponse> feedbacks = response.feedbacks();
+        FeedbacksResponse firstFeedbackResponse = feedbacks.get(0);
+        FeedbacksResponse secondFeedbackResponse = feedbacks.get(1);
+
+        assertAll(
+                () -> assertThat(feedbacks).hasSize(2),
+                () -> assertThat(firstFeedbackResponse.developFeedback()).hasSize(1),
+                () -> assertThat(firstFeedbackResponse.socialFeedback()).hasSize(0),
+                () -> assertThat(secondFeedbackResponse.developFeedback()).hasSize(1),
+                () -> assertThat(secondFeedbackResponse.socialFeedback()).hasSize(1)
+        );
     }
 
     @Test
@@ -115,8 +134,13 @@ class UserFeedbackControllerTest {
                 .then().statusCode(200)
                 .extract().as(UserFeedbackResponse.class);
 
-        assertThat(response.feedbacks()).hasSize(1);
-        assertThat(response.feedbacks().get(0).developFeedback()).hasSize(1);
-        assertThat(response.feedbacks().get(0).socialFeedback()).hasSize(1);
+        List<FeedbacksResponse> feedbacks = response.feedbacks();
+        FeedbacksResponse firstFeedbackResponse = feedbacks.get(0);
+
+        assertAll(
+                () -> assertThat(feedbacks).hasSize(1),
+                () -> assertThat(firstFeedbackResponse.developFeedback()).hasSize(1),
+                () -> assertThat(firstFeedbackResponse.socialFeedback()).hasSize(1)
+        );
     }
 }

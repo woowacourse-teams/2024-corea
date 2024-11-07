@@ -15,11 +15,13 @@ import corea.fixture.SocialFeedbackFixture;
 import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
 import corea.room.domain.Room;
+import corea.room.domain.RoomStatus;
 import corea.room.repository.RoomRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -87,6 +89,28 @@ class UserFeedbackServiceTest {
     }
 
     @Test
+    @DisplayName("자신이 해준 피드백을 가져올 때, 방이 최근에 종료된 순으로 가져온다.")
+    void getDeliveredFeedback() {
+        Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
+        LocalDateTime now = LocalDateTime.now();
+        Room room1 = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager, now, now.plusDays(1), RoomStatus.CLOSE));
+        Room room2 = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager, now, now.plusDays(2), RoomStatus.CLOSE));
+        Member member1 = memberRepository.save(MemberFixture.MEMBER_PORORO());
+        Member member2 = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
+
+        developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room1.getId(), member1, member2));
+        developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room2.getId(), member1, member2));
+
+        UserFeedbackResponse deliveredFeedback = userFeedbackService.getDeliveredFeedback(member1.getId());
+        List<FeedbacksResponse> feedbacksResponses = deliveredFeedback.feedbacks();
+
+        assertAll(
+                () -> assertThat(feedbacksResponses.get(0).roomId()).isEqualTo(room2.getId()),
+                () -> assertThat(feedbacksResponses.get(1).roomId()).isEqualTo(room1.getId())
+        );
+    }
+
+    @Test
     @DisplayName("자신이 받은 피드백을 가져올 땐 방이 닫혀있는 피드백들만 가져온다.")
     void getReceivedFeedbackFromClosedRooms() {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
@@ -113,7 +137,7 @@ class UserFeedbackServiceTest {
 
     @Test
     @DisplayName("자신이 받은 피드백들만 가져온다.")
-    void getReceivedFeedback() {
+    void getReceivedFeedback1() {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
         Room room1 = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_CLOSED(manager));
         Member reviewer1 = memberRepository.save(MemberFixture.MEMBER_PORORO());
@@ -129,6 +153,28 @@ class UserFeedbackServiceTest {
                 .get(0)
                 .developFeedback();
         assertThat(feedbackData).hasSize(1);
+    }
+
+    @Test
+    @DisplayName("자신이 받은 피드백을 가져올 때, 방이 최근에 종료된 순으로 가져온다.")
+    void getReceivedFeedback2() {
+        Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
+        LocalDateTime now = LocalDateTime.now();
+        Room room1 = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager, now, now.plusDays(1), RoomStatus.CLOSE));
+        Room room2 = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager, now, now.plusDays(2), RoomStatus.CLOSE));
+        Member member1 = memberRepository.save(MemberFixture.MEMBER_PORORO());
+        Member member2 = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
+
+        developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room1.getId(), member1, member2));
+        developFeedbackRepository.save(DevelopFeedbackFixture.POSITIVE_FEEDBACK(room2.getId(), member1, member2));
+
+        UserFeedbackResponse receivedFeedback = userFeedbackService.getReceivedFeedback(member2.getId());
+        List<FeedbacksResponse> feedbacksResponses = receivedFeedback.feedbacks();
+
+        assertAll(
+                () -> assertThat(feedbacksResponses.get(0).roomId()).isEqualTo(room2.getId()),
+                () -> assertThat(feedbacksResponses.get(1).roomId()).isEqualTo(room1.getId())
+        );
     }
 
     private void saveRevieweeToReviewer(long roomId, Member reviewee, Member reviewer) {
