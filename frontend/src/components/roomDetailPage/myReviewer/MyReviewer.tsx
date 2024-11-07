@@ -19,9 +19,9 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
   const { data: reviewerData } = useFetchReviewer(roomInfo);
 
   // 피드백 페이지 이동 함수
-  const handleNavigateFeedbackPage = (reviewer: ReviewerInfo) => {
-    navigate(`/rooms/${roomInfo.id}/feedback/reviewer?username=${reviewer.username}`, {
-      state: { reviewer },
+  const handleNavigateFeedbackPage = (reviewInfo: ReviewerInfo) => {
+    navigate(`/rooms/${roomInfo.id}/feedback/reviewer?username=${reviewInfo.username}`, {
+      state: { reviewInfo },
     });
   };
 

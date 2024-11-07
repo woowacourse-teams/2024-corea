@@ -23,9 +23,9 @@ const MyReviewee = ({ roomInfo }: MyRevieweeProps) => {
   const [loadingButtonId, setLoadingButtonId] = useState<number[]>([]);
 
   // 피드백 페이지 이동 함수
-  const handleNavigateFeedbackPage = (reviewee: ReviewerInfo) => {
-    navigate(`/rooms/${roomInfo.id}/feedback/reviewee?username=${reviewee.username}`, {
-      state: { reviewee },
+  const handleNavigateFeedbackPage = (reviewInfo: ReviewerInfo) => {
+    navigate(`/rooms/${roomInfo.id}/feedback/reviewee?username=${reviewInfo.username}`, {
+      state: { reviewInfo },
     });
   };
 
