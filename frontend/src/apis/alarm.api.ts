@@ -22,7 +22,6 @@ export const getAlarmList = async (): Promise<AlarmListData> => {
 };
 
 export const postMarkAlarmAsRead = async ({ alarmId, alarmType }: AlarmAsRead): Promise<void> => {
-  console.log("click");
   return apiClient.post({
     endpoint: API_ENDPOINTS.ALARM_CHECKED,
     body: { alarmId, alarmType },
