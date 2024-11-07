@@ -106,7 +106,7 @@ class ReviewServiceTest {
         assertThatThrownBy(() -> reviewService.completeReview(room.getId(), reviewer.getId(), reviewee.getId()))
                 .asInstanceOf(InstanceOfAssertFactories.type(CoreaException.class))
                 .extracting(CoreaException::getExceptionType)
-                .isEqualTo(ExceptionType.ROOM_STATUS_INVALID);
+                .isEqualTo(ExceptionType.ROOM_STATUS_IS_NOT_PROGRESS);
     }
 
     @Test
