@@ -35,7 +35,8 @@ public class RoomReader {
         return roomRepository.findAllById(roomIds)
                 .stream()
                 .collect(Collectors.toMap(Room::getId, Function.identity()));
-      
+    }
+
     public List<Room> findAll(Specification<Room> spec) {
         return roomRepository.findAll(spec, Sort.by("recruitmentDeadline").descending());
     }
