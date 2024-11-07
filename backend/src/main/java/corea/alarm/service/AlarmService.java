@@ -34,8 +34,8 @@ public class AlarmService {
     public AlarmResponses getAlarm(long userId) {
         Member member = memberReader.findOne(userId);
         UserAlarmsByActionType userToUserAlarms = userToUserAlarmReader.findAllByReceiver(member);
-        Map<Long, Member> actors = memberReader.findToMap(userToUserAlarms.getActorIds());
-        Map<Long, Room> rooms = roomReader.findToMap(userToUserAlarms.getRoomIds());
+        Map<Long, Member> actors = memberReader.findMembersMappedById(userToUserAlarms.getActorIds());
+        Map<Long, Room> rooms = roomReader.findRoomsMappedById(userToUserAlarms.getRoomIds());
         return AlarmResponses.from(userToUserAlarms.getList(), actors, rooms);
     }
 }

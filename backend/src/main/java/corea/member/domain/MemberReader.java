@@ -23,7 +23,7 @@ public class MemberReader {
                 .orElseThrow(() -> new CoreaException(ExceptionType.MEMBER_NOT_FOUND));
     }
 
-    public Map<Long, Member> findToMap(Iterable<Long> memberIds) {
+    public Map<Long, Member> findMembersMappedById(Iterable<Long> memberIds) {
         return memberRepository.findAllById(memberIds)
                 .stream()
                 .collect(Collectors.toMap(Member::getId, Function.identity()));
