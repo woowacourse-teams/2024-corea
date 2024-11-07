@@ -1,6 +1,7 @@
 package corea.alarm.domain;
 
 import corea.global.BaseTimeEntity;
+import corea.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -45,5 +46,13 @@ public class UserToUserAlarm extends BaseTimeEntity {
 
     public String getActionType() {
         return alarmActionType.name();
+    }
+
+    public boolean isNotReceiver(Member member) {
+        return !receiverId.equals(member.getId());
+    }
+
+    public void read() {
+        isRead = true;
     }
 }

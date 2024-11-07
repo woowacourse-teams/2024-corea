@@ -1,7 +1,7 @@
 package corea.alarm.service;
 
-import corea.alarm.domain.UserAlarmsByActionType;
-import corea.alarm.domain.UserToUserAlarmReader;
+import corea.alarm.domain.*;
+import corea.alarm.dto.AlarmCheckRequest;
 import corea.alarm.dto.AlarmCountResponse;
 import corea.alarm.dto.AlarmResponses;
 import corea.member.domain.Member;
@@ -9,11 +9,13 @@ import corea.member.domain.MemberReader;
 import corea.room.domain.Room;
 import corea.room.domain.RoomReader;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -22,8 +24,9 @@ public class AlarmService {
     private static final boolean UNREAD = false;
 
     private final MemberReader memberReader;
-    private final UserToUserAlarmReader userToUserAlarmReader;
     private final RoomReader roomReader;
+    private final UserToUserAlarmWriter userToUserAlarmWriter;
+    private final UserToUserAlarmReader userToUserAlarmReader;
 
     public AlarmCountResponse getUnReadAlarmCount(long userId) {
         Member member = memberReader.findOne(userId);
@@ -37,5 +40,15 @@ public class AlarmService {
         Map<Long, Member> actors = memberReader.findMembersMappedById(userToUserAlarms.getActorIds());
         Map<Long, Room> rooms = roomReader.findRoomsMappedById(userToUserAlarms.getRoomIds());
         return AlarmResponses.from(userToUserAlarms.getList(), actors, rooms);
+    }
+
+    @Transactional
+    public void checkAlarm(long userId, AlarmCheckRequest request) {
+        Member member = memberReader.findOne(userId);
+        AlarmType alarmType = AlarmType.from(request.alarmType());
+        if (alarmType == AlarmType.USER) {
+            UserToUserAlarm userToUserAlarm = userToUserAlarmReader.find(request.actionId());
+            userToUserAlarmWriter.check(member, userToUserAlarm);
+        }
     }
 }
