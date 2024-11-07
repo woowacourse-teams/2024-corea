@@ -36,4 +36,7 @@ export const API_ENDPOINTS = {
 
   // ranking
   RANKING: "/ranks/board",
+
+  // alarm
+  ALARM_COUNT: "/alarm/count",
 };
