@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface UserToUserAlarmRepository extends JpaRepository<UserToUserAlarm, Long> {
 
-    List<UserToUserAlarm> findAllByReceiverId(Long receiverId);
+    List<UserToUserAlarm> findAllByReceiverId(long receiverId);
 }
