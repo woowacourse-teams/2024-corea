@@ -2,15 +2,15 @@ package corea.member.domain;
 
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
+import corea.global.annotation.Reader;
 import corea.member.repository.MemberRepository;
 import corea.member.repository.ReviewerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-@Component
+@Reader
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class MemberReader {
 
     private final MemberRepository memberRepository;
