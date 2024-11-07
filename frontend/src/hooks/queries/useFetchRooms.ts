@@ -1,5 +1,5 @@
 import { useQuery, useSuspenseInfiniteQuery, useSuspenseQuery } from "@tanstack/react-query";
-import { Classification, RoomListInfo, RoomStatusCategory } from "@/@types/roomInfo";
+import { Classification, RoomListInfo, RoomStatus, RoomStatusCategory } from "@/@types/roomInfo";
 import QUERY_KEYS from "@/apis/queryKeys";
 import {
   getParticipantList,
@@ -38,9 +38,29 @@ export const useFetchSearchRoomList = (
   keyword: string,
   enabled: boolean,
 ) => {
+  let roomStatus: RoomStatus;
+
+  switch (status) {
+    case "opened": {
+      roomStatus = "OPEN";
+      break;
+    }
+    case "closed": {
+      roomStatus = "CLOSE";
+      break;
+    }
+    case "progress": {
+      roomStatus = "PROGRESS";
+      break;
+    }
+    default: {
+      roomStatus = "OPEN";
+    }
+  }
+
   return useQuery({
     queryKey: [QUERY_KEYS.SEARCH_ROOM_LIST, status, classification, keyword],
-    queryFn: () => getSearchRoomList(status, classification, keyword),
+    queryFn: () => getSearchRoomList(roomStatus, classification, keyword),
     enabled,
   });
 };

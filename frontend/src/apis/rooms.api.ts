@@ -6,7 +6,7 @@ import {
   Role,
   RoomInfo,
   RoomListInfo,
-  RoomStatusCategory,
+  RoomStatus,
   SubmitRoomInfo,
 } from "@/@types/roomInfo";
 import MESSAGES from "@/constants/message";
@@ -59,12 +59,12 @@ export const getClosedRoomList = async (
 };
 
 export const getSearchRoomList = async (
-  status: RoomStatusCategory,
+  status: RoomStatus,
   classification: Classification,
   keywordTitle: string,
 ): Promise<Pick<RoomListInfo, "rooms">> => {
   const res = await apiClient.get({
-    endpoint: `${API_ENDPOINTS.SEARCH_ROOMS}?status=${status}&classification=${classification}&keywordTitle=${keywordTitle}`,
+    endpoint: `${API_ENDPOINTS.SEARCH_ROOMS}?status=${status}&classification=${classification.toUpperCase()}&keywordTitle=${keywordTitle}`,
     errorMessage: MESSAGES.ERROR.GET_SEARCH_ROOM_LIST,
   });
 

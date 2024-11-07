@@ -73,18 +73,18 @@ const RoomListWithDropdown = ({
       </S.FilterWrapper>
       {searchedRooms.length === 0 ? (
         <RoomList
-          roomList={searchedRooms}
-          isFetchingNextPage={isLoading}
-          roomType={roomType}
-          emptyMessage="검색된 방이 없습니다."
-        />
-      ) : (
-        <RoomList
           roomList={roomList}
           hasNextPage={hasNextPage}
           onLoadMore={onLoadMore}
           isFetchingNextPage={isFetchingNextPage}
           roomType={roomType}
+        />
+      ) : (
+        <RoomList
+          roomList={searchedRooms}
+          isFetchingNextPage={isLoading}
+          roomType={roomType}
+          emptyMessage="검색된 방이 없습니다."
         />
       )}
     </ContentSection>
