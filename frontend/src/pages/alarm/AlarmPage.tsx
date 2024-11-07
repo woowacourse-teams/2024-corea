@@ -1,9 +1,11 @@
+import { useNavigate } from "react-router-dom";
 import { useFetchAlarmList } from "@/hooks/queries/useFetchAlarm";
 import Profile from "@/components/common/profile/Profile";
 import * as S from "@/pages/alarm/AlarmPage.style";
 import { formatTimeAgo } from "@/utils/dateFormatter";
 
 const AlarmPage = () => {
+  const navigate = useNavigate();
   const { data } = useFetchAlarmList();
   const alarmListData = data?.data;
 
@@ -18,11 +20,31 @@ const AlarmPage = () => {
     return "";
   };
 
+  const getNavigationPath = (actionType: string, interactionId: number) => {
+    if (actionType === "REVIEW_COMPLETE") {
+      return `/rooms/${interactionId}`;
+    }
+    return "";
+  };
+
+  const handleAlarmClick = (actionType: string, interactionId: number) => {
+    const path = getNavigationPath(actionType, interactionId);
+    if (path) {
+      navigate(path);
+    }
+  };
+
+  //TODO: 알람이 없을 때
+
   return (
     <S.Layout>
       <S.AlarmList>
         {alarmListData?.map((alarm) => (
-          <S.AlarmItem key={alarm.alarmId} $isRead={alarm.isRead}>
+          <S.AlarmItem
+            key={alarm.alarmId}
+            $isRead={alarm.isRead}
+            onClick={() => handleAlarmClick(alarm.actionType, alarm.interaction.interactionId)}
+          >
             {alarm.actor && (
               <S.ProfileWrapper>
                 <Profile imgSrc={alarm.actor.thumbnailUrl} size={40} />

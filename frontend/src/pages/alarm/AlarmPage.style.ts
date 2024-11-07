@@ -24,6 +24,8 @@ export const AlarmList = styled.ul`
 `;
 
 export const AlarmItem = styled.li<{ $isRead: boolean }>`
+  cursor: pointer;
+
   position: relative;
 
   display: grid;
@@ -38,6 +40,10 @@ export const AlarmItem = styled.li<{ $isRead: boolean }>`
   font: ${({ theme }) => theme.TEXT.small};
 
   background-color: ${({ theme, $isRead }) => $isRead && theme.COLOR.grey0};
+
+  &:hover {
+    background-color: ${({ theme }) => theme.COLOR.grey0};
+  }
 `;
 
 export const ProfileWrapper = styled.div`
