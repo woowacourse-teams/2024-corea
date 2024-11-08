@@ -8,7 +8,7 @@ const alarmHandler = [
   http.get(serverUrl + API_ENDPOINTS.ALARM_COUNT, () => {
     return HttpResponse.json(alarmcount, { status: 200 });
   }),
-  http.get(serverUrl + API_ENDPOINTS.ALARM_LISt, () => {
+  http.get(serverUrl + API_ENDPOINTS.ALARM_LIST, () => {
     return HttpResponse.json(alarmInfos, { status: 200 });
   }),
 ];

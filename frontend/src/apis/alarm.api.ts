@@ -14,7 +14,7 @@ export const getAlarmCount = async (): Promise<AlarmCount> => {
 
 export const getAlarmList = async (): Promise<AlarmListData> => {
   const res = await apiClient.get({
-    endpoint: API_ENDPOINTS.ALARM_LISt,
+    endpoint: API_ENDPOINTS.ALARM_LIST,
     errorMessage: MESSAGES.ERROR.GET_ALARM_LIST,
   });
 
@@ -25,6 +25,6 @@ export const postMarkAlarmAsRead = async ({ alarmId, alarmType }: AlarmAsRead): 
   return apiClient.post({
     endpoint: API_ENDPOINTS.ALARM_CHECKED,
     body: { alarmId, alarmType },
-    errorMessage: MESSAGES.ERROR.POSt_ALARM_CHECKED,
+    errorMessage: MESSAGES.ERROR.POST_ALARM_CHECKED,
   });
 };
