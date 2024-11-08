@@ -1,7 +1,12 @@
-import { useSuspenseInfiniteQuery, useSuspenseQuery } from "@tanstack/react-query";
-import { RoomListInfo } from "@/@types/roomInfo";
+import { useQuery, useSuspenseInfiniteQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { Classification, RoomListInfo, RoomStatus, RoomStatusCategory } from "@/@types/roomInfo";
 import QUERY_KEYS from "@/apis/queryKeys";
-import { getParticipantList, getParticipatedRoomList, getRoomDetailInfo } from "@/apis/rooms.api";
+import {
+  getParticipantList,
+  getParticipatedRoomList,
+  getRoomDetailInfo,
+  getSearchRoomList,
+} from "@/apis/rooms.api";
 
 interface RoomListQueryProps {
   queryKey: string[];
@@ -24,6 +29,39 @@ export const useInfiniteFetchRoomList = ({
       return lastPage.pageNumber + 1;
     },
     initialPageParam: 0,
+  });
+};
+
+export const useFetchSearchRoomList = (
+  status: RoomStatusCategory,
+  classification: Classification,
+  keyword: string,
+  enabled: boolean,
+) => {
+  let roomStatus: RoomStatus;
+
+  switch (status) {
+    case "opened": {
+      roomStatus = "OPEN";
+      break;
+    }
+    case "closed": {
+      roomStatus = "CLOSE";
+      break;
+    }
+    case "progress": {
+      roomStatus = "PROGRESS";
+      break;
+    }
+    default: {
+      roomStatus = "OPEN";
+    }
+  }
+
+  return useQuery({
+    queryKey: [QUERY_KEYS.SEARCH_ROOM_LIST, status, classification, keyword],
+    queryFn: () => getSearchRoomList(roomStatus, classification, keyword),
+    enabled,
   });
 };
 

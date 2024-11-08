@@ -16,7 +16,21 @@
     },
     {
       "userId": 3,
-      "username": "youngsu5584",
+      "username": "younggu5584",
+      "link": "https://github.com/youngsu5582/java-racing/pull/4",
+      "isReviewed": false,
+      "isWrited": false
+    },
+    {
+      "userId": 4,
+      "username": "gounggu5584",
+      "link": "https://github.com/youngsu5582/java-racing/pull/4",
+      "isReviewed": false,
+      "isWrited": false
+    },
+    {
+      "userId": 5,
+      "username": "zounggu5584",
       "link": "https://github.com/youngsu5582/java-racing/pull/4",
       "isReviewed": false,
       "isWrited": false

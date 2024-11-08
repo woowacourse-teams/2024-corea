@@ -1,5 +1,7 @@
 package corea.room.dto;
 
+import corea.matchresult.domain.MatchResult;
+import corea.member.domain.Member;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(description = "방 참여 멤버 정보 응답")
@@ -16,4 +18,15 @@ public record RoomParticipantResponse(
         @Schema(description = "썸네일 링크", example = "www.myProfile.jpg")
         String thumbnailLink
 ) {
+
+    public static RoomParticipantResponse from(MatchResult matchResult) {
+        Member reviewee = matchResult.getReviewee();
+
+        return new RoomParticipantResponse(
+                reviewee.getGithubUserId(),
+                reviewee.getUsername(),
+                matchResult.getPrLink(),
+                reviewee.getThumbnailUrl()
+        );
+    }
 }

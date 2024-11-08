@@ -12,6 +12,7 @@ import corea.fixture.RoomFixture;
 import corea.matchresult.domain.MatchResult;
 import corea.matchresult.repository.MatchResultRepository;
 import corea.member.domain.Member;
+import corea.member.domain.Profile;
 import corea.member.repository.MemberRepository;
 import corea.room.domain.Room;
 import corea.room.repository.RoomRepository;
@@ -59,6 +60,46 @@ class SocialFeedbackServiceTest {
         assertThatCode(() -> socialFeedbackService.create(room.getId(), reviewee.getId(), createRequest(reviewer.getId())))
                 .doesNotThrowAnyException();
         assertThat(matchResult.isRevieweeCompletedFeedback()).isTrue();
+    }
+
+    @Transactional
+    @Test
+    @DisplayName("방이 close 상태가 아닐 때 피드백을 작성하면, 피드백 받은 개수가 증가하지 않는다")
+    void notUpdateFeedbackPoint() {
+        Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
+        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
+        Member reviewer = memberRepository.save(MemberFixture.MEMBER_PORORO());
+        Member reviewee = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
+        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(
+                room.getId(),
+                reviewer,
+                reviewee
+        ));
+
+        socialFeedbackService.create(room.getId(), reviewee.getId(), createRequest(reviewer.getId()));
+
+        Profile profile = reviewer.getProfile();
+        assertThat(profile.getFeedbackCount()).isEqualTo(0);
+    }
+
+    @Transactional
+    @Test
+    @DisplayName("방이 close 상태일 때 피드백을 작성하면, 피드백 받은 개수가 바로 증가한다.")
+    void updateFeedbackPoint() {
+        Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
+        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_CLOSED(manager));
+        Member reviewer = memberRepository.save(MemberFixture.MEMBER_PORORO());
+        Member reviewee = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
+        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(
+                room.getId(),
+                reviewer,
+                reviewee
+        ));
+
+        socialFeedbackService.create(room.getId(), reviewee.getId(), createRequest(reviewer.getId()));
+
+        Profile profile = reviewer.getProfile();
+        assertThat(profile.getFeedbackCount()).isEqualTo(1);
     }
 
     @Test
