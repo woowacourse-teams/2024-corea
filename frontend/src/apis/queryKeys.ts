@@ -1,6 +1,7 @@
 const QUERY_KEYS = {
   // rooms
   PARTICIPATED_ROOM_LIST: "participatedRoomList",
+  SEARCH_ROOM_LIST: "searchRoomList",
   PROGRESS_ROOM_LIST: "progressRoomList",
   OPENED_ROOM_LIST: "openedRoomList",
   CLOSED_ROOM_LIST: "closedRoomList",

@@ -28,6 +28,7 @@ const ERROR_MESSAGES = {
   GET_PROGRESS_ROOM_LIST: "진행 중인 방 목록을 불러오는 도중 에러가 발생하였습니다.",
   GET_OPENED_ROOM_LIST: "모집 중인 방 목록을 불러오는 도중 에러가 발생하였습니다.",
   GET_CLOSED_ROOM_LIST: "모집 완료 방 목록을 불러오는 도중 에러가 발생하였습니다.",
+  GET_SEARCH_ROOM_LIST: "방 검색 결과를 불러오는 도중 에러가 발생하였습니다.",
   GET_ROOM_DETAIL_INFO: "방 상세정보를 불러오는 도중 에러가 발생하였습니다.",
   POST_CREATE_ROOM: "방 생성하기를 실패했습니다.",
   PUT_EDIT_ROOM: "방 정보 수정하기를 실패했습니다.",
