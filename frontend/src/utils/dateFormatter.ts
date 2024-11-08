@@ -1,3 +1,5 @@
+import { DATE_FORMAT } from "@/constants/days";
+
 // 공통 포맷팅 함수
 const formatStringToDate = (
   dateString: string,
@@ -126,7 +128,7 @@ export const convertDateToKorean = (dateString: string) => {
 
 // 알람용 시간 표기
 export const formatTimeAgo = (dateString: string): string => {
-  const formattedDateString = dateString.replace(/(\d{4})-(\d{2})(\d{2})T/, "$1-$2-$3T");
+  const formattedDateString = dateString.replace(DATE_FORMAT.PATTERN, DATE_FORMAT.REPLACEMENT);
 
   const date = new Date(formattedDateString);
   const now = new Date();
