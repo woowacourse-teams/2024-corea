@@ -30,7 +30,7 @@ public class AlarmController implements AlarmControllerSpecification {
         AlarmResponses responses = alarmService.getAlarm(authInfo.getId());
         return ResponseEntity.ok(responses);
     }
-
+  
     @PostMapping("/alarm/check")
     public ResponseEntity<Void> checkAlarm(@LoginMember AuthInfo authInfo, @RequestBody AlarmCheckRequest request) {
         alarmService.checkAlarm(authInfo.getId(), request);

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useMutateReviewComplete from "@/hooks/mutations/useMutateReview";
 import { useFetchReviewee } from "@/hooks/queries/useFetchReviewee";
@@ -7,7 +7,6 @@ import Icon from "@/components/common/icon/Icon";
 import * as S from "@/components/roomDetailPage/myReviewee/MyReviewee.style";
 import { ReviewerInfo } from "@/@types/reviewer";
 import { RoomInfo } from "@/@types/roomInfo";
-import { spinner } from "@/assets";
 import MESSAGES from "@/constants/message";
 import { HoverStyledLink } from "@/styles/common";
 import { getFeedbackPageType } from "@/utils/feedbackUtils";
@@ -31,6 +30,7 @@ const MyReviewee = ({ roomInfo }: MyRevieweeProps) => {
 
   // 코드 리뷰 완료 post 요청 보내는 함수
   const handleReviewCompleteClick = (reviewee: ReviewerInfo) => {
+    if (loadingButtonId.includes(reviewee.userId)) return;
     setLoadingButtonId((prev) => [...prev, reviewee.userId]);
 
     postReviewCompleteMutation.mutate(
@@ -67,26 +67,20 @@ const MyReviewee = ({ roomInfo }: MyRevieweeProps) => {
         size="xSmall"
         variant="primary"
         onClick={() => handleNavigateFeedbackPage(reviewee)}
-        disabled={!reviewee.isReviewed || loadingButtonId.includes(reviewee.userId)}
+        disabled={!reviewee.isReviewed}
+        isLoading={loadingButtonId.includes(reviewee.userId)}
       >
-        {loadingButtonId.includes(reviewee.userId) ? (
-          <S.LoadingSpinner src={spinner} />
-        ) : (
-          buttonText
-        )}
+        {buttonText}
       </Button>
     ) : (
       <Button
         size="xSmall"
         variant="confirm"
-        disabled={reviewee.isReviewed || loadingButtonId.includes(reviewee.userId)}
+        disabled={reviewee.isReviewed}
         onClick={() => handleReviewCompleteClick(reviewee)}
+        isLoading={loadingButtonId.includes(reviewee.userId)}
       >
-        {loadingButtonId.includes(reviewee.userId) ? (
-          <S.LoadingSpinner src={spinner} />
-        ) : (
-          "코드리뷰 마치기"
-        )}
+        코드리뷰 마치기
       </Button>
     );
   };
