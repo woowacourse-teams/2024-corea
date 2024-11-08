@@ -6,8 +6,10 @@ import corea.global.annotation.ApiErrorResponses;
 import corea.matchresult.dto.MatchResultResponses;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 
+@Tag(name = "MatchResult", description = "매칭 결과 관련 API")
 public interface MatchingResultControllerSpecification {
     @Operation(summary = "해당 방에서 나에게 배정된 리뷰어들의 정보를 반환합니다.",
             description = "해당 방에서 자신에게 배정된 리뷰어를 확인합니다. <br>" +

@@ -25,6 +25,7 @@ import {
   MdOutlineArrowDropUp,
   MdOutlineCreate,
   MdOutlinePeopleAlt,
+  MdOutlineSearch,
   MdOutlineStar,
   MdOutlineThumbDown,
   MdOutlineThumbUp,
@@ -59,6 +60,7 @@ const ICON: { [key in IconKind]: IconType } = {
   close: MdClear,
   githubLogo: IoLogoGithub,
   notificationBell: MdNotificationsNone,
+  search: MdOutlineSearch,
 };
 
 interface IconProps {

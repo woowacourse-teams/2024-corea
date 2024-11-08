@@ -34,12 +34,15 @@ public record FeedbackOutput(@Schema(description = "피드백 아이디", exampl
                              int evaluationPoint,
 
                              @Schema(description = "부가 작성 가능한 피드백 텍스트", example = "처음 자바를 접해봤다고 했는데 생각보다 매우 잘 구성되어 있는 코드였습니다. ...")
-                             String feedbackText) {
+                             String feedbackText,
+
+                             @Schema(description = "pr링크 및 comment링크 정보 제공", example = "https://github.com/youngsu5582/github-api-test/pull/1")
+                             String link) {
 
     private static final boolean FEEDBACK_COMPLETE = true;
     private static final boolean FEEDBACK_INCOMPLETE = false;
 
-    public static FeedbackOutput fromReceiver(DevelopFeedback developFeedback) {
+    public static FeedbackOutput fromReceiver(DevelopFeedback developFeedback, String link) {
         return new FeedbackOutput(
                 developFeedback.getId(),
                 developFeedback.getRoomId(),
@@ -49,11 +52,12 @@ public record FeedbackOutput(@Schema(description = "피드백 아이디", exampl
                 FEEDBACK_COMPLETE,
                 FeedbackKeywordConverter.convertToMessages(developFeedback.getKeywords()),
                 developFeedback.getEvaluatePoint(),
-                developFeedback.getFeedBackText()
+                developFeedback.getFeedBackText(),
+                link
         );
     }
 
-    public static FeedbackOutput fromDeliver(DevelopFeedback developFeedback) {
+    public static FeedbackOutput fromDeliver(DevelopFeedback developFeedback, String link) {
         return new FeedbackOutput(
                 developFeedback.getId(),
                 developFeedback.getRoomId(),
@@ -63,11 +67,12 @@ public record FeedbackOutput(@Schema(description = "피드백 아이디", exampl
                 FEEDBACK_COMPLETE,
                 FeedbackKeywordConverter.convertToMessages(developFeedback.getKeywords()),
                 developFeedback.getEvaluatePoint(),
-                developFeedback.getFeedBackText()
+                developFeedback.getFeedBackText(),
+                link
         );
     }
 
-    public static FeedbackOutput fromReceiver(SocialFeedback socialFeedback) {
+    public static FeedbackOutput fromReceiver(SocialFeedback socialFeedback, String link) {
         return new FeedbackOutput(
                 socialFeedback.getId(),
                 socialFeedback.getRoomId(),
@@ -77,11 +82,12 @@ public record FeedbackOutput(@Schema(description = "피드백 아이디", exampl
                 FEEDBACK_COMPLETE,
                 FeedbackKeywordConverter.convertToMessages(socialFeedback.getKeywords()),
                 socialFeedback.getEvaluatePoint(),
-                socialFeedback.getFeedBackText()
+                socialFeedback.getFeedBackText(),
+                link
         );
     }
 
-    public static FeedbackOutput fromDeliver(SocialFeedback socialFeedback) {
+    public static FeedbackOutput fromDeliver(SocialFeedback socialFeedback, String link) {
         return new FeedbackOutput(
                 socialFeedback.getId(),
                 socialFeedback.getRoomId(),
@@ -91,7 +97,8 @@ public record FeedbackOutput(@Schema(description = "피드백 아이디", exampl
                 FEEDBACK_COMPLETE,
                 FeedbackKeywordConverter.convertToMessages(socialFeedback.getKeywords()),
                 socialFeedback.getEvaluatePoint(),
-                socialFeedback.getFeedBackText()
+                socialFeedback.getFeedBackText(),
+                link
         );
     }
 
@@ -105,7 +112,8 @@ public record FeedbackOutput(@Schema(description = "피드백 아이디", exampl
                 FEEDBACK_INCOMPLETE,
                 Collections.emptyList(),
                 0,
-                ""
+                "",
+                feedbackOutput.link()
         );
     }
 }
