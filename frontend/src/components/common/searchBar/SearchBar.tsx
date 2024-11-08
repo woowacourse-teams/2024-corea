@@ -1,6 +1,7 @@
 import * as S from "./SearchBar.style";
 import { InputHTMLAttributes } from "react";
 import Icon from "@/components/common/icon/Icon";
+import { Input } from "@/components/common/input/Input";
 
 interface SearchBarProps extends InputHTMLAttributes<HTMLInputElement> {
   value: string;
@@ -17,7 +18,12 @@ const SearchBar = ({ value, handleValue, handleSearch, ...props }: SearchBarProp
 
   return (
     <S.SearchBarContainer>
-      <S.SearchBar value={value} onChange={handleValue} onKeyDown={handleKeyDown} {...props} />
+      <Input
+        value={value}
+        onChange={handleValue}
+        onKeyDown={handleKeyDown}
+        style={{ paddingRight: "3rem", height: "40px" }}
+      />
       <S.SearchIconWrapper onClick={handleSearch}>
         <Icon kind="search" />
       </S.SearchIconWrapper>
