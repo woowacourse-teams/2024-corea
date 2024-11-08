@@ -19,13 +19,13 @@ public class UserFeedbackController implements UserFeedbackControllerSpecificati
 
     @GetMapping("/received")
     public ResponseEntity<UserFeedbackResponse> receivedFeedback(@LoginMember AuthInfo authInfo) {
-        return ResponseEntity.ok()
-                .body(userFeedbackService.getReceivedFeedback(authInfo.getId()));
+        UserFeedbackResponse response = userFeedbackService.getReceivedFeedback(authInfo.getId());
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/delivered")
     public ResponseEntity<UserFeedbackResponse> deliveredFeedback(@LoginMember AuthInfo authInfo) {
-        return ResponseEntity.ok()
-                .body(userFeedbackService.getDeliveredFeedback(authInfo.getId()));
+        UserFeedbackResponse response = userFeedbackService.getDeliveredFeedback(authInfo.getId());
+        return ResponseEntity.ok(response);
     }
 }

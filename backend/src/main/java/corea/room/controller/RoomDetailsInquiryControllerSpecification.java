@@ -7,8 +7,10 @@ import corea.room.dto.RoomResponse;
 import corea.room.dto.RoomResponses;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 
+@Tag(name = "RoomDetail", description = "방 상세 정보 관련 API")
 public interface RoomDetailsInquiryControllerSpecification {
 
     @Operation(summary = "방 상세 정보를 반환합니다.",

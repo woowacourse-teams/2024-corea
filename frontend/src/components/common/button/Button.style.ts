@@ -93,3 +93,9 @@ const sizeStyles = {
     border-radius: 4px;
   `,
 };
+
+export const LoadingSpinner = styled.img`
+  width: 84px;
+  height: 11px;
+  background: transparent;
+`;

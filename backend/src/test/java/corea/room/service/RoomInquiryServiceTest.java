@@ -11,9 +11,11 @@ import corea.participation.domain.Participation;
 import corea.participation.domain.ParticipationStatus;
 import corea.participation.repository.ParticipationRepository;
 import corea.room.domain.Room;
+import corea.room.domain.RoomClassification;
 import corea.room.domain.RoomStatus;
 import corea.room.dto.RoomResponse;
 import corea.room.dto.RoomResponses;
+import corea.room.dto.RoomSearchResponses;
 import corea.room.repository.RoomRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -51,7 +53,7 @@ public class RoomInquiryServiceTest {
 
         roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo, LocalDateTime.now().plusDays(2), roomStatus));
         Room ashRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN(ash, LocalDateTime.now().plusDays(3), roomStatus));
-        participationRepository.save(new Participation(ashRoom, ash,MemberRole.REVIEWER, ParticipationStatus.MANAGER, ashRoom.getMatchingSize()));
+        participationRepository.save(new Participation(ashRoom, ash, MemberRole.REVIEWER, ParticipationStatus.MANAGER, ashRoom.getMatchingSize()));
 
         RoomResponses response = roomInquiryService.findRoomsWithRoomStatus(pororo.getId(), 0, "all", roomStatus);
         List<String> managerNames = getManagerNames(response);
@@ -97,5 +99,69 @@ public class RoomInquiryServiceTest {
         RoomResponses response = roomInquiryService.findRoomsWithRoomStatus(anonymous.getId(), pageNumber, "all", RoomStatus.OPEN);
 
         assertThat(response.isLastPage()).isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("검색 조건과 정확하게 일치하는 방을 검색할 수 있다.")
+    void search() {
+        Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
+        Member ash = memberRepository.save(MemberFixture.MEMBER_ASH());
+        Member darr = memberRepository.save(MemberFixture.MEMBER_DARR());
+
+        roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo, LocalDateTime.now().plusDays(2), RoomStatus.OPEN));
+        roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_DIFFERENT_TITLE(ash, LocalDateTime.now().plusDays(3), RoomStatus.CLOSE));
+        roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_DIFFERENT_TITLE(darr, LocalDateTime.now().plusDays(4), RoomStatus.PROGRESS));
+
+        RoomSearchResponses response = roomInquiryService.search(pororo.getId(), RoomStatus.CLOSE, RoomClassification.BACKEND, "코틀린");
+        String managerName = getManagerNames(response).get(0);
+
+        assertThat(managerName).isEqualTo("ashsty");
+    }
+
+    @ParameterizedTest
+    @EnumSource(RoomStatus.class)
+    @DisplayName("로그인한 사용자가 상태별 방을 모집 마감일이 오래 남은 순으로 검색할 수 있다.")
+    void searchRoomsWithRoomStatus_login_member(RoomStatus roomStatus) {
+        Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
+        Member ash = memberRepository.save(MemberFixture.MEMBER_ASH());
+        Member darr = memberRepository.save(MemberFixture.MEMBER_DARR());
+
+        roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo, LocalDateTime.now().plusDays(2), roomStatus));
+        roomRepository.save(RoomFixture.ROOM_DOMAIN(darr, LocalDateTime.now().plusDays(3), roomStatus));
+
+        Room ashRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_DIFFERENT_TITLE(ash, LocalDateTime.now().plusDays(3), roomStatus));
+        participationRepository.save(new Participation(ashRoom, ash, MemberRole.REVIEWER, ParticipationStatus.MANAGER, ashRoom.getMatchingSize()));
+
+        RoomSearchResponses response = roomInquiryService.search(pororo.getId(), roomStatus, RoomClassification.ALL, "자바");
+        List<String> managerNames = getManagerNames(response);
+
+        assertThat(managerNames).containsExactly("darr", "pororo");
+    }
+
+    private List<String> getManagerNames(RoomSearchResponses response) {
+        return response.rooms()
+                .stream()
+                .map(RoomResponse::manager)
+                .toList();
+    }
+
+    @ParameterizedTest
+    @EnumSource(RoomStatus.class)
+    @DisplayName("비로그인 사용자가 상태별 방을 모집 마감일이 오래 남은 순으로 검색할 수 있다.")
+    void searchRoomsWithRoomStatus_non_login_member(RoomStatus roomStatus) {
+        Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
+        Member darr = memberRepository.save(MemberFixture.MEMBER_DARR());
+        Member ash = memberRepository.save(MemberFixture.MEMBER_ASH());
+
+        roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo, LocalDateTime.now().plusDays(2), roomStatus));
+        roomRepository.save(RoomFixture.ROOM_DOMAIN(darr, LocalDateTime.now().plusDays(3), roomStatus));
+        roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_DIFFERENT_TITLE(ash, LocalDateTime.now().plusDays(3), roomStatus));
+
+        AuthInfo anonymous = AuthInfo.getAnonymous();
+
+        RoomSearchResponses response = roomInquiryService.search(anonymous.getId(), roomStatus, RoomClassification.ALL, "자바");
+        List<String> managerNames = getManagerNames(response);
+
+        assertThat(managerNames).containsExactly("darr", "pororo");
     }
 }
