@@ -129,9 +129,3 @@ export const ExtraInformation = styled.span`
   font: ${({ theme }) => theme.TEXT.xSmall};
   color: ${({ theme }) => theme.COLOR.grey2};
 `;
-
-export const LoadingSpinner = styled.img`
-  width: 84px;
-  height: 11px;
-  background: transparent;
-`;
