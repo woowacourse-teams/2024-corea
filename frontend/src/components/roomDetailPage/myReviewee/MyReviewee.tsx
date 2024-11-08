@@ -67,7 +67,7 @@ const MyReviewee = ({ roomInfo }: MyRevieweeProps) => {
         size="xSmall"
         variant="primary"
         onClick={() => handleNavigateFeedbackPage(reviewee)}
-        disabled={!reviewee.isReviewed || loadingButtonId.includes(reviewee.userId)}
+        disabled={!reviewee.isReviewed}
         isLoading={loadingButtonId.includes(reviewee.userId)}
       >
         {buttonText}
@@ -76,7 +76,7 @@ const MyReviewee = ({ roomInfo }: MyRevieweeProps) => {
       <Button
         size="xSmall"
         variant="confirm"
-        disabled={reviewee.isReviewed || loadingButtonId.includes(reviewee.userId)}
+        disabled={reviewee.isReviewed}
         onClick={() => handleReviewCompleteClick(reviewee)}
         isLoading={loadingButtonId.includes(reviewee.userId)}
       >
