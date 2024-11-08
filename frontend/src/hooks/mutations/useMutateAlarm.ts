@@ -12,7 +12,7 @@ const useMutateAlarm = () => {
     mutationFn: ({ alarmId, alarmType }: AlarmAsRead) =>
       postMarkAlarmAsRead({ alarmId, alarmType }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.ALARM_LIST] });
+      queryClient.fetchQuery({ queryKey: [QUERY_KEYS.ALARM_COUNT] });
     },
     onError: (error) => handleMutateError(error),
   });
