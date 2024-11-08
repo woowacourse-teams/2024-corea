@@ -31,7 +31,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         $variant={disabled ? "disable" : variant}
         $size={size}
         $outline={outline}
-        disabled={disabled}
+        disabled={disabled || isLoading}
         tabIndex={disabled ? -1 : 0}
         {...rest}
       >
