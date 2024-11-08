@@ -32,7 +32,6 @@ public class AlarmService {
     private final RoomReader roomReader;
     private final UserToUserAlarmWriter userToUserAlarmWriter;
     private final UserToUserAlarmReader userToUserAlarmReader;
-    private final RoomReader roomReader;
 
     public AlarmCountResponse getUnReadAlarmCount(long userId) {
         Member member = memberReader.findOne(userId);
