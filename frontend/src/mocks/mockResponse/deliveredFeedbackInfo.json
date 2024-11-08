@@ -14,7 +14,8 @@
           "feedbackKeywords": ["string"],
           "evaluationPoint": 4,
           "feedbackText": "string",
-          "isWrited": true
+          "isWrited": true,
+          "link": "string"
         },
         {
           "feedbackId": 0,
@@ -25,7 +26,8 @@
           "feedbackKeywords": ["string"],
           "evaluationPoint": 4,
           "feedbackText": "string",
-          "isWrited": true
+          "isWrited": true,
+          "link": "string"
         },
         {
           "feedbackId": 0,
@@ -36,7 +38,8 @@
           "feedbackKeywords": ["string"],
           "evaluationPoint": 4,
           "feedbackText": "string",
-          "isWrited": true
+          "isWrited": true,
+          "link": "string"
         },
         {
           "feedbackId": 0,
@@ -47,7 +50,8 @@
           "feedbackKeywords": ["string"],
           "evaluationPoint": 4,
           "feedbackText": "string",
-          "isWrited": true
+          "isWrited": true,
+          "link": "string"
         }
       ],
       "socialFeedback": [
@@ -60,7 +64,8 @@
           "feedbackKeywords": ["string"],
           "evaluationPoint": 4,
           "feedbackText": "string",
-          "isWrited": true
+          "isWrited": true,
+          "link": "string"
         }
       ]
     }
