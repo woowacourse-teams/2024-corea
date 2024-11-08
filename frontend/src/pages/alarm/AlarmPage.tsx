@@ -75,10 +75,10 @@ const AlarmPage = () => {
               </S.ProfileWrapper>
             )}
             <S.ContentWrapper>
-              <S.Content>
+              <S.Content $isRead={alarm.isRead}>
                 {getAlarmMessage(alarm.actionType, alarm.actor.username, alarm.interaction.info)}
               </S.Content>
-              <S.TimeStamp>{formatTimeAgo(alarm.createAt)}</S.TimeStamp>
+              <S.TimeStamp $isRead={alarm.isRead}>{formatTimeAgo(alarm.createAt)}</S.TimeStamp>
             </S.ContentWrapper>
           </S.AlarmItem>
         ))}

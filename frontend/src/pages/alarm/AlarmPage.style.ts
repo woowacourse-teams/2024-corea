@@ -64,12 +64,12 @@ export const ContentWrapper = styled.div`
   text-align: left;
 `;
 
-export const Content = styled.div`
+export const Content = styled.div<{ $isRead: boolean }>`
   width: 100%;
 
   font: ${({ theme }) => theme.TEXT.small};
   line-height: normal;
-  color: ${({ theme }) => theme.COLOR.grey4};
+  color: ${({ theme, $isRead }) => ($isRead ? theme.COLOR.grey2 : theme.COLOR.grey4)};
   word-break: break-all;
 
   span {
@@ -77,10 +77,10 @@ export const Content = styled.div`
   }
 `;
 
-export const TimeStamp = styled.div`
+export const TimeStamp = styled.div<{ $isRead: boolean }>`
   width: 100%;
   font: ${({ theme }) => theme.TEXT.semiSmall};
-  color: ${({ theme }) => theme.COLOR.grey3};
+  color: ${({ theme, $isRead }) => ($isRead ? theme.COLOR.grey2 : theme.COLOR.grey3)};
   white-space: nowrap;
 `;
 
