@@ -25,5 +25,5 @@ export interface AlarmListData {
 
 export interface AlarmAsRead {
   alarmId: number;
-  alarmType: string;
+  alarmType: "USER";
 }
