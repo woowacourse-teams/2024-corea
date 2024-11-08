@@ -44,10 +44,10 @@ const AlarmPage = () => {
   };
 
   const handleAlarmClick = async (alarm: AlarmItemData) => {
-    const { actionType, alarmId, alarmType, isRead, interaction } = alarm;
+    const { actionType, alarmId, isRead, interaction } = alarm;
 
     if (!isRead) {
-      await markAsRead.mutateAsync({ alarmId, alarmType });
+      await markAsRead.mutateAsync({ alarmId, alarmType: "USER" });
     }
 
     const path = getNavigationPath(actionType, interaction.interactionId);
