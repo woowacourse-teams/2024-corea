@@ -78,14 +78,14 @@ const Header = () => {
 
       <S.HeaderNavBarContainer>
         {isLoggedIn && (
-          <S.HeaderItemIcon>
-            <Link to="/alarm">
+          <Link to="/alarm">
+            <S.HeaderItemIcon>
               <Icon kind="notificationBell" size="2.8rem" color={theme.COLOR.grey3} />
               {alarmCountData && alarmCountData.count > 0 && (
                 <S.Count>{alarmCountData.count >= 10 ? "9+" : alarmCountData.count}</S.Count>
               )}
-            </Link>
-          </S.HeaderItemIcon>
+            </S.HeaderItemIcon>
+          </Link>
         )}
 
         <S.HeaderItem $isMain={isMain}>
