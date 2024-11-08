@@ -8,6 +8,7 @@ public enum ExceptionType {
 
     ALREADY_PARTICIPATED_ROOM(HttpStatus.BAD_REQUEST, "해당 방에 이미 참여했습니다."),
     NOT_PARTICIPATED_ROOM(HttpStatus.BAD_REQUEST, "아직 참여하지 않은 방입니다."),
+    ROOM_STATUS_IS_NOT_PROGRESS(HttpStatus.BAD_REQUEST,"방이 진행중인 상태가 아닙니다."),
     ROOM_STATUS_INVALID(HttpStatus.BAD_REQUEST, "방이 마감되었습니다."),
     MEMBER_IS_NOT_MANAGER(HttpStatus.BAD_REQUEST, "매니저가 아닙니다."),
     MEMBER_IS_NOT_REVIEWER(HttpStatus.BAD_REQUEST, "리뷰어로만 참여할 수 없습니다."),
