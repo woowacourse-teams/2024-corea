@@ -55,12 +55,14 @@ const FeedbackCardList = ({
               aria-label={`${feedbackData.length}개의 미션 중 ${index + 1}번째 미션입니다.`}
             >
               <S.FeedbackMissionTitle>
-                <S.FeedbackMissionInfo>{feedback.title}</S.FeedbackMissionInfo>
-                <S.FeedbackCount
-                  aria-label={`총 ${feedback.developFeedback.length + feedback.socialFeedback.length}개의 피드백`}
-                >
-                  ({feedback.developFeedback.length + feedback.socialFeedback.length})
-                </S.FeedbackCount>
+                <S.FeedbackMissionInfo>
+                  <S.FeedbackTitle>{feedback.title}</S.FeedbackTitle>
+                  <S.FeedbackCount
+                    aria-label={`총 ${feedback.developFeedback.length + feedback.socialFeedback.length}개의 피드백`}
+                  >
+                    ({feedback.developFeedback.length + feedback.socialFeedback.length})
+                  </S.FeedbackCount>
+                </S.FeedbackMissionInfo>
                 <S.FeedbackKeywordContainer role="group" aria-label="피드백 키워드">
                   {feedback.roomKeywords.filter((keyword) => keyword.trim() !== "").length > 0 ? (
                     feedback.roomKeywords.map(
@@ -93,6 +95,7 @@ const FeedbackCardList = ({
                 </HoverStyledLink>
               )}
             </S.FeedbackMissionWrapper>
+
             <S.FeedbackInfoWrapper
               $isVisible={feedback.roomId === selectedFeedback}
               aria-hidden={feedback.roomId !== selectedFeedback}
