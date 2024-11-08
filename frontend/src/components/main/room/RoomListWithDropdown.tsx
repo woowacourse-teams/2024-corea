@@ -6,8 +6,9 @@ import Dropdown from "@/components/common/dropdown/Dropdown";
 import SearchBar from "@/components/common/searchBar/SearchBar";
 import * as S from "@/components/main/room/RoomList.style";
 import RoomList from "@/components/shared/roomList/RoomList";
-import { Classification, RoomInfo, RoomStatusCategory } from "@/@types/roomInfo";
+import { RoomInfo, RoomStatusCategory } from "@/@types/roomInfo";
 import { dropdownItems } from "@/constants/roomDropdownItems";
+import convertClassification from "@/utils/converToClassification";
 
 interface RoomListWithDropdownProps {
   selectedCategory: string;
@@ -34,7 +35,7 @@ const RoomListWithDropdown = ({
 
   const { refetch: fetchSearch, isLoading } = useFetchSearchRoomList(
     roomType,
-    selectedCategory as Classification,
+    convertClassification(selectedCategory),
     searchInput,
     false,
   );

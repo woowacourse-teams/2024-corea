@@ -24,6 +24,10 @@ const QUERY_KEYS = {
 
   // ranking
   RANKING: "ranking",
+
+  // alarm
+  ALARM_COUNT: "alarm_count",
+  ALARM_LIST: "alarm_list",
 };
 
 export default QUERY_KEYS;
