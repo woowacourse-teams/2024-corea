@@ -31,13 +31,13 @@ public class RoomReader {
                 .orElseThrow(() -> new CoreaException(ExceptionType.ROOM_NOT_FOUND, String.format("해당 Id의 방이 없습니다. 입력된 Id=%d", roomId)));
     }
 
+    public List<Room> findAll(Specification<Room> spec) {
+        return roomRepository.findAll(spec, Sort.by("recruitmentDeadline").descending());
+    }
+
     public Map<Long, Room> findRoomsMappedById(Iterable<Long> roomIds) {
         return roomRepository.findAllById(roomIds)
                 .stream()
                 .collect(Collectors.toMap(Room::getId, Function.identity()));
-    }
-
-    public List<Room> findAll(Specification<Room> spec) {
-        return roomRepository.findAll(spec, Sort.by("recruitmentDeadline").descending());
     }
 }

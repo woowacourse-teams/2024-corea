@@ -3,9 +3,11 @@ package corea.alarm.service;
 import config.ServiceTest;
 import corea.alarm.domain.UserToUserAlarm;
 import corea.alarm.domain.UserToUserAlarmRepository;
+import corea.alarm.dto.AlarmCheckRequest;
 import corea.alarm.dto.AlarmCountResponse;
 import corea.alarm.dto.AlarmResponse;
 import corea.alarm.dto.AlarmResponses;
+import corea.exception.CoreaException;
 import corea.fixture.AlarmFixture;
 import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
@@ -13,10 +15,12 @@ import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
 import corea.room.domain.Room;
 import corea.room.repository.RoomRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -78,7 +82,35 @@ class AlarmServiceTest {
                 .usingElementComparatorIgnoringFields("createAt")
                 .containsExactly(
                         AlarmResponse.from(alarm2, actor, interaction),
-                        AlarmResponse.from(alarm1, actor,interaction)
+                        AlarmResponse.from(alarm1, actor, interaction)
                 );
+    }
+
+    @Test
+    @DisplayName("자신에게 해당된 알람이 아니면 예외를 발생한다.")
+    void throw_exception_when_not_receive_alarm() {
+        UserToUserAlarm alarm = userToUserAlarmRepository.save(AlarmFixture.REVIEW_COMPLETE(actor.getId(), receiver.getId(), interactionId));
+
+        Assertions.assertThatThrownBy(() -> alarmService.checkAlarm(actor.getId(), new AlarmCheckRequest(alarm.getId(), "USER")))
+                .isInstanceOf(CoreaException.class);
+    }
+
+    @Test
+    @DisplayName("자신에게 해당된 알람이 아니면 예외를 발생한다.")
+    void throw_exception_when_not_exist_alarm() {
+        userToUserAlarmRepository.save(AlarmFixture.REVIEW_COMPLETE(actor.getId(), receiver.getId(), interactionId));
+
+        Assertions.assertThatThrownBy(() -> alarmService.checkAlarm(receiver.getId(), new AlarmCheckRequest(-1, "USER")))
+                .isInstanceOf(CoreaException.class);
+    }
+
+    @Test
+    @Transactional
+    @DisplayName("알림 체크를 한다.")
+    void some() {
+        UserToUserAlarm alarm = userToUserAlarmRepository.save(AlarmFixture.REVIEW_COMPLETE(actor.getId(), receiver.getId(), interactionId));
+
+        alarmService.checkAlarm(receiver.getId(), new AlarmCheckRequest(alarm.getId(), "USER"));
+        assertThat(alarm.isRead()).isTrue();
     }
 }

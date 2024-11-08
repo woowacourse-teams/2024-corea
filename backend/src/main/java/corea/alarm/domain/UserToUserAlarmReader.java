@@ -1,5 +1,7 @@
 package corea.alarm.domain;
 
+import corea.exception.CoreaException;
+import corea.exception.ExceptionType;
 import corea.global.annotation.Reader;
 import corea.member.domain.Member;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,11 @@ public class UserToUserAlarmReader {
                 .stream()
                 .filter(alarm -> alarm.isStatus(isRead))
                 .count();
+    }
+
+    public UserToUserAlarm find(long actionId) {
+        return userToUserAlarmRepository.findById(actionId)
+                .orElseThrow(() -> new CoreaException(ExceptionType.NOT_RECEIVED_ALARM));
     }
 
     public UserAlarmsByActionType findAllByReceiver(Member member) {
