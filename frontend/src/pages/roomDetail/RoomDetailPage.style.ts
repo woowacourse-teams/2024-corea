@@ -1,14 +1,9 @@
 import styled from "styled-components";
-import media from "@/styles/media";
 
 export const Layout = styled.div`
   display: flex;
   flex-direction: column;
   gap: 6rem;
-
-  ${media.small`
-    gap: 4rem;
-  `}
 `;
 
 export const ImgWithError = styled.div`
@@ -34,13 +29,8 @@ export const FeedbackContainer = styled.div`
 
   @media screen and (width < 810px) {
     flex-direction: column;
+    gap: 6rem;
   }
-
-  ${media.small`
-    display: flex;
-    gap: 4rem;  
-    flex-direction: column;
-  `}
 `;
 
 export const FeedbackSection = styled.div`
@@ -49,7 +39,7 @@ export const FeedbackSection = styled.div`
 
 export const StyledDescription = styled.p`
   height: fit-content;
-  font: ${({ theme }) => theme.TEXT.small};
+  font: ${({ theme }) => theme.TEXT.semiSmall};
   line-height: 2rem;
   color: ${({ theme }) => theme.COLOR.grey3};
 `;

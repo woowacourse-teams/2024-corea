@@ -62,33 +62,33 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
 
         <S.RoomContentBox>
           <S.RoomContentSmall>
-            <Icon kind="person" size="1.8rem" color={theme.COLOR.grey4} />
-            <div aria-hidden>
-              <span>총 인원 : </span>
-              {roomInfo.reviewerCount + roomInfo.bothCount} / {roomInfo.limitedParticipants}명
-              <span id="sub">
+            <S.ContentLineBreak aria-hidden>
+              <Icon kind="person" size="1.8rem" color={theme.COLOR.grey4} />
+              <S.ContentTerm>총 인원: </S.ContentTerm>
+              <S.ContentDescription>
+                {roomInfo.reviewerCount + roomInfo.bothCount} /{roomInfo.limitedParticipants}명
+              </S.ContentDescription>
+              <S.ContentTermSub>
                 리뷰어 {roomInfo.reviewerCount}, 참여자 {roomInfo.bothCount}
-              </span>
-            </div>
+              </S.ContentTermSub>
+            </S.ContentLineBreak>
             <S.ScreenReader>{`총 인원 : ${roomInfo.limitedParticipants}명 중 ${roomInfo.reviewerCount + roomInfo.bothCount}명, 리뷰어 ${roomInfo.reviewerCount}명, 참여자 ${roomInfo.bothCount}명`}</S.ScreenReader>
           </S.RoomContentSmall>
 
           <S.RoomContentSmall>
-            <Icon kind="person" size="1.8rem" color={theme.COLOR.grey4} />
-            <div aria-hidden>
-              <span>최소 상호 리뷰 인원 : </span>
-              {roomInfo.matchingSize}명
-            </div>
+            <S.ContentLineBreak aria-hidden>
+              <Icon kind="person" size="1.8rem" color={theme.COLOR.grey4} />
+              <S.ContentTerm>최소 상호 리뷰 인원: </S.ContentTerm>
+              <S.ContentDescription>{roomInfo.matchingSize}명</S.ContentDescription>
+            </S.ContentLineBreak>
             <S.ScreenReader>{`최소 상호 리뷰 인원 ${roomInfo.matchingSize}명`}</S.ScreenReader>
           </S.RoomContentSmall>
 
           <S.RoomContentSmall>
             <S.ContentLineBreak aria-hidden>
-              <S.RoomContentSmall>
-                <Icon kind="calendar" size="1.8rem" color={theme.COLOR.grey4} />
-                <span>모집 마감일: </span>
-              </S.RoomContentSmall>
-              <div>
+              <Icon kind="calendar" size="1.8rem" color={theme.COLOR.grey4} />
+              <S.ContentTerm>모집 마감일: </S.ContentTerm>
+              <S.ContentDescription>
                 <S.DateTimeText>
                   {formatDateTimeString(roomInfo.recruitmentDeadline)}
                 </S.DateTimeText>
@@ -97,7 +97,7 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
                     formatDday(roomInfo.recruitmentDeadline) !== "종료됨" &&
                     displayLeftTime(roomInfo.recruitmentDeadline)}
                 </S.StyledDday>
-              </div>
+              </S.ContentDescription>
             </S.ContentLineBreak>
             <S.ScreenReader>
               {`모집 마감일 ${convertDateToKorean(formatDateTimeString(roomInfo.recruitmentDeadline))}`}
@@ -106,18 +106,16 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
 
           <S.RoomContentSmall>
             <S.ContentLineBreak aria-hidden>
-              <S.RoomContentSmall>
-                <Icon kind="calendar" size="1.8rem" color={theme.COLOR.grey4} />
-                <span>리뷰 마감일: </span>
-              </S.RoomContentSmall>
-              <div>
+              <Icon kind="calendar" size="1.8rem" color={theme.COLOR.grey4} />
+              <S.ContentTerm>리뷰 마감일: </S.ContentTerm>
+              <S.ContentDescription>
                 <S.DateTimeText>{formatDateTimeString(roomInfo.reviewDeadline)}</S.DateTimeText>
                 <S.StyledDday data-testid="reviewLeftTime">
                   {(roomInfo.roomStatus === "OPEN" || roomInfo.roomStatus === "PROGRESS") &&
                     formatDday(roomInfo.reviewDeadline) !== "종료됨" &&
                     displayLeftTime(roomInfo.reviewDeadline)}
                 </S.StyledDday>
-              </div>
+              </S.ContentDescription>
             </S.ContentLineBreak>
             <S.ScreenReader>
               {`리뷰 마감일 ${convertDateToKorean(formatDateTimeString(roomInfo.reviewDeadline))}`}

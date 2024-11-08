@@ -40,6 +40,7 @@ export const 기술적_피드백: Story = {
       그리고 코드 관심사 분리라는 단어를 알고 있어서 대화하기 편했어요 ㅎㅎ.`,
       isWrited: true,
       evaluationPoint: 1,
+      link: "테스트 링크",
     },
     feedbackType: "develop",
   },

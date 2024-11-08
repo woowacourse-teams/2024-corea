@@ -96,7 +96,7 @@ export const IconWrapper = styled.span`
 
   ${media.small`
     display: none;
-`}
+  `}
 `;
 
 export const GuidanceWrapper = styled.div`

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { FeedbackType } from "@/hooks/feedback/useSelectedFeedbackData";
 import Carousel from "@/components/common/carousel/Carousel";
 import Label from "@/components/common/label/Label";
@@ -12,24 +12,16 @@ import { theme } from "@/styles/theme";
 interface FeedbackCardListProps {
   selectedFeedbackType: FeedbackType;
   feedbackData: FeedbackCardDataList[];
+  selectedFeedback: number | undefined;
+  handleSelectedFeedback: (roomId: number) => void;
 }
 
-const FeedbackCardList = ({ selectedFeedbackType, feedbackData }: FeedbackCardListProps) => {
-  const [selectedFeedback, setSelectedFeedback] = useState<number>();
-
-  const handleSelectedFeedback = (roomId: number) => {
-    if (selectedFeedback === roomId) {
-      setSelectedFeedback(undefined);
-      return;
-    }
-
-    setSelectedFeedback(roomId);
-  };
-
-  useEffect(() => {
-    setSelectedFeedback(undefined);
-  }, [feedbackData]);
-
+const FeedbackCardList = ({
+  selectedFeedbackType,
+  feedbackData,
+  selectedFeedback,
+  handleSelectedFeedback,
+}: FeedbackCardListProps) => {
   if (feedbackData.length === 0) {
     return (
       <S.EmptyContainer>
@@ -63,12 +55,14 @@ const FeedbackCardList = ({ selectedFeedbackType, feedbackData }: FeedbackCardLi
               aria-label={`${feedbackData.length}개의 미션 중 ${index + 1}번째 미션입니다.`}
             >
               <S.FeedbackMissionTitle>
-                <S.FeedbackMissionInfo>{feedback.title}</S.FeedbackMissionInfo>
-                <S.FeedbackCount
-                  aria-label={`총 ${feedback.developFeedback.length + feedback.socialFeedback.length}개의 피드백`}
-                >
-                  ({feedback.developFeedback.length + feedback.socialFeedback.length})
-                </S.FeedbackCount>
+                <S.FeedbackMissionInfo>
+                  <S.FeedbackTitle>{feedback.title}</S.FeedbackTitle>
+                  <S.FeedbackCount
+                    aria-label={`총 ${feedback.developFeedback.length + feedback.socialFeedback.length}개의 피드백`}
+                  >
+                    ({feedback.developFeedback.length + feedback.socialFeedback.length})
+                  </S.FeedbackCount>
+                </S.FeedbackMissionInfo>
                 <S.FeedbackKeywordContainer role="group" aria-label="피드백 키워드">
                   {feedback.roomKeywords.filter((keyword) => keyword.trim() !== "").length > 0 ? (
                     feedback.roomKeywords.map(
@@ -101,6 +95,7 @@ const FeedbackCardList = ({ selectedFeedbackType, feedbackData }: FeedbackCardLi
                 </HoverStyledLink>
               )}
             </S.FeedbackMissionWrapper>
+
             <S.FeedbackInfoWrapper
               $isVisible={feedback.roomId === selectedFeedback}
               aria-hidden={feedback.roomId !== selectedFeedback}
