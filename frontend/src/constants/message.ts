@@ -13,6 +13,7 @@ const GUIDANCE_MESSAGES = {
   NO_PARTICIPANTS: "매칭 실패로 인해 참여자 목록을 볼 수 없습니다.",
   ONLY_REVIEWER: "리뷰어로만 참여 중입니다!",
   PULL_REQUEST_NOT_SUBMITTED: "PR을 제출하지 않아 매칭되지 않았습니다.",
+  NO_ALARM_LIST: "표시할 알림이 없습니다.",
 };
 
 const ERROR_MESSAGES = {
@@ -28,6 +29,7 @@ const ERROR_MESSAGES = {
   GET_PROGRESS_ROOM_LIST: "진행 중인 방 목록을 불러오는 도중 에러가 발생하였습니다.",
   GET_OPENED_ROOM_LIST: "모집 중인 방 목록을 불러오는 도중 에러가 발생하였습니다.",
   GET_CLOSED_ROOM_LIST: "모집 완료 방 목록을 불러오는 도중 에러가 발생하였습니다.",
+  GET_SEARCH_ROOM_LIST: "방 검색 결과를 불러오는 도중 에러가 발생하였습니다.",
   GET_ROOM_DETAIL_INFO: "방 상세정보를 불러오는 도중 에러가 발생하였습니다.",
   POST_CREATE_ROOM: "방 생성하기를 실패했습니다.",
   PUT_EDIT_ROOM: "방 정보 수정하기를 실패했습니다.",
@@ -59,6 +61,11 @@ const ERROR_MESSAGES = {
 
   // ranking
   GET_RANKING: "랭킹을 불러오는 도중 에러가 발생하였습니다.",
+
+  // alaram
+  GET_ALARM_COUNT: "읽지 않은 알림 개수를 불러오는 도중 에러가 발생하였습니다.",
+  GET_ALARM_LIST: "알림 목록을 불러오는 도중 에러가 발생하였습니다.",
+  POST_ALARM_CHECKED: "알림을 읽음 상태로 변경하기를 실패했습니다.",
 
   // errorBoundary
   BOUNDARY_TOTAL: "일시적인 에러가 발생했습니다.",

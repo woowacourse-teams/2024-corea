@@ -68,7 +68,7 @@ const sizeStyles = {
   xSmall: css`
     width: fit-content;
     max-width: 120px;
-    padding: 1rem 0.5rem;
+    padding: 1rem 0.3rem;
 
     font: ${({ theme }) => theme.TEXT.semiSmall};
 
@@ -93,3 +93,9 @@ const sizeStyles = {
     border-radius: 4px;
   `,
 };
+
+export const LoadingSpinner = styled.img`
+  width: 84px;
+  height: 11px;
+  background: transparent;
+`;

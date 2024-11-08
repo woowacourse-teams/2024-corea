@@ -27,7 +27,7 @@ export const HoverStyledLink = styled(Link)`
 `;
 
 export const HoverStyledLinkForGuide = styled(Link)`
-  & :hover {
+  &:hover {
     text-decoration: underline;
     text-underline-offset: 0.3rem;
   }

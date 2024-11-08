@@ -4,7 +4,7 @@ import PlusButton from "@/components/common/plusButton/PlusButton";
 import RoomCard from "@/components/shared/roomCard/RoomCard";
 import * as RoomCardSkeleton from "@/components/shared/roomCard/RoomCard.skeleton";
 import * as S from "@/components/shared/roomList/RoomList.style";
-import { RoomInfo } from "@/@types/roomInfo";
+import { RoomInfo, RoomStatusCategory } from "@/@types/roomInfo";
 import { defaultCharacter } from "@/assets";
 
 interface RoomListProps {
@@ -12,7 +12,7 @@ interface RoomListProps {
   isFetchingNextPage: boolean;
   hasNextPage?: boolean;
   onLoadMore?: () => void;
-  roomType: "participated" | "progress" | "opened" | "closed";
+  roomType: RoomStatusCategory;
 }
 
 const RoomEmptyText = {

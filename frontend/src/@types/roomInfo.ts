@@ -1,6 +1,7 @@
 export type Classification = "ALL" | "FRONTEND" | "BACKEND" | "ANDROID";
 
 export type RoomStatus = "OPEN" | "CLOSE" | "PROGRESS" | "FAIL";
+export type RoomStatusCategory = "participated" | "progress" | "opened" | "closed";
 
 export type ParticipationStatus =
   | "NOT_PARTICIPATED"

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { EllipsisText, VisuallyHidden } from "@/styles/common";
+import { VisuallyHidden } from "@/styles/common";
 import media from "@/styles/media";
 
 export const RoomInfoCardContainer = styled.div`
@@ -49,6 +49,7 @@ export const RoomInfoCardImg = styled.img`
 export const RoomInfoCardContent = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 2rem;
 
   width: 100%;
   height: 100%;
@@ -65,7 +66,6 @@ export const RoomHeaderWrapper = styled.div`
   align-items: flex-start;
   justify-content: space-between;
 
-  margin-bottom: 1rem;
   padding-bottom: 1rem;
 
   border-bottom: 1px solid ${({ theme }) => theme.COLOR.grey1};
@@ -105,11 +105,6 @@ export const RoomContentBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  margin-bottom: 2rem;
-
-  &:last-child {
-    margin-bottom: 0;
-  }
 `;
 
 export const RoomTagBox = styled.div`
@@ -125,51 +120,40 @@ export const NoKeywordText = styled.span`
   color: ${({ theme }) => theme.COLOR.grey2};
 `;
 
-export const RoomContentSmall = styled.span`
+export const RoomContentSmall = styled.div`
+  font: ${({ theme }) => theme.TEXT.small_bold};
+  line-height: normal;
+  color: ${({ theme }) => theme.COLOR.black};
+`;
+
+export const ContentLineBreak = styled.div`
   display: flex;
+  flex-flow: row wrap;
+  gap: 1rem;
+  align-items: center;
+`;
+
+export const ContentTerm = styled.span`
+  font: ${({ theme }) => theme.TEXT.small};
+  line-height: normal;
+  color: ${({ theme }) => theme.COLOR.grey4};
+`;
+
+export const ContentTermSub = styled.span`
+  font: ${({ theme }) => theme.TEXT.semiSmall};
+  line-height: normal;
+  color: ${({ theme }) => theme.COLOR.grey2};
+`;
+
+export const ContentDescription = styled.div`
+  display: flex;
+  flex-direction: row;
   gap: 1rem;
   align-items: center;
 
   font: ${({ theme }) => theme.TEXT.small_bold};
   line-height: normal;
   color: ${({ theme }) => theme.COLOR.black};
-
-  span {
-    font: ${({ theme }) => theme.TEXT.small};
-    color: ${({ theme }) => theme.COLOR.grey4};
-  }
-
-  span#sub {
-    font: ${({ theme }) => theme.TEXT.semiSmall};
-    color: ${({ theme }) => theme.COLOR.grey2};
-  }
-
-  span#githubid {
-    max-width: 210px;
-    font: ${({ theme }) => theme.TEXT.small_bold};
-
-    ${EllipsisText}
-  }
-
-  div {
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
-    align-items: center;
-
-    font: ${({ theme }) => theme.TEXT.small_bold};
-    line-height: normal;
-    color: ${({ theme }) => theme.COLOR.black};
-  }
-
-  ${media.small`
-    gap: 0.4rem;
-  `}
-`;
-
-export const ContentLineBreak = styled.div`
-  display: flex;
-  flex-flow: row wrap;
 `;
 
 export const DateTimeText = styled.p`

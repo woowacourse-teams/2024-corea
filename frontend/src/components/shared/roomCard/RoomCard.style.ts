@@ -90,6 +90,7 @@ export const RoomTitle = styled.h2`
 `;
 
 export const KeywordsContainer = styled.div`
+  overflow: hidden;
   display: flex;
   gap: 2px;
   height: 33px;
