@@ -15,7 +15,6 @@ import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
 import corea.room.domain.Room;
 import corea.room.repository.RoomRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @ServiceTest
 class AlarmServiceTest {
@@ -93,7 +93,7 @@ class AlarmServiceTest {
     void throw_exception_when_not_receive_alarm() {
         UserToUserAlarm alarm = userToUserAlarmRepository.save(AlarmFixture.REVIEW_COMPLETE(actor.getId(), receiver.getId(), interactionId));
 
-        Assertions.assertThatThrownBy(() -> alarmService.checkAlarm(actor.getId(), new AlarmCheckRequest(alarm.getId(), "USER")))
+        assertThatThrownBy(() -> alarmService.checkAlarm(actor.getId(), new AlarmCheckRequest(alarm.getId(), "USER")))
                 .isInstanceOf(CoreaException.class);
     }
 
@@ -102,7 +102,7 @@ class AlarmServiceTest {
     void throw_exception_when_not_exist_alarm() {
         userToUserAlarmRepository.save(AlarmFixture.REVIEW_COMPLETE(actor.getId(), receiver.getId(), interactionId));
 
-        Assertions.assertThatThrownBy(() -> alarmService.checkAlarm(receiver.getId(), new AlarmCheckRequest(-1, "USER")))
+        assertThatThrownBy(() -> alarmService.checkAlarm(receiver.getId(), new AlarmCheckRequest(-1, "USER")))
                 .isInstanceOf(CoreaException.class);
     }
 
