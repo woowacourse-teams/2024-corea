@@ -67,4 +67,18 @@ public class AlarmService {
             userToUserAlarmWriter.check(member, userToUserAlarm);
         }
     }
+
+    @Transactional
+    public void createUrgeAlarm(long revieweeId, long reviewerId, long roomId) {
+        try {
+            boolean unReadUrgeAlarmExist = userToUserAlarmReader.existUnReadUrgeAlarm(revieweeId, reviewerId, roomId);
+            if (!unReadUrgeAlarmExist) {
+                CreateUserToUserAlarmInput input = new CreateUserToUserAlarmInput(AlarmActionType.REVIEW_URGE, revieweeId, reviewerId, roomId);
+                userToUserAlarmWriter.create(input.toEntity());
+            }
+        } catch (Exception e) {
+            log.warn("리뷰 재촉 알림 생성을 실패했습니다. 리뷰어 ID={},리뷰이 ID={},방 ID={}",
+                    reviewerId, revieweeId, roomId);
+        }
+    }
 }
