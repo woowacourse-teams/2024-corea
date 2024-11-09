@@ -40,11 +40,7 @@ public class UserToUserAlarmReader {
 
     public boolean existUnReadUrgeAlarm(long revieweeId, long reviewerId, long roomId) {
         List<UserToUserAlarm> alarm = userToUserAlarmRepository.findAllByActorIdAndReceiverIdAndInteractionId(revieweeId, reviewerId, roomId);
-        for (UserToUserAlarm userToUserAlarm : alarm) {
-            if (userToUserAlarm.isUrgeAlarm() && !userToUserAlarm.isRead()) {
-                return true;
-            }
-        }
-        return false;
+        return alarm.stream()
+                .anyMatch(userToUserAlarm -> userToUserAlarm.isUrgeAlarm() && !userToUserAlarm.isRead());
     }
 }
