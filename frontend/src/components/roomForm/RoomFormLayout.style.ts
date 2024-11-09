@@ -19,7 +19,7 @@ export const CreateSection = styled.section`
 export const RowContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1rem;
   align-items: flex-start;
 
   width: 100%;
