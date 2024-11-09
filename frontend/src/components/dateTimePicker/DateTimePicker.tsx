@@ -4,9 +4,10 @@ import { TimeDropdown } from "@/components/common/timeDropdown/TimeDropdown";
 interface DateTimePickerProps {
   selectedDateTime: Date;
   onDateTimeChange: (dateTime: Date) => void;
+  error: boolean;
 }
 
-const DateTimePicker = ({ selectedDateTime, onDateTimeChange }: DateTimePickerProps) => {
+const DateTimePicker = ({ selectedDateTime, onDateTimeChange, error }: DateTimePickerProps) => {
   const handleDateChange = (newDate: Date) => {
     const updatedDateTime = new Date(newDate);
     updatedDateTime.setHours(selectedDateTime.getHours());
@@ -22,10 +23,14 @@ const DateTimePicker = ({ selectedDateTime, onDateTimeChange }: DateTimePickerPr
   };
 
   return (
-    <>
-      <CalendarDropdown selectedDate={selectedDateTime} handleSelectedDate={handleDateChange} />
-      <TimeDropdown selectedTime={selectedDateTime} onTimeChange={handleTimeChange} />
-    </>
+    <div style={{ display: "flex", gap: "1rem" }}>
+      <CalendarDropdown
+        selectedDate={selectedDateTime}
+        handleSelectedDate={handleDateChange}
+        error={error}
+      />
+      <TimeDropdown selectedTime={selectedDateTime} onTimeChange={handleTimeChange} error={error} />
+    </div>
   );
 };
 
