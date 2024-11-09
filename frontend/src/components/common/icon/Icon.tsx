@@ -37,7 +37,7 @@ const ICON: { [key in IconKind]: IconType } = {
   person: MdPerson,
   link: MdInsertLink,
   calendar: MdCalendarMonth,
-  plus: MdExpandMore,
+  more: MdExpandMore,
   info: MdInfoOutline,
   star: MdOutlineStar,
   people: MdOutlinePeopleAlt,

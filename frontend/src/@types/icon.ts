@@ -2,7 +2,7 @@ type IconKind =
   | "person"
   | "link"
   | "calendar"
-  | "plus"
+  | "more"
   | "star"
   | "people"
   | "pencil"

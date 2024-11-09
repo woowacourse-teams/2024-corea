@@ -9,7 +9,7 @@ const PlusButton = ({ onClick }: PlusButtonProps) => {
   return (
     <S.ButtonContainer onClick={onClick}>
       더보기
-      <Icon kind="plus" />
+      <Icon kind="more" />
     </S.ButtonContainer>
   );
 };
