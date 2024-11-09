@@ -62,6 +62,7 @@ public class ReviewService {
         if (matchResult.isReviewed()) {
             throw new CoreaException(ExceptionType.ALREADY_COMPLETED_REVIEW);
         }
+
         alarmService.createUrgeAlarm(revieweeId, reviewerId, roomId);
     }
 }
