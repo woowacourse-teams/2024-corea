@@ -22,8 +22,8 @@ const Keyword = ({ currentKeywords, onKeywordsChange, error }: KeywordProps) => 
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    e.preventDefault();
     if (e.key === "Enter") {
+      e.preventDefault();
       if (keyword === "") return;
       if (currentKeywords.includes(keyword)) {
         setKeyword("");
