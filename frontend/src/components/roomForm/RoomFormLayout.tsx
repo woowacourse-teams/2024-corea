@@ -57,6 +57,20 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
     validators.recruitmentDeadline(formState.recruitmentDeadline) === "" &&
     validators.reviewDeadline(formState.reviewDeadline, formState.recruitmentDeadline) === "";
 
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+
+      const nextInput = (event.currentTarget as HTMLElement)
+        .closest(".row-container")
+        ?.nextElementSibling?.querySelector("input, textarea");
+
+      if (nextInput instanceof HTMLElement) {
+        nextInput?.focus();
+      }
+    }
+  };
+
   const handleInputChange = <K extends keyof CreateRoomInfo>(name: K, value: CreateRoomInfo[K]) => {
     setFormState((prevState) => ({
       ...prevState,
@@ -97,7 +111,7 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
       </ConfirmModal>
 
       <S.CreateSection>
-        <S.RowContainer>
+        <S.RowContainer className="row-container">
           <S.ContentLabel>
             제목 <span>*필수입력</span>
           </S.ContentLabel>
@@ -106,6 +120,7 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
               name="title"
               value={formState.title}
               onChange={(e) => handleInputChange("title", e.target.value)}
+              onKeyDown={handleKeyDown}
               error={isClickedButton && validators.title(formState.title) !== ""}
               showCharCount={true}
               maxLength={50}
@@ -135,13 +150,14 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
           </S.ContentInput>
         </S.RowContainer>
 
-        <S.RowContainer>
+        <S.RowContainer className="row-container">
           <S.ContentLabel>내용</S.ContentLabel>
           <S.ContentInput>
             <Textarea
               name="content"
               value={formState.content}
               onChange={(e) => handleInputChange("content", e.target.value)}
+              onKeyDown={handleKeyDown}
               rows={5}
               showCharCount={true}
               maxLength={4000}
@@ -151,7 +167,7 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
           </S.ContentInput>
         </S.RowContainer>
 
-        <S.RowContainer>
+        <S.RowContainer className="row-container">
           <S.ContentLabel>
             깃허브 레포지토리 링크 <span>*필수입력</span>
           </S.ContentLabel>
@@ -160,6 +176,7 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
               name="repositoryLink"
               value={formState.repositoryLink}
               onChange={(e) => handleInputChange("repositoryLink", e.target.value)}
+              onKeyDown={handleKeyDown}
               error={isClickedButton && validators.repositoryLink(formState.repositoryLink) !== ""}
               required
             />
@@ -169,13 +186,14 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
           </S.ContentInput>
         </S.RowContainer>
 
-        <S.RowContainer>
+        <S.RowContainer className="row-container">
           <S.ContentLabel>이미지 링크</S.ContentLabel>
           <S.ContentInput>
             <Input
               name="thumbnailLink"
               value={formState.thumbnailLink}
               onChange={(e) => handleInputChange("thumbnailLink", e.target.value)}
+              onKeyDown={handleKeyDown}
               error={isClickedButton && validators.thumbnailLink(formState.thumbnailLink) !== ""}
             />
             <ErrorText>
@@ -184,7 +202,7 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
           </S.ContentInput>
         </S.RowContainer>
 
-        <S.RowContainer>
+        <S.RowContainer className="row-container">
           <S.ContentLabel>키워드 (콤마로 구분)</S.ContentLabel>
           <S.ContentInput>
             <Input
@@ -196,13 +214,14 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
                   e.target.value.split(",").map((keyword) => keyword.trim()),
                 )
               }
+              onKeyDown={handleKeyDown}
               error={isClickedButton && validators.keywords(formState.keywords) !== ""}
             />
             <ErrorText>{isClickedButton && validators.keywords(formState.keywords)}</ErrorText>
           </S.ContentInput>
         </S.RowContainer>
 
-        <S.RowContainer>
+        <S.RowContainer className="row-container">
           <S.ContentLabel>
             상호 리뷰 인원 <span>*필수입력</span>
           </S.ContentLabel>
@@ -214,6 +233,7 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
               name="matchingSize"
               value={formState.matchingSize}
               onChange={(e) => handleInputChange("matchingSize", parseInt(e.target.value, 10))}
+              onKeyDown={handleKeyDown}
               error={isClickedButton && validators.matchingSize(formState.matchingSize) !== ""}
               required
             />
@@ -223,7 +243,7 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
           </S.ContentInput>
         </S.RowContainer>
 
-        <S.RowContainer>
+        <S.RowContainer className="row-container">
           <S.ContentLabel>
             최대 참여 인원 <span>*필수입력</span>
           </S.ContentLabel>
@@ -236,6 +256,7 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
               onChange={(e) =>
                 handleInputChange("limitedParticipants", parseInt(e.target.value, 10))
               }
+              onKeyDown={handleKeyDown}
               error={
                 isClickedButton &&
                 validators.limitedParticipants(
