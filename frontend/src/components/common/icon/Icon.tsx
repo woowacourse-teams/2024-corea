@@ -9,6 +9,7 @@ import {
 import { IoLogoGithub } from "react-icons/io";
 import { IconType } from "react-icons/lib";
 import {
+  MdAdd,
   MdArrowBackIos,
   MdArrowDropDown,
   MdArrowForwardIos,
@@ -61,6 +62,7 @@ const ICON: { [key in IconKind]: IconType } = {
   githubLogo: IoLogoGithub,
   notificationBell: MdNotificationsNone,
   search: MdOutlineSearch,
+  add: MdAdd,
 };
 
 interface IconProps {
