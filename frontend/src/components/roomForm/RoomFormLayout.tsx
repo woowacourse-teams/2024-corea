@@ -12,7 +12,9 @@ import DateTimePicker from "@/components/dateTimePicker/DateTimePicker";
 import * as S from "@/components/roomForm/RoomFormLayout.style";
 import { Classification, CreateRoomInfo, RoomInfo } from "@/@types/roomInfo";
 import MESSAGES from "@/constants/message";
+import { ErrorText } from "@/styles/common";
 import { formatCombinedDateTime } from "@/utils/dateFormatter";
+import validators from "@/utils/roomInputValidator";
 
 const dropdownItems: DropdownItem[] = [
   { text: "안드로이드", value: "ANDROID" },
@@ -36,7 +38,7 @@ const getInitialFormState = (data?: RoomInfo): CreateRoomInfo => ({
   limitedParticipants: data?.limitedParticipants || 1,
   recruitmentDeadline: data ? new Date(data.recruitmentDeadline) : new Date(),
   reviewDeadline: data ? new Date(data.reviewDeadline) : new Date(),
-  classification: data?.classification || "ALL",
+  classification: data?.classification || ("" as Classification),
 });
 
 const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
@@ -47,7 +49,13 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
   const { isModalOpen, handleOpenModal, handleCloseModal } = useModal();
 
   const isFormValid =
-    formState.title !== "" && formState.classification !== "ALL" && formState.repositoryLink !== "";
+    validators.title(formState.title) === "" &&
+    validators.classification(formState.classification) === "" &&
+    validators.repositoryLink(formState.repositoryLink) === "" &&
+    validators.matchingSize(formState.matchingSize) === "" &&
+    validators.limitedParticipants(formState.limitedParticipants, formState.matchingSize) === "" &&
+    validators.recruitmentDeadline(formState.recruitmentDeadline) === "" &&
+    validators.reviewDeadline(formState.reviewDeadline, formState.recruitmentDeadline) === "";
 
   const handleInputChange = <K extends keyof CreateRoomInfo>(name: K, value: CreateRoomInfo[K]) => {
     setFormState((prevState) => ({
@@ -98,9 +106,12 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
               name="title"
               value={formState.title}
               onChange={(e) => handleInputChange("title", e.target.value)}
-              error={isClickedButton && formState.title === ""}
+              error={isClickedButton && validators.title(formState.title) !== ""}
+              showCharCount={true}
+              maxLength={50}
               required
             />
+            <ErrorText>{isClickedButton && validators.title(formState.title)}</ErrorText>
           </S.ContentInput>
         </S.RowContainer>
 
@@ -110,14 +121,17 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
           </S.ContentLabel>
           <S.ContentInput>
             <Dropdown
-              name="방 카테고리 선택"
+              name="classification"
               dropdownItems={dropdownItems}
               selectedCategory={formState.classification}
               onSelectCategory={(value) =>
                 handleInputChange("classification", value as Classification)
               }
-              error={isClickedButton && formState.classification === "ALL"}
+              error={isClickedButton && validators.classification(formState.classification) !== ""}
             />
+            <ErrorText>
+              {isClickedButton && validators.classification(formState.classification)}
+            </ErrorText>
           </S.ContentInput>
         </S.RowContainer>
 
@@ -130,8 +144,10 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
               onChange={(e) => handleInputChange("content", e.target.value)}
               rows={5}
               showCharCount={true}
-              maxLength={1000}
+              maxLength={4000}
+              error={isClickedButton && validators.content(formState.content) !== ""}
             />
+            <ErrorText>{isClickedButton && validators.content(formState.content)}</ErrorText>
           </S.ContentInput>
         </S.RowContainer>
 
@@ -144,9 +160,12 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
               name="repositoryLink"
               value={formState.repositoryLink}
               onChange={(e) => handleInputChange("repositoryLink", e.target.value)}
-              error={isClickedButton && formState.repositoryLink === ""}
+              error={isClickedButton && validators.repositoryLink(formState.repositoryLink) !== ""}
               required
             />
+            <ErrorText>
+              {isClickedButton && validators.repositoryLink(formState.repositoryLink)}
+            </ErrorText>
           </S.ContentInput>
         </S.RowContainer>
 
@@ -157,7 +176,11 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
               name="thumbnailLink"
               value={formState.thumbnailLink}
               onChange={(e) => handleInputChange("thumbnailLink", e.target.value)}
+              error={isClickedButton && validators.thumbnailLink(formState.thumbnailLink) !== ""}
             />
+            <ErrorText>
+              {isClickedButton && validators.thumbnailLink(formState.thumbnailLink)}
+            </ErrorText>
           </S.ContentInput>
         </S.RowContainer>
 
@@ -173,7 +196,9 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
                   e.target.value.split(",").map((keyword) => keyword.trim()),
                 )
               }
+              error={isClickedButton && validators.keywords(formState.keywords) !== ""}
             />
+            <ErrorText>{isClickedButton && validators.keywords(formState.keywords)}</ErrorText>
           </S.ContentInput>
         </S.RowContainer>
 
@@ -185,11 +210,16 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
             <Input
               type="number"
               min="1"
+              max="5"
               name="matchingSize"
               value={formState.matchingSize}
               onChange={(e) => handleInputChange("matchingSize", parseInt(e.target.value, 10))}
+              error={isClickedButton && validators.matchingSize(formState.matchingSize) !== ""}
               required
             />
+            <ErrorText>
+              {isClickedButton && validators.matchingSize(formState.matchingSize)}
+            </ErrorText>
           </S.ContentInput>
         </S.RowContainer>
 
@@ -200,14 +230,28 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
           <S.ContentInput>
             <Input
               type="number"
-              min="1"
+              min={formState.matchingSize}
               name="limitedParticipants"
               value={formState.limitedParticipants}
               onChange={(e) =>
                 handleInputChange("limitedParticipants", parseInt(e.target.value, 10))
               }
+              error={
+                isClickedButton &&
+                validators.limitedParticipants(
+                  formState.limitedParticipants,
+                  formState.matchingSize,
+                ) !== ""
+              }
               required
             />
+            <ErrorText>
+              {isClickedButton &&
+                validators.limitedParticipants(
+                  formState.limitedParticipants,
+                  formState.matchingSize,
+                )}
+            </ErrorText>
           </S.ContentInput>
         </S.RowContainer>
 
@@ -221,7 +265,14 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
               onDateTimeChange={(newDateTime) =>
                 handleInputChange("recruitmentDeadline", newDateTime)
               }
+              error={
+                isClickedButton &&
+                validators.recruitmentDeadline(formState.recruitmentDeadline) !== ""
+              }
             />
+            <ErrorText>
+              {isClickedButton && validators.recruitmentDeadline(formState.recruitmentDeadline)}
+            </ErrorText>
           </S.ContentInput>
         </S.RowContainer>
 
@@ -233,7 +284,18 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
             <DateTimePicker
               selectedDateTime={formState.reviewDeadline}
               onDateTimeChange={(newDateTime) => handleInputChange("reviewDeadline", newDateTime)}
+              error={
+                isClickedButton &&
+                validators.reviewDeadline(
+                  formState.reviewDeadline,
+                  formState.recruitmentDeadline,
+                ) !== ""
+              }
             />
+            <ErrorText>
+              {isClickedButton &&
+                validators.reviewDeadline(formState.reviewDeadline, formState.recruitmentDeadline)}
+            </ErrorText>
           </S.ContentInput>
         </S.RowContainer>
 

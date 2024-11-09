@@ -43,6 +43,7 @@ export const ContentLabel = styled.span`
 
 export const ContentInput = styled.div`
   display: flex;
-  gap: 1rem;
+  flex-direction: column;
+  gap: 0.5rem;
   width: 100%;
 `;
