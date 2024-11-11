@@ -13,6 +13,7 @@ const sampleRoomList = {
     | "PULL_REQUEST_NOT_SUBMITTED",
   memberRole: roomInfo.memberRole as "BOTH" | "REVIEWER" | "REVIEWEE" | "NONE",
   classification: roomInfo.classification as "ALL" | "FRONTEND" | "BACKEND" | "ANDROID",
+  isPrivate: false,
 } satisfies RoomInfo;
 
 const meta: Meta<typeof RoomCardModal> = {
