@@ -95,7 +95,9 @@ const RoomCard = React.memo(({ roomInfo }: RoomCardProps) => {
       </AlertModal>
       <RoomCardModal isOpen={isModalOpen} onClose={handleCloseModal} roomInfo={roomInfo} />
 
-      <S.RoomCardContainer onClick={handleNoticeModal}>
+      <S.RoomCardContainer
+        onClick={roomInfo.roomStatus === "OPEN" ? handleNoticeModal : handleOpenModal}
+      >
         <S.ClassificationBadgeWrapper>
           <ClassificationBadge text={roomInfo.classification} />
         </S.ClassificationBadgeWrapper>
