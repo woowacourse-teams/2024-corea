@@ -218,9 +218,17 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
           <S.ContentInput>
             <DateTimePicker
               selectedDateTime={formState.recruitmentDeadline}
-              onDateTimeChange={(newDateTime) =>
-                handleInputChange("recruitmentDeadline", newDateTime)
-              }
+              onDateTimeChange={(newDateTime) => {
+                handleInputChange("recruitmentDeadline", newDateTime);
+                if (newDateTime > formState.reviewDeadline) {
+                  const newDate = new Date();
+                  newDate.setFullYear(newDateTime.getFullYear());
+                  newDate.setMonth(newDateTime.getMonth());
+                  newDate.setDate(newDateTime.getDate());
+                  handleInputChange("reviewDeadline", newDate);
+                }
+              }}
+              options={{ isPastDateDisabled: true }}
             />
           </S.ContentInput>
         </S.RowContainer>
@@ -233,6 +241,10 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
             <DateTimePicker
               selectedDateTime={formState.reviewDeadline}
               onDateTimeChange={(newDateTime) => handleInputChange("reviewDeadline", newDateTime)}
+              options={{
+                isPastDateDisabled: true,
+                disabledBeforeDate: formState.recruitmentDeadline,
+              }}
             />
           </S.ContentInput>
         </S.RowContainer>
