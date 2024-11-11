@@ -1,14 +1,16 @@
 /* eslint-disable react/display-name */
-import React from "react";
+import React, { useState } from "react";
 import useModal from "@/hooks/common/useModal";
 import Icon from "@/components/common/icon/Icon";
 import ImageWithFallback from "@/components/common/img/ImageWithFallback";
 import Label from "@/components/common/label/Label";
+import AlertModal from "@/components/common/modal/alertModal/AlertModal";
 import ClassificationBadge from "@/components/shared/classificationBadge/ClassificationBadge";
 import * as S from "@/components/shared/roomCard/RoomCard.style";
 import RoomCardModal from "@/components/shared/roomCardModal/RoomCardModal";
 import { RoomInfo } from "@/@types/roomInfo";
 import { MAX_KEYWORDS } from "@/constants/room";
+import { HoverStyledLink } from "@/styles/common";
 import { theme } from "@/styles/theme";
 import { convertdDayToKorean } from "@/utils/convertToKorean";
 import { convertDateToKorean, formatDday, formatLeftTime } from "@/utils/dateFormatter";
@@ -64,6 +66,15 @@ interface RoomCardProps {
 
 const RoomCard = React.memo(({ roomInfo }: RoomCardProps) => {
   const { isModalOpen, handleOpenModal, handleCloseModal } = useModal();
+  const [isNoticeModalOpen, setIsNoticeModalOpen] = useState(false);
+
+  const handleNoticeModal = () => {
+    if (isNoticeModalOpen) {
+      handleOpenModal();
+    }
+
+    setIsNoticeModalOpen((prev) => !prev);
+  };
 
   const displayedKeywords = roomInfo.keywords
     .filter((keyword) => keyword !== "")
@@ -71,9 +82,15 @@ const RoomCard = React.memo(({ roomInfo }: RoomCardProps) => {
 
   return (
     <>
+      <AlertModal isOpen={isNoticeModalOpen} onClose={handleNoticeModal}>
+        방 참여조건
+        <HoverStyledLink to={roomInfo.repositoryLink}>{roomInfo.repositoryLink}</HoverStyledLink>
+        해당 주소로 접속하여 PR 작성 후 방에 참여해주세요! <br /> (해당 링크로 PR을 작성하지 않으면
+        방 매칭이 안돼요 😥)
+      </AlertModal>
       <RoomCardModal isOpen={isModalOpen} onClose={handleCloseModal} roomInfo={roomInfo} />
 
-      <S.RoomCardContainer onClick={handleOpenModal}>
+      <S.RoomCardContainer onClick={handleNoticeModal}>
         <S.ClassificationBadgeWrapper>
           <ClassificationBadge text={roomInfo.classification} />
         </S.ClassificationBadgeWrapper>
