@@ -83,10 +83,15 @@ const RoomCard = React.memo(({ roomInfo }: RoomCardProps) => {
   return (
     <>
       <AlertModal isOpen={isNoticeModalOpen} onClose={handleNoticeModal}>
-        방 참여조건
-        <HoverStyledLink to={roomInfo.repositoryLink}>{roomInfo.repositoryLink}</HoverStyledLink>
-        해당 주소로 접속하여 PR 작성 후 방에 참여해주세요! <br /> (해당 링크로 PR을 작성하지 않으면
-        방 매칭이 안돼요 😥)
+        해당 링크를 참고하여 본인 레포에 PR을 남겨주세요 <br /> (본인 레포에 PR을 작성하지 않으면 방
+        매칭이 안돼요 😥)
+        <HoverStyledLink
+          to={"https://github.com/2024-Code-Review-Area/description-convenience-store-7"}
+          target="_blank"
+          rel="noreferrer"
+        >
+          🔗 방 참여방법 보러가기
+        </HoverStyledLink>
       </AlertModal>
       <RoomCardModal isOpen={isModalOpen} onClose={handleCloseModal} roomInfo={roomInfo} />
 
