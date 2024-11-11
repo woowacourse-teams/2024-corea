@@ -46,3 +46,68 @@ export const ContentInput = styled.div`
   gap: 1rem;
   width: 100%;
 `;
+
+export const ContentWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: center;
+
+  font: ${({ theme }) => theme.TEXT.medium};
+`;
+
+export const ContentRadioInput = styled.input`
+  display: none; /* 기본 라디오 버튼은 숨김 */
+`;
+
+export const RadioLabel = styled.label`
+  cursor: pointer;
+
+  position: relative;
+
+  padding-left: 2.5rem;
+
+  font-size: 1rem;
+  color: ${({ theme }) => theme.COLOR.grey2};
+
+  /* 라디오 버튼 원 모양 스타일링 */
+  &::before {
+    content: "";
+
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+
+    width: 1.5rem;
+    height: 1.5rem;
+
+    background-color: ${({ theme }) => theme.COLOR.white};
+    border: 2px solid ${({ theme }) => theme.COLOR.grey3};
+    border-radius: 50%;
+
+    transition: 0.2s all ease-in-out;
+  }
+
+  /* 선택된 상태에서 스타일링 */
+  input:checked + &::before {
+    background-color: ${({ theme }) => theme.COLOR.primary2};
+    border-color: ${({ theme }) => theme.COLOR.primary2};
+  }
+
+  /* 체크된 상태에서 원 안의 점 */
+  input:checked + &::after {
+    content: "";
+
+    position: absolute;
+    top: 50%;
+    left: 0.6rem;
+    transform: translateY(-50%);
+
+    width: 0.75rem;
+    height: 0.75rem;
+
+    background-color: ${({ theme }) => theme.COLOR.white};
+    border-radius: 50%;
+  }
+`;
