@@ -26,7 +26,7 @@ export const RowContainer = styled.div`
 
   ${media.large`
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
   `}
 `;
 
@@ -39,6 +39,10 @@ export const ContentLabel = styled.span`
     font: ${({ theme }) => theme.TEXT.semiSmall};
     color: ${({ theme }) => theme.COLOR.error};
   }
+
+  ${media.large`
+    line-height: 30px;
+  `}
 `;
 
 export const ContentInput = styled.div`

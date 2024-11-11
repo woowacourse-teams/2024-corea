@@ -17,6 +17,7 @@ import {
   MdCalendarMonth,
   MdCheck,
   MdClear,
+  MdDeleteOutline,
   MdExpandMore,
   MdInfoOutline,
   MdInsertLink,
@@ -63,6 +64,7 @@ const ICON: { [key in IconKind]: IconType } = {
   notificationBell: MdNotificationsNone,
   search: MdOutlineSearch,
   add: MdAdd,
+  delete: MdDeleteOutline,
 };
 
 interface IconProps {

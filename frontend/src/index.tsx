@@ -15,7 +15,7 @@ const enableMocking = async () => {
     return;
   }
   const { worker } = await import("./mocks/browser");
-  return worker.start();
+  // return worker.start();
 };
 
 const queryClient = new QueryClient({
@@ -32,17 +32,17 @@ const queryClient = new QueryClient({
 
 enableMocking().then(() => {
   ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-    <React.StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <ThemeProvider theme={theme}>
-          <ToastProvider>
-            <GlobalStyles />
-            <Toast />
-            <RouterProvider router={router} />
-          </ToastProvider>
-        </ThemeProvider>
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
-    </React.StrictMode>,
+    // <React.StrictMode>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={theme}>
+        <ToastProvider>
+          <GlobalStyles />
+          <Toast />
+          <RouterProvider router={router} />
+        </ToastProvider>
+      </ThemeProvider>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>,
+    // </React.StrictMode>,
   );
 });

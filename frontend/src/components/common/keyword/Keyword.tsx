@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import Icon from "@/components/common/icon/Icon";
 import { Input } from "@/components/common/input/Input";
 import * as S from "@/components/common/keyword/Keyword.style";
 
@@ -45,6 +46,7 @@ const Keyword = ({ currentKeywords, onKeywordsChange, error }: KeywordProps) => 
               title="키워드를 클릭하면 삭제돼요"
             >
               {keyword}
+              <Icon kind="delete" size="2.2rem" />
             </S.KeywordButton>
           ))}
         </S.KeywordLabelContainer>

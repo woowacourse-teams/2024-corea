@@ -13,6 +13,8 @@ export const KeywordLabelContainer = styled.div`
 `;
 
 export const KeywordButton = styled.button`
+  position: relative;
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -28,4 +30,24 @@ export const KeywordButton = styled.button`
   background-color: ${({ theme }) => theme.COLOR.grey0};
   border: 1px solid ${({ theme }) => theme.COLOR.grey0};
   border-radius: 15px;
+
+  svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    color: ${({ theme }) => theme.COLOR.white};
+
+    opacity: 0;
+  }
+
+  &:hover {
+    opacity: 0.5;
+    background-color: ${({ theme }) => theme.COLOR.grey3};
+  }
+
+  &:hover svg {
+    opacity: 1;
+  }
 `;

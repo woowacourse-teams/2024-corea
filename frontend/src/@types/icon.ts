@@ -26,6 +26,7 @@ type IconKind =
   | "githubLogo"
   | "notificationBell"
   | "search"
-  | "add";
+  | "add"
+  | "delete";
 
 export default IconKind;
