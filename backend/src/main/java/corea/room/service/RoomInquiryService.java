@@ -3,10 +3,7 @@ package corea.room.service;
 import corea.member.domain.MemberRole;
 import corea.participation.domain.ParticipationStatus;
 import corea.participation.repository.ParticipationRepository;
-import corea.room.domain.Room;
-import corea.room.domain.RoomClassification;
-import corea.room.domain.RoomReader;
-import corea.room.domain.RoomStatus;
+import corea.room.domain.*;
 import corea.room.dto.RoomResponse;
 import corea.room.dto.RoomResponses;
 import corea.room.dto.RoomSearchResponses;
@@ -33,6 +30,7 @@ public class RoomInquiryService {
     private final RoomReader roomReader;
     private final RoomRepository roomRepository;
     private final ParticipationRepository participationRepository;
+    private final RoomMatchReader roomMatchReader;
 
     public RoomSearchResponses search(long memberId, RoomStatus status, RoomClassification classification, String keywordTitle) {
         Specification<Room> spec = getSearchSpecification(status, classification, keywordTitle);
@@ -75,8 +73,9 @@ public class RoomInquiryService {
     }
 
     private RoomResponse getRoomResponse(Room room, long memberId) {
+        boolean isPublic = roomMatchReader.isPublicRoom(room);
         return participationRepository.findByRoomIdAndMemberId(room.getId(), memberId)
-                .map(participation -> RoomResponse.of(room, participation))
-                .orElseGet(() -> RoomResponse.of(room, MemberRole.NONE, ParticipationStatus.NOT_PARTICIPATED));
+                .map(participation -> RoomResponse.of(room, participation,isPublic))
+                .orElseGet(() -> RoomResponse.of(room, MemberRole.NONE, ParticipationStatus.NOT_PARTICIPATED,isPublic));
     }
 }

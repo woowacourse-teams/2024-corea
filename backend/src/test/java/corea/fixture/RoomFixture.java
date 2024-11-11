@@ -108,6 +108,24 @@ public class RoomFixture {
                 RoomStatus.OPEN
         );
     }
+    public static Room ROOM_DOMAIN(String repositoryLink,Member member){
+        return new Room(
+                "자바 레이싱 카 - MVC",
+                "MVC 패턴을 아시나요?",
+                2,
+                repositoryLink,
+                "https://gongu.copyright.or.kr/gongu/wrt/cmmn/wrtFileImageView.do?wrtSn=13301655&filePath=L2Rpc2sxL25ld2RhdGEvMjAyMS8yMS9DTFMxMDAwNC8xMzMwMTY1NV9XUlRfMjFfQ0xTMTAwMDRfMjAyMTEyMTNfMQ==&thumbAt=Y&thumbSe=b_tbumb&wrtTy=10004",
+                List.of("TDD, 클린코드,자바"),
+                1,
+                17,
+                30,
+                member,
+                LocalDateTime.now(),
+                LocalDateTime.now().plusDays(14),
+                RoomClassification.BACKEND,
+                RoomStatus.OPEN
+        );
+    }
 
     public static Room ROOM_DOMAIN(Long id, Member member) {
         return new Room(
@@ -167,7 +185,8 @@ public class RoomFixture {
                 10,
                 recruitmentDeadline,
                 reviewDeadline,
-                RoomClassification.ALL
+                RoomClassification.ALL,
+                false
         );
     }
 
