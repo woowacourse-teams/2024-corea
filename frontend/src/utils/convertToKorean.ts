@@ -13,7 +13,7 @@ export const convertClassificationToKorean = (text: Classification) => {
   }
 };
 
-export const convertdDayToKorean = (dDay: string) => {
+export const convertedDayToKorean = (dDay: string) => {
   const leftDay = dDay.split("-")[1];
 
   return `${leftDay}일 전`;

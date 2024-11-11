@@ -12,7 +12,7 @@ import { RoomInfo } from "@/@types/roomInfo";
 import { MAX_KEYWORDS } from "@/constants/room";
 import { HoverStyledLink } from "@/styles/common";
 import { theme } from "@/styles/theme";
-import { convertdDayToKorean } from "@/utils/convertToKorean";
+import { convertedDayToKorean } from "@/utils/convertToKorean";
 import { convertDateToKorean, formatDday, formatLeftTime } from "@/utils/dateFormatter";
 
 const DisplayLeftTime = (roomInfo: RoomInfo) => {
@@ -25,7 +25,7 @@ const DisplayLeftTime = (roomInfo: RoomInfo) => {
         {dDay !== "종료됨" && "모집 마감"}
         <S.StyledDday aria-hidden>{dDay === "D-Day" ? leftTime : dDay}</S.StyledDday>
         <S.ScreenReader>
-          {dDay === "D-Day" ? convertDateToKorean(leftTime) : convertdDayToKorean(dDay)}
+          {dDay === "D-Day" ? convertDateToKorean(leftTime) : convertedDayToKorean(dDay)}
         </S.ScreenReader>
       </>
     );
@@ -40,7 +40,7 @@ const DisplayLeftTime = (roomInfo: RoomInfo) => {
         {dDay !== "종료됨" && "리뷰 마감"}
         <S.StyledDday aria-hidden>{dDay === "D-Day" ? leftTime : dDay}</S.StyledDday>
         <S.ScreenReader>
-          {dDay === "D-Day" ? convertDateToKorean(leftTime) : convertdDayToKorean(dDay)}
+          {dDay === "D-Day" ? convertDateToKorean(leftTime) : convertedDayToKorean(dDay)}
         </S.ScreenReader>
       </>
     );
