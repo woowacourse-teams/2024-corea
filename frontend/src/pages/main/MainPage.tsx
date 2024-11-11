@@ -9,12 +9,13 @@ const MainPage = () => {
   return (
     <S.Layout>
       <Banner />
-      <Content />
 
       <S.RoomCreateButton onClick={() => navigate("/rooms/create")}>
         <Icon kind="add" size={30} />
         <span>방 생성하기</span>
       </S.RoomCreateButton>
+
+      <Content />
     </S.Layout>
   );
 };
