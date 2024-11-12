@@ -26,7 +26,9 @@ const useMutateReview = (roomId: number) => {
     mutationFn: ({ roomId, reviewerId }: RevieweReminderAlarm) =>
       postReviewComplete(roomId, reviewerId),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.REVIEWERS, roomId] });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.REVIEWERS, roomId, QUERY_KEYS.ALARM_COUNT, QUERY_KEYS.ALARM_LIST],
+      });
       openToast(MESSAGES.SUCCESS.POST_REVIEW_URGE);
     },
     onError: (error) => handleMutateError(error),
