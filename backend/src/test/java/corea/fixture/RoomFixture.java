@@ -186,7 +186,7 @@ public class RoomFixture {
                 recruitmentDeadline,
                 reviewDeadline,
                 RoomClassification.ALL,
-                false
+                true
         );
     }
 
