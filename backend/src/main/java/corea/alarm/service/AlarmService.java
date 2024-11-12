@@ -9,6 +9,8 @@ import corea.alarm.domain.UserAlarmsByActionType;
 import corea.alarm.domain.UserToUserAlarmReader;
 import corea.alarm.domain.UserToUserAlarmWriter;
 import corea.alarm.dto.CreateUserToUserAlarmInput;
+import corea.exception.CoreaException;
+import corea.exception.ExceptionType;
 import corea.member.domain.Member;
 import corea.member.domain.MemberReader;
 import corea.room.domain.Room;
@@ -66,5 +68,17 @@ public class AlarmService {
             UserToUserAlarm userToUserAlarm = userToUserAlarmReader.find(request.actionId());
             userToUserAlarmWriter.check(member, userToUserAlarm);
         }
+    }
+
+    @Transactional
+    public void createUrgeAlarm(long revieweeId, long reviewerId, long roomId) {
+        boolean unReadUrgeAlarmExist = userToUserAlarmReader.existUnReadUrgeAlarm(revieweeId, reviewerId, roomId);
+        if (unReadUrgeAlarmExist) {
+            log.warn("리뷰 재촉 알림 생성을 실패했습니다. 리뷰어 ID={},리뷰이 ID={},방 ID={}",
+                    reviewerId, revieweeId, roomId);
+            throw new CoreaException(ExceptionType.SAME_UNREAD_ALARM_EXIST);
+        }
+        CreateUserToUserAlarmInput input = new CreateUserToUserAlarmInput(AlarmActionType.REVIEW_URGE, revieweeId, reviewerId, roomId);
+        userToUserAlarmWriter.create(input.toEntity());
     }
 }
