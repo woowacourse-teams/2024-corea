@@ -65,7 +65,7 @@ public class AlarmService {
         Member member = memberReader.findOne(userId);
         AlarmType alarmType = AlarmType.from(request.alarmType());
         if (alarmType == AlarmType.USER) {
-            UserToUserAlarm userToUserAlarm = userToUserAlarmReader.find(request.actionId());
+            UserToUserAlarm userToUserAlarm = userToUserAlarmReader.find(request.alarmId());
             userToUserAlarmWriter.check(member, userToUserAlarm);
         }
     }
