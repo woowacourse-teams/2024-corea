@@ -8,6 +8,7 @@ import corea.participation.domain.Participation;
 import corea.participation.domain.ParticipationStatus;
 import corea.participation.repository.ParticipationRepository;
 import corea.room.domain.Room;
+import corea.room.domain.RoomMatchReader;
 import corea.room.dto.RoomResponse;
 import corea.room.dto.RoomResponses;
 import corea.room.repository.RoomRepository;
@@ -27,13 +28,15 @@ public class RoomDetailsInquiryService {
     private final RoomRepository roomRepository;
     private final ParticipationRepository participationRepository;
     private final FailedMatchingRepository failedMatchingRepository;
+    private final RoomMatchReader roomMatchReader;
 
     public RoomResponse findOne(long roomId, long memberId) {
         Room room = getRoom(roomId);
+        boolean isPublic = roomMatchReader.isPublicRoom(room);
 
         return participationRepository.findByRoomIdAndMemberId(roomId, memberId)
                 .map(participation -> appendMatchingInfo(room, participation))
-                .orElseGet(() -> RoomResponse.of(room, MemberRole.NONE, ParticipationStatus.NOT_PARTICIPATED));
+                .orElseGet(() -> RoomResponse.of(room, MemberRole.NONE, ParticipationStatus.NOT_PARTICIPATED, isPublic));
     }
 
     public RoomResponses findParticipatedRooms(long memberId, boolean includeClosed) {
@@ -58,9 +61,10 @@ public class RoomDetailsInquiryService {
     }
 
     private RoomResponse appendMatchingInfo(Room room, Participation participation) {
+        boolean isPublic = roomMatchReader.isPublicRoom(room);
         return failedMatchingRepository.findByRoomId(room.getId())
-                .map(failedMatching -> RoomResponse.of(room, participation, failedMatching))
-                .orElseGet(() -> RoomResponse.of(room, participation));
+                .map(failedMatching -> RoomResponse.of(room, participation, failedMatching, isPublic))
+                .orElseGet(() -> RoomResponse.of(room, participation, isPublic));
     }
 
     private Participation getParticipation(Long roomId, long memberId) {
