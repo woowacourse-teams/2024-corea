@@ -18,6 +18,7 @@ export const API_ENDPOINTS = {
   REVIEWERS: (roomId: number) => `/rooms/${roomId}/reviewers`,
   REVIEWEES: (roomId: number) => `/rooms/${roomId}/reviewees`,
   REVIEW_COMPLETE: "/review/complete",
+  REVIEW_URGE: "/review/urge",
 
   // profile
   PROFILE: "/user/profile",

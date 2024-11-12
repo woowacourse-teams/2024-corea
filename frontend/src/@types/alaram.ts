@@ -27,3 +27,8 @@ export interface AlarmAsRead {
   alarmId: number;
   alarmType: "USER";
 }
+
+export interface RevieweReminderAlarm {
+  roomId: number;
+  reviewerId: number;
+}
