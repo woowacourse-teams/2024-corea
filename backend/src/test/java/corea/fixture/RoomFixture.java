@@ -163,11 +163,11 @@ public class RoomFixture {
     }
 
     public static RoomCreateRequest ROOM_CREATE_REQUEST() {
-        return ROOM_CREATE_REQUEST(LocalDateTime.now().plusHours(2), LocalDateTime.now().plusDays(2));
+        return ROOM_CREATE_REQUEST(LocalDateTime.now().plusHours(2), LocalDateTime.now().plusDays(4));
     }
 
     public static RoomCreateRequest ROOM_CREATE_REQUEST_WITH_RECRUITMENT_DEADLINE(LocalDateTime recruitmentDeadline) {
-        return ROOM_CREATE_REQUEST(recruitmentDeadline, LocalDateTime.now().plusDays(2));
+        return ROOM_CREATE_REQUEST(recruitmentDeadline, LocalDateTime.now().plusDays(4));
     }
 
     public static RoomCreateRequest ROOM_CREATE_REQUEST_WITH_REVIEW_DEADLINE(LocalDateTime reviewDeadline) {
