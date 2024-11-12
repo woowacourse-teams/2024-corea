@@ -52,7 +52,9 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
         {buttonText}
       </Button>
     ) : (
-      <p>리뷰어가 리뷰 중이에요!</p>
+      <Button size="xSmall" variant="secondary" outline={true}>
+        <S.ContentWrapper>리뷰 재촉하기</S.ContentWrapper>
+      </Button>
     );
   };
 
