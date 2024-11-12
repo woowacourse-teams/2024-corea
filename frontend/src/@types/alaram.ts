@@ -1,10 +1,12 @@
+export type AlarmActionType = "REVIEW_COMPLETE" | "REVIEW_URGE";
+
 export interface AlarmCount {
   count: number;
 }
 
 export interface AlarmItemData {
   alarmId: number;
-  actionType: string;
+  actionType: AlarmActionType;
   actor: {
     memberId: number;
     username: string;
