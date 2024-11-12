@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import useMutateReview from "@/hooks/mutations/useMutateReview";
 import { useFetchReviewer } from "@/hooks/queries/useFetchReviewer";
 import Button from "@/components/common/button/Button";
 import Icon from "@/components/common/icon/Icon";
@@ -17,6 +19,8 @@ interface MyReviewerProps {
 const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
   const navigate = useNavigate();
   const { data: reviewerData } = useFetchReviewer(roomInfo);
+  const { postReviewUrgeMutation } = useMutateReview(roomInfo.id);
+  const [loadingButtonId, setLoadingButtonId] = useState<number[]>([]);
 
   // 피드백 페이지 이동 함수
   const handleNavigateFeedbackPage = (reviewInfo: ReviewInfo) => {
@@ -42,6 +46,23 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
     //   return <p>피드백을 작성하지 않았어요</p>;
     // }
 
+    // 코드리뷰 재촉
+    const handleReviewUrgeClick = (reviewer: ReviewInfo) => {
+      if (loadingButtonId.includes(reviewer.userId)) return;
+      setLoadingButtonId((prev) => [...prev, reviewer.userId]);
+      console.log("click");
+
+      postReviewUrgeMutation.mutate(
+        { roomId: roomInfo.id, reviewerId: reviewer.userId },
+        {
+          onSuccess: () => {
+            setLoadingButtonId((prev) => prev.filter((id) => id !== reviewer.userId));
+          },
+          onError: () => setLoadingButtonId((prev) => prev.filter((id) => id !== reviewer.userId)),
+        },
+      );
+    };
+
     return reviewer.isReviewed ? (
       <Button
         size="xSmall"
@@ -52,7 +73,12 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
         {buttonText}
       </Button>
     ) : (
-      <Button size="xSmall" variant="secondary" outline={true}>
+      <Button
+        size="xSmall"
+        variant="secondary"
+        onClick={() => handleReviewUrgeClick(reviewer)}
+        outline={true}
+      >
         <S.ContentWrapper>리뷰 재촉하기</S.ContentWrapper>
       </Button>
     );
