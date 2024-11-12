@@ -50,7 +50,6 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
     const handleReviewUrgeClick = (reviewer: ReviewInfo) => {
       if (loadingButtonId.includes(reviewer.userId)) return;
       setLoadingButtonId((prev) => [...prev, reviewer.userId]);
-      console.log("click");
 
       postReviewUrgeMutation.mutate(
         { roomId: roomInfo.id, reviewerId: reviewer.userId },
