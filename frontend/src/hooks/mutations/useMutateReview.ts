@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useToast from "@/hooks/common/useToast";
 import { RevieweReminderAlarm } from "@/@types/alaram";
 import QUERY_KEYS from "@/apis/queryKeys";
-import { postReviewComplete } from "@/apis/reviews.api";
+import { postReviewComplete, postReviewUrge } from "@/apis/reviews.api";
 import MESSAGES from "@/constants/message";
 
 const useMutateReview = (roomId: number) => {
@@ -24,7 +24,7 @@ const useMutateReview = (roomId: number) => {
 
   const postReviewUrgeMutation = useMutation({
     mutationFn: ({ roomId, reviewerId }: RevieweReminderAlarm) =>
-      postReviewComplete(roomId, reviewerId),
+      postReviewUrge({ roomId, reviewerId }),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.REVIEWERS, roomId, QUERY_KEYS.ALARM_COUNT, QUERY_KEYS.ALARM_LIST],
