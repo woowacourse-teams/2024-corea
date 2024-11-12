@@ -131,10 +131,7 @@ class AlarmServiceTest {
     @DisplayName("안 읽은 재촉 알람이 존재할 때 알람을 생성하지 않는다.")
     void does_not_create_urge_alarm_when_unread_urge_alarm_exist() {
         userToUserAlarmRepository.save(AlarmFixture.URGE_REVIEW(actor.getId(), receiver.getId(), interactionId));
-        alarmService.createUrgeAlarm(actor.getId(), receiver.getId(), interactionId);
-
-        List<UserToUserAlarm> urgeAlarms = userToUserAlarmRepository.findAllByActorIdAndReceiverIdAndInteractionId(actor.getId(), receiver.getId(), interactionId);
-
-        assertThat(urgeAlarms).hasSize(1);
+        assertThatThrownBy(() -> alarmService.createUrgeAlarm(actor.getId(), receiver.getId(), interactionId))
+                .isInstanceOf(CoreaException.class);
     }
 }
