@@ -84,8 +84,6 @@ export const ContentWrapper = styled.div`
   flex-direction: row;
   gap: 1rem;
   align-items: center;
-
-  font: ${({ theme }) => theme.TEXT.medium};
 `;
 
 export const ContentRadioInput = styled.input`
@@ -99,8 +97,8 @@ export const RadioLabel = styled.label`
 
   padding-left: 2.5rem;
 
-  font-size: 1rem;
-  color: ${({ theme }) => theme.COLOR.grey2};
+  font: ${({ theme }) => theme.TEXT.small};
+  color: ${({ theme }) => theme.COLOR.grey3};
 
   &::before {
     content: "";
@@ -110,8 +108,8 @@ export const RadioLabel = styled.label`
     left: 0;
     transform: translateY(-50%);
 
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 15px;
+    height: 15px;
 
     background-color: ${({ theme }) => theme.COLOR.white};
     border: 2px solid ${({ theme }) => theme.COLOR.grey3};
@@ -130,11 +128,11 @@ export const RadioLabel = styled.label`
 
     position: absolute;
     top: 50%;
-    left: 0.5rem;
+    left: 5px;
     transform: translateY(-50%);
 
-    width: 0.75rem;
-    height: 0.75rem;
+    width: 7.5px;
+    height: 7.5px;
 
     background-color: ${({ theme }) => theme.COLOR.white};
     border-radius: 50%;
