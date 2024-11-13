@@ -25,12 +25,14 @@ const Keyword = ({ currentKeywords, onKeywordsChange, error }: KeywordProps) => 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      if (keyword === "") return;
-      if (currentKeywords.includes(keyword)) {
+      const trimmedKeyword = keyword.trim();
+
+      if (trimmedKeyword === "") return;
+      if (currentKeywords.includes(trimmedKeyword)) {
         setKeyword("");
         return;
       }
-      onKeywordsChange([...currentKeywords, keyword]);
+      onKeywordsChange([...currentKeywords, trimmedKeyword]);
       setKeyword("");
     }
   };
@@ -55,6 +57,8 @@ const Keyword = ({ currentKeywords, onKeywordsChange, error }: KeywordProps) => 
         type="text"
         placeholder="Enter키를 누르면 키워드가 생성돼요"
         value={keyword}
+        showCharCount={true}
+        maxLength={20}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
         error={error}
