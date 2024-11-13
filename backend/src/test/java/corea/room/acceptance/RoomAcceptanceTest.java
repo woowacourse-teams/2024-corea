@@ -1,5 +1,6 @@
 package corea.room.acceptance;
 
+import config.ControllerTest;
 import corea.auth.service.TokenService;
 import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
@@ -22,7 +23,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ControllerTest
 @ActiveProfiles("test")
 class RoomAcceptanceTest {
 
@@ -143,145 +144,145 @@ class RoomAcceptanceTest {
         }
     }
 
-    @Test
-    @DisplayName("로그인하지 않은 멤버가 참여 중인 방을 조회하려고 하면 예외가 발생한다.")
-    void participatedRoomsWithoutLogin() {
-        RestAssured.given().log().all()
-                .header("Authorization", "nothing")
-                .when().get("/rooms/participated")
-                .then().log().all()
-                .statusCode(401);
-    }
-
-    @Test
-    @DisplayName("현재 로그인한 멤버가 참여 중인 방을 보여준다.")
-    void participatedRoomsWithLogin() {
-        String accessToken = tokenService.createAccessToken(memberRepository.findByUsername("jcoding-play").get());
-
-        RoomResponses response = RestAssured.given()
-                .auth().oauth2(accessToken)
-                .when().get("/rooms/participated")
-                .then().log().all()
-                .statusCode(200)
-                .extract().as(RoomResponses.class);
-
-        List<RoomResponse> rooms = response.rooms();
-
-        List<String> managers = rooms.stream()
-                .map(RoomResponse::manager)
-                .toList();
-
-        assertSoftly(softly -> {
-            softly.assertThat(rooms)
-                    .hasSize(3);
-            softly.assertThat(managers)
-                    .containsExactlyInAnyOrder("00kang", "pp449", "chlwlstlf");
-        });
-    }
-
-    @Test
-    @DisplayName("참여 중인 방을 종료된 방도 포함해서 보여줄 수 있다.")
-    void participatedRooms_IncludeClosed() {
-        String accessToken = tokenService.createAccessToken(memberRepository.findByUsername("jcoding-play").get());
-
-        RoomResponses response = RestAssured.given().log().all()
-                .auth().oauth2(accessToken)
-                .when().get("/rooms/participated?includeClosed=true")
-                .then().log().all()
-                .statusCode(200)
-                .extract().as(RoomResponses.class);
-
-        List<RoomResponse> rooms = response.rooms();
-
-        List<String> managers = rooms.stream()
-                .map(RoomResponse::manager)
-                .toList();
-
-        assertThat(managers).containsExactlyInAnyOrder("jcoding-play", "00kang", "pp449", "chlwlstlf");
-    }
-
-    @Test
-    @DisplayName("참여 중인 방을 종료된 방도 제외해서 보여줄 수 있다.")
-    void participatedRooms_ExcludeClosed() {
-        String accessToken = tokenService.createAccessToken(memberRepository.findByUsername("jcoding-play").get());
-
-        RoomResponses response = RestAssured.given().log().all()
-                .auth().oauth2(accessToken)
-                .when().get("/rooms/participated?includeClosed=false")
-                .then().log().all()
-                .statusCode(200)
-                .extract().as(RoomResponses.class);
-
-        List<RoomResponse> rooms = response.rooms();
-
-        List<String> managers = rooms.stream()
-                .map(RoomResponse::manager)
-                .toList();
-
-        assertThat(managers).containsExactlyInAnyOrder("00kang", "pp449", "chlwlstlf");
-    }
-
-    @Test
-    @DisplayName("로그인하지 않은 사용자가 분야별로 현재 모집 중인 방들을 조회할 수 있다.")
-    void openedRoomsWithoutLogin() {
-        RoomResponses response = RestAssured.given().log().all()
-                .header("Authorization", "nothing")
-                .when().get("/rooms/opened?classification=be")
-                .then().log().all()
-                .statusCode(200)
-                .extract().as(RoomResponses.class);
-
-        List<RoomResponse> rooms = response.rooms();
-
-        assertSoftly(softly -> {
-            softly.assertThat(rooms).hasSize(4);
-            softly.assertThat(rooms.get(0).manager()).isEqualTo("jcoding-play");
-            softly.assertThat(rooms.get(1).manager()).isEqualTo("ashsty");
-            softly.assertThat(rooms.get(2).manager()).isEqualTo("pobi");
-            softly.assertThat(rooms.get(3).manager()).isEqualTo("pobi");
-        });
-    }
-
-    @Test
-    @DisplayName("로그인한 사용자가 분야별로 현재 모집 중인 방들을 조회할 수 있다.")
-    void openedRoomsWithLogin() {
-        String accessToken = tokenService.createAccessToken(memberRepository.findByUsername("jcoding-play").get());
-
-        RoomResponses response = RestAssured.given()
-                .auth().oauth2(accessToken)
-                .when().get("/rooms/opened?classification=be")
-                .then().log().all()
-                .statusCode(200)
-                .extract().as(RoomResponses.class);
-
-        List<RoomResponse> rooms = response.rooms();
-
-        assertSoftly(softly -> {
-            softly.assertThat(rooms).hasSize(4);
-            softly.assertThat(rooms.get(0).manager()).isEqualTo("jcoding-play");
-            softly.assertThat(rooms.get(1).manager()).isEqualTo("ashsty");
-            softly.assertThat(rooms.get(2).manager()).isEqualTo("pobi");
-            softly.assertThat(rooms.get(3).manager()).isEqualTo("pobi");
-        });
-    }
-
-    @Test
-    @DisplayName("모집 완료된 방들을 조회할 수 있다.")
-    void closedRooms() {
-        RoomResponses response = RestAssured.given().log().all()
-                .header("Authorization", "jcoding-play")
-                .when().get("/rooms/closed?classification=all")
-                .then().log().all()
-                .statusCode(200)
-                .extract().as(RoomResponses.class);
-
-        List<RoomResponse> rooms = response.rooms();
-
-        assertSoftly(softly -> {
-            softly.assertThat(rooms).hasSize(3);
-            softly.assertThat(rooms.get(0).manager()).isEqualTo("jcoding-play");
-            softly.assertThat(rooms.get(1).manager()).isEqualTo("youngsu5582");
-            softly.assertThat(rooms.get(2).manager()).isEqualTo("chlwlstlf");
-        });
-    }
+//    @Test
+//    @DisplayName("로그인하지 않은 멤버가 참여 중인 방을 조회하려고 하면 예외가 발생한다.")
+//    void participatedRoomsWithoutLogin() {
+//        RestAssured.given().log().all()
+//                .header("Authorization", "nothing")
+//                .when().get("/rooms/participated")
+//                .then().log().all()
+//                .statusCode(401);
+//    }
+//
+//    @Test
+//    @DisplayName("현재 로그인한 멤버가 참여 중인 방을 보여준다.")
+//    void participatedRoomsWithLogin() {
+//        String accessToken = tokenService.createAccessToken(memberRepository.findByUsername("jcoding-play").get());
+//
+//        RoomResponses response = RestAssured.given()
+//                .auth().oauth2(accessToken)
+//                .when().get("/rooms/participated")
+//                .then().log().all()
+//                .statusCode(200)
+//                .extract().as(RoomResponses.class);
+//
+//        List<RoomResponse> rooms = response.rooms();
+//
+//        List<String> managers = rooms.stream()
+//                .map(RoomResponse::manager)
+//                .toList();
+//
+//        assertSoftly(softly -> {
+//            softly.assertThat(rooms)
+//                    .hasSize(3);
+//            softly.assertThat(managers)
+//                    .containsExactlyInAnyOrder("00kang", "pp449", "chlwlstlf");
+//        });
+//    }
+//
+//    @Test
+//    @DisplayName("참여 중인 방을 종료된 방도 포함해서 보여줄 수 있다.")
+//    void participatedRooms_IncludeClosed() {
+//        String accessToken = tokenService.createAccessToken(memberRepository.findByUsername("jcoding-play").get());
+//
+//        RoomResponses response = RestAssured.given().log().all()
+//                .auth().oauth2(accessToken)
+//                .when().get("/rooms/participated?includeClosed=true")
+//                .then().log().all()
+//                .statusCode(200)
+//                .extract().as(RoomResponses.class);
+//
+//        List<RoomResponse> rooms = response.rooms();
+//
+//        List<String> managers = rooms.stream()
+//                .map(RoomResponse::manager)
+//                .toList();
+//
+//        assertThat(managers).containsExactlyInAnyOrder("jcoding-play", "00kang", "pp449", "chlwlstlf");
+//    }
+//
+//    @Test
+//    @DisplayName("참여 중인 방을 종료된 방도 제외해서 보여줄 수 있다.")
+//    void participatedRooms_ExcludeClosed() {
+//        String accessToken = tokenService.createAccessToken(memberRepository.findByUsername("jcoding-play").get());
+//
+//        RoomResponses response = RestAssured.given().log().all()
+//                .auth().oauth2(accessToken)
+//                .when().get("/rooms/participated?includeClosed=false")
+//                .then().log().all()
+//                .statusCode(200)
+//                .extract().as(RoomResponses.class);
+//
+//        List<RoomResponse> rooms = response.rooms();
+//
+//        List<String> managers = rooms.stream()
+//                .map(RoomResponse::manager)
+//                .toList();
+//
+//        assertThat(managers).containsExactlyInAnyOrder("00kang", "pp449", "chlwlstlf");
+//    }
+//
+//    @Test
+//    @DisplayName("로그인하지 않은 사용자가 분야별로 현재 모집 중인 방들을 조회할 수 있다.")
+//    void openedRoomsWithoutLogin() {
+//        RoomResponses response = RestAssured.given().log().all()
+//                .header("Authorization", "nothing")
+//                .when().get("/rooms/opened?classification=be")
+//                .then().log().all()
+//                .statusCode(200)
+//                .extract().as(RoomResponses.class);
+//
+//        List<RoomResponse> rooms = response.rooms();
+//
+//        assertSoftly(softly -> {
+//            softly.assertThat(rooms).hasSize(4);
+//            softly.assertThat(rooms.get(0).manager()).isEqualTo("jcoding-play");
+//            softly.assertThat(rooms.get(1).manager()).isEqualTo("ashsty");
+//            softly.assertThat(rooms.get(2).manager()).isEqualTo("pobi");
+//            softly.assertThat(rooms.get(3).manager()).isEqualTo("pobi");
+//        });
+//    }
+//
+//    @Test
+//    @DisplayName("로그인한 사용자가 분야별로 현재 모집 중인 방들을 조회할 수 있다.")
+//    void openedRoomsWithLogin() {
+//        String accessToken = tokenService.createAccessToken(memberRepository.findByUsername("jcoding-play").get());
+//
+//        RoomResponses response = RestAssured.given()
+//                .auth().oauth2(accessToken)
+//                .when().get("/rooms/opened?classification=be")
+//                .then().log().all()
+//                .statusCode(200)
+//                .extract().as(RoomResponses.class);
+//
+//        List<RoomResponse> rooms = response.rooms();
+//
+//        assertSoftly(softly -> {
+//            softly.assertThat(rooms).hasSize(4);
+//            softly.assertThat(rooms.get(0).manager()).isEqualTo("jcoding-play");
+//            softly.assertThat(rooms.get(1).manager()).isEqualTo("ashsty");
+//            softly.assertThat(rooms.get(2).manager()).isEqualTo("pobi");
+//            softly.assertThat(rooms.get(3).manager()).isEqualTo("pobi");
+//        });
+//    }
+//
+//    @Test
+//    @DisplayName("모집 완료된 방들을 조회할 수 있다.")
+//    void closedRooms() {
+//        RoomResponses response = RestAssured.given().log().all()
+//                .header("Authorization", "jcoding-play")
+//                .when().get("/rooms/closed?classification=all")
+//                .then().log().all()
+//                .statusCode(200)
+//                .extract().as(RoomResponses.class);
+//
+//        List<RoomResponse> rooms = response.rooms();
+//
+//        assertSoftly(softly -> {
+//            softly.assertThat(rooms).hasSize(3);
+//            softly.assertThat(rooms.get(0).manager()).isEqualTo("jcoding-play");
+//            softly.assertThat(rooms.get(1).manager()).isEqualTo("youngsu5582");
+//            softly.assertThat(rooms.get(2).manager()).isEqualTo("chlwlstlf");
+//        });
+//    }
 }

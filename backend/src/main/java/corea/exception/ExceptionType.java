@@ -20,6 +20,7 @@ public enum ExceptionType {
     ALREADY_COMPLETED_REVIEW(HttpStatus.BAD_REQUEST, "이미 리뷰를 완료했습니다."),
 
     NOT_RECEIVED_ALARM(HttpStatus.BAD_REQUEST,"본인이 받은 알람이 아닙니다."),
+    SAME_UNREAD_ALARM_EXIST(HttpStatus.BAD_REQUEST, "상대방에게 읽지 않은 같은 알람이 존재합니다."),
 
     ALREADY_COMPLETED_FEEDBACK(HttpStatus.BAD_REQUEST, "이미 작성한 피드백이 존재합니다."),
     INVALID_CALCULATION_FORMULA(HttpStatus.BAD_REQUEST, "잘못된 계산식입니다."),

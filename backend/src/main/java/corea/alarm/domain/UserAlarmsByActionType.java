@@ -19,7 +19,7 @@ public record UserAlarmsByActionType(Map<AlarmActionType, List<UserToUserAlarm>>
         return data.values()
                 .stream()
                 .flatMap(Collection::stream)
-                .filter(alarm -> alarm.getAlarmActionType() == AlarmActionType.REVIEW_COMPLETE)
+                //.filter(alarm -> alarm.getAlarmActionType() == AlarmActionType.REVIEW_COMPLETE)
                 .map(UserToUserAlarm::getInteractionId)
                 .collect(Collectors.toSet());
     }
@@ -28,6 +28,6 @@ public record UserAlarmsByActionType(Map<AlarmActionType, List<UserToUserAlarm>>
         return data.values()
                 .stream()
                 .flatMap(Collection::stream)
-                .collect(Collectors.toList());
+                .toList();
     }
 }

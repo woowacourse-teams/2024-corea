@@ -64,17 +64,20 @@ public record RoomResponse(@Schema(description = "방 아이디", example = "1")
                            RoomClassification classification,
 
                            @Schema(description = "매칭 실패 원인 메세지 제공", example = "참여 인원이 부족하여 매칭을 진행할 수 없습니다.")
-                           String message
+                           String message,
+
+                           @Schema(description = "어떤 저장소에서 확인하는지", example = "true")
+                           boolean isPublic
 ) {
 
     private static final String DEFAULT_MESSAGE = "";
 
     public static RoomResponse from(Room room) {
-        return RoomResponse.of(room, MemberRole.BOTH, ParticipationStatus.NOT_PARTICIPATED);
+        return RoomResponse.of(room, MemberRole.BOTH, ParticipationStatus.NOT_PARTICIPATED, true);
     }
 
     //TODO: Participation 리팩터링 이후에 다시 바뀔 로직 같아서 메서드 이름이나 파라미터 관련 수정은 나중에 제가 할게요~ -애쉬-
-    public static RoomResponse of(Room room, MemberRole role, ParticipationStatus participationStatus) {
+    public static RoomResponse of(Room room, MemberRole role, ParticipationStatus participationStatus, boolean isPublic) {
         return new RoomResponse(
                 room.getId(),
                 room.getTitle(),
@@ -93,11 +96,12 @@ public record RoomResponse(@Schema(description = "방 아이디", example = "1")
                 role,
                 room.getRoomStatus(),
                 room.getClassification(),
-                DEFAULT_MESSAGE
+                DEFAULT_MESSAGE,
+                isPublic
         );
     }
 
-    public static RoomResponse of(Room room, Participation participation) {
+    public static RoomResponse of(Room room, Participation participation, boolean isPublic) {
         return new RoomResponse(
                 room.getId(),
                 room.getTitle(),
@@ -116,11 +120,12 @@ public record RoomResponse(@Schema(description = "방 아이디", example = "1")
                 participation.getMemberRole(),
                 room.getRoomStatus(),
                 room.getClassification(),
-                DEFAULT_MESSAGE
+                DEFAULT_MESSAGE,
+                isPublic
         );
     }
 
-    public static RoomResponse of(Room room, Participation participation, FailedMatching failedMatching) {
+    public static RoomResponse of(Room room, Participation participation, FailedMatching failedMatching, boolean isPublic) {
         return new RoomResponse(
                 room.getId(),
                 room.getTitle(),
@@ -139,7 +144,8 @@ public record RoomResponse(@Schema(description = "방 아이디", example = "1")
                 participation.getMemberRole(),
                 room.getRoomStatus(),
                 room.getClassification(),
-                failedMatching.getMatchingFailedReason()
+                failedMatching.getMatchingFailedReason(),
+                isPublic
         );
     }
 }

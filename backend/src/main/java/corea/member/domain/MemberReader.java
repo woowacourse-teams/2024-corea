@@ -7,6 +7,7 @@ import corea.member.repository.MemberRepository;
 import corea.member.repository.ReviewerRepository;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -27,6 +28,13 @@ public class MemberReader {
         return memberRepository.findAllById(memberIds)
                 .stream()
                 .collect(Collectors.toMap(Member::getId, Function.identity()));
+    }
+
+    public List<String> findUsernamesByIds(Iterable<Long> memberIds) {
+        return memberRepository.findAllById(memberIds)
+                .stream()
+                .map(Member::getUsername)
+                .toList();
     }
 
     public boolean isReviewer(String githubUserId) {
