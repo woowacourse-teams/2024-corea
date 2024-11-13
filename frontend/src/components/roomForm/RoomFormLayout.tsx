@@ -37,6 +37,7 @@ const getInitialFormState = (data?: RoomInfo): CreateRoomInfo => ({
   recruitmentDeadline: data ? new Date(data.recruitmentDeadline) : new Date(),
   reviewDeadline: data ? new Date(data.reviewDeadline) : new Date(),
   classification: data?.classification || "ALL",
+  isPrivate: false,
 });
 
 const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
@@ -235,6 +236,30 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
               onDateTimeChange={(newDateTime) => handleInputChange("reviewDeadline", newDateTime)}
             />
           </S.ContentInput>
+        </S.RowContainer>
+
+        <S.RowContainer>
+          <S.ContentLabel>방 공개 여부</S.ContentLabel>
+          <S.ContentWrapper>
+            <S.ContentRadioInput
+              type="radio"
+              id="yes"
+              name="isPrivate"
+              checked={formState.isPrivate}
+              onChange={() => handleInputChange("isPrivate", true)}
+            />
+            <S.RadioLabel htmlFor="yes">예</S.RadioLabel>
+          </S.ContentWrapper>
+          <S.ContentWrapper>
+            <S.ContentRadioInput
+              type="radio"
+              id="no"
+              name="isPrivate"
+              checked={!formState.isPrivate}
+              onChange={() => handleInputChange("isPrivate", false)}
+            />
+            <S.RadioLabel htmlFor="no">아니요</S.RadioLabel>
+          </S.ContentWrapper>
         </S.RowContainer>
 
         <Button
