@@ -1,10 +1,9 @@
 /* eslint-disable react/display-name */
-import React, { useState } from "react";
+import React from "react";
 import useModal from "@/hooks/common/useModal";
 import Icon from "@/components/common/icon/Icon";
 import ImageWithFallback from "@/components/common/img/ImageWithFallback";
 import Label from "@/components/common/label/Label";
-import ConfirmModal from "@/components/common/modal/confirmModal/ConfirmModal";
 import ClassificationBadge from "@/components/shared/classificationBadge/ClassificationBadge";
 import * as S from "@/components/shared/roomCard/RoomCard.style";
 import RoomCardModal from "@/components/shared/roomCardModal/RoomCardModal";
@@ -74,11 +73,7 @@ const RoomCard = React.memo(({ roomInfo }: RoomCardProps) => {
     <>
       <RoomCardModal isOpen={isModalOpen} onClose={handleCloseModal} roomInfo={roomInfo} />
 
-      <S.RoomCardContainer
-        onClick={
-          roomInfo.roomStatus === "OPEN" && roomInfo.isPrivate ? handleNoticeModal : handleOpenModal
-        }
-      >
+      <S.RoomCardContainer onClick={handleOpenModal}>
         <S.ClassificationBadgeWrapper>
           <ClassificationBadge text={roomInfo.classification} />
         </S.ClassificationBadgeWrapper>

@@ -1,10 +1,12 @@
+export type AlarmActionType = "REVIEW_COMPLETE" | "REVIEW_URGE";
+
 export interface AlarmCount {
   count: number;
 }
 
 export interface AlarmItemData {
   alarmId: number;
-  actionType: string;
+  actionType: AlarmActionType;
   actor: {
     memberId: number;
     username: string;
@@ -26,4 +28,9 @@ export interface AlarmListData {
 export interface AlarmAsRead {
   alarmId: number;
   alarmType: "USER";
+}
+
+export interface ReviewReminderAlarm {
+  roomId: number;
+  reviewerId: number;
 }

@@ -29,7 +29,17 @@ const AlarmPage = () => {
     if (actionType === "REVIEW_COMPLETE") {
       return (
         <>
-          <span>{username}</span> 님이 <span>{info}</span> 미션에 대해 코드리뷰를 완료했습니다.
+          <span>{username}</span> 님이 <span>{info}</span> 미션에 대해 <span>코드리뷰를 완료</span>
+          했습니다.
+        </>
+      );
+    }
+
+    if (actionType === "REVIEW_URGE") {
+      return (
+        <>
+          <span>{username}</span> 님이 <span>{info}</span> 미션에 대해 <span>코드리뷰를 재촉</span>
+          했습니다.
         </>
       );
     }
@@ -38,6 +48,10 @@ const AlarmPage = () => {
 
   const getNavigationPath = (actionType: string, interactionId: number) => {
     if (actionType === "REVIEW_COMPLETE") {
+      return `/rooms/${interactionId}`;
+    }
+
+    if (actionType === "REVIEW_URGE") {
       return `/rooms/${interactionId}`;
     }
     return "";
