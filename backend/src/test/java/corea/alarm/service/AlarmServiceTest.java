@@ -15,14 +15,16 @@ import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
 import corea.room.domain.Room;
 import corea.room.repository.RoomRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @ServiceTest
 class AlarmServiceTest {
@@ -47,10 +49,10 @@ class AlarmServiceTest {
 
     @BeforeEach
     void setUp() {
-        this.actor = memberRepository.save(MemberFixture.MEMBER_MOVIN());
-        this.receiver = memberRepository.save(MemberFixture.MEMBER_PORORO());
-        this.notReceiver = memberRepository.save(MemberFixture.MEMBER_ASH());
-        this.interaction = roomRepository.save(RoomFixture.ROOM_DOMAIN(memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON())));
+        actor = memberRepository.save(MemberFixture.MEMBER_MOVIN());
+        receiver = memberRepository.save(MemberFixture.MEMBER_PORORO());
+        notReceiver = memberRepository.save(MemberFixture.MEMBER_ASH());
+        interaction = roomRepository.save(RoomFixture.ROOM_DOMAIN(memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON())));
         interactionId = interaction.getId();
     }
 
@@ -91,7 +93,7 @@ class AlarmServiceTest {
     void throw_exception_when_not_receive_alarm() {
         UserToUserAlarm alarm = userToUserAlarmRepository.save(AlarmFixture.REVIEW_COMPLETE(actor.getId(), receiver.getId(), interactionId));
 
-        Assertions.assertThatThrownBy(() -> alarmService.checkAlarm(actor.getId(), new AlarmCheckRequest(alarm.getId(), "USER")))
+        assertThatThrownBy(() -> alarmService.checkAlarm(actor.getId(), new AlarmCheckRequest(alarm.getId(), "USER")))
                 .isInstanceOf(CoreaException.class);
     }
 
@@ -100,17 +102,36 @@ class AlarmServiceTest {
     void throw_exception_when_not_exist_alarm() {
         userToUserAlarmRepository.save(AlarmFixture.REVIEW_COMPLETE(actor.getId(), receiver.getId(), interactionId));
 
-        Assertions.assertThatThrownBy(() -> alarmService.checkAlarm(receiver.getId(), new AlarmCheckRequest(-1, "USER")))
+        assertThatThrownBy(() -> alarmService.checkAlarm(receiver.getId(), new AlarmCheckRequest(-1, "USER")))
                 .isInstanceOf(CoreaException.class);
     }
 
     @Test
     @Transactional
     @DisplayName("알림 체크를 한다.")
-    void some() {
+    void check_alarm() {
         UserToUserAlarm alarm = userToUserAlarmRepository.save(AlarmFixture.REVIEW_COMPLETE(actor.getId(), receiver.getId(), interactionId));
 
         alarmService.checkAlarm(receiver.getId(), new AlarmCheckRequest(alarm.getId(), "USER"));
         assertThat(alarm.isRead()).isTrue();
+    }
+
+    @Test
+    @DisplayName("리뷰어가 리뷰하지 않은 경우 재촉 알람을 발송한다.")
+    void urge_alarm() {
+        userToUserAlarmRepository.save(AlarmFixture.READ_URGE_REVIEW(actor.getId(), receiver.getId(), interactionId));
+        alarmService.createUrgeAlarm(actor.getId(), receiver.getId(), interactionId);
+
+        List<UserToUserAlarm> urgeAlarms = userToUserAlarmRepository.findAllByActorIdAndReceiverIdAndInteractionId(actor.getId(), receiver.getId(), interactionId);
+
+        assertThat(urgeAlarms).hasSize(2);
+    }
+
+    @Test
+    @DisplayName("안 읽은 재촉 알람이 존재할 때 알람을 생성하지 않는다.")
+    void does_not_create_urge_alarm_when_unread_urge_alarm_exist() {
+        userToUserAlarmRepository.save(AlarmFixture.URGE_REVIEW(actor.getId(), receiver.getId(), interactionId));
+        assertThatThrownBy(() -> alarmService.createUrgeAlarm(actor.getId(), receiver.getId(), interactionId))
+                .isInstanceOf(CoreaException.class);
     }
 }

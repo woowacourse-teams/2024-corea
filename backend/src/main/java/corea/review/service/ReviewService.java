@@ -51,4 +51,18 @@ public class ReviewService {
                 .map(GithubPullRequestReview::html_url)
                 .orElseThrow(() -> new CoreaException(ExceptionType.NOT_COMPLETE_GITHUB_REVIEW));
     }
+
+    @Transactional
+    public void urgeReview(long roomId, long reviewerId, long revieweeId) {
+        boolean isNotProgress = roomReader.isNotStatus(roomId, RoomStatus.PROGRESS);
+        if (isNotProgress) {
+            throw new CoreaException(ExceptionType.ROOM_STATUS_IS_NOT_PROGRESS);
+        }
+        MatchResult matchResult = matchResultReader.findOne(roomId, reviewerId, revieweeId);
+        if (matchResult.isReviewed()) {
+            throw new CoreaException(ExceptionType.ALREADY_COMPLETED_REVIEW);
+        }
+
+        alarmService.createUrgeAlarm(revieweeId, reviewerId, roomId);
+    }
 }
