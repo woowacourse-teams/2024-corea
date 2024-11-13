@@ -1,7 +1,7 @@
 import { ReviewInfo } from "../@types/review";
 import apiClient from "./apiClient";
 import { API_ENDPOINTS } from "./endpoints";
-import { RevieweReminderAlarm } from "@/@types/alaram";
+import { ReviewReminderAlarm } from "@/@types/alaram";
 import MESSAGES from "@/constants/message";
 
 export const getMyReviewers = async (roomId: number): Promise<ReviewInfo[]> => {
@@ -36,7 +36,7 @@ export const postReviewComplete = async (roomId: number, revieweeId: number): Pr
 export const postReviewUrge = async ({
   roomId,
   reviewerId,
-}: RevieweReminderAlarm): Promise<void> => {
+}: ReviewReminderAlarm): Promise<void> => {
   return apiClient.post({
     endpoint: API_ENDPOINTS.REVIEW_URGE,
     body: { roomId, reviewerId },

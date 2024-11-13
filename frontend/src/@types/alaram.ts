@@ -30,7 +30,7 @@ export interface AlarmAsRead {
   alarmType: "USER";
 }
 
-export interface RevieweReminderAlarm {
+export interface ReviewReminderAlarm {
   roomId: number;
   reviewerId: number;
 }
