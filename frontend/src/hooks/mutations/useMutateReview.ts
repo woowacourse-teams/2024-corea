@@ -17,6 +17,12 @@ const useMutateReview = (roomId: number) => {
       postReviewComplete(roomId, revieweeId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.REVIEWEES, roomId] });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.ALARM_COUNT],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.ALARM_LIST],
+      });
       openToast(MESSAGES.SUCCESS.POST_REVIEW_COMPLETE);
     },
     onError: (error) => handleMutateError(error),
