@@ -89,13 +89,11 @@ export const RadioLabel = styled.label`
     transition: 0.2s all ease-in-out;
   }
 
-  /* 선택된 상태에서 스타일링 */
   input:checked + &::before {
     background-color: ${({ theme }) => theme.COLOR.primary2};
     border-color: ${({ theme }) => theme.COLOR.primary2};
   }
 
-  /* 체크된 상태에서 원 안의 점 */
   input:checked + &::after {
     content: "";
 
