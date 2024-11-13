@@ -141,7 +141,6 @@ export const FeedbackKeyword = styled.div`
 `;
 
 export const FeedbackDetailContainer = styled.div`
-  overflow: hidden;
   display: flex;
   flex-direction: column;
   gap: 1.6rem;
