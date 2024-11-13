@@ -1,7 +1,11 @@
 import styled from "styled-components";
 
 export const InputWrapper = styled.div`
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  align-items: flex-end;
+
   width: 100%;
 `;
 
@@ -17,10 +21,6 @@ export const StyledInput = styled.input<{ $error: boolean }>`
 `;
 
 export const CharCount = styled.div`
-  position: absolute;
-  right: 10px;
-  bottom: -20px;
-
   font: ${({ theme }) => theme.TEXT.xSmall};
   color: ${({ theme }) => theme.COLOR.grey2};
 `;
