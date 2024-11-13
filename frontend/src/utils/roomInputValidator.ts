@@ -21,6 +21,9 @@ const validators = {
     if (this.isStringEmpty(value)) {
       return "깃허브 레포지토리 링크를 입력해주세요.";
     }
+    if (!this.isValidGitHubLink(value)) {
+      return "유효한 깃허브 레포지토리 링크를 입력해주세요.\n예시: https://github.com/username/repository";
+    }
     return "";
   },
 
@@ -85,6 +88,11 @@ const validators = {
 
   isAfterTime(value: Date, referenceTime: Date) {
     return value > referenceTime;
+  },
+
+  isValidGitHubLink(value: string): boolean {
+    const githubRegex = /^https:\/\/github\.com\/[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-]+$/;
+    return githubRegex.test(value);
   },
 };
 

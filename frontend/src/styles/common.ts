@@ -60,7 +60,8 @@ export const TYPE_CLASSIFICATION = {
 };
 
 export const ErrorText = styled.span`
-  height: 20px;
+  min-height: 20px;
   font: ${theme.TEXT.semiSmall};
   color: ${theme.COLOR.error};
+  white-space: pre-line;
 `;
