@@ -55,4 +55,8 @@ public class UserToUserAlarm extends BaseTimeEntity {
     public void read() {
         isRead = true;
     }
+
+    public boolean isUrgeAlarm() {
+        return alarmActionType == AlarmActionType.REVIEW_URGE;
+    }
 }

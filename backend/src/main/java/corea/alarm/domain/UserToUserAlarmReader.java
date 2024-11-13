@@ -7,6 +7,7 @@ import corea.member.domain.Member;
 import lombok.RequiredArgsConstructor;
 
 import java.util.EnumMap;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Reader
@@ -35,5 +36,11 @@ public class UserToUserAlarmReader {
                         () -> new EnumMap<>(AlarmActionType.class),
                         Collectors.toList()
                 )));
+    }
+
+    public boolean existUnReadUrgeAlarm(long revieweeId, long reviewerId, long roomId) {
+        List<UserToUserAlarm> alarm = userToUserAlarmRepository.findAllByActorIdAndReceiverIdAndInteractionId(revieweeId, reviewerId, roomId);
+        return alarm.stream()
+                .anyMatch(userToUserAlarm -> userToUserAlarm.isUrgeAlarm() && !userToUserAlarm.isRead());
     }
 }
