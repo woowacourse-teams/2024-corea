@@ -39,6 +39,7 @@ const getInitialFormState = (data?: RoomInfo): CreateRoomInfo => ({
   limitedParticipants: data?.limitedParticipants || 1,
   recruitmentDeadline: data ? new Date(data.recruitmentDeadline) : new Date(),
   reviewDeadline: data ? new Date(data.reviewDeadline) : new Date(),
+  isPrivate: data?.isPrivate || false,
 });
 
 const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
@@ -274,9 +275,17 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
             <S.ContentInput>
               <DateTimePicker
                 selectedDateTime={formState.recruitmentDeadline}
-                onDateTimeChange={(newDateTime) =>
-                  handleInputChange("recruitmentDeadline", newDateTime)
-                }
+                onDateTimeChange={(newDateTime) => {
+                  handleInputChange("recruitmentDeadline", newDateTime);
+                  if (newDateTime > formState.reviewDeadline) {
+                    const newDate = new Date();
+                    newDate.setFullYear(newDateTime.getFullYear());
+                    newDate.setMonth(newDateTime.getMonth());
+                    newDate.setDate(newDateTime.getDate());
+                    handleInputChange("reviewDeadline", newDate);
+                  }
+                }}
+                options={{ isPastDateDisabled: true }}
                 error={
                   isClickedButton &&
                   validators.recruitmentDeadline(formState.recruitmentDeadline) !== ""
@@ -296,6 +305,10 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
               <DateTimePicker
                 selectedDateTime={formState.reviewDeadline}
                 onDateTimeChange={(newDateTime) => handleInputChange("reviewDeadline", newDateTime)}
+                options={{
+                  isPastDateDisabled: true,
+                  disabledBeforeDate: formState.recruitmentDeadline,
+                }}
                 error={
                   isClickedButton &&
                   validators.reviewDeadline(
@@ -314,6 +327,30 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
             </S.ContentInput>
           </S.RowContainer>
         </S.SubSection>
+
+        <S.RowContainer>
+          <S.ContentLabel>방 공개 여부</S.ContentLabel>
+          <S.ContentWrapper>
+            <S.ContentRadioInput
+              type="radio"
+              id="yes"
+              name="isPrivate"
+              checked={formState.isPrivate}
+              onChange={() => handleInputChange("isPrivate", true)}
+            />
+            <S.RadioLabel htmlFor="yes">예</S.RadioLabel>
+          </S.ContentWrapper>
+          <S.ContentWrapper>
+            <S.ContentRadioInput
+              type="radio"
+              id="no"
+              name="isPrivate"
+              checked={!formState.isPrivate}
+              onChange={() => handleInputChange("isPrivate", false)}
+            />
+            <S.RadioLabel htmlFor="no">아니요</S.RadioLabel>
+          </S.ContentWrapper>
+        </S.RowContainer>
 
         <Button
           onClick={() => {

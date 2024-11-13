@@ -71,6 +71,7 @@ const sizeStyles = {
     padding: 1rem 0.3rem;
 
     font: ${({ theme }) => theme.TEXT.semiSmall};
+    white-space: nowrap;
 
     border-radius: 4px;
   `,

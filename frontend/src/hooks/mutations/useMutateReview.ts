@@ -1,11 +1,12 @@
 import useMutateHandlers from "./useMutateHandlers";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useToast from "@/hooks/common/useToast";
+import { ReviewReminderAlarm } from "@/@types/alaram";
 import QUERY_KEYS from "@/apis/queryKeys";
-import { postReviewComplete } from "@/apis/reviews.api";
+import { postReviewComplete, postReviewUrge } from "@/apis/reviews.api";
 import MESSAGES from "@/constants/message";
 
-const useMutateReviewComplete = (roomId: number) => {
+const useMutateReview = (roomId: number) => {
   const { handleMutateError } = useMutateHandlers();
   const { openToast } = useToast("success");
 
@@ -16,12 +17,36 @@ const useMutateReviewComplete = (roomId: number) => {
       postReviewComplete(roomId, revieweeId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.REVIEWEES, roomId] });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.ALARM_COUNT],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.ALARM_LIST],
+      });
       openToast(MESSAGES.SUCCESS.POST_REVIEW_COMPLETE);
     },
     onError: (error) => handleMutateError(error),
   });
 
-  return { postReviewCompleteMutation };
+  const postReviewUrgeMutation = useMutation({
+    mutationFn: ({ roomId, reviewerId }: ReviewReminderAlarm) =>
+      postReviewUrge({ roomId, reviewerId }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.REVIEWERS, roomId],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.ALARM_COUNT],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.ALARM_LIST],
+      });
+      openToast(MESSAGES.SUCCESS.POST_REVIEW_URGE);
+    },
+    onError: (error) => handleMutateError(error),
+  });
+
+  return { postReviewCompleteMutation, postReviewUrgeMutation };
 };
 
-export default useMutateReviewComplete;
+export default useMutateReview;

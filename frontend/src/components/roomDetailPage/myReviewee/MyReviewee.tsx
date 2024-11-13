@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useMutateReviewComplete from "@/hooks/mutations/useMutateReview";
+import useMutateReview from "@/hooks/mutations/useMutateReview";
 import { useFetchReviewee } from "@/hooks/queries/useFetchReviewee";
 import Button from "@/components/common/button/Button";
 import Icon from "@/components/common/icon/Icon";
@@ -18,7 +18,7 @@ interface MyRevieweeProps {
 const MyReviewee = ({ roomInfo }: MyRevieweeProps) => {
   const navigate = useNavigate();
   const { data: revieweeData } = useFetchReviewee(roomInfo);
-  const { postReviewCompleteMutation } = useMutateReviewComplete(roomInfo.id);
+  const { postReviewCompleteMutation } = useMutateReview(roomInfo.id);
   const [loadingButtonId, setLoadingButtonId] = useState<number[]>([]);
 
   // 피드백 페이지 이동 함수

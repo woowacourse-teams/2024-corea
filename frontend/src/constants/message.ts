@@ -42,6 +42,7 @@ const ERROR_MESSAGES = {
   POST_REVIEW_COMPLETE: "코드리뷰 완료 요청에 실패했습니다.",
   GET_MY_REVIEWERS: "리뷰어 목록을 불러오는 도중 에러가 발생하였습니다.",
   GET_MY_REVIEWEES: "리뷰이 목록을 불러오는 도중 에러가 발생하였습니다.",
+  POST_REVIEW_URGE: "코드리뷰 재촉 요청에 실패했습니다.",
 
   // profile
   GET_PROFILE: "프로필 불러오는 도중 에러가 발생하였습니다.",
@@ -81,6 +82,7 @@ const SUCCESS_MESSAGES = {
   DELETE_PARTICIPATE_IN: "정상적으로 방 참여를 취소하였습니다.",
   DELETE_PARTICIPATED_ROOM: "정상적으로 방을 삭제하였습니다.",
   PUT_REVIEW_FEEDBACK: "정상적으로 피드백을 수정하였습니다.",
+  POST_REVIEW_URGE: "정상적으로 코드리뷰 재촉하기를 했습니다.",
 };
 
 const MESSAGES = {
