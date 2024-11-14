@@ -124,6 +124,7 @@ export const RoomContentSmall = styled.div`
   font: ${({ theme }) => theme.TEXT.small_bold};
   line-height: normal;
   color: ${({ theme }) => theme.COLOR.black};
+  white-space: pre-line;
 `;
 
 export const ContentLineBreak = styled.div`
