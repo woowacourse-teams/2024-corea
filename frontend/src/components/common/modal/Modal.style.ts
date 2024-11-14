@@ -59,8 +59,8 @@ export const BackDrop = styled.div`
 
 export const ModalContent = styled.div<{ $isVisible: boolean; $isClosing: boolean }>`
   position: relative;
-  overflow: hidden auto;
-  padding: 2rem;
+  overflow: hidden;
+  padding: 3rem 2rem 3rem 3rem;
   background-color: ${({ theme }) => theme.COLOR.white};
 
   ${({ $isVisible, $isClosing }) => css`
@@ -119,12 +119,18 @@ export const ModalContent = styled.div<{ $isVisible: boolean; $isClosing: boolea
   `}
 `;
 
+export const ModalBody = styled.div`
+  overflow: hidden auto;
+  width: 100%;
+  height: 100%;
+  padding-right: 1rem;
+`;
+
 export const CloseButton = styled.button`
   position: absolute;
   top: 1rem;
   right: 1rem;
 
-  font: ${({ theme }) => theme.TEXT.large_bold};
   color: ${({ theme }) => theme.COLOR.grey2};
 
   background: transparent;
