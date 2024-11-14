@@ -173,8 +173,14 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
 
           <S.RowContainer>
             <S.ContentLabel>
-              레포지토리 공개 여부 <S.RequiredLabel>*</S.RequiredLabel>
+              레포지토리 공용 여부 <S.RequiredLabel>*</S.RequiredLabel>
             </S.ContentLabel>
+            <S.HelpText>
+              하나의 공용 레포지토리에 모두가 PR을 제출하는 형식이면 &apos;예&apos;
+            </S.HelpText>
+            <S.HelpText>
+              각자 개인 레포지토리로 PR을 제출하는 형식이면 &apos;아니요&apos;에 체크해주세요.
+            </S.HelpText>
             <S.ContentWrapper>
               <S.ContentRadioInput
                 type="radio"
