@@ -48,11 +48,14 @@ export const RowContainer = styled.div`
   flex-direction: row;
   gap: 1rem;
   align-items: flex-start;
+  justify-content: flex-start;
 
   width: 100%;
 
   ${media.small`
     flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
   `}
 `;
 
@@ -74,8 +77,8 @@ export const RequiredLabel = styled.span`
 
 export const ContentInput = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  flex-direction: row;
+  gap: 2rem;
   width: 100%;
 `;
 
@@ -84,6 +87,8 @@ export const ContentWrapper = styled.div`
   flex-direction: row;
   gap: 1rem;
   align-items: center;
+
+  padding: 0.5rem 0;
 `;
 
 export const ContentRadioInput = styled.input`

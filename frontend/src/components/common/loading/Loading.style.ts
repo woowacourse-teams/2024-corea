@@ -19,6 +19,7 @@ export const LoadingContainer = styled.div`
 
   svg {
     position: absolute;
+    z-index: 1001;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -31,6 +32,7 @@ export const LoadingContainer = styled.div`
 
 export const BackDrop = styled.div`
   position: fixed;
+  z-index: 1000;
   top: 0;
   left: 0;
 
