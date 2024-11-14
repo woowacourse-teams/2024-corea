@@ -157,6 +157,7 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
               <Input
                 name="repositoryLink"
                 value={formState.repositoryLink}
+                placeholder="https://github.com/username/repository"
                 onChange={(e) => handleInputChange("repositoryLink", e.target.value)}
                 error={
                   isClickedButton && validators.repositoryLink(formState.repositoryLink) !== ""
