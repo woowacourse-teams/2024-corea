@@ -1,13 +1,12 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useMutateReviewComplete from "@/hooks/mutations/useMutateReview";
+import useMutateReview from "@/hooks/mutations/useMutateReview";
 import { useFetchReviewee } from "@/hooks/queries/useFetchReviewee";
 import Button from "@/components/common/button/Button";
 import Icon from "@/components/common/icon/Icon";
 import * as S from "@/components/roomDetailPage/myReviewee/MyReviewee.style";
-import { ReviewerInfo } from "@/@types/reviewer";
+import { ReviewInfo } from "@/@types/review";
 import { RoomInfo } from "@/@types/roomInfo";
-import { spinner } from "@/assets";
 import MESSAGES from "@/constants/message";
 import { HoverStyledLink } from "@/styles/common";
 import { getFeedbackPageType } from "@/utils/feedbackUtils";
@@ -19,18 +18,19 @@ interface MyRevieweeProps {
 const MyReviewee = ({ roomInfo }: MyRevieweeProps) => {
   const navigate = useNavigate();
   const { data: revieweeData } = useFetchReviewee(roomInfo);
-  const { postReviewCompleteMutation } = useMutateReviewComplete(roomInfo.id);
+  const { postReviewCompleteMutation } = useMutateReview(roomInfo.id);
   const [loadingButtonId, setLoadingButtonId] = useState<number[]>([]);
 
   // 피드백 페이지 이동 함수
-  const handleNavigateFeedbackPage = (reviewee: ReviewerInfo) => {
-    navigate(`/rooms/${roomInfo.id}/feedback/reviewee?username=${reviewee.username}`, {
-      state: { reviewee },
+  const handleNavigateFeedbackPage = (reviewInfo: ReviewInfo) => {
+    navigate(`/rooms/${roomInfo.id}/feedback/reviewee?username=${reviewInfo.username}`, {
+      state: { reviewInfo },
     });
   };
 
   // 코드 리뷰 완료 post 요청 보내는 함수
-  const handleReviewCompleteClick = (reviewee: ReviewerInfo) => {
+  const handleReviewCompleteClick = (reviewee: ReviewInfo) => {
+    if (loadingButtonId.includes(reviewee.userId)) return;
     setLoadingButtonId((prev) => [...prev, reviewee.userId]);
 
     postReviewCompleteMutation.mutate(
@@ -46,7 +46,7 @@ const MyReviewee = ({ roomInfo }: MyRevieweeProps) => {
   };
 
   // 리뷰 및 피드백 여부 버튼 렌더링 함수
-  const renderRevieweeButton = (reviewee: ReviewerInfo) => {
+  const renderRevieweeButton = (reviewee: ReviewInfo) => {
     const { buttonText } = getFeedbackPageType({
       isReviewed: reviewee.isReviewed ?? true,
       isWrited: reviewee.isWrited,
@@ -57,7 +57,7 @@ const MyReviewee = ({ roomInfo }: MyRevieweeProps) => {
       return <p>코드리뷰를 하지 않았어요</p>;
     }
 
-    // TODO: 방 끝나도 계속 작성 가능
+    // TODO: 방이 끝났을 때 피드백 렌더링 정하기
     // if (roomInfo.roomStatus === "CLOSE" && !reviewee.isWrited) {
     //   return <p>피드백을 작성하지 않았어요</p>;
     // }
@@ -67,26 +67,20 @@ const MyReviewee = ({ roomInfo }: MyRevieweeProps) => {
         size="xSmall"
         variant="primary"
         onClick={() => handleNavigateFeedbackPage(reviewee)}
-        disabled={!reviewee.isReviewed || loadingButtonId.includes(reviewee.userId)}
+        disabled={!reviewee.isReviewed}
+        isLoading={loadingButtonId.includes(reviewee.userId)}
       >
-        {loadingButtonId.includes(reviewee.userId) ? (
-          <S.LoadingSpinner src={spinner} />
-        ) : (
-          buttonText
-        )}
+        {buttonText}
       </Button>
     ) : (
       <Button
         size="xSmall"
         variant="confirm"
-        disabled={reviewee.isReviewed || loadingButtonId.includes(reviewee.userId)}
+        disabled={reviewee.isReviewed}
         onClick={() => handleReviewCompleteClick(reviewee)}
+        isLoading={loadingButtonId.includes(reviewee.userId)}
       >
-        {loadingButtonId.includes(reviewee.userId) ? (
-          <S.LoadingSpinner src={spinner} />
-        ) : (
-          "코드리뷰 마치기"
-        )}
+        코드리뷰 마치기
       </Button>
     );
   };

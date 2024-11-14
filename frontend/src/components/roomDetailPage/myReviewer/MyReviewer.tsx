@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import useMutateReview from "@/hooks/mutations/useMutateReview";
 import { useFetchReviewer } from "@/hooks/queries/useFetchReviewer";
 import Button from "@/components/common/button/Button";
 import Icon from "@/components/common/icon/Icon";
 import * as S from "@/components/roomDetailPage/myReviewer/MyReviewer.style";
-import { ReviewerInfo } from "@/@types/reviewer";
+import { ReviewInfo } from "@/@types/review";
 import { RoomInfo } from "@/@types/roomInfo";
 import { thinkingCharacter } from "@/assets";
 import MESSAGES from "@/constants/message";
@@ -17,16 +19,18 @@ interface MyReviewerProps {
 const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
   const navigate = useNavigate();
   const { data: reviewerData } = useFetchReviewer(roomInfo);
+  const { postReviewUrgeMutation } = useMutateReview(roomInfo.id);
+  const [loadingButtonId, setLoadingButtonId] = useState<number[]>([]);
 
   // 피드백 페이지 이동 함수
-  const handleNavigateFeedbackPage = (reviewer: ReviewerInfo) => {
-    navigate(`/rooms/${roomInfo.id}/feedback/reviewer?username=${reviewer.username}`, {
-      state: { reviewer },
+  const handleNavigateFeedbackPage = (reviewInfo: ReviewInfo) => {
+    navigate(`/rooms/${roomInfo.id}/feedback/reviewer?username=${reviewInfo.username}`, {
+      state: { reviewInfo },
     });
   };
 
   // 피드백 여부 버튼 렌더링 함수
-  const renderReviewerButton = (reviewer: ReviewerInfo) => {
+  const renderReviewerButton = (reviewer: ReviewInfo) => {
     const { buttonText } = getFeedbackPageType({
       isReviewed: reviewer.isReviewed ?? true,
       isWrited: reviewer.isWrited,
@@ -37,10 +41,26 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
       return <p>리뷰어가 리뷰를 하지 않았어요</p>;
     }
 
-    // TODO: 방이 끝나도 계속 작성 가능
+    // TODO: 방이 끝났을 때 피드백 렌더링 정하기
     // if (roomInfo.roomStatus === "CLOSE" && !reviewer.isWrited) {
     //   return <p>피드백을 작성하지 않았어요</p>;
     // }
+
+    // 코드리뷰 재촉
+    const handleReviewUrgeClick = (reviewer: ReviewInfo) => {
+      if (loadingButtonId.includes(reviewer.userId)) return;
+      setLoadingButtonId((prev) => [...prev, reviewer.userId]);
+
+      postReviewUrgeMutation.mutate(
+        { roomId: roomInfo.id, reviewerId: reviewer.userId },
+        {
+          onSuccess: () => {
+            setLoadingButtonId((prev) => prev.filter((id) => id !== reviewer.userId));
+          },
+          onError: () => setLoadingButtonId((prev) => prev.filter((id) => id !== reviewer.userId)),
+        },
+      );
+    };
 
     return reviewer.isReviewed ? (
       <Button
@@ -52,7 +72,14 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
         {buttonText}
       </Button>
     ) : (
-      <p>리뷰어가 리뷰 중이에요!</p>
+      <Button
+        size="xSmall"
+        variant="secondary"
+        onClick={() => handleReviewUrgeClick(reviewer)}
+        outline={true}
+      >
+        <S.ContentWrapper>리뷰 재촉하기</S.ContentWrapper>
+      </Button>
     );
   };
 
@@ -107,7 +134,7 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
         </S.MyReviewerTableHead>
 
         <S.MyReviewerTableBody>
-          {reviewerData.map((reviewer) => {
+          {reviewerData.map((reviewer: ReviewInfo) => {
             return (
               <S.MyReviewerTableRow key={reviewer.userId}>
                 <HoverStyledLink
@@ -117,8 +144,8 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
                   <S.MyReviewerId>{reviewer.username}</S.MyReviewerId>
                 </HoverStyledLink>
 
-                {reviewer.link.length !== 0 ? (
-                  <S.MyReviewerContent>
+                <S.MyReviewerContent>
+                  {reviewer.link.length !== 0 ? (
                     <HoverStyledLink
                       to={reviewer.link}
                       target="_blank"
@@ -132,10 +159,10 @@ const MyReviewer = ({ roomInfo }: MyReviewerProps) => {
                         바로가기
                       </S.PRLink>
                     </HoverStyledLink>
-                  </S.MyReviewerContent>
-                ) : (
-                  "-"
-                )}
+                  ) : (
+                    "-"
+                  )}
+                </S.MyReviewerContent>
 
                 <S.MyReviewerContent>{renderReviewerButton(reviewer)}</S.MyReviewerContent>
               </S.MyReviewerTableRow>

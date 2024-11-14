@@ -1,6 +1,7 @@
 export type Classification = "ALL" | "FRONTEND" | "BACKEND" | "ANDROID";
 
 export type RoomStatus = "OPEN" | "CLOSE" | "PROGRESS" | "FAIL";
+export type RoomStatusCategory = "participated" | "progress" | "opened" | "closed";
 
 export type ParticipationStatus =
   | "NOT_PARTICIPATED"
@@ -19,6 +20,7 @@ interface BaseRoomInfo {
   keywords: string[];
   limitedParticipants: number;
   classification: Classification;
+  isPrivate: boolean;
 }
 export interface CreateRoomInfo extends BaseRoomInfo {
   recruitmentDeadline: Date;

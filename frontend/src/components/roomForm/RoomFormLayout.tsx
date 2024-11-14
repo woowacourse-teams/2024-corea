@@ -37,6 +37,7 @@ const getInitialFormState = (data?: RoomInfo): CreateRoomInfo => ({
   recruitmentDeadline: data ? new Date(data.recruitmentDeadline) : new Date(),
   reviewDeadline: data ? new Date(data.reviewDeadline) : new Date(),
   classification: data?.classification || "ALL",
+  isPrivate: false,
 });
 
 const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
@@ -218,9 +219,17 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
           <S.ContentInput>
             <DateTimePicker
               selectedDateTime={formState.recruitmentDeadline}
-              onDateTimeChange={(newDateTime) =>
-                handleInputChange("recruitmentDeadline", newDateTime)
-              }
+              onDateTimeChange={(newDateTime) => {
+                handleInputChange("recruitmentDeadline", newDateTime);
+                if (newDateTime > formState.reviewDeadline) {
+                  const newDate = new Date();
+                  newDate.setFullYear(newDateTime.getFullYear());
+                  newDate.setMonth(newDateTime.getMonth());
+                  newDate.setDate(newDateTime.getDate());
+                  handleInputChange("reviewDeadline", newDate);
+                }
+              }}
+              options={{ isPastDateDisabled: true }}
             />
           </S.ContentInput>
         </S.RowContainer>
@@ -233,8 +242,36 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
             <DateTimePicker
               selectedDateTime={formState.reviewDeadline}
               onDateTimeChange={(newDateTime) => handleInputChange("reviewDeadline", newDateTime)}
+              options={{
+                isPastDateDisabled: true,
+                disabledBeforeDate: formState.recruitmentDeadline,
+              }}
             />
           </S.ContentInput>
+        </S.RowContainer>
+
+        <S.RowContainer>
+          <S.ContentLabel>방 공개 여부</S.ContentLabel>
+          <S.ContentWrapper>
+            <S.ContentRadioInput
+              type="radio"
+              id="yes"
+              name="isPrivate"
+              checked={formState.isPrivate}
+              onChange={() => handleInputChange("isPrivate", true)}
+            />
+            <S.RadioLabel htmlFor="yes">예</S.RadioLabel>
+          </S.ContentWrapper>
+          <S.ContentWrapper>
+            <S.ContentRadioInput
+              type="radio"
+              id="no"
+              name="isPrivate"
+              checked={!formState.isPrivate}
+              onChange={() => handleInputChange("isPrivate", false)}
+            />
+            <S.RadioLabel htmlFor="no">아니요</S.RadioLabel>
+          </S.ContentWrapper>
         </S.RowContainer>
 
         <Button

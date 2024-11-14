@@ -96,7 +96,7 @@ export const IconWrapper = styled.span`
 
   ${media.small`
     display: none;
-`}
+  `}
 `;
 
 export const GuidanceWrapper = styled.div`
@@ -132,4 +132,13 @@ export const ExtraInformation = styled.span`
   justify-content: flex-end;
   font: ${({ theme }) => theme.TEXT.xSmall};
   color: ${({ theme }) => theme.COLOR.grey2};
+`;
+
+export const ContentWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font: ${({ theme }) => theme.TEXT.semiSmall};
+  color: ${({ theme }) => theme.COLOR.black};
 `;
