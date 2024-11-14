@@ -26,7 +26,7 @@ export const SectionTitle = styled.h1`
 `;
 
 export const HelpText = styled.p`
-  font: ${({ theme }) => theme.TEXT.semiSmall};
+  font: ${({ theme }) => theme.TEXT.xSmall};
   color: ${({ theme }) => theme.COLOR.grey3};
 `;
 
@@ -45,18 +45,12 @@ export const SubSection = styled.section`
 
 export const RowContainer = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: 1rem;
   align-items: flex-start;
   justify-content: flex-start;
 
   width: 100%;
-
-  ${media.small`
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-  `}
 `;
 
 export const ContentLabel = styled.span`

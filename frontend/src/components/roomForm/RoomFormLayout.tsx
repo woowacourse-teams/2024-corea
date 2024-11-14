@@ -153,6 +153,7 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
             <S.ContentLabel>
               깃허브 레포지토리 링크 <S.RequiredLabel>*</S.RequiredLabel>
             </S.ContentLabel>
+            <S.HelpText>.git 확장자가 아닌 링크를 넣어주세요.</S.HelpText>
             <S.ContentInput>
               <Input
                 name="repositoryLink"
@@ -220,6 +221,7 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
             <S.ContentLabel>
               상호 리뷰 인원 <S.RequiredLabel>*</S.RequiredLabel>
             </S.ContentLabel>
+            <S.HelpText>최소 1명, 최대 5명 가능해요.</S.HelpText>
             <S.ContentInput>
               <Input
                 type="number"

@@ -22,6 +22,9 @@ const validators = {
       return "깃허브 레포지토리 링크를 입력해주세요.";
     }
     if (!this.isValidGitHubLink(value)) {
+      if (this.hasGitExtension(value)) {
+        return "'.git' 확장자는 제거해주세요.";
+      }
       return "유효한 깃허브 레포지토리 링크를 입력해주세요.";
     }
     return "";
@@ -40,7 +43,7 @@ const validators = {
       return "상호 리뷰 인원을 입력해주세요.";
     }
     if (!this.isNumberInRange(value, 1, 5)) {
-      return "상호 리뷰 인원은 최소 한 명, 최대 다섯 명 가능해요.";
+      return "상호 리뷰 인원은 최소 1명, 최대 5명 가능해요.";
     }
     return "";
   },
@@ -86,13 +89,17 @@ const validators = {
     return value > minNumber;
   },
 
-  isAfterTime(value: Date, referenceTime: Date) {
+  isAfterTime(value: Date, referenceTime: Date): boolean {
     return value > referenceTime;
   },
 
   isValidGitHubLink(value: string): boolean {
     const githubRegex = /^https:\/\/github\.com\/[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-]+$/;
     return githubRegex.test(value);
+  },
+
+  hasGitExtension(value: string): boolean {
+    return /\.git$/.test(value);
   },
 };
 
