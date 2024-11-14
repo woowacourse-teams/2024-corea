@@ -3,6 +3,7 @@ package corea.review.controller;
 import corea.auth.annotation.LoginMember;
 import corea.auth.domain.AuthInfo;
 import corea.review.dto.ReviewRequest;
+import corea.review.dto.UrgeRequest;
 import corea.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,13 @@ public class ReviewController implements ReviewControllerSpecification {
     @PostMapping("/complete")
     public ResponseEntity<Void> complete(@LoginMember AuthInfo authInfo, @RequestBody ReviewRequest request) {
         reviewService.completeReview(request.roomId(), authInfo.getId(), request.revieweeId());
+        return ResponseEntity.ok()
+                .build();
+    }
+
+    @PostMapping("/urge")
+    public ResponseEntity<Void> urge(@LoginMember AuthInfo authInfo, @RequestBody UrgeRequest request) {
+        reviewService.urgeReview(request.roomId(), request.reviewerId(), authInfo.getId());
         return ResponseEntity.ok()
                 .build();
     }

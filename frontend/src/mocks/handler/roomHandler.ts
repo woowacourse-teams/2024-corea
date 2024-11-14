@@ -42,7 +42,8 @@ const roomHandler = [
   http.get(serverUrl + API_ENDPOINTS.PARTICIPANT_LIST(1), () => {
     return HttpResponse.json(participantList, { status: 200 });
   }),
-  http.post(serverUrl + API_ENDPOINTS.REVIEW_COMPLETE, () => {
+  http.post(serverUrl + API_ENDPOINTS.REVIEW_COMPLETE, async () => {
+    await delay(3000);
     return HttpResponse.json(null, { status: 200 });
   }),
   http.delete(serverUrl + API_ENDPOINTS.ROOMS + "/:id", () => {

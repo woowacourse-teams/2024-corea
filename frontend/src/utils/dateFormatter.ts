@@ -1,3 +1,5 @@
+import { DATE_FORMAT } from "@/constants/days";
+
 // 공통 포맷팅 함수
 const formatStringToDate = (
   dateString: string,
@@ -122,4 +124,30 @@ export const convertDateToKorean = (dateString: string) => {
   const minute = time.split(":")[1];
 
   return `20${year}년 ${month}월 ${day}일 ${hour}시 ${minute}분`;
+};
+
+// 알람용 시간 표기
+export const formatTimeAgo = (dateString: string): string => {
+  const formattedDateString = dateString.replace(DATE_FORMAT.PATTERN, DATE_FORMAT.REPLACEMENT);
+
+  const date = new Date(formattedDateString);
+  const now = new Date();
+  const diff = now.getTime() - date.getTime();
+  const hoursDiff = Math.floor(diff / (1000 * 60 * 60));
+
+  // 24시간 이내
+  if (hoursDiff < 24) {
+    if (hoursDiff === 0) {
+      const minutesDiff = Math.floor(diff / (1000 * 60));
+      return `${minutesDiff}분 전`;
+    }
+    return `${hoursDiff}시간 전`;
+  }
+
+  // 24시간 이후
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  const day = date.getDate().toString().padStart(2, "0");
+
+  return `${year}년 ${month}월 ${day}일`;
 };

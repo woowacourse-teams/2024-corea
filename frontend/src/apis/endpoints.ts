@@ -9,6 +9,7 @@ export const API_ENDPOINTS = {
   PROGRESS_ROOMS: "/rooms/progress",
   OPENED_ROOMS: "/rooms/opened",
   CLOSED_ROOMS: "/rooms/closed",
+  SEARCH_ROOMS: "/rooms/search",
   PARTICIPATE_IN: (roomId: number) => `/participate/${roomId}`,
   ROOMS: "/rooms",
   PARTICIPANT_LIST: (roomId: number) => `/rooms/${roomId}/participants`,
@@ -17,6 +18,7 @@ export const API_ENDPOINTS = {
   REVIEWERS: (roomId: number) => `/rooms/${roomId}/reviewers`,
   REVIEWEES: (roomId: number) => `/rooms/${roomId}/reviewees`,
   REVIEW_COMPLETE: "/review/complete",
+  REVIEW_URGE: "/review/urge",
 
   // profile
   PROFILE: "/user/profile",
@@ -36,4 +38,9 @@ export const API_ENDPOINTS = {
 
   // ranking
   RANKING: "/ranks/board",
+
+  // alarm
+  ALARM_COUNT: "/alarm/count",
+  ALARM_LIST: "/alarm",
+  ALARM_CHECKED: "/alarm/check",
 };

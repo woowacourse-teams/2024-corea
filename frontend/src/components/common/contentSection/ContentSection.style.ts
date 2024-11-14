@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const ContentSectionContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1rem;
 `;
 
 export const ContentSectionHeader = styled.div`
@@ -25,6 +25,6 @@ export const ContentSectionTitle = styled.h2`
 `;
 
 export const ContentSectionSubtitle = styled.h3`
-  font: ${({ theme }) => theme.TEXT.medium_bold};
+  font: ${({ theme }) => theme.TEXT.small_bold};
   color: ${({ theme }) => theme.COLOR.grey3};
 `;

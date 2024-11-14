@@ -1,7 +1,11 @@
 import styled from "styled-components";
 
-export const DropdownWrapper = styled.div`
+export const SearchBarWrapper = styled.div`
+  width: 180px;
+`;
+
+export const FilterWrapper = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-bottom: 1rem;
 `;

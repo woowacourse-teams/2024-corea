@@ -108,26 +108,23 @@ export const FeedbackMissionPrompt = styled.span<{ $isSelected: boolean }>`
   animation: ${fadeInOut} 2s infinite;
 `;
 
-export const FeedbackMissionInfo = styled.div`
-  display: flex;
-  align-items: start;
+export const FeedbackMissionInfo = styled.div``;
 
-  margin-right: 1rem;
-
+export const FeedbackTitle = styled.span`
   font: ${({ theme }) => theme.TEXT.medium_bold};
   color: ${({ theme }) => theme.COLOR.black};
 `;
 
-export const FeedbackCount = styled.div`
+export const FeedbackCount = styled.span`
+  margin-left: 0.5rem;
   font: ${({ theme }) => theme.TEXT.small_bold};
   color: ${({ theme }) => theme.COLOR.primary2};
-  border-radius: 6px;
 `;
 
 export const FeedbackKeywordContainer = styled.div`
   overflow: hidden;
   display: flex;
-  flex-direction: row;
+  flex-flow: row wrap;
   gap: 1rem;
 `;
 
