@@ -1,5 +1,6 @@
 package corea.review.service;
 
+import corea.alarm.service.AlarmService;
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
 import corea.matchresult.domain.MatchResult;
@@ -24,6 +25,7 @@ public class ReviewService {
     private static final Logger log = LogManager.getLogger(ReviewService.class);
 
     private final GithubReviewProvider githubReviewProvider;
+    private final AlarmService alarmService;
     private final RoomReader roomReader;
     private final MatchResultReader matchResultReader;
     private final MatchResultWriter matchResultWriter;
@@ -32,11 +34,12 @@ public class ReviewService {
     public void completeReview(long roomId, long reviewerId, long revieweeId) {
         boolean isNotProgress = roomReader.isNotStatus(roomId, RoomStatus.PROGRESS);
         if (isNotProgress) {
-            throw new CoreaException(ExceptionType.ROOM_STATUS_INVALID);
+            throw new CoreaException(ExceptionType.ROOM_STATUS_IS_NOT_PROGRESS);
         }
         MatchResult matchResult = matchResultReader.findOne(roomId, reviewerId, revieweeId);
         String reviewLink = getPrReviewLink(matchResult.getPrLink(), matchResult.getReviewerGithubId());
         matchResultWriter.reviewComplete(matchResult, reviewLink);
+        alarmService.createReviewAlarm(reviewerId, revieweeId, roomId);
 
         log.info("리뷰 완료[{매칭 ID({}), 리뷰어 ID({}, 리뷰이 ID({})", matchResult.getId(), reviewerId, revieweeId);
     }
@@ -47,5 +50,19 @@ public class ReviewService {
         return reviewInfo.findWithGithubUserId(reviewerGithubId)
                 .map(GithubPullRequestReview::html_url)
                 .orElseThrow(() -> new CoreaException(ExceptionType.NOT_COMPLETE_GITHUB_REVIEW));
+    }
+
+    @Transactional
+    public void urgeReview(long roomId, long reviewerId, long revieweeId) {
+        boolean isNotProgress = roomReader.isNotStatus(roomId, RoomStatus.PROGRESS);
+        if (isNotProgress) {
+            throw new CoreaException(ExceptionType.ROOM_STATUS_IS_NOT_PROGRESS);
+        }
+        MatchResult matchResult = matchResultReader.findOne(roomId, reviewerId, revieweeId);
+        if (matchResult.isReviewed()) {
+            throw new CoreaException(ExceptionType.ALREADY_COMPLETED_REVIEW);
+        }
+
+        alarmService.createUrgeAlarm(revieweeId, reviewerId, roomId);
     }
 }

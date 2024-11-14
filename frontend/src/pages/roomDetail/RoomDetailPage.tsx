@@ -14,12 +14,12 @@ import { defaultCharacter } from "@/assets";
 import MESSAGES from "@/constants/message";
 
 const RoomDetailPage = () => {
+  const navigate = useNavigate();
   const params = useParams();
-  const { isModalOpen, handleOpenModal, handleCloseModal } = useModal();
   const roomId = params.id ? Number(params.id) : 0;
+  const { isModalOpen, handleOpenModal, handleCloseModal } = useModal();
   const { data: roomInfo } = useFetchDetailRoomInfo(roomId);
   const { deleteParticipateInMutation, deleteParticipatedRoomMutation } = useMutateRoom();
-  const navigate = useNavigate();
 
   const handleCancelParticipateInClick = () => {
     deleteParticipateInMutation.mutate(roomInfo.id, {
@@ -131,19 +131,21 @@ const RoomDetailPage = () => {
           <FeedbackProcessInfo title="나의 리뷰어 프로세스">
             <p>리뷰어가 남긴 코드 리뷰를 확인한 뒤, 소프트 스킬 역량에 대해 피드백을 작성합니다.</p>
             <ol>
-              <li>리뷰어가 코드 리뷰를 완료했다면, 피드백 작성 버튼이 활성화됩니다.</li>
-              <li>피드백 작성 버튼을 클릭해서 리뷰이의 개발 역량에 대해 피드백을 작성합니다.</li>
-              <li>방이 종료되기 이전까지는 피드백 작성, 피드백 수정이 가능합니다.</li>
+              <li>리뷰어가 코드 리뷰를 완료했다면, 피드백 작성하기 버튼이 활성화됩니다.</li>
+              <li>
+                피드백 작성하기 버튼을 클릭해 리뷰어의 소프트 스킬 역량에 대한 피드백을 작성합니다.
+              </li>
+              <li>피드백 작성 또는 수정은 리뷰 마감일 이후에도 계속 가능합니다.</li>
             </ol>
           </FeedbackProcessInfo>
 
           <FeedbackProcessInfo title="나의 리뷰이 프로세스">
-            <p>리뷰이의 코드를 보고 리뷰를 남긴 뒤, 코드 역량에 대해 피드백을 작성합니다.</p>
+            <p>리뷰이의 코드를 보고 리뷰를 남긴 뒤, 개발 역량에 대해 피드백을 작성합니다.</p>
             <ol>
               <li>리뷰이의 PR 링크를 클릭하여 코드 리뷰를 진행합니다.</li>
-              <li>코드 리뷰를 완료한 뒤 코드리뷰 완료 버튼을 클릭합니다.</li>
-              <li>피드백 작성 버튼을 클릭해 리뷰이의 개발 역량에 대해 피드백을 작성합니다.</li>
-              <li>방이 종료되기 전까지 피드백 작성 및 수정이 가능합니다.</li>
+              <li>코드 리뷰를 완료한 뒤 코드리뷰 마치기 버튼을 클릭합니다.</li>
+              <li>피드백 작성하기 버튼을 클릭해 리뷰이의 개발 역량에 대한 피드백을 작성합니다.</li>
+              <li>피드백 작성 또는 수정은 리뷰 마감일 이후에도 계속 가능합니다.</li>
             </ol>
           </FeedbackProcessInfo>
         </S.ToggleWrapper>

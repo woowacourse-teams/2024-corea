@@ -1,6 +1,8 @@
 package corea.review.service;
 
 import config.ServiceTest;
+import corea.alarm.dto.AlarmResponses;
+import corea.alarm.service.AlarmService;
 import corea.auth.dto.GithubUserInfo;
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
@@ -49,6 +51,9 @@ class ReviewServiceTest {
 
     @MockBean
     private GithubReviewProvider githubReviewProvider;
+
+    @Autowired
+    private AlarmService alarmService;
 
     @Test
     @Transactional
@@ -106,13 +111,51 @@ class ReviewServiceTest {
         assertThatThrownBy(() -> reviewService.completeReview(room.getId(), reviewer.getId(), reviewee.getId()))
                 .asInstanceOf(InstanceOfAssertFactories.type(CoreaException.class))
                 .extracting(CoreaException::getExceptionType)
-                .isEqualTo(ExceptionType.ROOM_STATUS_INVALID);
+                .isEqualTo(ExceptionType.ROOM_STATUS_IS_NOT_PROGRESS);
     }
 
     @Test
     @DisplayName("방과 멤버들에 해당하는 매칭결과가 없으면 예외를 발생한다.")
     void completeReview_throw_exception_when_not_exist_room_and_members() {
         assertThatThrownBy(() -> reviewService.completeReview(-1, -1, -1))
+                .isInstanceOf(CoreaException.class);
+    }
+
+    @Test
+    @DisplayName("리뷰어에게 리뷰 재촉 알람을 발송한다.")
+    void urgeReview() {
+        Member reviewer = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
+        Member reviewee = memberRepository.save(MemberFixture.MEMBER_PORORO());
+        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_PROGRESS(memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON())));
+        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN_NOT_REVIEWED(room.getId(), reviewer, reviewee));
+
+        reviewService.urgeReview(room.getId(), reviewer.getId(), reviewee.getId());
+
+        AlarmResponses alarm = alarmService.getAlarm(reviewer.getId());
+        assertThat(alarm.data()).hasSize(1);
+    }
+
+    @Test
+    @DisplayName("이미 리뷰한 리뷰어에게 리뷰 재촉 알람을 발송한 경우 예외를 발생한다.")
+    void throw_exception_when_urge_already_reviewed() {
+        Member reviewer = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
+        Member reviewee = memberRepository.save(MemberFixture.MEMBER_PORORO());
+        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_PROGRESS(memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON())));
+        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), reviewer, reviewee));
+
+        assertThatThrownBy(() -> reviewService.urgeReview(room.getId(), reviewer.getId(), reviewee.getId()))
+                .isInstanceOf(CoreaException.class);
+    }
+
+    @Test
+    @DisplayName("진행중이 아닌 방에서 리뷰 재촉 알람을 발송한 경우 예외를 발생한다.")
+    void throw_exception_when_urge_not_progress_room() {
+        Member reviewer = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
+        Member reviewee = memberRepository.save(MemberFixture.MEMBER_PORORO());
+        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_CLOSED(memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON())));
+        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(room.getId(), reviewer, reviewee));
+
+        assertThatThrownBy(() -> reviewService.urgeReview(room.getId(), reviewer.getId(), reviewee.getId()))
                 .isInstanceOf(CoreaException.class);
     }
 }

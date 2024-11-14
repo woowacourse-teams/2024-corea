@@ -18,6 +18,7 @@ export interface FeedbackCardData {
   readonly feedbackText: string;
   readonly evaluationPoint: 1 | 2 | 3 | 4 | 5;
   readonly isWrited: boolean;
+  readonly link: string;
 }
 
 export interface RevieweeFeedbackData {

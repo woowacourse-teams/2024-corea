@@ -1,13 +1,14 @@
 import * as S from "./Calendar.style";
 import useCalendar from "@/hooks/common/useCalendar";
 import Icon from "@/components/common/icon/Icon";
-import DAYS from "@/constants/days";
+import { DAYS } from "@/constants/days";
 import { areDatesEqual } from "@/utils/dateFormatter";
 
 export interface CalendarProps {
   selectedDate: Date;
   handleSelectedDate: (newSelectedDate: Date) => void;
   options?: {
+    disabledBeforeDate?: Date;
     isPastDateDisabled: boolean;
   };
 }
@@ -35,12 +36,12 @@ const Calendar = ({ selectedDate, handleSelectedDate, options }: CalendarProps) 
   const checkIsAvailableClick = (day: number) => {
     if (!options?.isPastDateDisabled) return true;
 
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    const targetDate = options.disabledBeforeDate || new Date();
+    targetDate.setHours(0, 0, 0, 0);
 
     const checkingDate = new Date(currentViewYear, currentViewMonth - 1, day);
 
-    return today <= checkingDate;
+    return targetDate <= checkingDate;
   };
 
   return (

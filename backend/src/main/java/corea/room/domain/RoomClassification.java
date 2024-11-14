@@ -35,4 +35,8 @@ public enum RoomClassification {
     public boolean isAll() {
         return this == ALL;
     }
+
+    public boolean isNotAll() {
+        return this != ALL;
+    }
 }

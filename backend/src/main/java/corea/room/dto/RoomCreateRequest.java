@@ -50,7 +50,10 @@ public record RoomCreateRequest(@Schema(description = "방 제목", example = "M
 
                                 @Schema(description = "방이 속하는 분야", example = "BE")
                                 @NotNull
-                                RoomClassification classification
+                                RoomClassification classification,
+
+                                @Schema(description = "어떤 저장소에서 확인하는지", example = "true")
+                                boolean isPublic
 ) {
 
     private static final int INITIAL_REVIEWER_COUNT = 0;

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { EllipsisText } from "@/styles/common";
 
 export const FeedbackContainer = styled.div`
   display: flex;
@@ -22,7 +23,7 @@ export const PageType = styled.p`
   color: ${({ theme }) => theme.COLOR.grey3};
 `;
 
-export const MissionInfoContainer = styled.div`
+export const RoomInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -34,9 +35,33 @@ export const MissionInfoContainer = styled.div`
   box-shadow: ${({ theme }) => theme.BOX_SHADOW.light};
 `;
 
+export const RoomInfoWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
 export const PageTitle = styled.p`
+  width: calc(100% - 120px);
   font: ${({ theme }) => theme.TEXT.large_bold};
   color: ${({ theme }) => theme.COLOR.black};
+  ${EllipsisText}
+`;
+
+export const PRLink = styled.div`
+  cursor: pointer;
+
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+
+  font: ${({ theme }) => theme.TEXT.semiSmall};
+`;
+
+export const IconWrapper = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const Keywords = styled.div`

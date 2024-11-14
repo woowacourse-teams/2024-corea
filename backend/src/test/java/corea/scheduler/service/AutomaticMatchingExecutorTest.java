@@ -14,6 +14,8 @@ import corea.member.repository.MemberRepository;
 import corea.participation.domain.Participation;
 import corea.participation.repository.ParticipationRepository;
 import corea.room.domain.Room;
+import corea.room.domain.RoomMatchInfo;
+import corea.room.repository.RoomMatchInfoRepository;
 import corea.room.repository.RoomRepository;
 import corea.scheduler.domain.AutomaticMatching;
 import corea.scheduler.repository.AutomaticMatchingRepository;
@@ -65,6 +67,8 @@ class AutomaticMatchingExecutorTest {
     private Member movin;
     private Member ten;
     private Member cho;
+    @Autowired
+    private RoomMatchInfoRepository roomMatchInfoRepository;
 
     @BeforeEach
     void setUp() {
@@ -76,6 +80,7 @@ class AutomaticMatchingExecutorTest {
         cho = memberRepository.save(MemberFixture.MEMBER_CHOCO());
 
         room = roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo, LocalDateTime.now().plusSeconds(3)));
+        roomMatchInfoRepository.save(new RoomMatchInfo(room.getId(),true));
         emptyParticipantRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN(ash, LocalDateTime.now().plusSeconds(3)));
 
         participationRepository.save(new Participation(room, pororo, MemberRole.BOTH, room.getMatchingSize()));

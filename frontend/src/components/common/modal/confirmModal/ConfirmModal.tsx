@@ -21,10 +21,10 @@ const ConfirmModal = ({
       <S.ConfirmModalContainer>
         {rest.children}
         <S.ButtonWrapper>
-          <Button size="small" onClick={rest.onCancel} className="cancel-button">
+          <Button size="small" onClick={rest.onCancel} outline={true}>
             {cancelButtonText}
           </Button>
-          <Button size="small" onClick={rest.onConfirm} className="confirm-button">
+          <Button size="small" onClick={rest.onConfirm}>
             {confirmButtonText}
           </Button>
         </S.ButtonWrapper>
