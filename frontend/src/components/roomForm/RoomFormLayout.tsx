@@ -39,7 +39,7 @@ const getInitialFormState = (data?: RoomInfo): CreateRoomInfo => ({
   limitedParticipants: data?.limitedParticipants || 1,
   recruitmentDeadline: data ? new Date(data.recruitmentDeadline) : new Date(),
   reviewDeadline: data ? new Date(data.reviewDeadline) : new Date(),
-  isPrivate: data?.isPrivate || false,
+  isPublic: data?.isPublic !== undefined ? data.isPublic : true,
 });
 
 const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
@@ -169,6 +169,30 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
                 {isClickedButton && validators.repositoryLink(formState.repositoryLink)}
               </ErrorText>
             </S.ContentInput>
+          </S.RowContainer>
+
+          <S.RowContainer>
+            <S.ContentLabel>
+              레포지토리 공개 여부 <S.RequiredLabel>*</S.RequiredLabel>
+            </S.ContentLabel>
+            <S.ContentWrapper>
+              <S.ContentRadioInput
+                type="radio"
+                id="yes"
+                name="isPublic"
+                checked={formState.isPublic}
+                onChange={() => handleInputChange("isPublic", true)}
+              />
+              <S.RadioLabel htmlFor="yes">예</S.RadioLabel>
+              <S.ContentRadioInput
+                type="radio"
+                id="no"
+                name="isPublic"
+                checked={!formState.isPublic}
+                onChange={() => handleInputChange("isPublic", false)}
+              />
+              <S.RadioLabel htmlFor="no">아니요</S.RadioLabel>
+            </S.ContentWrapper>
           </S.RowContainer>
 
           <S.RowContainer>
@@ -328,28 +352,6 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
                   )}
               </ErrorText>
             </S.ContentInput>
-          </S.RowContainer>
-
-          <S.RowContainer>
-            <S.ContentLabel>방 공개 여부</S.ContentLabel>
-            <S.ContentWrapper>
-              <S.ContentRadioInput
-                type="radio"
-                id="yes"
-                name="isPrivate"
-                checked={formState.isPrivate}
-                onChange={() => handleInputChange("isPrivate", true)}
-              />
-              <S.RadioLabel htmlFor="yes">예</S.RadioLabel>
-              <S.ContentRadioInput
-                type="radio"
-                id="no"
-                name="isPrivate"
-                checked={!formState.isPrivate}
-                onChange={() => handleInputChange("isPrivate", false)}
-              />
-              <S.RadioLabel htmlFor="no">아니요</S.RadioLabel>
-            </S.ContentWrapper>
           </S.RowContainer>
         </S.SubSection>
 

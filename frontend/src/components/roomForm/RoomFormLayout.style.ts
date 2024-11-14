@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import media from "@/styles/media";
 
 export const RoomFormContainer = styled.div`
   display: flex;
@@ -54,14 +53,7 @@ export const RowContainer = styled.div`
 `;
 
 export const ContentLabel = styled.span`
-  flex-shrink: 0;
-  width: 200px;
   font: ${({ theme }) => theme.TEXT.medium_bold};
-  line-height: 30px;
-
-  ${media.large`
-    width: 250px;
-  `}
 `;
 
 export const RequiredLabel = styled.span`
