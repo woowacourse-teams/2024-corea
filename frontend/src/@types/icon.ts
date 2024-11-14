@@ -27,6 +27,7 @@ type IconKind =
   | "notificationBell"
   | "search"
   | "add"
-  | "delete";
+  | "delete"
+  | "edit";
 
 export default IconKind;

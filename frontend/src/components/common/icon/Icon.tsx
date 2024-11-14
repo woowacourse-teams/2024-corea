@@ -18,6 +18,7 @@ import {
   MdCheck,
   MdClear,
   MdDelete,
+  MdEdit,
   MdExpandMore,
   MdInfoOutline,
   MdInsertLink,
@@ -65,6 +66,7 @@ const ICON: { [key in IconKind]: IconType } = {
   search: MdOutlineSearch,
   add: MdAdd,
   delete: MdDelete,
+  edit: MdEdit,
 };
 
 interface IconProps {

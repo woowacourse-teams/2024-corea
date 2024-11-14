@@ -3,6 +3,7 @@ import useModal from "@/hooks/common/useModal";
 import useMutateRoom from "@/hooks/mutations/useMutateRoom";
 import { useFetchDetailRoomInfo } from "@/hooks/queries/useFetchRooms";
 import ContentSection from "@/components/common/contentSection/ContentSection";
+import Icon from "@/components/common/icon/Icon";
 import ConfirmModal from "@/components/common/modal/confirmModal/ConfirmModal";
 import FeedbackProcessInfo from "@/components/roomDetailPage/feedbackProcessInfo/FeedbackProcessInfo";
 import MyReviewee from "@/components/roomDetailPage/myReviewee/MyReviewee";
@@ -95,6 +96,11 @@ const RoomDetailPage = () => {
       </ConfirmModal>
 
       <ContentSection title="미션 정보" {...buttonProps}>
+        <S.EditButtonWrapper>
+          <S.EditButton onClick={() => navigate(`/rooms/edit/${roomId}`)}>
+            <Icon kind="edit" /> <span>수정</span>
+          </S.EditButton>
+        </S.EditButtonWrapper>
         <RoomInfoCard roomInfo={roomInfo} />
       </ContentSection>
 

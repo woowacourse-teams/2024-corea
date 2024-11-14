@@ -11,7 +11,6 @@ export const RoomCreateButton = styled.button`
   bottom: 50px;
 
   display: flex;
-  gap: 10px;
   align-items: center;
   justify-content: flex-start;
 
@@ -54,7 +53,7 @@ export const RoomCreateButton = styled.button`
 
   &:hover span {
     width: auto;
-    margin-left: 35px;
+    margin-left: 30px;
     opacity: 1;
   }
 
