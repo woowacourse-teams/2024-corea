@@ -24,6 +24,7 @@ export const ImgWithError = styled.div`
 
 export const EditButtonWrapper = styled.div`
   position: absolute;
+  top: 8px;
   left: 100px;
 `;
 

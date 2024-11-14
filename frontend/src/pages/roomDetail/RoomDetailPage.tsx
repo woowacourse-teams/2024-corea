@@ -96,11 +96,13 @@ const RoomDetailPage = () => {
       </ConfirmModal>
 
       <ContentSection title="미션 정보" {...buttonProps}>
-        <S.EditButtonWrapper>
-          <S.EditButton onClick={() => navigate(`/rooms/edit/${roomId}`)}>
-            <Icon kind="edit" /> <span>수정</span>
-          </S.EditButton>
-        </S.EditButtonWrapper>
+        {roomInfo.roomStatus === "OPEN" && roomInfo.participationStatus === "MANAGER" && (
+          <S.EditButtonWrapper>
+            <S.EditButton onClick={() => navigate(`/rooms/edit/${roomId}`)}>
+              <Icon kind="edit" /> <span>수정</span>
+            </S.EditButton>
+          </S.EditButtonWrapper>
+        )}
         <RoomInfoCard roomInfo={roomInfo} />
       </ContentSection>
 

@@ -77,8 +77,8 @@ export const RequiredLabel = styled.span`
 
 export const ContentInput = styled.div`
   display: flex;
-  flex-direction: row;
-  gap: 2rem;
+  flex-direction: column;
+  gap: 1rem;
   width: 100%;
 `;
 
@@ -88,7 +88,7 @@ export const ContentWrapper = styled.div`
   gap: 1rem;
   align-items: center;
 
-  padding: 0.5rem 0;
+  padding: 1rem 0;
 `;
 
 export const ContentRadioInput = styled.input`
