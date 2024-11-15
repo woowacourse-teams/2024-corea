@@ -58,7 +58,6 @@ public record RoomUpdateRequest(@Schema(description = "방 ID", example = "99")
 
     public Room toEntity(Room room, Member manager) {
         return new Room(
-                roomId,
                 title, content,
                 matchingSize, repositoryLink,
                 thumbnailLink, keywords,
