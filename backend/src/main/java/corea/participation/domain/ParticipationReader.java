@@ -28,4 +28,8 @@ public class ParticipationReader {
                 .map(Member::getId)
                 .toList();
     }
+
+    public List<Participation> findAllByRoomId(long roomId) {
+        return participationRepository.findAllByRoomId(roomId);
+    }
 }
