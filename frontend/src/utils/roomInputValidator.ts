@@ -25,6 +25,12 @@ const validators = {
       if (this.hasGitExtension(value)) {
         return "'.git' 확장자는 제거해주세요.";
       }
+      if (!value.startsWith("https://")) {
+        return "링크는 'https'로 시작해야 합니다.";
+      }
+      if (value.includes("?")) {
+        return "링크에 쿼리 파라미터를 포함할 수 없습니다.";
+      }
       return "유효한 깃허브 레포지토리 링크를 입력해주세요.";
     }
     return "";
@@ -89,17 +95,33 @@ const validators = {
     return value > minNumber;
   },
 
-  isAfterTime(value: Date, referenceTime: Date): boolean {
-    return value > referenceTime;
-  },
-
   isValidGitHubLink(value: string): boolean {
-    const githubRegex = /^https:\/\/github\.com\/[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-]+$/;
+    const githubRegex = /^https:\/\/github\.com\/[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-]+\/?$/;
     return githubRegex.test(value);
   },
 
   hasGitExtension(value: string): boolean {
     return /\.git$/.test(value);
+  },
+
+  isAfterTime(value: Date, referenceTime: Date): boolean {
+    const valueWithoutSeconds = new Date(
+      value.getFullYear(),
+      value.getMonth(),
+      value.getDate(),
+      value.getHours(),
+      value.getMinutes(),
+    );
+
+    const referenceWithoutSeconds = new Date(
+      referenceTime.getFullYear(),
+      referenceTime.getMonth(),
+      referenceTime.getDate(),
+      referenceTime.getHours(),
+      referenceTime.getMinutes(),
+    );
+
+    return valueWithoutSeconds > referenceWithoutSeconds;
   },
 };
 
