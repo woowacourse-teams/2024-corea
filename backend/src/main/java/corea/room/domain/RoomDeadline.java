@@ -29,12 +29,20 @@ public class RoomDeadline {
 
     private void validateDeadline(LocalDateTime recruitmentDeadline, LocalDateTime reviewDeadline) {
         LocalDateTime currentDateTime = LocalDateTime.now();
-        if (recruitmentDeadline.isBefore(currentDateTime)) {
+        if (isInvalidRecruitmentDeadline(recruitmentDeadline, currentDateTime)) {
             throw new CoreaException(ExceptionType.INVALID_RECRUITMENT_DEADLINE);
         }
 
-        if (reviewDeadline.isBefore(recruitmentDeadline)) {
+        if (isInvalidReviewDeadline(reviewDeadline, recruitmentDeadline)) {
             throw new CoreaException(ExceptionType.INVALID_REVIEW_DEADLINE);
         }
+    }
+
+    private boolean isInvalidRecruitmentDeadline(LocalDateTime recruitmentDeadline, LocalDateTime currentDateTime) {
+        return !recruitmentDeadline.isAfter(currentDateTime);
+    }
+
+    private boolean isInvalidReviewDeadline(LocalDateTime reviewDeadline, LocalDateTime recruitmentDeadline) {
+        return !reviewDeadline.isAfter(recruitmentDeadline);
     }
 }
