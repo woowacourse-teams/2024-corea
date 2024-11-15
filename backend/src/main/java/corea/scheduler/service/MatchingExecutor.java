@@ -1,5 +1,6 @@
 package corea.scheduler.service;
 
+import corea.alarm.service.AlarmService;
 import corea.exception.CoreaException;
 import corea.matching.domain.PullRequestInfo;
 import corea.matching.service.MatchingService;
@@ -26,6 +27,7 @@ public class MatchingExecutor {
     private final PrivatePullRequestProvider privatePullRequestProvider;
     private final PullRequestProvider pullRequestProvider;
     private final MatchingService matchingService;
+    private final AlarmService alarmService;
     private final RoomReader roomReader;
     private final RoomMatchReader roomMatchReader;
     private final FailedMatchingRepository failedMatchingRepository;
@@ -38,10 +40,12 @@ public class MatchingExecutor {
         try {
             template.execute(status -> {
                 startMatching(roomId);
+                createMatchingCompleteAlarm(roomId);
                 return null;
             });
         } catch (CoreaException e) {
             recordMatchingFailure(roomId, e);
+            createMatchingFailedAlarm(roomId);
         }
     }
 
@@ -50,6 +54,14 @@ public class MatchingExecutor {
         boolean isPublic = roomMatchReader.isPublicRoom(room);
         PullRequestInfo pullRequestInfo = getPullRequestInfo(room, isPublic);
         matchingService.match(roomId, pullRequestInfo);
+    }
+
+    private void createMatchingCompleteAlarm(long roomId) {
+        alarmService.createMatchingCompletedAlarm(roomId);
+    }
+
+    private void createMatchingFailedAlarm(long roomId) {
+        alarmService.createMatchingFailedAlarm(roomId);
     }
 
     private PullRequestInfo getPullRequestInfo(Room room, boolean isPublic) {
