@@ -32,7 +32,7 @@ public class RoomReader {
     }
 
     public List<Room> findAll(Specification<Room> spec) {
-        return roomRepository.findAll(spec, Sort.by("recruitmentDeadline").descending());
+        return roomRepository.findAll(spec, Sort.by("roomDeadline.recruitmentDeadline").descending());
     }
 
     public Map<Long, Room> findRoomsMappedById(Iterable<Long> roomIds) {

@@ -61,9 +61,9 @@ public class RoomInquiryService {
         PageRequest pageRequest = PageRequest.of(pageNumber, PAGE_DISPLAY_SIZE);
 
         if (classification.isAll()) {
-            return roomRepository.findAllByStatusOrderByRecruitmentDeadline(status, pageRequest);
+            return roomRepository.findAllByStatusOrderByRoomDeadline_RecruitmentDeadline(status, pageRequest);
         }
-        return roomRepository.findAllByClassificationAndStatusOrderByRecruitmentDeadline(classification, status, pageRequest);
+        return roomRepository.findAllByClassificationAndStatusOrderByRoomDeadline_RecruitmentDeadline(classification, status, pageRequest);
     }
 
     private List<RoomResponse> getRoomResponses(List<Room> rooms, long memberId) {
