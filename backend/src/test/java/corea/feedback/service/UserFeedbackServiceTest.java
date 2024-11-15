@@ -196,7 +196,7 @@ class UserFeedbackServiceTest {
 
     private void saveRevieweeToReviewer(long roomId, Member reviewee, Member reviewer) {
         socialFeedbackRepository.save(
-                new SocialFeedback(null, roomId, reviewer, reviewee, 4, List.of(FeedbackKeyword.REVIEW_FAST, FeedbackKeyword.KIND), "유용한 정보들이 많았어요")
+                new SocialFeedback(null, roomId, reviewer, reviewee, 4, List.of(FeedbackKeyword.POSITIVE_SOCIAL_FEEDBACK_4, FeedbackKeyword.POSITIVE_SOCIAL_FEEDBACK_1), "유용한 정보들이 많았어요")
         );
     }
 

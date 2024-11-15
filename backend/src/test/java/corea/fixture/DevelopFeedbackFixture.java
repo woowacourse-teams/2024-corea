@@ -14,7 +14,7 @@ public class DevelopFeedbackFixture {
                 deliver,
                 receiver,
                 4,
-                List.of(FeedbackKeyword.HELPFUL, FeedbackKeyword.EASY_TO_UNDERSTAND_THE_CODE),
+                List.of(FeedbackKeyword.POSITIVE_DEVELOP_FEEDBACK_1, FeedbackKeyword.POSITIVE_DEVELOP_FEEDBACK_2),
                 "코드가 좋았어요",
                 2
         );

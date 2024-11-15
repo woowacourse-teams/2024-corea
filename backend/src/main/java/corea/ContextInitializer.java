@@ -409,8 +409,8 @@ public class ContextInitializer implements ApplicationRunner {
     }
 
     private void reviewSocialAndDevelopFeedback(MatchResult matchResult) {
-        socialFeedbackRepository.save(new SocialFeedback(matchResult.getRoomId(), matchResult.getReviewee(), matchResult.getReviewer(), 5, List.of(KIND, GOOD_AT_EXPLAINING), "너무 맘에 드는 말투이고, 설명이 친절했어요! 기회가 된다면 한번 더 리뷰 받고 싶어요~"));
-        developFeedbackRepository.save(new DevelopFeedback(matchResult.getRoomId(), matchResult.getReviewer(), matchResult.getReviewee(), 5, List.of(EASY_TO_UNDERSTAND_THE_CODE, MAKE_CODE_FOR_THE_PURPOSE), "코드를 이해하기 쉬워 리뷰하기 편했어요!~", 3));
+        socialFeedbackRepository.save(new SocialFeedback(matchResult.getRoomId(), matchResult.getReviewee(), matchResult.getReviewer(), 5, List.of(POSITIVE_SOCIAL_FEEDBACK_1, POSITIVE_SOCIAL_FEEDBACK_2), "너무 맘에 드는 말투이고, 설명이 친절했어요! 기회가 된다면 한번 더 리뷰 받고 싶어요~"));
+        developFeedbackRepository.save(new DevelopFeedback(matchResult.getRoomId(), matchResult.getReviewer(), matchResult.getReviewee(), 5, List.of(POSITIVE_DEVELOP_FEEDBACK_1, POSITIVE_DEVELOP_FEEDBACK_2), "코드를 이해하기 쉬워 리뷰하기 편했어요!~", 3));
         matchResult.reviewComplete();
         matchResult.reviewerCompleteFeedback();
         matchResult.revieweeCompleteFeedback();
