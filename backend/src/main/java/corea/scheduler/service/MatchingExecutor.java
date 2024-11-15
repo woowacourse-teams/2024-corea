@@ -45,7 +45,6 @@ public class MatchingExecutor {
             });
         } catch (CoreaException e) {
             recordMatchingFailure(roomId, e);
-            createMatchingFailedAlarm(roomId);
         }
     }
 
@@ -77,6 +76,7 @@ public class MatchingExecutor {
         template.execute(status -> {
             updateRoomStatusToFail(roomId);
             saveFailedMatching(roomId, e);
+            createMatchingFailedAlarm(roomId);
             return null;
         });
     }
