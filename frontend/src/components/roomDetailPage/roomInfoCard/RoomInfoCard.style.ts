@@ -121,9 +121,9 @@ export const NoKeywordText = styled.span`
 `;
 
 export const RoomContentSmall = styled.div`
-  font: ${({ theme }) => theme.TEXT.small_bold};
+  font: ${({ theme }) => theme.TEXT.semiSmall};
   line-height: normal;
-  color: ${({ theme }) => theme.COLOR.black};
+  color: ${({ theme }) => theme.COLOR.grey4};
   white-space: pre-line;
 `;
 
