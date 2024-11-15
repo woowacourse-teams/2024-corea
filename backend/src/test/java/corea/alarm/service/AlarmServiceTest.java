@@ -2,11 +2,11 @@ package corea.alarm.service;
 
 import config.ServiceTest;
 import corea.alarm.domain.UserToUserAlarm;
-import corea.alarm.domain.UserToUserAlarmRepository;
 import corea.alarm.dto.AlarmCheckRequest;
 import corea.alarm.dto.AlarmCountResponse;
 import corea.alarm.dto.AlarmResponse;
 import corea.alarm.dto.AlarmResponses;
+import corea.alarm.repository.UserToUserAlarmRepository;
 import corea.exception.CoreaException;
 import corea.fixture.AlarmFixture;
 import corea.fixture.MemberFixture;
