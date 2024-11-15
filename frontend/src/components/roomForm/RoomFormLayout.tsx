@@ -311,10 +311,7 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
                 onDateTimeChange={(newDateTime) => {
                   handleInputChange("recruitmentDeadline", newDateTime);
                   if (newDateTime > formState.reviewDeadline) {
-                    const newDate = new Date();
-                    newDate.setFullYear(newDateTime.getFullYear());
-                    newDate.setMonth(newDateTime.getMonth());
-                    newDate.setDate(newDateTime.getDate());
+                    const newDate = new Date(newDateTime);
                     handleInputChange("reviewDeadline", newDate);
                   }
                 }}
