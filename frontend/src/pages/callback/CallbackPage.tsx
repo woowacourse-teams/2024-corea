@@ -21,8 +21,8 @@ const CallbackPage = () => {
     <S.CallbackPageContainer>
       <S.Character src={thinkingCharacter} alt="로그인 중" />
       <S.LoadingContainer>
-        <p>로그인 중...</p>
         <S.LoadingBar />
+        <p>로그인 중...</p>
       </S.LoadingContainer>
     </S.CallbackPageContainer>
   );

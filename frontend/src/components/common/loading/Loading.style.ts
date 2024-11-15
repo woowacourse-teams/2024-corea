@@ -1,4 +1,5 @@
 import styled, { keyframes } from "styled-components";
+import { Z_INDEX } from "@/styles/zIndex";
 
 const moveUpDown = keyframes`
     0% {
@@ -19,7 +20,7 @@ export const LoadingContainer = styled.div`
 
   svg {
     position: absolute;
-    z-index: 1001;
+    z-index: ${Z_INDEX.loading};
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -32,7 +33,7 @@ export const LoadingContainer = styled.div`
 
 export const BackDrop = styled.div`
   position: fixed;
-  z-index: 1000;
+  z-index: ${Z_INDEX.loadingBackdrop};
   top: 0;
   left: 0;
 

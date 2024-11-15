@@ -33,7 +33,6 @@ export const Overlay = styled.div`
   pointer-events: auto;
 
   position: absolute;
-  z-index: 10;
   top: 60px;
   left: 0;
 

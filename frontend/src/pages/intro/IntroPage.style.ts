@@ -4,7 +4,6 @@ import media from "@/styles/media";
 // 헤더
 export const HeaderContainer = styled.header`
   position: fixed;
-  z-index: 100;
   top: 0;
   left: 20px;
 

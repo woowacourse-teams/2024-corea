@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Z_INDEX } from "@/styles/zIndex";
 
 //TimeDropdown
 export const TimeDropdownContainer = styled.section`
@@ -24,7 +25,7 @@ export const TimeDropdownToggle = styled.input<{ $error: boolean }>`
 //TimePicker
 export const TimePickerWrapper = styled.div`
   position: absolute;
-  z-index: 999;
+  z-index: ${Z_INDEX.dropdown};
 
   display: flex;
   gap: 1rem;
