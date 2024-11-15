@@ -28,6 +28,7 @@ type IconKind =
   | "search"
   | "add"
   | "delete"
-  | "edit";
+  | "edit"
+  | "control";
 
 export default IconKind;

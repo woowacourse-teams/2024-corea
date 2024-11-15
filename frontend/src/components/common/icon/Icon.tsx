@@ -23,6 +23,7 @@ import {
   MdInfoOutline,
   MdInsertLink,
   MdMenu,
+  MdMoreHoriz,
   MdNotificationsNone,
   MdOutlineArrowDropDown,
   MdOutlineArrowDropUp,
@@ -67,6 +68,7 @@ const ICON: { [key in IconKind]: IconType } = {
   add: MdAdd,
   delete: MdDelete,
   edit: MdEdit,
+  control: MdMoreHoriz,
 };
 
 interface IconProps {
