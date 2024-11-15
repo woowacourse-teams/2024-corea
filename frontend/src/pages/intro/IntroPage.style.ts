@@ -1,9 +1,11 @@
 import styled from "styled-components";
 import media from "@/styles/media";
+import { Z_INDEX } from "@/styles/zIndex";
 
 // 헤더
 export const HeaderContainer = styled.header`
   position: fixed;
+  z-index: ${Z_INDEX.header};
   top: 0;
   left: 20px;
 
