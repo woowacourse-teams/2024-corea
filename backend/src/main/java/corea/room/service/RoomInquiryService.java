@@ -35,7 +35,8 @@ public class RoomInquiryService {
 
     public RoomSearchResponses search(long memberId, RoomStatus status, RoomClassification classification, String keywordTitle) {
         Specification<Room> spec = getSearchSpecification(status, classification, keywordTitle);
-        List<Room> rooms = roomReader.findAll(spec);
+        RoomSortStrategy roomSortStrategy = roomSortStrategyFactory.getRoomSortStrategy(status);
+        List<Room> rooms = roomReader.findAll(spec, roomSortStrategy);
 
         List<RoomResponse> roomResponses = getRoomResponses(rooms, memberId);
         return RoomSearchResponses.of(roomResponses);

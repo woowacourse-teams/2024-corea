@@ -46,7 +46,7 @@ public class RoomInquiryServiceTest {
 
     @ParameterizedTest
     @EnumSource(value = RoomStatus.class, mode = EnumSource.Mode.EXCLUDE, names = {"CLOSE"})
-    @DisplayName("로그인한 사용자가 방을 상태별로 마감일 임박순으로 조회할 수 있다.")
+    @DisplayName("로그인한 사용자가 방을 상태별(CLOSE 상태는 제외)로 마감일 임박순으로 조회할 수 있다.")
     void findRoomsWithRoomStatus_login_member(RoomStatus roomStatus) {
         Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member ash = memberRepository.save(MemberFixture.MEMBER_ASH());
@@ -77,7 +77,7 @@ public class RoomInquiryServiceTest {
 
     @ParameterizedTest
     @EnumSource(value = RoomStatus.class, mode = EnumSource.Mode.EXCLUDE, names = {"CLOSE"})
-    @DisplayName("비로그인 사용자가 방을 상태별로 마감일 임박순으로 조회할 수 있다.")
+    @DisplayName("비로그인 사용자가 방을 상태별(CLOSE 상태는 제외)로 마감일 임박순으로 조회할 수 있다.")
     void findRoomsWithRoomStatus_non_login_member(RoomStatus roomStatus) {
         Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member ash = memberRepository.save(MemberFixture.MEMBER_ASH());
@@ -150,8 +150,8 @@ public class RoomInquiryServiceTest {
     }
 
     @ParameterizedTest
-    @EnumSource(RoomStatus.class)
-    @DisplayName("로그인한 사용자가 상태별 방을 모집 마감일이 오래 남은 순으로 검색할 수 있다.")
+    @EnumSource(value = RoomStatus.class, mode = EnumSource.Mode.EXCLUDE, names = {"CLOSE"})
+    @DisplayName("로그인한 사용자가 상태별(CLOSE 상태는 제외) 방을 모집 마감일이 순으로 검색할 수 있다.")
     void searchRoomsWithRoomStatus_login_member(RoomStatus roomStatus) {
         Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member ash = memberRepository.save(MemberFixture.MEMBER_ASH());
@@ -166,19 +166,31 @@ public class RoomInquiryServiceTest {
         RoomSearchResponses response = roomInquiryService.search(pororo.getId(), roomStatus, RoomClassification.ALL, "자바");
         List<String> managerNames = getManagerNames(response);
 
+        assertThat(managerNames).containsExactly("pororo", "darr");
+    }
+
+    @Test
+    @DisplayName("로그인한 사용자가 종료된 방을 마감된 최신순으로 검색할 수 있다.")
+    void searchClosedRooms_login_member() {
+        Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
+        Member ash = memberRepository.save(MemberFixture.MEMBER_ASH());
+        Member darr = memberRepository.save(MemberFixture.MEMBER_DARR());
+
+        roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo, LocalDateTime.now().plusDays(2), RoomStatus.CLOSE));
+        roomRepository.save(RoomFixture.ROOM_DOMAIN(darr, LocalDateTime.now().plusDays(3), RoomStatus.CLOSE));
+
+        Room ashRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_DIFFERENT_TITLE(ash, LocalDateTime.now().plusDays(3), RoomStatus.CLOSE));
+        participationRepository.save(new Participation(ashRoom, ash, MemberRole.REVIEWER, ParticipationStatus.MANAGER, ashRoom.getMatchingSize()));
+
+        RoomSearchResponses response = roomInquiryService.search(pororo.getId(), RoomStatus.CLOSE, RoomClassification.ALL, "자바");
+        List<String> managerNames = getManagerNames(response);
+
         assertThat(managerNames).containsExactly("darr", "pororo");
     }
 
-    private List<String> getManagerNames(RoomSearchResponses response) {
-        return response.rooms()
-                .stream()
-                .map(RoomResponse::manager)
-                .toList();
-    }
-
     @ParameterizedTest
-    @EnumSource(RoomStatus.class)
-    @DisplayName("비로그인 사용자가 상태별 방을 모집 마감일이 오래 남은 순으로 검색할 수 있다.")
+    @EnumSource(value = RoomStatus.class, mode = EnumSource.Mode.EXCLUDE, names = {"CLOSE"})
+    @DisplayName("비로그인 사용자가 상태별(CLOSE 상태는 제외) 방을 모집 마감일이 오래 남은 순으로 검색할 수 있다.")
     void searchRoomsWithRoomStatus_non_login_member(RoomStatus roomStatus) {
         Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member darr = memberRepository.save(MemberFixture.MEMBER_DARR());
@@ -193,6 +205,32 @@ public class RoomInquiryServiceTest {
         RoomSearchResponses response = roomInquiryService.search(anonymous.getId(), roomStatus, RoomClassification.ALL, "자바");
         List<String> managerNames = getManagerNames(response);
 
+        assertThat(managerNames).containsExactly("pororo", "darr");
+    }
+
+    @Test
+    @DisplayName("비로그인 사용자가 종료된 방을 마감된 최신순으로 검색할 수 있다.")
+    void searchClosedRooms_non_login_member() {
+        Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
+        Member ash = memberRepository.save(MemberFixture.MEMBER_ASH());
+        Member darr = memberRepository.save(MemberFixture.MEMBER_DARR());
+
+        roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo, LocalDateTime.now().plusDays(2), RoomStatus.CLOSE));
+        roomRepository.save(RoomFixture.ROOM_DOMAIN(darr, LocalDateTime.now().plusDays(3), RoomStatus.CLOSE));
+
+        Room ashRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_DIFFERENT_TITLE(ash, LocalDateTime.now().plusDays(3), RoomStatus.CLOSE));
+        participationRepository.save(new Participation(ashRoom, ash, MemberRole.REVIEWER, ParticipationStatus.MANAGER, ashRoom.getMatchingSize()));
+
+        RoomSearchResponses response = roomInquiryService.search(pororo.getId(), RoomStatus.CLOSE, RoomClassification.ALL, "자바");
+        List<String> managerNames = getManagerNames(response);
+
         assertThat(managerNames).containsExactly("darr", "pororo");
+    }
+
+    private List<String> getManagerNames(RoomSearchResponses response) {
+        return response.rooms()
+                .stream()
+                .map(RoomResponse::manager)
+                .toList();
     }
 }
