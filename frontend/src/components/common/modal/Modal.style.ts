@@ -1,5 +1,6 @@
 import styled, { css, keyframes } from "styled-components";
 import media from "@/styles/media";
+import { Z_INDEX } from "@/styles/zIndex";
 
 const fadeIn = keyframes`
   0% {
@@ -47,6 +48,7 @@ const fadeOutMobile = keyframes`
 
 export const BackDrop = styled.div`
   position: fixed;
+  z-index: ${Z_INDEX.modalBackdrop};
   top: 0;
   left: 0;
 
@@ -59,8 +61,12 @@ export const BackDrop = styled.div`
 
 export const ModalContent = styled.div<{ $isVisible: boolean; $isClosing: boolean }>`
   position: relative;
+  z-index: ${Z_INDEX.modal};
+
   overflow: hidden;
+
   padding: 3rem 2rem 3rem 3rem;
+
   background-color: ${({ theme }) => theme.COLOR.white};
 
   ${({ $isVisible, $isClosing }) => css`

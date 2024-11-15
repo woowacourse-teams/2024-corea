@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useDropdown from "@/hooks/common/useDropdown";
 import useModal from "@/hooks/common/useModal";
@@ -17,10 +17,10 @@ export type DropdownItem = {
 
 export const dropdownItemsConfig: Record<string, DropdownItem[]> = {
   MANAGER: [
-    { name: "수정하기", action: "editRoom" },
-    { name: "삭제하기", action: "deleteRoom" },
+    { name: "수정하기", action: "EDIT_ROOM" },
+    { name: "삭제하기", action: "DELETE_ROOM" },
   ],
-  PARTICIPATED: [{ name: "방 나가기", action: "exitRoom" }],
+  PARTICIPATED: [{ name: "방 나가기", action: "EXIT_ROOM" }],
 };
 
 interface ControlButtonProps {
@@ -33,6 +33,7 @@ const ControlButton = ({ roomInfo, participationStatus }: ControlButtonProps) =>
   const { isModalOpen, handleOpenModal, handleCloseModal } = useModal();
   const { isDropdownOpen, handleToggleDropdown, dropdownRef } = useDropdown();
   const { deleteParticipateInMutation, deleteParticipatedRoomMutation } = useMutateRoom();
+  const [selectedAction, setSelectedAction] = useState("");
 
   const dropdownItems = dropdownItemsConfig[participationStatus] || [];
 
@@ -42,31 +43,26 @@ const ControlButton = ({ roomInfo, participationStatus }: ControlButtonProps) =>
   };
 
   const handleDropdownItemClick = (action: string) => {
-    switch (action) {
-      case "editRoom":
-        navigate(`/rooms/edit/${roomInfo.id}`);
-        break;
-      case "deleteRoom":
-        handleOpenModal();
-        break;
-      case "exitRoom":
-        handleOpenModal();
-        break;
-      default:
-        break;
+    setSelectedAction(action);
+    if (action === "EDIT_ROOM") {
+      navigate(`/rooms/edit/${roomInfo.id}`);
+    } else {
+      handleOpenModal();
     }
   };
 
   const handleConfirm = () => {
-    if (roomInfo.participationStatus === "MANAGER") {
+    if (selectedAction === "DELETE_ROOM") {
       deleteParticipatedRoomMutation.mutate(roomInfo.id, {
         onSuccess: () => navigate("/"),
       });
-      return;
     }
-    deleteParticipateInMutation.mutate(roomInfo.id, {
-      onSuccess: () => navigate("/"),
-    });
+    if (selectedAction === "EXIT_ROOM") {
+      deleteParticipateInMutation.mutate(roomInfo.id, {
+        onSuccess: () => navigate("/"),
+      });
+    }
+    handleCloseModal();
   };
 
   return (
@@ -77,9 +73,7 @@ const ControlButton = ({ roomInfo, participationStatus }: ControlButtonProps) =>
         onConfirm={handleConfirm}
         onCancel={handleCloseModal}
       >
-        {roomInfo.participationStatus === "MANAGER"
-          ? MESSAGES.GUIDANCE.DELETE_ROOM
-          : MESSAGES.GUIDANCE.EXIT_ROOM}
+        {selectedAction && MESSAGES.GUIDANCE[selectedAction]}
       </ConfirmModal>
 
       <S.ControlButtonContainer ref={dropdownRef}>
