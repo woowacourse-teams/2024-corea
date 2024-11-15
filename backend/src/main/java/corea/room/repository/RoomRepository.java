@@ -12,9 +12,9 @@ import java.util.List;
 
 public interface RoomRepository extends JpaRepository<Room, Long>, JpaSpecificationExecutor<Room> {
 
-    Page<Room> findAllByStatusOrderByRecruitmentDeadline(RoomStatus status, Pageable pageable);
+    Page<Room> findAllByStatusOrderByRoomDeadline_RecruitmentDeadline(RoomStatus status, Pageable pageable);
 
-    Page<Room> findAllByClassificationAndStatusOrderByRecruitmentDeadline(RoomClassification classification, RoomStatus status, Pageable pageable);
+    Page<Room> findAllByClassificationAndStatusOrderByRoomDeadline_RecruitmentDeadline(RoomClassification classification, RoomStatus status, Pageable pageable);
 
-    List<Room> findAllByIdInOrderByReviewDeadlineAsc(List<Long> ids);
+    List<Room> findAllByIdInOrderByRoomDeadline_ReviewDeadlineAsc(List<Long> ids);
 }
