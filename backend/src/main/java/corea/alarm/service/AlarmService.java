@@ -109,15 +109,19 @@ public class AlarmService {
         AlarmsByActionType userAlarms = userToUserAlarmReader.findAllByReceiver(member);
         AlarmsByActionType serverAlarms = serverToUserAlarmReader.findAllByReceiver(member);
 
-        List<Alarm> allAlarms = Stream.concat(
-                userAlarms.getList().stream(),
-                serverAlarms.getList().stream()
-        ).toList();
+        List<Alarm> allAlarms = mergeAlarms(userAlarms, serverAlarms);
 
         Map<Long, Member> actors = memberReader.findMembersMappedById(userAlarms.getActorIds());
         Map<Long, Room> userAlarmRooms = roomReader.findRoomsMappedById(userAlarms.getRoomIds());
         Map<Long, Room> serverAlarmRooms = roomReader.findRoomsMappedById(serverAlarms.getRoomIds());
 
         return AlarmResponses.of(allAlarms, actors, userAlarmRooms, serverAlarmRooms);
+    }
+
+    private List<Alarm> mergeAlarms(AlarmsByActionType userAlarms, AlarmsByActionType serverAlarms) {
+        return Stream.concat(
+                userAlarms.getList().stream(),
+                serverAlarms.getList().stream()
+        ).toList();
     }
 }
