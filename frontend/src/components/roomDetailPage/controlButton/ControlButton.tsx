@@ -85,17 +85,20 @@ const ControlButton = ({ roomInfo, participationStatus }: ControlButtonProps) =>
           <S.DropdownMenu>
             <FocusTrap onEscapeFocusTrap={() => handleToggleDropdown()}>
               <S.DropdownItemWrapper>
-                {dropdownItems.map((item: DropdownItem) => (
-                  <S.DropdownItem
-                    key={item.name}
-                    onClick={() => handleDropdownItemClick(item.action)}
-                    tabIndex={0}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") handleDropdownItemClick(item.action);
-                    }}
-                  >
-                    {item.name}
-                  </S.DropdownItem>
+                {dropdownItems.map((item: DropdownItem, index) => (
+                  <>
+                    <S.DropdownItem
+                      key={item.name}
+                      onClick={() => handleDropdownItemClick(item.action)}
+                      tabIndex={0}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") handleDropdownItemClick(item.action);
+                      }}
+                    >
+                      {item.name}
+                    </S.DropdownItem>
+                    {index < dropdownItems.length - 1 && <S.Divider />}
+                  </>
                 ))}
               </S.DropdownItemWrapper>
             </FocusTrap>

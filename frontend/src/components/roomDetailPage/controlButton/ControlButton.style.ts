@@ -1,16 +1,5 @@
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { Z_INDEX } from "@/styles/zIndex";
-
-const dropdown = keyframes`
-  0% {
-    transform: translateY(-10%);
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
-`;
 
 export const ControlButtonContainer = styled.div`
   position: relative;
@@ -48,8 +37,7 @@ export const DropdownMenu = styled.div`
   background-color: white;
   border: 1px solid ${({ theme }) => theme.COLOR.grey2};
   border-radius: 5px;
-
-  animation: ${dropdown} 0.2s ease;
+  box-shadow: ${({ theme }) => theme.BOX_SHADOW.regular};
 `;
 
 export const DropdownItemWrapper = styled.ul`
@@ -57,11 +45,6 @@ export const DropdownItemWrapper = styled.ul`
   flex-direction: column;
   gap: 0.5rem;
   margin: 0.5rem;
-
-  :last-child {
-    gap: 0;
-    border-top: 1px solid ${({ theme }) => theme.COLOR.grey1};
-  }
 `;
 
 export const DropdownItem = styled.li`
@@ -80,4 +63,10 @@ export const DropdownItem = styled.li`
     font: ${({ theme }) => theme.TEXT.small_bold};
     background-color: ${({ theme }) => theme.COLOR.grey0};
   }
+`;
+
+export const Divider = styled.div`
+  width: 100%;
+  height: 1px;
+  background-color: ${({ theme }) => theme.COLOR.grey2};
 `;
