@@ -31,6 +31,9 @@ class RoomDetailsInquiryControllerTest {
     private RoomRepository roomRepository;
 
     @Autowired
+    private RoomRepository roomRepository;
+
+    @Autowired
     private MemberRepository memberRepository;
 
     @Autowired
