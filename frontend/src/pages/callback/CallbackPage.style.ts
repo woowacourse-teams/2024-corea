@@ -41,7 +41,6 @@ export const LoadingContainer = styled.div`
   border-radius: 25px;
 
   p {
-    z-index: 999;
     font: ${({ theme }) => theme.TEXT.medium_bold};
     color: ${({ theme }) => theme.COLOR.grey4};
   }

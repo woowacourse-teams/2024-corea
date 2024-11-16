@@ -1,19 +1,14 @@
 import { ReactNode } from "react";
-import Button, { ButtonProps } from "@/components/common/button/Button";
 import * as S from "@/components/common/contentSection/ContentSection.style";
-
-interface ContentSectionButton extends ButtonProps {
-  label: string;
-}
 
 interface ContentSectionProps {
   title: string;
   subtitle?: string;
+  controlSection?: ReactNode;
   children?: ReactNode;
-  button?: ContentSectionButton | undefined;
 }
 
-const ContentSection = ({ title, subtitle, children, button }: ContentSectionProps) => {
+const ContentSection = ({ title, subtitle, children, controlSection }: ContentSectionProps) => {
   return (
     <S.ContentSectionContainer>
       <S.ContentSectionHeader>
@@ -22,11 +17,7 @@ const ContentSection = ({ title, subtitle, children, button }: ContentSectionPro
           <S.ContentSectionSubtitle>{subtitle}</S.ContentSectionSubtitle>
         </S.TitleContainer>
 
-        {button && (
-          <Button onClick={button.onClick} size="small">
-            {button.label}
-          </Button>
-        )}
+        {controlSection && controlSection}
       </S.ContentSectionHeader>
       {children}
     </S.ContentSectionContainer>

@@ -42,7 +42,7 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
 
         <S.RoomContentBox>
           <S.RoomTagBox>
-            <Label type="MANAGER" managerText={roomInfo.manager} />
+            <Label type="MANAGER" managerText={roomInfo.manager} size="semiSmall_bold" />
             {displayedKeywords.length === 0 ? (
               <S.NoKeywordText>지정된 키워드 없음</S.NoKeywordText>
             ) : (
@@ -51,7 +51,7 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
                   key={keyword}
                   type="KEYWORD"
                   text={keyword}
-                  size="small"
+                  size="semiSmall_bold"
                   backgroundColor={theme.COLOR.primary1}
                 />
               ))

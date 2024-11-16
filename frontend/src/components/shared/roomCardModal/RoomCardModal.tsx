@@ -87,7 +87,7 @@ const RoomCardModal = ({ isOpen, onClose, roomInfo }: RoomCardModalProps) => {
             <S.InfoTitle aria-hidden>총 인원</S.InfoTitle>
             <S.InfoContent aria-hidden>
               {roomInfo.reviewerCount + roomInfo.bothCount} / {roomInfo.limitedParticipants}명
-              <span id="sub">
+              <span className="sub">
                 리뷰어 {roomInfo.reviewerCount}, 참여자 {roomInfo.bothCount}
               </span>
             </S.InfoContent>

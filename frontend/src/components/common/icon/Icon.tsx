@@ -9,6 +9,7 @@ import {
 import { IoLogoGithub } from "react-icons/io";
 import { IconType } from "react-icons/lib";
 import {
+  MdAdd,
   MdArrowBackIos,
   MdArrowDropDown,
   MdArrowForwardIos,
@@ -16,10 +17,13 @@ import {
   MdCalendarMonth,
   MdCheck,
   MdClear,
+  MdDelete,
+  MdEdit,
   MdExpandMore,
   MdInfoOutline,
   MdInsertLink,
   MdMenu,
+  MdMoreHoriz,
   MdNotificationsNone,
   MdOutlineArrowDropDown,
   MdOutlineArrowDropUp,
@@ -37,7 +41,7 @@ const ICON: { [key in IconKind]: IconType } = {
   person: MdPerson,
   link: MdInsertLink,
   calendar: MdCalendarMonth,
-  plus: MdExpandMore,
+  more: MdExpandMore,
   info: MdInfoOutline,
   star: MdOutlineStar,
   people: MdOutlinePeopleAlt,
@@ -61,6 +65,10 @@ const ICON: { [key in IconKind]: IconType } = {
   githubLogo: IoLogoGithub,
   notificationBell: MdNotificationsNone,
   search: MdOutlineSearch,
+  add: MdAdd,
+  delete: MdDelete,
+  edit: MdEdit,
+  control: MdMoreHoriz,
 };
 
 interface IconProps {
