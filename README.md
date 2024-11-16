@@ -75,6 +75,7 @@
 # 기술 스택 소개
 
 ![dd](https://github.com/user-attachments/assets/a2411aee-bca9-4dc4-9332-87460e3e4f0f)
+![image (1)](https://github.com/user-attachments/assets/6b3d7fe8-7895-46bf-8eac-f0f6cda63e8b)
 
 <br>
 <br>
