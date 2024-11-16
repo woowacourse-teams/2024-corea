@@ -12,11 +12,9 @@ import corea.member.repository.MemberRepository;
 import corea.participation.domain.Participation;
 import corea.participation.repository.ParticipationRepository;
 import corea.room.domain.Room;
-import corea.room.dto.RoomResponse;
 import corea.room.dto.RoomResponses;
 import corea.room.repository.RoomRepository;
 import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -31,6 +29,9 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 class RoomDetailsInquiryControllerTest extends BaseControllerTest {
 
     @Autowired
+    private RoomRepository roomRepository;
+
+    @Autowired
     private MemberRepository memberRepository;
 
     @Autowired
@@ -38,42 +39,35 @@ class RoomDetailsInquiryControllerTest extends BaseControllerTest {
 
     private Member manager;
     private String managerAccessToken;
-    private RoomResponse createdRoom;
 
     @BeforeEach
     void setUp() {
         manager = memberRepository.save(MemberFixture.MEMBER_PORORO());
         managerAccessToken = tokenService.createAccessToken(manager);
-
-        createdRoom = createRoom(managerAccessToken);
-    }
-
-    private RoomResponse createRoom(String accessToken) {
-        return RestAssured.given().log().all()
-                .auth().oauth2(accessToken)
-                .contentType(ContentType.JSON)
-                .body(RoomFixture.ROOM_CREATE_REQUEST())
-                .when().post("/rooms")
-                .then().log().all()
-                .statusCode(201)
-                .extract().as(RoomResponse.class);
     }
 
     @Nested
     @DisplayName("방 하나를 조회할 수 있다.")
     class RoomReader {
 
+        private Room createdRoom;
+
+        @BeforeEach
+        void setUp() {
+            createdRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
+        }
+
         @Test
         @DisplayName("로그인하지 않은 사용자가 방에 대한 정보를 조회할 수 있다.")
         void roomWithoutLogin() {
-            Response response = readRoom(Constants.ANONYMOUS, createdRoom.id());
+            Response response = readRoom(Constants.ANONYMOUS, createdRoom.getId());
             assertThat(response.statusCode()).isEqualTo(200);
         }
 
         @Test
         @DisplayName("로그인한 사용자가 방에 대한 정보를 조회할 수 있다.")
         void roomWithLogin() {
-            Response response = readRoom(managerAccessToken, createdRoom.id());
+            Response response = readRoom(managerAccessToken, createdRoom.getId());
             assertThat(response.statusCode()).isEqualTo(200);
         }
 
@@ -98,10 +92,16 @@ class RoomDetailsInquiryControllerTest extends BaseControllerTest {
     class ParticipatedRooms {
 
         @Autowired
-        private RoomRepository roomRepository;
-
-        @Autowired
         private ParticipationRepository participationRepository;
+
+        @BeforeEach
+        void setUp() {
+            Room openedRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
+            participationRepository.save(new Participation(openedRoom, manager, MemberRole.BOTH, 2));
+
+            Room closedRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_CLOSED(manager));
+            participationRepository.save(new Participation(closedRoom, manager, MemberRole.BOTH, 2));
+        }
 
         @Test
         @DisplayName("비로그인 사용자는 참여중인 방들을 조회할 수 없다.")
@@ -113,10 +113,6 @@ class RoomDetailsInquiryControllerTest extends BaseControllerTest {
         @Test
         @DisplayName("참여했던 방을 제외하고, 현재 참여중인 방을 조회할 수 있다.")
         void readParticipatedRooms_excludeClosed() {
-            Member movin = memberRepository.save(MemberFixture.MEMBER_MOVIN());
-            Room savedRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_CLOSED(movin));
-            participationRepository.save(new Participation(savedRoom, manager, MemberRole.BOTH, 2));
-
             Response response = readParticipatedRooms(managerAccessToken, false);
             RoomResponses rooms = response.as(RoomResponses.class);
 
@@ -129,10 +125,6 @@ class RoomDetailsInquiryControllerTest extends BaseControllerTest {
         @Test
         @DisplayName("참여했던 방을 포함하고, 현재 참여중인 방을 조회할 수 있다.")
         void readParticipatedRooms_includeClosed() {
-            Member movin = memberRepository.save(MemberFixture.MEMBER_MOVIN());
-            Room savedRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_CLOSED(movin));
-            participationRepository.save(new Participation(savedRoom, manager, MemberRole.BOTH, 2));
-
             Response response = readParticipatedRooms(managerAccessToken, true);
             RoomResponses rooms = response.as(RoomResponses.class);
 

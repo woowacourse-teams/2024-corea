@@ -7,7 +7,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 public abstract class BaseControllerTest {
 
     @LocalServerPort
-    protected int port;
+    private int port;
 
     @BeforeEach
     void setupPort() {
