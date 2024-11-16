@@ -14,7 +14,7 @@ import { Classification, CreateRoomInfo, RoomInfo } from "@/@types/roomInfo";
 import MESSAGES from "@/constants/message";
 import { ErrorText } from "@/styles/common";
 import { formatCombinedDateTime } from "@/utils/dateFormatter";
-import validators from "@/utils/roomInputValidator";
+import { validateForm, validators } from "@/utils/roomInputValidator";
 
 const dropdownItems: DropdownItem[] = [
   { text: "안드로이드", value: "ANDROID" },
@@ -48,18 +48,6 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
   const [formState, setFormState] = useState<CreateRoomInfo>(() => getInitialFormState(data));
   const { postCreateRoomMutation, putEditRoomMutation } = useMutateRoom();
   const { isModalOpen, handleOpenModal, handleCloseModal } = useModal();
-
-  const isFormValid =
-    validators.title(formState.title) === "" &&
-    validators.classification(formState.classification) === "" &&
-    validators.content(formState.content) === "" &&
-    validators.repositoryLink(formState.repositoryLink) === "" &&
-    validators.thumbnailLink(formState.thumbnailLink) === "" &&
-    validators.keywords(formState.keywords) === "" &&
-    validators.matchingSize(formState.matchingSize) === "" &&
-    validators.limitedParticipants(formState.limitedParticipants, formState.matchingSize) === "" &&
-    validators.recruitmentDeadline(formState.recruitmentDeadline) === "" &&
-    validators.reviewDeadline(formState.reviewDeadline, formState.recruitmentDeadline) === "";
 
   const handleInputChange = <K extends keyof CreateRoomInfo>(name: K, value: CreateRoomInfo[K]) => {
     setFormState((prevState) => ({
@@ -360,7 +348,7 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
 
         <Button
           onClick={() => {
-            if (isFormValid) handleOpenModal();
+            if (validateForm(formState)) handleOpenModal();
             setIsClickedButton(true);
           }}
         >
