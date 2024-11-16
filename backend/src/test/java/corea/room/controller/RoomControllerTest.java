@@ -1,11 +1,13 @@
 package corea.room.controller;
 
+import config.BaseControllerTest;
 import config.ControllerTest;
 import corea.auth.service.TokenService;
 import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
 import corea.global.config.Constants;
 import corea.member.domain.Member;
+import corea.member.domain.MemberRole;
 import corea.member.repository.MemberRepository;
 import corea.room.domain.Room;
 import corea.room.dto.RoomResponse;
@@ -22,7 +24,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.web.server.LocalServerPort;
 
 import java.util.Optional;
 
@@ -30,10 +31,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 @ControllerTest
-class RoomControllerTest {
-
-    @LocalServerPort
-    private int port;
+class RoomControllerTest extends BaseControllerTest {
 
     @Autowired
     private RoomRepository roomRepository;
@@ -54,8 +52,6 @@ class RoomControllerTest {
 
     @BeforeEach
     void setUp() {
-        RestAssured.port = port;
-
         Member manager = memberRepository.save(MemberFixture.MEMBER_PORORO());
         managerAccessToken = tokenService.createAccessToken(manager);
     }
@@ -93,9 +89,9 @@ class RoomControllerTest {
         void reviewer() {
             RoomResponse createdRoom = getCreatedRoomResponse(managerAccessToken);
 
-            long reviewerCount = createdRoom.reviewerCount();
+            MemberRole memberRole = createdRoom.memberRole();
 
-            assertThat(reviewerCount).isEqualTo(1);
+            assertThat(memberRole).isEqualTo(MemberRole.REVIEWER);
         }
 
         @Test
