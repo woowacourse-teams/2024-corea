@@ -69,26 +69,15 @@ class DevelopFeedbackServiceTest {
         ));
     }
 
+    //@Transactional
     @Test
-    @Transactional
     @DisplayName("개발(리뷰어->리뷰이) 대한 피드백 내용을 생성한다.")
     void create() {
-        Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
-        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
-        Member deliver = memberRepository.save(MemberFixture.MEMBER_PORORO());
-        Member receiver = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
-        MatchResult matchResult = matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(
-                room.getId(),
-                deliver,
-                receiver
-        ));
-
         assertThatCode(() -> developFeedbackService.create(room.getId(), deliver.getId(), createRequest(receiver.getId())))
                 .doesNotThrowAnyException();
         assertThat(matchResult.isReviewerCompletedFeedback()).isTrue();
     }
 
-    @Transactional
     //@Transactional
     @Test
     @DisplayName("개발 피드백이 작성되면 리뷰이에게 알람이 생성된다.")
@@ -105,19 +94,10 @@ class DevelopFeedbackServiceTest {
         );
     }
 
+    //@Transactional
     @Test
     @DisplayName("방이 close 상태가 아닐 때 피드백을 작성하면, 피드백 받은 개수가 증가하지 않는다")
     void notUpdateFeedbackPoint() {
-        Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
-        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
-        Member deliver = memberRepository.save(MemberFixture.MEMBER_PORORO());
-        Member receiver = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
-        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(
-                room.getId(),
-                deliver,
-                receiver
-        ));
-
         developFeedbackService.create(room.getId(), deliver.getId(), createRequest(receiver.getId()));
 
         Profile profile = receiver.getProfile();
@@ -128,17 +108,14 @@ class DevelopFeedbackServiceTest {
     @Test
     @DisplayName("방이 close 상태일 때 피드백을 작성하면, 피드백 받은 개수가 바로 증가한다.")
     void updateFeedbackPoint() {
-        Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
-        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_CLOSED(manager));
-        Member deliver = memberRepository.save(MemberFixture.MEMBER_PORORO());
-        Member receiver = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
+        Room closedRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_CLOSED(manager));
         matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(
-                room.getId(),
+                closedRoom.getId(),
                 deliver,
                 receiver
         ));
 
-        developFeedbackService.create(room.getId(), deliver.getId(), createRequest(receiver.getId()));
+        developFeedbackService.create(closedRoom.getId(), deliver.getId(), createRequest(receiver.getId()));
 
         Profile profile = receiver.getProfile();
         assertThat(profile.getFeedbackCount()).isEqualTo(1);
@@ -147,10 +124,8 @@ class DevelopFeedbackServiceTest {
     @Test
     @DisplayName("개발(리뷰어 -> 리뷰이) 에 대한 매칭 결과가 없으면 예외를 발생한다.")
     void throw_exception_when_not_exist_match_result() {
-        Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
-        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
-        Member deliver = memberRepository.save(MemberFixture.MEMBER_PORORO());
-        Member receiver = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
+        Member deliver = memberRepository.save(MemberFixture.MEMBER_ASH());
+        Member receiver = memberRepository.save(MemberFixture.MEMBER_MOVIN());
 
         assertThatCode(() -> developFeedbackService.create(room.getId(), deliver.getId(), createRequest(receiver.getId())))
                 .asInstanceOf(InstanceOfAssertFactories.type(CoreaException.class))
@@ -161,16 +136,6 @@ class DevelopFeedbackServiceTest {
     @Test
     @DisplayName("개발(리뷰어 -> 리뷰이) 에 대한 피드백이 이미 있다면 피드백을 생성할 때 예외를 발생한다.")
     void throw_exception_when_already_feedback_exist() {
-        Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
-        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
-        Member deliver = memberRepository.save(MemberFixture.MEMBER_PORORO());
-        Member receiver = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
-        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(
-                room.getId(),
-                deliver,
-                receiver
-        ));
-
         developFeedbackService.create(room.getId(), deliver.getId(), createRequest(receiver.getId()));
 
         assertThatCode(() -> developFeedbackService.create(room.getId(), deliver.getId(), createRequest(receiver.getId())))
@@ -182,15 +147,6 @@ class DevelopFeedbackServiceTest {
     @Test
     @DisplayName("유저네임을 통해 방에 대한 자신의 리뷰이를 검색한다.")
     void findDevelopFeedback() {
-        Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
-        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
-        Member deliver = memberRepository.save(MemberFixture.MEMBER_PORORO());
-        Member receiver = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
-        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(
-                room.getId(),
-                deliver,
-                receiver
-        ));
         developFeedbackService.create(room.getId(), deliver.getId(), createRequest(receiver.getId()));
 
         DevelopFeedbackResponse response = developFeedbackService.findDevelopFeedback(room.getId(), deliver.getId(), receiver.getUsername());
@@ -200,15 +156,6 @@ class DevelopFeedbackServiceTest {
     @Test
     @DisplayName("개발(리뷰어 -> 리뷰이) 피드백 내용을 업데이트한다.")
     void update() {
-        Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
-        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
-        Member deliver = memberRepository.save(MemberFixture.MEMBER_PORORO());
-        Member receiver = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
-        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(
-                room.getId(),
-                deliver,
-                receiver
-        ));
         DevelopFeedbackResponse createResponse = developFeedbackService.create(room.getId(), deliver.getId(), createRequest(receiver.getId()));
         DevelopFeedbackResponse updateResponse = developFeedbackService.update(createResponse.feedbackId(), deliver.getId(), updateRequest());
 
@@ -218,16 +165,6 @@ class DevelopFeedbackServiceTest {
     @Test
     @DisplayName("없는 개발(리뷰어 -> 리뷰이) 피드백 내용을 업데이트시 예외를 발생한다.")
     void throw_exception_when_update_with_not_exist_feedback() {
-        Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
-        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
-        Member deliver = memberRepository.save(MemberFixture.MEMBER_PORORO());
-        Member receiver = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
-        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(
-                room.getId(),
-                deliver,
-                receiver
-        ));
-
         assertThatThrownBy(() -> developFeedbackService.update(room.getId(), deliver.getId(), updateRequest()))
                 .asInstanceOf(InstanceOfAssertFactories.type(CoreaException.class))
                 .extracting(CoreaException::getExceptionType)
@@ -237,16 +174,6 @@ class DevelopFeedbackServiceTest {
     @Test
     @DisplayName("개발(리뷰어 -> 리뷰이) 피드백 작성자가 아닌 사람이 업데이트시 예외를 발생한다.")
     void throw_exception_when_anonymous_updates_feedback() {
-        Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
-        Room room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
-        Member deliver = memberRepository.save(MemberFixture.MEMBER_PORORO());
-        Member receiver = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
-        matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(
-                room.getId(),
-                deliver,
-                receiver
-        ));
-
         DevelopFeedbackResponse createResponse = developFeedbackService.create(room.getId(), deliver.getId(), createRequest(receiver.getId()));
 
         assertThatThrownBy(() -> developFeedbackService.update(createResponse.feedbackId(), receiver.getId(), updateRequest()))
