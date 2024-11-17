@@ -5,4 +5,5 @@ public enum AlarmActionType {
     REVIEW_URGE,
     MATCH_COMPLETE,
     MATCH_FAIL,
+    FEEDBACK_CREATED,
 }
