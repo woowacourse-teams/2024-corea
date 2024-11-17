@@ -1,6 +1,9 @@
 package corea.feedback.service;
 
 import config.ServiceTest;
+import corea.alarm.domain.AlarmActionType;
+import corea.alarm.domain.AlarmsByActionType;
+import corea.alarm.domain.UserToUserAlarmReader;
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
 import corea.feedback.dto.DevelopFeedbackCreateRequest;
@@ -17,6 +20,7 @@ import corea.member.repository.MemberRepository;
 import corea.room.domain.Room;
 import corea.room.repository.RoomRepository;
 import org.assertj.core.api.InstanceOfAssertFactories;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +29,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ServiceTest
 class DevelopFeedbackServiceTest {
@@ -39,7 +45,29 @@ class DevelopFeedbackServiceTest {
     private MatchResultRepository matchResultRepository;
 
     @Autowired
+    private UserToUserAlarmReader userToUserAlarmReader;
+
+    @Autowired
     private DevelopFeedbackService developFeedbackService;
+
+    private Member manager;
+    private Room room;
+    private Member deliver;
+    private Member receiver;
+    private MatchResult matchResult;
+
+    @BeforeEach
+    void setUp() {
+        manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
+        room = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager));
+        deliver = memberRepository.save(MemberFixture.MEMBER_PORORO());
+        receiver = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
+        matchResult = matchResultRepository.save(MatchResultFixture.MATCH_RESULT_DOMAIN(
+                room.getId(),
+                deliver,
+                receiver
+        ));
+    }
 
     @Test
     @Transactional
@@ -61,6 +89,22 @@ class DevelopFeedbackServiceTest {
     }
 
     @Transactional
+    //@Transactional
+    @Test
+    @DisplayName("개발 피드백이 작성되면 리뷰이에게 알람이 생성된다.")
+    void create_alarm() {
+        assertThatCode(() -> developFeedbackService.create(room.getId(), deliver.getId(), createRequest(receiver.getId())))
+                .doesNotThrowAnyException();
+
+        long count = userToUserAlarmReader.countReceivedAlarm(receiver, false);
+        AlarmsByActionType alarms = userToUserAlarmReader.findAllByReceiver(receiver);
+
+        assertAll(
+                () -> assertThat(count).isOne(),
+                () -> assertTrue(alarms.data().containsKey(AlarmActionType.FEEDBACK_CREATED))
+        );
+    }
+
     @Test
     @DisplayName("방이 close 상태가 아닐 때 피드백을 작성하면, 피드백 받은 개수가 증가하지 않는다")
     void notUpdateFeedbackPoint() {
