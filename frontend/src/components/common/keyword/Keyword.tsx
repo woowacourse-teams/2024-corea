@@ -29,7 +29,7 @@ const Keyword = ({ currentKeywords, onKeywordsChange, error }: KeywordProps) => 
 
       if (trimmedKeyword === "") return;
 
-      if (currentKeywords.includes(trimmedKeyword)) {
+      if (trimmedKeyword.includes("⠀") || currentKeywords.includes(trimmedKeyword)) {
         setKeyword("");
         return;
       }
