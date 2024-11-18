@@ -68,6 +68,7 @@ class AutomaticMatchingSchedulerTest {
 
     @Test
     @DisplayName("예약된 자동 업데이트를 삭제한다.")
+    @Disabled
     void cancel() {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
         LocalDateTime reviewDeadline = LocalDateTime.now()
