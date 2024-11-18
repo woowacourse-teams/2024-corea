@@ -1,4 +1,5 @@
 import styled, { keyframes } from "styled-components";
+import { Z_INDEX } from "@/styles/zIndex";
 
 export const CallbackPageContainer = styled.div`
   display: flex;
@@ -41,6 +42,7 @@ export const LoadingContainer = styled.div`
   border-radius: 25px;
 
   p {
+    z-index: ${Z_INDEX.header};
     font: ${({ theme }) => theme.TEXT.medium_bold};
     color: ${({ theme }) => theme.COLOR.grey4};
   }
