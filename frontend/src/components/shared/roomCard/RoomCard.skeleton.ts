@@ -7,15 +7,15 @@ export const Wrapper = styled.div`
   border-radius: 15px;
 
   ${media.small`
-    height: 271px;
+    height: 344px;
   `}
 
   ${media.medium`
-    height: 291px;
+    height: 364px;
   `}
 
   ${media.large`
-    height: 311px;
+    height: 384px;
   `}
 
   ${SkeletonShimmer}
