@@ -61,6 +61,15 @@ const AlarmPage = () => {
       );
     }
 
+    if (actionType === "FEEDBACK_CREATED") {
+      return (
+        <>
+          <span>{username}</span> 님이 <span>{info}</span> 미션에 대해 <span>피드백을 작성</span>
+          했습니다.
+        </>
+      );
+    }
+
     return "";
   };
 
@@ -79,6 +88,10 @@ const AlarmPage = () => {
 
     if (actionType === "MATCH_FAIL") {
       return `/rooms/${interactionId}`;
+    }
+
+    if (actionType === "FEEDBACK_CREATED") {
+      return `/feedback`;
     }
     return "";
   };

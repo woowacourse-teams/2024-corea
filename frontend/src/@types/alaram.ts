@@ -1,4 +1,9 @@
-export type AlarmActionType = "REVIEW_COMPLETE" | "REVIEW_URGE" | "MATCH_COMPLETE" | "MATCH_FAIL";
+export type AlarmActionType =
+  | "REVIEW_COMPLETE"
+  | "REVIEW_URGE"
+  | "MATCH_COMPLETE"
+  | "MATCH_FAIL"
+  | "FEEDBACK_CREATED";
 
 export interface AlarmCount {
   count: number;
