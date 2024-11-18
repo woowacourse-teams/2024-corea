@@ -28,12 +28,16 @@ const Keyword = ({ currentKeywords, onKeywordsChange, error }: KeywordProps) => 
       const trimmedKeyword = keyword.trim();
 
       if (trimmedKeyword === "") return;
+
       if (currentKeywords.includes(trimmedKeyword)) {
         setKeyword("");
         return;
       }
-      onKeywordsChange([...currentKeywords, trimmedKeyword]);
-      setKeyword("");
+
+      if (e.nativeEvent.isComposing === false) {
+        onKeywordsChange([...currentKeywords, trimmedKeyword]);
+        setKeyword("");
+      }
     }
   };
 
