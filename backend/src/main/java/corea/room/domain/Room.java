@@ -51,9 +51,8 @@ public class Room extends BaseTimeEntity {
     @JoinColumn(name = "manager_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Member manager;
 
-    private LocalDateTime recruitmentDeadline;
-
-    private LocalDateTime reviewDeadline;
+    @Embedded
+    private RoomDeadline roomDeadline;
 
     @Enumerated(value = EnumType.STRING)
     private RoomClassification classification;
@@ -70,7 +69,7 @@ public class Room extends BaseTimeEntity {
     private RoomStatus status;
 
     public Room(String title, String content, int matchingSize, String repositoryLink, String thumbnailLink, List<String> keyword, int reviewerCount, int bothCount, int limitedParticipantsSize, Member manager, LocalDateTime recruitmentDeadline, LocalDateTime reviewDeadline, RoomClassification classification, RoomStatus status) {
-        this(null, title, content, matchingSize, repositoryLink, thumbnailLink, keyword, reviewerCount, bothCount, limitedParticipantsSize, manager, recruitmentDeadline, reviewDeadline, classification, status);
+        this(null, title, content, matchingSize, repositoryLink, thumbnailLink, keyword, reviewerCount, bothCount, limitedParticipantsSize, manager, new RoomDeadline(recruitmentDeadline, reviewDeadline), classification, status);
     }
 
     public void increaseReviewerCount() {
@@ -149,5 +148,13 @@ public class Room extends BaseTimeEntity {
 
     public String getManagerName() {
         return manager.getUsername();
+    }
+
+    public LocalDateTime getRecruitmentDeadline() {
+        return roomDeadline.getRecruitmentDeadline();
+    }
+
+    public LocalDateTime getReviewDeadline() {
+        return roomDeadline.getReviewDeadline();
     }
 }

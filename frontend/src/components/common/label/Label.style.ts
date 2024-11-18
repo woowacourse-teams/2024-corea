@@ -60,12 +60,7 @@ export const LabelWrapper = styled.div<LabelWrapperProps>`
         `;
       case "MANAGER":
         return css`
-          display: flex;
           gap: 0.4rem;
-
-          font: ${({ theme }) => theme.TEXT.small};
-          color: ${theme.COLOR.black};
-
           background-color: ${theme.COLOR.grey0};
           border: 1px solid ${theme.COLOR.grey0};
         `;
