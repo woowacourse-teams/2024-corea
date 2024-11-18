@@ -1,10 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import useMutateAlarm from "@/hooks/mutations/useMutateAlarm";
 import { useFetchAlarmList } from "@/hooks/queries/useFetchAlarm";
+import ContentSection from "@/components/common/contentSection/ContentSection";
 import Profile from "@/components/common/profile/Profile";
 import * as S from "@/pages/alarm/AlarmPage.style";
-import { AlarmItemData } from "@/@types/alaram";
-import { thinkingCharacter } from "@/assets";
+import { AlarmActionType, AlarmItemData } from "@/@types/alaram";
+import { mainLogo, thinkingCharacter } from "@/assets";
 import MESSAGES from "@/constants/message";
 import { formatTimeAgo } from "@/utils/dateFormatter";
 
@@ -25,7 +26,7 @@ const AlarmPage = () => {
   const { markAsRead } = useMutateAlarm();
   const alarmListData = data?.data;
 
-  const getAlarmMessage = (actionType: string, username: string, info: string) => {
+  const getAlarmMessage = (actionType: AlarmActionType, info: string, username?: string) => {
     if (actionType === "REVIEW_COMPLETE") {
       return (
         <>
@@ -43,15 +44,40 @@ const AlarmPage = () => {
         </>
       );
     }
+
+    if (actionType === "MATCH_COMPLETE") {
+      return (
+        <>
+          <span>{info}</span> 미션에 대해 <span>매칭이 완료</span> 됐습니다.
+        </>
+      );
+    }
+
+    if (actionType === "MATCH_FAIL") {
+      return (
+        <>
+          <span>{info}</span> 미션에 대해 <span>매칭이 실패</span> 했습니다.
+        </>
+      );
+    }
+
     return "";
   };
 
-  const getNavigationPath = (actionType: string, interactionId: number) => {
+  const getNavigationPath = (actionType: AlarmActionType, interactionId: number) => {
     if (actionType === "REVIEW_COMPLETE") {
       return `/rooms/${interactionId}`;
     }
 
     if (actionType === "REVIEW_URGE") {
+      return `/rooms/${interactionId}`;
+    }
+
+    if (actionType === "MATCH_COMPLETE") {
+      return `/rooms/${interactionId}`;
+    }
+
+    if (actionType === "MATCH_FAIL") {
       return `/rooms/${interactionId}`;
     }
     return "";
@@ -76,27 +102,27 @@ const AlarmPage = () => {
 
   return (
     <S.Layout>
-      <S.AlarmList>
-        {alarmListData?.map((alarm) => (
-          <S.AlarmItem
-            key={alarm.alarmId}
-            $isRead={alarm.isRead}
-            onClick={() => handleAlarmClick(alarm)}
-          >
-            {alarm.actor && (
+      <ContentSection title="알림 내역">
+        <S.AlarmList>
+          {alarmListData?.map((alarm) => (
+            <S.AlarmItem
+              key={alarm.alarmId}
+              $isRead={alarm.isRead}
+              onClick={() => handleAlarmClick(alarm)}
+            >
               <S.ProfileWrapper>
-                <Profile imgSrc={alarm.actor.thumbnailUrl} size={40} />
+                <Profile imgSrc={alarm.actor ? alarm.actor.thumbnailUrl : mainLogo} size={40} />
               </S.ProfileWrapper>
-            )}
-            <S.ContentWrapper>
-              <S.Content $isRead={alarm.isRead}>
-                {getAlarmMessage(alarm.actionType, alarm.actor.username, alarm.interaction.info)}
-              </S.Content>
-              <S.TimeStamp $isRead={alarm.isRead}>{formatTimeAgo(alarm.createAt)}</S.TimeStamp>
-            </S.ContentWrapper>
-          </S.AlarmItem>
-        ))}
-      </S.AlarmList>
+              <S.ContentWrapper>
+                <S.Content $isRead={alarm.isRead}>
+                  {getAlarmMessage(alarm.actionType, alarm.interaction.info, alarm.actor?.username)}
+                </S.Content>
+                <S.TimeStamp $isRead={alarm.isRead}>{formatTimeAgo(alarm.createAt)}</S.TimeStamp>
+              </S.ContentWrapper>
+            </S.AlarmItem>
+          ))}
+        </S.AlarmList>
+      </ContentSection>
     </S.Layout>
   );
 };
