@@ -1,4 +1,4 @@
-const GUIDANCE_MESSAGES = {
+const GUIDANCE_MESSAGES: Record<string, string> = {
   EMPTY_REVIEWER: "아직 리뷰어가 매칭되지 않았습니다!",
   EMPTY_REVIEWEE: "아직 리뷰이가 매칭되지 않았습니다!",
   FAIL_MATCHED: "매칭에 실패한 방입니다.",
@@ -16,7 +16,7 @@ const GUIDANCE_MESSAGES = {
   NO_ALARM_LIST: "표시할 알림이 없습니다.",
 };
 
-const ERROR_MESSAGES = {
+const ERROR_MESSAGES: Record<string, string> = {
   OFFLINE: "오프라인 상태입니다. 네트워크를 확인해주세요.",
 
   // auth
@@ -58,12 +58,12 @@ const ERROR_MESSAGES = {
   PUT_REVIEWER_FEEDBACK: "리뷰어 피드백 수정에 실패했습니다.",
   //피드백 모아보기
   GET_RECEIVED_FEEDBACK: "받은 피드백 불러오는 도중 에러가 발생하였습니다.",
-  GET_DELIVERED_FEEDBACK: "받은 피드백 불러오는 도중 에러가 발생하였습니다.",
+  GET_DELIVERED_FEEDBACK: "쓴 피드백 불러오는 도중 에러가 발생하였습니다.",
 
   // ranking
   GET_RANKING: "랭킹을 불러오는 도중 에러가 발생하였습니다.",
 
-  // alaram
+  // alarm
   GET_ALARM_COUNT: "읽지 않은 알림 개수를 불러오는 도중 에러가 발생하였습니다.",
   GET_ALARM_LIST: "알림 목록을 불러오는 도중 에러가 발생하였습니다.",
   POST_ALARM_CHECKED: "알림을 읽음 상태로 변경하기를 실패했습니다.",
@@ -73,7 +73,7 @@ const ERROR_MESSAGES = {
   BOUNDARY_API: "네트워크 에러가 발생했습니다.",
 };
 
-const SUCCESS_MESSAGES = {
+const SUCCESS_MESSAGES: Record<string, string> = {
   POST_REVIEW_COMPLETE: "정상적으로 코드리뷰를 완료했습니다.",
   POST_REVIEW_FEEDBACK: "정상적으로 피드백을 작성하였습니다.",
   POST_CREATE_ROOM: "정상적으로 방을 생성하였습니다.",

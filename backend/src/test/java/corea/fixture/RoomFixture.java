@@ -3,6 +3,7 @@ package corea.fixture;
 import corea.member.domain.Member;
 import corea.room.domain.Room;
 import corea.room.domain.RoomClassification;
+import corea.room.domain.RoomDeadline;
 import corea.room.domain.RoomStatus;
 import corea.room.dto.RoomCreateRequest;
 import corea.room.dto.RoomUpdateRequest;
@@ -14,7 +15,7 @@ import java.util.List;
 public class RoomFixture {
 
     public static Room ROOM_DOMAIN(Member member) {
-        return ROOM_DOMAIN(member, LocalDateTime.now(), RoomStatus.OPEN);
+        return ROOM_DOMAIN(member, LocalDateTime.now().plusHours(1), RoomStatus.OPEN);
     }
 
     public static Room ROOM_DOMAIN(Member member, LocalDateTime recruitmentDeadline) {
@@ -22,15 +23,15 @@ public class RoomFixture {
     }
 
     public static Room ROOM_DOMAIN_REVIEW_DEADLINE(Member member,LocalDateTime reviewDeadline) {
-        return ROOM_DOMAIN(member, LocalDateTime.now().plusDays(2),reviewDeadline, RoomStatus.OPEN);
+        return ROOM_DOMAIN(member, LocalDateTime.now().plusHours(1), reviewDeadline, RoomStatus.OPEN);
     }
 
     public static Room ROOM_DOMAIN_WITH_CLOSED(Member member) {
-        return ROOM_DOMAIN(member, LocalDateTime.now(), RoomStatus.CLOSE);
+        return ROOM_DOMAIN(member, LocalDateTime.now().plusHours(1), RoomStatus.CLOSE);
     }
 
     public static Room ROOM_DOMAIN_WITH_PROGRESS(Member member) {
-        return ROOM_DOMAIN(member, LocalDateTime.now(), RoomStatus.PROGRESS);
+        return ROOM_DOMAIN(member, LocalDateTime.now().plusHours(1), RoomStatus.PROGRESS);
     }
 
     public static Room ROOM_DOMAIN(Member member, LocalDateTime recruitmentDeadline, LocalDateTime reviewDeadline, RoomStatus status) {
@@ -140,8 +141,10 @@ public class RoomFixture {
                 17,
                 30,
                 member,
-                LocalDateTime.now(),
-                LocalDateTime.now().plusDays(14),
+                new RoomDeadline(
+                        LocalDateTime.now().plusHours(1),
+                        LocalDateTime.now().plusDays(14)
+                ),
                 RoomClassification.BACKEND,
                 RoomStatus.OPEN
         );

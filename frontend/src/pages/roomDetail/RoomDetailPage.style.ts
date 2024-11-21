@@ -22,6 +22,35 @@ export const ImgWithError = styled.div`
   }
 `;
 
+export const EditButtonWrapper = styled.div`
+  position: absolute;
+  top: 8px;
+  left: 100px;
+`;
+
+export const EditButton = styled.button`
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+
+  padding: 0.3rem 0.5rem;
+
+  color: ${({ theme }) => theme.COLOR.grey4};
+
+  background-color: ${({ theme }) => theme.COLOR.white};
+  border: 1px solid ${({ theme }) => theme.COLOR.grey4};
+  border-radius: 15px;
+
+  span {
+    font: ${({ theme }) => theme.TEXT.semiSmall};
+  }
+
+  &:hover {
+    color: ${({ theme }) => theme.COLOR.white};
+    background-color: ${({ theme }) => theme.COLOR.grey4};
+  }
+`;
+
 export const FeedbackContainer = styled.div`
   display: flex;
   gap: 2rem;

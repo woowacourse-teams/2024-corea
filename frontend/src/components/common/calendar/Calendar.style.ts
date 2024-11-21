@@ -1,8 +1,9 @@
 import styled from "styled-components";
+import { Z_INDEX } from "@/styles/zIndex";
 
 export const CalendarContainer = styled.section`
   position: absolute;
-  z-index: 999;
+  z-index: ${Z_INDEX.dropdown};
 
   width: 400px;
   padding: 2rem;

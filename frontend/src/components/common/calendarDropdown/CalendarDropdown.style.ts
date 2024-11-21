@@ -5,7 +5,7 @@ export const CalendarDropdownContainer = styled.section`
   width: 130px;
 `;
 
-export const CalendarDropdownToggle = styled.input`
+export const CalendarDropdownToggle = styled.input<{ $error: boolean }>`
   cursor: pointer;
 
   width: 100%;
@@ -15,7 +15,7 @@ export const CalendarDropdownToggle = styled.input`
   text-align: center;
   letter-spacing: 0.2rem;
 
-  border: 1px solid ${({ theme }) => theme.COLOR.grey1};
+  border: 1px solid ${({ theme, $error }) => ($error ? theme.COLOR.error : theme.COLOR.grey1)};
   border-radius: 6px;
   outline-color: ${({ theme }) => theme.COLOR.black};
 `;

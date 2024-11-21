@@ -1,11 +1,7 @@
 import styled from "styled-components";
 
 export const TextareaWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-  align-items: flex-end;
-
+  position: relative;
   width: 100%;
 `;
 
@@ -40,6 +36,10 @@ export const StyledTextarea = styled.textarea<{ $error: boolean }>`
 `;
 
 export const CharCount = styled.div`
+  position: absolute;
+  right: 0;
+  bottom: -20px;
+
   font: ${({ theme }) => theme.TEXT.xSmall};
   color: ${({ theme }) => theme.COLOR.grey2};
 `;

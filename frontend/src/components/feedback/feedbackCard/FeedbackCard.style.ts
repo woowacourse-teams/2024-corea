@@ -33,7 +33,6 @@ export const Overlay = styled.div`
   pointer-events: auto;
 
   position: absolute;
-  z-index: 10;
   top: 60px;
   left: 0;
 
@@ -141,7 +140,6 @@ export const FeedbackKeyword = styled.div`
 `;
 
 export const FeedbackDetailContainer = styled.div`
-  overflow: hidden;
   display: flex;
   flex-direction: column;
   gap: 1.6rem;

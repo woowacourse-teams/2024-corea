@@ -3,9 +3,14 @@ import { EllipsisText, VisuallyHidden } from "@/styles/common";
 import media from "@/styles/media";
 
 export const RoomCardModalContainer = styled.div`
+  position: relative;
+
   display: flex;
   flex-direction: column;
   gap: 2rem;
+
+  width: 100%;
+  min-height: 100%;
 `;
 
 export const HeaderContainer = styled.div`
@@ -111,12 +116,12 @@ export const IconWrapper = styled.div`
 export const TitleContainer = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 1rem;
 `;
 
 export const RoomTitle = styled.h2`
-  overflow: hidden;
-  margin-bottom: 1rem;
   font: ${({ theme }) => theme.TEXT.large_bold};
+  ${EllipsisText}
 `;
 
 export const RepositoryLink = styled.div`
@@ -166,9 +171,9 @@ export const InfoTitle = styled.span`
 export const InfoContent = styled.span`
   font: ${({ theme }) => theme.TEXT.small};
 
-  span#sub {
+  span.sub {
     padding-left: 1rem;
-    font: ${({ theme }) => theme.TEXT.small};
+    font: ${({ theme }) => theme.TEXT.semiSmall};
     color: ${({ theme }) => theme.COLOR.grey3};
   }
 `;
@@ -209,7 +214,18 @@ export const NoKeywordText = styled.span`
   color: ${({ theme }) => theme.COLOR.grey2};
 `;
 
-// 버튼
+export const ButtonWRapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: auto;
+`;
+
+export const ScreenReader = styled.div`
+  ${VisuallyHidden}
+`;
+
+// RoomCardModalButton
 export const ButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -263,16 +279,6 @@ export const MatchingSizeContainer = styled.div`
   }
 `;
 
-export const ButtonWRapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-export const ScreenReader = styled.div`
-  ${VisuallyHidden}
-`;
-
-export const ReviewCount = styled.span`
+export const MatchingSize = styled.span`
   font-size: ${({ theme }) => theme.TEXT.semiSmall};
 `;
