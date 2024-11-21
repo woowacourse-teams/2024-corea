@@ -22,5 +22,7 @@ export const useFetchAlarmList = () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.ALARM_COUNT] });
       return result;
     },
+    refetchInterval: 60000,
+    refetchIntervalInBackground: false,
   });
 };
