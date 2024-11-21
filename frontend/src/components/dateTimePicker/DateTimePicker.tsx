@@ -8,9 +8,15 @@ interface DateTimePickerProps {
     disabledBeforeDate?: Date;
     isPastDateDisabled: boolean;
   };
+  error: boolean;
 }
 
-const DateTimePicker = ({ selectedDateTime, options, onDateTimeChange }: DateTimePickerProps) => {
+const DateTimePicker = ({
+  selectedDateTime,
+  onDateTimeChange,
+  options,
+  error,
+}: DateTimePickerProps) => {
   const handleDateChange = (newDate: Date) => {
     const updatedDateTime = new Date(newDate);
     updatedDateTime.setHours(selectedDateTime.getHours());
@@ -26,14 +32,15 @@ const DateTimePicker = ({ selectedDateTime, options, onDateTimeChange }: DateTim
   };
 
   return (
-    <>
+    <div style={{ display: "flex", gap: "1rem" }}>
       <CalendarDropdown
         selectedDate={selectedDateTime}
         handleSelectedDate={handleDateChange}
         options={options}
+        error={error}
       />
-      <TimeDropdown selectedTime={selectedDateTime} onTimeChange={handleTimeChange} />
-    </>
+      <TimeDropdown selectedTime={selectedDateTime} onTimeChange={handleTimeChange} error={error} />
+    </div>
   );
 };
 

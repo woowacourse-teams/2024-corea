@@ -1,9 +1,7 @@
-import { useNavigate, useParams } from "react-router-dom";
-import useModal from "@/hooks/common/useModal";
-import useMutateRoom from "@/hooks/mutations/useMutateRoom";
+import { useParams } from "react-router-dom";
 import { useFetchDetailRoomInfo } from "@/hooks/queries/useFetchRooms";
 import ContentSection from "@/components/common/contentSection/ContentSection";
-import ConfirmModal from "@/components/common/modal/confirmModal/ConfirmModal";
+import ControlButton from "@/components/roomDetailPage/controlButton/ControlButton";
 import FeedbackProcessInfo from "@/components/roomDetailPage/feedbackProcessInfo/FeedbackProcessInfo";
 import MyReviewee from "@/components/roomDetailPage/myReviewee/MyReviewee";
 import MyReviewer from "@/components/roomDetailPage/myReviewer/MyReviewer";
@@ -11,50 +9,16 @@ import ParticipantList from "@/components/roomDetailPage/participantList/Partici
 import RoomInfoCard from "@/components/roomDetailPage/roomInfoCard/RoomInfoCard";
 import * as S from "@/pages/roomDetail/RoomDetailPage.style";
 import { defaultCharacter } from "@/assets";
-import MESSAGES from "@/constants/message";
 
 const RoomDetailPage = () => {
-  const navigate = useNavigate();
   const params = useParams();
   const roomId = params.id ? Number(params.id) : 0;
-  const { isModalOpen, handleOpenModal, handleCloseModal } = useModal();
   const { data: roomInfo } = useFetchDetailRoomInfo(roomId);
-  const { deleteParticipateInMutation, deleteParticipatedRoomMutation } = useMutateRoom();
-
-  const handleCancelParticipateInClick = () => {
-    deleteParticipateInMutation.mutate(roomInfo.id, {
-      onSuccess: () => navigate("/"),
-    });
-  };
-
-  const handleDeleteRoomClick = () => {
-    deleteParticipatedRoomMutation.mutate(roomInfo.id, {
-      onSuccess: () => navigate("/"),
-    });
-  };
-
-  const handleConfirm = () => {
-    if (roomInfo.participationStatus === "MANAGER") {
-      handleDeleteRoomClick();
-      return;
-    }
-    handleCancelParticipateInClick();
-  };
-
-  const buttonProps =
-    roomInfo.roomStatus === "OPEN" && roomInfo.participationStatus !== "NOT_PARTICIPATED"
-      ? {
-          button: {
-            label: roomInfo.participationStatus === "MANAGER" ? "방 삭제하기" : "방 나가기",
-            onClick: handleOpenModal,
-          },
-        }
-      : {};
 
   if (roomInfo.participationStatus === "NOT_PARTICIPATED") {
     return (
       <S.Layout>
-        <ContentSection title="미션 정보" {...buttonProps}>
+        <ContentSection title="미션 정보">
           <RoomInfoCard roomInfo={roomInfo} />
         </ContentSection>
 
@@ -69,7 +33,7 @@ const RoomDetailPage = () => {
   if (roomInfo.roomStatus === "FAIL") {
     return (
       <S.Layout>
-        <ContentSection title="미션 정보" {...buttonProps}>
+        <ContentSection title="미션 정보">
           <RoomInfoCard roomInfo={roomInfo} />
         </ContentSection>
 
@@ -83,18 +47,15 @@ const RoomDetailPage = () => {
 
   return (
     <S.Layout>
-      <ConfirmModal
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        onConfirm={handleConfirm}
-        onCancel={handleCloseModal}
+      <ContentSection
+        title="미션 정보"
+        controlSection={
+          roomInfo.roomStatus === "OPEN" &&
+          ["PARTICIPATED", "MANAGER"].includes(roomInfo.participationStatus) ? (
+            <ControlButton roomInfo={roomInfo} participationStatus={roomInfo.participationStatus} />
+          ) : undefined
+        }
       >
-        {roomInfo.participationStatus === "MANAGER"
-          ? MESSAGES.GUIDANCE.DELETE_ROOM
-          : MESSAGES.GUIDANCE.EXIT_ROOM}
-      </ConfirmModal>
-
-      <ContentSection title="미션 정보" {...buttonProps}>
         <RoomInfoCard roomInfo={roomInfo} />
       </ContentSection>
 

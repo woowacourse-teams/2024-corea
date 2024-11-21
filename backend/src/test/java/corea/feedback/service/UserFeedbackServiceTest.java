@@ -103,8 +103,8 @@ class UserFeedbackServiceTest {
     void getDeliveredFeedback() {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
         LocalDateTime now = LocalDateTime.now();
-        Room room1 = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager, now, now.plusDays(1), RoomStatus.CLOSE));
-        Room room2 = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager, now, now.plusDays(2), RoomStatus.CLOSE));
+        Room room1 = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager, now.plusHours(1), now.plusDays(1), RoomStatus.CLOSE));
+        Room room2 = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager, now.plusHours(1), now.plusDays(2), RoomStatus.CLOSE));
         Member member1 = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member member2 = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
 
@@ -175,8 +175,8 @@ class UserFeedbackServiceTest {
     void getReceivedFeedback2() {
         Member manager = memberRepository.save(MemberFixture.MEMBER_ROOM_MANAGER_JOYSON());
         LocalDateTime now = LocalDateTime.now();
-        Room room1 = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager, now, now.plusDays(1), RoomStatus.CLOSE));
-        Room room2 = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager, now, now.plusDays(2), RoomStatus.CLOSE));
+        Room room1 = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager, now.plusHours(1), now.plusDays(1), RoomStatus.CLOSE));
+        Room room2 = roomRepository.save(RoomFixture.ROOM_DOMAIN(manager, now.plusHours(1), now.plusDays(2), RoomStatus.CLOSE));
         Member member1 = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member member2 = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
 
@@ -196,7 +196,7 @@ class UserFeedbackServiceTest {
 
     private void saveRevieweeToReviewer(long roomId, Member reviewee, Member reviewer) {
         socialFeedbackRepository.save(
-                new SocialFeedback(null, roomId, reviewer, reviewee, 4, List.of(FeedbackKeyword.REVIEW_FAST, FeedbackKeyword.KIND), "유용한 정보들이 많았어요")
+                new SocialFeedback(null, roomId, reviewer, reviewee, 4, List.of(FeedbackKeyword.POSITIVE_SOCIAL_FEEDBACK_4, FeedbackKeyword.POSITIVE_SOCIAL_FEEDBACK_1), "유용한 정보들이 많았어요")
         );
     }
 

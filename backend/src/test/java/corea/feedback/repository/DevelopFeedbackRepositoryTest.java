@@ -37,7 +37,7 @@ class DevelopFeedbackRepositoryTest {
 
         Member deliver = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member receiver = memberRepository.save(MemberFixture.MEMBER_MOVIN());
-        List<FeedbackKeyword> feedbackKeywords = List.of(FeedbackKeyword.MAKE_CODE_FOR_THE_PURPOSE, FeedbackKeyword.RESPONSE_FAST);
+        List<FeedbackKeyword> feedbackKeywords = List.of(FeedbackKeyword.POSITIVE_DEVELOP_FEEDBACK_1, FeedbackKeyword.POSITIVE_DEVELOP_FEEDBACK_2);
         DevelopFeedback feedback = new DevelopFeedback(room.getId(), deliver, receiver, 3, feedbackKeywords, "", 3);
         developFeedbackRepository.save(feedback);
 

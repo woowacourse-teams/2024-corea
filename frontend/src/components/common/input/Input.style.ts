@@ -18,7 +18,7 @@ export const StyledInput = styled.input<{ $error: boolean }>`
 
 export const CharCount = styled.div`
   position: absolute;
-  right: 10px;
+  right: 0;
   bottom: -20px;
 
   font: ${({ theme }) => theme.TEXT.xSmall};

@@ -59,6 +59,17 @@ public class AlarmService {
     }
 
     @Transactional
+    public void createFeedbackAlarm(long deliverId, long receiverId, long roomId) {
+        try {
+            CreateUserToUserAlarmInput input = new CreateUserToUserAlarmInput(AlarmActionType.FEEDBACK_CREATED, deliverId, receiverId, roomId);
+            userToUserAlarmWriter.create(input.toEntity());
+        } catch (Exception e) {
+            log.warn("피드백 작성 알림 생성을 실패했습니다. 작성자 ID={},수신자 ID={},방 ID={}",
+                    deliverId, receiverId, roomId);
+        }
+    }
+
+    @Transactional
     public void createMatchingCompletedAlarm(long roomId) {
         participationReader.findAllByRoomId(roomId).stream()
                 .map(Participation::getMember)

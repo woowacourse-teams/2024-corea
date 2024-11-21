@@ -31,10 +31,12 @@ public class RoomInquiryService {
     private final RoomRepository roomRepository;
     private final ParticipationRepository participationRepository;
     private final RoomMatchReader roomMatchReader;
+    private final RoomSortStrategyFactory roomSortStrategyFactory;
 
     public RoomSearchResponses search(long memberId, RoomStatus status, RoomClassification classification, String keywordTitle) {
         Specification<Room> spec = getSearchSpecification(status, classification, keywordTitle);
-        List<Room> rooms = roomReader.findAll(spec);
+        RoomSortStrategy roomSortStrategy = roomSortStrategyFactory.getRoomSortStrategy(status);
+        List<Room> rooms = roomReader.findAll(spec, roomSortStrategy);
 
         List<RoomResponse> roomResponses = getRoomResponses(rooms, memberId);
         return RoomSearchResponses.of(roomResponses);
@@ -58,12 +60,13 @@ public class RoomInquiryService {
 
     private Page<Room> getPaginatedRooms(int pageNumber, String expression, RoomStatus status) {
         RoomClassification classification = RoomClassification.from(expression);
-        PageRequest pageRequest = PageRequest.of(pageNumber, PAGE_DISPLAY_SIZE);
+        RoomSortStrategy roomSortStrategy = roomSortStrategyFactory.getRoomSortStrategy(status);
+        PageRequest pageRequest = PageRequest.of(pageNumber, PAGE_DISPLAY_SIZE, roomSortStrategy.toSort());
 
         if (classification.isAll()) {
-            return roomRepository.findAllByStatusOrderByRecruitmentDeadline(status, pageRequest);
+            return roomRepository.findAllByStatus(status, pageRequest);
         }
-        return roomRepository.findAllByClassificationAndStatusOrderByRecruitmentDeadline(classification, status, pageRequest);
+        return roomRepository.findAllByClassificationAndStatus(classification, status, pageRequest);
     }
 
     private List<RoomResponse> getRoomResponses(List<Room> rooms, long memberId) {
