@@ -1,5 +1,6 @@
 package corea.alarm.domain;
 
+import corea.alarm.repository.UserToUserAlarmRepository;
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
 import corea.global.annotation.Reader;
@@ -28,8 +29,8 @@ public class UserToUserAlarmReader {
                 .orElseThrow(() -> new CoreaException(ExceptionType.NOT_RECEIVED_ALARM));
     }
 
-    public UserAlarmsByActionType findAllByReceiver(Member member) {
-        return new UserAlarmsByActionType(userToUserAlarmRepository.findAllByReceiverId(member.getId())
+    public AlarmsByActionType findAllByReceiver(Member member) {
+        return new AlarmsByActionType(userToUserAlarmRepository.findAllByReceiverId(member.getId())
                 .stream()
                 .collect(Collectors.groupingBy(
                         UserToUserAlarm::getAlarmActionType,

@@ -6,12 +6,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public record UserAlarmsByActionType(Map<AlarmActionType, List<UserToUserAlarm>> data) {
+public record AlarmsByActionType(Map<AlarmActionType, List<Alarm>> data) {
+
     public Set<Long> getActorIds() {
         return data.values()
                 .stream()
                 .flatMap(Collection::stream)
-                .map(UserToUserAlarm::getActorId)
+                .map(Alarm::getActorId)
                 .collect(Collectors.toSet());
     }
 
@@ -20,11 +21,11 @@ public record UserAlarmsByActionType(Map<AlarmActionType, List<UserToUserAlarm>>
                 .stream()
                 .flatMap(Collection::stream)
                 //.filter(alarm -> alarm.getAlarmActionType() == AlarmActionType.REVIEW_COMPLETE)
-                .map(UserToUserAlarm::getInteractionId)
+                .map(Alarm::getInteractionId)
                 .collect(Collectors.toSet());
     }
 
-    public List<UserToUserAlarm> getList() {
+    public List<Alarm> getList() {
         return data.values()
                 .stream()
                 .flatMap(Collection::stream)

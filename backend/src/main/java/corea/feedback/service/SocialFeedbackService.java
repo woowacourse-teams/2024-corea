@@ -1,5 +1,6 @@
 package corea.feedback.service;
 
+import corea.alarm.service.AlarmService;
 import corea.feedback.domain.SocialFeedback;
 import corea.feedback.domain.SocialFeedbackReader;
 import corea.feedback.domain.SocialFeedbackWriter;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class SocialFeedbackService {
 
+    private final AlarmService alarmService;
     private final SocialFeedbackReader socialFeedbackReader;
     private final SocialFeedbackWriter socialFeedbackWriter;
     private final MatchResultWriter matchResultWriter;
@@ -25,10 +27,14 @@ public class SocialFeedbackService {
 
     @Transactional
     public SocialFeedbackResponse create(long roomId, long deliverId, SocialFeedbackCreateRequest request) {
-        MatchResult matchResult = matchResultWriter.completeSocialFeedback(roomId, deliverId, request.receiverId());
+        long receiverId = request.receiverId();
+
+        MatchResult matchResult = matchResultWriter.completeSocialFeedback(roomId, deliverId, receiverId);
 
         SocialFeedback feedback = request.toEntity(roomId, matchResult.getReviewee(), matchResult.getReviewer());
-        SocialFeedback createdFeedback = socialFeedbackWriter.create(feedback, roomId, deliverId, request.receiverId());
+        SocialFeedback createdFeedback = socialFeedbackWriter.create(feedback, roomId, deliverId, receiverId);
+
+        alarmService.createFeedbackAlarm(deliverId, receiverId, roomId);
 
         return SocialFeedbackResponse.from(createdFeedback);
     }

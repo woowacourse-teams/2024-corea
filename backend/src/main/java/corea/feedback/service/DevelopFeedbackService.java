@@ -1,5 +1,6 @@
 package corea.feedback.service;
 
+import corea.alarm.service.AlarmService;
 import corea.feedback.domain.DevelopFeedback;
 import corea.feedback.domain.DevelopFeedbackReader;
 import corea.feedback.domain.DevelopFeedbackWriter;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class DevelopFeedbackService {
 
+    private final AlarmService alarmService;
     private final DevelopFeedbackReader developFeedbackReader;
     private final DevelopFeedbackWriter developFeedbackWriter;
     private final MatchResultWriter matchResultWriter;
@@ -25,10 +27,14 @@ public class DevelopFeedbackService {
 
     @Transactional
     public DevelopFeedbackResponse create(long roomId, long deliverId, DevelopFeedbackCreateRequest request) {
-        MatchResult matchResult = matchResultWriter.completeDevelopFeedback(roomId, deliverId, request.receiverId());
+        long receiverId = request.receiverId();
+
+        MatchResult matchResult = matchResultWriter.completeDevelopFeedback(roomId, deliverId, receiverId);
 
         DevelopFeedback feedback = request.toEntity(roomId, matchResult.getReviewer(), matchResult.getReviewee());
-        DevelopFeedback createdFeedback = developFeedbackWriter.create(feedback, roomId, deliverId, request.receiverId());
+        DevelopFeedback createdFeedback = developFeedbackWriter.create(feedback, roomId, deliverId, receiverId);
+
+        alarmService.createFeedbackAlarm(deliverId, receiverId, roomId);
 
         return DevelopFeedbackResponse.from(createdFeedback);
     }
