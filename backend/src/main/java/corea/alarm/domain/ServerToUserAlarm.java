@@ -14,7 +14,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class UserToUserAlarm extends BaseTimeEntity implements Alarm {
+public class ServerToUserAlarm extends BaseTimeEntity implements Alarm {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -23,25 +23,14 @@ public class UserToUserAlarm extends BaseTimeEntity implements Alarm {
     @Enumerated(EnumType.STRING)
     private AlarmActionType alarmActionType;
 
-    /**
-     * C 라는 방에서 A 가 코드 리뷰를 B 에게 완료했다.
-     * A 의 ID 가 actorId, B 의 ID 가 receiverId
-     * C 의 ID 가 interactionId
-     */
-    private Long actorId;
-
     private Long receiverId;
 
     private Long interactionId;
 
     private boolean isRead;
 
-    public UserToUserAlarm(AlarmActionType alarmActionType, long actorId, long receiverId, long interactionId, boolean isRead) {
-        this(null, alarmActionType, actorId, receiverId, interactionId, isRead);
-    }
-
-    public boolean isUrgeAlarm() {
-        return alarmActionType == AlarmActionType.REVIEW_URGE;
+    public ServerToUserAlarm(AlarmActionType alarmActionType, long receiverId, long interactionId, boolean isRead) {
+        this(null, alarmActionType, receiverId, interactionId, isRead);
     }
 
     @Override
@@ -52,6 +41,11 @@ public class UserToUserAlarm extends BaseTimeEntity implements Alarm {
     @Override
     public String getActionType() {
         return alarmActionType.name();
+    }
+
+    @Override
+    public Long getActorId() {
+        return null;
     }
 
     @Override

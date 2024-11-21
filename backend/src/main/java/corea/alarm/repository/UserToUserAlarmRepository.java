@@ -1,5 +1,6 @@
-package corea.alarm.domain;
+package corea.alarm.repository;
 
+import corea.alarm.domain.UserToUserAlarm;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

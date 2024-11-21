@@ -60,9 +60,9 @@ class ProfileServiceTest {
 
     private List<FeedbackKeyword> getFeedbackKeywords() {
         return List.of(
-                FeedbackKeyword.MAKE_CODE_FOR_THE_PURPOSE,
-                FeedbackKeyword.EASY_TO_UNDERSTAND_THE_CODE,
-                FeedbackKeyword.RESPONSE_FAST
+                FeedbackKeyword.POSITIVE_DEVELOP_FEEDBACK_1,
+                FeedbackKeyword.POSITIVE_DEVELOP_FEEDBACK_2,
+                FeedbackKeyword.POSITIVE_DEVELOP_FEEDBACK_3
         );
     }
 }

@@ -1,6 +1,7 @@
 package corea.alarm.dto;
 
 import corea.alarm.domain.AlarmType;
+import corea.alarm.domain.ServerToUserAlarm;
 import corea.alarm.domain.UserToUserAlarm;
 import corea.member.domain.Member;
 import corea.room.domain.Room;
@@ -31,7 +32,13 @@ public record AlarmResponse(
         String alarmType
 ) {
 
-    public static AlarmResponse from(UserToUserAlarm alarm, Member member, Room room) {
-        return new AlarmResponse(alarm.getId(), alarm.getActionType(), MemberResponse.from(member), InteractionResponse.from(room), alarm.isRead(), alarm.getCreateAt(), AlarmType.USER.name());
+    public static AlarmResponse of(UserToUserAlarm alarm, Member member, Room room) {
+        return new AlarmResponse(alarm.getId(), alarm.getActionType(), MemberResponse.from(member),
+                InteractionResponse.from(room), alarm.isRead(), alarm.getCreateAt(), AlarmType.USER.name());
+    }
+
+    public static AlarmResponse of(ServerToUserAlarm alarm, Room room) {
+        return new AlarmResponse(alarm.getId(), alarm.getActionType(), null,
+                InteractionResponse.from(room), alarm.isRead(), alarm.getCreateAt(), AlarmType.SERVER.name());
     }
 }

@@ -14,7 +14,7 @@ public class SocialFeedbackFixture {
                 deliver,
                 receiver,
                 4,
-                List.of(FeedbackKeyword.HELPFUL, FeedbackKeyword.EASY_TO_UNDERSTAND_THE_CODE),
+                List.of(FeedbackKeyword.POSITIVE_SOCIAL_FEEDBACK_3, FeedbackKeyword.POSITIVE_SOCIAL_FEEDBACK_2),
                 "코드가 좋았어요"
         );
     }
