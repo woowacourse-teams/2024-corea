@@ -7,6 +7,8 @@ export const useFetchAlarmCount = (enabled: boolean = false) => {
     queryKey: [QUERY_KEYS.ALARM_COUNT],
     queryFn: getAlarmCount,
     enabled,
+    refetchInterval: 60000,
+    refetchIntervalInBackground: false,
   });
 };
 
