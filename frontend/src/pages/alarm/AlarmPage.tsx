@@ -1,24 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import useMutateAlarm from "@/hooks/mutations/useMutateAlarm";
 import { useFetchAlarmList } from "@/hooks/queries/useFetchAlarm";
+import EmptyAlarm from "@/components/alarm/emptyAlarm/EmptyAlarm";
 import ContentSection from "@/components/common/contentSection/ContentSection";
 import Profile from "@/components/common/profile/Profile";
 import * as S from "@/pages/alarm/AlarmPage.style";
 import { AlarmActionType, AlarmItemData } from "@/@types/alaram";
-import { mainLogo, thinkingCharacter } from "@/assets";
-import MESSAGES from "@/constants/message";
+import { mainLogo } from "@/assets";
 import { formatTimeAgo } from "@/utils/dateFormatter";
-
-const EmptyAlarm = () => {
-  return (
-    <S.EmptyContainer>
-      <S.GuidanceWrapper>
-        <S.Character src={thinkingCharacter} alt="생각 중인 캐릭터" />
-        <p>{MESSAGES.GUIDANCE.NO_ALARM_LIST}</p>
-      </S.GuidanceWrapper>
-    </S.EmptyContainer>
-  );
-};
 
 const AlarmPage = () => {
   const navigate = useNavigate();
