@@ -1,7 +1,7 @@
 import useMutateHandlers from "./useMutateHandlers";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useToast from "@/hooks/common/useToast";
-import { ReviewReminderAlarm } from "@/@types/alaram";
+import { ReviewReminderAlarm } from "@/@types/alarm";
 import QUERY_KEYS from "@/apis/queryKeys";
 import { postReviewComplete, postReviewUrge } from "@/apis/reviews.api";
 import MESSAGES from "@/constants/message";

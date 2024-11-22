@@ -5,6 +5,8 @@ export type AlarmActionType =
   | "MATCH_FAIL"
   | "FEEDBACK_CREATED";
 
+export type AlarmSubjectType = "USER" | "SERVER";
+
 export interface AlarmCount {
   count: number;
 }
@@ -23,7 +25,7 @@ export interface AlarmItemData {
   };
   isRead: boolean;
   createAt: string;
-  alarmType: string;
+  alarmType: AlarmSubjectType;
 }
 
 export interface AlarmListData {
@@ -32,7 +34,7 @@ export interface AlarmListData {
 
 export interface AlarmAsRead {
   alarmId: number;
-  alarmType: "USER";
+  alarmType: AlarmSubjectType;
 }
 
 export interface ReviewReminderAlarm {

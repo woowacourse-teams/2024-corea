@@ -1,7 +1,7 @@
 import { ReviewInfo } from "../@types/review";
 import apiClient from "./apiClient";
 import { API_ENDPOINTS } from "./endpoints";
-import { ReviewReminderAlarm } from "@/@types/alaram";
+import { ReviewReminderAlarm } from "@/@types/alarm";
 import MESSAGES from "@/constants/message";
 
 export const getMyReviewers = async (roomId: number): Promise<ReviewInfo[]> => {

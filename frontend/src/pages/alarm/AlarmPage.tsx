@@ -5,7 +5,7 @@ import AlarmItem from "@/components/alarm/alarmItem/AlarmItem";
 import EmptyAlarm from "@/components/alarm/emptyAlarm/EmptyAlarm";
 import ContentSection from "@/components/common/contentSection/ContentSection";
 import * as S from "@/pages/alarm/AlarmPage.style";
-import { AlarmItemData } from "@/@types/alaram";
+import { AlarmItemData } from "@/@types/alarm";
 
 const NAVIGATION_PATHS = {
   REVIEW_COMPLETE: (interactionId: number) => `/rooms/${interactionId}`,

@@ -1,6 +1,6 @@
 import * as S from "@/components/alarm/alarmItem/AlarmItem.style";
 import Profile from "@/components/common/profile/Profile";
-import { AlarmItemData } from "@/@types/alaram";
+import { AlarmItemData } from "@/@types/alarm";
 import { mainLogo } from "@/assets";
 import { formatTimeAgo } from "@/utils/dateFormatter";
 
