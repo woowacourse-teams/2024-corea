@@ -1,13 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import useMutateAlarm from "@/hooks/mutations/useMutateAlarm";
 import { useFetchAlarmList } from "@/hooks/queries/useFetchAlarm";
+import AlarmItem from "@/components/alarm/alarmItem/AlarmItem";
 import EmptyAlarm from "@/components/alarm/emptyAlarm/EmptyAlarm";
 import ContentSection from "@/components/common/contentSection/ContentSection";
-import Profile from "@/components/common/profile/Profile";
 import * as S from "@/pages/alarm/AlarmPage.style";
 import { AlarmActionType, AlarmItemData } from "@/@types/alaram";
-import { mainLogo } from "@/assets";
-import { formatTimeAgo } from "@/utils/dateFormatter";
 
 const AlarmPage = () => {
   const navigate = useNavigate();
@@ -59,7 +57,7 @@ const AlarmPage = () => {
       );
     }
 
-    return "";
+    return <></>;
   };
 
   const getNavigationPath = (actionType: AlarmActionType, interactionId: number) => {
@@ -107,21 +105,12 @@ const AlarmPage = () => {
       <ContentSection title="알림 내역">
         <S.AlarmList>
           {alarmListData?.map((alarm) => (
-            <S.AlarmItem
+            <AlarmItem
               key={alarm.alarmId}
-              $isRead={alarm.isRead}
-              onClick={() => handleAlarmClick(alarm)}
-            >
-              <S.ProfileWrapper>
-                <Profile imgSrc={alarm.actor ? alarm.actor.thumbnailUrl : mainLogo} size={40} />
-              </S.ProfileWrapper>
-              <S.ContentWrapper>
-                <S.Content $isRead={alarm.isRead}>
-                  {getAlarmMessage(alarm.actionType, alarm.interaction.info, alarm.actor?.username)}
-                </S.Content>
-                <S.TimeStamp $isRead={alarm.isRead}>{formatTimeAgo(alarm.createAt)}</S.TimeStamp>
-              </S.ContentWrapper>
-            </S.AlarmItem>
+              alarm={alarm}
+              onAlarmClick={handleAlarmClick}
+              getAlarmMessage={getAlarmMessage}
+            />
           ))}
         </S.AlarmList>
       </ContentSection>
