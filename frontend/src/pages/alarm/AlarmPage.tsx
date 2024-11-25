@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import useSelectedFeedbackData from "@/hooks/feedback/useSelectedFeedbackData";
 import useMutateAlarm from "@/hooks/mutations/useMutateAlarm";
 import { useFetchAlarmList } from "@/hooks/queries/useFetchAlarm";
 import AlarmItem from "@/components/alarm/alarmItem/AlarmItem";
@@ -7,19 +8,24 @@ import ContentSection from "@/components/common/contentSection/ContentSection";
 import * as S from "@/pages/alarm/AlarmPage.style";
 import { AlarmItemData } from "@/@types/alarm";
 
-const NAVIGATION_PATHS = {
-  REVIEW_COMPLETE: (interactionId: number) => `/rooms/${interactionId}`,
-  REVIEW_URGE: (interactionId: number) => `/rooms/${interactionId}`,
-  MATCH_COMPLETE: (interactionId: number) => `/rooms/${interactionId}`,
-  MATCH_FAIL: (interactionId: number) => `/rooms/${interactionId}`,
-  FEEDBACK_CREATED: () => "/feedback",
-} as const;
-
 const AlarmPage = () => {
   const navigate = useNavigate();
   const { data } = useFetchAlarmList();
   const { markAsRead } = useMutateAlarm();
   const alarmListData = data?.data;
+  const { handleSelectedFeedbackType, handleSelectedFeedback } = useSelectedFeedbackData();
+
+  const handleNavigation = (actionType: string, interactionId: number) => {
+    if (actionType === "FEEDBACK_CREATED") {
+      handleSelectedFeedbackType("받은 피드백");
+      handleSelectedFeedback(interactionId);
+      navigate("/feedback");
+      return;
+    }
+
+    // actionType이 REVIEW_COMPLETE, REVIEW_URGE, MATCH_COMPLETE, MATCH_FAIL
+    navigate(`/rooms/${interactionId}`);
+  };
 
   const handleAlarmClick = async (alarm: AlarmItemData) => {
     const { actionType, alarmId, isRead, interaction } = alarm;
@@ -28,10 +34,7 @@ const AlarmPage = () => {
       await markAsRead.mutateAsync({ alarmId, alarmType: "USER" });
     }
 
-    const path = NAVIGATION_PATHS[actionType];
-    if (path) {
-      navigate(path(interaction.interactionId));
-    }
+    handleNavigation(actionType, interaction.interactionId);
   };
 
   if (!alarmListData?.length) {
