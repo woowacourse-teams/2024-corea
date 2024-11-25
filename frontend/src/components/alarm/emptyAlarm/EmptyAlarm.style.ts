@@ -6,7 +6,7 @@ export const EmptyContainer = styled.div`
   justify-content: center;
 
   width: 100%;
-  height: calc(100vh - 105px);
+  height: calc(100vh - 125px);
 `;
 
 export const GuidanceWrapper = styled.div`
