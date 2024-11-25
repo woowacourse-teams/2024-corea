@@ -1,4 +1,4 @@
-import { AlarmAsRead, AlarmCount, AlarmListData } from "@/@types/alaram";
+import { AlarmAsRead, AlarmCount, AlarmListData } from "@/@types/alarm";
 import apiClient from "@/apis/apiClient";
 import { API_ENDPOINTS } from "@/apis/endpoints";
 import MESSAGES from "@/constants/message";

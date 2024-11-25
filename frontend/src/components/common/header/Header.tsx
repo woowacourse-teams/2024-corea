@@ -34,7 +34,7 @@ const Header = () => {
   const isLoggedIn = !!localStorage.getItem("accessToken");
   const isMain = pathname === "/";
 
-  const { data: alarmCountData } = useFetchAlarmCount();
+  const { data: alarmCountData } = useFetchAlarmCount(isLoggedIn);
 
   useEffect(() => {
     const handleResize = () => {
