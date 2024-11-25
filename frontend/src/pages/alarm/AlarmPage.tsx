@@ -28,10 +28,10 @@ const AlarmPage = () => {
   };
 
   const handleAlarmClick = async (alarm: AlarmItemData) => {
-    const { actionType, alarmId, isRead, interaction } = alarm;
+    const { actionType, alarmId, isRead, interaction, alarmType } = alarm;
 
     if (!isRead) {
-      await markAsRead.mutateAsync({ alarmId, alarmType: "USER" });
+      await markAsRead.mutateAsync({ alarmId, alarmType });
     }
 
     handleNavigation(actionType, interaction.interactionId);
