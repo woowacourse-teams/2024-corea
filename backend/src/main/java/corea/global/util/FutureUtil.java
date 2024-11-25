@@ -10,7 +10,7 @@ public class FutureUtil {
         return CompletableFuture.supplyAsync(supplier);
     }
 
-    public static <T> CompletableFuture<T> supplyAsync(final Supplier<T> supplier, final Executor executor) {
+    public static <T> CompletableFuture<T> supplyAsync(Supplier<T> supplier, Executor executor) {
         return CompletableFuture.supplyAsync(supplier, executor);
     }
 }
