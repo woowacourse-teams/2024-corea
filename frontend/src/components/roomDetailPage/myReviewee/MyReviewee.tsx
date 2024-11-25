@@ -33,16 +33,14 @@ const MyReviewee = ({ roomInfo }: MyRevieweeProps) => {
     if (loadingButtonId.includes(reviewee.userId)) return;
     setLoadingButtonId((prev) => [...prev, reviewee.userId]);
 
-    postReviewCompleteMutation.mutate(
-      { roomId: roomInfo.id, revieweeId: reviewee.userId },
-      {
-        onSuccess: () => {
-          handleNavigateFeedbackPage(reviewee);
-          setLoadingButtonId((prev) => prev.filter((id) => id !== reviewee.userId));
-        },
-        onError: () => setLoadingButtonId((prev) => prev.filter((id) => id !== reviewee.userId)),
-      },
-    );
+    postReviewCompleteMutation
+      .mutateAsync({ roomId: roomInfo.id, revieweeId: reviewee.userId })
+      .then(() => {
+        handleNavigateFeedbackPage(reviewee);
+      })
+      .finally(() => {
+        setLoadingButtonId((prev) => prev.filter((id) => id !== reviewee.userId));
+      });
   };
 
   // 리뷰 및 피드백 여부 버튼 렌더링 함수
