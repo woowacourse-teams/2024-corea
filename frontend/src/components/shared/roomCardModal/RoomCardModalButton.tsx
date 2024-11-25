@@ -127,7 +127,11 @@ const RoomCardModalButton = ({ roomInfo }: RoomCardModalButtonProps) => {
         </S.FormWrapper>
       </S.FormContainer>
 
-      <Button variant="primary" size="small" onClick={handleNoticeModal}>
+      <Button
+        variant="primary"
+        size="small"
+        onClick={roomInfo.isPublic ? handleParticipateRoomClick : handleNoticeModal}
+      >
         참여하기
       </Button>
     </S.ButtonContainer>
