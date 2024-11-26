@@ -23,12 +23,8 @@ const FeedbackCardList = ({
   handleSelectedFeedback,
   handleDeselectedFeedback,
 }: FeedbackCardListProps) => {
-  const handleFeedbackActions = (roomId: number) => {
-    if (roomId === selectedFeedback) {
-      handleDeselectedFeedback();
-      return;
-    }
-    handleSelectedFeedback(roomId);
+  const toggleFeedbackSelection = (roomId: number) => {
+    roomId === selectedFeedback ? handleDeselectedFeedback() : handleSelectedFeedback(roomId);
   };
 
   if (feedbackData.length === 0) {
@@ -51,14 +47,14 @@ const FeedbackCardList = ({
           <React.Fragment key={feedback.roomId}>
             <S.FeedbackMissionWrapper
               $isSelected={selectedFeedback === feedback.roomId}
-              onClick={() => handleFeedbackActions(feedback.roomId)}
+              onClick={() => toggleFeedbackSelection(feedback.roomId)}
               role="listitem"
               aria-expanded={selectedFeedback === feedback.roomId}
               tabIndex={0}
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
-                  handleFeedbackActions(feedback.roomId);
+                  toggleFeedbackSelection(feedback.roomId);
                 }
               }}
               aria-label={`${feedbackData.length}개의 미션 중 ${index + 1}번째 미션입니다.`}
