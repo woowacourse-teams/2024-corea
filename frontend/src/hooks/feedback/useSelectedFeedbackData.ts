@@ -3,8 +3,7 @@ import {
   useFetchDeliveredFeedback,
   useFetchReceivedFeedback,
 } from "@/hooks/queries/useFetchFeedback";
-
-export type FeedbackType = "받은 피드백" | "쓴 피드백";
+import { FeedbackType } from "@/@types/feedback";
 
 const useSelectedFeedbackData = (initialFeedbackType: FeedbackType = "받은 피드백") => {
   const [selectedFeedbackType, setSelectedFeedbackType] = useState<FeedbackType>(() => {

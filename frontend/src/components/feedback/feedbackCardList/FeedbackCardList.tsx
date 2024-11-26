@@ -1,10 +1,9 @@
 import React from "react";
-import { FeedbackType } from "@/hooks/feedback/useSelectedFeedbackData";
 import Carousel from "@/components/common/carousel/Carousel";
 import Label from "@/components/common/label/Label";
 import FeedbackCard from "@/components/feedback/feedbackCard/FeedbackCard";
 import * as S from "@/components/feedback/feedbackCardList/FeedbackCardList.style";
-import { FeedbackCardDataList } from "@/@types/feedback";
+import { FeedbackCardDataList, FeedbackType } from "@/@types/feedback";
 import { defaultCharacter } from "@/assets";
 import { HoverStyledLink } from "@/styles/common";
 import { theme } from "@/styles/theme";

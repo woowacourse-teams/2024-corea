@@ -1,5 +1,7 @@
 import { NonEmptyArray } from "@/@types/NonEmptyArray";
 
+export type FeedbackType = "받은 피드백" | "쓴 피드백";
+
 export interface FeedbackCardDataList {
   readonly roomId: number;
   readonly title: string;
