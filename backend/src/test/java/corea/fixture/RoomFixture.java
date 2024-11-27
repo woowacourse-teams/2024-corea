@@ -1,11 +1,13 @@
 package corea.fixture;
 
 import corea.member.domain.Member;
+import corea.member.domain.MemberRole;
 import corea.room.domain.Room;
 import corea.room.domain.RoomClassification;
 import corea.room.domain.RoomDeadline;
 import corea.room.domain.RoomStatus;
 import corea.room.dto.RoomCreateRequest;
+import corea.room.dto.RoomRequest;
 import corea.room.dto.RoomUpdateRequest;
 
 import java.time.LocalDateTime;
@@ -175,6 +177,25 @@ public class RoomFixture {
 
     public static RoomCreateRequest ROOM_CREATE_REQUEST_WITH_REVIEW_DEADLINE(LocalDateTime reviewDeadline) {
         return ROOM_CREATE_REQUEST(LocalDateTime.now().plusHours(2), reviewDeadline);
+    }
+
+    public static RoomRequest ROOM_REQUEST() {
+        return new RoomRequest(
+            new RoomRequest.RoomInfoRequest(
+                "Room", "Content", "https://gongu.copyright.or.kr/gongu/wrt",
+                    3,List.of("JAVA","TDD"),200
+            ),
+            new RoomRequest.DeadlineRequest(
+                    LocalDateTime.now().plusHours(2),
+                    LocalDateTime.now().plusHours(4)
+            ),
+            new RoomRequest.RepositoryRequest(
+                    "https://github.com/example/java-racingcar",
+                    RoomClassification.BACKEND,
+                    true
+            ),
+            new RoomRequest.ManagerParticipationRequest(MemberRole.REVIEWER,3)
+        );
     }
 
     public static RoomCreateRequest ROOM_CREATE_REQUEST(LocalDateTime recruitmentDeadline, LocalDateTime reviewDeadline) {
