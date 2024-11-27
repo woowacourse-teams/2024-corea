@@ -19,4 +19,8 @@ public enum RoomStatus {
     public String getStatus() {
         return this.name();
     }
+
+    public RoomStatus get() {
+        return this;
+    }
 }
