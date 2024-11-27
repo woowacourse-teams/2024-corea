@@ -1,10 +1,9 @@
 import React from "react";
-import { FeedbackType } from "@/hooks/feedback/useSelectedFeedbackData";
 import Carousel from "@/components/common/carousel/Carousel";
 import Label from "@/components/common/label/Label";
 import FeedbackCard from "@/components/feedback/feedbackCard/FeedbackCard";
 import * as S from "@/components/feedback/feedbackCardList/FeedbackCardList.style";
-import { FeedbackCardDataList } from "@/@types/feedback";
+import { FeedbackCardDataList, FeedbackType } from "@/@types/feedback";
 import { defaultCharacter } from "@/assets";
 import { HoverStyledLink } from "@/styles/common";
 import { theme } from "@/styles/theme";
@@ -14,6 +13,7 @@ interface FeedbackCardListProps {
   feedbackData: FeedbackCardDataList[];
   selectedFeedback: number | undefined;
   handleSelectedFeedback: (roomId: number) => void;
+  handleDeselectedFeedback: () => void;
 }
 
 const FeedbackCardList = ({
@@ -21,7 +21,12 @@ const FeedbackCardList = ({
   feedbackData,
   selectedFeedback,
   handleSelectedFeedback,
+  handleDeselectedFeedback,
 }: FeedbackCardListProps) => {
+  const toggleFeedbackSelection = (roomId: number) => {
+    roomId === selectedFeedback ? handleDeselectedFeedback() : handleSelectedFeedback(roomId);
+  };
+
   if (feedbackData.length === 0) {
     return (
       <S.EmptyContainer>
@@ -42,14 +47,14 @@ const FeedbackCardList = ({
           <React.Fragment key={feedback.roomId}>
             <S.FeedbackMissionWrapper
               $isSelected={selectedFeedback === feedback.roomId}
-              onClick={() => handleSelectedFeedback(feedback.roomId)}
+              onClick={() => toggleFeedbackSelection(feedback.roomId)}
               role="listitem"
               aria-expanded={selectedFeedback === feedback.roomId}
               tabIndex={0}
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
-                  handleSelectedFeedback(feedback.roomId);
+                  toggleFeedbackSelection(feedback.roomId);
                 }
               }}
               aria-label={`${feedbackData.length}개의 미션 중 ${index + 1}번째 미션입니다.`}

@@ -8,7 +8,6 @@ export const useFetchAlarmCount = (enabled: boolean = false) => {
     queryFn: getAlarmCount,
     enabled,
     refetchInterval: 60 * 1000,
-    refetchIntervalInBackground: false,
   });
 };
 
@@ -23,6 +22,5 @@ export const useFetchAlarmList = () => {
       return result;
     },
     refetchInterval: 60 * 1000,
-    refetchIntervalInBackground: false,
   });
 };
