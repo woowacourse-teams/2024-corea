@@ -2,6 +2,7 @@ package corea.scheduler.service;
 
 import corea.room.domain.Room;
 import corea.scheduler.domain.AutomaticMatching;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.TaskScheduler;
@@ -26,13 +27,11 @@ public class AutomaticMatchingScheduler {
     private final AutomaticMatchingExecutor automaticMatchingExecutor;
     private final Map<Long, ScheduledFuture<?>> scheduledTasks;
 
-    @Autowired
     public AutomaticMatchingScheduler(TaskScheduler taskScheduler, AutomaticMatchingExecutor automaticMatchingExecutor) {
-        this.taskScheduler = taskScheduler;
-        this.automaticMatchingExecutor = automaticMatchingExecutor;
-        this.scheduledTasks = new ConcurrentHashMap<>();
+        this(taskScheduler, automaticMatchingExecutor, new ConcurrentHashMap<>());
     }
 
+    @Autowired
     public AutomaticMatchingScheduler(TaskScheduler taskScheduler, AutomaticMatchingExecutor automaticMatchingExecutor, Map<Long, ScheduledFuture<?>> scheduledTasks) {
         this.taskScheduler = taskScheduler;
         this.automaticMatchingExecutor = automaticMatchingExecutor;
