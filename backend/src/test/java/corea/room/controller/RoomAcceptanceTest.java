@@ -1,4 +1,4 @@
-package corea.room.acceptance;
+package corea.room.controller;
 
 import config.ControllerTest;
 import corea.auth.service.TokenService;
@@ -9,19 +9,14 @@ import corea.member.repository.MemberRepository;
 import corea.participation.domain.ParticipationStatus;
 import corea.room.dto.RoomCreateRequest;
 import corea.room.dto.RoomResponse;
-import corea.room.dto.RoomResponses;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 @ControllerTest
 @ActiveProfiles("test")
