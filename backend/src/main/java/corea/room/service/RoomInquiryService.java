@@ -31,11 +31,10 @@ public class RoomInquiryService {
     private final RoomRepository roomRepository;
     private final ParticipationRepository participationRepository;
     private final RoomMatchReader roomMatchReader;
-    private final RoomSortStrategyFactory roomSortStrategyFactory;
 
     public RoomSearchResponses search(long memberId, RoomStatus status, RoomClassification classification, String keywordTitle) {
         Specification<Room> spec = getSearchSpecification(status, classification, keywordTitle);
-        RoomSortStrategy roomSortStrategy = roomSortStrategyFactory.getRoomSortStrategy(status);
+        RoomSortStrategy roomSortStrategy = RoomSortStrategy.from(status);
         List<Room> rooms = roomReader.findAll(spec, roomSortStrategy);
 
         List<RoomResponse> roomResponses = getRoomResponses(rooms, memberId);
@@ -60,7 +59,7 @@ public class RoomInquiryService {
 
     private Page<Room> getPaginatedRooms(int pageNumber, String expression, RoomStatus status) {
         RoomClassification classification = RoomClassification.from(expression);
-        RoomSortStrategy roomSortStrategy = roomSortStrategyFactory.getRoomSortStrategy(status);
+        RoomSortStrategy roomSortStrategy = RoomSortStrategy.from(status);
         PageRequest pageRequest = PageRequest.of(pageNumber, PAGE_DISPLAY_SIZE, roomSortStrategy.toSort());
 
         if (classification.isAll()) {
@@ -78,7 +77,7 @@ public class RoomInquiryService {
     private RoomResponse getRoomResponse(Room room, long memberId) {
         boolean isPublic = roomMatchReader.isPublicRoom(room);
         return participationRepository.findByRoomIdAndMemberId(room.getId(), memberId)
-                .map(participation -> RoomResponse.of(room, participation,isPublic))
-                .orElseGet(() -> RoomResponse.of(room, MemberRole.NONE, ParticipationStatus.NOT_PARTICIPATED,isPublic));
+                .map(participation -> RoomResponse.of(room, participation, isPublic))
+                .orElseGet(() -> RoomResponse.of(room, MemberRole.NONE, ParticipationStatus.NOT_PARTICIPATED, isPublic));
     }
 }

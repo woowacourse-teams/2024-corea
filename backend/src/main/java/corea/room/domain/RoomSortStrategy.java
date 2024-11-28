@@ -13,6 +13,13 @@ public enum RoomSortStrategy {
     private final String property;
     private final Sort.Direction direction;
 
+    public static RoomSortStrategy from(RoomStatus status) {
+        if (status.isClosed()) {
+            return RoomSortStrategy.REVIEW_DEADLINE_DESC;
+        }
+        return RoomSortStrategy.RECRUITMENT_DEADLINE_DESC;
+    }
+
     public Sort toSort() {
         return Sort.by(direction, property);
     }

@@ -44,8 +44,10 @@ class AutomaticMatchingSchedulerTest {
     @Autowired
     private AutomaticMatchingExecutor automaticMatchingExecutor;
 
-    private Map<Long, ScheduledFuture<?>> scheduledTasks;
+    @Autowired
     private AutomaticMatchingScheduler automaticMatchingScheduler;
+
+    private Map<Long, ScheduledFuture<?>> scheduledTasks;
 
     @BeforeEach
     void setup() {
