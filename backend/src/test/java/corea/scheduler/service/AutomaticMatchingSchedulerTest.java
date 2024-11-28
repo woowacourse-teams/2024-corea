@@ -53,6 +53,7 @@ class AutomaticMatchingSchedulerTest {
     void setup() {
         this.scheduledTasks = new HashMap<>();
         this.automaticMatchingScheduler = new AutomaticMatchingScheduler(taskScheduler, automaticMatchingExecutor, scheduledTasks);
+
     }
 
     @Test
