@@ -89,6 +89,7 @@ class RoomControllerTest {
             RoomResponse createdRoom = getCreatedRoomResponse(managerAccessToken);
 
             MemberRole memberRole = createdRoom.memberRole();
+            //ci 확인
 
             assertThat(memberRole).isEqualTo(MemberRole.REVIEWER);
         }
