@@ -1,11 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import { FeedbackType } from "@/hooks/feedback/useSelectedFeedbackData";
 import Button from "@/components/common/button/Button";
 import Profile from "@/components/common/profile/Profile";
 import { Textarea } from "@/components/common/textarea/Textarea";
 import EvaluationPointBar from "@/components/feedback/evaluationPointBar/EvaluationPointBar";
 import * as S from "@/components/feedback/feedbackCard/FeedbackCard.style";
-import { FeedbackCardData } from "@/@types/feedback";
+import { FeedbackCardData, FeedbackType } from "@/@types/feedback";
 import { ReviewInfo } from "@/@types/review";
 import { HoverStyledLink } from "@/styles/common";
 import { theme } from "@/styles/theme";
