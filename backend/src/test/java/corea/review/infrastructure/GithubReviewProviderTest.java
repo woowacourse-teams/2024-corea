@@ -1,5 +1,6 @@
 package corea.review.infrastructure;
 
+import config.ServiceTest;
 import corea.exception.CoreaException;
 import corea.review.dto.GithubPullRequestReview;
 import corea.review.dto.GithubPullRequestReviewInfo;
@@ -10,13 +11,12 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @Disabled
-@SpringBootTest
+@ServiceTest
 class GithubReviewProviderTest {
 
     @Autowired
