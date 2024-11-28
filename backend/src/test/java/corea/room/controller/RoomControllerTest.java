@@ -1,6 +1,5 @@
 package corea.room.controller;
 
-import config.BaseControllerTest;
 import config.ControllerTest;
 import corea.auth.service.TokenService;
 import corea.fixture.MemberFixture;
@@ -31,7 +30,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 @ControllerTest
-class RoomControllerTest extends BaseControllerTest {
+class RoomControllerTest {
 
     @Autowired
     private RoomRepository roomRepository;
