@@ -1,7 +1,7 @@
 package corea.scheduler.service;
 
 import config.ServiceTest;
-import config.TestAsyncConfig;
+import config.TestSyncConfig;
 import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
 import corea.member.domain.Member;
@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ServiceTest
-@Import(TestAsyncConfig.class)
+@Import(TestSyncConfig.class)
 class UpdateExecutorTest {
 
     @Autowired
