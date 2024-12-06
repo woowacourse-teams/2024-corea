@@ -29,17 +29,17 @@ interface RoomFormLayoutProps {
 }
 
 const getInitialFormState = (data?: RoomInfo): CreateRoomInfo => ({
-  title: data?.title || "",
-  classification: data?.classification || ("" as Classification),
-  content: data?.content || "",
-  repositoryLink: data?.repositoryLink || "",
-  thumbnailLink: data?.thumbnailLink || "",
-  keywords: data?.keywords.filter((keyword) => keyword !== "") || [],
-  matchingSize: data?.matchingSize || 1,
-  limitedParticipants: data?.limitedParticipants || 1,
+  title: data?.title ?? "",
+  classification: data?.classification ?? ("" as Classification),
+  content: data?.content ?? "",
+  repositoryLink: data?.repositoryLink ?? "",
+  thumbnailLink: data?.thumbnailLink ?? "",
+  keywords: data?.keywords?.filter((keyword) => keyword !== "") ?? [],
+  matchingSize: data?.matchingSize ?? 1,
+  limitedParticipants: data?.limitedParticipants ?? 1,
   recruitmentDeadline: data ? new Date(data.recruitmentDeadline) : new Date(),
   reviewDeadline: data ? new Date(data.reviewDeadline) : new Date(),
-  isPublic: data?.isPublic !== undefined ? data.isPublic : true,
+  isPublic: data?.isPublic ?? true,
 });
 
 const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
