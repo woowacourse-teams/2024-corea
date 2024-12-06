@@ -10,7 +10,7 @@ import ConfirmModal from "@/components/common/modal/confirmModal/ConfirmModal";
 import { Textarea } from "@/components/common/textarea/Textarea";
 import DateTimePicker from "@/components/dateTimePicker/DateTimePicker";
 import * as S from "@/components/roomForm/RoomFormLayout.style";
-import { Classification, CreateRoomInfo, RoomInfo } from "@/@types/roomInfo";
+import { BaseRoomInfo, Classification, RoomInfo } from "@/@types/roomInfo";
 import MESSAGES from "@/constants/message";
 import { ErrorText } from "@/styles/common";
 import { formatCombinedDateTime } from "@/utils/dateFormatter";
@@ -28,7 +28,7 @@ interface RoomFormLayoutProps {
   data?: RoomInfo;
 }
 
-const getInitialFormState = (data?: RoomInfo): CreateRoomInfo => ({
+const getInitialFormState = (data?: RoomInfo): BaseRoomInfo => ({
   title: data?.title ?? "",
   classification: data?.classification ?? ("" as Classification),
   content: data?.content ?? "",
@@ -37,19 +37,19 @@ const getInitialFormState = (data?: RoomInfo): CreateRoomInfo => ({
   keywords: data?.keywords?.filter((keyword) => keyword !== "") ?? [],
   matchingSize: data?.matchingSize ?? 1,
   limitedParticipants: data?.limitedParticipants ?? 1,
-  recruitmentDeadline: data ? new Date(data.recruitmentDeadline) : new Date(),
-  reviewDeadline: data ? new Date(data.reviewDeadline) : new Date(),
+  recruitmentDeadline: data ? data.recruitmentDeadline : formatCombinedDateTime(new Date()),
+  reviewDeadline: data ? data.reviewDeadline : formatCombinedDateTime(new Date()),
   isPublic: data?.isPublic ?? true,
 });
 
 const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
   const navigate = useNavigate();
   const [isClickedButton, setIsClickedButton] = useState(false);
-  const [formState, setFormState] = useState<CreateRoomInfo>(() => getInitialFormState(data));
+  const [formState, setFormState] = useState<BaseRoomInfo>(() => getInitialFormState(data));
   const { postCreateRoomMutation, putEditRoomMutation } = useMutateRoom();
   const { isModalOpen, handleOpenModal, handleCloseModal } = useModal();
 
-  const handleInputChange = <K extends keyof CreateRoomInfo>(name: K, value: CreateRoomInfo[K]) => {
+  const handleInputChange = <K extends keyof BaseRoomInfo>(name: K, value: BaseRoomInfo[K]) => {
     setFormState((prevState) => ({
       ...prevState,
       [name]: value,
@@ -57,19 +57,13 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
   };
 
   const handleConfirm = () => {
-    const formattedFormState = {
-      ...formState,
-      recruitmentDeadline: formatCombinedDateTime(formState.recruitmentDeadline),
-      reviewDeadline: formatCombinedDateTime(formState.reviewDeadline),
-    };
-
     if (formType === "edit" && roomId) {
-      const updatedFormState = { ...formattedFormState, roomId };
+      const updatedFormState = { ...formState, roomId };
       putEditRoomMutation.mutate(updatedFormState, {
         onSuccess: () => navigate(`/rooms/${roomId}`),
       });
     } else {
-      postCreateRoomMutation.mutate(formattedFormState, {
+      postCreateRoomMutation.mutate(formState, {
         onSuccess: () => navigate("/"),
       });
     }
@@ -295,22 +289,24 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
             </S.ContentLabel>
             <S.ContentInput>
               <DateTimePicker
-                selectedDateTime={formState.recruitmentDeadline}
+                selectedDateTime={new Date(formState.recruitmentDeadline)}
                 onDateTimeChange={(newDateTime) => {
-                  handleInputChange("recruitmentDeadline", newDateTime);
-                  if (newDateTime > formState.reviewDeadline) {
-                    const newDate = new Date(newDateTime);
-                    handleInputChange("reviewDeadline", newDate);
+                  const newDateTimeString = formatCombinedDateTime(newDateTime);
+                  handleInputChange("recruitmentDeadline", newDateTimeString);
+
+                  if (newDateTimeString > formState.reviewDeadline) {
+                    handleInputChange("reviewDeadline", newDateTimeString);
                   }
                 }}
                 options={{ isPastDateDisabled: true }}
                 error={
                   isClickedButton &&
-                  validators.recruitmentDeadline(formState.recruitmentDeadline) !== ""
+                  validators.recruitmentDeadline(new Date(formState.recruitmentDeadline)) !== ""
                 }
               />
               <ErrorText>
-                {isClickedButton && validators.recruitmentDeadline(formState.recruitmentDeadline)}
+                {isClickedButton &&
+                  validators.recruitmentDeadline(new Date(formState.recruitmentDeadline))}
               </ErrorText>
             </S.ContentInput>
           </S.RowContainer>
@@ -321,25 +317,27 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
             </S.ContentLabel>
             <S.ContentInput>
               <DateTimePicker
-                selectedDateTime={formState.reviewDeadline}
-                onDateTimeChange={(newDateTime) => handleInputChange("reviewDeadline", newDateTime)}
+                selectedDateTime={new Date(formState.reviewDeadline)}
+                onDateTimeChange={(newDateTime) =>
+                  handleInputChange("reviewDeadline", formatCombinedDateTime(newDateTime))
+                }
                 options={{
                   isPastDateDisabled: true,
-                  disabledBeforeDate: formState.recruitmentDeadline,
+                  disabledBeforeDate: new Date(formState.recruitmentDeadline),
                 }}
                 error={
                   isClickedButton &&
                   validators.reviewDeadline(
-                    formState.reviewDeadline,
-                    formState.recruitmentDeadline,
+                    new Date(formState.reviewDeadline),
+                    new Date(formState.recruitmentDeadline),
                   ) !== ""
                 }
               />
               <ErrorText>
                 {isClickedButton &&
                   validators.reviewDeadline(
-                    formState.reviewDeadline,
-                    formState.recruitmentDeadline,
+                    new Date(formState.reviewDeadline),
+                    new Date(formState.recruitmentDeadline),
                   )}
               </ErrorText>
             </S.ContentInput>

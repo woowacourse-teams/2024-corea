@@ -2,12 +2,12 @@ import apiClient from "./apiClient";
 import { API_ENDPOINTS } from "./endpoints";
 import { ParticipantListInfo } from "@/@types/participantList";
 import {
+  BaseRoomInfo,
   Classification,
   Role,
   RoomInfo,
   RoomListInfo,
   RoomStatus,
-  SubmitRoomInfo,
 } from "@/@types/roomInfo";
 import MESSAGES from "@/constants/message";
 
@@ -80,7 +80,7 @@ export const getRoomDetailInfo = async (id: number): Promise<RoomInfo> => {
   return res;
 };
 
-export const postCreateRoom = async (roomData: SubmitRoomInfo): Promise<void> => {
+export const postCreateRoom = async (roomData: BaseRoomInfo): Promise<void> => {
   return apiClient.post({
     endpoint: API_ENDPOINTS.ROOMS,
     body: roomData,
@@ -88,7 +88,7 @@ export const postCreateRoom = async (roomData: SubmitRoomInfo): Promise<void> =>
   });
 };
 
-export const putEditRoom = async (roomData: SubmitRoomInfo): Promise<void> => {
+export const putEditRoom = async (roomData: BaseRoomInfo): Promise<void> => {
   return apiClient.put({
     endpoint: API_ENDPOINTS.ROOMS,
     body: roomData,

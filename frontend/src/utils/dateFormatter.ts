@@ -53,7 +53,7 @@ export const formatTime = (date: Date): string => {
 
 // 날짜+시간
 export const formatCombinedDateTime = (date: Date): string => {
-  return `${formatDate(date)} ${formatTime(date)}`;
+  return `${formatDate(date)} ${formatTime(date)}`; // TODO: T로 바꿔야함
 };
 
 export const formatLeftTime = (time: string) => {

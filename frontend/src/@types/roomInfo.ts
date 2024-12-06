@@ -11,7 +11,8 @@ export type ParticipationStatus =
 
 export type Role = "BOTH" | "REVIEWER" | "REVIEWEE" | "NONE";
 
-interface BaseRoomInfo {
+export interface BaseRoomInfo {
+  roomId?: number;
   title: string;
   content: string;
   repositoryLink: string;
@@ -21,14 +22,6 @@ interface BaseRoomInfo {
   limitedParticipants: number;
   classification: Classification;
   isPublic: boolean;
-}
-export interface CreateRoomInfo extends BaseRoomInfo {
-  recruitmentDeadline: Date;
-  reviewDeadline: Date;
-}
-
-export interface SubmitRoomInfo extends BaseRoomInfo {
-  roomId?: number;
   recruitmentDeadline: string;
   reviewDeadline: string;
 }
@@ -41,8 +34,6 @@ export interface RoomInfo extends BaseRoomInfo {
   roomStatus: RoomStatus;
   participationStatus: ParticipationStatus;
   memberRole: Role;
-  recruitmentDeadline: string;
-  reviewDeadline: string;
   message: string;
 }
 
