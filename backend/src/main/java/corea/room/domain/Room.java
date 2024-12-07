@@ -146,8 +146,12 @@ public class Room extends BaseTimeEntity {
         return manager.getId();
     }
 
-    public String getRoomStatus() {
+    public String getRoomStatusString() {
         return status.getStatus();
+    }
+
+    public RoomStatus getRoomStatus() {
+        return status.get();
     }
 
     public String getManagerName() {

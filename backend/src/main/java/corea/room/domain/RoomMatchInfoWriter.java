@@ -10,7 +10,7 @@ public class RoomMatchInfoWriter {
 
     private final RoomMatchInfoRepository roomMatchInfoRepository;
 
-    public RoomMatchInfo create(Room room, boolean isPrivate) {
-        return roomMatchInfoRepository.save(new RoomMatchInfo(room.getId(), isPrivate));
+    public RoomMatchInfo create(Room room, boolean isPublic) {
+        return roomMatchInfoRepository.save(new RoomMatchInfo(room.getId(), isPublic));
     }
 }

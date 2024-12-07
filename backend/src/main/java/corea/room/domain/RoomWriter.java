@@ -5,6 +5,7 @@ import corea.exception.ExceptionType;
 import corea.member.domain.Member;
 import corea.participation.domain.ParticipationWriter;
 import corea.room.dto.RoomCreateRequest;
+import corea.room.dto.RoomRequest;
 import corea.room.dto.RoomUpdateRequest;
 import corea.room.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,12 @@ public class RoomWriter {
     private final ParticipationWriter participationWriter;
 
     // TODO 서비스 용 DTO 만들어야함
+    public Room create(Member manager, RoomRequest request) {
+        Room room = roomRepository.save(request.toEntity(manager));
+        log.info("방을 생성했습니다. 방 생성자 id={}, 요청한 사용자 id={}", room.getId(), room.getManagerId());
+        return room;
+    }
+
     public Room create(Member manager, RoomCreateRequest request) {
         Room room = roomRepository.save(request.toEntity(manager));
         log.info("방을 생성했습니다. 방 생성자 id={}, 요청한 사용자 id={}", room.getId(), room.getManagerId());

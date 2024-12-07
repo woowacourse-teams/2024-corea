@@ -43,6 +43,23 @@ public class RoomService {
     private final ParticipationReader participationReader;
 
     @Transactional
+    public RefactorRoomResponse create(long memberId, RoomRequest request) {
+        Member manager = memberReader.findOne(memberId);
+        Room room = roomWriter.create(manager, request);
+
+        RoomMatchInfo roomMatchInfo = roomMatchInfoWriter.create(room, request.isPublic());
+        Participation participation = participationWriter.create(room, manager, request.managerParticipationRequest());
+
+        roomAutomaticService.createAutomatic(room);
+        return new RefactorRoomResponse(
+                RefactorRoomResponse.RoomInfoResponse.from(room),
+                RefactorRoomResponse.DeadlineResponse.from(room),
+                RefactorRoomResponse.RepositoryResponse.from(room, roomMatchInfo),
+                RefactorRoomResponse.ParticipationResponse.from(participation)
+        );
+    }
+
+    @Transactional
     public RoomResponse create(long memberId, RoomCreateRequest request) {
         Member manager = memberReader.findOne(memberId);
         Room room = roomWriter.create(manager, request);
