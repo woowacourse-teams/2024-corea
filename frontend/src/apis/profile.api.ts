@@ -1,3 +1,4 @@
+import { ProfileData } from "@/@types/profile";
 import apiClient from "@/apis/apiClient";
 import { API_ENDPOINTS } from "@/apis/endpoints";
 import MESSAGES from "@/constants/message";

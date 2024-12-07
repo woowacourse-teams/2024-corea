@@ -24,6 +24,17 @@ export const SectionTitle = styled.h1`
   color: ${({ theme }) => theme.COLOR.grey4};
 `;
 
+export const SubSectionTitle = styled.h1`
+  display: flex;
+  gap: 1rem;
+  align-items: flex-end;
+
+  width: 100%;
+
+  font: ${({ theme }) => theme.TEXT.medium_bold};
+  color: ${({ theme }) => theme.COLOR.grey4};
+`;
+
 export const HelpText = styled.p`
   font: ${({ theme }) => theme.TEXT.xSmall};
   color: ${({ theme }) => theme.COLOR.grey3};
@@ -53,7 +64,7 @@ export const RowContainer = styled.div`
 `;
 
 export const ContentLabel = styled.span`
-  font: ${({ theme }) => theme.TEXT.medium_bold};
+  font: ${({ theme }) => theme.TEXT.small_bold};
 `;
 
 export const RequiredLabel = styled.span`
@@ -75,6 +86,21 @@ export const ContentWrapper = styled.div`
   align-items: center;
 
   padding: 1rem 0;
+`;
+
+export const ContentRadioWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: flex-start;
+
+  padding: 1rem 0;
+
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
 `;
 
 export const ContentRadioInput = styled.input`

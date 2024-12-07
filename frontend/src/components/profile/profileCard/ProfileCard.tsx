@@ -1,6 +1,7 @@
 import Icon from "@/components/common/icon/Icon";
 import Profile from "@/components/common/profile/Profile";
 import * as S from "@/components/profile/profileCard/ProfileCard.style";
+import { ProfileData } from "@/@types/profile";
 import { HoverStyledLink } from "@/styles/common";
 
 const ProfileCard = (profileData: ProfileData) => {

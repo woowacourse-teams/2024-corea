@@ -1,4 +1,4 @@
-interface ProfileData {
+export interface ProfileData {
   profileImage: string;
   nickname: string;
   receivedReviewCount: number;

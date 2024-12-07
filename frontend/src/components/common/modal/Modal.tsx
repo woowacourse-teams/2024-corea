@@ -9,8 +9,6 @@ const portalElement = document.getElementById("modal") as HTMLElement;
 export interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onConfirm?: () => void;
-  onCancel?: () => void;
   hasCloseButton?: boolean;
   style?: CSSProperties;
   children?: ReactNode;

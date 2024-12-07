@@ -86,9 +86,8 @@ const ControlButton = ({ roomInfo, participationStatus }: ControlButtonProps) =>
             <FocusTrap onEscapeFocusTrap={() => handleToggleDropdown()}>
               <S.DropdownItemWrapper>
                 {dropdownItems.map((item: DropdownItem, index) => (
-                  <>
+                  <React.Fragment key={item.name}>
                     <S.DropdownItem
-                      key={item.name}
                       onClick={() => handleDropdownItemClick(item.action)}
                       tabIndex={0}
                       onKeyDown={(e) => {
@@ -98,7 +97,7 @@ const ControlButton = ({ roomInfo, participationStatus }: ControlButtonProps) =>
                       {item.name}
                     </S.DropdownItem>
                     {index < dropdownItems.length - 1 && <S.Divider />}
-                  </>
+                  </React.Fragment>
                 ))}
               </S.DropdownItemWrapper>
             </FocusTrap>
