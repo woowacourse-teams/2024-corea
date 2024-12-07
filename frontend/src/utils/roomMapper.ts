@@ -1,4 +1,4 @@
-import { BaseRoomInfo, RoomCreateRequest, RoomDetailResponse, RoomInfo } from "@/@types/roomInfo";
+import { CreateRoomInfo, RoomCreateRequest, RoomDetailResponse, RoomInfo } from "@/@types/roomInfo";
 
 // RoomDetailResponse를 RoomInfo로 변환
 export const mapRoomDetailResponseToRoomInfo = (response: RoomDetailResponse): RoomInfo => ({
@@ -24,7 +24,7 @@ export const mapRoomDetailResponseToRoomInfo = (response: RoomDetailResponse): R
 });
 
 // RoomInfo를 RoomCreateRequest로 변환
-export const mapRoomInfoToRoomCreateRequest = (info: BaseRoomInfo): RoomCreateRequest => ({
+export const mapRoomInfoToRoomCreateRequest = (info: CreateRoomInfo): RoomCreateRequest => ({
   roomInfoRequest: {
     title: info.title,
     content: info.content,
@@ -43,7 +43,7 @@ export const mapRoomInfoToRoomCreateRequest = (info: BaseRoomInfo): RoomCreateRe
     isPublic: info.isPublic,
   },
   managerParticipationRequest: {
-    memberRole: info.memberRole,
-    matchingSize: info.matchingSize,
+    memberRole: info.managerMemberRole,
+    matchingSize: info.managerMatchingSize,
   },
 });

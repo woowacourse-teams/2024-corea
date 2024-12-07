@@ -1,7 +1,7 @@
 import useToast from "../common/useToast";
 import useMutateHandlers from "./useMutateHandlers";
 import { useMutation } from "@tanstack/react-query";
-import { BaseRoomInfo, MemberRole } from "@/@types/roomInfo";
+import { CreateRoomInfo, MemberRole, RoomCreateRequest } from "@/@types/roomInfo";
 import {
   deleteParticipateIn,
   deleteParticipatedRoom,
@@ -16,7 +16,7 @@ const useMutateRoom = () => {
   const { handleMutateError } = useMutateHandlers();
 
   const postCreateRoomMutation = useMutation({
-    mutationFn: (roomData: BaseRoomInfo) => postCreateRoom(roomData),
+    mutationFn: (roomData: RoomCreateRequest) => postCreateRoom(roomData),
     onSuccess: () => {
       openToast(MESSAGES.SUCCESS.POST_CREATE_ROOM);
     },
@@ -24,7 +24,7 @@ const useMutateRoom = () => {
   });
 
   const putEditRoomMutation = useMutation({
-    mutationFn: (roomData: BaseRoomInfo) => putEditRoom(roomData),
+    mutationFn: (roomData: CreateRoomInfo) => putEditRoom(roomData),
     onSuccess: () => {
       openToast(MESSAGES.SUCCESS.PUT_EDIT_ROOM);
     },

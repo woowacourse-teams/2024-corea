@@ -16,16 +16,15 @@ export type MemberRole = "BOTH" | "REVIEWER" | "REVIEWEE" | "NONE";
 export interface BaseRoomInfo {
   title: string;
   content: string;
-  repositoryLink: string;
   thumbnailLink: string;
   matchingSize: number;
   keywords: string[];
   limitedParticipants: number;
-  classification: Classification;
-  isPublic: boolean;
   recruitmentDeadline: string;
   reviewDeadline: string;
-  memberRole: MemberRole;
+  repositoryLink: string;
+  classification: Classification;
+  isPublic: boolean;
 }
 
 export interface RoomInfo extends BaseRoomInfo {
@@ -36,6 +35,13 @@ export interface RoomInfo extends BaseRoomInfo {
   roomStatus: RoomStatus;
   participationStatus: ParticipationStatus;
   message: string;
+  memberRole: MemberRole;
+}
+
+export interface CreateRoomInfo extends BaseRoomInfo {
+  roomId?: number;
+  managerMemberRole?: MemberRole;
+  managerMatchingSize?: number;
 }
 
 // 요청(Request) 구조
@@ -60,8 +66,8 @@ export interface RepositoryRequest {
 }
 
 export interface ManagerParticipationRequest {
-  memberRole: MemberRole;
-  matchingSize: number;
+  memberRole?: MemberRole;
+  matchingSize?: number;
 }
 
 export interface RoomCreateRequest {

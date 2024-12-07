@@ -46,7 +46,8 @@ export const validators = {
     return "";
   },
 
-  matchingSize(value: number): string {
+  matchingSize(value: number | undefined): string {
+    if (value === undefined) return "";
     if (!isNumberNotEmpty(value)) {
       return "상호 리뷰 인원을 입력해주세요.";
     }

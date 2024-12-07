@@ -10,11 +10,12 @@ import ConfirmModal from "@/components/common/modal/confirmModal/ConfirmModal";
 import { Textarea } from "@/components/common/textarea/Textarea";
 import DateTimePicker from "@/components/dateTimePicker/DateTimePicker";
 import * as S from "@/components/roomForm/RoomFormLayout.style";
-import { BaseRoomInfo, Classification, RoomInfo } from "@/@types/roomInfo";
+import { Classification, CreateRoomInfo, RoomInfo } from "@/@types/roomInfo";
 import MESSAGES from "@/constants/message";
 import { ErrorText } from "@/styles/common";
 import { formatCombinedDateTime } from "@/utils/dateFormatter";
 import { validateForm, validators } from "@/utils/roomInputValidator";
+import { mapRoomInfoToRoomCreateRequest } from "@/utils/roomMapper";
 
 const dropdownItems: DropdownItem[] = [
   { text: "안드로이드", value: "ANDROID" },
@@ -28,29 +29,34 @@ interface RoomFormLayoutProps {
   data?: RoomInfo;
 }
 
-const getInitialFormState = (data?: RoomInfo): BaseRoomInfo => ({
+const getInitialFormState = (formType: "create" | "edit", data?: RoomInfo): CreateRoomInfo => ({
   title: data?.title ?? "",
-  classification: data?.classification ?? ("" as Classification),
   content: data?.content ?? "",
-  repositoryLink: data?.repositoryLink ?? "",
   thumbnailLink: data?.thumbnailLink ?? "",
-  keywords: data?.keywords?.filter((keyword) => keyword !== "") ?? [],
   matchingSize: data?.matchingSize ?? 1,
+  keywords: data?.keywords?.filter((keyword) => keyword !== "") ?? [],
   limitedParticipants: data?.limitedParticipants ?? 1,
   recruitmentDeadline: data ? data.recruitmentDeadline : formatCombinedDateTime(new Date()),
   reviewDeadline: data ? data.reviewDeadline : formatCombinedDateTime(new Date()),
-  memberRole: data?.memberRole ?? "BOTH",
+  repositoryLink: data?.repositoryLink ?? "",
+  classification: data?.classification ?? ("" as Classification),
   isPublic: data?.isPublic ?? true,
+  ...(formType === "create" && {
+    managerMemberRole: "BOTH",
+    managerMatchingSize: 1,
+  }),
 });
 
 const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
   const navigate = useNavigate();
   const [isClickedButton, setIsClickedButton] = useState(false);
-  const [formState, setFormState] = useState<BaseRoomInfo>(() => getInitialFormState(data));
+  const [formState, setFormState] = useState<CreateRoomInfo>(() =>
+    getInitialFormState(formType, data),
+  );
   const { postCreateRoomMutation, putEditRoomMutation } = useMutateRoom();
   const { isModalOpen, handleOpenModal, handleCloseModal } = useModal();
 
-  const handleInputChange = <K extends keyof BaseRoomInfo>(name: K, value: BaseRoomInfo[K]) => {
+  const handleInputChange = <K extends keyof CreateRoomInfo>(name: K, value: CreateRoomInfo[K]) => {
     setFormState((prevState) => ({
       ...prevState,
       [name]: value,
@@ -59,12 +65,14 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
 
   const handleConfirm = () => {
     if (formType === "edit" && roomId) {
-      const updatedFormState = { ...formState, roomId };
-      putEditRoomMutation.mutate(updatedFormState, {
-        onSuccess: () => navigate(`/rooms/${roomId}`),
-      });
+      putEditRoomMutation.mutate(
+        { ...formState, roomId },
+        {
+          onSuccess: () => navigate(`/rooms/${roomId}`),
+        },
+      );
     } else {
-      postCreateRoomMutation.mutate(formState, {
+      postCreateRoomMutation.mutate(mapRoomInfoToRoomCreateRequest(formState), {
         onSuccess: () => navigate("/"),
       });
     }
@@ -92,6 +100,7 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
         </S.SectionTitle>
 
         <S.SubSection>
+          <S.SubSectionTitle>방 기본 정보</S.SubSectionTitle>
           <S.RowContainer>
             <S.ContentLabel>
               제목 <S.RequiredLabel>*</S.RequiredLabel>
@@ -230,9 +239,10 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
         </S.SubSection>
 
         <S.SubSection>
+          <S.SubSectionTitle>방 상세 정보</S.SubSectionTitle>
           <S.RowContainer>
             <S.ContentLabel>
-              상호 리뷰 인원 <S.RequiredLabel>*</S.RequiredLabel>
+              방 상호 리뷰 인원 <S.RequiredLabel>*</S.RequiredLabel>
             </S.ContentLabel>
             <S.HelpText>최소 1명, 최대 5명 가능해요.</S.HelpText>
             <S.ContentInput>
@@ -344,6 +354,72 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
             </S.ContentInput>
           </S.RowContainer>
         </S.SubSection>
+
+        {formType === "create" && (
+          <S.SubSection>
+            <S.SubSectionTitle>나의 정보</S.SubSectionTitle>
+            <S.RowContainer>
+              <S.ContentLabel>
+                참여 역할 <S.RequiredLabel>*</S.RequiredLabel>
+              </S.ContentLabel>
+              <S.ContentRadioWrapper>
+                <div>
+                  <S.ContentRadioInput
+                    type="radio"
+                    id="both"
+                    name="managerMemberRole"
+                    checked={formState.managerMemberRole === "BOTH"}
+                    onChange={() => handleInputChange("managerMemberRole", "BOTH")}
+                  />
+                  <S.RadioLabel htmlFor="both">리뷰어, 리뷰이로 둘 다 참여</S.RadioLabel>
+                  <S.HelpText>
+                    상대방의 코드를 리뷰하면서 자신의 코드도 리뷰받고 싶은 경우 선택하세요.
+                  </S.HelpText>
+                </div>
+                <div>
+                  <S.ContentRadioInput
+                    type="radio"
+                    id="reviewer"
+                    name="managerMemberRole"
+                    checked={formState.managerMemberRole === "REVIEWER"}
+                    onChange={() => handleInputChange("managerMemberRole", "REVIEWER")}
+                  />
+
+                  <S.RadioLabel htmlFor="reviewer">리뷰어로만 참여</S.RadioLabel>
+                  <S.HelpText>다른 사람의 코드만 리뷰하고 싶은 경우 선택하세요.</S.HelpText>
+                </div>
+              </S.ContentRadioWrapper>
+            </S.RowContainer>
+
+            <S.RowContainer>
+              <S.ContentLabel>
+                원하는 상호 리뷰 인원 <S.RequiredLabel>*</S.RequiredLabel>
+              </S.ContentLabel>
+              <S.HelpText>
+                리뷰할 사람 수는 자신의 학습 목표나 시간 여유에 맞춰 선택하세요.
+              </S.HelpText>
+              <S.ContentInput>
+                <Input
+                  type="number"
+                  min="1"
+                  max="5"
+                  name="matchingSize"
+                  value={formState.managerMatchingSize}
+                  onChange={(e) =>
+                    handleInputChange("managerMatchingSize", parseInt(e.target.value, 10))
+                  }
+                  error={
+                    isClickedButton && validators.matchingSize(formState.managerMatchingSize) !== ""
+                  }
+                  required
+                />
+                <ErrorText>
+                  {isClickedButton && validators.matchingSize(formState.managerMatchingSize)}
+                </ErrorText>
+              </S.ContentInput>
+            </S.RowContainer>
+          </S.SubSection>
+        )}
 
         <Button
           onClick={() => {
