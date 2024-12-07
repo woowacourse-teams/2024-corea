@@ -29,7 +29,7 @@ export interface BaseRoomInfo {
 }
 
 export interface RoomInfo extends BaseRoomInfo {
-  roomId: number;
+  id: number;
   manager: string;
   reviewerCount: number;
   bothCount: number;
@@ -99,7 +99,7 @@ export interface RoomDetailResponse {
 }
 
 export interface RoomListInfo {
-  rooms: RoomDetailResponse[];
+  rooms: RoomInfo[];
   isLastPage: boolean;
   pageNumber: number;
 }
