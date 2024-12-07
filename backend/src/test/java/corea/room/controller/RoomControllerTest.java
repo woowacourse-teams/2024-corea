@@ -9,6 +9,7 @@ import corea.member.domain.Member;
 import corea.member.domain.MemberRole;
 import corea.member.repository.MemberRepository;
 import corea.room.domain.Room;
+import corea.room.dto.RefactorRoomResponse;
 import corea.room.dto.RoomResponse;
 import corea.room.repository.RoomRepository;
 import corea.scheduler.domain.AutomaticMatching;
@@ -76,41 +77,31 @@ class RoomControllerTest {
         @Test
         @DisplayName("방을 만든 사람은 방장이 된다.")
         void manager() {
-            RoomResponse createdRoom = getCreatedRoomResponse(managerAccessToken);
+            RefactorRoomResponse createdRoom = getCreatedRoomResponse(managerAccessToken);
 
-            String manager = createdRoom.manager();
+            String manager = createdRoom.roomInfoResponse().manager();
 
             assertThat(manager).isEqualTo("pororo");
         }
 
         @Test
-        @DisplayName("방을 만든 사람은 해당 방에 리뷰어로 참여한다.")
-        void reviewer() {
-            RoomResponse createdRoom = getCreatedRoomResponse(managerAccessToken);
-
-            MemberRole memberRole = createdRoom.memberRole();
-
-            assertThat(memberRole).isEqualTo(MemberRole.REVIEWER);
-        }
-
-        @Test
         @DisplayName("방을 만들면 모집 마감 기간에 자동으로 매칭을 실행하도록 저장한다.")
         void createAutomaticMatching() {
-            RoomResponse createdRoom = getCreatedRoomResponse(managerAccessToken);
+            RefactorRoomResponse createdRoom = getCreatedRoomResponse(managerAccessToken);
 
             AutomaticMatching automaticMatching = automaticMatchingRepository.findByRoomId(createdRoom.id()).get();
 
-            assertThat(automaticMatching.getMatchingStartTime()).isEqualTo(createdRoom.recruitmentDeadline());
+            assertThat(automaticMatching.getMatchingStartTime()).isEqualTo(createdRoom.deadlineResponse().recruitmentDeadline());
         }
 
         @Test
         @DisplayName("방을 만들면 리뷰 마감 기간에 자동으로 방이 종료되도록 저장한다.")
         void createAutomaticUpdate() {
-            RoomResponse createdRoom = getCreatedRoomResponse(managerAccessToken);
+            RefactorRoomResponse createdRoom = getCreatedRoomResponse(managerAccessToken);
 
             AutomaticUpdate automaticUpdate = automaticUpdateRepository.findByRoomId(createdRoom.id()).get();
 
-            assertThat(automaticUpdate.getUpdateStartTime()).isEqualTo(createdRoom.reviewDeadline());
+            assertThat(automaticUpdate.getUpdateStartTime()).isEqualTo(createdRoom.deadlineResponse().reviewDeadline());
         }
     }
 
@@ -118,7 +109,7 @@ class RoomControllerTest {
     @DisplayName("방을 수정할 수 있다.")
     class RoomUpdate {
 
-        private RoomResponse createdRoom;
+        private RefactorRoomResponse createdRoom;
 
         @BeforeEach
         void setUp() {
@@ -131,7 +122,7 @@ class RoomControllerTest {
             RoomResponse updatedRoom = getUpdatedRoomResponse(createdRoom.id());
 
             assertAll(
-                    () -> assertThat(createdRoom.title()).isEqualTo("create Room"),
+                    () -> assertThat(createdRoom.roomInfoResponse().title()).isEqualTo("Room"),
                     () -> assertThat(updatedRoom.title()).isEqualTo("update Room")
             );
         }
@@ -191,7 +182,7 @@ class RoomControllerTest {
     @DisplayName("방을 삭제할 수 있다.")
     class RoomDelete {
 
-        private RoomResponse createdRoom;
+        private RefactorRoomResponse createdRoom;
 
         @BeforeEach
         void setUp() {
@@ -256,9 +247,9 @@ class RoomControllerTest {
         }
     }
 
-    private RoomResponse getCreatedRoomResponse(String accessToken) {
+    private RefactorRoomResponse getCreatedRoomResponse(String accessToken) {
         Response response = createRoom(accessToken);
-        return response.as(RoomResponse.class);
+        return response.as(RefactorRoomResponse.class);
     }
 
     private RoomResponse getUpdatedRoomResponse(long createdRoomId) {
@@ -270,7 +261,7 @@ class RoomControllerTest {
         return RestAssured.given().log().all()
                 .auth().oauth2(accessToken)
                 .contentType(ContentType.JSON)
-                .body(RoomFixture.ROOM_CREATE_REQUEST())
+                .body(RoomFixture.ROOM_REQUEST())
                 .when().post("/rooms")
                 .then().log().all()
                 .extract().response();
