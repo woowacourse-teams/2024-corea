@@ -2,7 +2,7 @@ import { BaseRoomInfo, RoomCreateRequest, RoomDetailResponse, RoomInfo } from "@
 
 // RoomDetailResponse를 RoomInfo로 변환
 export const mapRoomDetailResponseToRoomInfo = (response: RoomDetailResponse): RoomInfo => ({
-  roomId: response.roomInfoResponse.roomId,
+  id: response.roomInfoResponse.roomId,
   title: response.roomInfoResponse.title,
   content: response.roomInfoResponse.content,
   repositoryLink: response.repositoryResponse.repositoryLink,
