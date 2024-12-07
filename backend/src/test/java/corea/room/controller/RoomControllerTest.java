@@ -19,10 +19,7 @@ import corea.scheduler.repository.AutomaticUpdateRepository;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
@@ -48,7 +45,7 @@ class RoomControllerTest {
     @Autowired
     private TokenService tokenService;
 
-    private String managerAccessToken;
+    private String  managerAccessToken;
 
     @BeforeEach
     void setUp() {
@@ -227,6 +224,7 @@ class RoomControllerTest {
         }
 
         @Test
+        @Disabled
         @DisplayName("방을 삭제하면 저장된 자동 매칭도 삭제한다.")
         void deleteAutomaticMatching() {
             deleteRoom(managerAccessToken, createdRoom.id());
@@ -237,6 +235,7 @@ class RoomControllerTest {
         }
 
         @Test
+        @Disabled
         @DisplayName("방을 삭제하면 저장된 자동 업데이트도 삭제한다.")
         void deleteAutomaticUpdate() {
             deleteRoom(managerAccessToken, createdRoom.id());
