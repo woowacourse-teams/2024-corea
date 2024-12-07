@@ -1,7 +1,7 @@
 import useToast from "../common/useToast";
 import useMutateHandlers from "./useMutateHandlers";
 import { useMutation } from "@tanstack/react-query";
-import { BaseRoomInfo, Role } from "@/@types/roomInfo";
+import { BaseRoomInfo, MemberRole } from "@/@types/roomInfo";
 import {
   deleteParticipateIn,
   deleteParticipatedRoom,
@@ -38,7 +38,7 @@ const useMutateRoom = () => {
       matchingSize,
     }: {
       roomId: number;
-      role: Role;
+      role: MemberRole;
       matchingSize: number;
     }) => postParticipateIn(roomId, role, matchingSize),
 

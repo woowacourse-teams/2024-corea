@@ -39,6 +39,7 @@ const getInitialFormState = (data?: RoomInfo): BaseRoomInfo => ({
   limitedParticipants: data?.limitedParticipants ?? 1,
   recruitmentDeadline: data ? data.recruitmentDeadline : formatCombinedDateTime(new Date()),
   reviewDeadline: data ? data.reviewDeadline : formatCombinedDateTime(new Date()),
+  memberRole: data?.memberRole ?? "BOTH",
   isPublic: data?.isPublic ?? true,
 });
 

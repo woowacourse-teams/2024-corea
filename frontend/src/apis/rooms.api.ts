@@ -4,7 +4,7 @@ import { ParticipantListInfo } from "@/@types/participantList";
 import {
   BaseRoomInfo,
   Classification,
-  Role,
+  MemberRole,
   RoomInfo,
   RoomListInfo,
   RoomStatus,
@@ -98,7 +98,7 @@ export const putEditRoom = async (roomData: BaseRoomInfo): Promise<void> => {
 
 export const postParticipateIn = async (
   roomId: number,
-  role: Role,
+  role: MemberRole,
   matchingSize: number,
 ): Promise<void> => {
   return apiClient.post({
