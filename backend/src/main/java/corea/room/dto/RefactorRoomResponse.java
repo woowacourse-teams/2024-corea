@@ -1,6 +1,5 @@
 package corea.room.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import corea.member.domain.MemberRole;
 import corea.participation.domain.Participation;
 import corea.participation.domain.ParticipationStatus;
@@ -46,6 +45,14 @@ public record RefactorRoomResponse(
             @NotNull
             int limitedParticipants,
 
+            @Schema(description = "리뷰어 참여 수", example = "10")
+            @NotNull
+            int reviewerCount,
+
+            @Schema(description = "일반 참여 수", example = "123")
+            @NotNull
+            int bothCount,
+
             @Schema(description = "방장 이름", example = "최진실")
             String manager,
 
@@ -64,6 +71,8 @@ public record RefactorRoomResponse(
                     room.getMatchingSize(),
                     room.getKeyword(),
                     room.getLimitedParticipantsSize(),
+                    room.getReviewerCount(),
+                    room.getBothCount(),
                     room.getManagerName(),
                     room.getRoomStatus(),
                     ""
