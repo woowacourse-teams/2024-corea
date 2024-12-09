@@ -37,13 +37,13 @@ class RoomRepositoryTest {
 
     @Test
     @DisplayName("선택한 분야와 일치하는 방들을 조회할 수 있다.")
-    void findAllByClassificationAndStatusOrderByRecruitmentDeadline() {
+    void findAllByClassificationAndStatus() {
         Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member joyson = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
         roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_CLASSIFICATION(pororo, LocalDateTime.now().plusDays(2), RoomClassification.ANDROID));
         roomRepository.save(RoomFixture.ROOM_DOMAIN_WITH_CLASSIFICATION(joyson, LocalDateTime.now().plusDays(3), RoomClassification.BACKEND));
 
-        Page<Room> roomPage = roomRepository.findAllByClassificationAndStatusOrderByRecruitmentDeadline(RoomClassification.BACKEND, RoomStatus.OPEN, PageRequest.of(0, 8));
+        Page<Room> roomPage = roomRepository.findAllByClassificationAndStatus(RoomClassification.BACKEND, RoomStatus.OPEN, PageRequest.of(0, 8));
 
         List<String> managerNames = getManagerNames(roomPage.getContent());
         assertThat(managerNames).containsExactly("youngsu5582");
@@ -58,7 +58,7 @@ class RoomRepositoryTest {
         roomRepository.save(RoomFixture.ROOM_DOMAIN(joyson, LocalDateTime.now().plusDays(3)));
 
         participationRepository.save(new Participation(pororoRoom, pororo, MemberRole.REVIEWER, ParticipationStatus.MANAGER,pororoRoom.getMatchingSize()));
-        Page<Room> roomPage = roomRepository.findAllByStatusOrderByRecruitmentDeadline(RoomStatus.OPEN, PageRequest.of(0, 8));
+        Page<Room> roomPage = roomRepository.findAllByStatus(RoomStatus.OPEN, PageRequest.of(0, 8));
 
         List<String> managerNames = getManagerNames(roomPage.getContent());
         assertThat(managerNames).containsExactly("pororo", "youngsu5582");
@@ -72,7 +72,7 @@ class RoomRepositoryTest {
         roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo, LocalDateTime.now().plusDays(2)));
         roomRepository.save(RoomFixture.ROOM_DOMAIN(joyson, LocalDateTime.now().plusDays(3)));
 
-        Page<Room> roomPage = roomRepository.findAllByStatusOrderByRecruitmentDeadline(RoomStatus.OPEN, PageRequest.of(0, 8));
+        Page<Room> roomPage = roomRepository.findAllByStatus(RoomStatus.OPEN, PageRequest.of(0, 8));
 
         List<String> managerNames = getManagerNames(roomPage.getContent());
         assertThat(managerNames).containsExactly("pororo", "youngsu5582");
@@ -80,13 +80,13 @@ class RoomRepositoryTest {
 
     @Test
     @DisplayName("리뷰 마감일이 임박한 순으로 방 리스트를 반환한다.")
-    void findAllByIdInOrderByReviewDeadlineAsc() {
+    void findAllByIdInOrderByRoomDeadline_ReviewDeadlineAsc() {
         Member pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member joyson = memberRepository.save(MemberFixture.MEMBER_YOUNGSU());
         Room pororoRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo, LocalDateTime.now().plusDays(2)));
         Room joysonRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN(joyson, LocalDateTime.now().plusDays(3)));
 
-        List<Room> rooms = roomRepository.findAllByIdInOrderByReviewDeadlineAsc(List.of(pororoRoom.getId(), joysonRoom.getId()));
+        List<Room> rooms = roomRepository.findAllByIdInOrderByRoomDeadline_ReviewDeadlineAsc(List.of(pororoRoom.getId(), joysonRoom.getId()));
 
         List<String> managerNames = getManagerNames(rooms);
         assertThat(managerNames).containsExactly("pororo", "youngsu5582");

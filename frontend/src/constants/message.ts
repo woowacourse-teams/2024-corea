@@ -1,4 +1,4 @@
-const GUIDANCE_MESSAGES = {
+const GUIDANCE_MESSAGES: Record<string, string> = {
   EMPTY_REVIEWER: "아직 리뷰어가 매칭되지 않았습니다!",
   EMPTY_REVIEWEE: "아직 리뷰이가 매칭되지 않았습니다!",
   FAIL_MATCHED: "매칭에 실패한 방입니다.",
@@ -6,7 +6,9 @@ const GUIDANCE_MESSAGES = {
   SUB_DESCRIPTION: "조금만 기다려주세요🤗",
   DELETE_ROOM: "정말 방을 삭제하시겠습니까?\n모집 마감 후엔 방을 삭제할 수 없습니다.",
   EXIT_ROOM: "정말 방을 나가시겠습니까?\n모집 마감 전까진 언제든지 다시 참여할 수 있습니다.",
-  CREATE_ROOM: "방을 생성합니다.\n모집 마감 전까지 방 정보를 수정할 수 있습니다.",
+  // CREATE_ROOM:
+  //   "방을 생성합니다.\n모집 마감 전까지는 방 정보를 수정할 수 있습니다.\n단, 나의 정보는 방 생성 후 변경할 수 없습니다",
+  CREATE_ROOM: "방을 생성합니다.\n생성된 방은 수정할 수 없습니다.",
   EDIT_ROOM: "방 정보를 수정합니다.\n모집 마감 전까지 방 정보를 수정할 수 있습니다.",
   EMPTY_PARTICIPANTS: "참여자 목록은 매칭이 시작된 이후 공개됩니다.",
   ZERO_PARTICIPANTS: "이 방의 참여자가 없습니다.",
@@ -16,7 +18,7 @@ const GUIDANCE_MESSAGES = {
   NO_ALARM_LIST: "표시할 알림이 없습니다.",
 };
 
-const ERROR_MESSAGES = {
+const ERROR_MESSAGES: Record<string, string> = {
   OFFLINE: "오프라인 상태입니다. 네트워크를 확인해주세요.",
 
   // auth
@@ -58,12 +60,12 @@ const ERROR_MESSAGES = {
   PUT_REVIEWER_FEEDBACK: "리뷰어 피드백 수정에 실패했습니다.",
   //피드백 모아보기
   GET_RECEIVED_FEEDBACK: "받은 피드백 불러오는 도중 에러가 발생하였습니다.",
-  GET_DELIVERED_FEEDBACK: "받은 피드백 불러오는 도중 에러가 발생하였습니다.",
+  GET_DELIVERED_FEEDBACK: "쓴 피드백 불러오는 도중 에러가 발생하였습니다.",
 
   // ranking
   GET_RANKING: "랭킹을 불러오는 도중 에러가 발생하였습니다.",
 
-  // alaram
+  // alarm
   GET_ALARM_COUNT: "읽지 않은 알림 개수를 불러오는 도중 에러가 발생하였습니다.",
   GET_ALARM_LIST: "알림 목록을 불러오는 도중 에러가 발생하였습니다.",
   POST_ALARM_CHECKED: "알림을 읽음 상태로 변경하기를 실패했습니다.",
@@ -73,7 +75,7 @@ const ERROR_MESSAGES = {
   BOUNDARY_API: "네트워크 에러가 발생했습니다.",
 };
 
-const SUCCESS_MESSAGES = {
+const SUCCESS_MESSAGES: Record<string, string> = {
   POST_REVIEW_COMPLETE: "정상적으로 코드리뷰를 완료했습니다.",
   POST_REVIEW_FEEDBACK: "정상적으로 피드백을 작성하였습니다.",
   POST_CREATE_ROOM: "정상적으로 방을 생성하였습니다.",
@@ -85,10 +87,22 @@ const SUCCESS_MESSAGES = {
   POST_REVIEW_URGE: "정상적으로 코드리뷰 재촉하기를 했습니다.",
 };
 
+const HELP_MESSAGES: Record<string, string> = {
+  REPOSITORY_LINK_INPUT: ".git 확장자가 아닌 링크를 넣어주세요.",
+  ISPUBLIC_YES_INPUT: "하나의 공용 레포지토리에 모두가 PR을 제출하는 형식이면 '예'",
+  ISPUBLIC_NO_INPUT: "각자 개인 레포지토리로 PR을 제출하는 형식이면 '아니요'에 체크해주세요.",
+  MATCHING_SIZE_INPUT: "최소 1명, 최대 5명 가능해요.",
+  MANAGER_MEMBER_ROLE_BOTH_INPUT:
+    "상대방의 코드를 리뷰하면서 자신의 코드도 리뷰받고 싶은 경우 선택하세요.",
+  MANAGER_MEMBER_ROLE_REVIEWER_INPUT: "다른 사람의 코드만 리뷰하고 싶은 경우 선택하세요.",
+  MANAGER_MATCHING_SIZE_INPUT: "리뷰할 사람 수는 자신의 학습 목표나 시간 여유에 맞춰 선택하세요.",
+};
+
 const MESSAGES = {
   GUIDANCE: GUIDANCE_MESSAGES,
   ERROR: ERROR_MESSAGES,
   SUCCESS: SUCCESS_MESSAGES,
+  HELP: HELP_MESSAGES,
 };
 
 export default MESSAGES;

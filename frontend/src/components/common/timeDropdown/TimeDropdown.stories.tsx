@@ -20,6 +20,11 @@ const meta = {
       description: "시간 변경 시 호출되는 콜백",
       action: "changed",
     },
+    error: {
+      control: {
+        type: "boolean",
+      },
+    },
   },
 } satisfies Meta<typeof TimeDropdown>;
 
@@ -32,6 +37,7 @@ export const Default: Story = {
   args: {
     selectedTime: new Date(),
     onTimeChange: () => {},
+    error: false,
   },
   render: (args) => {
     const [time, setTime] = useState<Date>(args.selectedTime);
@@ -42,6 +48,7 @@ export const Default: Story = {
           setTime(newTime);
           args.onTimeChange(newTime);
         }}
+        error={false}
       />
     );
   },

@@ -1,4 +1,4 @@
-package corea.room.acceptance;
+package corea.room.controller;
 
 import config.ControllerTest;
 import corea.auth.service.LoginService;

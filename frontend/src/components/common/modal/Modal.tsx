@@ -1,3 +1,4 @@
+import Icon from "../icon/Icon";
 import { CSSProperties, MouseEvent, ReactNode, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import FocusTrap from "@/components/common/focusTrap/FocusTrap";
@@ -8,8 +9,6 @@ const portalElement = document.getElementById("modal") as HTMLElement;
 export interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onConfirm?: () => void;
-  onCancel?: () => void;
   hasCloseButton?: boolean;
   style?: CSSProperties;
   children?: ReactNode;
@@ -89,15 +88,15 @@ const Modal = ({ isOpen, onClose, hasCloseButton = true, style, children }: Moda
             handleModalClose();
           }}
         >
-          <div>
+          <>
             <div ref={firstChildRef} tabIndex={-1} aria-hidden />
             {hasCloseButton && (
               <S.CloseButton onClick={handleModalClose} ref={closeButtonRef} aria-label="모달 닫기">
-                &times;
+                <Icon kind="close" size="2.4rem" />
               </S.CloseButton>
             )}
-            {children}
-          </div>
+            <S.ModalBody>{children}</S.ModalBody>
+          </>
         </FocusTrap>
       </S.ModalContent>
     </>,

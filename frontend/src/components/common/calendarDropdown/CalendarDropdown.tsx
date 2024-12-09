@@ -4,12 +4,14 @@ import useDropdown from "@/hooks/common/useDropdown";
 import Calendar, { CalendarProps } from "@/components/common/calendar/Calendar";
 import { formatDate } from "@/utils/dateFormatter";
 
-type CalendarDropdownProps = CalendarProps & InputHTMLAttributes<HTMLInputElement>;
+type CalendarDropdownProps = CalendarProps &
+  InputHTMLAttributes<HTMLInputElement> & { error: boolean };
 
 const CalendarDropdown = ({
   selectedDate,
   handleSelectedDate,
   options,
+  error,
   ...rest
 }: CalendarDropdownProps) => {
   const { isDropdownOpen, handleToggleDropdown, dropdownRef } = useDropdown();
@@ -27,6 +29,7 @@ const CalendarDropdown = ({
         value={formatDate(selectedDate)}
         onClick={handleToggleDropdown}
         placeholder="날짜를 선택하세요"
+        $error={error}
         readOnly
         {...rest}
       />

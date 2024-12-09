@@ -12,6 +12,7 @@ import corea.room.dto.RoomResponse;
 import corea.room.repository.RoomRepository;
 import corea.scheduler.repository.AutomaticMatchingRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,13 +44,16 @@ class AutomaticMatchingSchedulerTest {
     @Autowired
     private AutomaticMatchingExecutor automaticMatchingExecutor;
 
-    private Map<Long, ScheduledFuture<?>> scheduledTasks;
+    @Autowired
     private AutomaticMatchingScheduler automaticMatchingScheduler;
+
+    private Map<Long, ScheduledFuture<?>> scheduledTasks;
 
     @BeforeEach
     void setup() {
         this.scheduledTasks = new HashMap<>();
         this.automaticMatchingScheduler = new AutomaticMatchingScheduler(taskScheduler, automaticMatchingExecutor, scheduledTasks);
+
     }
 
     @Test

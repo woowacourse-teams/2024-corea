@@ -1,16 +1,16 @@
 package corea.matching.infrastructure;
 
+import config.ServiceTest;
 import corea.matching.infrastructure.dto.GithubUserResponse;
 import corea.matching.infrastructure.dto.PullRequestResponse;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
+@ServiceTest
 @Disabled
 class PrivateGithubPullRequestClientTest {
 
@@ -29,7 +29,7 @@ class PrivateGithubPullRequestClientTest {
 
     @Test
     @DisplayName("레포지토리가 없으면 null 을 반환한다.")
-    void get_null_if_not_exist_repository(){
+    void get_null_if_not_exist_repository() {
         String repositoryLink = "https://github.com/woowacourse-precourse/java-christmas-6";
         String username = "00kang";
         PullRequestResponse response = privateGithubPullRequestClient.getPullRequest(repositoryLink, username);

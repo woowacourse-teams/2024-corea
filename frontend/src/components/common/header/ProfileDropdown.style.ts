@@ -1,4 +1,5 @@
 import styled, { keyframes } from "styled-components";
+import { Z_INDEX } from "@/styles/zIndex";
 
 const dropdown = keyframes`
   0% {
@@ -17,7 +18,7 @@ export const ProfileContainer = styled.div`
 
 export const DropdownMenu = styled.div`
   position: absolute;
-  z-index: 1;
+  z-index: ${Z_INDEX.dropdown};
   right: 0;
 
   display: flex;

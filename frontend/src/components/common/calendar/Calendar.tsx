@@ -36,11 +36,10 @@ const Calendar = ({ selectedDate, handleSelectedDate, options }: CalendarProps) 
   const checkIsAvailableClick = (day: number) => {
     if (!options?.isPastDateDisabled) return true;
 
-    const targetDate = options.disabledBeforeDate || new Date();
+    const targetDate = new Date(options.disabledBeforeDate || new Date());
     targetDate.setHours(0, 0, 0, 0);
 
     const checkingDate = new Date(currentViewYear, currentViewMonth - 1, day);
-
     return targetDate <= checkingDate;
   };
 

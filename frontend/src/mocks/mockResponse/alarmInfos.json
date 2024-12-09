@@ -63,6 +63,46 @@
       "isRead": false,
       "createAt": "2024-1008T00:01:59.4122",
       "alarmType": "USER"
+    },
+    {
+      "alarmId": 3,
+      "actionType": "MATCH_COMPLETE",
+      "actor": null,
+      "interaction": {
+        "interactionId": 1,
+        "info": "TDD 자바 TDD 자바 TDD 자바[]"
+      },
+      "isRead": false,
+      "createAt": "2024-1008T00:01:59.4122",
+      "alarmType": "SERVER"
+    },
+    {
+      "alarmId": 3,
+      "actionType": "MATCH_FAIL",
+      "actor": null,
+      "interaction": {
+        "interactionId": 1,
+        "info": "TDD 자바 TDD 자바 TDD 자바[]"
+      },
+      "isRead": false,
+      "createAt": "2024-1008T00:01:59.4122",
+      "alarmType": "SERVER"
+    },
+    {
+      "alarmId": 3,
+      "actionType": "FEEDBACK_CREATED",
+      "actor": {
+        "memberId": 2,
+        "username": "ashs",
+        "thumbnailUrl": "www.myProfile.jpg"
+      },
+      "interaction": {
+        "interactionId": 1,
+        "info": "FEEDBACK_CREATED test"
+      },
+      "isRead": false,
+      "createAt": "2024-1008T00:01:59.4122",
+      "alarmType": "USER"
     }
   ]
 }
