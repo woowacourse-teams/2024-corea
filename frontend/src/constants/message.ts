@@ -6,7 +6,8 @@ const GUIDANCE_MESSAGES: Record<string, string> = {
   SUB_DESCRIPTION: "조금만 기다려주세요🤗",
   DELETE_ROOM: "정말 방을 삭제하시겠습니까?\n모집 마감 후엔 방을 삭제할 수 없습니다.",
   EXIT_ROOM: "정말 방을 나가시겠습니까?\n모집 마감 전까진 언제든지 다시 참여할 수 있습니다.",
-  CREATE_ROOM: "방을 생성합니다.\n모집 마감 전까지 방 정보를 수정할 수 있습니다.",
+  CREATE_ROOM:
+    "방을 생성합니다.\n모집 마감 전까지는 방 정보를 수정할 수 있습니다.\n단, 나의 정보는 방 생성 후 변경할 수 없습니다",
   EDIT_ROOM: "방 정보를 수정합니다.\n모집 마감 전까지 방 정보를 수정할 수 있습니다.",
   EMPTY_PARTICIPANTS: "참여자 목록은 매칭이 시작된 이후 공개됩니다.",
   ZERO_PARTICIPANTS: "이 방의 참여자가 없습니다.",
@@ -85,10 +86,23 @@ const SUCCESS_MESSAGES: Record<string, string> = {
   POST_REVIEW_URGE: "정상적으로 코드리뷰 재촉하기를 했습니다.",
 };
 
+const HELP_MESSAGES: Record<string, string> = {
+  REPOSITORY_LINK_INPUT: ".git 확장자가 아닌 링크를 넣어주세요.",
+  ISPUBLIC_YES_INPUT: "하나의 공용 레포지토리에 모두가 PR을 제출하는 형식이면 &apos;예&apos;",
+  ISPUBLIC_NO_INPUT:
+    "각자 개인 레포지토리로 PR을 제출하는 형식이면 &apos;아니요&apos;에 체크해주세요.",
+  MATCHING_SIZE_INPUT: "최소 1명, 최대 5명 가능해요.",
+  MANAGER_MEMBER_ROLE_BOTH_INPUT:
+    "상대방의 코드를 리뷰하면서 자신의 코드도 리뷰받고 싶은 경우 선택하세요.",
+  MANAGER_MEMBER_ROLE_REVIEWER_INPUT: "다른 사람의 코드만 리뷰하고 싶은 경우 선택하세요.",
+  MANAGER_MATCHING_SIZE_INPUT: "리뷰할 사람 수는 자신의 학습 목표나 시간 여유에 맞춰 선택하세요.",
+};
+
 const MESSAGES = {
   GUIDANCE: GUIDANCE_MESSAGES,
   ERROR: ERROR_MESSAGES,
   SUCCESS: SUCCESS_MESSAGES,
+  HELP: HELP_MESSAGES,
 };
 
 export default MESSAGES;
