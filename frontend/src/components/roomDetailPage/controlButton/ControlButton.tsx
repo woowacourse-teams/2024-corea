@@ -17,7 +17,7 @@ export type DropdownItem = {
 
 export const dropdownItemsConfig: Record<string, DropdownItem[]> = {
   MANAGER: [
-    { name: "수정하기", action: "EDIT_ROOM" },
+    // { name: "수정하기", action: "EDIT_ROOM" },
     { name: "삭제하기", action: "DELETE_ROOM" },
   ],
   PARTICIPATED: [{ name: "방 나가기", action: "EXIT_ROOM" }],

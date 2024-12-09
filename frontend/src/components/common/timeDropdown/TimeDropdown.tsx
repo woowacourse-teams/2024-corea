@@ -21,26 +21,41 @@ const TimePicker = ({
   time: Date;
   onTimeInputChange: (event: TimeDropdownChangeProps) => void;
 }) => {
-  const hourRef = useRef<HTMLButtonElement | null>(null);
-  const minuteRef = useRef<HTMLButtonElement | null>(null);
+  const hourContainerRef = useRef<HTMLDivElement | null>(null);
+  const minuteContainerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (hourRef.current) {
-      hourRef.current.scrollIntoView({ block: "start" });
+    const buttonHeight = 35;
+
+    if (hourContainerRef.current) {
+      const activeHourButton = hourContainerRef.current.querySelector(
+        `[data-hour="${time.getHours()}"]`,
+      ) as HTMLButtonElement | null;
+
+      if (activeHourButton) {
+        hourContainerRef.current.scrollTop = activeHourButton.offsetTop - buttonHeight / 2;
+      }
     }
-    if (minuteRef.current) {
-      minuteRef.current.scrollIntoView({ block: "start" });
+
+    if (minuteContainerRef.current) {
+      const activeMinuteButton = minuteContainerRef.current.querySelector(
+        `[data-minute="${time.getMinutes()}"]`,
+      ) as HTMLButtonElement | null;
+
+      if (activeMinuteButton) {
+        minuteContainerRef.current.scrollTop = activeMinuteButton.offsetTop - buttonHeight / 2;
+      }
     }
   }, [time]);
 
   return (
     <S.TimePickerWrapper>
-      <S.TimeSelector>
+      <S.TimeSelector ref={hourContainerRef}>
         {Array.from({ length: 24 }).map((_, hour) => (
           <S.TimeButton
             key={hour}
             isActive={hour === time.getHours()}
-            ref={hour === time.getHours() ? hourRef : null}
+            data-hour={hour}
             onClick={() => {
               const newTime = new Date(time);
               newTime.setHours(hour);
@@ -52,12 +67,12 @@ const TimePicker = ({
         ))}
       </S.TimeSelector>
 
-      <S.TimeSelector>
+      <S.TimeSelector ref={minuteContainerRef}>
         {Array.from({ length: 60 }).map((_, minute) => (
           <S.TimeButton
             key={minute}
             isActive={minute === time.getMinutes()}
-            ref={minute === time.getMinutes() ? minuteRef : null}
+            data-minute={minute}
             onClick={() => {
               const newTime = new Date(time);
               newTime.setMinutes(minute);
