@@ -94,7 +94,7 @@ public record RoomResponse(@Schema(description = "방 아이디", example = "1")
                 room.getReviewDeadline(),
                 participationStatus,
                 role,
-                room.getRoomStatus(),
+                room.getRoomStatusString(),
                 room.getClassification(),
                 DEFAULT_MESSAGE,
                 isPublic
@@ -118,7 +118,7 @@ public record RoomResponse(@Schema(description = "방 아이디", example = "1")
                 room.getReviewDeadline(),
                 participation.getStatus(),
                 participation.getMemberRole(),
-                room.getRoomStatus(),
+                room.getRoomStatusString(),
                 room.getClassification(),
                 DEFAULT_MESSAGE,
                 isPublic
@@ -142,7 +142,7 @@ public record RoomResponse(@Schema(description = "방 아이디", example = "1")
                 room.getReviewDeadline(),
                 participation.getStatus(),
                 participation.getMemberRole(),
-                room.getRoomStatus(),
+                room.getRoomStatusString(),
                 room.getClassification(),
                 failedMatching.getMatchingFailedReason(),
                 isPublic

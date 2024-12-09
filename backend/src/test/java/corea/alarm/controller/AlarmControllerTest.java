@@ -2,8 +2,8 @@ package corea.alarm.controller;
 
 import config.ControllerTest;
 import corea.alarm.domain.UserToUserAlarm;
-import corea.alarm.domain.UserToUserAlarmRepository;
 import corea.alarm.dto.AlarmCheckRequest;
+import corea.alarm.repository.UserToUserAlarmRepository;
 import corea.auth.service.TokenService;
 import corea.fixture.AlarmFixture;
 import corea.fixture.MemberFixture;

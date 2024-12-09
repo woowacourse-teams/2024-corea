@@ -58,3 +58,10 @@ export const TYPE_CLASSIFICATION = {
   FRONTEND: "#F7DF1E",
   BACKEND: "#F0A746",
 };
+
+export const ErrorText = styled.span`
+  min-height: 20px;
+  font: ${theme.TEXT.semiSmall};
+  color: ${theme.COLOR.error};
+  white-space: pre-line;
+`;

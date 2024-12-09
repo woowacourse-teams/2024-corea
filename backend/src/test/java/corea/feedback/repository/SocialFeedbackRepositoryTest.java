@@ -37,7 +37,7 @@ class SocialFeedbackRepositoryTest {
 
         Member deliver = memberRepository.save(MemberFixture.MEMBER_PORORO());
         Member receiver = memberRepository.save(MemberFixture.MEMBER_MOVIN());
-        List<FeedbackKeyword> feedbackKeywords = List.of(FeedbackKeyword.KIND, FeedbackKeyword.HELPFUL);
+        List<FeedbackKeyword> feedbackKeywords = List.of(FeedbackKeyword.POSITIVE_SOCIAL_FEEDBACK_1, FeedbackKeyword.POSITIVE_SOCIAL_FEEDBACK_2);
         SocialFeedback feedback = new SocialFeedback(room.getId(), deliver, receiver, 3, feedbackKeywords, "");
         socialFeedbackRepository.save(feedback);
 

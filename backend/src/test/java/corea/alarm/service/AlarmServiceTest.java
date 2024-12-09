@@ -1,20 +1,28 @@
 package corea.alarm.service;
 
 import config.ServiceTest;
+import corea.alarm.domain.AlarmActionType;
+import corea.alarm.domain.ServerToUserAlarm;
 import corea.alarm.domain.UserToUserAlarm;
-import corea.alarm.domain.UserToUserAlarmRepository;
 import corea.alarm.dto.AlarmCheckRequest;
 import corea.alarm.dto.AlarmCountResponse;
 import corea.alarm.dto.AlarmResponse;
 import corea.alarm.dto.AlarmResponses;
+import corea.alarm.repository.ServerToUserAlarmRepository;
+import corea.alarm.repository.UserToUserAlarmRepository;
 import corea.exception.CoreaException;
 import corea.fixture.AlarmFixture;
 import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
 import corea.member.domain.Member;
+import corea.member.domain.MemberRole;
 import corea.member.repository.MemberRepository;
+import corea.participation.domain.Participation;
+import corea.participation.domain.ParticipationStatus;
+import corea.participation.repository.ParticipationRepository;
 import corea.room.domain.Room;
 import corea.room.repository.RoomRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,6 +33,8 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ServiceTest
 class AlarmServiceTest {
@@ -33,10 +43,16 @@ class AlarmServiceTest {
     AlarmService alarmService;
 
     @Autowired
+    ServerToUserAlarmRepository serverToUserAlarmRepository;
+
+    @Autowired
     UserToUserAlarmRepository userToUserAlarmRepository;
 
     @Autowired
     MemberRepository memberRepository;
+
+    @Autowired
+    ParticipationRepository participationRepository;
 
     private Member actor;
     private Member receiver;
@@ -56,13 +72,22 @@ class AlarmServiceTest {
         interactionId = interaction.getId();
     }
 
+    @AfterEach
+    void tearDown() {
+        serverToUserAlarmRepository.deleteAll();
+    }
+
     @Test
     @DisplayName("자신에게 작성된 알람들을 가져온다.")
     void get_alarm_count() {
         userToUserAlarmRepository.save(AlarmFixture.REVIEW_COMPLETE(actor.getId(), receiver.getId(), interactionId));
         userToUserAlarmRepository.save(AlarmFixture.REVIEW_COMPLETE(actor.getId(), notReceiver.getId(), interactionId));
+
+        serverToUserAlarmRepository.save(AlarmFixture.MATCH_COMPLETE(receiver.getId(), interactionId));
+        serverToUserAlarmRepository.save(AlarmFixture.MATCH_FAIL(notReceiver.getId(), interactionId));
+
         AlarmCountResponse response = alarmService.getUnReadAlarmCount(receiver.getId());
-        assertThat(response.count()).isEqualTo(1);
+        assertThat(response.count()).isEqualTo(2);
     }
 
     @Test
@@ -70,8 +95,12 @@ class AlarmServiceTest {
     void get_only_not_read_alarm_count() {
         userToUserAlarmRepository.save(AlarmFixture.REVIEW_COMPLETE(actor.getId(), receiver.getId(), interactionId));
         userToUserAlarmRepository.save(AlarmFixture.READ_REVIEW_COMPLETE(actor.getId(), receiver.getId(), interactionId));
+
+        serverToUserAlarmRepository.save(AlarmFixture.MATCH_COMPLETE(receiver.getId(), interactionId));
+        serverToUserAlarmRepository.save(AlarmFixture.READ_MATCH_COMPLETE(receiver.getId(), interactionId));
+
         AlarmCountResponse response = alarmService.getUnReadAlarmCount(receiver.getId());
-        assertThat(response.count()).isEqualTo(1);
+        assertThat(response.count()).isEqualTo(2);
     }
 
     @Test
@@ -79,12 +108,18 @@ class AlarmServiceTest {
     void get_alarm() {
         UserToUserAlarm alarm1 = userToUserAlarmRepository.save(AlarmFixture.REVIEW_COMPLETE(actor.getId(), receiver.getId(), interactionId));
         UserToUserAlarm alarm2 = userToUserAlarmRepository.save(AlarmFixture.READ_REVIEW_COMPLETE(actor.getId(), receiver.getId(), interactionId));
+
+        ServerToUserAlarm alarm3 = serverToUserAlarmRepository.save(AlarmFixture.MATCH_COMPLETE(receiver.getId(), interactionId));
+        ServerToUserAlarm alarm4 = serverToUserAlarmRepository.save(AlarmFixture.MATCH_FAIL(receiver.getId(), interactionId));
+
         AlarmResponses responses = alarmService.getAlarm(receiver.getId());
-        assertThat(responses.data()).hasSize(2)
+        assertThat(responses.data()).hasSize(4)
                 .usingElementComparatorIgnoringFields("createAt")
                 .containsExactly(
-                        AlarmResponse.from(alarm2, actor, interaction),
-                        AlarmResponse.from(alarm1, actor, interaction)
+                        AlarmResponse.of(alarm4, interaction),
+                        AlarmResponse.of(alarm3, interaction),
+                        AlarmResponse.of(alarm2, actor, interaction),
+                        AlarmResponse.of(alarm1, actor, interaction)
                 );
     }
 
@@ -98,7 +133,7 @@ class AlarmServiceTest {
     }
 
     @Test
-    @DisplayName("자신에게 해당된 알람이 아니면 예외를 발생한다.")
+    @DisplayName("존재하는 알람이 아니면 예외를 발생한다.")
     void throw_exception_when_not_exist_alarm() {
         userToUserAlarmRepository.save(AlarmFixture.REVIEW_COMPLETE(actor.getId(), receiver.getId(), interactionId));
 
@@ -133,5 +168,41 @@ class AlarmServiceTest {
         userToUserAlarmRepository.save(AlarmFixture.URGE_REVIEW(actor.getId(), receiver.getId(), interactionId));
         assertThatThrownBy(() -> alarmService.createUrgeAlarm(actor.getId(), receiver.getId(), interactionId))
                 .isInstanceOf(CoreaException.class);
+    }
+
+    @Test
+    @DisplayName("매칭 완료 알람을 생성한다.")
+    void matching_complete_alarm() {
+        participationRepository.save(new Participation(interaction, receiver, MemberRole.BOTH, ParticipationStatus.PARTICIPATED, 2));
+        participationRepository.save(new Participation(interaction, actor, MemberRole.BOTH, ParticipationStatus.PARTICIPATED, 2));
+
+        alarmService.createMatchingCompletedAlarm(interactionId);
+
+        List<ServerToUserAlarm> matchingAlarmsToReceiver = serverToUserAlarmRepository.findAllByReceiverId(receiver.getId());
+        List<ServerToUserAlarm> totalAlarms = serverToUserAlarmRepository.findAll();
+
+        assertAll(
+                () -> assertEquals(totalAlarms.size(), 2),
+                () -> assertEquals(matchingAlarmsToReceiver.size(), 1),
+                () -> assertEquals(matchingAlarmsToReceiver.get(0).getAlarmActionType(), AlarmActionType.MATCH_COMPLETE)
+        );
+    }
+
+    @Test
+    @DisplayName("매칭 실패 알람을 생성한다.")
+    void matching_fail_alarm() {
+        participationRepository.save(new Participation(interaction, receiver, MemberRole.BOTH, ParticipationStatus.PARTICIPATED, 2));
+        participationRepository.save(new Participation(interaction, actor, MemberRole.BOTH, ParticipationStatus.PARTICIPATED, 2));
+
+        alarmService.createMatchingFailedAlarm(interactionId);
+
+        List<ServerToUserAlarm> matchingAlarmsToReceiver = serverToUserAlarmRepository.findAllByReceiverId(receiver.getId());
+        List<ServerToUserAlarm> totalAlarms = serverToUserAlarmRepository.findAll();
+
+        assertAll(
+                () -> assertEquals(totalAlarms.size(), 2),
+                () -> assertEquals(matchingAlarmsToReceiver.size(), 1),
+                () -> assertEquals(matchingAlarmsToReceiver.get(0).getAlarmActionType(), AlarmActionType.MATCH_FAIL)
+        );
     }
 }

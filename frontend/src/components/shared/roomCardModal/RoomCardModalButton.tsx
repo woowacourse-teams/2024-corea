@@ -5,7 +5,7 @@ import Button from "@/components/common/button/Button";
 import Checkbox from "@/components/common/checkbox/Checkbox";
 import ConfirmModal from "@/components/common/modal/confirmModal/ConfirmModal";
 import * as S from "@/components/shared/roomCardModal/RoomCardModal.style";
-import { Role, RoomInfo } from "@/@types/roomInfo";
+import { MemberRole, RoomInfo } from "@/@types/roomInfo";
 import { HoverStyledLink } from "@/styles/common";
 
 interface RoomCardModalButtonProps {
@@ -32,7 +32,7 @@ const RoomCardModalButton = ({ roomInfo }: RoomCardModalButtonProps) => {
     postParticipateInMutation.mutate(
       {
         roomId: roomInfo.id,
-        role: userRole as Role,
+        role: userRole as MemberRole,
         matchingSize,
       },
       {
@@ -102,7 +102,7 @@ const RoomCardModalButton = ({ roomInfo }: RoomCardModalButtonProps) => {
             >
               -
             </Button>
-            <S.ReviewCount>{matchingSize}</S.ReviewCount>
+            <S.MatchingSize>{matchingSize}</S.MatchingSize>
             <Button
               variant={matchingSize === MAX_MATCHING_SIZE ? "disable" : "primary"}
               size="xSmall"
@@ -127,7 +127,11 @@ const RoomCardModalButton = ({ roomInfo }: RoomCardModalButtonProps) => {
         </S.FormWrapper>
       </S.FormContainer>
 
-      <Button variant="primary" size="small" onClick={handleNoticeModal}>
+      <Button
+        variant="primary"
+        size="small"
+        onClick={roomInfo.isPublic ? handleParticipateRoomClick : handleNoticeModal}
+      >
         참여하기
       </Button>
     </S.ButtonContainer>

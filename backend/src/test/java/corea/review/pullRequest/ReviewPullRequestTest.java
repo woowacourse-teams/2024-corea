@@ -1,5 +1,6 @@
 package corea.review.pullRequest;
 
+import config.ServiceTest;
 import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
 import corea.matching.domain.PullRequestInfo;
@@ -15,22 +16,15 @@ import corea.participation.service.ParticipationService;
 import corea.review.service.ReviewService;
 import corea.room.domain.Room;
 import corea.room.repository.RoomRepository;
-import io.restassured.RestAssured;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.server.LocalServerPort;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ServiceTest
 class ReviewPullRequestTest {
-
-    @LocalServerPort
-    int port;
 
     @Autowired
     private MemberRepository memberRepository;
@@ -52,11 +46,6 @@ class ReviewPullRequestTest {
 
     @Autowired
     private MatchResultService matchResultService;
-
-    @BeforeEach
-    void setUp() {
-        RestAssured.port = port;
-    }
 
     @Disabled
     @Test

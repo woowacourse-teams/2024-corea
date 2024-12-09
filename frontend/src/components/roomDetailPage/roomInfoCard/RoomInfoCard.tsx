@@ -42,7 +42,7 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
 
         <S.RoomContentBox>
           <S.RoomTagBox>
-            <Label type="MANAGER" managerText={roomInfo.manager} />
+            <Label type="MANAGER" managerText={roomInfo.manager} size="semiSmall_bold" />
             {displayedKeywords.length === 0 ? (
               <S.NoKeywordText>지정된 키워드 없음</S.NoKeywordText>
             ) : (
@@ -51,7 +51,7 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
                   key={keyword}
                   type="KEYWORD"
                   text={keyword}
-                  size="small"
+                  size="semiSmall_bold"
                   backgroundColor={theme.COLOR.primary1}
                 />
               ))
@@ -64,15 +64,15 @@ const RoomInfoCard = ({ roomInfo }: { roomInfo: RoomInfo }) => {
           <S.RoomContentSmall>
             <S.ContentLineBreak aria-hidden>
               <Icon kind="person" size="1.8rem" color={theme.COLOR.grey4} />
-              <S.ContentTerm>총 인원: </S.ContentTerm>
+              <S.ContentTerm>참여 인원: </S.ContentTerm>
               <S.ContentDescription>
-                {roomInfo.reviewerCount + roomInfo.bothCount} /{roomInfo.limitedParticipants}명
+                {roomInfo.bothCount} / {roomInfo.limitedParticipants}명
               </S.ContentDescription>
               <S.ContentTermSub>
                 리뷰어 {roomInfo.reviewerCount}, 참여자 {roomInfo.bothCount}
               </S.ContentTermSub>
             </S.ContentLineBreak>
-            <S.ScreenReader>{`총 인원 : ${roomInfo.limitedParticipants}명 중 ${roomInfo.reviewerCount + roomInfo.bothCount}명, 리뷰어 ${roomInfo.reviewerCount}명, 참여자 ${roomInfo.bothCount}명`}</S.ScreenReader>
+            <S.ScreenReader>{`총 인원 : ${roomInfo.limitedParticipants}명 중 ${roomInfo.bothCount}명, 리뷰어 ${roomInfo.reviewerCount}명, 참여자 ${roomInfo.bothCount}명`}</S.ScreenReader>
           </S.RoomContentSmall>
 
           <S.RoomContentSmall>

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Z_INDEX } from "@/styles/zIndex";
 
 //TimeDropdown
 export const TimeDropdownContainer = styled.section`
@@ -6,7 +7,7 @@ export const TimeDropdownContainer = styled.section`
   width: 100px;
 `;
 
-export const TimeDropdownToggle = styled.input`
+export const TimeDropdownToggle = styled.input<{ $error: boolean }>`
   cursor: pointer;
 
   width: 100%;
@@ -16,7 +17,7 @@ export const TimeDropdownToggle = styled.input`
   text-align: center;
   letter-spacing: 0.2rem;
 
-  border: 1px solid ${({ theme }) => theme.COLOR.grey1};
+  border: 1px solid ${({ theme, $error }) => ($error ? theme.COLOR.error : theme.COLOR.grey1)};
   border-radius: 6px;
   outline-color: ${({ theme }) => theme.COLOR.black};
 `;
@@ -24,7 +25,7 @@ export const TimeDropdownToggle = styled.input`
 //TimePicker
 export const TimePickerWrapper = styled.div`
   position: absolute;
-  z-index: 999;
+  z-index: ${Z_INDEX.dropdown};
 
   display: flex;
   gap: 1rem;

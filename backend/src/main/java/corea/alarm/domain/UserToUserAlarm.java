@@ -14,7 +14,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class UserToUserAlarm extends BaseTimeEntity {
+public class UserToUserAlarm extends BaseTimeEntity implements Alarm {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -40,23 +40,27 @@ public class UserToUserAlarm extends BaseTimeEntity {
         this(null, alarmActionType, actorId, receiverId, interactionId, isRead);
     }
 
+    public boolean isUrgeAlarm() {
+        return alarmActionType == AlarmActionType.REVIEW_URGE;
+    }
+
+    @Override
     public boolean isStatus(boolean status) {
         return isRead == status;
     }
 
+    @Override
     public String getActionType() {
         return alarmActionType.name();
     }
 
+    @Override
     public boolean isNotReceiver(Member member) {
         return !receiverId.equals(member.getId());
     }
 
+    @Override
     public void read() {
         isRead = true;
-    }
-
-    public boolean isUrgeAlarm() {
-        return alarmActionType == AlarmActionType.REVIEW_URGE;
     }
 }

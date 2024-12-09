@@ -20,6 +20,11 @@ const meta = {
       description: "달력 날짜 선택 함수",
       action: "selected",
     },
+    error: {
+      control: {
+        type: "boolean",
+      },
+    },
   },
 } satisfies Meta<typeof CalendarDropdown>;
 
@@ -30,6 +35,7 @@ export const Default: Story = {
   args: {
     selectedDate: new Date(),
     handleSelectedDate: () => {},
+    error: false,
   },
   render: (args) => {
     const [selectedDate, setSelectedDate] = useState<Date>(args.selectedDate);
@@ -38,7 +44,13 @@ export const Default: Story = {
       setSelectedDate(newSelectedDate);
     };
 
-    return <CalendarDropdown selectedDate={selectedDate} handleSelectedDate={handleSelectedDate} />;
+    return (
+      <CalendarDropdown
+        selectedDate={selectedDate}
+        handleSelectedDate={handleSelectedDate}
+        error={false}
+      />
+    );
   },
 };
 
@@ -49,6 +61,7 @@ export const 이전날짜_선택_불가_캘린더: Story = {
     options: {
       isPastDateDisabled: true,
     },
+    error: false,
   },
   render: (args) => {
     const [selectedDate, setSelectedDate] = useState<Date>(args.selectedDate);
@@ -62,6 +75,7 @@ export const 이전날짜_선택_불가_캘린더: Story = {
         selectedDate={selectedDate}
         handleSelectedDate={handleSelectedDate}
         options={args.options}
+        error={false}
       />
     );
   },
@@ -74,6 +88,7 @@ export const 캘린더_드롭다운_에러: Story = {
     options: {
       isPastDateDisabled: true,
     },
+    error: false,
   },
   render: (args) => {
     const [selectedDate, setSelectedDate] = useState<Date>(args.selectedDate);
@@ -87,6 +102,7 @@ export const 캘린더_드롭다운_에러: Story = {
         selectedDate={selectedDate}
         handleSelectedDate={handleSelectedDate}
         options={args.options}
+        error={false}
       />
     );
   },

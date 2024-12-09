@@ -3,11 +3,13 @@ import { API_ENDPOINTS } from "./endpoints";
 import { ParticipantListInfo } from "@/@types/participantList";
 import {
   Classification,
-  Role,
+  CreateRoomInfo,
+  MemberRole,
+  RoomCreateRequest,
+  RoomDetailResponse,
   RoomInfo,
   RoomListInfo,
   RoomStatus,
-  SubmitRoomInfo,
 } from "@/@types/roomInfo";
 import MESSAGES from "@/constants/message";
 
@@ -80,7 +82,7 @@ export const getRoomDetailInfo = async (id: number): Promise<RoomInfo> => {
   return res;
 };
 
-export const postCreateRoom = async (roomData: SubmitRoomInfo): Promise<void> => {
+export const postCreateRoom = async (roomData: RoomCreateRequest): Promise<RoomDetailResponse> => {
   return apiClient.post({
     endpoint: API_ENDPOINTS.ROOMS,
     body: roomData,
@@ -88,7 +90,7 @@ export const postCreateRoom = async (roomData: SubmitRoomInfo): Promise<void> =>
   });
 };
 
-export const putEditRoom = async (roomData: SubmitRoomInfo): Promise<void> => {
+export const putEditRoom = async (roomData: CreateRoomInfo): Promise<void> => {
   return apiClient.put({
     endpoint: API_ENDPOINTS.ROOMS,
     body: roomData,
@@ -98,7 +100,7 @@ export const putEditRoom = async (roomData: SubmitRoomInfo): Promise<void> => {
 
 export const postParticipateIn = async (
   roomId: number,
-  role: Role,
+  role: MemberRole,
   matchingSize: number,
 ): Promise<void> => {
   return apiClient.post({

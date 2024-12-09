@@ -34,7 +34,8 @@ public class RoomInquiryService {
 
     public RoomSearchResponses search(long memberId, RoomStatus status, RoomClassification classification, String keywordTitle) {
         Specification<Room> spec = getSearchSpecification(status, classification, keywordTitle);
-        List<Room> rooms = roomReader.findAll(spec);
+        RoomSortStrategy roomSortStrategy = RoomSortStrategy.from(status);
+        List<Room> rooms = roomReader.findAll(spec, roomSortStrategy);
 
         List<RoomResponse> roomResponses = getRoomResponses(rooms, memberId);
         return RoomSearchResponses.of(roomResponses);
@@ -58,12 +59,13 @@ public class RoomInquiryService {
 
     private Page<Room> getPaginatedRooms(int pageNumber, String expression, RoomStatus status) {
         RoomClassification classification = RoomClassification.from(expression);
-        PageRequest pageRequest = PageRequest.of(pageNumber, PAGE_DISPLAY_SIZE);
+        RoomSortStrategy roomSortStrategy = RoomSortStrategy.from(status);
+        PageRequest pageRequest = PageRequest.of(pageNumber, PAGE_DISPLAY_SIZE, roomSortStrategy.toSort());
 
         if (classification.isAll()) {
-            return roomRepository.findAllByStatusOrderByRecruitmentDeadline(status, pageRequest);
+            return roomRepository.findAllByStatus(status, pageRequest);
         }
-        return roomRepository.findAllByClassificationAndStatusOrderByRecruitmentDeadline(classification, status, pageRequest);
+        return roomRepository.findAllByClassificationAndStatus(classification, status, pageRequest);
     }
 
     private List<RoomResponse> getRoomResponses(List<Room> rooms, long memberId) {
@@ -75,7 +77,7 @@ public class RoomInquiryService {
     private RoomResponse getRoomResponse(Room room, long memberId) {
         boolean isPublic = roomMatchReader.isPublicRoom(room);
         return participationRepository.findByRoomIdAndMemberId(room.getId(), memberId)
-                .map(participation -> RoomResponse.of(room, participation,isPublic))
-                .orElseGet(() -> RoomResponse.of(room, MemberRole.NONE, ParticipationStatus.NOT_PARTICIPATED,isPublic));
+                .map(participation -> RoomResponse.of(room, participation, isPublic))
+                .orElseGet(() -> RoomResponse.of(room, MemberRole.NONE, ParticipationStatus.NOT_PARTICIPATED, isPublic));
     }
 }
