@@ -105,8 +105,11 @@ const RoomCard = React.memo(({ roomInfo }: RoomCardProps) => {
               aria-label={`미션 참여 인원 최대 ${roomInfo.limitedParticipants}명, 현재 ${roomInfo.reviewerCount + roomInfo.bothCount}명`}
             >
               <Icon kind="person" size="1.8rem" color={theme.COLOR.grey4} />
-              {roomInfo.reviewerCount + roomInfo.bothCount} / {roomInfo.limitedParticipants}
+              {roomInfo.bothCount} / {roomInfo.limitedParticipants}
             </S.JoinMember>
+            <S.ContentTermSub>
+              리뷰어 {roomInfo.reviewerCount}, 참여자 {roomInfo.bothCount}
+            </S.ContentTermSub>
           </S.EtcContainer>
         </S.RoomInformation>
       </S.RoomCardContainer>
