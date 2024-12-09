@@ -88,9 +88,8 @@ const SUCCESS_MESSAGES: Record<string, string> = {
 
 const HELP_MESSAGES: Record<string, string> = {
   REPOSITORY_LINK_INPUT: ".git 확장자가 아닌 링크를 넣어주세요.",
-  ISPUBLIC_YES_INPUT: "하나의 공용 레포지토리에 모두가 PR을 제출하는 형식이면 &apos;예&apos;",
-  ISPUBLIC_NO_INPUT:
-    "각자 개인 레포지토리로 PR을 제출하는 형식이면 &apos;아니요&apos;에 체크해주세요.",
+  ISPUBLIC_YES_INPUT: "하나의 공용 레포지토리에 모두가 PR을 제출하는 형식이면 '예'",
+  ISPUBLIC_NO_INPUT: "각자 개인 레포지토리로 PR을 제출하는 형식이면 '아니요'에 체크해주세요.",
   MATCHING_SIZE_INPUT: "최소 1명, 최대 5명 가능해요.",
   MANAGER_MEMBER_ROLE_BOTH_INPUT:
     "상대방의 코드를 리뷰하면서 자신의 코드도 리뷰받고 싶은 경우 선택하세요.",

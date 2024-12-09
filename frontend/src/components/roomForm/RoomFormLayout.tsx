@@ -368,7 +368,7 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
                     onChange={() => handleInputChange("managerMemberRole", "BOTH")}
                   />
                   <S.RadioLabel htmlFor="both">리뷰어, 리뷰이로 둘 다 참여</S.RadioLabel>
-                  <S.HelpText>{MESSAGES.HELP.MANAGER_MEMBER_ROLE_INPUT}</S.HelpText>
+                  <S.HelpText>{MESSAGES.HELP.MANAGER_MEMBER_ROLE_BOTH_INPUT}</S.HelpText>
                 </div>
                 <div>
                   <S.ContentRadioInput
