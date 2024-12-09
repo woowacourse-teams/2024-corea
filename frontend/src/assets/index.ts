@@ -25,7 +25,8 @@ export { default as rank3 } from "@/assets/ranking/rank-3.svg";
 
 export { default as question_with_color } from "@/assets/intro/question_with_color.svg";
 export { default as puzzle_with_people_color } from "@/assets/intro/puzzle_with_people_color.svg";
-export { default as step1_pic } from "@/assets/intro/step1_pic.webp";
+export { default as step11_pic } from "@/assets/intro/step11_pic.webp";
+export { default as step12_pic } from "@/assets/intro/step12_pic.webp";
 export { default as step2_pic } from "@/assets/intro/step2_pic.webp";
 export { default as step3_pic } from "@/assets/intro/step3_pic.webp";
 export { default as step41_pic } from "@/assets/intro/step41_pic.webp";
