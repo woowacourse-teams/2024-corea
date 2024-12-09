@@ -2,22 +2,10 @@ import styled from "styled-components";
 import { EllipsisText, VisuallyHidden } from "@/styles/common";
 import media from "@/styles/media";
 
-export const FeedbackCardContainer = styled.div<{ $isTypeDevelop: boolean }>`
+export const FeedbackCardContainer = styled.div`
   position: relative;
-
-  overflow-y: hidden;
-  display: flex;
-  flex-direction: column;
-  gap: 3rem;
-
   width: 40%;
   height: 700px;
-  padding: 1rem;
-
-  border: 3px solid
-    ${({ theme, $isTypeDevelop }) =>
-      $isTypeDevelop ? theme.COLOR.primary2 : theme.COLOR.secondary};
-  border-radius: 10px;
 
   ${media.medium`
     width: 100%;
@@ -29,33 +17,28 @@ export const FeedbackCardContainer = styled.div<{ $isTypeDevelop: boolean }>`
   `}
 `;
 
-export const Overlay = styled.div`
-  pointer-events: auto;
+export const FeedbackCardBox = styled.div<{ $isTypeDevelop: boolean }>`
+  position: relative;
 
-  position: absolute;
-  top: 60px;
-  left: 0;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 100%;
-  height: calc(100% - 60px);
-
-  background-color: rgb(255 255 255 / 50%);
-`;
-
-export const ButtonWrapper = styled.div`
+  overflow: hidden auto;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  align-items: center;
-  justify-content: center;
+  gap: 3rem;
 
   width: 100%;
+  height: 100%;
+  padding: 1rem;
 
-  font: ${({ theme }) => theme.TEXT.large_bold};
+  border: 3px solid
+    ${({ theme, $isTypeDevelop }) =>
+      $isTypeDevelop ? theme.COLOR.primary2 : theme.COLOR.secondary};
+  border-radius: 10px;
+
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export const FeedbackContent = styled.div<{ $isWrited: boolean }>`
@@ -83,8 +66,6 @@ export const FeedbackKeywordWrapper = styled.div`
   flex-wrap: wrap;
   gap: 1rem;
   align-content: flex-start;
-
-  height: 122px;
 `;
 
 export const FeedbackHeader = styled.div`
@@ -143,6 +124,7 @@ export const FeedbackDetailContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.6rem;
+  margin-bottom: 70px;
 `;
 
 export const FeedbackDetail = styled.p`
@@ -155,4 +137,36 @@ export const FeedbackDetail = styled.p`
 
 export const ScreenReader = styled.div`
   ${VisuallyHidden}
+`;
+
+export const ButtonWrapper = styled.div`
+  position: absolute;
+  bottom: 20px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+
+  font: ${({ theme }) => theme.TEXT.large_bold};
+`;
+
+export const Overlay = styled.div`
+  pointer-events: auto;
+
+  position: absolute;
+  top: 60px;
+  left: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: calc(100% - 60px);
+
+  background-color: rgb(255 255 255 / 50%);
 `;
