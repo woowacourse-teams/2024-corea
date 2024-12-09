@@ -44,7 +44,6 @@ export interface CreateRoomInfo extends BaseRoomInfo {
   managerMatchingSize?: number;
 }
 
-// 요청(Request) 구조
 export interface RoomInfoRequest {
   title: string;
   content: string;
@@ -77,7 +76,6 @@ export interface RoomCreateRequest {
   managerParticipationRequest: ManagerParticipationRequest;
 }
 
-// 응답(Response) 구조
 export interface RoomInfoResponse extends RoomInfoRequest {
   roomId: number;
   manager: string;
