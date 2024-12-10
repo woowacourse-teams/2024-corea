@@ -29,6 +29,8 @@ const RoomCardModalButton = ({ roomInfo }: RoomCardModalButtonProps) => {
   };
 
   const handleParticipateRoomClick = () => {
+    if (postParticipateInMutation.isPending) return;
+
     postParticipateInMutation.mutate(
       {
         roomId: roomInfo.id,
@@ -130,6 +132,7 @@ const RoomCardModalButton = ({ roomInfo }: RoomCardModalButtonProps) => {
       <Button
         variant="primary"
         size="small"
+        disabled={postParticipateInMutation.isPending}
         onClick={roomInfo.isPublic ? handleParticipateRoomClick : handleNoticeModal}
       >
         참여하기
