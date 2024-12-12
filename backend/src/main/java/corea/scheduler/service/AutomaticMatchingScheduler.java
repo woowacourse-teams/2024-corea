@@ -26,13 +26,11 @@ public class AutomaticMatchingScheduler {
     private final AutomaticMatchingExecutor automaticMatchingExecutor;
     private final Map<Long, ScheduledFuture<?>> scheduledTasks;
 
-    @Autowired
     public AutomaticMatchingScheduler(TaskScheduler taskScheduler, AutomaticMatchingExecutor automaticMatchingExecutor) {
-        this.taskScheduler = taskScheduler;
-        this.automaticMatchingExecutor = automaticMatchingExecutor;
-        this.scheduledTasks = new ConcurrentHashMap<>();
+        this(taskScheduler, automaticMatchingExecutor, new ConcurrentHashMap<>());
     }
 
+    @Autowired
     public AutomaticMatchingScheduler(TaskScheduler taskScheduler, AutomaticMatchingExecutor automaticMatchingExecutor, Map<Long, ScheduledFuture<?>> scheduledTasks) {
         this.taskScheduler = taskScheduler;
         this.automaticMatchingExecutor = automaticMatchingExecutor;
