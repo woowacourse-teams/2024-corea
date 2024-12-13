@@ -22,7 +22,7 @@ const Toast = () => {
     }, 500);
 
     return () => clearTimeout(timer);
-  }, [toastInfo.isOpen]);
+  }, [toastInfo.isOpen, toastInfo.message, toastInfo.type]);
 
   if (!toastContainer || !isOpen) {
     return <></>;
