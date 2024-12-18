@@ -1,7 +1,7 @@
 package corea.scheduler.service;
 
 import config.ServiceTest;
-import config.TestAsyncConfig;
+import config.TestSyncConfig;
 import corea.alarm.domain.AlarmActionType;
 import corea.alarm.domain.ServerToUserAlarm;
 import corea.alarm.repository.ServerToUserAlarmRepository;
@@ -42,7 +42,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ServiceTest
-@Import(TestAsyncConfig.class)
+@Import(TestSyncConfig.class)
 class MatchingExecutorTest {
 
     @Autowired
