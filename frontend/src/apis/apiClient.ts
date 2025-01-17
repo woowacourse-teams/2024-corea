@@ -20,14 +20,12 @@ const processQueue = (error: Error | null = null, token: string | null = null) =
 };
 
 const refreshAccessToken = async (): Promise<string | undefined> => {
-  const refreshToken = localStorage.getItem("refreshToken");
-
   const response = await fetch(`${serverUrl}${API_ENDPOINTS.REFRESH}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ refreshToken }),
+    credentials: "include",
   });
 
   const text = await response.text();
@@ -36,7 +34,7 @@ const refreshAccessToken = async (): Promise<string | undefined> => {
   const newAccessToken = response.headers.get("Authorization");
 
   if (!response.ok) {
-    if (response.status === 401) {
+    if (response.status === 401 && data.exceptionType === "TOKEN_EXPIRED") {
       const error = new AuthorizationError(data.message || MESSAGES.ERROR.POST_REFRESH);
       processQueue(error, null);
       isRefreshing = false;
@@ -55,24 +53,6 @@ const refreshAccessToken = async (): Promise<string | undefined> => {
   }
 };
 
-const createRequestInit = (
-  method: Method,
-  headers: Record<string, string>,
-  body: object | null,
-): RequestInit => {
-  const token = localStorage.getItem("accessToken");
-
-  return {
-    method,
-    headers: {
-      ...headers,
-      Authorization: token ? `Bearer ${token}` : "",
-      "Content-Type": "application/json",
-    },
-    body: body ? JSON.stringify(body) : null,
-  };
-};
-
 const fetchWithToken = async (
   endpoint: string,
   requestInit: RequestInit,
@@ -86,7 +66,7 @@ const fetchWithToken = async (
   let text = await response.text();
   let data = text ? JSON.parse(text) : null;
 
-  if (response.status === 401 && data.message === "토큰이 만료되었습니다.") {
+  if (response.status === 401 && data.exceptionType === "TOKEN_EXPIRED") {
     if (isRefreshing) {
       new Promise<string>((resolve, reject) => {
         failedQueue.push({ resolve, reject });
@@ -126,6 +106,25 @@ const fetchWithToken = async (
   }
 
   return text ? data : response;
+};
+
+const createRequestInit = (
+  method: Method,
+  headers: Record<string, string>,
+  body: object | null,
+): RequestInit => {
+  const token = localStorage.getItem("accessToken");
+
+  return {
+    method,
+    headers: {
+      ...headers,
+      Authorization: token ? `Bearer ${token}` : "",
+      "Content-Type": "application/json",
+    },
+    body: body ? JSON.stringify(body) : null,
+    credentials: "include",
+  };
 };
 
 const apiClient = {
