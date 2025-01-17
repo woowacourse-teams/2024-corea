@@ -9,7 +9,7 @@ interface ImageWithFallbackProps {
 }
 
 const ImageWithFallback = ({
-  src,
+  src = "",
   alt,
   fallbackSrc = errorCharacter,
   ...props
