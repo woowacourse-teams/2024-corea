@@ -81,8 +81,7 @@ class LoginServiceTest {
                 "https://gongu.copyright.or.kr/",
                 "98307410"
         ));
-
-        assertThat(tokenInfo.refreshToken()).isNotEqualTo(refreshToken);
+        assertThat(tokenInfo.refreshToken().getValue()).isNotEqualTo(refreshToken);
     }
 
     @Test

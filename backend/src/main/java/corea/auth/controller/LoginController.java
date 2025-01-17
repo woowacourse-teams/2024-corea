@@ -1,6 +1,7 @@
 package corea.auth.controller;
 
 import corea.auth.annotation.LoginMember;
+import corea.auth.annotation.RefreshToken;
 import corea.auth.domain.AuthInfo;
 import corea.auth.domain.TokenInfo;
 import corea.auth.dto.GithubUserInfo;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import static corea.global.config.Constants.AUTHORIZATION_HEADER;
+import static org.springframework.http.HttpHeaders.SET_COOKIE;
 
 @RestController
 @RequestMapping
@@ -39,11 +41,12 @@ public class LoginController implements LoginControllerSpecification {
 
         return ResponseEntity.ok()
                 .header(AUTHORIZATION_HEADER, tokenInfo.accessToken())
-                .body(new LoginResponse(tokenInfo.refreshToken(), userInfo, memberRoleResponse.role()));
+                .header(SET_COOKIE, tokenInfo.refreshToken().toString())
+                .body(new LoginResponse(userInfo, memberRoleResponse.role()));
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<Void> extendAuthorization(@RequestBody TokenRefreshRequest tokenRefreshRequest) {
+    public ResponseEntity<Void> extendAuthorization(@RefreshToken TokenRefreshRequest tokenRefreshRequest) {
         String accessToken = loginService.refresh(tokenRefreshRequest.refreshToken());
         return ResponseEntity.ok()
                 .header(AUTHORIZATION_HEADER, accessToken)

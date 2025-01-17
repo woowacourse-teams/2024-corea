@@ -1,4 +1,6 @@
 package corea.auth.domain;
 
-public record TokenInfo(String accessToken, String refreshToken) {
+import org.springframework.http.ResponseCookie;
+
+public record TokenInfo(String accessToken, ResponseCookie refreshToken) {
 }

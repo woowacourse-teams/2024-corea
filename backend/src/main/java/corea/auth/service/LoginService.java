@@ -9,11 +9,14 @@ import corea.member.domain.Member;
 import corea.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import static corea.exception.ExceptionType.INVALID_TOKEN;
 import static corea.exception.ExceptionType.TOKEN_EXPIRED;
+import static corea.global.config.Constants.COOKIE_EXPIRATION;
+import static corea.global.config.Constants.REFRESH_COOKIE;
 
 @Slf4j
 @Service
@@ -25,6 +28,7 @@ public class LoginService {
     private final MemberRepository memberRepository;
     private final TokenService tokenService;
     private final LogoutService logoutService;
+    private final CookieService cookieService;
 
     @Transactional
     public TokenInfo login(GithubUserInfo userInfo) {
@@ -32,7 +36,7 @@ public class LoginService {
                 .orElseGet(() -> register(userInfo));
 
         String accessToken = tokenService.createAccessToken(member);
-        String refreshToken = extendAuthorization(member);
+        ResponseCookie refreshToken = extendAuthorization(member);
         return new TokenInfo(accessToken, refreshToken);
     }
 
@@ -46,14 +50,14 @@ public class LoginService {
         log.info("멤버를 생성했습니다. 멤버 id={}, 멤버 이름={},깃허브 id={}, 닉네임={}", member.getId(), member.getName(), member.getGithubUserId(), member.getUsername());
     }
 
-    private String extendAuthorization(Member member) {
+    private ResponseCookie extendAuthorization(Member member) {
         String refreshToken = tokenService.createRefreshToken(member);
         loginInfoRepository.findByMemberId(member.getId())
                 .ifPresentOrElse(
                         loginInfo -> loginInfoRepository.save(loginInfo.changeRefreshToken(refreshToken)),
                         () -> loginInfoRepository.save(new LoginInfo(member, refreshToken))
                 );
-        return refreshToken;
+        return cookieService.createCookie(REFRESH_COOKIE, refreshToken, COOKIE_EXPIRATION);
     }
 
     @Transactional
