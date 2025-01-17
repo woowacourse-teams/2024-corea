@@ -56,10 +56,10 @@ const FeedbackCard = ({
   };
 
   return (
-    <>
+    <S.FeedbackCardContainer>
       <S.ScreenReader>미션의 상세 피드백 내용입니다.</S.ScreenReader>
 
-      <S.FeedbackCardContainer $isTypeDevelop={feedbackType === "develop"}>
+      <S.FeedbackCardBox $isTypeDevelop={feedbackType === "develop"}>
         <S.FeedbackHeader>
           <HoverStyledLink to={`/profile/${feedbackCardData.username}`} tabIndex={-1}>
             <S.FeedbackProfile>
@@ -114,18 +114,6 @@ const FeedbackCard = ({
               disabled
             />
           </S.FeedbackDetailContainer>
-
-          {selectedFeedbackType === "쓴 피드백" && (
-            <S.ButtonWrapper>
-              <Button
-                onClick={handleNavigateMyFeedbackPage}
-                variant={feedbackType === "develop" ? "primary" : "secondary"}
-                size="small"
-              >
-                수정하기
-              </Button>
-            </S.ButtonWrapper>
-          )}
         </S.FeedbackContent>
 
         {!feedbackCardData.isWrited && (
@@ -141,8 +129,20 @@ const FeedbackCard = ({
             </S.ButtonWrapper>
           </S.Overlay>
         )}
-      </S.FeedbackCardContainer>
-    </>
+      </S.FeedbackCardBox>
+
+      {selectedFeedbackType === "쓴 피드백" && (
+        <S.ButtonWrapper>
+          <Button
+            onClick={handleNavigateMyFeedbackPage}
+            variant={feedbackType === "develop" ? "primary" : "secondary"}
+            size="small"
+          >
+            수정하기
+          </Button>
+        </S.ButtonWrapper>
+      )}
+    </S.FeedbackCardContainer>
   );
 };
 

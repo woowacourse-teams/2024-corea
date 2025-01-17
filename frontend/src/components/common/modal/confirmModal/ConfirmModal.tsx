@@ -7,6 +7,8 @@ const ConfirmCustomStyle = {
 };
 
 interface ConfirmModalProps extends ModalProps {
+  onConfirm: () => void;
+  onCancel: () => void;
   confirmButtonText?: string;
   cancelButtonText?: string;
 }

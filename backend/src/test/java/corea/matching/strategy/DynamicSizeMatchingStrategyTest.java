@@ -1,5 +1,6 @@
 package corea.matching.strategy;
 
+import config.ServiceTest;
 import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
 import corea.matching.domain.Pair;
@@ -14,13 +15,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
+@ServiceTest
 class DynamicSizeMatchingStrategyTest {
 
     @Autowired

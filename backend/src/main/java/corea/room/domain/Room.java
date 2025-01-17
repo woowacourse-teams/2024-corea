@@ -72,6 +72,10 @@ public class Room extends BaseTimeEntity {
         this(null, title, content, matchingSize, repositoryLink, thumbnailLink, keyword, reviewerCount, bothCount, limitedParticipantsSize, manager, new RoomDeadline(recruitmentDeadline, reviewDeadline), classification, status);
     }
 
+    public Room(long roomId, String title, String content, int matchingSize, String repositoryLink, String thumbnailLink, List<String> keywords, int reviewerCount, int bothCount, int limitedParticipants, Member manager, LocalDateTime recruitmentDeadline, LocalDateTime reviewDeadline, RoomClassification classification, RoomStatus status) {
+        this(roomId, title, content, matchingSize, repositoryLink, thumbnailLink, keywords, reviewerCount, bothCount, limitedParticipants, manager, new RoomDeadline(recruitmentDeadline, reviewDeadline), classification, status);
+    }
+
     public void increaseReviewerCount() {
         validateOpened();
         this.reviewerCount++;
@@ -142,8 +146,12 @@ public class Room extends BaseTimeEntity {
         return manager.getId();
     }
 
-    public String getRoomStatus() {
+    public String getRoomStatusString() {
         return status.getStatus();
+    }
+
+    public RoomStatus getRoomStatus() {
+        return status.get();
     }
 
     public String getManagerName() {

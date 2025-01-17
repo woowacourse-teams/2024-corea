@@ -17,7 +17,7 @@ export type DropdownItem = {
 
 export const dropdownItemsConfig: Record<string, DropdownItem[]> = {
   MANAGER: [
-    { name: "수정하기", action: "EDIT_ROOM" },
+    // { name: "수정하기", action: "EDIT_ROOM" },
     { name: "삭제하기", action: "DELETE_ROOM" },
   ],
   PARTICIPATED: [{ name: "방 나가기", action: "EXIT_ROOM" }],
@@ -86,9 +86,8 @@ const ControlButton = ({ roomInfo, participationStatus }: ControlButtonProps) =>
             <FocusTrap onEscapeFocusTrap={() => handleToggleDropdown()}>
               <S.DropdownItemWrapper>
                 {dropdownItems.map((item: DropdownItem, index) => (
-                  <>
+                  <React.Fragment key={item.name}>
                     <S.DropdownItem
-                      key={item.name}
                       onClick={() => handleDropdownItemClick(item.action)}
                       tabIndex={0}
                       onKeyDown={(e) => {
@@ -98,7 +97,7 @@ const ControlButton = ({ roomInfo, participationStatus }: ControlButtonProps) =>
                       {item.name}
                     </S.DropdownItem>
                     {index < dropdownItems.length - 1 && <S.Divider />}
-                  </>
+                  </React.Fragment>
                 ))}
               </S.DropdownItemWrapper>
             </FocusTrap>

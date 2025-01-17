@@ -15,6 +15,7 @@ import MESSAGES from "@/constants/message";
 import { ErrorText } from "@/styles/common";
 import { formatCombinedDateTime } from "@/utils/dateFormatter";
 import { validateForm, validators } from "@/utils/roomInputValidator";
+import { mapRoomInfoToRoomCreateRequest } from "@/utils/roomMapper";
 
 const dropdownItems: DropdownItem[] = [
   { text: "안드로이드", value: "ANDROID" },
@@ -28,24 +29,30 @@ interface RoomFormLayoutProps {
   data?: RoomInfo;
 }
 
-const getInitialFormState = (data?: RoomInfo): CreateRoomInfo => ({
-  title: data?.title || "",
-  classification: data?.classification || ("" as Classification),
-  content: data?.content || "",
-  repositoryLink: data?.repositoryLink || "",
-  thumbnailLink: data?.thumbnailLink || "",
-  keywords: data?.keywords.filter((keyword) => keyword !== "") || [],
-  matchingSize: data?.matchingSize || 1,
-  limitedParticipants: data?.limitedParticipants || 1,
-  recruitmentDeadline: data ? new Date(data.recruitmentDeadline) : new Date(),
-  reviewDeadline: data ? new Date(data.reviewDeadline) : new Date(),
-  isPublic: data?.isPublic !== undefined ? data.isPublic : true,
+const getInitialFormState = (formType: "create" | "edit", data?: RoomInfo): CreateRoomInfo => ({
+  title: data?.title ?? "",
+  content: data?.content ?? "",
+  thumbnailLink: data?.thumbnailLink ?? "",
+  matchingSize: data?.matchingSize ?? 1,
+  keywords: data?.keywords?.filter((keyword) => keyword !== "") ?? [],
+  limitedParticipants: data?.limitedParticipants ?? 1,
+  recruitmentDeadline: data ? data.recruitmentDeadline : formatCombinedDateTime(new Date()),
+  reviewDeadline: data ? data.reviewDeadline : formatCombinedDateTime(new Date()),
+  repositoryLink: data?.repositoryLink ?? "",
+  classification: data?.classification ?? ("" as Classification),
+  isPublic: data?.isPublic ?? true,
+  ...(formType === "create" && {
+    managerMemberRole: "BOTH",
+    managerMatchingSize: 1,
+  }),
 });
 
 const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
   const navigate = useNavigate();
   const [isClickedButton, setIsClickedButton] = useState(false);
-  const [formState, setFormState] = useState<CreateRoomInfo>(() => getInitialFormState(data));
+  const [formState, setFormState] = useState<CreateRoomInfo>(() =>
+    getInitialFormState(formType, data),
+  );
   const { postCreateRoomMutation, putEditRoomMutation } = useMutateRoom();
   const { isModalOpen, handleOpenModal, handleCloseModal } = useModal();
 
@@ -57,19 +64,15 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
   };
 
   const handleConfirm = () => {
-    const formattedFormState = {
-      ...formState,
-      recruitmentDeadline: formatCombinedDateTime(formState.recruitmentDeadline),
-      reviewDeadline: formatCombinedDateTime(formState.reviewDeadline),
-    };
-
     if (formType === "edit" && roomId) {
-      const updatedFormState = { ...formattedFormState, roomId };
-      putEditRoomMutation.mutate(updatedFormState, {
-        onSuccess: () => navigate(`/rooms/${roomId}`),
-      });
+      putEditRoomMutation.mutate(
+        { ...formState, roomId },
+        {
+          onSuccess: () => navigate(`/rooms/${roomId}`),
+        },
+      );
     } else {
-      postCreateRoomMutation.mutate(formattedFormState, {
+      postCreateRoomMutation.mutate(mapRoomInfoToRoomCreateRequest(formState), {
         onSuccess: () => navigate("/"),
       });
     }
@@ -97,6 +100,7 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
         </S.SectionTitle>
 
         <S.SubSection>
+          <S.SubSectionTitle>방 기본 정보</S.SubSectionTitle>
           <S.RowContainer>
             <S.ContentLabel>
               제목 <S.RequiredLabel>*</S.RequiredLabel>
@@ -141,7 +145,7 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
             <S.ContentLabel>
               깃허브 레포지토리 링크 <S.RequiredLabel>*</S.RequiredLabel>
             </S.ContentLabel>
-            <S.HelpText>.git 확장자가 아닌 링크를 넣어주세요.</S.HelpText>
+            <S.HelpText>{MESSAGES.HELP.REPOSITORY_LINK_INPUT}</S.HelpText>
             <S.ContentInput>
               <Input
                 name="repositoryLink"
@@ -163,12 +167,8 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
             <S.ContentLabel>
               레포지토리 공용 여부 <S.RequiredLabel>*</S.RequiredLabel>
             </S.ContentLabel>
-            <S.HelpText>
-              하나의 공용 레포지토리에 모두가 PR을 제출하는 형식이면 &apos;예&apos;
-            </S.HelpText>
-            <S.HelpText>
-              각자 개인 레포지토리로 PR을 제출하는 형식이면 &apos;아니요&apos;에 체크해주세요.
-            </S.HelpText>
+            <S.HelpText>{MESSAGES.HELP.ISPUBLIC_YES_INPUT}</S.HelpText>
+            <S.HelpText>{MESSAGES.HELP.ISPUBLIC_NO_INPUT}</S.HelpText>
             <S.ContentWrapper>
               <S.ContentRadioInput
                 type="radio"
@@ -235,11 +235,12 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
         </S.SubSection>
 
         <S.SubSection>
+          <S.SubSectionTitle>방 상세 정보</S.SubSectionTitle>
           <S.RowContainer>
             <S.ContentLabel>
-              상호 리뷰 인원 <S.RequiredLabel>*</S.RequiredLabel>
+              방 상호 리뷰 인원 <S.RequiredLabel>*</S.RequiredLabel>
             </S.ContentLabel>
-            <S.HelpText>최소 1명, 최대 5명 가능해요.</S.HelpText>
+            <S.HelpText>{MESSAGES.HELP.MATCHING_SIZE_INPUT}</S.HelpText>
             <S.ContentInput>
               <Input
                 type="number"
@@ -295,22 +296,24 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
             </S.ContentLabel>
             <S.ContentInput>
               <DateTimePicker
-                selectedDateTime={formState.recruitmentDeadline}
+                selectedDateTime={new Date(formState.recruitmentDeadline)}
                 onDateTimeChange={(newDateTime) => {
-                  handleInputChange("recruitmentDeadline", newDateTime);
-                  if (newDateTime > formState.reviewDeadline) {
-                    const newDate = new Date(newDateTime);
-                    handleInputChange("reviewDeadline", newDate);
+                  const newDateTimeString = formatCombinedDateTime(newDateTime);
+                  handleInputChange("recruitmentDeadline", newDateTimeString);
+
+                  if (newDateTimeString > formState.reviewDeadline) {
+                    handleInputChange("reviewDeadline", newDateTimeString);
                   }
                 }}
                 options={{ isPastDateDisabled: true }}
                 error={
                   isClickedButton &&
-                  validators.recruitmentDeadline(formState.recruitmentDeadline) !== ""
+                  validators.recruitmentDeadline(new Date(formState.recruitmentDeadline)) !== ""
                 }
               />
               <ErrorText>
-                {isClickedButton && validators.recruitmentDeadline(formState.recruitmentDeadline)}
+                {isClickedButton &&
+                  validators.recruitmentDeadline(new Date(formState.recruitmentDeadline))}
               </ErrorText>
             </S.ContentInput>
           </S.RowContainer>
@@ -321,30 +324,94 @@ const RoomFormLayout = ({ formType, roomId, data }: RoomFormLayoutProps) => {
             </S.ContentLabel>
             <S.ContentInput>
               <DateTimePicker
-                selectedDateTime={formState.reviewDeadline}
-                onDateTimeChange={(newDateTime) => handleInputChange("reviewDeadline", newDateTime)}
+                selectedDateTime={new Date(formState.reviewDeadline)}
+                onDateTimeChange={(newDateTime) =>
+                  handleInputChange("reviewDeadline", formatCombinedDateTime(newDateTime))
+                }
                 options={{
                   isPastDateDisabled: true,
-                  disabledBeforeDate: formState.recruitmentDeadline,
+                  disabledBeforeDate: new Date(formState.recruitmentDeadline),
                 }}
                 error={
                   isClickedButton &&
                   validators.reviewDeadline(
-                    formState.reviewDeadline,
-                    formState.recruitmentDeadline,
+                    new Date(formState.reviewDeadline),
+                    new Date(formState.recruitmentDeadline),
                   ) !== ""
                 }
               />
               <ErrorText>
                 {isClickedButton &&
                   validators.reviewDeadline(
-                    formState.reviewDeadline,
-                    formState.recruitmentDeadline,
+                    new Date(formState.reviewDeadline),
+                    new Date(formState.recruitmentDeadline),
                   )}
               </ErrorText>
             </S.ContentInput>
           </S.RowContainer>
         </S.SubSection>
+
+        {formType === "create" && (
+          <S.SubSection>
+            <S.SubSectionTitle>나의 정보</S.SubSectionTitle>
+            <S.RowContainer>
+              <S.ContentLabel>
+                참여 역할 <S.RequiredLabel>*</S.RequiredLabel>
+              </S.ContentLabel>
+              <S.ContentRadioWrapper>
+                <div>
+                  <S.ContentRadioInput
+                    type="radio"
+                    id="both"
+                    name="managerMemberRole"
+                    checked={formState.managerMemberRole === "BOTH"}
+                    onChange={() => handleInputChange("managerMemberRole", "BOTH")}
+                  />
+                  <S.RadioLabel htmlFor="both">리뷰어, 리뷰이로 둘 다 참여</S.RadioLabel>
+                  <S.HelpText>{MESSAGES.HELP.MANAGER_MEMBER_ROLE_BOTH_INPUT}</S.HelpText>
+                </div>
+                <div>
+                  <S.ContentRadioInput
+                    type="radio"
+                    id="reviewer"
+                    name="managerMemberRole"
+                    checked={formState.managerMemberRole === "REVIEWER"}
+                    onChange={() => handleInputChange("managerMemberRole", "REVIEWER")}
+                  />
+
+                  <S.RadioLabel htmlFor="reviewer">리뷰어로만 참여</S.RadioLabel>
+                  <S.HelpText>{MESSAGES.HELP.MANAGER_MEMBER_ROLE_REVIEWER_INPUT}</S.HelpText>
+                </div>
+              </S.ContentRadioWrapper>
+            </S.RowContainer>
+
+            <S.RowContainer>
+              <S.ContentLabel>
+                원하는 상호 리뷰 인원 <S.RequiredLabel>*</S.RequiredLabel>
+              </S.ContentLabel>
+              <S.HelpText>{MESSAGES.HELP.MANAGER_MATCHING_SIZE_INPUT}</S.HelpText>
+              <S.ContentInput>
+                <Input
+                  type="number"
+                  min="1"
+                  max="5"
+                  name="matchingSize"
+                  value={formState.managerMatchingSize}
+                  onChange={(e) =>
+                    handleInputChange("managerMatchingSize", parseInt(e.target.value, 10))
+                  }
+                  error={
+                    isClickedButton && validators.matchingSize(formState.managerMatchingSize) !== ""
+                  }
+                  required
+                />
+                <ErrorText>
+                  {isClickedButton && validators.matchingSize(formState.managerMatchingSize)}
+                </ErrorText>
+              </S.ContentInput>
+            </S.RowContainer>
+          </S.SubSection>
+        )}
 
         <Button
           onClick={() => {
