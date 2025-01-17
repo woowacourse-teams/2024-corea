@@ -18,7 +18,8 @@
       "participationStatus": "PARTICIPATED",
       "memberRole": "BOTH",
       "classification": "ALL",
-      "message": "방 실패했습니다."
+      "message": "방 실패했습니다.",
+      "isPublic": false
     },
     {
       "id": 2,
@@ -38,7 +39,8 @@
       "participationStatus": "PARTICIPATED",
       "memberRole": "BOTH",
       "classification": "ANDROID",
-      "message": "방 실패했습니다."
+      "message": "방 실패했습니다.",
+      "isPublic": false
     },
     {
       "id": 2,
@@ -58,7 +60,8 @@
       "participationStatus": "PARTICIPATED",
       "memberRole": "REVIEWER",
       "classification": "FRONTEND",
-      "message": "방 실패했습니다."
+      "message": "방 실패했습니다.",
+      "isPublic": false
     },
     {
       "id": 1,
@@ -78,7 +81,8 @@
       "participationStatus": "NOT_PARTICIPATED",
       "memberRole": "BOTH",
       "classification": "BACKEND",
-      "message": "방 실패했습니다."
+      "message": "방 실패했습니다.",
+      "isPublic": false
     },
     {
       "id": 2,
@@ -98,7 +102,8 @@
       "participationStatus": "PARTICIPATED",
       "memberRole": "BOTH",
       "classification": "BACKEND",
-      "message": "방 실패했습니다."
+      "message": "방 실패했습니다.",
+      "isPublic": false
     }
   ],
   "isLastPage": false,
