@@ -1,25 +1,8 @@
 import { API_ENDPOINTS } from "./endpoints";
+import { ApiProps, Method, QueueItem, RequestProps } from "@/@types/apiClient";
 import { serverUrl } from "@/config/serverUrl";
 import MESSAGES from "@/constants/message";
 import { AuthorizationError, HTTPError } from "@/utils/Errors";
-
-type Method = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
-
-interface ApiProps {
-  endpoint: string;
-  headers?: Record<string, string>;
-  body?: object | null;
-  errorMessage?: string;
-}
-
-interface RequestProps extends ApiProps {
-  method: Method;
-}
-
-interface QueueItem {
-  resolve: (value: string | PromiseLike<string>) => void;
-  reject: (reason?: Error) => void;
-}
 
 let isRefreshing = false;
 let failedQueue: QueueItem[] = [];
