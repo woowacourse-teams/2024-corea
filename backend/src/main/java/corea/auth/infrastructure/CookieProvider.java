@@ -1,4 +1,4 @@
-package corea.auth.service;
+package corea.auth.infrastructure;
 
 import jakarta.servlet.http.Cookie;
 import org.springframework.http.ResponseCookie;
@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.Optional;
 
 @Service
-public class CookieService {
+public class CookieProvider {
 
     public ResponseCookie createCookie(String name, String value, long maxAge) {
         return ResponseCookie.from(name, value)

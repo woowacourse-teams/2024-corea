@@ -3,6 +3,7 @@ package corea.auth.service;
 import corea.auth.domain.LoginInfo;
 import corea.auth.domain.TokenInfo;
 import corea.auth.dto.GithubUserInfo;
+import corea.auth.infrastructure.CookieProvider;
 import corea.auth.repository.LoginInfoRepository;
 import corea.exception.CoreaException;
 import corea.member.domain.Member;
@@ -28,7 +29,7 @@ public class LoginService {
     private final MemberRepository memberRepository;
     private final TokenService tokenService;
     private final LogoutService logoutService;
-    private final CookieService cookieService;
+    private final CookieProvider cookieProvider;
 
     @Transactional
     public TokenInfo login(GithubUserInfo userInfo) {
@@ -57,7 +58,7 @@ public class LoginService {
                         loginInfo -> loginInfoRepository.save(loginInfo.changeRefreshToken(refreshToken)),
                         () -> loginInfoRepository.save(new LoginInfo(member, refreshToken))
                 );
-        return cookieService.createCookie(REFRESH_COOKIE, refreshToken, COOKIE_EXPIRATION);
+        return cookieProvider.createCookie(REFRESH_COOKIE, refreshToken, COOKIE_EXPIRATION);
     }
 
     @Transactional

@@ -2,7 +2,7 @@ package corea.auth.resolver;
 
 import corea.auth.annotation.RefreshToken;
 import corea.auth.dto.TokenRefreshRequest;
-import corea.auth.service.CookieService;
+import corea.auth.infrastructure.CookieProvider;
 import corea.exception.CoreaException;
 import corea.exception.ExceptionType;
 import jakarta.servlet.http.Cookie;
@@ -21,7 +21,7 @@ import static corea.global.config.Constants.REFRESH_COOKIE;
 @RequiredArgsConstructor
 public class RefreshTokenArgumentResolver implements HandlerMethodArgumentResolver {
 
-    private final CookieService cookieService;
+    private final CookieProvider cookieProvider;
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
@@ -36,7 +36,7 @@ public class RefreshTokenArgumentResolver implements HandlerMethodArgumentResolv
         if (cookies == null) {
             throw new CoreaException(ExceptionType.COOKIE_NOT_EXIST);
         }
-        return new TokenRefreshRequest(cookieService.getCookieValue(cookies, REFRESH_COOKIE)
+        return new TokenRefreshRequest(cookieProvider.getCookieValue(cookies, REFRESH_COOKIE)
                 .orElseThrow(() -> new CoreaException(ExceptionType.COOKIE_NOT_EXIST)));
     }
 }
