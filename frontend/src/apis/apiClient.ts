@@ -4,14 +4,14 @@ import { serverUrl } from "@/config/serverUrl";
 import MESSAGES from "@/constants/message";
 import { AuthorizationError, HTTPError } from "@/utils/Errors";
 
-export interface ApiProps {
+interface ApiProps {
   endpoint: string;
   headers?: Record<string, string>;
   body?: object | null;
   errorMessage?: string;
 }
 
-export interface RequestProps extends ApiProps {
+interface RequestProps extends ApiProps {
   method: Method;
 }
 

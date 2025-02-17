@@ -8,13 +8,11 @@ interface ImageWithFallbackProps {
 }
 
 const ImageWithFallback = ({
-  src = "",
+  src,
   alt,
   fallbackSrc = errorCharacter,
   ...props
 }: ImageWithFallbackProps) => {
-  const isFallback = !src;
-
   const handleError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     const img = e.target as HTMLImageElement;
     img.onerror = null;
@@ -23,10 +21,10 @@ const ImageWithFallback = ({
 
   return (
     <S.StyledImg
-      src={isFallback ? fallbackSrc : src}
+      src={src ? src : fallbackSrc}
       alt={alt}
       onError={handleError}
-      $isFallback={isFallback}
+      $isFallback={!src}
       {...props}
     />
   );
