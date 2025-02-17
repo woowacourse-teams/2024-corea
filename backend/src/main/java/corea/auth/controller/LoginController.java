@@ -40,8 +40,8 @@ public class LoginController implements LoginControllerSpecification {
         MemberRoleResponse memberRoleResponse = memberService.getMemberRoleWithGithubUserId(userInfo.id());
 
         return ResponseEntity.ok()
-                .header(AUTHORIZATION_HEADER, tokenInfo.accessToken())
-                .header(SET_COOKIE, tokenInfo.refreshToken().toString())
+                .header(AUTHORIZATION_HEADER, tokenInfo.getAccessToken())
+                .header(SET_COOKIE, tokenInfo.getRefreshToken())
                 .body(new LoginResponse(userInfo, memberRoleResponse.role()));
     }
 

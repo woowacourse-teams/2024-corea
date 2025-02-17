@@ -1,6 +1,17 @@
 package corea.auth.domain;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseCookie;
 
-public record TokenInfo(String accessToken, ResponseCookie refreshToken) {
+@RequiredArgsConstructor
+@Getter
+public class TokenInfo {
+
+    private final String accessToken;
+    private final ResponseCookie refreshToken;
+
+    public String getRefreshToken() {
+        return refreshToken.toString();
+    }
 }
