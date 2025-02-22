@@ -186,8 +186,8 @@ public class RoomFixture {
                     3,List.of("JAVA","TDD"),200
             ),
             new RoomRequest.DeadlineRequest(
-                    LocalDateTime.now().plusHours(2),
-                    LocalDateTime.now().plusHours(4)
+                    LocalDateTime.now().plusHours(11),
+                    LocalDateTime.now().plusHours(13)
             ),
             new RoomRequest.RepositoryRequest(
                     "https://github.com/example/java-racingcar",
