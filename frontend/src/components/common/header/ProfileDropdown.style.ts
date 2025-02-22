@@ -24,7 +24,9 @@ export const DropdownMenu = styled.div`
   display: flex;
   flex-direction: column;
 
+  width: max-content;
   min-width: 200px;
+  max-width: 50vw;
   padding: 1rem;
 
   background-color: white;
@@ -56,11 +58,6 @@ export const DropdownItemWrapper = styled.ul`
   flex-direction: column;
   gap: 0.5rem;
   margin: 0.5rem;
-
-  :last-child {
-    gap: 0;
-    border-top: 1px solid ${({ theme }) => theme.COLOR.grey1};
-  }
 `;
 
 export const DropdownItem = styled.li`

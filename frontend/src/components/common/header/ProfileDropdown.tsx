@@ -1,9 +1,11 @@
 import Profile from "../profile/Profile";
+import { Splitter } from "../splitter/Splitter";
 import { useNavigate } from "react-router-dom";
 import useDropdown from "@/hooks/common/useDropdown";
 import useMutateAuth from "@/hooks/mutations/useMutateAuth";
 import FocusTrap from "@/components/common/focusTrap/FocusTrap";
 import * as S from "@/components/common/header/ProfileDropdown.style";
+import { blankProfile } from "@/assets";
 
 const dropdownItems = [
   {
@@ -18,6 +20,7 @@ const dropdownItems = [
 
 const ProfileDropdown = () => {
   const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
+  const profileImage = userInfo?.avatar_url || blankProfile;
   const navigate = useNavigate();
   const { isDropdownOpen, handleToggleDropdown, dropdownRef } = useDropdown();
   const { postLogoutMutation } = useMutateAuth();
@@ -39,13 +42,13 @@ const ProfileDropdown = () => {
 
   return (
     <S.ProfileContainer ref={dropdownRef}>
-      <Profile imgSrc={userInfo.avatar_url} onClick={handleProfileClick} />
+      <Profile imgSrc={profileImage} onClick={handleProfileClick} />
 
       {isDropdownOpen && (
         <S.DropdownMenu>
           <S.ProfileWrapper>
-            <Profile imgSrc={userInfo.avatar_url} />
-            <S.ProfileInfo>{userInfo.name}</S.ProfileInfo>
+            <Profile imgSrc={profileImage} />
+            <S.ProfileInfo>{userInfo.name || "이름을 설정해주세요"}</S.ProfileInfo>
           </S.ProfileWrapper>
 
           <FocusTrap onEscapeFocusTrap={() => handleToggleDropdown()}>
@@ -62,6 +65,7 @@ const ProfileDropdown = () => {
                   {item.name}
                 </S.DropdownItem>
               ))}
+              <Splitter size={1} color="grey1" />
               <S.DropdownItem
                 onClick={handleLogoutClick}
                 tabIndex={0}
