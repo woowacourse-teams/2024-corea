@@ -1,4 +1,4 @@
-import { CreateRoomInfo } from "@/@types/roomInfo";
+import { BaseRoomInfo } from "@/@types/roomInfo";
 
 export const validators = {
   title(value: string): string {
@@ -46,7 +46,8 @@ export const validators = {
     return "";
   },
 
-  matchingSize(value: number): string {
+  matchingSize(value: number | undefined): string {
+    if (value === undefined) return "";
     if (!isNumberNotEmpty(value)) {
       return "상호 리뷰 인원을 입력해주세요.";
     }
@@ -118,7 +119,7 @@ const isAfterTime = (value: Date, referenceTime: Date): boolean => {
   return valueWithoutSeconds > referenceWithoutSeconds;
 };
 
-export const validateForm = (formState: CreateRoomInfo): boolean => {
+export const validateForm = (formState: BaseRoomInfo): boolean => {
   const validationResults = {
     title: validators.title(formState.title),
     classification: validators.classification(formState.classification),
@@ -131,10 +132,10 @@ export const validateForm = (formState: CreateRoomInfo): boolean => {
       formState.limitedParticipants,
       formState.matchingSize,
     ),
-    recruitmentDeadline: validators.recruitmentDeadline(formState.recruitmentDeadline),
+    recruitmentDeadline: validators.recruitmentDeadline(new Date(formState.recruitmentDeadline)),
     reviewDeadline: validators.reviewDeadline(
-      formState.reviewDeadline,
-      formState.recruitmentDeadline,
+      new Date(formState.reviewDeadline),
+      new Date(formState.recruitmentDeadline),
     ),
   };
 

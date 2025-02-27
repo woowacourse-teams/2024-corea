@@ -17,5 +17,6 @@
   "isClosed": false,
   "memberRole": "BOTH",
   "classification": "BACKEND",
-  "message": "방 실패했습니다."
+  "message": "방 실패했습니다.",
+  "isPublic": false
 }

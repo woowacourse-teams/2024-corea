@@ -129,6 +129,12 @@ export const JoinMember = styled.span`
   color: ${({ theme }) => theme.COLOR.grey4};
 `;
 
+export const ContentTermSub = styled.span`
+  font: ${({ theme }) => theme.TEXT.semiSmall};
+  line-height: normal;
+  color: ${({ theme }) => theme.COLOR.grey2};
+`;
+
 export const DeadLineText = styled.span`
   display: flex;
   gap: 0.6rem;

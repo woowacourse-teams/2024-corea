@@ -23,7 +23,7 @@ public interface LoginControllerSpecification {
     @Operation(summary = "로그인을 유지합니다.",
             description = "로그인 되어 있는 상태에서 액세스 토큰의 유효기간이 만료되었을 경우 리프레시 토큰을 이용해 새로운 액세스 토큰을 부여받습니다. <br>" +
                     "리프레시 토큰은 서버와 클라이언트 양쪽에서 저장하며 API 요청 시 두 값을 비교한 후 동일한 경우에만 액세스 토큰을 부여합니다.")
-    @ApiErrorResponses(value = {ExceptionType.TOKEN_EXPIRED, ExceptionType.INVALID_TOKEN},
+    @ApiErrorResponses(value = {ExceptionType.TOKEN_EXPIRED, ExceptionType.INVALID_TOKEN, ExceptionType.COOKIE_NOT_EXIST},
             groups = ExceptionTypeGroup.INTERNAL_SERVER_ERROR)
     ResponseEntity<Void> extendAuthorization(TokenRefreshRequest tokenRefreshRequest);
 

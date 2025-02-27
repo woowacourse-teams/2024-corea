@@ -52,127 +52,127 @@ public class DataInitializer implements ApplicationRunner {
                 new Room("방 제목 1", "방 설명 1", 3,
                         null, null, List.of("TDD", "클린코드"),
                         1, 1, 20, member1,
-                        LocalDateTime.of(2024, 12, 20, 12, 0),
-                        LocalDateTime.of(2024, 12, 26, 12, 0),
+                        LocalDateTime.of(2025, 12, 20, 12, 0),
+                        LocalDateTime.of(2025, 12, 26, 12, 0),
                         RoomClassification.BACKEND, RoomStatus.OPEN));
         Room room2 = roomRepository.save(
                 new Room("방 제목 2", "방 설명 2", 3,
                         null, null, List.of("TDD"),
                         1, 1, 20, member2,
-                        LocalDateTime.of(2024, 12, 21, 12, 0),
-                        LocalDateTime.of(2024, 12, 27, 12, 0),
+                        LocalDateTime.of(2025, 12, 21, 12, 0),
+                        LocalDateTime.of(2025, 12, 27, 12, 0),
                         RoomClassification.BACKEND, RoomStatus.OPEN));
         Room room3 = roomRepository.save(
                 new Room("방 제목 3", "방 설명 3", 3,
                         null, null, List.of("TDD"),
                         1, 1, 20, member3,
-                        LocalDateTime.of(2024, 12, 22, 12, 0),
-                        LocalDateTime.of(2024, 12, 28, 12, 0),
+                        LocalDateTime.of(2025, 12, 22, 12, 0),
+                        LocalDateTime.of(2025, 12, 28, 12, 0),
                         RoomClassification.ANDROID, RoomStatus.OPEN));
         Room room4 = roomRepository.save(
                 new Room("방 제목 4", "방 설명 4", 3,
                         null, null, List.of("TDD"),
                         1, 1, 20, member4,
-                        LocalDateTime.of(2024, 12, 23, 12, 0),
-                        LocalDateTime.of(2024, 12, 29, 12, 0),
+                        LocalDateTime.of(2025, 12, 23, 12, 0),
+                        LocalDateTime.of(2025, 12, 29, 12, 0),
                         RoomClassification.ANDROID, RoomStatus.OPEN));
         Room room5 = roomRepository.save(
                 new Room("방 제목 5", "방 설명 5", 3,
                         null, null, List.of("TDD"),
                         1, 1, 20, member5,
-                        LocalDateTime.of(2024, 12, 24, 12, 0),
-                        LocalDateTime.of(2024, 12, 30, 12, 0),
+                        LocalDateTime.of(2025, 12, 24, 12, 0),
+                        LocalDateTime.of(2025, 12, 30, 12, 0),
                         RoomClassification.FRONTEND, RoomStatus.OPEN));
         Room room6 = roomRepository.save(
                 new Room("방 제목 6", "방 설명 6", 3,
                         null, null, List.of("TDD"),
                         1, 1, 20, member6,
-                        LocalDateTime.of(2024, 12, 25, 12, 0),
-                        LocalDateTime.of(2024, 12, 31, 12, 0),
+                        LocalDateTime.of(2025, 12, 25, 12, 0),
+                        LocalDateTime.of(2025, 12, 31, 12, 0),
                         RoomClassification.FRONTEND, RoomStatus.OPEN));
         Room room7 = roomRepository.save(
                 new Room("방 제목 7", "방 설명 7", 3,
                         null, null, List.of("TDD"),
                         1, 1, 20, member7,
-                        LocalDateTime.of(2024, 12, 25, 12, 10),
-                        LocalDateTime.of(2024, 12, 31, 12, 2),
+                        LocalDateTime.of(2025, 12, 25, 12, 10),
+                        LocalDateTime.of(2025, 12, 31, 12, 2),
                         RoomClassification.FRONTEND, RoomStatus.OPEN));
         roomRepository.save(
                 new Room("방 제목 8", "방 설명 8", 3,
                         null, null, List.of("TDD", "클린코드"),
                         1, 1, 20, member8,
-                        LocalDateTime.of(2024, 12, 25, 12, 20),
-                        LocalDateTime.of(2025, 1, 2, 12, 0),
+                        LocalDateTime.of(2025, 12, 25, 12, 20),
+                        LocalDateTime.of(2026, 1, 2, 12, 0),
                         RoomClassification.BACKEND, RoomStatus.OPEN));
         roomRepository.save(
                 new Room("방 제목 9", "방 설명 9", 3,
                         null, null, List.of("TDD"),
                         1, 1, 20, member8,
-                        LocalDateTime.of(2024, 12, 25, 12, 30),
-                        LocalDateTime.of(2025, 1, 3, 12, 0),
+                        LocalDateTime.of(2025, 12, 25, 12, 30),
+                        LocalDateTime.of(2026, 1, 3, 12, 0),
                         RoomClassification.BACKEND, RoomStatus.OPEN));
         Room closedRoom = roomRepository.save(
                 new Room("방 제목 10", "방 설명 10", 3,
                         null, null, List.of("TDD", "클린코드"),
                         1, 1, 20, member1,
-                        LocalDateTime.of(2024, 12, 25, 12, 0),
-                        LocalDateTime.of(2024, 12, 30, 12, 12),
+                        LocalDateTime.of(2025, 12, 25, 12, 0),
+                        LocalDateTime.of(2025, 12, 30, 12, 12),
                         RoomClassification.BACKEND, RoomStatus.CLOSE));
         roomRepository.save(
                 new Room("방 제목 11", "방 설명 11", 3,
                         null, null, List.of("TDD"),
                         1, 1, 20, member3,
-                        LocalDateTime.of(2024, 12, 25, 12, 0),
-                        LocalDateTime.of(2024, 12, 30, 12, 13),
+                        LocalDateTime.of(2025, 12, 25, 12, 0),
+                        LocalDateTime.of(2025, 12, 30, 12, 13),
                         RoomClassification.ANDROID, RoomStatus.CLOSE));
         roomRepository.save(
                 new Room("방 제목 12", "방 설명 12", 3,
                         null, null, List.of("TDD"),
                         1, 1, 20, member5,
-                        LocalDateTime.of(2024, 12, 25, 12, 0),
-                        LocalDateTime.of(2024, 12, 30, 12, 14),
+                        LocalDateTime.of(2025, 12, 25, 12, 0),
+                        LocalDateTime.of(2025, 12, 30, 12, 14),
                         RoomClassification.FRONTEND, RoomStatus.CLOSE));
         Room roomProgress = roomRepository.save(
                 new Room("방 제목 13", "방 설명 13", 3,
                         null, null, List.of("TDD"),
                         1, 1, 20, member5,
-                        LocalDateTime.of(2024, 12, 25, 12, 0),
-                        LocalDateTime.of(2024, 12, 30, 12, 15),
+                        LocalDateTime.of(2025, 12, 25, 12, 0),
+                        LocalDateTime.of(2025, 12, 30, 12, 15),
                         RoomClassification.BACKEND, RoomStatus.PROGRESS));
         roomRepository.save(
                 new Room("방 제목 14", "방 설명 14", 3,
                         null, null, List.of("TDD"),
                         1, 1, 20, member5,
-                        LocalDateTime.of(2024, 12, 25, 12, 0),
-                        LocalDateTime.of(2024, 12, 30, 12, 16),
+                        LocalDateTime.of(2025, 12, 25, 12, 0),
+                        LocalDateTime.of(2025, 12, 30, 12, 16),
                         RoomClassification.BACKEND, RoomStatus.PROGRESS));
         roomRepository.save(
                 new Room("방 제목 15", "방 설명 15", 3,
                         null, null, List.of("TDD"),
                         1, 1, 20, member5,
-                        LocalDateTime.of(2024, 12, 25, 12, 0),
-                        LocalDateTime.of(2024, 12, 30, 12, 17),
+                        LocalDateTime.of(2025, 12, 25, 12, 0),
+                        LocalDateTime.of(2025, 12, 30, 12, 17),
                         RoomClassification.BACKEND, RoomStatus.PROGRESS));
         roomRepository.save(
                 new Room("방 제목 16", "방 설명 16", 3,
                         null, null, List.of("TDD"),
                         1, 1, 20, member5,
-                        LocalDateTime.of(2024, 12, 25, 12, 0),
-                        LocalDateTime.of(2024, 12, 30, 12, 18),
+                        LocalDateTime.of(2025, 12, 25, 12, 0),
+                        LocalDateTime.of(2025, 12, 30, 12, 18),
                         RoomClassification.FRONTEND, RoomStatus.PROGRESS));
         roomRepository.save(
                 new Room("방 제목 17", "방 설명 17", 3,
                         null, null, List.of("TDD"),
                         1, 1, 20, member5,
-                        LocalDateTime.of(2024, 12, 25, 12, 0),
-                        LocalDateTime.of(2024, 12, 30, 12, 19),
+                        LocalDateTime.of(2025, 12, 25, 12, 0),
+                        LocalDateTime.of(2025, 12, 30, 12, 19),
                         RoomClassification.FRONTEND, RoomStatus.PROGRESS));
         roomRepository.save(
                 new Room("방 제목 18", "방 설명 18", 3,
                         null, null, List.of("TDD"),
                         1, 1, 20, member5,
-                        LocalDateTime.of(2024, 12, 25, 12, 0),
-                        LocalDateTime.of(2024, 12, 30, 12, 20),
+                        LocalDateTime.of(2025, 12, 25, 12, 0),
+                        LocalDateTime.of(2025, 12, 30, 12, 20),
                         RoomClassification.ANDROID, RoomStatus.PROGRESS));
 
         participationRepository.save(new Participation(room1, member2, MemberRole.BOTH, room1.getMatchingSize()));
