@@ -8,6 +8,7 @@ export interface CalendarProps {
   selectedDate: Date;
   handleSelectedDate: (newSelectedDate: Date) => void;
   options?: {
+    disabledBeforeDate?: Date;
     isPastDateDisabled: boolean;
   };
 }
@@ -35,12 +36,11 @@ const Calendar = ({ selectedDate, handleSelectedDate, options }: CalendarProps) 
   const checkIsAvailableClick = (day: number) => {
     if (!options?.isPastDateDisabled) return true;
 
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    const targetDate = new Date(options.disabledBeforeDate || new Date());
+    targetDate.setHours(0, 0, 0, 0);
 
     const checkingDate = new Date(currentViewYear, currentViewMonth - 1, day);
-
-    return today <= checkingDate;
+    return targetDate <= checkingDate;
   };
 
   return (

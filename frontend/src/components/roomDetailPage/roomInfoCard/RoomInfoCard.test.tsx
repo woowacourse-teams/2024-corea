@@ -25,6 +25,7 @@ const mockBaseRoomInfo: RoomInfo = {
   recruitmentDeadline: "2024-10-05T10:30:00+09:00",
   reviewDeadline: "2024-10-08T10:30:00+09:00",
   message: "테스트 메세지",
+  isPublic: false,
 };
 
 describe("RoomInfoCard 컴포넌트 테스트", () => {

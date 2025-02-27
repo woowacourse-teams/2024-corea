@@ -1,14 +1,16 @@
 package corea.scheduler.service;
 
+import corea.alarm.service.AlarmService;
 import corea.exception.CoreaException;
-import corea.exception.ExceptionType;
 import corea.matching.domain.PullRequestInfo;
 import corea.matching.service.MatchingService;
+import corea.matching.service.PrivatePullRequestProvider;
 import corea.matching.service.PullRequestProvider;
 import corea.matchresult.domain.FailedMatching;
 import corea.matchresult.repository.FailedMatchingRepository;
 import corea.room.domain.Room;
-import corea.room.repository.RoomRepository;
+import corea.room.domain.RoomMatchReader;
+import corea.room.domain.RoomReader;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
@@ -22,9 +24,12 @@ import org.springframework.transaction.support.TransactionTemplate;
 public class MatchingExecutor {
 
     private final PlatformTransactionManager transactionManager;
+    private final PrivatePullRequestProvider privatePullRequestProvider;
     private final PullRequestProvider pullRequestProvider;
     private final MatchingService matchingService;
-    private final RoomRepository roomRepository;
+    private final AlarmService alarmService;
+    private final RoomReader roomReader;
+    private final RoomMatchReader roomMatchReader;
     private final FailedMatchingRepository failedMatchingRepository;
 
     @Async
@@ -35,6 +40,7 @@ public class MatchingExecutor {
         try {
             template.execute(status -> {
                 startMatching(roomId);
+                createMatchingCompleteAlarm(roomId);
                 return null;
             });
         } catch (CoreaException e) {
@@ -43,10 +49,25 @@ public class MatchingExecutor {
     }
 
     private void startMatching(long roomId) {
-        Room room = getRoom(roomId);
-        PullRequestInfo pullRequestInfo = pullRequestProvider.getUntilDeadline(room.getRepositoryLink(), room.getRecruitmentDeadline());
-
+        Room room = roomReader.find(roomId);
+        boolean isPublic = roomMatchReader.isPublicRoom(room);
+        PullRequestInfo pullRequestInfo = getPullRequestInfo(room, isPublic);
         matchingService.match(roomId, pullRequestInfo);
+    }
+
+    private void createMatchingCompleteAlarm(long roomId) {
+        alarmService.createMatchingCompletedAlarm(roomId);
+    }
+
+    private void createMatchingFailedAlarm(long roomId) {
+        alarmService.createMatchingFailedAlarm(roomId);
+    }
+
+    private PullRequestInfo getPullRequestInfo(Room room, boolean isPublic) {
+        if (isPublic) {
+            return pullRequestProvider.getUntilDeadline(room.getRepositoryLink(), room.getRecruitmentDeadline());
+        }
+        return privatePullRequestProvider.getEachRepository(room.getId());
     }
 
     private void recordMatchingFailure(long roomId, CoreaException e) {
@@ -55,12 +76,13 @@ public class MatchingExecutor {
         template.execute(status -> {
             updateRoomStatusToFail(roomId);
             saveFailedMatching(roomId, e);
+            createMatchingFailedAlarm(roomId);
             return null;
         });
     }
 
     private void updateRoomStatusToFail(long roomId) {
-        Room room = getRoom(roomId);
+        Room room = roomReader.find(roomId);
         room.updateStatusToFail();
     }
 
@@ -69,10 +91,5 @@ public class MatchingExecutor {
         failedMatchingRepository.save(failedMatching);
 
         log.info("매칭 실행 중 에러 발생. 방 아이디={}, 실패 원인={}", roomId, e.getMessage(), e);
-    }
-
-    private Room getRoom(long roomId) {
-        return roomRepository.findById(roomId)
-                .orElseThrow(() -> new CoreaException(ExceptionType.ROOM_NOT_FOUND));
     }
 }

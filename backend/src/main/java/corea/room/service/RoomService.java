@@ -10,9 +10,7 @@ import corea.participation.domain.ParticipationReader;
 import corea.participation.domain.ParticipationStatus;
 import corea.participation.domain.ParticipationWriter;
 import corea.participation.repository.ParticipationRepository;
-import corea.room.domain.Room;
-import corea.room.domain.RoomReader;
-import corea.room.domain.RoomWriter;
+import corea.room.domain.*;
 import corea.room.dto.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,21 +34,41 @@ public class RoomService {
     private final MatchResultRepository matchResultRepository;
     private final ParticipationRepository participationRepository;
     private final RoomAutomaticService roomAutomaticService;
-    private final ParticipationWriter participationWriter;
     private final MemberReader memberReader;
     private final RoomWriter roomWriter;
-    private final ParticipationReader participationReader;
     private final RoomReader roomReader;
+    private final RoomMatchReader roomMatchReader;
+    private final RoomMatchInfoWriter roomMatchInfoWriter;
+    private final ParticipationWriter participationWriter;
+    private final ParticipationReader participationReader;
+
+    @Transactional
+    public RefactorRoomResponse create(long memberId, RoomRequest request) {
+        Member manager = memberReader.findOne(memberId);
+        Room room = roomWriter.create(manager, request);
+
+        RoomMatchInfo roomMatchInfo = roomMatchInfoWriter.create(room, request.isPublic());
+        Participation participation = participationWriter.create(room, manager, request.managerParticipationRequest());
+
+        roomAutomaticService.createAutomatic(room);
+        return new RefactorRoomResponse(
+                RefactorRoomResponse.RoomInfoResponse.from(room),
+                RefactorRoomResponse.DeadlineResponse.from(room),
+                RefactorRoomResponse.RepositoryResponse.from(room, roomMatchInfo),
+                RefactorRoomResponse.ParticipationResponse.from(participation)
+        );
+    }
 
     @Transactional
     public RoomResponse create(long memberId, RoomCreateRequest request) {
         Member manager = memberReader.findOne(memberId);
         Room room = roomWriter.create(manager, request);
+        RoomMatchInfo roomMatchInfo = roomMatchInfoWriter.create(room, request.isPublic());
 
         Participation participation = participationWriter.create(room, manager, MemberRole.REVIEWER, ParticipationStatus.MANAGER);
 
         roomAutomaticService.createAutomatic(room);
-        return RoomResponse.of(room, participation.getMemberRole(), ParticipationStatus.MANAGER);
+        return RoomResponse.of(room, participation.getMemberRole(), ParticipationStatus.MANAGER, roomMatchInfo.isPublic());
     }
 
     @Transactional
@@ -59,10 +77,11 @@ public class RoomService {
         Member member = memberReader.findOne(memberId);
 
         Room updatedRoom = roomWriter.update(room, member, request);
+        boolean isPublic = roomMatchReader.isPublicRoom(updatedRoom);
         MemberRole memberRole = participationReader.findMemberRole(room.getId(), memberId);
 
         roomAutomaticService.updateTime(updatedRoom);
-        return RoomResponse.of(updatedRoom, memberRole, ParticipationStatus.MANAGER);
+        return RoomResponse.of(updatedRoom, memberRole, ParticipationStatus.MANAGER, isPublic);
     }
 
     @Transactional

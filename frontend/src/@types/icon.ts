@@ -2,7 +2,7 @@ type IconKind =
   | "person"
   | "link"
   | "calendar"
-  | "plus"
+  | "more"
   | "star"
   | "people"
   | "pencil"
@@ -25,6 +25,10 @@ type IconKind =
   | "close"
   | "githubLogo"
   | "notificationBell"
-  | "search";
+  | "search"
+  | "add"
+  | "delete"
+  | "edit"
+  | "control";
 
 export default IconKind;

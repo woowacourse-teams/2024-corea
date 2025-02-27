@@ -6,6 +6,7 @@ import { formatTime } from "@/utils/dateFormatter";
 interface TimeDropdownProps extends InputHTMLAttributes<HTMLInputElement> {
   selectedTime: Date;
   onTimeChange: (time: Date) => void;
+  error: boolean;
 }
 
 interface TimeDropdownChangeProps {
@@ -71,7 +72,7 @@ const TimePicker = ({
   );
 };
 
-export const TimeDropdown = ({ selectedTime, onTimeChange, ...rest }: TimeDropdownProps) => {
+export const TimeDropdown = ({ selectedTime, onTimeChange, error, ...rest }: TimeDropdownProps) => {
   const { isDropdownOpen, handleToggleDropdown, dropdownRef } = useDropdown();
 
   const handleTimeChange = ({ newTime, canCloseDropdown }: TimeDropdownChangeProps) => {
@@ -87,6 +88,7 @@ export const TimeDropdown = ({ selectedTime, onTimeChange, ...rest }: TimeDropdo
         value={formatTime(selectedTime)}
         onClick={handleToggleDropdown}
         placeholder="시간을 선택하세요"
+        $error={error}
         readOnly
         {...rest}
       />

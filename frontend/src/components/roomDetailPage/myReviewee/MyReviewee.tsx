@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useMutateReviewComplete from "@/hooks/mutations/useMutateReview";
+import useMutateReview from "@/hooks/mutations/useMutateReview";
 import { useFetchReviewee } from "@/hooks/queries/useFetchReviewee";
 import Button from "@/components/common/button/Button";
 import Icon from "@/components/common/icon/Icon";
@@ -18,7 +18,7 @@ interface MyRevieweeProps {
 const MyReviewee = ({ roomInfo }: MyRevieweeProps) => {
   const navigate = useNavigate();
   const { data: revieweeData } = useFetchReviewee(roomInfo);
-  const { postReviewCompleteMutation } = useMutateReviewComplete(roomInfo.id);
+  const { postReviewCompleteMutation } = useMutateReview(roomInfo.id);
   const [loadingButtonId, setLoadingButtonId] = useState<number[]>([]);
 
   // 피드백 페이지 이동 함수
@@ -33,16 +33,14 @@ const MyReviewee = ({ roomInfo }: MyRevieweeProps) => {
     if (loadingButtonId.includes(reviewee.userId)) return;
     setLoadingButtonId((prev) => [...prev, reviewee.userId]);
 
-    postReviewCompleteMutation.mutate(
-      { roomId: roomInfo.id, revieweeId: reviewee.userId },
-      {
-        onSuccess: () => {
-          handleNavigateFeedbackPage(reviewee);
-          setLoadingButtonId((prev) => prev.filter((id) => id !== reviewee.userId));
-        },
-        onError: () => setLoadingButtonId((prev) => prev.filter((id) => id !== reviewee.userId)),
-      },
-    );
+    postReviewCompleteMutation
+      .mutateAsync({ roomId: roomInfo.id, revieweeId: reviewee.userId })
+      .then(() => {
+        handleNavigateFeedbackPage(reviewee);
+      })
+      .finally(() => {
+        setLoadingButtonId((prev) => prev.filter((id) => id !== reviewee.userId));
+      });
   };
 
   // 리뷰 및 피드백 여부 버튼 렌더링 함수

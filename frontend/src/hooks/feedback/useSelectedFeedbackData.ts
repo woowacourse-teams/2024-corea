@@ -3,8 +3,7 @@ import {
   useFetchDeliveredFeedback,
   useFetchReceivedFeedback,
 } from "@/hooks/queries/useFetchFeedback";
-
-export type FeedbackType = "받은 피드백" | "쓴 피드백";
+import { FeedbackType } from "@/@types/feedback";
 
 const useSelectedFeedbackData = (initialFeedbackType: FeedbackType = "받은 피드백") => {
   const [selectedFeedbackType, setSelectedFeedbackType] = useState<FeedbackType>(() => {
@@ -24,13 +23,13 @@ const useSelectedFeedbackData = (initialFeedbackType: FeedbackType = "받은 피
   };
 
   const handleSelectedFeedback = (roomId: number) => {
-    if (selectedFeedback === roomId) {
-      setSelectedFeedback(undefined);
-      sessionStorage.removeItem("selectedFeedback");
-      return;
-    }
     setSelectedFeedback(roomId);
     sessionStorage.setItem("selectedFeedback", roomId.toString());
+  };
+
+  const handleDeselectedFeedback = () => {
+    setSelectedFeedback(undefined);
+    sessionStorage.removeItem("selectedFeedback");
   };
 
   const { data: receivedFeedbacks } = useFetchReceivedFeedback(
@@ -48,6 +47,7 @@ const useSelectedFeedbackData = (initialFeedbackType: FeedbackType = "받은 피
     handleSelectedFeedbackType,
     selectedFeedback,
     handleSelectedFeedback,
+    handleDeselectedFeedback,
     selectedFeedbackData,
   };
 };

@@ -1,11 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import { FeedbackType } from "@/hooks/feedback/useSelectedFeedbackData";
 import Button from "@/components/common/button/Button";
 import Profile from "@/components/common/profile/Profile";
 import { Textarea } from "@/components/common/textarea/Textarea";
 import EvaluationPointBar from "@/components/feedback/evaluationPointBar/EvaluationPointBar";
 import * as S from "@/components/feedback/feedbackCard/FeedbackCard.style";
-import { FeedbackCardData } from "@/@types/feedback";
+import { FeedbackCardData, FeedbackType } from "@/@types/feedback";
 import { ReviewInfo } from "@/@types/review";
 import { HoverStyledLink } from "@/styles/common";
 import { theme } from "@/styles/theme";
@@ -61,20 +60,6 @@ const FeedbackCard = ({
       <S.ScreenReader>미션의 상세 피드백 내용입니다.</S.ScreenReader>
 
       <S.FeedbackCardContainer $isTypeDevelop={feedbackType === "develop"}>
-        {!feedbackCardData.isWrited && (
-          <S.Overlay>
-            <S.ButtonWrapper>
-              <p>상대방 피드백을 작성해야 볼 수 있습니다.</p>
-              <Button
-                variant={feedbackType === "develop" ? "primary" : "secondary"}
-                onClick={handleNavigateUserFeedbackPage}
-              >
-                피드백 작성하러가기
-              </Button>
-            </S.ButtonWrapper>
-          </S.Overlay>
-        )}
-
         <S.FeedbackHeader>
           <HoverStyledLink to={`/profile/${feedbackCardData.username}`} tabIndex={-1}>
             <S.FeedbackProfile>
@@ -142,6 +127,20 @@ const FeedbackCard = ({
             </S.ButtonWrapper>
           )}
         </S.FeedbackContent>
+
+        {!feedbackCardData.isWrited && (
+          <S.Overlay>
+            <S.ButtonWrapper>
+              <p>상대방 피드백을 작성해야 볼 수 있습니다.</p>
+              <Button
+                variant={feedbackType === "develop" ? "primary" : "secondary"}
+                onClick={handleNavigateUserFeedbackPage}
+              >
+                피드백 작성하러가기
+              </Button>
+            </S.ButtonWrapper>
+          </S.Overlay>
+        )}
       </S.FeedbackCardContainer>
     </>
   );

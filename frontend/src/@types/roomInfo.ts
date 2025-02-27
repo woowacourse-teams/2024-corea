@@ -20,6 +20,7 @@ interface BaseRoomInfo {
   keywords: string[];
   limitedParticipants: number;
   classification: Classification;
+  isPublic: boolean;
 }
 export interface CreateRoomInfo extends BaseRoomInfo {
   recruitmentDeadline: Date;

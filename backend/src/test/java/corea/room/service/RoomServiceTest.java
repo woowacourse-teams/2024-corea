@@ -70,12 +70,10 @@ class RoomServiceTest {
             assertThat(response.participationStatus()).isEqualTo(ParticipationStatus.MANAGER);
         }
 
-        @Disabled
         @Test
-        @DisplayName("방을 생성할 때 모집 마감 시간은 현재 시간보다 1시간 이후가 아니라면 예외가 발생한다.")
+        @DisplayName("방을 생성할 때 모집 마감 시간은 현재 시간보다 이후가 아니라면 예외가 발생한다.")
         void invalidRecruitmentDeadline() {
-            RoomCreateRequest request = RoomFixture.ROOM_CREATE_REQUEST_WITH_RECRUITMENT_DEADLINE(LocalDateTime.now()
-                    .plusMinutes(59));
+            RoomCreateRequest request = RoomFixture.ROOM_CREATE_REQUEST_WITH_RECRUITMENT_DEADLINE(LocalDateTime.now().minusMinutes(1));
 
             assertThatThrownBy(() -> roomService.create(manager.getId(), request))
                     .asInstanceOf(InstanceOfAssertFactories.type(CoreaException.class))
@@ -83,13 +81,12 @@ class RoomServiceTest {
                     .isEqualTo(ExceptionType.INVALID_RECRUITMENT_DEADLINE);
         }
 
-        @Disabled
         @Test
-        @DisplayName("방을 생성할 때 리뷰 마감 시간은 모집 마감 시간보다 1일 이후가 아니라면 예외가 발생한다.")
+        @DisplayName("방을 생성할 때 리뷰 마감 시간은 모집 마감 시간보다 이후가 아니라면 예외가 발생한다.")
         void invalidReviewDeadline() {
-            RoomCreateRequest request = RoomFixture.ROOM_CREATE_REQUEST(LocalDateTime.now()
-                    .plusHours(2), LocalDateTime.now()
-                    .plusDays(1));
+            RoomCreateRequest request = RoomFixture.ROOM_CREATE_REQUEST(
+                    LocalDateTime.now().plusHours(2),
+                    LocalDateTime.now().plusHours(1));
 
             assertThatThrownBy(() -> roomService.create(manager.getId(), request))
                     .asInstanceOf(InstanceOfAssertFactories.type(CoreaException.class))

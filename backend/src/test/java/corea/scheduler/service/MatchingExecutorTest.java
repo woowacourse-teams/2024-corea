@@ -2,6 +2,9 @@ package corea.scheduler.service;
 
 import config.ServiceTest;
 import config.TestAsyncConfig;
+import corea.alarm.domain.AlarmActionType;
+import corea.alarm.domain.ServerToUserAlarm;
+import corea.alarm.repository.ServerToUserAlarmRepository;
 import corea.fixture.MemberFixture;
 import corea.fixture.RoomFixture;
 import corea.matching.domain.PullRequestInfo;
@@ -16,13 +19,13 @@ import corea.member.repository.MemberRepository;
 import corea.participation.domain.Participation;
 import corea.participation.repository.ParticipationRepository;
 import corea.room.domain.Room;
+import corea.room.domain.RoomMatchInfo;
 import corea.room.domain.RoomStatus;
+import corea.room.repository.RoomMatchInfoRepository;
 import corea.room.repository.RoomRepository;
 import corea.scheduler.domain.AutomaticMatching;
 import corea.scheduler.repository.AutomaticMatchingRepository;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
@@ -33,6 +36,8 @@ import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -58,6 +63,9 @@ class MatchingExecutorTest {
     @Autowired
     private ParticipationRepository participationRepository;
 
+    @Autowired
+    private ServerToUserAlarmRepository serverToUserAlarmRepository;
+
     @MockBean
     private PullRequestProvider pullRequestProvider;
 
@@ -70,6 +78,9 @@ class MatchingExecutorTest {
     private Member ten;
     private Member cho;
 
+    @Autowired
+    private RoomMatchInfoRepository roomMatchInfoRepository;
+
     @BeforeEach
     void setUp() {
         pororo = memberRepository.save(MemberFixture.MEMBER_PORORO());
@@ -80,6 +91,7 @@ class MatchingExecutorTest {
         cho = memberRepository.save(MemberFixture.MEMBER_CHOCO());
 
         room = roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo, LocalDateTime.now().plusSeconds(3)));
+        roomMatchInfoRepository.save(new RoomMatchInfo(room.getId(), true));
         emptyParticipantRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN(ash, LocalDateTime.now().plusSeconds(3)));
 
         participationRepository.save(new Participation(room, pororo, MemberRole.BOTH, room.getMatchingSize()));
@@ -117,6 +129,11 @@ class MatchingExecutorTest {
         ));
     }
 
+    @AfterEach
+    void tearDown() {
+        serverToUserAlarmRepository.deleteAll();
+    }
+
     @Test
     @DisplayName("매칭을 진행한다.")
     void match() {
@@ -128,6 +145,21 @@ class MatchingExecutorTest {
         assertThat(matchResults).isNotEmpty();
     }
 
+    @Test
+    @DisplayName("매칭이 완료되면 매칭 완료 알람이 생성된다.")
+    void matchCompleteAlarm() {
+        AutomaticMatching automaticMatching = automaticMatchingRepository.save(new AutomaticMatching(room.getId(), room.getRecruitmentDeadline()));
+
+        matchingExecutor.match(automaticMatching.getRoomId());
+
+        List<ServerToUserAlarm> serverToUserAlarms = serverToUserAlarmRepository.findAll();
+
+        assertAll(
+                () -> assertThat(serverToUserAlarms).isNotEmpty(),
+                () -> assertEquals(serverToUserAlarms.get(0).getAlarmActionType(), AlarmActionType.MATCH_COMPLETE)
+        );
+    }
+
     @Transactional
     @Test
     @DisplayName("매칭 시도 중 예외가 발생했다면 방 상태를 FAIL로 변경한다.")
@@ -137,5 +169,23 @@ class MatchingExecutorTest {
         matchingExecutor.match(automaticMatching.getRoomId());
 
         assertThat(emptyParticipantRoom.getStatus()).isEqualTo(RoomStatus.FAIL);
+    }
+
+    // 이 부분 트랜잭션 문제 같은데 정확히 모르겠어서 같이 봐주셨으면 합니당...
+    @Disabled
+    @Transactional
+    @Test
+    @DisplayName("매칭이 실패하면 매칭 실패 알람이 생성된다.")
+    void matchFailAlarm() {
+        AutomaticMatching automaticMatching = automaticMatchingRepository.save(new AutomaticMatching(emptyParticipantRoom.getId(), emptyParticipantRoom.getRecruitmentDeadline()));
+
+        matchingExecutor.match(automaticMatching.getRoomId());
+        List<ServerToUserAlarm> serverToUserAlarms = serverToUserAlarmRepository.findAll();
+
+        assertAll(
+                () -> assertThat(emptyParticipantRoom.getStatus()).isEqualTo(RoomStatus.FAIL),
+                () -> assertThat(serverToUserAlarms).isNotEmpty(),
+                () -> assertEquals(serverToUserAlarms.get(0).getAlarmActionType(), AlarmActionType.MATCH_FAIL)
+        );
     }
 }

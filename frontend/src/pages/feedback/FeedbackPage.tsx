@@ -10,6 +10,7 @@ const FeedbackPage = () => {
     handleSelectedFeedbackType,
     selectedFeedback,
     handleSelectedFeedback,
+    handleDeselectedFeedback,
     selectedFeedbackData,
   } = useSelectedFeedbackData();
 
@@ -27,6 +28,7 @@ const FeedbackPage = () => {
         feedbackData={selectedFeedbackData}
         selectedFeedback={selectedFeedback}
         handleSelectedFeedback={handleSelectedFeedback}
+        handleDeselectedFeedback={handleDeselectedFeedback}
       />
     </>
   );

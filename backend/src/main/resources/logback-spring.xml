@@ -15,7 +15,7 @@
     <springProfile name="local">
         <include resource="logs/console-appender.xml"/>
 
-        <logger name="corea" level="DEBUG" additivity="true">
+        <logger name="corea" level="DEBUG" additivity="false">
             <appender-ref ref="CONSOLE"/>
         </logger>
 
@@ -33,6 +33,41 @@
 
         <root level="WARN">
             <appender-ref ref="LOKI"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="maintenance-dev">
+        <include resource="logs/console-appender.xml"/>
+        <include resource="logs/file-info-appender.xml"/>
+        <include resource="logs/file-warn-appender.xml"/>
+        <include resource="logs/file-error-appender.xml"/>
+
+        <logger name="corea" level="DEBUG" additivity="false">
+            <appender-ref ref="FILE-INFO"/>
+            <appender-ref ref="FILE-WARN"/>
+            <appender-ref ref="FILE-ERROR"/>
+        </logger>
+
+        <root level="WARN">
+            <appender-ref ref="FILE-WARN"/>
+            <appender-ref ref="FILE-ERROR"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="maintenance-prod">
+        <include resource="logs/file-info-appender.xml"/>
+        <include resource="logs/file-warn-appender.xml"/>
+        <include resource="logs/file-error-appender.xml"/>
+
+        <logger name="corea" level="DEBUG" additivity="false">
+            <appender-ref ref="FILE-INFO"/>
+            <appender-ref ref="FILE-WARN"/>
+            <appender-ref ref="FILE-ERROR"/>
+        </logger>
+
+        <root level="WARN">
+            <appender-ref ref="FILE-WARN"/>
+            <appender-ref ref="FILE-ERROR"/>
         </root>
     </springProfile>
 

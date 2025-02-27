@@ -6,6 +6,7 @@ import corea.member.domain.Member;
 import corea.member.domain.MemberRole;
 import corea.participation.repository.ParticipationRepository;
 import corea.room.domain.Room;
+import corea.room.dto.RoomRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class ParticipationWriter {
 
     private final ParticipationRepository participationRepository;
+
+    public Participation create(Room room, Member member, RoomRequest.ManagerParticipationRequest request) {
+        return create(room, member, request.memberRole(), ParticipationStatus.MANAGER, request.matchingSize());
+    }
 
     public Participation create(Room room, Member member, MemberRole memberRole, ParticipationStatus participationStatus) {
         return create(room, member, memberRole, participationStatus, room.getMatchingSize());

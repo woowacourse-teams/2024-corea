@@ -3,10 +3,7 @@ package corea.room.controller;
 import corea.auth.domain.AuthInfo;
 import corea.exception.ExceptionType;
 import corea.global.annotation.ApiErrorResponses;
-import corea.room.dto.RoomCreateRequest;
-import corea.room.dto.RoomParticipantResponses;
-import corea.room.dto.RoomResponse;
-import corea.room.dto.RoomUpdateRequest;
+import corea.room.dto.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,7 +20,7 @@ public interface RoomControllerSpecification {
                     "<br><br>**참고:** 이 API를 사용하기 위해서는 유효한 JWT 토큰이 필요하며, " +
                     "토큰이 없거나 유효하지 않은 경우 인증 오류가 발생합니다.")
     @ApiErrorResponses(value = ExceptionType.MEMBER_NOT_FOUND)
-    ResponseEntity<RoomResponse> create(AuthInfo authInfo, RoomCreateRequest request);
+    ResponseEntity<RefactorRoomResponse> create(AuthInfo authInfo, RoomRequest request);
 
     @Operation(summary = "새로운 방을 수정합니다.",
             description = "상호 리뷰 인원을 모을 수 있는 방을 수정합니다. <br>" +

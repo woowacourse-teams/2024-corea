@@ -3,8 +3,10 @@ import { useNavigate } from "react-router-dom";
 import useMutateRoom from "@/hooks/mutations/useMutateRoom";
 import Button from "@/components/common/button/Button";
 import Checkbox from "@/components/common/checkbox/Checkbox";
+import ConfirmModal from "@/components/common/modal/confirmModal/ConfirmModal";
 import * as S from "@/components/shared/roomCardModal/RoomCardModal.style";
 import { Role, RoomInfo } from "@/@types/roomInfo";
+import { HoverStyledLink } from "@/styles/common";
 
 interface RoomCardModalButtonProps {
   roomInfo: RoomInfo;
@@ -16,10 +18,15 @@ const RoomCardModalButton = ({ roomInfo }: RoomCardModalButtonProps) => {
   const navigate = useNavigate();
 
   const [matchingSize, setMatchingSize] = useState(roomInfo.matchingSize);
+  const [isNoticeModalOpen, setIsNoticeModalOpen] = useState(false);
   const { postParticipateInMutation } = useMutateRoom();
   const isLoggedIn = !!localStorage.getItem("accessToken");
   const isReviewer = localStorage.getItem("memberRole") === "REVIEWER";
   const userRole = isReviewer ? "REVIEWER" : "BOTH";
+
+  const handleNoticeModal = () => {
+    setIsNoticeModalOpen((prev) => !prev);
+  };
 
   const handleParticipateRoomClick = () => {
     postParticipateInMutation.mutate(
@@ -60,6 +67,22 @@ const RoomCardModalButton = ({ roomInfo }: RoomCardModalButtonProps) => {
 
   return (
     <S.ButtonContainer>
+      <ConfirmModal
+        isOpen={isNoticeModalOpen}
+        onClose={handleNoticeModal}
+        onConfirm={handleParticipateRoomClick}
+        onCancel={handleNoticeModal}
+      >
+        해당 링크를 참고하여 본인 레포에 PR을 남겨주세요 <br /> (본인 레포에 PR을 작성하지 않으면 방
+        매칭이 안돼요 😥)
+        <HoverStyledLink
+          to={"https://github.com/2024-Code-Review-Area/description-convenience-store-7"}
+          target="_blank"
+          rel="noreferrer"
+        >
+          🔗 방 참여방법 보러가기
+        </HoverStyledLink>
+      </ConfirmModal>
       <S.FormContainer>
         <S.FormWrapper onClick={(e) => e.stopPropagation()}>
           <S.MatchingSizeContainer>
@@ -79,7 +102,7 @@ const RoomCardModalButton = ({ roomInfo }: RoomCardModalButtonProps) => {
             >
               -
             </Button>
-            <S.ReviewCount>{matchingSize}</S.ReviewCount>
+            <S.MatchingSize>{matchingSize}</S.MatchingSize>
             <Button
               variant={matchingSize === MAX_MATCHING_SIZE ? "disable" : "primary"}
               size="xSmall"
@@ -104,7 +127,11 @@ const RoomCardModalButton = ({ roomInfo }: RoomCardModalButtonProps) => {
         </S.FormWrapper>
       </S.FormContainer>
 
-      <Button variant="primary" size="small" onClick={handleParticipateRoomClick}>
+      <Button
+        variant="primary"
+        size="small"
+        onClick={roomInfo.isPublic ? handleParticipateRoomClick : handleNoticeModal}
+      >
         참여하기
       </Button>
     </S.ButtonContainer>

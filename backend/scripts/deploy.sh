@@ -5,10 +5,10 @@ APPLICATION_JAR_NAME=$(basename $BUILD_PATH)
 
 echo "> build 파일명: $APPLICATION_JAR_NAME"
 
-if [[ "$DEPLOYMENT_GROUP_NAME" == "2024-corea-backend-develop-group" ]]; then
-  SPRING_PROFILE="dev"
-elif [[ "$DEPLOYMENT_GROUP_NAME" == "2024-corea-backend-lb-group" ]]; then
-  SPRING_PROFILE="prod"
+if [[ "$DEPLOYMENT_GROUP_NAME" == "corea-backend-develop-group" ]]; then
+  SPRING_PROFILE="maintenance-dev"
+elif [[ "$DEPLOYMENT_GROUP_NAME" == "corea-backend-prod-group" ]]; then
+  SPRING_PROFILE="maintenance-prod"
 else
   SPRING_PROFILE="local"
 fi
