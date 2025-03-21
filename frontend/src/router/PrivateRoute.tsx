@@ -1,7 +1,7 @@
-import Button from "../common/button/Button";
+import Button from "../components/common/button/Button";
 import { Outlet, useNavigate } from "react-router-dom";
-import * as S from "@/components/routes/PrivateRoute.style";
 import { errorCharacter } from "@/assets";
+import * as S from "@/router/PrivateRoute.style";
 
 const PrivateRoute = () => {
   const navigate = useNavigate();

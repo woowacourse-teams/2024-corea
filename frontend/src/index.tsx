@@ -6,7 +6,7 @@ import { RouterProvider } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import Toast from "@/components/common/Toast/Toast";
 import { ToastProvider } from "@/providers/ToastProvider";
-import router from "@/router";
+import router from "@/router/router";
 import GlobalStyles from "@/styles/globalStyles";
 import { theme } from "@/styles/theme";
 
