@@ -13,7 +13,7 @@ const CallbackPage = () => {
     const code = params.get("code");
 
     if (code) {
-      postLoginMutation.mutate(code, { onSuccess: () => navigate("/", { replace: true }) });
+      postLoginMutation.mutate(code);
     }
   }, []);
 
