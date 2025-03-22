@@ -1,13 +1,10 @@
 import styled from "styled-components";
+import { FullHeightContainer } from "@/styles/layout";
 
 export const PrivateRouteContainer = styled.div`
-  display: flex;
+  ${FullHeightContainer}
   flex-direction: column;
   gap: 2rem;
-  align-items: center;
-  justify-content: center;
-
-  margin-top: 20%;
 
   img {
     width: 50%;

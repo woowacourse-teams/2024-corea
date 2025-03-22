@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { HeaderHeight } from "@/styles/layout";
 import media from "@/styles/media";
 
 export const HeaderContainer = styled.header<{ $isMain: boolean }>`
@@ -9,7 +10,7 @@ export const HeaderContainer = styled.header<{ $isMain: boolean }>`
   justify-content: space-between;
 
   width: 100%;
-  height: 65px;
+  height: ${HeaderHeight};
 
   color: ${({ theme }) => theme.COLOR.grey3};
 

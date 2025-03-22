@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { HeaderHeight } from "@/styles/layout";
 import media from "@/styles/media";
 import { Z_INDEX } from "@/styles/zIndex";
 
@@ -13,7 +14,7 @@ export const HeaderContainer = styled.header`
   align-items: center;
 
   width: 100%;
-  height: 65px;
+  height: ${HeaderHeight};
 
   background: transparent;
 
