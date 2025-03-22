@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 import { useLocation } from "react-router-dom";
 import { Sentry } from "@/Sentry";
 import MESSAGES from "@/constants/message";
-import { HTTPError } from "@/utils/Errors";
+import { ApiError } from "@/utils/Errors";
 
 const SentryApiErrorBoundary = ({ children }: { children: ReactNode }) => {
   const { reset } = useQueryErrorResetBoundary();
@@ -18,7 +18,7 @@ const SentryApiErrorBoundary = ({ children }: { children: ReactNode }) => {
         <Fallback message={MESSAGES.ERROR.BOUNDARY_TOTAL} resetError={resetError} />
       )}
       onError={(error) => {
-        if (error instanceof HTTPError) {
+        if (error instanceof ApiError) {
           Sentry.withScope((scope) => {
             scope.setTag("type", "apiError");
 

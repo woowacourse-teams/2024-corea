@@ -2,7 +2,7 @@ import { API_ENDPOINTS } from "./endpoints";
 import { Method, QueueItem } from "@/@types/apiClient";
 import { serverUrl } from "@/config/serverUrl";
 import MESSAGES from "@/constants/message";
-import { AuthorizationError, HTTPError } from "@/utils/Errors";
+import { ApiError, AuthorizationError } from "@/utils/Errors";
 
 interface ApiProps {
   endpoint: string;
@@ -53,7 +53,7 @@ const refreshAccessToken = async (): Promise<string | undefined> => {
       localStorage.clear();
       window.location.href = "/";
     } else {
-      throw new HTTPError(data.message || MESSAGES.ERROR.POST_REFRESH);
+      throw new ApiError(data.message || MESSAGES.ERROR.POST_REFRESH);
     }
   } else if (newAccessToken) {
     localStorage.setItem("accessToken", newAccessToken);
@@ -70,7 +70,7 @@ const fetchWithToken = async (
   errorMessage: string = "",
 ) => {
   if (!navigator.onLine) {
-    throw new HTTPError(MESSAGES.ERROR.OFFLINE);
+    throw new ApiError(MESSAGES.ERROR.OFFLINE);
   }
 
   let response = await fetch(`${serverUrl}${endpoint}`, requestInit);
@@ -90,7 +90,7 @@ const fetchWithToken = async (
         response = await fetch(`${serverUrl}${endpoint}`, requestInit);
 
         if (!response.ok && response.status !== 401) {
-          throw new HTTPError(data.message || MESSAGES.ERROR.POST_REFRESH);
+          throw new ApiError(data.message || MESSAGES.ERROR.POST_REFRESH);
         }
       });
     }
@@ -108,12 +108,12 @@ const fetchWithToken = async (
     data = text ? JSON.parse(text) : null;
 
     if (!response.ok && response.status !== 401) {
-      throw new HTTPError(data.message || MESSAGES.ERROR.POST_REFRESH);
+      throw new ApiError(data.message || MESSAGES.ERROR.POST_REFRESH);
     }
   }
 
   if (!response.ok && response.status !== 401) {
-    throw new HTTPError(data.message || errorMessage);
+    throw new ApiError(data.message || errorMessage);
   }
 
   return text ? data : response;
