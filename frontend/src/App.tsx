@@ -1,6 +1,7 @@
 import QueryProvider from "./QueryProvider";
 import Toast from "./components/common/Toast/Toast";
 import SentryTotalBoundary from "./components/common/errorBoundary/SentryTotalBoundary";
+import Layout from "./components/layout/Layout";
 import { ToastProvider } from "./providers/ToastProvider";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import React from "react";
@@ -15,11 +16,13 @@ const App = () => {
       <ToastProvider>
         <GlobalStyles />
         <ThemeProvider theme={theme}>
-          <SentryTotalBoundary>
-            <ReactQueryDevtools initialIsOpen={false} />
-            <Toast />
-            <Outlet />
-          </SentryTotalBoundary>
+          <ReactQueryDevtools initialIsOpen={false} />
+          <Toast />
+          <Layout>
+            <SentryTotalBoundary>
+              <Outlet />
+            </SentryTotalBoundary>
+          </Layout>
         </ThemeProvider>
       </ToastProvider>
     </QueryProvider>

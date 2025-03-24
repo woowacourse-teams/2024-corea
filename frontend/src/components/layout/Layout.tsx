@@ -1,11 +1,10 @@
-import { useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import React, { useEffect } from "react";
 import Header from "@/components/common/header/Header";
 import * as S from "@/components/layout/Layout.style";
 import RouteChangeTracker from "@/RouteChangeTracker";
 import { initializeSentryUser } from "@/Sentry";
 
-const Layout = () => {
+const Layout = ({ children }: { children: React.ReactNode }) => {
   RouteChangeTracker();
 
   useEffect(() => {
@@ -13,12 +12,10 @@ const Layout = () => {
   }, []);
 
   return (
-    <>
+    <S.ContentContainer>
       <Header />
-      <S.ContentContainer>
-        <Outlet />
-      </S.ContentContainer>
-    </>
+      <S.ContentSection>{children}</S.ContentSection>
+    </S.ContentContainer>
   );
 };
 

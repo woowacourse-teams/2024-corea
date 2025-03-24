@@ -1,5 +1,4 @@
 import Button from "../button/Button";
-import Header from "../header/Header";
 import React from "react";
 import * as S from "@/components/common/errorBoundary/Fallback.style";
 import { errorCharacter } from "@/assets";
@@ -12,7 +11,6 @@ interface DefaultFallbackProps {
 const DefaultFallback = ({ onRetry }: DefaultFallbackProps) => {
   return (
     <S.FallbackContainer>
-      <Header />
       <S.ErrorMessage>{MESSAGES.ERROR.BOUNDARY_TOTAL}</S.ErrorMessage>
       <S.Character src={errorCharacter} alt="에러 발생" />
       <Button onClick={onRetry} size="medium">

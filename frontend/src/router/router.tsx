@@ -1,6 +1,5 @@
 import NotFoundPage from "./NotFoundPage";
 import { createBrowserRouter } from "react-router-dom";
-import Layout from "@/components/layout/Layout";
 import CallbackPage from "@/pages/callback/CallbackPage";
 import IntroPage from "@/pages/intro/IntroPage";
 import MainPage from "@/pages/main/MainPage";
@@ -14,51 +13,45 @@ const sentryCreateBrowserRouter = Sentry.wrapCreateBrowserRouter(createBrowserRo
 
 const router = sentryCreateBrowserRouter([
   {
-    path: "",
+    path: "/",
     element: <App />,
     children: [
       {
-        path: "/intro",
+        index: true,
+        element: <MainPage />,
+      },
+      {
+        path: "intro",
         element: <IntroPage />,
       },
       {
-        path: "/",
-        element: <Layout />,
+        path: "callback",
+        element: <CallbackPage />,
+      },
+      {
+        path: "guide",
+        element: <Lazy.GuidePage />,
+      },
+      {
+        path: "profile/:username",
+        element: <UserProfilePage />,
+      },
+      {
+        element: <PrivateRoute />,
         children: [
-          {
-            index: true,
-            element: <MainPage />,
-          },
-          {
-            path: "callback",
-            element: <CallbackPage />,
-          },
-          {
-            path: "guide",
-            element: <Lazy.GuidePage />,
-          },
-          {
-            path: "profile/:username",
-            element: <UserProfilePage />,
-          },
-          {
-            element: <PrivateRoute />,
-            children: [
-              { path: "alarm", element: <Lazy.AlarmPage /> },
-              { path: "rooms/:id", element: <Lazy.RoomDetailPage /> },
-              { path: "rooms/create", element: <Lazy.RoomCreatePage /> },
-              { path: "rooms/edit/:roomId", element: <Lazy.RoomEditPage /> },
-              { path: "feedback", element: <Lazy.FeedbackPage /> },
-              { path: "rooms/:roomId/feedback/reviewer", element: <Lazy.ReviewerFeedbackPage /> },
-              { path: "rooms/:roomId/feedback/reviewee", element: <Lazy.RevieweeFeedbackPage /> },
-              { path: "profile", element: <Lazy.ProfilePage /> },
-            ],
-          },
-          {
-            path: "*",
-            element: <NotFoundPage />,
-          },
+          { path: "alarm", element: <Lazy.AlarmPage /> },
+          { path: "rooms/:id", element: <Lazy.RoomDetailPage /> },
+          { path: "rooms/create", element: <Lazy.RoomCreatePage /> },
+          { path: "rooms/edit/:roomId", element: <Lazy.RoomEditPage /> },
+          { path: "feedback", element: <Lazy.FeedbackPage /> },
+          { path: "rooms/:roomId/feedback/reviewer", element: <Lazy.ReviewerFeedbackPage /> },
+          { path: "rooms/:roomId/feedback/reviewee", element: <Lazy.RevieweeFeedbackPage /> },
+          { path: "profile", element: <Lazy.ProfilePage /> },
         ],
+      },
+      {
+        path: "*",
+        element: <NotFoundPage />,
       },
     ],
   },
