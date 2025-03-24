@@ -8,19 +8,24 @@ export const HeaderContainer = styled.header`
   position: fixed;
   z-index: ${Z_INDEX.header};
   top: 0;
-  left: 20px;
+  left: 0;
 
   display: flex;
   align-items: center;
+  justify-content: space-between;
 
   width: 100%;
   height: ${HeaderHeight};
 
   background: transparent;
 
-  ${media.small`
-    left: 10px;
-  `}
+  @media screen and (width >= 1200px) {
+    padding: 0 calc(((100vw - 1200px) / 2) + 3rem);
+  }
+
+  @media screen and (width < 1200px) {
+    padding: 0 2rem;
+  }
 `;
 
 export const HeaderLogo = styled.div`
