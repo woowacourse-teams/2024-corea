@@ -10,10 +10,12 @@ import * as S from "@/components/roomDetailPage/controlButton/ControlButton.styl
 import { ParticipationStatus, RoomInfo } from "@/@types/roomInfo";
 import MESSAGES from "@/constants/message";
 
-export type DropdownItem = {
+type Action = "EXIT_ROOM" | "DELETE_ROOM";
+
+export interface DropdownItem {
   name: string;
-  action: string;
-};
+  action: Action;
+}
 
 export const dropdownItemsConfig: Record<string, DropdownItem[]> = {
   MANAGER: [
@@ -33,7 +35,7 @@ const ControlButton = ({ roomInfo, participationStatus }: ControlButtonProps) =>
   const { isModalOpen, handleOpenModal, handleCloseModal } = useModal();
   const { isDropdownOpen, handleToggleDropdown, dropdownRef } = useDropdown();
   const { deleteParticipateInMutation, deleteParticipatedRoomMutation } = useMutateRoom();
-  const [selectedAction, setSelectedAction] = useState("");
+  const [selectedAction, setSelectedAction] = useState<Action>("" as Action);
 
   const dropdownItems = dropdownItemsConfig[participationStatus] || [];
 
@@ -43,7 +45,7 @@ const ControlButton = ({ roomInfo, participationStatus }: ControlButtonProps) =>
   };
 
   const handleDropdownItemClick = (action: string) => {
-    setSelectedAction(action);
+    setSelectedAction(action as Action);
     if (action === "EDIT_ROOM") {
       navigate(`/rooms/edit/${roomInfo.id}`);
     } else {

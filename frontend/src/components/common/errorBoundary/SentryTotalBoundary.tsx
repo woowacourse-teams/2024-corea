@@ -5,7 +5,6 @@ import DelaySuspense from "@/components/common/delaySuspense/DelaySuspense";
 import SentryApiErrorBoundary from "@/components/common/errorBoundary/SentryApiErrorBoundary";
 import Loading from "@/components/common/loading/Loading";
 import { Sentry } from "@/Sentry";
-import MESSAGES from "@/constants/message";
 
 const SentryTotalBoundary = ({ children }: { children: ReactNode }) => {
   const { pathname } = useLocation();
@@ -13,8 +12,8 @@ const SentryTotalBoundary = ({ children }: { children: ReactNode }) => {
   return (
     <Sentry.ErrorBoundary
       key={pathname}
-      fallback={({ resetError }) => (
-        <Fallback message={MESSAGES.ERROR.BOUNDARY_TOTAL} resetError={resetError} />
+      fallback={({ error, resetError }) => (
+        <Fallback error={error as Error} resetError={resetError} />
       )}
       onError={(error) => {
         Sentry.withScope((scope) => {

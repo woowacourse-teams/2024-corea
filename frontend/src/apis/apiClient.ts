@@ -49,8 +49,6 @@ const refreshAccessToken = async (): Promise<string | undefined> => {
   if (!response.ok) {
     isRefreshing = false;
     if (response.status === 401 && data?.exceptionType === "TOKEN_EXPIRED") {
-      localStorage.clear();
-      window.location.href = "/";
       throw new AuthorizationError(data?.message || MESSAGES.ERROR.POST_REFRESH);
     }
     throw new ApiError(data?.message || MESSAGES.ERROR.POST_REFRESH);

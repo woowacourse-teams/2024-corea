@@ -3,7 +3,6 @@ import { useQueryErrorResetBoundary } from "@tanstack/react-query";
 import { ReactNode } from "react";
 import { useLocation } from "react-router-dom";
 import { Sentry } from "@/Sentry";
-import MESSAGES from "@/constants/message";
 import { ApiError } from "@/utils/Errors";
 
 const SentryApiErrorBoundary = ({ children }: { children: ReactNode }) => {
@@ -14,8 +13,8 @@ const SentryApiErrorBoundary = ({ children }: { children: ReactNode }) => {
     <Sentry.ErrorBoundary
       key={pathname}
       onReset={reset}
-      fallback={({ resetError }) => (
-        <Fallback message={MESSAGES.ERROR.BOUNDARY_TOTAL} resetError={resetError} />
+      fallback={({ error, resetError }) => (
+        <Fallback error={error as Error} resetError={resetError} />
       )}
       onError={(error) => {
         if (error instanceof ApiError) {

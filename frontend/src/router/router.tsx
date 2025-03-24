@@ -21,7 +21,6 @@ const router = sentryCreateBrowserRouter([
         path: "/intro",
         element: <IntroPage />,
       },
-
       {
         path: "/",
         element: <Layout />,
