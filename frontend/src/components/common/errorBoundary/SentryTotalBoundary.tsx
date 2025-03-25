@@ -1,41 +1,33 @@
-import Fallback from "./ErrorBoundarySwitch";
+import ErrorBoundarySwitch from "./ErrorBoundarySwitch";
+import * as Sentry from "@sentry/react";
 import { ReactNode, Suspense } from "react";
 import { useLocation } from "react-router-dom";
 import DelaySuspense from "@/components/common/delaySuspense/DelaySuspense";
-import SentryApiErrorBoundary from "@/components/common/errorBoundary/SentryApiErrorBoundary";
 import Loading from "@/components/common/loading/Loading";
-import { Sentry } from "@/Sentry";
+import logErrorToSentry from "@/utils/logSentryError";
 
-const SentryTotalBoundary = ({ children }: { children: ReactNode }) => {
+const SentryErrorBoundary = ({ children }: { children: ReactNode }) => {
   const { pathname } = useLocation();
 
   return (
     <Sentry.ErrorBoundary
       key={pathname}
       fallback={({ error, resetError }) => (
-        <Fallback error={error as Error} resetError={resetError} />
+        <ErrorBoundarySwitch error={error as Error} resetError={resetError} />
       )}
-      onError={(error) => {
-        Sentry.withScope((scope) => {
-          scope.setTag("type", "runtimeError");
-
-          Sentry.captureException(error);
-        });
-      }}
+      onError={(error) => logErrorToSentry(error as Error)}
     >
-      <SentryApiErrorBoundary>
-        <Suspense
-          fallback={
-            <DelaySuspense>
-              <Loading />
-            </DelaySuspense>
-          }
-        >
-          {children}
-        </Suspense>
-      </SentryApiErrorBoundary>
+      <Suspense
+        fallback={
+          <DelaySuspense>
+            <Loading />
+          </DelaySuspense>
+        }
+      >
+        {children}
+      </Suspense>
     </Sentry.ErrorBoundary>
   );
 };
 
-export default SentryTotalBoundary;
+export default SentryErrorBoundary;
