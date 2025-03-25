@@ -1,9 +1,11 @@
 import styled from "styled-components";
 import { HeaderHeight } from "@/styles/layout";
 import media from "@/styles/media";
+import { Z_INDEX } from "@/styles/zIndex";
 
-export const HeaderContainer = styled.header<{ $isMain: boolean }>`
-  position: relative;
+export const HeaderContainer = styled.header<{ $showShadow: boolean; $shouldFixed: boolean }>`
+  position: ${({ $shouldFixed }) => ($shouldFixed ? "fixed" : "relative")};
+  z-index: ${Z_INDEX.header};
 
   display: flex;
   align-items: center;
@@ -14,7 +16,7 @@ export const HeaderContainer = styled.header<{ $isMain: boolean }>`
 
   color: ${({ theme }) => theme.COLOR.grey3};
 
-  box-shadow: ${({ theme, $isMain }) => ($isMain ? "none" : theme.BOX_SHADOW.regular)};
+  box-shadow: ${({ theme, $showShadow }) => ($showShadow ? theme.BOX_SHADOW.regular : "none")};
 
   @media screen and (width >= 1200px) {
     padding: 0 calc(((100vw - 1200px) / 2) + 3rem);

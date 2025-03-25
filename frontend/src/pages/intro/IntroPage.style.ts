@@ -1,52 +1,5 @@
 import styled from "styled-components";
-import { HeaderHeight } from "@/styles/layout";
 import media from "@/styles/media";
-import { Z_INDEX } from "@/styles/zIndex";
-
-// 헤더
-export const HeaderContainer = styled.header`
-  position: fixed;
-  z-index: ${Z_INDEX.header};
-  top: 0;
-  left: 0;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  width: 100%;
-  height: ${HeaderHeight};
-
-  background: transparent;
-
-  @media screen and (width >= 1200px) {
-    padding: 0 calc(((100vw - 1200px) / 2) + 3rem);
-  }
-
-  @media screen and (width < 1200px) {
-    padding: 0 2rem;
-  }
-`;
-
-export const HeaderLogo = styled.div`
-  display: flex;
-  gap: 0.8rem;
-  align-items: center;
-  background: transparent;
-
-  span {
-    font-family: "Moirai One", system-ui;
-    font-size: 3rem;
-    font-weight: 900;
-    color: ${({ theme }) => theme.COLOR.grey4};
-
-    transition: color 0.2s ease-in-out;
-
-    &:hover {
-      color: ${({ theme }) => theme.COLOR.primary2};
-    }
-  }
-`;
 
 // 본문
 export const Layout = styled.div`
@@ -61,6 +14,7 @@ export const Layout = styled.div`
   align-items: center;
 
   height: 100vh;
+  margin: -4rem;
 `;
 
 export const ContentLayout = styled.div`
