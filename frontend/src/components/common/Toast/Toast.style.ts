@@ -29,6 +29,7 @@ export const Wrapper = styled.div<{ $closeAnimation: boolean; $type: ToastType }
 
   min-width: 350px;
   height: 35px;
+  padding: 0 1rem;
 
   font: ${({ theme }) => theme.TEXT.small_bold};
   color: ${({ theme }) => theme.COLOR.white};
