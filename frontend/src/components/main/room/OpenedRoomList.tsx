@@ -1,16 +1,13 @@
 import { useInfiniteFetchRoomList } from "@/hooks/queries/useFetchRooms";
-import Loading from "@/components/common/loading/Loading";
-import WithSuspense from "@/components/common/withSuspense/WithSuspense";
-import RoomListWithDropdown from "@/components/main/room/RoomListWithDropdown";
+import RoomList from "@/components/shared/roomList/RoomList";
 import QUERY_KEYS from "@/apis/queryKeys";
 import { getOpenedRoomList } from "@/apis/rooms.api";
 
 interface OpenedRoomListProps {
   selectedCategory: string;
-  handleSelectedCategory: (category: string) => void;
 }
 
-const OpenedRoomList = ({ selectedCategory, handleSelectedCategory }: OpenedRoomListProps) => {
+const OpenedRoomList = ({ selectedCategory }: OpenedRoomListProps) => {
   const {
     data: openedRoomList,
     fetchNextPage: fetchNextOpenedPage,
@@ -25,9 +22,7 @@ const OpenedRoomList = ({ selectedCategory, handleSelectedCategory }: OpenedRoom
   const openedRooms = openedRoomList.pages.flatMap((page) => page.rooms) || [];
 
   return (
-    <RoomListWithDropdown
-      selectedCategory={selectedCategory}
-      handleSelectedCategory={handleSelectedCategory}
+    <RoomList
       roomList={openedRooms}
       hasNextPage={hasNextOpenedPage}
       onLoadMore={fetchNextOpenedPage}
@@ -37,4 +32,4 @@ const OpenedRoomList = ({ selectedCategory, handleSelectedCategory }: OpenedRoom
   );
 };
 
-export default WithSuspense(OpenedRoomList, <Loading />);
+export default OpenedRoomList;
