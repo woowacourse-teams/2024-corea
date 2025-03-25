@@ -1,12 +1,13 @@
 import { CSSObject, Interpolation, css } from "styled-components";
+import { SCREEN } from "@/constants/media";
 
 export type Breakpoints = "small" | "medium" | "large";
 
 export const breakpoints: Record<Breakpoints, string> = {
-  small: "@media (max-width: 639px)",
-  medium: "@media (min-width: 639px) and (max-width: 1048px)",
-  large: "@media (min-width: 1048px)",
-};
+  small: `@media (max-width: ${SCREEN.SMALL}px)`,
+  medium: `@media (min-width: ${SCREEN.SMALL}px) and (max-width: ${SCREEN.MEDIUM}px)`,
+  large: `@media (min-width: ${SCREEN.MEDIUM}px)`,
+} as const;
 
 const media = Object.entries(breakpoints).reduce(
   (acc, [key, value]) => {
