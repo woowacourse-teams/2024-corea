@@ -1,10 +1,12 @@
 import QueryProvider from "./QueryProvider";
 import Toast from "./components/common/Toast/Toast";
-import SentryTotalBoundary from "./components/common/errorBoundary/SentryTotalBoundary";
+import DelaySuspense from "./components/common/delaySuspense/DelaySuspense";
+import SentryErrorBoundary from "./components/common/errorBoundary/SentryErrorBoundary";
+import Loading from "./components/common/loading/Loading";
 import Layout from "./components/layout/Layout";
 import { ToastProvider } from "./providers/ToastProvider";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import React from "react";
+import React, { Suspense } from "react";
 import { Outlet } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import GlobalStyles from "@/styles/globalStyles";
@@ -16,13 +18,21 @@ const App = () => {
       <QueryProvider>
         <GlobalStyles />
         <ThemeProvider theme={theme}>
-          <SentryTotalBoundary>
+          <SentryErrorBoundary>
             <ReactQueryDevtools initialIsOpen={false} />
             <Toast />
-            <Layout>
-              <Outlet />
-            </Layout>
-          </SentryTotalBoundary>
+            <Suspense
+              fallback={
+                <DelaySuspense>
+                  <Loading />
+                </DelaySuspense>
+              }
+            >
+              <Layout>
+                <Outlet />
+              </Layout>
+            </Suspense>
+          </SentryErrorBoundary>
         </ThemeProvider>
       </QueryProvider>
     </ToastProvider>
