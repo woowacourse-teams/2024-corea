@@ -2,6 +2,7 @@ import QueryProvider from "./QueryProvider";
 import Toast from "./components/common/Toast/Toast";
 import DelaySuspense from "./components/common/delaySuspense/DelaySuspense";
 import SentryErrorBoundary from "./components/common/errorBoundary/SentryErrorBoundary";
+import Header from "./components/common/header/Header";
 import Loading from "./components/common/loading/Loading";
 import Layout from "./components/layout/Layout";
 import { ToastProvider } from "./providers/ToastProvider";
@@ -18,9 +19,10 @@ const App = () => {
       <QueryProvider>
         <GlobalStyles />
         <ThemeProvider theme={theme}>
+          <ReactQueryDevtools initialIsOpen={false} />
+          <Toast />
+          <Header />
           <SentryErrorBoundary>
-            <ReactQueryDevtools initialIsOpen={false} />
-            <Toast />
             <Suspense
               fallback={
                 <DelaySuspense>

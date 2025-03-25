@@ -3,10 +3,6 @@ import { HeaderHeight } from "@/styles/layout";
 
 export const ContentContainer = styled.div`
   width: 100%;
-`;
-
-export const ContentSection = styled.section`
-  width: 100%;
   min-width: 375px;
   max-width: 1200px;
   height: 100%;
