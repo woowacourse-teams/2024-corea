@@ -2,7 +2,7 @@ import AlarmButton from "./AlarmButton/AlarmButton";
 import DesktopHeader from "./DesktopHeader/DesktopHeader";
 import * as S from "./Header.style";
 import MobileHeader from "./MobileHeader/MobileHeader";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { SCREEN } from "@/constants/media";
 
@@ -37,4 +37,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default React.memo(Header);

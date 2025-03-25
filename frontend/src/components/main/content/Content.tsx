@@ -2,6 +2,7 @@ import * as S from "./Content.style";
 import FilterBar from "./FilterBar";
 import FilteredRoomList from "./FilteredRoomList";
 import { type ChangeEvent, useEffect, useState } from "react";
+import useDebounce from "@/hooks/common/useDebounce";
 import useSelectedCategory from "@/hooks/common/useSelectedCategory";
 import OptionSelect from "@/components/common/optionSelect/OptionSelect";
 import { Option } from "@/@types/rooms";
@@ -11,9 +12,10 @@ const Content = () => {
   const isLoggedIn = !!localStorage.getItem("accessToken");
   const options = isLoggedIn ? optionsLoggedIn : optionsLoggedOut;
   const [selectedTab, setSelectedTab] = useState<Option>(options[0]);
+  const [searchInput, setSearchInput] = useState("");
+  const debouncedSearchInput = useDebounce(searchInput, 300);
 
   const { selectedCategory, handleSelectedCategory } = useSelectedCategory();
-  const [searchInput, setSearchInput] = useState("");
 
   useEffect(() => {
     setSearchInput("");
@@ -43,7 +45,7 @@ const Content = () => {
       <FilteredRoomList
         selectedTab={selectedTab}
         selectedCategory={selectedCategory}
-        searchInput={searchInput}
+        searchInput={debouncedSearchInput}
       />
     </S.ContentContainer>
   );
