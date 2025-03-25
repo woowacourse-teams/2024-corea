@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const AlarmIconWrapper = styled.div`
+export const AlarmIconWrapper = styled.div<{ $isMain: boolean }>`
   position: relative;
 
   display: flex;
@@ -12,7 +12,7 @@ export const AlarmIconWrapper = styled.div`
   border-radius: 50%;
 
   &:hover {
-    background-color: ${({ theme }) => theme.COLOR.white};
+    background-color: ${({ theme, $isMain }) => ($isMain ? theme.COLOR.white : theme.COLOR.grey0)};
   }
 `;
 
