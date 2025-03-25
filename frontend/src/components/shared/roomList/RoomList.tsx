@@ -1,8 +1,8 @@
+import RoomCardSkeleton from "../roomCard/RoomCardSkeleton";
 import { Link } from "react-router-dom";
 import DelaySuspense from "@/components/common/delaySuspense/DelaySuspense";
 import PlusButton from "@/components/common/plusButton/PlusButton";
 import RoomCard from "@/components/shared/roomCard/RoomCard";
-import * as RoomCardSkeleton from "@/components/shared/roomCard/RoomCard.skeleton";
 import * as S from "@/components/shared/roomList/RoomList.style";
 import { RoomInfo, RoomStatusCategory } from "@/@types/roomInfo";
 import { defaultCharacter } from "@/assets";
@@ -64,7 +64,7 @@ const RoomList = ({
               새로운 방을 불러오는 중입니다...
             </S.ScreenReader>
             {Array.from({ length: 8 }).map((_, idx) => (
-              <RoomCardSkeleton.Wrapper key={idx} />
+              <RoomCardSkeleton key={idx} />
             ))}
           </DelaySuspense>
         )}
