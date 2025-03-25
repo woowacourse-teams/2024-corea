@@ -1,4 +1,4 @@
-import Fallback from "./Fallback";
+import Fallback from "./ErrorBoundarySwitch";
 import { ReactNode, Suspense } from "react";
 import { useLocation } from "react-router-dom";
 import DelaySuspense from "@/components/common/delaySuspense/DelaySuspense";

@@ -1,4 +1,4 @@
-import Fallback from "./Fallback";
+import ErrorBoundarySwitch from "./ErrorBoundarySwitch";
 import { useQueryErrorResetBoundary } from "@tanstack/react-query";
 import { ReactNode } from "react";
 import { useLocation } from "react-router-dom";
@@ -14,7 +14,7 @@ const SentryApiErrorBoundary = ({ children }: { children: ReactNode }) => {
       key={pathname}
       onReset={reset}
       fallback={({ error, resetError }) => (
-        <Fallback error={error as Error} resetError={resetError} />
+        <ErrorBoundarySwitch error={error as Error} resetError={resetError} />
       )}
       onError={(error) => {
         if (error instanceof ApiError) {

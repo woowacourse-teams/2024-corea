@@ -1,22 +1,27 @@
-import ApiFallback from "./ApiFallback";
-import AuthorizationFallback from "./AuthorizationFallback";
-import DefaultFallback from "./DefaultFallback";
-import { ApiError, AuthorizationError } from "@/utils/Errors";
+import React from "react";
+import Button from "@/components/common/button/Button";
+import * as S from "@/components/common/errorBoundary/Fallback.style";
+import { errorCharacterBase64 } from "@/assets/character/error-charactor-base64";
 
 interface FallbackProps {
-  error: Error;
-  resetError: () => void;
+  message: string;
+  buttonText: string;
+  onButtonClick: () => void;
 }
 
-const Fallback = ({ error, resetError }: FallbackProps) => {
-  switch (true) {
-    case error instanceof AuthorizationError:
-      return <AuthorizationFallback />;
-    case error instanceof ApiError:
-      return <ApiFallback onRetry={resetError} />;
-    default:
-      return <DefaultFallback onRetry={resetError} />;
-  }
+const Fallback = ({ message, buttonText, onButtonClick }: FallbackProps) => {
+  return (
+    <S.FallbackContainer>
+      <S.Character
+        src={navigator.onLine ? "/error-character.png" : errorCharacterBase64}
+        alt={message}
+      />
+      <S.ErrorMessage>{message}</S.ErrorMessage>
+      <Button onClick={onButtonClick} size="medium">
+        {buttonText}
+      </Button>
+    </S.FallbackContainer>
+  );
 };
 
 export default Fallback;
