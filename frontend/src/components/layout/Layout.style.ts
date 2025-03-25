@@ -9,6 +9,7 @@ export const ContentSection = styled.section`
   width: 100%;
   min-width: 375px;
   max-width: 1200px;
+  height: 100%;
   min-height: calc(100vh - ${HeaderHeight});
   margin: auto;
   padding: 4rem 2rem;

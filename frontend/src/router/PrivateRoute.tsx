@@ -1,10 +1,10 @@
 import Button from "../components/common/button/Button";
-import { Outlet, useNavigate } from "react-router-dom";
-import { errorCharacter } from "@/assets";
-import * as S from "@/router/PrivateRoute.style";
+import { Outlet } from "react-router-dom";
+import * as S from "@/components/common/errorBoundary/Fallback.style";
+import { errorCharacterBase64 } from "@/assets/character/error-charactor-base64";
+import { githubAuthUrl } from "@/config/githubAuthUrl";
 
 const PrivateRoute = () => {
-  const navigate = useNavigate();
   const isLoggedIn = !!localStorage.getItem("accessToken");
 
   if (isLoggedIn) {
@@ -12,11 +12,16 @@ const PrivateRoute = () => {
   }
 
   return (
-    <S.PrivateRouteContainer>
-      <img src={errorCharacter} alt="로그인 후 이용해주세요" />
-      <p>로그인 후 이용 가능한 페이지입니다.</p>
-      <Button onClick={() => navigate("/")}>홈 화면으로 가기</Button>
-    </S.PrivateRouteContainer>
+    <S.FallbackContainer>
+      <S.Character
+        src={navigator.onLine ? "/error-character.png" : errorCharacterBase64}
+        alt="로그인 후 이용해주세요"
+      />
+      <S.ErrorMessage>로그인 후 이용 가능한 페이지입니다.</S.ErrorMessage>
+      <Button onClick={() => (window.location.href = githubAuthUrl)} size="medium">
+        로그인하기
+      </Button>
+    </S.FallbackContainer>
   );
 };
 

@@ -12,20 +12,20 @@ import { theme } from "@/styles/theme";
 
 const App = () => {
   return (
-    <QueryProvider>
-      <ToastProvider>
+    <ToastProvider>
+      <QueryProvider>
         <GlobalStyles />
         <ThemeProvider theme={theme}>
-          <ReactQueryDevtools initialIsOpen={false} />
-          <Toast />
-          <Layout>
-            <SentryTotalBoundary>
+          <SentryTotalBoundary>
+            <ReactQueryDevtools initialIsOpen={false} />
+            <Toast />
+            <Layout>
               <Outlet />
-            </SentryTotalBoundary>
-          </Layout>
+            </Layout>
+          </SentryTotalBoundary>
         </ThemeProvider>
-      </ToastProvider>
-    </QueryProvider>
+      </QueryProvider>
+    </ToastProvider>
   );
 };
 
