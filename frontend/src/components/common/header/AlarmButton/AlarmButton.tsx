@@ -1,6 +1,5 @@
-import Icon from "../icon/Icon";
+import Icon from "../../icon/Icon";
 import * as S from "./AlarmButton.style";
-import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useFetchAlarmCount } from "@/hooks/queries/useFetchAlarm";
 import { theme } from "@/styles/theme";
