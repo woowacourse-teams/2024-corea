@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "@/components/common/button/Button";
 import * as S from "@/components/common/errorBoundary/Fallback.style";
-import { errorCharacterBase64 } from "@/assets/character/error-charactor-base64";
+import { errorCharacterBase64 } from "@/assets/character/error-character-base64";
 
 interface FallbackProps {
   message: string;

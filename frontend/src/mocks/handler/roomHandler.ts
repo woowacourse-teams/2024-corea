@@ -11,11 +11,10 @@ const roomHandler = [
   http.get(serverUrl + API_ENDPOINTS.PARTICIPATED_ROOMS, () => {
     return HttpResponse.json(roomInfos, { status: 200 });
   }),
-  http.get(serverUrl + API_ENDPOINTS.PROGRESS_ROOMS, () => {
+  http.get(serverUrl + API_ENDPOINTS.OPENED_ROOMS, async () => {
     return HttpResponse.json(roomInfos, { status: 200 });
   }),
-  http.get(serverUrl + API_ENDPOINTS.OPENED_ROOMS, async () => {
-    await delay(3000);
+  http.get(serverUrl + API_ENDPOINTS.PROGRESS_ROOMS, () => {
     return HttpResponse.json(roomInfos, { status: 200 });
   }),
   http.get(serverUrl + API_ENDPOINTS.CLOSED_ROOMS, () => {

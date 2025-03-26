@@ -1,10 +1,10 @@
+import RoomListEmpty from "./RoomListEmpty";
 import RoomListSkeleton from "./RoomListSkeleton";
 import { Link } from "react-router-dom";
 import PlusButton from "@/components/common/plusButton/PlusButton";
 import RoomCard from "@/components/shared/roomCard/RoomCard";
 import * as S from "@/components/shared/roomList/RoomList.style";
 import { RoomInfo, RoomStatusCategory } from "@/@types/roomInfo";
-import { defaultCharacter } from "@/assets";
 
 interface RoomListProps {
   roomList: RoomInfo[];
@@ -35,12 +35,7 @@ const RoomList = ({
   };
 
   if (roomList.length === 0) {
-    return (
-      <S.EmptyContainer>
-        <S.Character src={defaultCharacter} alt="기본 캐릭터" />
-        <p>{RoomEmptyText[roomType]}</p>
-      </S.EmptyContainer>
-    );
+    return <RoomListEmpty message={RoomEmptyText[roomType]} />;
   }
 
   return (
