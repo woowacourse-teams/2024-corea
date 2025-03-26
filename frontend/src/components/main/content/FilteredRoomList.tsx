@@ -38,7 +38,9 @@ const FilteredRoomList = ({
   if (searchInput.trim()) {
     return (
       <LocalErrorBoundary
-        fallback={<RoomListError message={MESSAGES.ERROR.GET_SEARCH_ROOM_LIST} />}
+        fallback={({ resetError }) => (
+          <RoomListError message={MESSAGES.ERROR.GET_SEARCH_ROOM_LIST} onRetry={resetError} />
+        )}
       >
         <LocalSuspense fallback={<RoomListLoading />}>
           <SearchedRoomList
@@ -55,7 +57,12 @@ const FilteredRoomList = ({
     case "참여중":
       return (
         <LocalErrorBoundary
-          fallback={<RoomListError message={MESSAGES.ERROR.GET_PARTICIPATED_ROOM_LIST} />}
+          fallback={({ resetError }) => (
+            <RoomListError
+              message={MESSAGES.ERROR.GET_PARTICIPATED_ROOM_LIST}
+              onRetry={resetError}
+            />
+          )}
         >
           <LocalSuspense fallback={<RoomListLoading />}>
             <ParticipatedRoomList />
@@ -65,7 +72,9 @@ const FilteredRoomList = ({
     case "모집중":
       return (
         <LocalErrorBoundary
-          fallback={<RoomListError message={MESSAGES.ERROR.GET_OPENED_ROOM_LIST} />}
+          fallback={({ resetError }) => (
+            <RoomListError message={MESSAGES.ERROR.GET_OPENED_ROOM_LIST} onRetry={resetError} />
+          )}
         >
           <LocalSuspense fallback={<RoomListLoading />}>
             <OpenedRoomList selectedCategory={selectedCategory} />
@@ -75,7 +84,9 @@ const FilteredRoomList = ({
     case "진행중":
       return (
         <LocalErrorBoundary
-          fallback={<RoomListError message={MESSAGES.ERROR.GET_PROGRESS_ROOM_LIST} />}
+          fallback={({ resetError }) => (
+            <RoomListError message={MESSAGES.ERROR.GET_PROGRESS_ROOM_LIST} onRetry={resetError} />
+          )}
         >
           <LocalSuspense fallback={<RoomListLoading />}>
             <ProgressRoomList selectedCategory={selectedCategory} />
@@ -85,7 +96,9 @@ const FilteredRoomList = ({
     case "종료됨":
       return (
         <LocalErrorBoundary
-          fallback={<RoomListError message={MESSAGES.ERROR.GET_CLOSED_ROOM_LIST} />}
+          fallback={({ resetError }) => (
+            <RoomListError message={MESSAGES.ERROR.GET_CLOSED_ROOM_LIST} onRetry={resetError} />
+          )}
         >
           <LocalSuspense fallback={<RoomListLoading />}>
             <ClosedRoomList selectedCategory={selectedCategory} />
