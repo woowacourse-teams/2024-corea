@@ -1,7 +1,16 @@
 import { type ReactElement, ReactNode, Suspense } from "react";
 import DelaySuspense from "@/components/common/delaySuspense/DelaySuspense";
 
-const LocalSuspense = ({ children, fallback }: { children: ReactNode; fallback: ReactElement }) => {
+interface LocalSuspenseProps {
+  children: ReactNode;
+  fallback: ReactElement | null;
+}
+
+const LocalSuspense = ({ children, fallback }: LocalSuspenseProps) => {
+  if (fallback === null) {
+    return <Suspense fallback={null}>{children}</Suspense>;
+  }
+
   return <Suspense fallback={<DelaySuspense>{fallback}</DelaySuspense>}>{children}</Suspense>;
 };
 
