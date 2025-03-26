@@ -1,10 +1,10 @@
 import NotFoundPage from "./NotFoundPage";
 import { createBrowserRouter } from "react-router-dom";
+import Layout from "@/components/layout/Layout";
 import CallbackPage from "@/pages/callback/CallbackPage";
 import IntroPage from "@/pages/intro/IntroPage";
 import MainPage from "@/pages/main/MainPage";
 import UserProfilePage from "@/pages/userProfile/UserProfile";
-import App from "@/App";
 import { Sentry } from "@/Sentry";
 import PrivateRoute from "@/router/PrivateRoute";
 import * as Lazy from "@/router/lazy";
@@ -14,7 +14,7 @@ const sentryCreateBrowserRouter = Sentry.wrapCreateBrowserRouter(createBrowserRo
 const router = sentryCreateBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <Layout />,
     children: [
       {
         index: true,
