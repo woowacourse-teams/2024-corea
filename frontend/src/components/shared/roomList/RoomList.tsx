@@ -1,6 +1,5 @@
-import RoomCardSkeleton from "../roomCard/RoomCardSkeleton";
+import RoomListSkeleton from "./RoomListSkeleton";
 import { Link } from "react-router-dom";
-import DelaySuspense from "@/components/common/delaySuspense/DelaySuspense";
 import PlusButton from "@/components/common/plusButton/PlusButton";
 import RoomCard from "@/components/shared/roomCard/RoomCard";
 import * as S from "@/components/shared/roomList/RoomList.style";
@@ -9,7 +8,7 @@ import { defaultCharacter } from "@/assets";
 
 interface RoomListProps {
   roomList: RoomInfo[];
-  isFetchingNextPage: boolean;
+  isFetchingNextPage?: boolean;
   hasNextPage?: boolean;
   onLoadMore?: () => void;
   roomType: RoomStatusCategory;
@@ -58,17 +57,10 @@ const RoomList = ({
             <RoomCard roomInfo={roomInfo} key={roomInfo.id} />
           ),
         )}
-        {isFetchingNextPage && (
-          <DelaySuspense>
-            <S.ScreenReader role="status" aria-live="polite">
-              새로운 방을 불러오는 중입니다...
-            </S.ScreenReader>
-            {Array.from({ length: 8 }).map((_, idx) => (
-              <RoomCardSkeleton key={idx} />
-            ))}
-          </DelaySuspense>
-        )}
+
+        {isFetchingNextPage && <RoomListSkeleton />}
       </S.RoomListContainer>
+
       {hasNextPage && onLoadMore && <PlusButton onClick={handleClickLoadMore} />}
     </S.RoomListSection>
   );

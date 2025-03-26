@@ -16,7 +16,7 @@ const SearchedRoomList = ({
   searchInput = "",
   selectedCategory,
 }: SearchedRoomListProps) => {
-  const { data, isLoading } = useFetchSearchRoomList(
+  const { data } = useFetchSearchRoomList(
     roomType,
     convertClassification(selectedCategory),
     searchInput,
@@ -32,9 +32,7 @@ const SearchedRoomList = ({
     );
   }
 
-  return (
-    <RoomList roomList={data?.rooms ?? []} roomType={roomType} isFetchingNextPage={isLoading} />
-  );
+  return <RoomList roomList={data?.rooms ?? []} roomType={roomType} />;
 };
 
 export default SearchedRoomList;
