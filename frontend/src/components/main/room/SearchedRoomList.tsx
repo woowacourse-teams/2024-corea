@@ -20,7 +20,6 @@ const SearchedRoomList = ({
     roomType,
     convertClassification(selectedCategory),
     searchInput,
-    true,
   );
 
   if (data?.rooms.length === 0) {
