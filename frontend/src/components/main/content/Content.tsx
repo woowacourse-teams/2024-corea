@@ -1,10 +1,10 @@
-import { useState } from "react";
+import * as S from "./Content.style";
+import FilterBar from "./FilterBar";
+import FilteredRoomList from "./FilteredRoomList";
+import { type ChangeEvent, useEffect, useState } from "react";
+import useDebounce from "@/hooks/common/useDebounce";
 import useSelectedCategory from "@/hooks/common/useSelectedCategory";
 import OptionSelect from "@/components/common/optionSelect/OptionSelect";
-import ClosedRoomList from "@/components/main/room/ClosedRoomList";
-import OpenedRoomList from "@/components/main/room/OpenedRoomList";
-import ParticipatedRoomList from "@/components/main/room/ParticipatedRoomList";
-import ProgressRoomList from "@/components/main/room/ProgressRoomList";
 import { Option } from "@/@types/rooms";
 import { optionsLoggedIn, optionsLoggedOut } from "@/constants/room";
 
@@ -12,48 +12,42 @@ const Content = () => {
   const isLoggedIn = !!localStorage.getItem("accessToken");
   const options = isLoggedIn ? optionsLoggedIn : optionsLoggedOut;
   const [selectedTab, setSelectedTab] = useState<Option>(options[0]);
+  const [searchInput, setSearchInput] = useState("");
+  const debouncedSearchInput = useDebounce(searchInput, 300);
 
   const { selectedCategory, handleSelectedCategory } = useSelectedCategory();
 
-  const FilteredRoomList = () => {
-    switch (selectedTab) {
-      case "참여중":
-        return <ParticipatedRoomList />;
-      case "진행중":
-        return (
-          <ProgressRoomList
-            selectedCategory={selectedCategory}
-            handleSelectedCategory={handleSelectedCategory}
-          />
-        );
-      case "모집중":
-        return (
-          <OpenedRoomList
-            selectedCategory={selectedCategory}
-            handleSelectedCategory={handleSelectedCategory}
-          />
-        );
-      case "종료됨":
-        return (
-          <ClosedRoomList
-            selectedCategory={selectedCategory}
-            handleSelectedCategory={handleSelectedCategory}
-          />
-        );
-      default:
-        return null;
-    }
+  useEffect(() => {
+    setSearchInput("");
+  }, [selectedTab, selectedCategory]);
+
+  const handleSearchInput = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(e.target.value);
   };
 
   return (
-    <main>
+    <S.ContentContainer>
       <OptionSelect
         selected={selectedTab}
         options={options}
         handleSelectedOption={(option) => setSelectedTab(option)}
       />
-      <FilteredRoomList />
-    </main>
+
+      {selectedTab !== "참여중" && (
+        <FilterBar
+          selectedCategory={selectedCategory}
+          onSelectCategory={handleSelectedCategory}
+          searchInput={searchInput}
+          onSearchInputChange={handleSearchInput}
+        />
+      )}
+
+      <FilteredRoomList
+        selectedTab={selectedTab}
+        selectedCategory={selectedCategory}
+        searchInput={debouncedSearchInput}
+      />
+    </S.ContentContainer>
   );
 };
 

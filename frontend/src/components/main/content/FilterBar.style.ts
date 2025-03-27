@@ -7,5 +7,4 @@ export const SearchBarWrapper = styled.div`
 export const FilterWrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 1rem;
 `;

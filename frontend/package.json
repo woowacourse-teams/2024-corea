@@ -19,6 +19,23 @@
     "type": "git",
     "url": "git+https://github.com/woowacourse-teams/2024-corea.git"
   },
+  "contributors": [
+    {
+      "name": "이상엽",
+      "email": "mma7710@naver.com",
+      "url": "https://github.com/pp449"
+    },
+    {
+      "name": "최진실",
+      "email": "jinsil378900@gmail.com",
+      "url": "https://github.com/chlwlstlf"
+    },
+    {
+      "name": "강다빈",
+      "email": "kdb070970@gmail.com",
+      "url": "https://github.com/00kang"
+    }
+  ],
   "author": "",
   "license": "ISC",
   "bugs": {

@@ -13,7 +13,9 @@
           "username": "a",
           "feedbackKeywords": ["string"],
           "evaluationPoint": 3,
-          "feedbackText": "string"
+          "feedbackText": "string",
+          "isWrited": false,
+          "link": "string"
         },
         {
           "feedbackId": 0,
@@ -21,9 +23,29 @@
           "receiverId": 0,
           "profile": "https://avatars.githubusercontent.com/u/63334368?v=4",
           "username": "q",
-          "feedbackKeywords": ["string"],
+          "feedbackKeywords": [
+            "string",
+            "아주 많은 키워드",
+            "아주 많은 키워드",
+            "아주 많은 키워드",
+            "아주 많은 키워드",
+            "아주 많은 키워드",
+            "아주 많은 키워드",
+            "아주 많은 키워드",
+            "아주 많은 키워드",
+            "아주 많은 키워드",
+            "아주 많은 키워드",
+            "아주 많은 키워드",
+            "아주 많은 키워드",
+            "아주 많은 키워드",
+            "아주 많은 키워드",
+            "아주 많은 키워드",
+            "아주 많은 키워드"
+          ],
           "evaluationPoint": 3,
-          "feedbackText": "string"
+          "feedbackText": "string",
+          "isWrited": true,
+          "link": "string"
         }
       ],
       "socialFeedback": [
@@ -35,7 +57,9 @@
           "username": "b",
           "feedbackKeywords": ["string"],
           "evaluationPoint": 3,
-          "feedbackText": "string"
+          "feedbackText": "string",
+          "isWrited": true,
+          "link": "string"
         },
         {
           "feedbackId": 0,
@@ -45,7 +69,9 @@
           "username": "q",
           "feedbackKeywords": ["string"],
           "evaluationPoint": 3,
-          "feedbackText": "string"
+          "feedbackText": "string",
+          "isWrited": true,
+          "link": "string"
         }
       ]
     },
@@ -62,7 +88,9 @@
           "username": "C",
           "feedbackKeywords": ["string"],
           "evaluationPoint": 3,
-          "feedbackText": "string"
+          "feedbackText": "string",
+          "isWrited": true,
+          "link": "string"
         }
       ],
       "socialFeedback": [
@@ -74,7 +102,9 @@
           "username": "D",
           "feedbackKeywords": ["string"],
           "evaluationPoint": 3,
-          "feedbackText": "string"
+          "feedbackText": "string",
+          "isWrited": true,
+          "link": "string"
         }
       ]
     }

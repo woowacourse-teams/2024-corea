@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import Icon from "@/components/common/icon/Icon";
 import Banner from "@/components/main/banner/Banner";
-import Content from "@/components/main/content/Content";
+import MainContentLayout from "@/components/main/content/MainContentLayout";
 import * as S from "@/pages/main/MainPage.style";
 
 const MainPage = () => {
@@ -10,7 +10,7 @@ const MainPage = () => {
     <S.Layout>
       <Banner />
 
-      <Content />
+      <MainContentLayout />
 
       <S.RoomCreateButton onClick={() => navigate("/rooms/create")}>
         <Icon kind="add" size={30} />

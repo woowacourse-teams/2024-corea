@@ -17,6 +17,7 @@ export default (env, argv) => {
     output: {
       path: path.join(path.resolve(), "/dist"),
       filename: "index.[contenthash].js",
+      chunkFilename: "[name].[contenthash].js",
       publicPath: "/",
     },
     devServer: {
