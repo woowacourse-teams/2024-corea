@@ -14,7 +14,9 @@ const LocalErrorBoundary = ({
   return (
     <ErrorBoundary
       fallback={({ error, resetError }) => {
-        if (error instanceof ApiError) return fallback({ error, resetError });
+        if (error instanceof ApiError) {
+          return fallback({ error, resetError });
+        }
         throw error;
       }}
     >
