@@ -115,7 +115,7 @@ const fetchWithToken = async (
     }
   }
 
-  return data ?? response;
+  return { data: data ?? response, headers: response.headers };
 };
 
 const createRequestInit = (

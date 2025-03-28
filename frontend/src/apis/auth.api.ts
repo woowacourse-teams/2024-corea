@@ -2,33 +2,22 @@ import apiClient from "./apiClient";
 import { API_ENDPOINTS } from "./endpoints";
 import { UserInfoResponse } from "@/hooks/mutations/useMutateAuth";
 import { UserInfo } from "@/@types/userInfo";
-import { serverUrl } from "@/config/serverUrl";
 import MESSAGES from "@/constants/message";
+import { AuthorizationError } from "@/utils/Errors";
 
 export const postLogin = async (code: string): Promise<UserInfoResponse> => {
-  const response = await fetch(`${serverUrl}${API_ENDPOINTS.LOGIN}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ code }),
-    credentials: "include",
+  const { data, headers } = await apiClient.post({
+    endpoint: API_ENDPOINTS.LOGIN,
+    body: { code },
+    errorMessage: MESSAGES.ERROR.POST_LOGIN,
   });
 
-  if (!response.ok) {
-    throw new Error(MESSAGES.ERROR.POST_LOGIN);
-  }
+  const accessToken = headers.get("Authorization");
+  const userInfo = data.userInfo as UserInfo;
+  const memberRole = data.memberRole as string;
 
-  const text = await response.text();
-
-  const accessToken = response.headers.get("Authorization");
-
-  const authBody = text ? JSON.parse(text) : response;
-  const userInfo = authBody.userInfo as UserInfo;
-  const memberRole = authBody.memberRole as string;
-
-  if (!accessToken) {
-    throw new Error(MESSAGES.ERROR.POST_LOGIN);
+  if (!accessToken || !userInfo || !memberRole) {
+    throw new AuthorizationError(MESSAGES.ERROR.POST_LOGIN);
   }
 
   return { accessToken, userInfo, memberRole };
