@@ -43,7 +43,7 @@
       "isPublic": false
     },
     {
-      "id": 2,
+      "id": 3,
       "title": "자바 레이싱 카 - MVC",
       "content": "MVC 패턴을 아시나요?",
       "manager": "최거짓",
@@ -64,7 +64,7 @@
       "isPublic": false
     },
     {
-      "id": 1,
+      "id": 4,
       "title": "자바 레이싱 카 - MVC",
       "content": "MVC 패턴을 아시나요?",
       "manager": "최거짓",
@@ -85,7 +85,7 @@
       "isPublic": false
     },
     {
-      "id": 2,
+      "id": 5,
       "title": "자바 레이싱 카 - MVC",
       "content": "MVC 패턴을 아시나요?",
       "manager": "최거짓",
