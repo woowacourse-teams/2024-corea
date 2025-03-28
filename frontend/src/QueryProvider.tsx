@@ -31,7 +31,6 @@ const QueryProvider = ({ children }: QueryProviderProps) => {
         }),
         defaultOptions: {
           queries: {
-            networkMode: "always",
             retry: false,
             throwOnError: true,
           },

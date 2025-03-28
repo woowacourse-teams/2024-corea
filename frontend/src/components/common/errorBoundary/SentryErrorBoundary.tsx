@@ -1,22 +1,27 @@
 import ErrorBoundarySwitch from "./ErrorBoundarySwitch";
-import * as Sentry from "@sentry/react";
+import { useQueryErrorResetBoundary } from "@tanstack/react-query";
 import { ReactNode } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 import { useLocation } from "react-router-dom";
+import useNetwork from "@/hooks/common/useNetwork";
 import logErrorToSentry from "@/utils/logSentryError";
 
 const SentryErrorBoundary = ({ children }: { children: ReactNode }) => {
+  const isOnline = useNetwork();
   const { pathname } = useLocation();
+  const { reset } = useQueryErrorResetBoundary();
 
   return (
-    <Sentry.ErrorBoundary
-      key={pathname}
-      fallback={({ error, resetError }) => (
-        <ErrorBoundarySwitch error={error as Error} resetError={resetError} />
+    <ErrorBoundary
+      resetKeys={[isOnline, pathname]}
+      onReset={reset}
+      fallbackRender={({ error, resetErrorBoundary }) => (
+        <ErrorBoundarySwitch error={error as Error} resetError={resetErrorBoundary} />
       )}
-      onError={(error) => logErrorToSentry(error as Error)}
+      onError={logErrorToSentry}
     >
       {children}
-    </Sentry.ErrorBoundary>
+    </ErrorBoundary>
   );
 };
 
