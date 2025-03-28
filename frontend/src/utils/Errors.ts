@@ -1,28 +1,39 @@
-export class ApiError extends Error {
-  constructor(message: string) {
+export type ErrorHandlingStrategy = "toast" | "modal" | "redirect" | "errorBoundary" | "ignore";
+
+export class CustomError extends Error {
+  strategy: ErrorHandlingStrategy;
+
+  constructor(message: string, strategy: ErrorHandlingStrategy = "toast") {
     super(message);
+    this.name = "CustomError";
+    this.strategy = strategy;
+  }
+}
+
+export class ApiError extends CustomError {
+  constructor(message: string, strategy: ErrorHandlingStrategy = "toast") {
+    super(message, strategy);
     this.name = "ApiError";
-
-    Object.setPrototypeOf(this, ApiError.prototype);
   }
 }
 
-export class AuthorizationError extends Error {
-  constructor(message: string) {
-    super(message);
+export class AuthorizationError extends CustomError {
+  constructor(message: string, strategy: ErrorHandlingStrategy = "redirect") {
+    super(message, strategy);
+    this.name = "AuthorizationError";
   }
 }
 
-export class NetworkError extends Error {
-  constructor(message: string) {
-    super(message);
+export class NetworkError extends CustomError {
+  constructor(message: string, strategy: ErrorHandlingStrategy = "toast") {
+    super(message, strategy);
     this.name = "NetworkError";
   }
 }
 
-export class ValidationError extends Error {
-  constructor(message: string) {
-    super(message);
+export class ValidationError extends CustomError {
+  constructor(message: string, strategy: ErrorHandlingStrategy = "toast") {
+    super(message, strategy);
     this.name = "ValidationError";
   }
 }
