@@ -1,43 +1,31 @@
 import { useContext, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import * as S from "@/components/common/Toast/Toast.style";
-import { ToastType } from "@/@types/toast";
 import { ToastContext } from "@/providers/ToastProvider";
 
 const Toast = () => {
-  const toastContainer = document.getElementById("toast");
-  const toastInfo = useContext(ToastContext);
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [currentType, setCurrentType] = useState<ToastType>(toastInfo.type);
+  const container = document.getElementById("toast");
+  const { isOpen, message, type } = useContext(ToastContext);
+
+  const [shouldRender, setShouldRender] = useState(false);
 
   useEffect(() => {
-    if (toastInfo.isOpen) {
-      setCurrentType(toastInfo.type);
-      setIsOpen(true);
+    if (isOpen) {
+      setShouldRender(true);
       return;
     }
 
-    const timer = setTimeout(() => {
-      setIsOpen(false);
-    }, 500);
+    const timeout = setTimeout(() => setShouldRender(false), 400);
+    return () => clearTimeout(timeout);
+  }, [isOpen]);
 
-    return () => clearTimeout(timer);
-  }, [toastInfo.isOpen, toastInfo.message, toastInfo.type]);
-
-  if (!toastContainer || !isOpen) {
-    return <></>;
-  }
+  if (!container || !shouldRender) return null;
 
   return createPortal(
-    <S.Wrapper
-      $type={currentType}
-      $closeAnimation={!toastInfo.isOpen}
-      aria-live="assertive"
-      role="alert"
-    >
-      {toastInfo.message}
+    <S.Wrapper $type={type} $closeAnimation={!isOpen} role="alert" aria-live="assertive">
+      {message}
     </S.Wrapper>,
-    toastContainer,
+    container,
   );
 };
 

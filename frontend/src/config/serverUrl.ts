@@ -7,6 +7,7 @@ const getServerUrl = () => {
   if (hostType === "release") {
     return "https://api-dev.code-review-area.com";
   }
+
   return "http://localhost:8080";
 };
 

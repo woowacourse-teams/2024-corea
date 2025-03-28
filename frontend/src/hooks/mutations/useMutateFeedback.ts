@@ -31,7 +31,7 @@ interface PutReviewerFeedbackMutationProps {
 
 const useMutateFeedback = (roomId: number) => {
   const { handleMutateError } = useMutateHandlers();
-  const { openToast } = useToast("success");
+  const { openToast } = useToast();
   const queryClient = useQueryClient();
 
   // 리뷰어 -> 리뷰이
@@ -40,7 +40,7 @@ const useMutateFeedback = (roomId: number) => {
       postRevieweeFeedback(roomId, feedbackData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.REVIEWEES, roomId] });
-      openToast(MESSAGES.SUCCESS.POST_REVIEW_FEEDBACK);
+      openToast(MESSAGES.SUCCESS.POST_REVIEW_FEEDBACK, "success");
     },
     onError: (error) => handleMutateError(error),
   });
@@ -49,7 +49,7 @@ const useMutateFeedback = (roomId: number) => {
     mutationFn: ({ feedbackId, feedbackData }: PutRevieweeFeedbackMutationProps) =>
       putRevieweeFeedback(roomId, feedbackId, feedbackData),
     onSuccess: () => {
-      openToast(MESSAGES.SUCCESS.PUT_REVIEW_FEEDBACK);
+      openToast(MESSAGES.SUCCESS.PUT_REVIEW_FEEDBACK, "success");
     },
     onError: (error) => handleMutateError(error),
   });
@@ -60,7 +60,7 @@ const useMutateFeedback = (roomId: number) => {
       postReviewerFeedback(roomId, feedbackData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.REVIEWERS, roomId] });
-      openToast(MESSAGES.SUCCESS.POST_REVIEW_FEEDBACK);
+      openToast(MESSAGES.SUCCESS.POST_REVIEW_FEEDBACK, "success");
     },
     onError: (error) => handleMutateError(error),
   });

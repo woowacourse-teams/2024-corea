@@ -9,7 +9,7 @@ interface QueryProviderProps {
 }
 
 const QueryProvider = ({ children }: QueryProviderProps) => {
-  const { openToast } = useToast("error");
+  const { openToast } = useToast();
 
   const queryClient = useMemo(
     () =>
@@ -17,7 +17,7 @@ const QueryProvider = ({ children }: QueryProviderProps) => {
         queryCache: new QueryCache({
           onError: (error) => {
             if (error instanceof NetworkError) {
-              openToast(MESSAGES.ERROR.OFFLINE);
+              openToast(MESSAGES.ERROR.OFFLINE, "error");
               return;
             }
           },
@@ -25,7 +25,7 @@ const QueryProvider = ({ children }: QueryProviderProps) => {
         mutationCache: new MutationCache({
           onError: (error) => {
             if (error instanceof NetworkError) {
-              openToast(MESSAGES.ERROR.OFFLINE);
+              openToast(MESSAGES.ERROR.OFFLINE, "error");
             }
           },
         }),

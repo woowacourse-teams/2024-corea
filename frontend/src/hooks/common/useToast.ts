@@ -1,31 +1,23 @@
-import { useCallback, useContext, useEffect, useRef } from "react";
-import { ToastType } from "@/@types/toast";
-import { ToastContext, ToastDispatchContext } from "@/providers/ToastProvider";
+import { useContext } from "react";
+import type { ToastType } from "@/@types/toast";
+import { ToastDispatchContext } from "@/providers/ToastProvider";
 
-const useToast = (type: ToastType = "error") => {
-  const isOpenToast = useContext(ToastContext);
-  const setIsOpenToast = useContext(ToastDispatchContext);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+/**
+ * @example
+ * const { openToast } = useToast();
+ * openToast("삭제되었습니다", "success");
+ */
 
-  const openToast = useCallback((message: string) => {
-    setIsOpenToast({ isOpen: true, message, type });
-  }, []);
+const useToast = () => {
+  const setToast = useContext(ToastDispatchContext);
 
-  useEffect(() => {
-    if (isOpenToast.isOpen) {
-      timerRef.current = setTimeout(() => {
-        setIsOpenToast({ isOpen: false, message: "", type });
-      }, 2500);
-      return;
-    }
+  const openToast = (message: string, type: ToastType = "error") => {
+    setToast({ isOpen: true, message, type });
 
-    return () => {
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-        timerRef.current = null;
-      }
-    };
-  }, [isOpenToast]);
+    setTimeout(() => {
+      setToast((prev) => ({ ...prev, isOpen: false, type }));
+    }, 2500);
+  };
 
   return { openToast };
 };

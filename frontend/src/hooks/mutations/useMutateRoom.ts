@@ -12,13 +12,13 @@ import {
 import MESSAGES from "@/constants/message";
 
 const useMutateRoom = () => {
-  const { openToast } = useToast("success");
+  const { openToast } = useToast();
   const { handleMutateError } = useMutateHandlers();
 
   const postCreateRoomMutation = useMutation({
     mutationFn: (roomData: RoomCreateRequest) => postCreateRoom(roomData),
     onSuccess: () => {
-      openToast(MESSAGES.SUCCESS.POST_CREATE_ROOM);
+      openToast(MESSAGES.SUCCESS.POST_CREATE_ROOM, "success");
     },
     onError: (error) => handleMutateError(error),
   });
@@ -26,7 +26,7 @@ const useMutateRoom = () => {
   const putEditRoomMutation = useMutation({
     mutationFn: (roomData: CreateRoomInfo) => putEditRoom(roomData),
     onSuccess: () => {
-      openToast(MESSAGES.SUCCESS.PUT_EDIT_ROOM);
+      openToast(MESSAGES.SUCCESS.PUT_EDIT_ROOM, "success");
     },
     onError: (error) => handleMutateError(error),
   });
