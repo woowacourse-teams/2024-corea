@@ -1,5 +1,5 @@
-import QueryProvider from "./QueryProvider";
 import Toast from "./components/common/Toast/Toast";
+import QueryProvider from "./providers/QueryProvider";
 import { ToastProvider } from "./providers/ToastProvider";
 import router from "./router/router";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
