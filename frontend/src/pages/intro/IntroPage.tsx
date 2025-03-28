@@ -164,7 +164,7 @@ const IntroPage = () => {
       </S.ContentLayout>
 
       <IntroNavigationBar
-        totalSections={8}
+        totalSections={9}
         currentSection={currentSection}
         onDotClick={handleDotClick}
       />

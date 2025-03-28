@@ -3,14 +3,16 @@ import DesktopHeader from "./DesktopHeader/DesktopHeader";
 import * as S from "./Header.style";
 import MobileHeader from "./MobileHeader/MobileHeader";
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { SCREEN } from "@/constants/media";
 
-const Header = () => {
-  const { pathname } = useLocation();
+interface HeaderProps {
+  showShadow?: boolean;
+  shouldFixed?: boolean;
+}
+
+const Header = ({ showShadow = true, shouldFixed = false }: HeaderProps) => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= SCREEN.SMALL);
-  const isMain = pathname === "/";
-  const isIntro = pathname === "/intro";
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= SCREEN.SMALL);
@@ -19,20 +21,18 @@ const Header = () => {
   }, []);
 
   return (
-    <S.HeaderContainer $showShadow={!isMain && !isIntro} $shouldFixed={isIntro}>
+    <S.HeaderContainer $showShadow={showShadow} $shouldFixed={shouldFixed}>
       <S.HeaderLogo>
         <Link to="/">
           <span>CoReA</span>
         </Link>
       </S.HeaderLogo>
 
-      {!isIntro && (
-        <S.HeaderNavBarContainer>
-          <AlarmButton />
+      <S.HeaderNavBarContainer>
+        <AlarmButton />
 
-          {isMobile ? <MobileHeader /> : <DesktopHeader />}
-        </S.HeaderNavBarContainer>
-      )}
+        {isMobile ? <MobileHeader /> : <DesktopHeader />}
+      </S.HeaderNavBarContainer>
     </S.HeaderContainer>
   );
 };
