@@ -4,14 +4,14 @@ import { ToastDispatchContext } from "@/providers/ToastProvider";
 
 /**
  * @example
- * const { openToast } = useToast();
- * openToast("삭제되었습니다", "success");
+ * const { showToast } = useToast();
+ * showToast("삭제되었습니다", "success");
  */
 
 const useToast = () => {
   const setToast = useContext(ToastDispatchContext);
 
-  const openToast = (message: string, type: ToastType = "error") => {
+  const showToast = (message: string, type: ToastType = "error") => {
     setToast({ isOpen: true, message, type });
 
     setTimeout(() => {
@@ -19,7 +19,7 @@ const useToast = () => {
     }, 2500);
   };
 
-  return { openToast };
+  return { showToast };
 };
 
 export default useToast;

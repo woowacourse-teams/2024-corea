@@ -8,7 +8,7 @@ import MESSAGES from "@/constants/message";
 
 const useMutateReview = (roomId: number) => {
   const { handleMutateError } = useMutateHandlers();
-  const { openToast } = useToast();
+  const { showToast } = useToast();
 
   const queryClient = useQueryClient();
 
@@ -23,7 +23,7 @@ const useMutateReview = (roomId: number) => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.ALARM_LIST],
       });
-      openToast(MESSAGES.SUCCESS.POST_REVIEW_COMPLETE, "success");
+      showToast(MESSAGES.SUCCESS.POST_REVIEW_COMPLETE, "success");
     },
     onError: (error) => handleMutateError(error),
   });
@@ -41,7 +41,7 @@ const useMutateReview = (roomId: number) => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.ALARM_LIST],
       });
-      openToast(MESSAGES.SUCCESS.POST_REVIEW_URGE, "success");
+      showToast(MESSAGES.SUCCESS.POST_REVIEW_URGE, "success");
     },
     onError: (error) => handleMutateError(error),
   });

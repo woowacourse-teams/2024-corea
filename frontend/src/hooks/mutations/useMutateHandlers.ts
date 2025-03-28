@@ -1,10 +1,10 @@
 import useToast from "@/hooks/common/useToast";
 
 const useMutateHandlers = () => {
-  const { openToast } = useToast();
+  const { showToast } = useToast();
 
   const handleMutateError = (error: Error) => {
-    openToast(error.message, "error");
+    showToast(error.message, "error");
   };
 
   return { handleMutateError };
