@@ -1,5 +1,7 @@
 import { Outlet } from "react-router-dom";
-import Fallback from "@/components/common/errorBoundary/Fallback";
+import Button from "@/components/common/button/Button";
+import * as S from "@/components/common/errorBoundary/Fallback.style";
+import { errorCharacterBase64 } from "@/assets/character/error-character-base64";
 import { githubAuthUrl } from "@/config/githubAuthUrl";
 
 const PrivateRoute = () => {
@@ -8,11 +10,16 @@ const PrivateRoute = () => {
   if (isLoggedIn) return <Outlet />;
 
   return (
-    <Fallback
-      message="로그인 후 이용 가능한 페이지입니다."
-      buttonText="로그인하기"
-      onButtonClick={() => (window.location.href = githubAuthUrl)}
-    />
+    <S.FallbackContainer>
+      <S.Character
+        src={navigator.onLine ? "/error-character.png" : errorCharacterBase64}
+        alt="로그인 후 이용 가능한 페이지입니다."
+      />
+      <S.ErrorMessage>로그인 후 이용 가능한 페이지입니다.</S.ErrorMessage>
+      <Button onClick={() => (window.location.href = githubAuthUrl)} size="medium">
+        로그인하기
+      </Button>
+    </S.FallbackContainer>
   );
 };
 
