@@ -71,8 +71,9 @@ const ERROR_MESSAGES: Record<string, string> = {
   POST_ALARM_CHECKED: "알림을 읽음 상태로 변경하기를 실패했습니다.",
 
   // errorBoundary
-  BOUNDARY_TOTAL: "일시적인 에러가 발생했습니다.",
+  BOUNDARY_TOTAL: "일시적인 오류가 발생했습니다. 잠시 후 다시 시도해주세요.",
   BOUNDARY_API: "서버와의 통신 중 오류가 발생했습니다.",
+  BOUNDARY_NETWORK: "인터넷 연결이 원활하지 않습니다. 연결 상태를 확인해주세요.",
 };
 
 const SUCCESS_MESSAGES: Record<string, string> = {
