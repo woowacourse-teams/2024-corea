@@ -14,6 +14,8 @@ export type ModalStrategyOptions = {
   strategy: "modal";
   onConfirm: () => void;
   onCancel?: () => void;
+  confirmButtonText?: string;
+  cancelButtonText?: string;
 };
 
 export type RedirectStrategyOptions = {
