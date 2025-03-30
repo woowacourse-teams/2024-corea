@@ -1,18 +1,11 @@
 import { githubAuthUrl } from "@/config/githubAuthUrl";
-
-export const ERROR_STRATEGY = {
-  TOAST: "toast",
-  MODAL: "modal",
-  REDIRECT: "redirect",
-  ERROR_BOUNDARY: "errorBoundary",
-  IGNORE: "ignore",
-} as const;
+import { ERROR_STRATEGY } from "@/constants/errorStrategy";
 
 export type ErrorHandlingStrategy = (typeof ERROR_STRATEGY)[keyof typeof ERROR_STRATEGY];
 
 export type ModalStrategyOptions = {
   strategy: "modal";
-  onConfirm: () => void;
+  onConfirm?: () => void;
   onCancel?: () => void;
   confirmButtonText?: string;
   cancelButtonText?: string;
@@ -36,6 +29,8 @@ export class CustomError extends Error {
   strategy: ErrorHandlingStrategy;
   onConfirm?: () => void;
   onCancel?: () => void;
+  confirmButtonText?: string;
+  cancelButtonText?: string;
   redirectTo?: string;
 
   constructor({ message, ...options }: CustomErrorOptions) {
@@ -46,6 +41,8 @@ export class CustomError extends Error {
     if (options.strategy === ERROR_STRATEGY.MODAL) {
       this.onConfirm = options.onConfirm;
       this.onCancel = options.onCancel;
+      this.confirmButtonText = options.confirmButtonText;
+      this.cancelButtonText = options.cancelButtonText;
     } else if (options.strategy === ERROR_STRATEGY.REDIRECT) {
       this.redirectTo = options.redirectTo;
     }
@@ -63,13 +60,15 @@ export class AuthorizationError extends CustomError {
   constructor(message: string) {
     super({
       message,
-      strategy: "modal",
+      strategy: ERROR_STRATEGY.MODAL,
       onConfirm: () => {
         window.location.href = githubAuthUrl;
       },
       onCancel: () => {
         window.location.href = "/";
       },
+      confirmButtonText: "로그인하기",
+      cancelButtonText: "로그아웃하기",
     });
     this.name = "AuthorizationError";
   }
