@@ -7,16 +7,18 @@ type FallbackRender = (params: { error: Error; resetError: () => void }) => Reac
 
 const LocalErrorBoundary = ({
   children,
+  resetKeys,
   fallback,
 }: {
   children: ReactNode;
-  resetKeys?: string;
+  resetKeys: string[];
   fallback: FallbackRender;
 }) => {
   const { reset } = useQueryErrorResetBoundary();
 
   return (
     <ErrorBoundary
+      resetKeys={resetKeys}
       onReset={reset}
       fallbackRender={({ error, resetErrorBoundary }) => {
         if (error instanceof ApiError) {
