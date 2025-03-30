@@ -20,6 +20,7 @@ const GUIDANCE_MESSAGES: Record<string, string> = {
 
 const ERROR_MESSAGES: Record<string, string> = {
   OFFLINE: "오프라인 상태입니다. 네트워크를 확인해주세요.",
+  OFFLINE_ACTION: "인터넷 연결 후 다시 시도해주세요.",
 
   // auth
   POST_LOGIN: "로그인 도중 오류가 발생했습니다. 다시 로그인 해주세요.",
@@ -77,6 +78,7 @@ const ERROR_MESSAGES: Record<string, string> = {
 };
 
 const SUCCESS_MESSAGES: Record<string, string> = {
+  ONLINE: "인터넷이 정상적으로 연결되었습니다.",
   POST_REVIEW_COMPLETE: "정상적으로 코드리뷰를 완료했습니다.",
   POST_REVIEW_FEEDBACK: "정상적으로 피드백을 작성하였습니다.",
   POST_CREATE_ROOM: "정상적으로 방을 생성하였습니다.",

@@ -4,27 +4,27 @@ import { Z_INDEX } from "@/styles/zIndex";
 
 export const toastSlideIn = keyframes`
   from {
-    transform: translate(-50%, 0);
+    transform: translateY(0);
     opacity: 0;
   }
   to {
-    transform: translate(-50%, 20px);
+    transform: translateY(20px);
     opacity: 1;
   }
 `;
 
 export const toastSlideOut = keyframes`
   from {
-    transform: translate(-50%, 20px);
+    transform: translateY(20px);
     opacity: 1;
   }
   to {
-    transform: translate(-50%, 0);
+    transform: translateY(0);
     opacity: 0;
   }
 `;
 
-export const Wrapper = styled.div<{ $closeAnimation: boolean; $type: ToastType }>`
+export const ToastContainer = styled.div`
   position: fixed;
   z-index: ${Z_INDEX.toast};
   top: 30px;
@@ -32,11 +32,18 @@ export const Wrapper = styled.div<{ $closeAnimation: boolean; $type: ToastType }
   transform: translateX(-50%);
 
   display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+`;
+
+export const Wrapper = styled.div<{ $closeAnimation: boolean; $type: ToastType }>`
+  display: flex;
   align-items: center;
   justify-content: center;
 
   min-width: 300px;
-  max-width: 80%;
+  max-width: 80vw;
   min-height: 42px;
   padding: 0 1.2rem;
 

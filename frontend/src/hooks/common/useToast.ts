@@ -1,25 +1,26 @@
 import { useContext } from "react";
 import type { ToastType } from "@/@types/toast";
-import { ToastDispatchContext } from "@/providers/ToastProvider";
-
-/**
- * @example
- * const { showToast } = useToast();
- * showToast("삭제되었습니다", "success");
- */
+import { ToastContext, ToastDispatchContext } from "@/providers/ToastProvider";
 
 const useToast = () => {
-  const setToast = useContext(ToastDispatchContext);
+  const toasts = useContext(ToastContext);
+  const setToasts = useContext(ToastDispatchContext);
 
-  const showToast = (message: string, type: ToastType = "error") => {
-    setToast({ isOpen: true, message, type });
+  const showToast = (message: string, type: ToastType = "error", durationMs = 2500) => {
+    setToasts((prev) => {
+      const alreadyExists = prev.some((t) => t.message === message);
+      if (alreadyExists) return prev;
 
-    setTimeout(() => {
-      setToast((prev) => ({ ...prev, isOpen: false, type }));
-    }, 2500);
+      return [...prev, { message, type, durationMs }];
+    });
+    console.log(toasts);
   };
 
-  return { showToast };
+  const closeToast = (message: string) => {
+    setToasts((prev) => prev.filter((t) => t.message !== message));
+  };
+
+  return { showToast, closeToast };
 };
 
 export default useToast;

@@ -68,7 +68,7 @@ const fetchWithToken = async (
   errorMessage: string = "",
 ) => {
   if (!navigator.onLine) {
-    throw new NetworkError(MESSAGES.ERROR.OFFLINE);
+    throw new NetworkError(MESSAGES.ERROR.OFFLINE_ACTION);
   }
 
   let response = await fetch(`${serverUrl}${endpoint}`, requestInit);
