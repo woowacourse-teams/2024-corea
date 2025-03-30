@@ -2,6 +2,7 @@ import React, { createContext, useState } from "react";
 import { Toast } from "@/@types/toast";
 
 const ToastContext = createContext<Toast>({ isOpen: false, message: "", type: "error" });
+
 const ToastDispatchContext = createContext<React.Dispatch<React.SetStateAction<Toast>>>(() => {});
 
 const ToastProvider = ({ children }: { children: React.ReactNode }) => {
