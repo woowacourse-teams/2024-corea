@@ -38,6 +38,7 @@ const FilteredRoomList = ({
   if (searchInput.trim()) {
     return (
       <LocalErrorBoundary
+        resetKeys={[selectedTab, selectedCategory, searchInput]}
         fallback={({ resetError }) => (
           <RoomListError message={MESSAGES.ERROR.GET_SEARCH_ROOM_LIST} onRetry={resetError} />
         )}
@@ -57,6 +58,7 @@ const FilteredRoomList = ({
     case "참여중":
       return (
         <LocalErrorBoundary
+          resetKeys={[selectedTab, selectedCategory, searchInput]}
           fallback={({ resetError }) => (
             <RoomListError
               message={MESSAGES.ERROR.GET_PARTICIPATED_ROOM_LIST}
@@ -72,6 +74,7 @@ const FilteredRoomList = ({
     case "모집중":
       return (
         <LocalErrorBoundary
+          resetKeys={[selectedTab, selectedCategory, searchInput]}
           fallback={({ resetError }) => (
             <RoomListError message={MESSAGES.ERROR.GET_OPENED_ROOM_LIST} onRetry={resetError} />
           )}
@@ -84,6 +87,7 @@ const FilteredRoomList = ({
     case "진행중":
       return (
         <LocalErrorBoundary
+          resetKeys={[selectedTab, selectedCategory, searchInput]}
           fallback={({ resetError }) => (
             <RoomListError message={MESSAGES.ERROR.GET_PROGRESS_ROOM_LIST} onRetry={resetError} />
           )}
@@ -96,6 +100,7 @@ const FilteredRoomList = ({
     case "종료됨":
       return (
         <LocalErrorBoundary
+          resetKeys={[selectedTab, selectedCategory, searchInput]}
           fallback={({ resetError }) => (
             <RoomListError message={MESSAGES.ERROR.GET_CLOSED_ROOM_LIST} onRetry={resetError} />
           )}
