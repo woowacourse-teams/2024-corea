@@ -27,13 +27,13 @@ export const toastSlideOut = keyframes`
 export const ToastContainer = styled.div`
   position: fixed;
   z-index: ${Z_INDEX.toast};
-  top: 30px;
+  top: 20px;
   left: 50%;
   transform: translateX(-50%);
 
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 1rem;
   align-items: center;
 `;
 
@@ -44,11 +44,13 @@ export const Wrapper = styled.div<{ $closeAnimation: boolean; $type: ToastType }
 
   min-width: 300px;
   max-width: 80vw;
-  min-height: 42px;
-  padding: 0 1.2rem;
+  padding: 1rem 1.2rem;
 
   font: ${({ theme }) => theme.TEXT.small_bold};
+  line-height: normal;
   color: ${({ theme }) => theme.COLOR.white};
+  word-break: keep-all;
+  overflow-wrap: break-word;
 
   background-color: ${({ theme, $type }) =>
     $type === "error" ? theme.COLOR.error : theme.COLOR.primary2};

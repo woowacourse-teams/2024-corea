@@ -11,6 +11,9 @@ const Toast = () => {
 
   const [closingToasts, setClosingToasts] = useState<string[]>([]);
 
+  /**
+   * toasts 중에서 durationMs가 지난 toast는 closingToasts에 담습니다.
+   */
   useEffect(() => {
     const timers = toasts.map((toast) => {
       if (!closingToasts.includes(toast.message) && Number.isFinite(toast.durationMs)) {
@@ -25,6 +28,9 @@ const Toast = () => {
     };
   }, [toasts, closingToasts]);
 
+  /**
+   * closingToasts 중 완벽히 화면에서 사라진 toast는 제거합니다.
+   */
   useEffect(() => {
     const timers = closingToasts.map((message) =>
       setTimeout(() => {
@@ -37,6 +43,7 @@ const Toast = () => {
       timers.forEach(clearTimeout);
     };
   }, [closingToasts, closeToast]);
+
   if (!container) return null;
 
   return createPortal(
