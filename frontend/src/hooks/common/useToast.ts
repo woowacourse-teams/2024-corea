@@ -1,9 +1,8 @@
 import { useContext } from "react";
 import type { ToastType } from "@/@types/toast";
-import { ToastContext, ToastDispatchContext } from "@/providers/ToastProvider";
+import { ToastDispatchContext } from "@/providers/ToastProvider";
 
 const useToast = () => {
-  const toasts = useContext(ToastContext);
   const setToasts = useContext(ToastDispatchContext);
 
   const showToast = (message: string, type: ToastType = "error", durationMs = 2500) => {
@@ -13,7 +12,6 @@ const useToast = () => {
 
       return [...prev, { message, type, durationMs }];
     });
-    console.log(toasts);
   };
 
   const closeToast = (message: string) => {
