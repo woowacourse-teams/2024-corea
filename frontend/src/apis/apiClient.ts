@@ -1,14 +1,23 @@
 import { API_ENDPOINTS } from "./endpoints";
 import { Method, QueueItem } from "@/@types/apiClient";
 import { serverUrl } from "@/config/serverUrl";
+import { ERROR_STRATEGY } from "@/constants/errorStrategy";
 import MESSAGES from "@/constants/message";
-import { ApiError, AuthorizationError, NetworkError } from "@/utils/Errors";
+import {
+  ApiError,
+  AuthorizationError,
+  type CustomErrorMeta,
+  type ErrorHandlingStrategy,
+  NetworkError,
+} from "@/utils/CustomError";
 
 interface ApiProps {
   endpoint: string;
   headers?: Record<string, string>;
   body?: object | null;
   errorMessage?: string;
+  strategy?: ErrorHandlingStrategy;
+  meta?: CustomErrorMeta;
 }
 
 interface RequestProps extends ApiProps {
@@ -51,7 +60,7 @@ const refreshAccessToken = async (): Promise<string | undefined> => {
     if (response.status === 401 && data?.exceptionType === "TOKEN_EXPIRED") {
       throw new AuthorizationError(data?.message || MESSAGES.ERROR.POST_REFRESH);
     }
-    throw new ApiError(data?.message || MESSAGES.ERROR.POST_REFRESH);
+    throw new ApiError(data?.message || MESSAGES.ERROR.POST_REFRESH, ERROR_STRATEGY.TOAST);
   }
 
   if (newAccessToken) {
@@ -66,6 +75,8 @@ const fetchWithToken = async (
   endpoint: string,
   requestInit: RequestInit,
   errorMessage: string = "",
+  strategy: ErrorHandlingStrategy = ERROR_STRATEGY.TOAST,
+  meta?: CustomErrorMeta,
 ) => {
   if (!navigator.onLine) {
     throw new NetworkError(MESSAGES.ERROR.OFFLINE_ACTION);
@@ -89,7 +100,7 @@ const fetchWithToken = async (
           const retryData = await parseResponse(retryResponse);
 
           if (!retryResponse.ok) {
-            throw new ApiError(retryData?.message || errorMessage);
+            throw new ApiError(retryData?.message || errorMessage, strategy, meta);
           }
 
           return retryData;
@@ -108,10 +119,10 @@ const fetchWithToken = async (
       data = await parseResponse(response);
 
       if (!response.ok) {
-        throw new ApiError(data?.message || errorMessage);
+        throw new ApiError(data?.message || errorMessage, strategy, meta);
       }
     } else {
-      throw new ApiError(data?.message || errorMessage);
+      throw new ApiError(data?.message || errorMessage, strategy, meta);
     }
   }
 
@@ -138,20 +149,20 @@ const createRequestInit = (
 };
 
 const apiClient = {
-  get: ({ endpoint, headers = {}, errorMessage = "" }: ApiProps) =>
-    apiClient.request({ method: "GET", endpoint, headers, errorMessage }),
+  get: ({ endpoint, headers = {}, errorMessage = "", strategy, meta }: ApiProps) =>
+    apiClient.request({ method: "GET", endpoint, headers, errorMessage, strategy, meta }),
 
-  post: ({ endpoint, headers = {}, body = {}, errorMessage = "" }: ApiProps) =>
-    apiClient.request({ method: "POST", endpoint, headers, body, errorMessage }),
+  post: ({ endpoint, headers = {}, body = {}, errorMessage = "", strategy, meta }: ApiProps) =>
+    apiClient.request({ method: "POST", endpoint, headers, body, errorMessage, strategy, meta }),
 
-  put: ({ endpoint, headers = {}, body = {}, errorMessage = "" }: ApiProps) =>
-    apiClient.request({ method: "PUT", endpoint, headers, body, errorMessage }),
+  put: ({ endpoint, headers = {}, body = {}, errorMessage = "", strategy, meta }: ApiProps) =>
+    apiClient.request({ method: "PUT", endpoint, headers, body, errorMessage, strategy, meta }),
 
-  patch: ({ endpoint, headers = {}, body = {}, errorMessage = "" }: ApiProps) =>
-    apiClient.request({ method: "PATCH", endpoint, headers, body, errorMessage }),
+  patch: ({ endpoint, headers = {}, body = {}, errorMessage = "", strategy, meta }: ApiProps) =>
+    apiClient.request({ method: "PATCH", endpoint, headers, body, errorMessage, strategy, meta }),
 
-  delete: ({ endpoint, headers = {}, errorMessage = "" }: ApiProps) =>
-    apiClient.request({ method: "DELETE", endpoint, headers, errorMessage }),
+  delete: ({ endpoint, headers = {}, errorMessage = "", strategy, meta }: ApiProps) =>
+    apiClient.request({ method: "DELETE", endpoint, headers, errorMessage, strategy, meta }),
 
   request: async ({
     method,
@@ -159,9 +170,11 @@ const apiClient = {
     headers = {},
     body = null,
     errorMessage = "",
+    strategy = ERROR_STRATEGY.TOAST,
+    meta,
   }: RequestProps) => {
     const requestInit = createRequestInit(method, headers, body);
-    return await fetchWithToken(endpoint, requestInit, errorMessage);
+    return await fetchWithToken(endpoint, requestInit, errorMessage, strategy, meta);
   },
 };
 

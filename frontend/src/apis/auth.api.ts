@@ -3,7 +3,7 @@ import { API_ENDPOINTS } from "./endpoints";
 import { UserInfoResponse } from "@/hooks/mutations/useMutateAuth";
 import { UserInfo } from "@/@types/userInfo";
 import MESSAGES from "@/constants/message";
-import { AuthorizationError } from "@/utils/Errors";
+import { AuthorizationError } from "@/utils/CustomError";
 
 export const postLogin = async (code: string): Promise<UserInfoResponse> => {
   const { data, headers } = await apiClient.post({
