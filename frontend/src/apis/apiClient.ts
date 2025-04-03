@@ -2,7 +2,7 @@ import { API_ENDPOINTS } from "./endpoints";
 import { Method, QueueItem } from "@/@types/apiClient";
 import { serverUrl } from "@/config/serverUrl";
 import MESSAGES from "@/constants/message";
-import { AuthorizationError, HTTPError } from "@/utils/Errors";
+import { ApiError, AuthorizationError, NetworkError } from "@/utils/Errors";
 
 interface ApiProps {
   endpoint: string;
@@ -26,8 +26,12 @@ const processQueue = (error: Error | null = null, token: string | null = null) =
       prom.resolve(token as string);
     }
   });
-
   failedQueue = [];
+};
+
+const parseResponse = async (response: Response) => {
+  const text = await response.text();
+  return text ? JSON.parse(text) : null;
 };
 
 const refreshAccessToken = async (): Promise<string | undefined> => {
@@ -39,27 +43,21 @@ const refreshAccessToken = async (): Promise<string | undefined> => {
     credentials: "include",
   });
 
-  const text = await response.text();
-  const data = text ? JSON.parse(text) : null;
-
+  const data = await parseResponse(response);
   const newAccessToken = response.headers.get("Authorization");
 
   if (!response.ok) {
-    if (response.status === 401 && data.exceptionType === "TOKEN_EXPIRED") {
-      const error = new AuthorizationError(data.message || MESSAGES.ERROR.POST_REFRESH);
-      processQueue(error, null);
-      isRefreshing = false;
-      alert("토큰이 만료되었습니다. 다시 로그인 해주세요!");
-      localStorage.clear();
-      window.location.href = "/";
-    } else {
-      throw new HTTPError(data.message || MESSAGES.ERROR.POST_REFRESH);
+    isRefreshing = false;
+    if (response.status === 401 && data?.exceptionType === "TOKEN_EXPIRED") {
+      throw new AuthorizationError(data?.message || MESSAGES.ERROR.POST_REFRESH);
     }
-  } else if (newAccessToken) {
+    throw new ApiError(data?.message || MESSAGES.ERROR.POST_REFRESH);
+  }
+
+  if (newAccessToken) {
     localStorage.setItem("accessToken", newAccessToken);
     processQueue(null, newAccessToken);
     isRefreshing = false;
-
     return newAccessToken;
   }
 };
@@ -70,53 +68,54 @@ const fetchWithToken = async (
   errorMessage: string = "",
 ) => {
   if (!navigator.onLine) {
-    throw new HTTPError(MESSAGES.ERROR.OFFLINE);
+    throw new NetworkError(MESSAGES.ERROR.OFFLINE);
   }
 
   let response = await fetch(`${serverUrl}${endpoint}`, requestInit);
-  let text = await response.text();
-  let data = text ? JSON.parse(text) : null;
+  let data = await parseResponse(response);
 
-  if (response.status === 401 && data.exceptionType === "TOKEN_EXPIRED") {
-    if (isRefreshing) {
-      new Promise<string>((resolve, reject) => {
-        failedQueue.push({ resolve, reject });
-      }).then(async (token) => {
-        requestInit.headers = {
-          ...requestInit.headers,
-          Authorization: `Bearer ${token}`,
-        };
+  if (!response.ok) {
+    if (response.status === 401 && data?.exceptionType === "TOKEN_EXPIRED") {
+      if (isRefreshing) {
+        return new Promise<string>((resolve, reject) => {
+          failedQueue.push({ resolve, reject });
+        }).then(async (token) => {
+          requestInit.headers = {
+            ...requestInit.headers,
+            Authorization: `Bearer ${token}`,
+          };
 
-        response = await fetch(`${serverUrl}${endpoint}`, requestInit);
+          const retryResponse = await fetch(`${serverUrl}${endpoint}`, requestInit);
+          const retryData = await parseResponse(retryResponse);
 
-        if (!response.ok && response.status !== 401) {
-          throw new HTTPError(data.message || MESSAGES.ERROR.POST_REFRESH);
-        }
-      });
-    }
+          if (!retryResponse.ok) {
+            throw new ApiError(retryData?.message || errorMessage);
+          }
 
-    isRefreshing = true;
+          return retryData;
+        });
+      }
 
-    const newAccessToken = await refreshAccessToken();
-    requestInit.headers = {
-      ...requestInit.headers,
-      Authorization: `Bearer ${newAccessToken}`,
-    };
+      isRefreshing = true;
+      const newAccessToken = await refreshAccessToken();
 
-    response = await fetch(`${serverUrl}${endpoint}`, requestInit);
-    text = await response.text();
-    data = text ? JSON.parse(text) : null;
+      requestInit.headers = {
+        ...requestInit.headers,
+        Authorization: `Bearer ${newAccessToken}`,
+      };
 
-    if (!response.ok && response.status !== 401) {
-      throw new HTTPError(data.message || MESSAGES.ERROR.POST_REFRESH);
+      response = await fetch(`${serverUrl}${endpoint}`, requestInit);
+      data = await parseResponse(response);
+
+      if (!response.ok) {
+        throw new ApiError(data?.message || errorMessage);
+      }
+    } else {
+      throw new ApiError(data?.message || errorMessage);
     }
   }
 
-  if (!response.ok && response.status !== 401) {
-    throw new HTTPError(data.message || errorMessage);
-  }
-
-  return text ? data : response;
+  return data ?? response;
 };
 
 const createRequestInit = (

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { EllipsisText, VisuallyHidden } from "@/styles/common";
+import { EllipsisText, SkeletonShimmer, VisuallyHidden } from "@/styles/common";
 import media from "@/styles/media";
 
 export const RoomCardContainer = styled.button`
@@ -161,4 +161,24 @@ export const LabelWrapper = styled.div`
 
 export const ScreenReader = styled.div`
   ${VisuallyHidden}
+`;
+
+export const SkeletonWrapper = styled.div`
+  width: 100%;
+  border-radius: 15px;
+  box-shadow: ${({ theme }) => theme.BOX_SHADOW.regular};
+
+  ${media.small`
+    height: 371px;
+  `}
+
+  ${media.medium`
+    height: 391px;
+  `}
+
+  ${media.large`
+    height: 411px;
+  `}
+
+  ${SkeletonShimmer}
 `;

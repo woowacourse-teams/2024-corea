@@ -1,29 +1,26 @@
-import { useLocation } from "react-router-dom";
+import React from "react";
 import Button from "@/components/common/button/Button";
 import * as S from "@/components/common/errorBoundary/Fallback.style";
-import { BannerContainer } from "@/components/main/banner/Banner.style";
-import { errorCharacter } from "@/assets";
+import { errorCharacterBase64 } from "@/assets/character/error-character-base64";
 
 interface FallbackProps {
   message: string;
-  resetError: () => void;
+  buttonText: string;
+  onButtonClick: () => void;
 }
 
-const Fallback = ({ message, resetError }: FallbackProps) => {
-  const { pathname } = useLocation();
-  const isMain = pathname === "/";
-
+const Fallback = ({ message, buttonText, onButtonClick }: FallbackProps) => {
   return (
-    <>
-      {isMain && <BannerContainer />}
-      <S.FallbackContainer>
-        <S.ErrorMessage>{message}</S.ErrorMessage>
-        <S.Character src={errorCharacter} alt="에러 발생" />
-        <Button onClick={resetError} size="medium">
-          다시 시도하기
-        </Button>
-      </S.FallbackContainer>
-    </>
+    <S.FallbackContainer>
+      <S.Character
+        src={navigator.onLine ? "/error-character.png" : errorCharacterBase64}
+        alt={message}
+      />
+      <S.ErrorMessage>{message}</S.ErrorMessage>
+      <Button onClick={onButtonClick} size="medium">
+        {buttonText}
+      </Button>
+    </S.FallbackContainer>
   );
 };
 

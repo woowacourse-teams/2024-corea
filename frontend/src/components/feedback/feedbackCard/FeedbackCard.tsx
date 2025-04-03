@@ -1,13 +1,11 @@
+import BlurredFeedbackContent from "../BlurredFeedbackContent/BlurredFeedbackContent";
+import FeedbackCardHeader from "../FeedbackCardHeader/FeedbackCardHeader";
+import FeedbackContent from "../FeedbackContent/FeedbackContent";
 import { useNavigate } from "react-router-dom";
 import Button from "@/components/common/button/Button";
-import Profile from "@/components/common/profile/Profile";
-import { Textarea } from "@/components/common/textarea/Textarea";
-import EvaluationPointBar from "@/components/feedback/evaluationPointBar/EvaluationPointBar";
 import * as S from "@/components/feedback/feedbackCard/FeedbackCard.style";
 import { FeedbackCardData, FeedbackType } from "@/@types/feedback";
 import { ReviewInfo } from "@/@types/review";
-import { HoverStyledLink } from "@/styles/common";
-import { theme } from "@/styles/theme";
 
 interface FeedbackCardProps {
   selectedFeedbackType: FeedbackType;
@@ -21,12 +19,6 @@ const FeedbackCard = ({
   feedbackType,
 }: FeedbackCardProps) => {
   const navigate = useNavigate();
-  const getFeedbackTarget = (feedbackType: "develop" | "social") => {
-    if (selectedFeedbackType === "받은 피드백") {
-      return feedbackType === "develop" ? "FROM. 나의 리뷰어" : "FROM. 나의 리뷰이";
-    }
-    return feedbackType === "develop" ? "TO. 나의 리뷰이" : "TO. 나의 리뷰어";
-  };
 
   const reviewInfo: ReviewInfo = {
     userId: feedbackCardData.receiverId,
@@ -60,88 +52,35 @@ const FeedbackCard = ({
       <S.ScreenReader>미션의 상세 피드백 내용입니다.</S.ScreenReader>
 
       <S.FeedbackCardBox $isTypeDevelop={feedbackType === "develop"}>
-        <S.FeedbackHeader>
-          <HoverStyledLink to={`/profile/${feedbackCardData.username}`} tabIndex={-1}>
-            <S.FeedbackProfile>
-              <Profile imgSrc={feedbackCardData.profile} tabIndex={-1} />
-              <S.FeedbackTitle>{feedbackCardData.username}</S.FeedbackTitle>
-            </S.FeedbackProfile>
-          </HoverStyledLink>
+        <FeedbackCardHeader
+          selectedFeedbackType={selectedFeedbackType}
+          feedbackCardData={feedbackCardData}
+          feedbackType={feedbackType}
+        />
 
-          <S.FeedbackType $isTypeDevelop={feedbackType === "develop"}>
-            {feedbackType === "develop" ? (
-              <>
-                개발 역량 피드백
-                <p>{getFeedbackTarget(feedbackType)}</p>
-              </>
-            ) : (
-              <>
-                소프트스킬 역량 피드백
-                <p>{getFeedbackTarget(feedbackType)}</p>
-              </>
-            )}
-          </S.FeedbackType>
-        </S.FeedbackHeader>
+        <S.FeedbackBody>
+          <FeedbackContent feedbackCardData={feedbackCardData} feedbackType={feedbackType} />
 
-        <S.FeedbackContent $isWrited={feedbackCardData.isWrited}>
-          <S.FeedbackScoreContainer>
-            <S.FeedbackTitle>피드백 점수</S.FeedbackTitle>
-            <EvaluationPointBar
-              initialOptionId={feedbackCardData.evaluationPoint}
-              readonly={true}
-              color={feedbackType === "social" ? theme.COLOR.secondary : undefined}
-              isTabFocusable={false}
+          {!feedbackCardData.isWrited && (
+            <BlurredFeedbackContent
+              feedbackType={feedbackType}
+              onClick={handleNavigateUserFeedbackPage}
             />
-          </S.FeedbackScoreContainer>
+          )}
 
-          <S.FeedbackKeywordContainer>
-            <S.FeedbackTitle>피드백 키워드</S.FeedbackTitle>
-            <S.FeedbackKeywordWrapper>
-              {feedbackCardData.feedbackKeywords.map((keyword) => (
-                <S.FeedbackKeyword key={keyword}>{keyword}</S.FeedbackKeyword>
-              ))}
-            </S.FeedbackKeywordWrapper>
-          </S.FeedbackKeywordContainer>
-
-          <S.FeedbackDetailContainer>
-            <S.FeedbackTitle>세부 피드백</S.FeedbackTitle>
-            <Textarea
-              rows={7}
-              maxLength={2000}
-              showCharCount={true}
-              placeholder="미작성"
-              value={feedbackCardData.feedbackText}
-              disabled
-            />
-          </S.FeedbackDetailContainer>
-        </S.FeedbackContent>
-
-        {!feedbackCardData.isWrited && (
-          <S.Overlay>
+          {selectedFeedbackType === "쓴 피드백" && (
             <S.ButtonWrapper>
-              <p>상대방 피드백을 작성해야 볼 수 있습니다.</p>
               <Button
+                onClick={handleNavigateMyFeedbackPage}
                 variant={feedbackType === "develop" ? "primary" : "secondary"}
-                onClick={handleNavigateUserFeedbackPage}
+                size="small"
               >
-                피드백 작성하러가기
+                수정하기
               </Button>
             </S.ButtonWrapper>
-          </S.Overlay>
-        )}
+          )}
+        </S.FeedbackBody>
       </S.FeedbackCardBox>
-
-      {selectedFeedbackType === "쓴 피드백" && (
-        <S.ButtonWrapper>
-          <Button
-            onClick={handleNavigateMyFeedbackPage}
-            variant={feedbackType === "develop" ? "primary" : "secondary"}
-            size="small"
-          >
-            수정하기
-          </Button>
-        </S.ButtonWrapper>
-      )}
     </S.FeedbackCardContainer>
   );
 };

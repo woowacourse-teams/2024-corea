@@ -1,9 +1,14 @@
 import styled from "styled-components";
-import { EllipsisText, VisuallyHidden } from "@/styles/common";
+import { VisuallyHidden } from "@/styles/common";
 import media from "@/styles/media";
+
+export const ScreenReader = styled.div`
+  ${VisuallyHidden}
+`;
 
 export const FeedbackCardContainer = styled.div`
   position: relative;
+  overflow: hidden;
   width: 40%;
   height: 700px;
 
@@ -20,129 +25,32 @@ export const FeedbackCardContainer = styled.div`
 export const FeedbackCardBox = styled.div<{ $isTypeDevelop: boolean }>`
   position: relative;
 
-  overflow: hidden auto;
   display: flex;
   flex-direction: column;
-  gap: 3rem;
+  gap: 1rem;
 
   width: 100%;
   height: 100%;
-  padding: 1rem;
 
   border: 3px solid
     ${({ theme, $isTypeDevelop }) =>
       $isTypeDevelop ? theme.COLOR.primary2 : theme.COLOR.secondary};
   border-radius: 10px;
-
-  -ms-overflow-style: none;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
 `;
 
-export const FeedbackContent = styled.div<{ $isWrited: boolean }>`
+export const FeedbackBody = styled.div`
+  position: relative;
+
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  gap: 3rem;
-  filter: ${(props) => (props.$isWrited ? "none" : "blur(7px)")};
-`;
 
-export const FeedbackScoreContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1.6rem;
-`;
-
-export const FeedbackKeywordContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1.6rem;
-  height: fit-content;
-`;
-
-export const FeedbackKeywordWrapper = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  align-content: flex-start;
-`;
-
-export const FeedbackHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
-export const FeedbackProfile = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 0.5rem;
-  align-items: center;
-`;
-
-export const FeedbackType = styled.span<{ $isTypeDevelop: boolean }>`
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-
-  font: ${({ theme }) => theme.TEXT.small_bold};
-  color: ${({ theme, $isTypeDevelop }) =>
-    $isTypeDevelop ? theme.COLOR.primary2 : theme.COLOR.secondary};
-  text-align: right;
-  white-space: pre-line;
-
-  p {
-    font: ${({ theme }) => theme.TEXT.semiSmall};
-    color: ${({ theme }) => theme.COLOR.grey3};
-  }
-`;
-
-export const FeedbackTitle = styled.h3`
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-
-  font: ${({ theme }) => theme.TEXT.medium_bold};
-  color: ${({ theme }) => theme.COLOR.grey4};
-`;
-
-export const FeedbackSubTitle = styled.span`
-  font: ${({ theme }) => theme.TEXT.small};
-`;
-
-export const FeedbackKeyword = styled.div`
-  height: fit-content;
-  padding: 1rem;
-
-  font: ${({ theme }) => theme.TEXT.semiSmall};
-
-  background: ${({ theme }) => theme.COLOR.grey0};
-  border-radius: 5px;
-`;
-
-export const FeedbackDetailContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1.6rem;
-  margin-bottom: 70px;
-`;
-
-export const FeedbackDetail = styled.p`
-  height: 172px;
-  font: ${({ theme }) => theme.TEXT.small};
-  line-height: 2.2rem;
-
-  ${EllipsisText}
-`;
-
-export const ScreenReader = styled.div`
-  ${VisuallyHidden}
+  width: 100%;
+  height: 100%;
+  padding: 2rem;
 `;
 
 export const ButtonWrapper = styled.div`
-  position: absolute;
-  bottom: 20px;
-
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -152,21 +60,4 @@ export const ButtonWrapper = styled.div`
   width: 100%;
 
   font: ${({ theme }) => theme.TEXT.large_bold};
-`;
-
-export const Overlay = styled.div`
-  pointer-events: auto;
-
-  position: absolute;
-  top: 60px;
-  left: 0;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 100%;
-  height: calc(100% - 60px);
-
-  background-color: rgb(255 255 255 / 50%);
 `;
