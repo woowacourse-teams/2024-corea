@@ -1,4 +1,3 @@
-import useMutateHandlers from "./useMutateHandlers";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useToast from "@/hooks/common/useToast";
 import { ReviewReminderAlarm } from "@/@types/alarm";
@@ -7,7 +6,6 @@ import { postReviewComplete, postReviewUrge } from "@/apis/reviews.api";
 import MESSAGES from "@/constants/message";
 
 const useMutateReview = (roomId: number) => {
-  const { handleMutateError } = useMutateHandlers();
   const { showToast } = useToast();
 
   const queryClient = useQueryClient();
@@ -25,7 +23,6 @@ const useMutateReview = (roomId: number) => {
       });
       showToast(MESSAGES.SUCCESS.POST_REVIEW_COMPLETE, "success");
     },
-    onError: (error) => handleMutateError(error),
   });
 
   const postReviewUrgeMutation = useMutation({
@@ -43,7 +40,6 @@ const useMutateReview = (roomId: number) => {
       });
       showToast(MESSAGES.SUCCESS.POST_REVIEW_URGE, "success");
     },
-    onError: (error) => handleMutateError(error),
   });
 
   return { postReviewCompleteMutation, postReviewUrgeMutation };

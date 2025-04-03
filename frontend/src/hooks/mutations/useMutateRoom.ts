@@ -1,5 +1,4 @@
 import useToast from "../common/useToast";
-import useMutateHandlers from "./useMutateHandlers";
 import { useMutation } from "@tanstack/react-query";
 import { CreateRoomInfo, MemberRole, RoomCreateRequest } from "@/@types/roomInfo";
 import {
@@ -13,14 +12,12 @@ import MESSAGES from "@/constants/message";
 
 const useMutateRoom = () => {
   const { showToast } = useToast();
-  const { handleMutateError } = useMutateHandlers();
 
   const postCreateRoomMutation = useMutation({
     mutationFn: (roomData: RoomCreateRequest) => postCreateRoom(roomData),
     onSuccess: () => {
       showToast(MESSAGES.SUCCESS.POST_CREATE_ROOM, "success");
     },
-    onError: (error) => handleMutateError(error),
   });
 
   const putEditRoomMutation = useMutation({
@@ -28,7 +25,6 @@ const useMutateRoom = () => {
     onSuccess: () => {
       showToast(MESSAGES.SUCCESS.PUT_EDIT_ROOM, "success");
     },
-    onError: (error) => handleMutateError(error),
   });
 
   const postParticipateInMutation = useMutation({
@@ -41,20 +37,14 @@ const useMutateRoom = () => {
       role: MemberRole;
       matchingSize: number;
     }) => postParticipateIn(roomId, role, matchingSize),
-
-    onError: (error) => handleMutateError(error),
   });
 
   const deleteParticipateInMutation = useMutation({
     mutationFn: (roomId: number) => deleteParticipateIn(roomId),
-
-    onError: (error) => handleMutateError(error),
   });
 
   const deleteParticipatedRoomMutation = useMutation({
     mutationFn: (roomId: number) => deleteParticipatedRoom(roomId),
-
-    onError: (error) => handleMutateError(error),
   });
 
   return {

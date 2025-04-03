@@ -1,4 +1,3 @@
-import useMutateHandlers from "./useMutateHandlers";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { UserInfo } from "@/@types/userInfo";
@@ -12,7 +11,6 @@ export interface UserInfoResponse {
 
 const useMutateAuth = () => {
   const navigate = useNavigate();
-  const { handleMutateError } = useMutateHandlers();
 
   const postLoginMutation = useMutation({
     mutationFn: (code: string) => postLogin(code),
@@ -22,9 +20,8 @@ const useMutateAuth = () => {
       localStorage.setItem("memberRole", memberRole);
       navigate("/", { replace: true });
     },
-    onError: (error) => {
+    onError: () => {
       localStorage.clear();
-      handleMutateError(error);
     },
   });
 
@@ -34,7 +31,6 @@ const useMutateAuth = () => {
       localStorage.clear();
       window.location.replace("/");
     },
-    onError: (error) => handleMutateError(error),
   });
 
   return { postLoginMutation, postLogoutMutation };
