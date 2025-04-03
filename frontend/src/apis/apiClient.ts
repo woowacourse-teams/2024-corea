@@ -75,7 +75,7 @@ const fetchWithToken = async (
   endpoint: string,
   requestInit: RequestInit,
   errorMessage: string = "",
-  strategy: ErrorHandlingStrategy = ERROR_STRATEGY.TOAST,
+  strategy: ErrorHandlingStrategy,
   meta?: CustomErrorMeta,
 ) => {
   if (!navigator.onLine) {
@@ -170,7 +170,7 @@ const apiClient = {
     headers = {},
     body = null,
     errorMessage = "",
-    strategy = ERROR_STRATEGY.TOAST,
+    strategy = method === "GET" ? ERROR_STRATEGY.ERROR_BOUNDARY : ERROR_STRATEGY.TOAST,
     meta,
   }: RequestProps) => {
     const requestInit = createRequestInit(method, headers, body);

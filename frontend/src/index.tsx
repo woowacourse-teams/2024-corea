@@ -1,4 +1,7 @@
 import Toast from "./components/common/Toast/Toast";
+import ErrorManager from "./components/errorManager/ErrorManager";
+import { ErrorModalProvider } from "./providers/ErrorModalProvider";
+import { ErrorProvider } from "./providers/ErrorProvider";
 import QueryProvider from "./providers/QueryProvider";
 import { ToastProvider } from "./providers/ToastProvider";
 import router from "./router/router";
@@ -22,14 +25,20 @@ enableMocking().then(() => {
   ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <React.StrictMode>
       <ThemeProvider theme={theme}>
-        <ToastProvider>
+        <ErrorProvider>
           <QueryProvider>
-            <GlobalStyles />
-            <ReactQueryDevtools initialIsOpen={false} />
-            <Toast />
-            <RouterProvider router={router} />
+            <ToastProvider>
+              <ErrorModalProvider>
+                <ErrorManager>
+                  <GlobalStyles />
+                  <ReactQueryDevtools initialIsOpen={false} />
+                  <Toast />
+                  <RouterProvider router={router} />
+                </ErrorManager>
+              </ErrorModalProvider>
+            </ToastProvider>
           </QueryProvider>
-        </ToastProvider>
+        </ErrorProvider>
       </ThemeProvider>
     </React.StrictMode>,
   );

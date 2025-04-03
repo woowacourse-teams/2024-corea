@@ -1,7 +1,8 @@
 import { useQueryErrorResetBoundary } from "@tanstack/react-query";
 import type { ReactElement, ReactNode } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { ApiError } from "@/utils/Errors";
+import { ERROR_STRATEGY } from "@/constants/errorStrategy";
+import { ApiError } from "@/utils/CustomError";
 
 type FallbackRender = (params: { error: Error; resetError: () => void }) => ReactElement;
 
@@ -21,10 +22,9 @@ const LocalErrorBoundary = ({
       resetKeys={resetKeys}
       onReset={reset}
       fallbackRender={({ error, resetErrorBoundary }) => {
-        if (error instanceof ApiError) {
+        if (error instanceof ApiError && error.strategy === ERROR_STRATEGY.ERROR_BOUNDARY) {
           return fallback({ error, resetError: resetErrorBoundary });
         }
-        throw error;
       }}
     >
       {children}

@@ -24,18 +24,6 @@ export const getParticipatedRoomList = async (
   return data;
 };
 
-export const getProgressRoomList = async (
-  classification: string,
-  page: number,
-): Promise<RoomListInfo> => {
-  const { data } = await apiClient.get({
-    endpoint: `${API_ENDPOINTS.PROGRESS_ROOMS}?classification=${classification}&page=${page}`,
-    errorMessage: MESSAGES.ERROR.GET_PROGRESS_ROOM_LIST,
-  });
-
-  return data;
-};
-
 export const getOpenedRoomList = async (
   classification: string,
   page: number,
@@ -43,6 +31,18 @@ export const getOpenedRoomList = async (
   const { data } = await apiClient.get({
     endpoint: `${API_ENDPOINTS.OPENED_ROOMS}?classification=${classification}&page=${page}`,
     errorMessage: MESSAGES.ERROR.GET_OPENED_ROOM_LIST,
+  });
+
+  return data;
+};
+
+export const getProgressRoomList = async (
+  classification: string,
+  page: number,
+): Promise<RoomListInfo> => {
+  const { data } = await apiClient.get({
+    endpoint: `${API_ENDPOINTS.PROGRESS_ROOMS}?classification=${classification}&page=${page}`,
+    errorMessage: MESSAGES.ERROR.GET_PROGRESS_ROOM_LIST,
   });
 
   return data;

@@ -12,7 +12,7 @@ export type CustomErrorMeta = {
 
 export interface CustomErrorOptions {
   message: string;
-  strategy?: ErrorHandlingStrategy;
+  strategy: ErrorHandlingStrategy;
   meta?: CustomErrorMeta;
 }
 
@@ -20,7 +20,7 @@ export class CustomError extends Error {
   strategy: ErrorHandlingStrategy;
   meta?: CustomErrorMeta;
 
-  constructor({ message, strategy = ERROR_STRATEGY.TOAST, meta }: CustomErrorOptions) {
+  constructor({ message, strategy = ERROR_STRATEGY.ERROR_BOUNDARY, meta }: CustomErrorOptions) {
     super(message);
     this.name = "CustomError";
     this.strategy = strategy;
@@ -29,7 +29,7 @@ export class CustomError extends Error {
 }
 
 export class ApiError extends CustomError {
-  constructor(message: string, strategy?: ErrorHandlingStrategy, meta?: CustomErrorMeta) {
+  constructor(message: string, strategy: ErrorHandlingStrategy, meta?: CustomErrorMeta) {
     super({ message, strategy, meta });
     this.name = "ApiError";
   }

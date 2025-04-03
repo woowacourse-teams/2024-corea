@@ -1,31 +1,17 @@
-import useToast from "../hooks/common/useToast";
 import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React, { useMemo } from "react";
-import useErrorHandling from "@/hooks/common/useErrorHandling";
+import useErrorStore from "@/hooks/common/useErrorStore";
 
 interface QueryProviderProps {
   children: React.ReactNode;
 }
 
 const QueryProvider = ({ children }: QueryProviderProps) => {
-  const { showToast } = useToast();
-  const { notifyError } = useErrorHandling();
+  const { setError } = useErrorStore();
 
   const queryClient = useMemo(
     () =>
       new QueryClient({
-        queryCache: new QueryCache({
-          onError: (error) => {
-            notifyError(error);
-            return;
-          },
-        }),
-        mutationCache: new MutationCache({
-          onError: (error) => {
-            notifyError(error);
-            return;
-          },
-        }),
         defaultOptions: {
           queries: {
             retry: false,
@@ -36,8 +22,18 @@ const QueryProvider = ({ children }: QueryProviderProps) => {
             networkMode: "always",
           },
         },
+        queryCache: new QueryCache({
+          onError: (error) => {
+            setError(error);
+          },
+        }),
+        mutationCache: new MutationCache({
+          onError: (error) => {
+            setError(error);
+          },
+        }),
       }),
-    [showToast],
+    [],
   );
 
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
