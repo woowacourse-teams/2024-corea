@@ -24,6 +24,11 @@ interface RequestProps extends ApiProps {
   method: Method;
 }
 
+interface ErrorResponse {
+  message?: string;
+  exceptionType?: string;
+}
+
 let isRefreshing = false;
 let failedQueue: QueueItem[] = [];
 
@@ -55,25 +60,22 @@ const refreshAccessToken = async (): Promise<string | undefined> => {
   const data = await parseResponse(response);
   const newAccessToken = response.headers.get("Authorization");
 
+  // refresh의 모든 에러는 재로그인 유도
   if (!response.ok) {
     isRefreshing = false;
-    if (response.status === 401) {
-      const isTokenExpired = data?.exceptionType === "TOKEN_EXPIRED";
-      throw new AuthorizationError(
-        isTokenExpired ? MESSAGES.ERROR.POST_REFRESH : MESSAGES.ERROR.POST_INVALID_TOKEN,
-      );
-    }
-    throw new ApiError({
-      message: data?.message || MESSAGES.ERROR.POST_REFRESH,
-      strategy: ERROR_STRATEGY.TOAST,
-      status: response.status,
-    });
+    const isTokenExpired = data?.exceptionType === "TOKEN_EXPIRED";
+    const error = new AuthorizationError(
+      isTokenExpired ? MESSAGES.ERROR.POST_REFRESH : MESSAGES.ERROR.POST_INVALID_TOKEN,
+    );
+    processQueue(error, null);
+    throw error;
   }
 
   if (newAccessToken) {
     localStorage.setItem("accessToken", newAccessToken);
     processQueue(null, newAccessToken);
     isRefreshing = false;
+
     return newAccessToken;
   }
 };
@@ -92,7 +94,7 @@ const fetchWithToken = async (
   let response = await fetch(`${serverUrl}${endpoint}`, requestInit);
   let data = await parseResponse(response);
 
-  const handle401 = () => {
+  const handle401 = (data: ErrorResponse) => {
     const isTokenExpired = data?.exceptionType === "TOKEN_EXPIRED";
     throw new AuthorizationError(
       isTokenExpired ? MESSAGES.ERROR.POST_REFRESH : MESSAGES.ERROR.POST_INVALID_TOKEN,
@@ -100,31 +102,33 @@ const fetchWithToken = async (
   };
 
   if (!response.ok) {
+    // 401,TOKEN_EXPIRED 에러는 refresh 토큰 재발급 후 다시 요청
     if (response.status === 401 && data?.exceptionType === "TOKEN_EXPIRED") {
       if (isRefreshing) {
-        return new Promise<string>((resolve, reject) => {
+        new Promise<string>((resolve, reject) => {
           failedQueue.push({ resolve, reject });
         }).then(async (token) => {
+          // token은 새 Access Token이며, 이를 사용해 요청을 재실행
           requestInit.headers = {
             ...requestInit.headers,
             Authorization: `Bearer ${token}`,
           };
 
-          const retryResponse = await fetch(`${serverUrl}${endpoint}`, requestInit);
-          const retryData = await parseResponse(retryResponse);
+          response = await fetch(`${serverUrl}${endpoint}`, requestInit);
+          data = await parseResponse(response);
 
-          if (!retryResponse.ok) {
-            if (retryResponse.status === 401) handle401();
+          if (!response.ok) {
+            if (response.status === 401) {
+              handle401(data);
+            }
 
             throw new ApiError({
-              message: retryData?.message || errorMessage,
+              message: data?.message || errorMessage,
               strategy,
               meta,
-              status: retryResponse.status,
+              status: response.status,
             });
           }
-
-          return retryData;
         });
       }
 
@@ -140,7 +144,9 @@ const fetchWithToken = async (
       data = await parseResponse(response);
 
       if (!response.ok) {
-        if (response.status === 401) handle401();
+        if (response.status === 401) {
+          handle401(data);
+        }
 
         throw new ApiError({
           message: data?.message || errorMessage,
@@ -150,7 +156,7 @@ const fetchWithToken = async (
         });
       }
     } else if (response.status === 401) {
-      handle401();
+      handle401(data);
     } else {
       throw new ApiError({
         message: data?.message || errorMessage,

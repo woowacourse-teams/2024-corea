@@ -83,15 +83,16 @@ export const getRoomDetailInfo = async (id: number): Promise<RoomInfo> => {
 };
 
 export const postCreateRoom = async (roomData: RoomCreateRequest): Promise<RoomDetailResponse> => {
-  return apiClient.post({
+  const { data } = await apiClient.post({
     endpoint: API_ENDPOINTS.ROOMS,
     body: roomData,
     errorMessage: MESSAGES.ERROR.POST_CREATE_ROOM,
   });
+  return data;
 };
 
 export const putEditRoom = async (roomData: CreateRoomInfo): Promise<void> => {
-  return apiClient.put({
+  await apiClient.put({
     endpoint: API_ENDPOINTS.ROOMS,
     body: roomData,
     errorMessage: MESSAGES.ERROR.PUT_EDIT_ROOM,
@@ -103,7 +104,7 @@ export const postParticipateIn = async (
   role: MemberRole,
   matchingSize: number,
 ): Promise<void> => {
-  return apiClient.post({
+  await apiClient.post({
     endpoint: `${API_ENDPOINTS.PARTICIPATE_IN(roomId)}?role=${role}`,
     body: { matchingSize },
     errorMessage: MESSAGES.ERROR.POST_PARTICIPATE_IN,
@@ -111,14 +112,14 @@ export const postParticipateIn = async (
 };
 
 export const deleteParticipateIn = async (roomId: number): Promise<void> => {
-  return apiClient.delete({
+  await apiClient.delete({
     endpoint: API_ENDPOINTS.PARTICIPATE_IN(roomId),
     errorMessage: MESSAGES.ERROR.DELETE_PARTICIPATE_IN,
   });
 };
 
 export const deleteParticipatedRoom = async (roomId: number): Promise<void> => {
-  return apiClient.delete({
+  await apiClient.delete({
     endpoint: `${API_ENDPOINTS.ROOMS}/${roomId}`,
     errorMessage: MESSAGES.ERROR.DELETE_PARTICIPATED_ROOM,
   });

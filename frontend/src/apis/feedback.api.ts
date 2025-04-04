@@ -42,28 +42,24 @@ export const getRevieweeFeedback = async (
 export const postRevieweeFeedback = async (
   roomId: number,
   feedbackData: Omit<RevieweeFeedbackData, "feedbackId">,
-) => {
-  const { data } = await apiClient.post({
+): Promise<void> => {
+  await apiClient.post({
     endpoint: API_ENDPOINTS.REVIEWEE_FEEDBACK(roomId),
     body: feedbackData,
     errorMessage: MESSAGES.ERROR.POST_REVIEWEE_FEEDBACK,
   });
-
-  return data;
 };
 
 export const putRevieweeFeedback = async (
   roomId: number,
   feedbackId: number,
   feedbackData: Omit<RevieweeFeedbackData, "feedbackId">,
-) => {
-  const { data } = await apiClient.put({
+): Promise<void> => {
+  await apiClient.put({
     endpoint: API_ENDPOINTS.PUT_REVIEWEE_FEEDBACK(roomId, feedbackId),
     body: feedbackData,
     errorMessage: MESSAGES.ERROR.PUT_REVIEWEE_FEEDBACK,
   });
-
-  return data;
 };
 
 // 리뷰이 -> 리뷰어
@@ -82,26 +78,22 @@ export const getReviewerFeedback = async (
 export const postReviewerFeedback = async (
   roomId: number,
   feedbackData: Omit<ReviewerFeedbackData, "feedbackId">,
-) => {
-  const { data } = await apiClient.post({
+): Promise<void> => {
+  await apiClient.post({
     endpoint: API_ENDPOINTS.REVIEWER_FEEDBACK(roomId),
     body: feedbackData,
     errorMessage: MESSAGES.ERROR.POST_REVIEWER_FEEDBACK,
   });
-
-  return data;
 };
 
 export const putReviewerFeedback = async (
   roomId: number,
   feedbackId: number,
   feedbackData: Omit<ReviewerFeedbackData, "feedbackId">,
-) => {
-  const { data } = await apiClient.put({
+): Promise<void> => {
+  await apiClient.put({
     endpoint: API_ENDPOINTS.PUT_REVIEWER_FEEDBACK(roomId, feedbackId),
     body: feedbackData,
     errorMessage: MESSAGES.ERROR.PUT_REVIEWER_FEEDBACK,
   });
-
-  return data;
 };

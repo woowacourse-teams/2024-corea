@@ -37,7 +37,7 @@ export const postReviewUrge = async ({
   roomId,
   reviewerId,
 }: ReviewReminderAlarm): Promise<void> => {
-  return apiClient.post({
+  await apiClient.post({
     endpoint: API_ENDPOINTS.REVIEW_URGE,
     body: { roomId, reviewerId },
     errorMessage: MESSAGES.ERROR.POST_REVIEW_URGE,
