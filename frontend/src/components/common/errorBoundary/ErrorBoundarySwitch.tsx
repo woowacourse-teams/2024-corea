@@ -1,8 +1,9 @@
+import ApiFallback from "./ApiFallback";
 import DefaultFallback from "./DefaultFallback";
 import NetworkFallback from "./NetworkFallback";
 import { useQueryClient } from "@tanstack/react-query";
 import useNetwork from "@/hooks/common/useNetwork";
-import { NetworkError } from "@/utils/CustomError";
+import { ApiError, NetworkError } from "@/utils/CustomError";
 
 interface ErrorBoundarySwitchProps {
   error: Error;
@@ -22,6 +23,8 @@ const ErrorBoundarySwitch = ({ error, resetError }: ErrorBoundarySwitchProps) =>
     case !isOnline || error.name === "ChunkLoadError":
     case error instanceof NetworkError:
       return <NetworkFallback onRetry={handleRetry} />;
+    case error instanceof ApiError:
+      return <ApiFallback onRetry={handleRetry} errorMessage={error.message} />;
     default:
       return <DefaultFallback onRetry={handleRetry} />;
   }
