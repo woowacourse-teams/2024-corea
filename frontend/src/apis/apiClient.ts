@@ -101,63 +101,52 @@ const fetchWithToken = async (
     );
   };
 
-  if (!response.ok) {
-    // 401,TOKEN_EXPIRED 에러는 refresh 토큰 재발급 후 다시 요청
-    if (response.status === 401 && data?.exceptionType === "TOKEN_EXPIRED") {
-      if (isRefreshing) {
-        new Promise<string>((resolve, reject) => {
-          failedQueue.push({ resolve, reject });
-        }).then(async (token) => {
-          // token은 새 Access Token이며, 이를 사용해 요청을 재실행
-          requestInit.headers = {
-            ...requestInit.headers,
-            Authorization: `Bearer ${token}`,
-          };
+  // 401,TOKEN_EXPIRED 에러는 refresh 토큰 재발급 후 다시 요청
+  if (response.status === 401 && data?.exceptionType === "TOKEN_EXPIRED") {
+    if (isRefreshing) {
+      new Promise<string>((resolve, reject) => {
+        failedQueue.push({ resolve, reject });
+      }).then(async (token) => {
+        // token은 새 Access Token이며, 이를 사용해 요청을 재실행
+        requestInit.headers = {
+          ...requestInit.headers,
+          Authorization: `Bearer ${token}`,
+        };
 
-          response = await fetch(`${serverUrl}${endpoint}`, requestInit);
-          data = await parseResponse(response);
+        response = await fetch(`${serverUrl}${endpoint}`, requestInit);
+        data = await parseResponse(response);
 
-          if (!response.ok) {
-            if (response.status === 401) {
-              handle401(data);
-            }
-
-            throw new ApiError({
-              message: data?.message || errorMessage,
-              strategy,
-              meta,
-              status: response.status,
-            });
+        if (!response.ok) {
+          if (response.status === 401) {
+            handle401(data);
           }
-        });
-      }
 
-      isRefreshing = true;
-      const newAccessToken = await refreshAccessToken();
-
-      requestInit.headers = {
-        ...requestInit.headers,
-        Authorization: `Bearer ${newAccessToken}`,
-      };
-
-      response = await fetch(`${serverUrl}${endpoint}`, requestInit);
-      data = await parseResponse(response);
-
-      if (!response.ok) {
-        if (response.status === 401) {
-          handle401(data);
+          throw new ApiError({
+            message: data?.message || errorMessage,
+            strategy,
+            meta,
+            status: response.status,
+          });
         }
+      });
+    }
 
-        throw new ApiError({
-          message: data?.message || errorMessage,
-          strategy,
-          meta,
-          status: response.status,
-        });
+    isRefreshing = true;
+    const newAccessToken = await refreshAccessToken();
+
+    requestInit.headers = {
+      ...requestInit.headers,
+      Authorization: `Bearer ${newAccessToken}`,
+    };
+
+    response = await fetch(`${serverUrl}${endpoint}`, requestInit);
+    data = await parseResponse(response);
+
+    if (!response.ok) {
+      if (response.status === 401) {
+        handle401(data);
       }
-    } else if (response.status === 401) {
-      handle401(data);
-    } else {
+
       throw new ApiError({
         message: data?.message || errorMessage,
         strategy,
@@ -165,6 +154,19 @@ const fetchWithToken = async (
         status: response.status,
       });
     }
+  }
+
+  if (!response.ok) {
+    if (response.status === 401 && data?.exceptionType !== "TOKEN_EXPIRED") {
+      handle401(data);
+    }
+
+    throw new ApiError({
+      message: data?.message || errorMessage,
+      strategy,
+      meta,
+      status: response.status,
+    });
   }
 
   return { data: data ?? response, headers: response.headers };
