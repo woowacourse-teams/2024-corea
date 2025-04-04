@@ -9,7 +9,6 @@ import LocalErrorBoundary from "@/components/common/localErrorBoundary/LocalErro
 import LocalSuspense from "@/components/common/localSuspense/LocalSuspense";
 import type { RoomStatusCategory } from "@/@types/roomInfo";
 import type { Option } from "@/@types/rooms";
-import MESSAGES from "@/constants/message";
 
 interface FilteredRoomListProps {
   selectedTab: Option;
@@ -39,8 +38,8 @@ const FilteredRoomList = ({
     return (
       <LocalErrorBoundary
         resetKeys={[selectedTab, selectedCategory, searchInput]}
-        fallback={({ resetError }) => (
-          <RoomListError message={MESSAGES.ERROR.GET_SEARCH_ROOM_LIST} onRetry={resetError} />
+        fallback={({ error, resetError }) => (
+          <RoomListError message={error.message} onRetry={resetError} />
         )}
       >
         <LocalSuspense fallback={<RoomListLoading />}>
@@ -59,11 +58,8 @@ const FilteredRoomList = ({
       return (
         <LocalErrorBoundary
           resetKeys={[selectedTab, selectedCategory, searchInput]}
-          fallback={({ resetError }) => (
-            <RoomListError
-              message={MESSAGES.ERROR.GET_PARTICIPATED_ROOM_LIST}
-              onRetry={resetError}
-            />
+          fallback={({ error, resetError }) => (
+            <RoomListError message={error.message} onRetry={resetError} />
           )}
         >
           <LocalSuspense fallback={<RoomListLoading />}>
@@ -75,8 +71,8 @@ const FilteredRoomList = ({
       return (
         <LocalErrorBoundary
           resetKeys={[selectedTab, selectedCategory, searchInput]}
-          fallback={({ resetError }) => (
-            <RoomListError message={MESSAGES.ERROR.GET_OPENED_ROOM_LIST} onRetry={resetError} />
+          fallback={({ error, resetError }) => (
+            <RoomListError message={error.message} onRetry={resetError} />
           )}
         >
           <LocalSuspense fallback={<RoomListLoading />}>
@@ -88,8 +84,8 @@ const FilteredRoomList = ({
       return (
         <LocalErrorBoundary
           resetKeys={[selectedTab, selectedCategory, searchInput]}
-          fallback={({ resetError }) => (
-            <RoomListError message={MESSAGES.ERROR.GET_PROGRESS_ROOM_LIST} onRetry={resetError} />
+          fallback={({ error, resetError }) => (
+            <RoomListError message={error.message} onRetry={resetError} />
           )}
         >
           <LocalSuspense fallback={<RoomListLoading />}>
@@ -101,8 +97,8 @@ const FilteredRoomList = ({
       return (
         <LocalErrorBoundary
           resetKeys={[selectedTab, selectedCategory, searchInput]}
-          fallback={({ resetError }) => (
-            <RoomListError message={MESSAGES.ERROR.GET_CLOSED_ROOM_LIST} onRetry={resetError} />
+          fallback={({ error, resetError }) => (
+            <RoomListError message={error.message} onRetry={resetError} />
           )}
         >
           <LocalSuspense fallback={<RoomListLoading />}>

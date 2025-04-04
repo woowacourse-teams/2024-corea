@@ -57,10 +57,17 @@ const refreshAccessToken = async (): Promise<string | undefined> => {
 
   if (!response.ok) {
     isRefreshing = false;
-    if (response.status === 401 && data?.exceptionType === "TOKEN_EXPIRED") {
-      throw new AuthorizationError(data?.message || MESSAGES.ERROR.POST_REFRESH);
+    if (response.status === 401) {
+      const isTokenExpired = data?.exceptionType === "TOKEN_EXPIRED";
+      throw new AuthorizationError(
+        isTokenExpired ? MESSAGES.ERROR.POST_REFRESH : MESSAGES.ERROR.POST_INVALID_TOKEN,
+      );
     }
-    throw new ApiError(data?.message || MESSAGES.ERROR.POST_REFRESH, ERROR_STRATEGY.TOAST);
+    throw new ApiError({
+      message: data?.message || MESSAGES.ERROR.POST_REFRESH,
+      strategy: ERROR_STRATEGY.TOAST,
+      status: response.status,
+    });
   }
 
   if (newAccessToken) {
@@ -85,6 +92,13 @@ const fetchWithToken = async (
   let response = await fetch(`${serverUrl}${endpoint}`, requestInit);
   let data = await parseResponse(response);
 
+  const handle401 = () => {
+    const isTokenExpired = data?.exceptionType === "TOKEN_EXPIRED";
+    throw new AuthorizationError(
+      isTokenExpired ? MESSAGES.ERROR.POST_REFRESH : MESSAGES.ERROR.POST_INVALID_TOKEN,
+    );
+  };
+
   if (!response.ok) {
     if (response.status === 401 && data?.exceptionType === "TOKEN_EXPIRED") {
       if (isRefreshing) {
@@ -100,7 +114,14 @@ const fetchWithToken = async (
           const retryData = await parseResponse(retryResponse);
 
           if (!retryResponse.ok) {
-            throw new ApiError(retryData?.message || errorMessage, strategy, meta);
+            if (retryResponse.status === 401) handle401();
+
+            throw new ApiError({
+              message: retryData?.message || errorMessage,
+              strategy,
+              meta,
+              status: retryResponse.status,
+            });
           }
 
           return retryData;
@@ -119,10 +140,24 @@ const fetchWithToken = async (
       data = await parseResponse(response);
 
       if (!response.ok) {
-        throw new ApiError(data?.message || errorMessage, strategy, meta);
+        if (response.status === 401) handle401();
+
+        throw new ApiError({
+          message: data?.message || errorMessage,
+          strategy,
+          meta,
+          status: response.status,
+        });
       }
+    } else if (response.status === 401) {
+      handle401();
     } else {
-      throw new ApiError(data?.message || errorMessage, strategy, meta);
+      throw new ApiError({
+        message: data?.message || errorMessage,
+        strategy,
+        meta,
+        status: response.status,
+      });
     }
   }
 

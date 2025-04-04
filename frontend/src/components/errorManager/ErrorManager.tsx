@@ -17,36 +17,32 @@ const ErrorManager = ({ children }: { children: React.ReactNode }) => {
       throw error;
     }
 
-    if (error instanceof CustomError) {
-      switch (error.strategy) {
-        case ERROR_STRATEGY.TOAST:
-          showToast(error.message);
-          setError(null);
-          break;
+    switch (error.strategy) {
+      case ERROR_STRATEGY.TOAST:
+        showToast(error.message);
+        break;
 
-        case ERROR_STRATEGY.MODAL: {
-          const { onConfirm, onCancel, confirmButtonText, cancelButtonText } = error.meta || {};
+      case ERROR_STRATEGY.MODAL: {
+        const { onConfirm, onCancel, confirmButtonText, cancelButtonText } = error.meta ?? {};
 
-          openErrorModal({
-            message: error.message,
-            onConfirm: onConfirm as () => void,
-            onCancel: onCancel as () => void,
-            confirmButtonText: confirmButtonText as string,
-            cancelButtonText: cancelButtonText as string,
-          });
-          setError(null);
-          break;
-        }
-
-        case ERROR_STRATEGY.REDIRECT: {
-          const redirectTo = error.meta?.redirectTo as string;
-          window.location.href = redirectTo || "/";
-          setError(null);
-          break;
-        }
+        openErrorModal({
+          message: error.message,
+          onConfirm,
+          onCancel,
+          confirmButtonText,
+          cancelButtonText,
+        });
+        break;
       }
-    } else {
-      throw error;
+
+      case ERROR_STRATEGY.REDIRECT: {
+        const redirectTo = error.meta?.redirectTo ?? "/";
+        window.location.href = redirectTo;
+        break;
+      }
+
+      default:
+        throw error;
     }
 
     setError(null);
