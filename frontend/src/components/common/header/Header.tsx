@@ -1,3 +1,5 @@
+import Icon from "../icon/Icon";
+import LocalErrorBoundary from "../localErrorBoundary/LocalErrorBoundary";
 import AlarmButton from "./AlarmButton/AlarmButton";
 import DesktopHeader from "./DesktopHeader/DesktopHeader";
 import * as S from "./Header.style";
@@ -5,6 +7,7 @@ import MobileHeader from "./MobileHeader/MobileHeader";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { SCREEN } from "@/constants/media";
+import { theme } from "@/styles/theme";
 
 interface HeaderProps {
   showShadow?: boolean;
@@ -29,7 +32,12 @@ const Header = ({ showShadow = true, shouldFixed = false }: HeaderProps) => {
       </S.HeaderLogo>
 
       <S.HeaderNavBarContainer>
-        <AlarmButton />
+        <LocalErrorBoundary
+          resetKeys={[isMobile]}
+          fallback={() => <Icon kind="notificationBell" size="2.8rem" color={theme.COLOR.error} />}
+        >
+          <AlarmButton />
+        </LocalErrorBoundary>
 
         {isMobile ? <MobileHeader /> : <DesktopHeader />}
       </S.HeaderNavBarContainer>

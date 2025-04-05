@@ -1,11 +1,15 @@
 import { useQueryErrorResetBoundary } from "@tanstack/react-query";
 import type { ReactElement, ReactNode } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { ApiError } from "@/utils/CustomError";
+import { ApiError, AuthorizationError, NetworkError } from "@/utils/CustomError";
 
 type FallbackRender = (params: { error: Error; resetError: () => void }) => ReactElement;
 
 const shouldThrowToGlobal = (error: Error): boolean => {
+  if (error instanceof AuthorizationError || error instanceof NetworkError) {
+    return false;
+  }
+
   if (error instanceof ApiError) {
     const criticalStatusList = [403, 404, 500, 503];
     return criticalStatusList.includes(error.status ?? -1);
@@ -19,7 +23,7 @@ const LocalErrorBoundary = ({
   fallback,
 }: {
   children: ReactNode;
-  resetKeys: string[];
+  resetKeys: string[] | boolean[];
   fallback: FallbackRender;
 }) => {
   const { reset } = useQueryErrorResetBoundary();
