@@ -51,9 +51,11 @@ public class LoginController implements LoginControllerSpecification {
 
     @PostMapping("/refresh")
     public ResponseEntity<Void> extendAuthorization(@RefreshToken TokenRefreshRequest tokenRefreshRequest) {
-        String accessToken = loginService.refresh(tokenRefreshRequest.refreshToken());
+        TokenInfo tokenInfo = loginService.refresh(tokenRefreshRequest.refreshToken());
+        ResponseCookie refreshCookie = cookieProvider.createCookie(REFRESH_COOKIE, tokenInfo.refreshToken(), COOKIE_EXPIRATION);
         return ResponseEntity.ok()
-                .header(AUTHORIZATION_HEADER, accessToken)
+                .header(AUTHORIZATION_HEADER, tokenInfo.accessToken())
+                .header(SET_COOKIE, refreshCookie.toString())
                 .build();
     }
 
