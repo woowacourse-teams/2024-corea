@@ -67,8 +67,7 @@ public class LoginService {
                     .orElseThrow(() -> new CoreaException(INVALID_TOKEN));
             return getTokenInfoFromMember(info.getMember());
         } catch (CoreaException e) {
-            if (e.getExceptionType()
-                    .equals(TOKEN_EXPIRED)) {
+            if (e.isExceptionType(TOKEN_EXPIRED)) {
                 logoutService.logoutByExpiredRefreshToken(refreshToken);
             }
             throw e;

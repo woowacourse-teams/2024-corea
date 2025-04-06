@@ -28,7 +28,7 @@ public class ExceptionResponseHandler {
     public ResponseEntity<CoreaErrorResponse> handleCoreaException(CoreaException e) {
         log.debug("Corea Custom exception [statusCode = {}, errorMessage = {}, cause = {}]", e.getHttpStatus(), e.getMessage(), e.getStackTrace());
         ResponseEntity.BodyBuilder status = ResponseEntity.status(e.getHttpStatus());
-        if (e.getExceptionType().equals(TOKEN_EXPIRED)) {
+        if (e.isExceptionType(TOKEN_EXPIRED)) {
             ResponseCookie expiredRefreshCookie = cookieProvider.createExpiredCookie(REFRESH_COOKIE);
             status.header(SET_COOKIE, expiredRefreshCookie.toString());
         }
