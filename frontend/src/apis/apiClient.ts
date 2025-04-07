@@ -104,7 +104,7 @@ const fetchWithToken = async (
   // 401,TOKEN_EXPIRED 에러는 refresh 토큰 재발급 후 다시 요청
   if (response.status === 401 && data?.exceptionType === "TOKEN_EXPIRED") {
     if (isRefreshing) {
-      new Promise<string>((resolve, reject) => {
+      return new Promise((resolve, reject) => {
         failedQueue.push({ resolve, reject });
       }).then(async (token) => {
         // token은 새 Access Token이며, 이를 사용해 요청을 재실행
@@ -128,6 +128,8 @@ const fetchWithToken = async (
             status: response.status,
           });
         }
+
+        return { data: data ?? response, headers: response.headers };
       });
     }
 
