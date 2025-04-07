@@ -1,4 +1,8 @@
 import useSelectedFeedbackData from "@/hooks/feedback/useSelectedFeedbackData";
+import {
+  useFetchDeliveredFeedback,
+  useFetchReceivedFeedback,
+} from "@/hooks/queries/useFetchFeedback";
 import OptionSelect from "@/components/common/optionSelect/OptionSelect";
 import FeedbackCardList from "@/components/feedback/feedbackCardList/FeedbackCardList";
 
@@ -11,10 +15,13 @@ const FeedbackPage = () => {
     selectedFeedback,
     handleSelectedFeedback,
     handleDeselectedFeedback,
-    selectedFeedbackData,
   } = useSelectedFeedbackData();
 
-  if (!selectedFeedbackData) return;
+  const { data: receivedFeedbacks } = useFetchReceivedFeedback();
+  const { data: deliveredFeedbacks } = useFetchDeliveredFeedback();
+
+  const selectedFeedbackData =
+    selectedFeedbackType === "받은 피드백" ? receivedFeedbacks : deliveredFeedbacks;
 
   return (
     <>

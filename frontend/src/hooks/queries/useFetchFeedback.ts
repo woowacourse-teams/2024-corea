@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import {
   getDeliveredFeedback,
   getReceivedFeedback,
@@ -13,19 +13,17 @@ interface UseFetchFeedbackProps {
   enabled: boolean;
 }
 
-export const useFetchReceivedFeedback = (enabled: boolean) => {
-  return useQuery({
+export const useFetchReceivedFeedback = () => {
+  return useSuspenseQuery({
     queryKey: [QUERY_KEYS.RECEIVED_FEEDBACK],
     queryFn: getReceivedFeedback,
-    enabled,
   });
 };
 
-export const useFetchDeliveredFeedback = (enabled: boolean) => {
-  return useQuery({
+export const useFetchDeliveredFeedback = () => {
+  return useSuspenseQuery({
     queryKey: [QUERY_KEYS.DELIVERED_FEEDBACK],
     queryFn: getDeliveredFeedback,
-    enabled,
   });
 };
 

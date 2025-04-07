@@ -1,8 +1,4 @@
 import { useState } from "react";
-import {
-  useFetchDeliveredFeedback,
-  useFetchReceivedFeedback,
-} from "@/hooks/queries/useFetchFeedback";
 import { FeedbackType } from "@/@types/feedback";
 
 const useSelectedFeedbackData = (initialFeedbackType: FeedbackType = "받은 피드백") => {
@@ -32,23 +28,12 @@ const useSelectedFeedbackData = (initialFeedbackType: FeedbackType = "받은 피
     sessionStorage.removeItem("selectedFeedback");
   };
 
-  const { data: receivedFeedbacks } = useFetchReceivedFeedback(
-    selectedFeedbackType === "받은 피드백",
-  );
-  const { data: deliveredFeedbacks } = useFetchDeliveredFeedback(
-    selectedFeedbackType === "쓴 피드백",
-  );
-
-  const selectedFeedbackData =
-    selectedFeedbackType === "받은 피드백" ? receivedFeedbacks : deliveredFeedbacks;
-
   return {
     selectedFeedbackType,
     handleSelectedFeedbackType,
     selectedFeedback,
     handleSelectedFeedback,
     handleDeselectedFeedback,
-    selectedFeedbackData,
   };
 };
 

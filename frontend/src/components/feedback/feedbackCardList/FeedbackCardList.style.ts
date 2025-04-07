@@ -48,7 +48,7 @@ export const EmptyContainer = styled.div`
 
 export const Character = styled.img`
   width: 70%;
-  max-width: 270px;
+  max-width: 200px;
 `;
 
 export const FeedbackCardContainer = styled.div`
