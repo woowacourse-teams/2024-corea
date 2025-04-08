@@ -11,7 +11,7 @@ const shouldThrowToGlobal = (error: Error): boolean => {
   }
 
   if (error instanceof ApiError) {
-    const criticalStatusList = [403, 404, 500, 503];
+    const criticalStatusList = [400, 404, 500, 503];
     return criticalStatusList.includes(error.status ?? -1);
   }
   return true; // 일반 Error도 전역 처리

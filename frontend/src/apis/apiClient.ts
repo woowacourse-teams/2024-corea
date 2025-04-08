@@ -63,10 +63,7 @@ const refreshAccessToken = async (): Promise<string | undefined> => {
   // refresh의 모든 에러는 재로그인 유도
   if (!response.ok) {
     isRefreshing = false;
-    const isTokenExpired = data?.exceptionType === "TOKEN_EXPIRED";
-    const error = new AuthorizationError(
-      isTokenExpired ? MESSAGES.ERROR.POST_REFRESH : MESSAGES.ERROR.POST_INVALID_TOKEN,
-    );
+    const error = new AuthorizationError(data?.message + MESSAGES.ERROR.POST_AUTH_AGAIN);
     processQueue(error, null);
     throw error;
   }
@@ -94,13 +91,6 @@ const fetchWithToken = async (
   let response = await fetch(`${serverUrl}${endpoint}`, requestInit);
   let data = await parseResponse(response);
 
-  const handle401 = (data: ErrorResponse) => {
-    const isTokenExpired = data?.exceptionType === "TOKEN_EXPIRED";
-    throw new AuthorizationError(
-      isTokenExpired ? MESSAGES.ERROR.POST_REFRESH : MESSAGES.ERROR.POST_INVALID_TOKEN,
-    );
-  };
-
   // 401,TOKEN_EXPIRED 에러는 refresh 토큰 재발급 후 다시 요청
   if (response.status === 401 && data?.exceptionType === "TOKEN_EXPIRED") {
     if (isRefreshing) {
@@ -118,7 +108,7 @@ const fetchWithToken = async (
 
         if (!response.ok) {
           if (response.status === 401) {
-            handle401(data);
+            throw new AuthorizationError(data?.message + MESSAGES.ERROR.POST_AUTH_AGAIN);
           }
 
           throw new ApiError({
@@ -146,7 +136,7 @@ const fetchWithToken = async (
 
     if (!response.ok) {
       if (response.status === 401) {
-        handle401(data);
+        throw new AuthorizationError(data?.message + MESSAGES.ERROR.POST_AUTH_AGAIN);
       }
 
       throw new ApiError({
@@ -160,7 +150,7 @@ const fetchWithToken = async (
 
   if (!response.ok) {
     if (response.status === 401 && data?.exceptionType !== "TOKEN_EXPIRED") {
-      handle401(data);
+      throw new AuthorizationError(data?.message + MESSAGES.ERROR.POST_AUTH_AGAIN);
     }
 
     throw new ApiError({
