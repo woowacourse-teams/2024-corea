@@ -3,9 +3,9 @@ name: Frontend CD
 on:
   push:
     branches:
-      - 'main'
-    paths: ['frontend/**']
-      
+      - "main"
+    paths: ["frontend/**"]
+
 defaults:
   run:
     working-directory: frontend
@@ -15,19 +15,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-	    # 해당 저장소의 코드를 가져온다
+      # 해당 저장소의 코드를 가져온다
       - name: Checkout source code
         uses: actions/checkout@v4
-			
-			# 패키지 설치
+
+      # 패키지 설치
       - name: Install dependencies
         run: npm install
-			
-			# 빌드
+
+      # 빌드
       - name: Build
         run: npm run build
-			
-			# 현재 build된 폴더에 접근 후 s3 버킷에 파일 업로드
+
+      # 현재 build된 폴더에 접근 후 s3 버킷에 파일 업로드
       - name: S3 Deploy
         run: aws s3 sync ./dist s3://corea-prod/ --acl bucket-owner-full-control
         env:
