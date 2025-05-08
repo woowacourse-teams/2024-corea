@@ -9,7 +9,6 @@ import LocalErrorBoundary from "@/components/common/localErrorBoundary/LocalErro
 import LocalSuspense from "@/components/common/localSuspense/LocalSuspense";
 import type { RoomStatusCategory } from "@/@types/roomInfo";
 import type { Option } from "@/@types/rooms";
-import MESSAGES from "@/constants/message";
 
 interface FilteredRoomListProps {
   selectedTab: Option;
@@ -38,8 +37,9 @@ const FilteredRoomList = ({
   if (searchInput.trim()) {
     return (
       <LocalErrorBoundary
-        fallback={({ resetError }) => (
-          <RoomListError message={MESSAGES.ERROR.GET_SEARCH_ROOM_LIST} onRetry={resetError} />
+        resetKeys={[selectedTab, selectedCategory, searchInput]}
+        fallback={({ error, resetError }) => (
+          <RoomListError message={error.message} onRetry={resetError} />
         )}
       >
         <LocalSuspense fallback={<RoomListLoading />}>
@@ -57,11 +57,9 @@ const FilteredRoomList = ({
     case "참여중":
       return (
         <LocalErrorBoundary
-          fallback={({ resetError }) => (
-            <RoomListError
-              message={MESSAGES.ERROR.GET_PARTICIPATED_ROOM_LIST}
-              onRetry={resetError}
-            />
+          resetKeys={[selectedTab, selectedCategory, searchInput]}
+          fallback={({ error, resetError }) => (
+            <RoomListError message={error.message} onRetry={resetError} />
           )}
         >
           <LocalSuspense fallback={<RoomListLoading />}>
@@ -72,8 +70,9 @@ const FilteredRoomList = ({
     case "모집중":
       return (
         <LocalErrorBoundary
-          fallback={({ resetError }) => (
-            <RoomListError message={MESSAGES.ERROR.GET_OPENED_ROOM_LIST} onRetry={resetError} />
+          resetKeys={[selectedTab, selectedCategory, searchInput]}
+          fallback={({ error, resetError }) => (
+            <RoomListError message={error.message} onRetry={resetError} />
           )}
         >
           <LocalSuspense fallback={<RoomListLoading />}>
@@ -84,8 +83,9 @@ const FilteredRoomList = ({
     case "진행중":
       return (
         <LocalErrorBoundary
-          fallback={({ resetError }) => (
-            <RoomListError message={MESSAGES.ERROR.GET_PROGRESS_ROOM_LIST} onRetry={resetError} />
+          resetKeys={[selectedTab, selectedCategory, searchInput]}
+          fallback={({ error, resetError }) => (
+            <RoomListError message={error.message} onRetry={resetError} />
           )}
         >
           <LocalSuspense fallback={<RoomListLoading />}>
@@ -96,8 +96,9 @@ const FilteredRoomList = ({
     case "종료됨":
       return (
         <LocalErrorBoundary
-          fallback={({ resetError }) => (
-            <RoomListError message={MESSAGES.ERROR.GET_CLOSED_ROOM_LIST} onRetry={resetError} />
+          resetKeys={[selectedTab, selectedCategory, searchInput]}
+          fallback={({ error, resetError }) => (
+            <RoomListError message={error.message} onRetry={resetError} />
           )}
         >
           <LocalSuspense fallback={<RoomListLoading />}>

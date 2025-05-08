@@ -1,5 +1,5 @@
 import * as Sentry from "@sentry/react";
-import { ApiError, AuthorizationError } from "@/utils/Errors";
+import { ApiError, AuthorizationError } from "@/utils/CustomError";
 
 const logErrorToSentry = (error: Error) => {
   Sentry.withScope((scope) => {

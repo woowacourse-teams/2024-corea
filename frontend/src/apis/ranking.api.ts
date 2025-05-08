@@ -4,10 +4,10 @@ import { RankingAllData } from "@/@types/ranking";
 import MESSAGES from "@/constants/message";
 
 export const getRankingList = async (): Promise<RankingAllData> => {
-  const res = await apiClient.get({
+  const { data } = await apiClient.get({
     endpoint: `${API_ENDPOINTS.RANKING}`,
     errorMessage: MESSAGES.ERROR.GET_RANKING,
   });
 
-  return res.responses;
+  return data.responses;
 };

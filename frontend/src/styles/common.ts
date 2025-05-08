@@ -3,16 +3,22 @@ import styled from "styled-components";
 import { theme } from "@/styles/theme";
 
 export const SkeletonShimmer = `
-  background: linear-gradient(-225deg, ${theme.COLOR.grey0}, ${theme.COLOR.grey1}, ${theme.COLOR.white}, ${theme.COLOR.grey0});
-  background-size: 400%;
-  animation: skeleton-animation 4s infinite ease-out;
+  background: ${theme.COLOR.grey0};
+  background-image: linear-gradient(
+    90deg,
+    ${theme.COLOR.grey0} 0%,
+    ${theme.COLOR.grey1} 50%,
+    ${theme.COLOR.grey0} 100%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.6s ease-in-out infinite;
 
-  @keyframes skeleton-animation {
+  @keyframes skeleton-shimmer {
     0% {
-      background-position: 100% 100%;
+      background-position: 100% 0;
     }
     100% {
-      background-position: 0% 0%;
+      background-position: -100% 0;
     }
   }
 `;

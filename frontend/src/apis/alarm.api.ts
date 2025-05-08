@@ -4,25 +4,25 @@ import { API_ENDPOINTS } from "@/apis/endpoints";
 import MESSAGES from "@/constants/message";
 
 export const getAlarmCount = async (): Promise<AlarmCount> => {
-  const res = await apiClient.get({
+  const { data } = await apiClient.get({
     endpoint: API_ENDPOINTS.ALARM_COUNT,
     errorMessage: MESSAGES.ERROR.GET_ALARM_COUNT,
   });
 
-  return res;
+  return data;
 };
 
 export const getAlarmList = async (): Promise<AlarmListData> => {
-  const res = await apiClient.get({
+  const { data } = await apiClient.get({
     endpoint: API_ENDPOINTS.ALARM_LIST,
     errorMessage: MESSAGES.ERROR.GET_ALARM_LIST,
   });
 
-  return res;
+  return data;
 };
 
 export const postMarkAlarmAsRead = async ({ alarmId, alarmType }: AlarmAsRead): Promise<void> => {
-  return apiClient.post({
+  await apiClient.post({
     endpoint: API_ENDPOINTS.ALARM_CHECKED,
     body: { alarmId, alarmType },
     errorMessage: MESSAGES.ERROR.POST_ALARM_CHECKED,

@@ -1,11 +1,9 @@
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import useMutateLogin from "@/hooks/mutations/useMutateAuth";
 import * as S from "@/pages/callback/CallbackPage.style";
 import { thinkingCharacter } from "@/assets";
 
 const CallbackPage = () => {
-  const navigate = useNavigate();
   const { postLoginMutation } = useMutateLogin();
 
   useEffect(() => {
