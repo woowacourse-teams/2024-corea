@@ -20,11 +20,14 @@ const GUIDANCE_MESSAGES: Record<string, string> = {
 
 const ERROR_MESSAGES: Record<string, string> = {
   OFFLINE: "오프라인 상태입니다. 네트워크를 확인해주세요.",
+  OFFLINE_ACTION: "인터넷 연결 후 다시 시도해주세요.",
 
   // auth
+  POST_AUTH_AGAIN: "다시 로그인 해주세요.",
   POST_LOGIN: "로그인 도중 오류가 발생했습니다. 다시 로그인 해주세요.",
   POST_REFRESH: "토큰이 만료되었습니다. 다시 로그인 해주세요.",
-  POST_LOGOUT: "로그아웃 도중 오류가 발생했습니다. 다시 로그아웃 해주세요.",
+  POST_LOGOUT: "로그아웃 도중 오류가 발생했습니다. 다시 시도해주세요.",
+  POST_INVALID_TOKEN: "로그인 정보가 유효하지 않습니다. 다시 로그인해주세요.",
 
   // rooms
   GET_PARTICIPATED_ROOM_LIST: "참여하는 방 목록을 불러오는 도중 에러가 발생하였습니다.",
@@ -71,11 +74,13 @@ const ERROR_MESSAGES: Record<string, string> = {
   POST_ALARM_CHECKED: "알림을 읽음 상태로 변경하기를 실패했습니다.",
 
   // errorBoundary
-  BOUNDARY_TOTAL: "일시적인 에러가 발생했습니다.",
+  BOUNDARY_TOTAL: "일시적인 오류가 발생했습니다. 잠시 후 다시 시도해주세요.",
   BOUNDARY_API: "서버와의 통신 중 오류가 발생했습니다.",
+  BOUNDARY_NETWORK: "인터넷 연결이 원활하지 않습니다. 연결 상태를 확인해주세요.",
 };
 
 const SUCCESS_MESSAGES: Record<string, string> = {
+  ONLINE: "인터넷이 정상적으로 연결되었습니다.",
   POST_REVIEW_COMPLETE: "정상적으로 코드리뷰를 완료했습니다.",
   POST_REVIEW_FEEDBACK: "정상적으로 피드백을 작성하였습니다.",
   POST_CREATE_ROOM: "정상적으로 방을 생성하였습니다.",

@@ -8,7 +8,7 @@ export const EmptyContainer = styled.div`
   gap: 2rem;
   align-items: center;
 
-  margin-top: 4rem;
+  margin-top: 5rem;
 
   p {
     font: ${({ theme }) => theme.TEXT.medium_bold};
@@ -17,7 +17,7 @@ export const EmptyContainer = styled.div`
 
 export const Character = styled.img`
   width: 70%;
-  max-width: 270px;
+  max-width: 200px;
 `;
 
 export const RoomListSection = styled.div`

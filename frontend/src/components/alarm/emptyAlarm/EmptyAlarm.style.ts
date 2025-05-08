@@ -1,12 +1,8 @@
 import styled from "styled-components";
+import { FullHeightContainer } from "@/styles/layout";
 
 export const EmptyContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 100%;
-  height: calc(100vh - 125px);
+  ${FullHeightContainer}
 `;
 
 export const GuidanceWrapper = styled.div`

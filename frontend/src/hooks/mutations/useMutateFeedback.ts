@@ -1,6 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useToast from "@/hooks/common/useToast";
-import useMutateHandlers from "@/hooks/mutations/useMutateHandlers";
 import { RevieweeFeedbackData, ReviewerFeedbackData } from "@/@types/feedback";
 import {
   postRevieweeFeedback,
@@ -30,8 +29,7 @@ interface PutReviewerFeedbackMutationProps {
 }
 
 const useMutateFeedback = (roomId: number) => {
-  const { handleMutateError } = useMutateHandlers();
-  const { openToast } = useToast("success");
+  const { showToast } = useToast();
   const queryClient = useQueryClient();
 
   // 리뷰어 -> 리뷰이
@@ -40,18 +38,16 @@ const useMutateFeedback = (roomId: number) => {
       postRevieweeFeedback(roomId, feedbackData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.REVIEWEES, roomId] });
-      openToast(MESSAGES.SUCCESS.POST_REVIEW_FEEDBACK);
+      showToast(MESSAGES.SUCCESS.POST_REVIEW_FEEDBACK, "success");
     },
-    onError: (error) => handleMutateError(error),
   });
 
   const putRevieweeFeedbackMutation = useMutation({
     mutationFn: ({ feedbackId, feedbackData }: PutRevieweeFeedbackMutationProps) =>
       putRevieweeFeedback(roomId, feedbackId, feedbackData),
     onSuccess: () => {
-      openToast(MESSAGES.SUCCESS.PUT_REVIEW_FEEDBACK);
+      showToast(MESSAGES.SUCCESS.PUT_REVIEW_FEEDBACK, "success");
     },
-    onError: (error) => handleMutateError(error),
   });
 
   // 리뷰이 -> 리뷰어
@@ -60,18 +56,16 @@ const useMutateFeedback = (roomId: number) => {
       postReviewerFeedback(roomId, feedbackData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.REVIEWERS, roomId] });
-      openToast(MESSAGES.SUCCESS.POST_REVIEW_FEEDBACK);
+      showToast(MESSAGES.SUCCESS.POST_REVIEW_FEEDBACK, "success");
     },
-    onError: (error) => handleMutateError(error),
   });
 
   const putReviewerFeedbackMutation = useMutation({
     mutationFn: ({ feedbackId, feedbackData }: PutReviewerFeedbackMutationProps) =>
       putReviewerFeedback(roomId, feedbackId, feedbackData),
     onSuccess: () => {
-      openToast(MESSAGES.SUCCESS.PUT_REVIEW_FEEDBACK);
+      showToast(MESSAGES.SUCCESS.PUT_REVIEW_FEEDBACK);
     },
-    onError: (error) => handleMutateError(error),
   });
 
   return {

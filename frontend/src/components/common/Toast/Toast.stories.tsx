@@ -15,12 +15,12 @@ const meta = {
 
   decorators: [
     (Story, context) => {
-      const { openToast } = useToast();
+      const { showToast } = useToast();
 
       return (
         <div>
           <Toast />
-          <button onClick={() => openToast("나는 토스트")}>토스트 열기</button>
+          <button onClick={() => showToast("나는 토스트", "error")}>토스트 열기</button>
           <Story />
         </div>
       );

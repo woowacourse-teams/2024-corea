@@ -1,4 +1,4 @@
-import { useQuery, useSuspenseInfiniteQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { useSuspenseInfiniteQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { Classification, RoomListInfo, RoomStatus, RoomStatusCategory } from "@/@types/roomInfo";
 import QUERY_KEYS from "@/apis/queryKeys";
 import {
@@ -36,7 +36,6 @@ export const useFetchSearchRoomList = (
   status: RoomStatusCategory,
   classification: Classification,
   keyword: string,
-  enabled: boolean,
 ) => {
   let roomStatus: RoomStatus;
 
@@ -58,10 +57,9 @@ export const useFetchSearchRoomList = (
     }
   }
 
-  return useQuery({
+  return useSuspenseQuery({
     queryKey: [QUERY_KEYS.SEARCH_ROOM_LIST, status, classification, keyword],
     queryFn: () => getSearchRoomList(roomStatus, classification, keyword),
-    enabled,
   });
 };
 

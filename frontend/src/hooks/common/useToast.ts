@@ -1,33 +1,24 @@
-import { useCallback, useContext, useEffect, useRef } from "react";
-import { ToastType } from "@/@types/toast";
-import { ToastContext, ToastDispatchContext } from "@/providers/ToastProvider";
+import { useContext } from "react";
+import type { ToastType } from "@/@types/toast";
+import { ToastDispatchContext } from "@/providers/ToastProvider";
 
-const useToast = (type: ToastType = "error") => {
-  const isOpenToast = useContext(ToastContext);
-  const setIsOpenToast = useContext(ToastDispatchContext);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+const useToast = () => {
+  const setToasts = useContext(ToastDispatchContext);
 
-  const openToast = useCallback((message: string) => {
-    setIsOpenToast({ isOpen: true, message, type });
-  }, []);
+  const showToast = (message: string, type: ToastType = "error", durationMs = 2500) => {
+    setToasts((prev) => {
+      const alreadyExists = prev.some((t) => t.message === message);
+      if (alreadyExists) return prev;
 
-  useEffect(() => {
-    if (isOpenToast.isOpen) {
-      timerRef.current = setTimeout(() => {
-        setIsOpenToast({ isOpen: false, message: "", type });
-      }, 2500);
-      return;
-    }
+      return [...prev, { message, type, durationMs }];
+    });
+  };
 
-    return () => {
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-        timerRef.current = null;
-      }
-    };
-  }, [isOpenToast]);
+  const closeToast = (message: string) => {
+    setToasts((prev) => prev.filter((t) => t.message !== message));
+  };
 
-  return { openToast };
+  return { showToast, closeToast };
 };
 
 export default useToast;

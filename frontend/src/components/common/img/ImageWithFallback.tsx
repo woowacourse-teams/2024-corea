@@ -1,5 +1,5 @@
 import * as S from "@/components/common/img/ImageWithFallback.style";
-import { errorCharacter } from "@/assets";
+import { errorCharacterBase64 } from "@/assets/character/error-character-base64";
 
 interface ImageWithFallbackProps {
   src: string;
@@ -10,7 +10,7 @@ interface ImageWithFallbackProps {
 const ImageWithFallback = ({
   src,
   alt,
-  fallbackSrc = errorCharacter,
+  fallbackSrc = errorCharacterBase64,
   ...props
 }: ImageWithFallbackProps) => {
   const handleError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
