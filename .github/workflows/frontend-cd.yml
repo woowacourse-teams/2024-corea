@@ -14,6 +14,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    # build 전역에서 env로 노출
+    env:
+      GOOGLE_ANALYTICS: ${{ secrets.GOOGLE_ANALYTICS }}
+      SENTRY_DSN_KEY: ${{ secrets.SENTRY_DSN_KEY }}
+      SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+
     steps:
       # 해당 저장소의 코드를 가져온다
       - name: Checkout source code
