@@ -1,19 +1,20 @@
 import RoomCard from "./RoomCard";
 import type { Meta, StoryObj } from "@storybook/react";
-import { RoomInfo } from "@/@types/roomInfo";
+import {
+  Classification,
+  MemberRole,
+  ParticipationStatus,
+  RoomInfo,
+  RoomStatus,
+} from "@/@types/roomInfo";
 import roomInfo from "@/mocks/mockResponse/roomInfo.json";
 
 const sampleRoomList = {
   ...roomInfo,
-  roomStatus: roomInfo.roomStatus as "OPEN" | "CLOSE" | "PROGRESS" | "FAIL",
-  participationStatus: roomInfo.participationStatus as
-    | "NOT_PARTICIPATED"
-    | "PARTICIPATED"
-    | "MANAGER"
-    | "PULL_REQUEST_NOT_SUBMITTED",
-  memberRole: roomInfo.memberRole as "BOTH" | "REVIEWER" | "REVIEWEE" | "NONE",
-  classification: roomInfo.classification as "ALL" | "FRONTEND" | "BACKEND" | "ANDROID",
-  isPublic: false,
+  roomStatus: roomInfo.roomStatus as RoomStatus,
+  participationStatus: roomInfo.participationStatus as ParticipationStatus,
+  memberRole: roomInfo.memberRole as MemberRole,
+  classification: roomInfo.classification as Classification,
 } satisfies RoomInfo;
 
 const meta = {

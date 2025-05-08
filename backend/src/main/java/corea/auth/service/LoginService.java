@@ -30,10 +30,7 @@ public class LoginService {
     public TokenInfo login(GithubUserInfo userInfo) {
         Member member = memberRepository.findByGithubUserId(userInfo.id())
                 .orElseGet(() -> register(userInfo));
-
-        String accessToken = tokenService.createAccessToken(member);
-        String refreshToken = extendAuthorization(member);
-        return new TokenInfo(accessToken, refreshToken);
+        return getTokenInfoFromMember(member);
     }
 
     private Member register(GithubUserInfo userInfo) {
@@ -44,6 +41,12 @@ public class LoginService {
 
     private void logCreateMembers(Member member) {
         log.info("멤버를 생성했습니다. 멤버 id={}, 멤버 이름={},깃허브 id={}, 닉네임={}", member.getId(), member.getName(), member.getGithubUserId(), member.getUsername());
+    }
+
+    private TokenInfo getTokenInfoFromMember(Member member) {
+        String accessToken = tokenService.createAccessToken(member);
+        String newRefreshToken = extendAuthorization(member);
+        return new TokenInfo(accessToken, newRefreshToken);
     }
 
     private String extendAuthorization(Member member) {
@@ -57,15 +60,14 @@ public class LoginService {
     }
 
     @Transactional
-    public String refresh(String refreshToken) {
+    public TokenInfo refresh(String refreshToken) {
         try {
             tokenService.validateToken(refreshToken);
             LoginInfo info = loginInfoRepository.findByRefreshToken(refreshToken)
                     .orElseThrow(() -> new CoreaException(INVALID_TOKEN));
-            return tokenService.createAccessToken(info.getMember());
+            return getTokenInfoFromMember(info.getMember());
         } catch (CoreaException e) {
-            if (e.getExceptionType()
-                    .equals(TOKEN_EXPIRED)) {
+            if (e.isExceptionType(TOKEN_EXPIRED)) {
                 logoutService.logoutByExpiredRefreshToken(refreshToken);
             }
             throw e;

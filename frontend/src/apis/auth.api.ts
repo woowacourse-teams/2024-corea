@@ -12,6 +12,7 @@ export const postLogin = async (code: string): Promise<UserInfoResponse> => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ code }),
+    credentials: "include",
   });
 
   if (!response.ok) {
@@ -23,7 +24,6 @@ export const postLogin = async (code: string): Promise<UserInfoResponse> => {
   const accessToken = response.headers.get("Authorization");
 
   const authBody = text ? JSON.parse(text) : response;
-  const refreshToken = authBody.refreshToken;
   const userInfo = authBody.userInfo as UserInfo;
   const memberRole = authBody.memberRole as string;
 
@@ -31,7 +31,7 @@ export const postLogin = async (code: string): Promise<UserInfoResponse> => {
     throw new Error(MESSAGES.ERROR.POST_LOGIN);
   }
 
-  return { accessToken, refreshToken, userInfo, memberRole };
+  return { accessToken, userInfo, memberRole };
 };
 
 export const postLogout = async (): Promise<void> => {

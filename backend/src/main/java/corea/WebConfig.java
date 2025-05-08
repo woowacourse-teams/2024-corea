@@ -3,6 +3,7 @@ package corea;
 import corea.auth.interceptor.AuthorizationInterceptor;
 import corea.auth.resolver.AccessedMemberArgumentResolver;
 import corea.auth.resolver.LoginMemberArgumentResolver;
+import corea.auth.resolver.RefreshTokenArgumentResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -13,6 +14,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import java.util.List;
 
 import static corea.global.config.Constants.AUTHORIZATION_HEADER;
+import static org.springframework.http.HttpHeaders.SET_COOKIE;
 
 @Configuration
 @RequiredArgsConstructor
@@ -21,6 +23,7 @@ public class WebConfig implements WebMvcConfigurer {
     private final LoginMemberArgumentResolver loginMemberArgumentResolver;
     private final AccessedMemberArgumentResolver accessedMemberArgumentResolver;
     private final AuthorizationInterceptor authorizationInterceptor;
+    private final RefreshTokenArgumentResolver refreshTokenArgumentResolver;
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
@@ -31,7 +34,7 @@ public class WebConfig implements WebMvcConfigurer {
                         "https://dev.code-review-area.com/")
                 .allowedMethods("GET", "POST", "DELETE", "PUT")
                 .allowCredentials(true)
-                .exposedHeaders(AUTHORIZATION_HEADER)
+                .exposedHeaders(AUTHORIZATION_HEADER, SET_COOKIE)
                 .maxAge(3000);
     }
 
@@ -39,6 +42,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(loginMemberArgumentResolver);
         resolvers.add(accessedMemberArgumentResolver);
+        resolvers.add(refreshTokenArgumentResolver);
     }
 
     @Override

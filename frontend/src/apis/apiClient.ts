@@ -1,9 +1,8 @@
 import { API_ENDPOINTS } from "./endpoints";
+import { Method, QueueItem } from "@/@types/apiClient";
 import { serverUrl } from "@/config/serverUrl";
 import MESSAGES from "@/constants/message";
-import { AuthorizationError, HTTPError } from "@/utils/Errors";
-
-type Method = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
+import { ApiError, AuthorizationError, NetworkError } from "@/utils/Errors";
 
 interface ApiProps {
   endpoint: string;
@@ -14,11 +13,6 @@ interface ApiProps {
 
 interface RequestProps extends ApiProps {
   method: Method;
-}
-
-interface QueueItem {
-  resolve: (value: string | PromiseLike<string>) => void;
-  reject: (reason?: Error) => void;
 }
 
 let isRefreshing = false;
@@ -32,44 +26,96 @@ const processQueue = (error: Error | null = null, token: string | null = null) =
       prom.resolve(token as string);
     }
   });
-
   failedQueue = [];
 };
 
-const refreshAccessToken = async (): Promise<string | undefined> => {
-  const refreshToken = localStorage.getItem("refreshToken");
+const parseResponse = async (response: Response) => {
+  const text = await response.text();
+  return text ? JSON.parse(text) : null;
+};
 
+const refreshAccessToken = async (): Promise<string | undefined> => {
   const response = await fetch(`${serverUrl}${API_ENDPOINTS.REFRESH}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ refreshToken }),
+    credentials: "include",
   });
 
-  const text = await response.text();
-  const data = text ? JSON.parse(text) : null;
-
+  const data = await parseResponse(response);
   const newAccessToken = response.headers.get("Authorization");
 
   if (!response.ok) {
-    if (response.status === 401) {
-      const error = new AuthorizationError(data.message || MESSAGES.ERROR.POST_REFRESH);
-      processQueue(error, null);
-      isRefreshing = false;
-      alert("토큰이 만료되었습니다. 다시 로그인 해주세요!");
-      localStorage.clear();
-      window.location.href = "/";
-    } else {
-      throw new HTTPError(data.message || MESSAGES.ERROR.POST_REFRESH);
+    isRefreshing = false;
+    if (response.status === 401 && data?.exceptionType === "TOKEN_EXPIRED") {
+      throw new AuthorizationError(data?.message || MESSAGES.ERROR.POST_REFRESH);
     }
-  } else if (newAccessToken) {
+    throw new ApiError(data?.message || MESSAGES.ERROR.POST_REFRESH);
+  }
+
+  if (newAccessToken) {
     localStorage.setItem("accessToken", newAccessToken);
     processQueue(null, newAccessToken);
     isRefreshing = false;
-
     return newAccessToken;
   }
+};
+
+const fetchWithToken = async (
+  endpoint: string,
+  requestInit: RequestInit,
+  errorMessage: string = "",
+) => {
+  if (!navigator.onLine) {
+    throw new NetworkError(MESSAGES.ERROR.OFFLINE);
+  }
+
+  let response = await fetch(`${serverUrl}${endpoint}`, requestInit);
+  let data = await parseResponse(response);
+
+  if (!response.ok) {
+    if (response.status === 401 && data?.exceptionType === "TOKEN_EXPIRED") {
+      if (isRefreshing) {
+        return new Promise<string>((resolve, reject) => {
+          failedQueue.push({ resolve, reject });
+        }).then(async (token) => {
+          requestInit.headers = {
+            ...requestInit.headers,
+            Authorization: `Bearer ${token}`,
+          };
+
+          const retryResponse = await fetch(`${serverUrl}${endpoint}`, requestInit);
+          const retryData = await parseResponse(retryResponse);
+
+          if (!retryResponse.ok) {
+            throw new ApiError(retryData?.message || errorMessage);
+          }
+
+          return retryData;
+        });
+      }
+
+      isRefreshing = true;
+      const newAccessToken = await refreshAccessToken();
+
+      requestInit.headers = {
+        ...requestInit.headers,
+        Authorization: `Bearer ${newAccessToken}`,
+      };
+
+      response = await fetch(`${serverUrl}${endpoint}`, requestInit);
+      data = await parseResponse(response);
+
+      if (!response.ok) {
+        throw new ApiError(data?.message || errorMessage);
+      }
+    } else {
+      throw new ApiError(data?.message || errorMessage);
+    }
+  }
+
+  return data ?? response;
 };
 
 const createRequestInit = (
@@ -87,62 +133,8 @@ const createRequestInit = (
       "Content-Type": "application/json",
     },
     body: body ? JSON.stringify(body) : null,
+    credentials: "include",
   };
-};
-
-const fetchWithToken = async (
-  endpoint: string,
-  requestInit: RequestInit,
-  errorMessage: string = "",
-) => {
-  if (!navigator.onLine) {
-    throw new HTTPError(MESSAGES.ERROR.OFFLINE);
-  }
-
-  let response = await fetch(`${serverUrl}${endpoint}`, requestInit);
-  let text = await response.text();
-  let data = text ? JSON.parse(text) : null;
-
-  if (response.status === 401 && data.message === "토큰이 만료되었습니다.") {
-    if (isRefreshing) {
-      new Promise<string>((resolve, reject) => {
-        failedQueue.push({ resolve, reject });
-      }).then(async (token) => {
-        requestInit.headers = {
-          ...requestInit.headers,
-          Authorization: `Bearer ${token}`,
-        };
-
-        response = await fetch(`${serverUrl}${endpoint}`, requestInit);
-
-        if (!response.ok && response.status !== 401) {
-          throw new HTTPError(data.message || MESSAGES.ERROR.POST_REFRESH);
-        }
-      });
-    }
-
-    isRefreshing = true;
-
-    const newAccessToken = await refreshAccessToken();
-    requestInit.headers = {
-      ...requestInit.headers,
-      Authorization: `Bearer ${newAccessToken}`,
-    };
-
-    response = await fetch(`${serverUrl}${endpoint}`, requestInit);
-    text = await response.text();
-    data = text ? JSON.parse(text) : null;
-
-    if (!response.ok && response.status !== 401) {
-      throw new HTTPError(data.message || MESSAGES.ERROR.POST_REFRESH);
-    }
-  }
-
-  if (!response.ok && response.status !== 401) {
-    throw new HTTPError(data.message || errorMessage);
-  }
-
-  return text ? data : response;
 };
 
 const apiClient = {

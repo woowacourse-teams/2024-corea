@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { HeaderHeight } from "@/styles/layout";
 import media from "@/styles/media";
 
 export const BannerContainer = styled.div`
@@ -29,7 +30,7 @@ export const ImageWrapper = styled.div`
   justify-content: center;
 
   height: 100%;
-  margin-top: 65px;
+  margin-top: ${HeaderHeight};
 
   img {
     width: 20rem;
@@ -49,7 +50,7 @@ export const BannerTextContainer = styled.div`
   justify-content: center;
 
   height: 100%;
-  margin-top: 65px;
+  margin-top: ${HeaderHeight};
 `;
 
 export const BannerText = styled.div`

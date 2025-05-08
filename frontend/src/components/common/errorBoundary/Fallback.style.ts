@@ -1,20 +1,17 @@
 import styled from "styled-components";
+import { FullHeightContainer } from "@/styles/layout";
 
 export const FallbackContainer = styled.div`
-  display: flex;
+  ${FullHeightContainer}
   flex-direction: column;
   gap: 1.5rem;
-  align-items: center;
-  justify-content: center;
-
-  height: 100%;
 `;
 
 export const ErrorMessage = styled.h2`
-  font: ${({ theme }) => theme.TEXT.large};
-  color: ${({ theme }) => theme.COLOR.grey3};
+  font: ${({ theme }) => theme.TEXT.medium_bold};
 `;
 
 export const Character = styled.img`
-  width: 300px;
+  width: 50%;
+  max-width: 250px;
 `;

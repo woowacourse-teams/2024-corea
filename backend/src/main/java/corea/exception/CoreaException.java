@@ -23,6 +23,10 @@ public class CoreaException extends RuntimeException {
         this.exceptionType = exceptionType;
     }
 
+    public boolean isExceptionType(ExceptionType exceptionType) {
+        return this.exceptionType.equals(exceptionType);
+    }
+
     public HttpStatus getHttpStatus() {
         return exceptionType.getHttpStatus();
     }

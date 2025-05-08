@@ -1,25 +1,27 @@
+import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useFetchUserProfile } from "@/hooks/queries/useFetchProfile";
 import ProfileCard from "@/components/profile/profileCard/ProfileCard";
 import * as S from "@/pages/profile/ProfilePage.style";
 
-const UserProfile = () => {
+const UserProfilePage = () => {
   const params = useParams();
   const userName = params.username;
   const navigate = useNavigate();
 
-  if (!userName) {
-    navigate(-1);
-    return;
-  }
+  useEffect(() => {
+    if (!userName) {
+      navigate(-1);
+    }
+  }, [userName, navigate]);
 
-  const { data: profileData } = useFetchUserProfile(userName);
+  const { data: profileData } = useFetchUserProfile(userName || "");
 
   return (
     <S.ProfilePageContainer>
-      <ProfileCard {...profileData} />
+      {profileData && <ProfileCard {...profileData} />}
     </S.ProfilePageContainer>
   );
 };
 
-export default UserProfile;
+export default UserProfilePage;

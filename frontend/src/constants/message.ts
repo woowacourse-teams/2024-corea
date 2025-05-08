@@ -72,7 +72,7 @@ const ERROR_MESSAGES: Record<string, string> = {
 
   // errorBoundary
   BOUNDARY_TOTAL: "일시적인 에러가 발생했습니다.",
-  BOUNDARY_API: "네트워크 에러가 발생했습니다.",
+  BOUNDARY_API: "서버와의 통신 중 오류가 발생했습니다.",
 };
 
 const SUCCESS_MESSAGES: Record<string, string> = {

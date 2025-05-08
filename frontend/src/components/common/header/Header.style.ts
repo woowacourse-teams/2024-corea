@@ -1,19 +1,22 @@
 import styled from "styled-components";
+import { HeaderHeight } from "@/styles/layout";
 import media from "@/styles/media";
+import { Z_INDEX } from "@/styles/zIndex";
 
-export const HeaderContainer = styled.header<{ $isMain: boolean }>`
-  position: relative;
+export const HeaderContainer = styled.header<{ $showShadow: boolean; $shouldFixed: boolean }>`
+  position: ${({ $shouldFixed }) => ($shouldFixed ? "fixed" : "relative")};
+  z-index: ${Z_INDEX.header};
 
   display: flex;
   align-items: center;
   justify-content: space-between;
 
   width: 100%;
-  height: 65px;
+  height: ${HeaderHeight};
 
   color: ${({ theme }) => theme.COLOR.grey3};
 
-  box-shadow: ${({ theme, $isMain }) => ($isMain ? "none" : theme.BOX_SHADOW.regular)};
+  box-shadow: ${({ theme, $showShadow }) => ($showShadow ? theme.BOX_SHADOW.regular : "none")};
 
   @media screen and (width >= 1200px) {
     padding: 0 calc(((100vw - 1200px) / 2) + 3rem);
@@ -49,76 +52,4 @@ export const HeaderNavBarContainer = styled.ul`
   display: flex;
   gap: 1rem;
   align-items: center;
-
-  ${media.small`
-    display: none;  
-  `}
-`;
-
-export const HeaderItem = styled.li<{ $isMain: boolean }>`
-  cursor: pointer;
-
-  width: fit-content;
-  padding: 0 0.4rem;
-
-  font: ${({ theme }) => theme.TEXT.large};
-  font-family: "Do Hyeon", sans-serif;
-  color: ${({ theme }) => theme.COLOR.grey3};
-
-  transition: 0.3s;
-
-  &:hover,
-  &.selected {
-    font: ${({ theme }) => theme.TEXT.large};
-    font-family: "Do Hyeon", sans-serif;
-    color: ${({ theme }) => theme.COLOR.black};
-    border-bottom: 3px solid ${({ theme }) => theme.COLOR.black};
-  }
-`;
-
-export const HeaderItemIcon = styled.div`
-  position: relative;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  padding: 1rem;
-
-  border-radius: 50%;
-
-  &:hover {
-    background-color: ${({ theme }) => theme.COLOR.white};
-  }
-`;
-
-export const Count = styled.div`
-  position: absolute;
-  top: 40%;
-  left: 70%;
-  transform: translateX(-50%);
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 1.9rem;
-  height: 1.9rem;
-
-  font: ${({ theme }) => theme.TEXT.xSmall};
-  color: ${({ theme }) => theme.COLOR.white};
-  text-align: center;
-
-  background-color: ${({ theme }) => theme.COLOR.grey4};
-  border-radius: 50%;
-`;
-
-// 사이드바
-export const SideNavBarContainer = styled.div`
-  display: none;
-
-  ${media.small`
-    display: flex;
-    gap: 1rem;
-  `}
 `;
