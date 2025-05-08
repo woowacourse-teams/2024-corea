@@ -1,0 +1,54 @@
+name: Frontend CD
+
+on:
+  push:
+    branches:
+      - "main"
+    paths: ["frontend/**"]
+
+defaults:
+  run:
+    working-directory: frontend
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    # build 전역에서 env로 노출
+    env:
+      GOOGLE_ANALYTICS: ${{ secrets.GOOGLE_ANALYTICS }}
+      SENTRY_DSN_KEY: ${{ secrets.SENTRY_DSN_KEY }}
+      SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+
+    steps:
+      # 해당 저장소의 코드를 가져온다
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      # 패키지 설치
+      - name: Install dependencies
+        run: npm install
+
+      # 빌드
+      - name: Build
+        run: npm run build
+
+      # 현재 build된 폴더에 접근 후 s3 버킷에 파일 업로드
+      - name: S3 Deploy
+        run: aws s3 sync ./dist s3://corea-prod/ --acl bucket-owner-full-control
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID}}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          DISTRIBUTION: ${{ secrets.AWS_DISTRIBUTION_ID }}
+
+      # 새로 리소스를 업데이트할 때 기존 캐시 무효화
+      - name: Invalidate CloudFront Cache
+        uses: chetan/invalidate-cloudfront-action@master
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          DISTRIBUTION: ${{ secrets.AWS_DISTRIBUTION_ID }}
+          PATHS: "/*"
+        continue-on-error: true
