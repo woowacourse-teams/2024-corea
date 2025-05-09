@@ -22,8 +22,10 @@ import corea.scheduler.repository.AutomaticMatchingRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.context.annotation.Import;
 
 import java.time.LocalDateTime;
@@ -31,10 +33,9 @@ import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicInteger;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
 @ServiceTest
@@ -59,16 +60,19 @@ class AutomaticMatchingExecutorTest {
     @MockBean
     private PullRequestProvider pullRequestProvider;
 
+    @Autowired
+    private RoomMatchInfoRepository roomMatchInfoRepository;
+
+    @SpyBean
+    MatchingExecutor matchingExecutor;
+
     private Room room;
-    private Room emptyParticipantRoom;
     private Member pororo;
     private Member ash;
     private Member joysun;
     private Member movin;
     private Member ten;
     private Member cho;
-    @Autowired
-    private RoomMatchInfoRepository roomMatchInfoRepository;
 
     @BeforeEach
     void setUp() {
@@ -79,9 +83,9 @@ class AutomaticMatchingExecutorTest {
         ten = memberRepository.save(MemberFixture.MEMBER_TENTEN());
         cho = memberRepository.save(MemberFixture.MEMBER_CHOCO());
 
-        room = roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo, LocalDateTime.now().plusSeconds(3)));
-        roomMatchInfoRepository.save(new RoomMatchInfo(room.getId(),true));
-        emptyParticipantRoom = roomRepository.save(RoomFixture.ROOM_DOMAIN(ash, LocalDateTime.now().plusSeconds(3)));
+        room = roomRepository.save(RoomFixture.ROOM_DOMAIN(pororo, LocalDateTime.now()
+                .plusSeconds(3)));
+        roomMatchInfoRepository.save(new RoomMatchInfo(room.getId(), true));
 
         participationRepository.save(new Participation(room, pororo, MemberRole.BOTH, room.getMatchingSize()));
         participationRepository.save(new Participation(room, ash, MemberRole.BOTH, room.getMatchingSize()));
@@ -121,17 +125,14 @@ class AutomaticMatchingExecutorTest {
     @Test
     @DisplayName("동시에 10개의 자동 매칭을 실행해도 PESSIMISTIC_WRITE 락을 통해 동시성을 제어할 수 있다.")
     void startMatchingWithLock() throws InterruptedException {
-        AutomaticMatching automaticMatching = automaticMatchingRepository.save(new AutomaticMatching(room.getId(), LocalDateTime.now().plusDays(1)));
+        AutomaticMatching automaticMatching = automaticMatchingRepository.save(new AutomaticMatching(room.getId(), LocalDateTime.now()
+                .plusDays(1)));
 
         int threadCount = 10;
         ExecutorService executorService = Executors.newFixedThreadPool(threadCount);
         CountDownLatch latch = new CountDownLatch(threadCount);
-        AtomicInteger successCount = new AtomicInteger(0);
 
-        when(pullRequestProvider.getUntilDeadline(any(), any())).thenAnswer(ignore -> {
-            successCount.incrementAndGet();
-            return getPullRequestInfo(pororo, ash, joysun, movin, ten, cho);
-        });
+        when(pullRequestProvider.getUntilDeadline(any(), any())).thenReturn(getPullRequestInfo(pororo, ash, joysun, movin, ten, cho));
 
         for (int i = 0; i < threadCount; i++) {
             executorService.execute(() -> {
@@ -144,7 +145,6 @@ class AutomaticMatchingExecutorTest {
         }
 
         latch.await();
-
-        assertThat(successCount.get()).isEqualTo(1);
+        Mockito.verify(matchingExecutor,Mockito.times(1)).match(anyLong());
     }
 }

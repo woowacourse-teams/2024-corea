@@ -10,6 +10,12 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "automatic_matching",
+        indexes = {
+                @Index(name = "idx_room_id", columnList = "room_id"),
+                @Index(name = "idx_room_status", columnList = "status")
+        }
+)
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
